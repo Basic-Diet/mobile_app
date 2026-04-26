@@ -35,7 +35,11 @@ class PlansActionButtons extends StatelessWidget {
         await Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (_) => TimeLineScreen(subscriptionId: data.id),
+            builder:
+                (_) => TimeLineScreen(
+                  subscriptionId: data.id,
+                  premiumSummaries: data.premiumSummary,
+                ),
           ),
         );
         if (context.mounted) {

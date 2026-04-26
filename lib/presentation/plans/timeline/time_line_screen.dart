@@ -18,8 +18,13 @@ import 'package:basic_diet/presentation/plans/timeline/meal_planner/meal_planner
 
 class TimeLineScreen extends StatelessWidget {
   final String subscriptionId;
+  final List<PremiumSummaryModel> premiumSummaries;
 
-  const TimeLineScreen({super.key, required this.subscriptionId});
+  const TimeLineScreen({
+    super.key,
+    required this.subscriptionId,
+    this.premiumSummaries = const [],
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -72,6 +77,7 @@ class TimeLineScreen extends StatelessWidget {
                       days,
                       state.timeline.data.premiumMealsRemaining,
                       state.timeline.data.addonSubscriptions,
+                      premiumSummaries,
                     ),
                     Gap(AppSize.s16.h),
                     _buildStatusLegend(),
@@ -92,6 +98,7 @@ class TimeLineScreen extends StatelessWidget {
     List<TimelineDayModel> days,
     int premiumMealsRemaining,
     List<AddonSubscriptionModel> addonSubscriptions,
+    List<PremiumSummaryModel> premiumSummaries,
   ) {
     final List<Widget> widgets = [];
     String? lastMonth;
@@ -110,7 +117,15 @@ class TimeLineScreen extends StatelessWidget {
       widgets.add(
         Padding(
           padding: EdgeInsets.only(bottom: AppSize.s16.h),
-          child: _buildDayItem(context, day, days, i, premiumMealsRemaining, addonSubscriptions),
+          child: _buildDayItem(
+            context,
+            day,
+            days,
+            i,
+            premiumMealsRemaining,
+            addonSubscriptions,
+            premiumSummaries,
+          ),
         ),
       );
     }
@@ -160,6 +175,7 @@ class TimeLineScreen extends StatelessWidget {
     int index,
     int premiumMealsRemaining,
     List<AddonSubscriptionModel> addonSubscriptions,
+    List<PremiumSummaryModel> premiumSummaries,
   ) {
     Color color;
     Color bgColor;
@@ -258,6 +274,7 @@ class TimeLineScreen extends StatelessWidget {
                   builder: (context) => MealPlannerScreen(
                     timelineDays: days,
                     addonEntitlements: addonSubscriptions,
+                    premiumSummaries: premiumSummaries,
                     initialDayIndex: index,
                     premiumMealsRemaining: premiumMealsRemaining,
                     subscriptionId: subscriptionId,

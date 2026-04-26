@@ -13,6 +13,7 @@ import 'package:basic_diet/domain/usecase/get_subscription_day_usecase.dart';
 import 'package:basic_diet/domain/usecase/save_day_selection_usecase.dart';
 import 'package:basic_diet/domain/usecase/verify_one_time_addon_payment_usecase.dart';
 import 'package:basic_diet/domain/usecase/verify_premium_payment_usecase.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'meal_planner_event.dart';
@@ -30,6 +31,7 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
   final ConfirmDaySelectionUseCase _confirmDaySelectionUseCase;
   final List<TimelineDayModel> initialTimelineDays;
   final List<AddonSubscriptionModel> addonEntitlements;
+  final List<PremiumSummaryModel> premiumSummaries;
   final int initialDayIndex;
   final int premiumMealsRemaining;
   final String subscriptionId;
@@ -46,10 +48,14 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
     this._confirmDaySelectionUseCase, {
     required this.initialTimelineDays,
     required this.addonEntitlements,
+    required this.premiumSummaries,
     required this.initialDayIndex,
     required this.premiumMealsRemaining,
     required this.subscriptionId,
   }) : super(MealPlannerInitial()) {
+    debugPrint(
+      '[MealPlannerBloc] init — premiumSummaries: ${premiumSummaries.map((s) => '{id:${s.premiumMealId},name:${s.name},remaining:${s.remainingQtyTotal}}').toList()}',
+    );
     on<GetMealPlannerDataEvent>(_onGetData);
     on<ChangeDateEvent>(_onChangeDate);
     on<RetrySelectedDayLoadEvent>(_onRetrySelectedDayLoad);
@@ -117,6 +123,7 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
       savedAddOnIdsByDay: savedAddOnIdsByDay,
       dayDetailsByIndex: const {},
       premiumMealsRemaining: premiumMealsRemaining,
+      premiumSummaries: premiumSummaries,
     );
 
     emit(initialState.copyWith(isRefreshingDay: true));
@@ -217,15 +224,20 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
           _findProteinById(current.menu, event.proteinId!)?.name ?? '';
     }
 
+    final pendingCount = _calculatePendingPaymentCount(
+      current,
+      selectedSlotsPerDay: updatedSlotsByDay,
+    );
+    debugPrint(
+      '[MealPlannerBloc] _onSetProtein — slot:${event.slotIndex}, proteinId:${event.proteinId}, pendingCount:$pendingCount, premiumMealsRemaining:$premiumMealsRemaining',
+    );
+
     final next = current.copyWith(
       selectedSlotsPerDay: updatedSlotsByDay,
       showSavedBanner: event.proteinId != null,
       lastAddedMealName:
           proteinName.isNotEmpty ? proteinName : current.lastAddedMealName,
-      premiumMealsPendingPayment: _calculatePendingPaymentCount(
-        current,
-        selectedSlotsPerDay: updatedSlotsByDay,
-      ),
+      premiumMealsPendingPayment: pendingCount,
       clearPaymentError: true,
     );
     emit(next);
@@ -997,21 +1009,9 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
     MealPlannerLoaded state, {
     Map<int, List<MealPlannerSlotSelection>>? selectedSlotsPerDay,
   }) {
-    final slotsPerDay = selectedSlotsPerDay ?? state.selectedSlotsPerDay;
-    final daySlots = slotsPerDay[state.selectedDayIndex] ?? const [];
-
-    var usedCredits = 0;
-    for (final slot in daySlots) {
-      final proteinId = slot.proteinId;
-      if (proteinId == null) continue;
-      final protein = _findProteinById(state.menu, proteinId);
-      if (protein == null || !protein.isPremium) continue;
-      usedCredits +=
-          protein.premiumCreditCost == 0 ? 1 : protein.premiumCreditCost;
-    }
-
-    final pending = usedCredits - state.premiumMealsRemaining;
-    return pending > 0 ? pending : 0;
+    return state
+        .evaluatePremiumUsage(selectedSlotsPerDay: selectedSlotsPerDay)
+        .pendingCount;
   }
 
   int _currentPremiumPendingCount(MealPlannerLoaded state) {
