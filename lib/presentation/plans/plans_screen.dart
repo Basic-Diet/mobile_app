@@ -60,6 +60,7 @@ class PlansScreen extends StatelessWidget {
             addonEntitlements: state.data?.data?.addonSubscriptions ?? const [],
             initialDayIndex: state.initialDayIndex,
             premiumMealsRemaining: state.premiumMealsRemaining,
+            premiumSummaries: state.premiumSummaries,
             subscriptionId: state.subscriptionId,
           ),
         ),

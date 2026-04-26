@@ -4,6 +4,7 @@ import 'package:basic_diet/domain/model/meal_planner_menu_model.dart';
 import 'package:basic_diet/domain/model/subscription_day_model.dart';
 import 'package:basic_diet/domain/model/timeline_model.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 
 sealed class MealPlannerState extends Equatable {
   const MealPlannerState();
@@ -119,6 +120,18 @@ final class PendingAddonPrompt extends Equatable {
   List<Object?> get props => [addonId, title, category, priceHalala, currency];
 }
 
+final class PremiumUsageEvaluation {
+  final int coveredCount;
+  final int pendingCount;
+  final int pendingAmountHalala;
+
+  const PremiumUsageEvaluation({
+    required this.coveredCount,
+    required this.pendingCount,
+    required this.pendingAmountHalala,
+  });
+}
+
 final class MealPlannerLoaded extends MealPlannerState {
   static const List<String> addonCategoryOrder = [
     'juice',
@@ -130,6 +143,7 @@ final class MealPlannerLoaded extends MealPlannerState {
   final MealPlannerMenuModel menu;
   final List<AddOnModel> addOnsCatalog;
   final List<AddonSubscriptionModel> addonEntitlements;
+  final List<PremiumSummaryModel> premiumSummaries;
   final int selectedDayIndex;
   final Map<int, List<MealPlannerSlotSelection>> selectedSlotsPerDay;
   final Map<int, List<MealPlannerSlotSelection>> savedSlotsPerDay;
@@ -154,6 +168,7 @@ final class MealPlannerLoaded extends MealPlannerState {
     required this.menu,
     required this.addOnsCatalog,
     required this.addonEntitlements,
+    required this.premiumSummaries,
     required this.selectedDayIndex,
     required this.selectedSlotsPerDay,
     required this.savedSlotsPerDay,
@@ -281,31 +296,7 @@ final class MealPlannerLoaded extends MealPlannerState {
   }
 
   int get premiumPendingPaymentAmountHalala {
-    var totalHalala = 0;
-    var usedCredits = 0;
-    final slots = selectedSlotsPerDay[selectedDayIndex] ?? const [];
-
-    for (final slot in slots) {
-      final proteinId = slot.proteinId;
-      if (proteinId == null) continue;
-
-      final protein = menu.builderCatalog.proteins
-          .where((item) => item.id == proteinId)
-          .cast<BuilderProteinModel?>()
-          .firstWhere((item) => item != null, orElse: () => null);
-
-      if (protein == null || !protein.isPremium) continue;
-
-      final cost =
-          protein.premiumCreditCost == 0 ? 1 : protein.premiumCreditCost;
-      usedCredits += cost;
-
-      if (usedCredits > premiumMealsRemaining) {
-        totalHalala += protein.extraFeeHalala;
-      }
-    }
-
-    return totalHalala;
+    return evaluatePremiumUsage().pendingAmountHalala;
   }
 
   int get totalPendingPaymentAmountHalala =>
@@ -364,6 +355,7 @@ final class MealPlannerLoaded extends MealPlannerState {
     menu,
     addOnsCatalog,
     addonEntitlements,
+    premiumSummaries,
     selectedDayIndex,
     selectedSlotsPerDay,
     savedSlotsPerDay,
@@ -389,6 +381,7 @@ final class MealPlannerLoaded extends MealPlannerState {
     MealPlannerMenuModel? menu,
     List<AddOnModel>? addOnsCatalog,
     List<AddonSubscriptionModel>? addonEntitlements,
+    List<PremiumSummaryModel>? premiumSummaries,
     int? selectedDayIndex,
     Map<int, List<MealPlannerSlotSelection>>? selectedSlotsPerDay,
     Map<int, List<MealPlannerSlotSelection>>? savedSlotsPerDay,
@@ -417,6 +410,7 @@ final class MealPlannerLoaded extends MealPlannerState {
       menu: menu ?? this.menu,
       addOnsCatalog: addOnsCatalog ?? this.addOnsCatalog,
       addonEntitlements: addonEntitlements ?? this.addonEntitlements,
+      premiumSummaries: premiumSummaries ?? this.premiumSummaries,
       selectedDayIndex: selectedDayIndex ?? this.selectedDayIndex,
       selectedSlotsPerDay: selectedSlotsPerDay ?? this.selectedSlotsPerDay,
       savedSlotsPerDay: savedSlotsPerDay ?? this.savedSlotsPerDay,
@@ -444,4 +438,143 @@ final class MealPlannerLoaded extends MealPlannerState {
               : pendingAddonPrompt ?? this.pendingAddonPrompt,
     );
   }
+
+  PremiumUsageEvaluation evaluatePremiumUsage({
+    Map<int, List<MealPlannerSlotSelection>>? selectedSlotsPerDay,
+  }) {
+    if (premiumSummaries.isEmpty) {
+      debugPrint(
+        '[evaluatePremiumUsage] FALLBACK to generic credits — premiumSummaries is empty',
+      );
+      return _evaluatePremiumUsageByGenericCredits(selectedSlotsPerDay);
+    }
+
+    final allowances =
+        premiumSummaries
+            .where((summary) => summary.remainingQtyTotal > 0)
+            .map(
+              (summary) => _PremiumAllowanceEntry(
+                premiumMealId: summary.premiumMealId,
+                normalizedName: _normalizePremiumMealName(summary.name),
+                remainingCount: summary.remainingQtyTotal,
+              ),
+            )
+            .toList();
+
+    debugPrint(
+      '[evaluatePremiumUsage] allowances: ${allowances.map((a) => '{id:${a.premiumMealId},name:${a.normalizedName},remaining:${a.remainingCount}}').toList()}',
+    );
+
+    var coveredCount = 0;
+    var pendingCount = 0;
+    var pendingAmountHalala = 0;
+    final slots = (selectedSlotsPerDay ?? this.selectedSlotsPerDay)[selectedDayIndex] ??
+        const [];
+
+    for (final slot in slots) {
+      final proteinId = slot.proteinId;
+      if (proteinId == null) continue;
+
+      final protein = menu.builderCatalog.proteins
+          .where((item) => item.id == proteinId)
+          .cast<BuilderProteinModel?>()
+          .firstWhere((item) => item != null, orElse: () => null);
+
+      if (protein == null || !protein.isPremium) continue;
+
+      final normalizedProteinName = _normalizePremiumMealName(protein.name);
+      final exactMatchIndex = allowances.indexWhere(
+        (entry) => entry.remainingCount > 0 && entry.premiumMealId == protein.id,
+      );
+      final fallbackMatchIndex =
+          exactMatchIndex == -1
+              ? allowances.indexWhere(
+                (entry) =>
+                    entry.remainingCount > 0 &&
+                    entry.normalizedName == normalizedProteinName,
+              )
+              : -1;
+      final matchIndex =
+          exactMatchIndex != -1 ? exactMatchIndex : fallbackMatchIndex;
+
+      debugPrint(
+        '[evaluatePremiumUsage] slot:${slot.slotIndex}, proteinId:${protein.id}, name:${protein.name}, exactMatch:$exactMatchIndex, fallbackMatch:$fallbackMatchIndex',
+      );
+
+      if (matchIndex != -1) {
+        allowances[matchIndex].remainingCount -= 1;
+        coveredCount += 1;
+        continue;
+      }
+
+      pendingCount += 1;
+      pendingAmountHalala += protein.extraFeeHalala;
+    }
+
+    debugPrint(
+      '[evaluatePremiumUsage] result — covered:$coveredCount, pending:$pendingCount, pendingAmountHalala:$pendingAmountHalala',
+    );
+
+    return PremiumUsageEvaluation(
+      coveredCount: coveredCount,
+      pendingCount: pendingCount,
+      pendingAmountHalala: pendingAmountHalala,
+    );
+  }
+
+  PremiumUsageEvaluation _evaluatePremiumUsageByGenericCredits(
+    Map<int, List<MealPlannerSlotSelection>>? selectedSlotsPerDay,
+  ) {
+    var coveredCount = 0;
+    var pendingCount = 0;
+    var pendingAmountHalala = 0;
+    var usedCredits = 0;
+    final slots = (selectedSlotsPerDay ?? this.selectedSlotsPerDay)[selectedDayIndex] ??
+        const [];
+
+    for (final slot in slots) {
+      final proteinId = slot.proteinId;
+      if (proteinId == null) continue;
+
+      final protein = menu.builderCatalog.proteins
+          .where((item) => item.id == proteinId)
+          .cast<BuilderProteinModel?>()
+          .firstWhere((item) => item != null, orElse: () => null);
+
+      if (protein == null || !protein.isPremium) continue;
+
+      final cost =
+          protein.premiumCreditCost == 0 ? 1 : protein.premiumCreditCost;
+      usedCredits += cost;
+
+      if (usedCredits > premiumMealsRemaining) {
+        pendingCount += 1;
+        pendingAmountHalala += protein.extraFeeHalala;
+      } else {
+        coveredCount += 1;
+      }
+    }
+
+    return PremiumUsageEvaluation(
+      coveredCount: coveredCount,
+      pendingCount: pendingCount,
+      pendingAmountHalala: pendingAmountHalala,
+    );
+  }
+}
+
+final class _PremiumAllowanceEntry {
+  final String premiumMealId;
+  final String normalizedName;
+  int remainingCount;
+
+  _PremiumAllowanceEntry({
+    required this.premiumMealId,
+    required this.normalizedName,
+    required this.remainingCount,
+  });
+}
+
+String _normalizePremiumMealName(String value) {
+  return value.trim().toLowerCase();
 }

@@ -380,6 +380,7 @@ void initMealPlannerModule() {
         instance<ConfirmDaySelectionUseCase>(),
         initialTimelineDays: params['timelineDays'],
         addonEntitlements: params['addonEntitlements'] ?? const [],
+        premiumSummaries: params['premiumSummaries'] ?? const [],
         initialDayIndex: params['initialDayIndex'],
         premiumMealsRemaining: params['premiumMealsRemaining'],
         subscriptionId: params['subscriptionId'],

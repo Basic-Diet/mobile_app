@@ -121,6 +121,7 @@ class PlansBloc extends Bloc<PlansEvent, PlansState> {
               timelineDays: days,
               initialDayIndex: index,
               premiumMealsRemaining: timeline.data.premiumMealsRemaining,
+              premiumSummaries: state.data?.data?.premiumSummary ?? const [],
               subscriptionId: event.subscriptionId,
               data: currentData,
             ),

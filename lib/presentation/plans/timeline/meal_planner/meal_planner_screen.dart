@@ -28,6 +28,7 @@ import 'package:gap/gap.dart';
 class MealPlannerScreen extends StatelessWidget {
   final List<TimelineDayModel> timelineDays;
   final List<AddonSubscriptionModel> addonEntitlements;
+  final List<PremiumSummaryModel> premiumSummaries;
   final int initialDayIndex;
   final int premiumMealsRemaining;
   final String subscriptionId;
@@ -37,6 +38,7 @@ class MealPlannerScreen extends StatelessWidget {
     super.key,
     required this.timelineDays,
     required this.addonEntitlements,
+    required this.premiumSummaries,
     required this.initialDayIndex,
     required this.premiumMealsRemaining,
     required this.subscriptionId,
@@ -52,6 +54,7 @@ class MealPlannerScreen extends StatelessWidget {
           param1: {
             'timelineDays': timelineDays,
             'addonEntitlements': addonEntitlements,
+            'premiumSummaries': premiumSummaries,
             'initialDayIndex': initialDayIndex,
             'premiumMealsRemaining': premiumMealsRemaining,
             'subscriptionId': subscriptionId,
@@ -415,7 +418,8 @@ class _MealPlannerBody extends StatelessWidget {
 
   int _premiumLeftForDay(MealPlannerLoaded state) {
     final paymentRequirement = state.selectedDayDetail?.paymentRequirement;
-    final used = paymentRequirement?.premiumSelectedCount ?? _premiumCreditsUsed(state);
+    final usage = state.evaluatePremiumUsage();
+    final used = paymentRequirement?.premiumSelectedCount ?? usage.coveredCount;
     final left = state.premiumMealsRemaining - used;
     return left < 0 ? 0 : left;
   }
@@ -432,39 +436,7 @@ class _MealPlannerBody extends StatelessWidget {
       }
     }
 
-    var totalHalala = 0;
-    var usedCredits = 0;
-    final slots = state.selectedSlotsPerDay[state.selectedDayIndex] ?? const [];
-
-    for (final slot in slots) {
-      final proteinId = slot.proteinId;
-      if (proteinId == null) continue;
-      final protein = _findProteinById(state.menu, proteinId);
-      if (protein == null || !protein.isPremium) continue;
-
-      final cost =
-          protein.premiumCreditCost == 0 ? 1 : protein.premiumCreditCost;
-      usedCredits += cost;
-
-      if (usedCredits > state.premiumMealsRemaining) {
-        totalHalala += protein.extraFeeHalala;
-      }
-    }
-    return totalHalala / 100.0;
-  }
-
-  int _premiumCreditsUsed(MealPlannerLoaded state) {
-    var used = 0;
-    final slots = state.selectedSlotsPerDay[state.selectedDayIndex] ?? const [];
-    for (final slot in slots) {
-      final proteinId = slot.proteinId;
-      if (proteinId == null) continue;
-      final protein = _findProteinById(state.menu, proteinId);
-      if (protein != null && protein.isPremium) {
-        used += protein.premiumCreditCost == 0 ? 1 : protein.premiumCreditCost;
-      }
-    }
-    return used;
+    return state.evaluatePremiumUsage().pendingAmountHalala / 100.0;
   }
 
   MealPlannerSlotSelection? _slotForIndex(
