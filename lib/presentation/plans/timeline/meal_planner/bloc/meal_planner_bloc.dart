@@ -725,7 +725,7 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
             .selectedDayDetail
             ?.paymentRequirement
             ?.addonPendingPaymentCount ??
-        0;
+        stateAfterSave.addonPendingPaymentCount;
     if (addonPending <= 0) {
       emit(
         stateAfterSave.copyWith(

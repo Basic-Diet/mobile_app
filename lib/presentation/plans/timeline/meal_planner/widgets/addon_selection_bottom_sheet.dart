@@ -16,7 +16,11 @@ class AddonSelectionBottomSheet extends StatefulWidget {
   final Map<String, List<AddOnModel>> groupedItems;
   final Map<String, List<String>> selectedAddonIdsByCategory;
   final String emptyLabel;
-  final String? Function(AddOnModel addon) badgeLabelBuilder;
+  final String? Function(
+    AddOnModel addon,
+    Map<String, List<String>> selectedAddonIdsByCategory,
+  )
+  badgeLabelBuilder;
 
   const AddonSelectionBottomSheet({
     super.key,
@@ -118,7 +122,10 @@ class _AddonSelectionBottomSheetState extends State<AddonSelectionBottomSheet> {
                             return _AddonItemTile(
                               addon: addon,
                               isSelected: isSelected,
-                              badgeLabel: widget.badgeLabelBuilder(addon),
+                              badgeLabel: widget.badgeLabelBuilder(
+                                addon,
+                                _localSelections,
+                              ),
                               onTap: () {
                                 setState(() {
                                   final updatedIds = List<String>.from(

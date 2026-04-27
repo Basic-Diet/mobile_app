@@ -1,4 +1,5 @@
 import 'package:basic_diet/domain/model/add_ons_model.dart';
+import 'package:basic_diet/domain/model/current_subscription_overview_model.dart';
 import 'package:basic_diet/presentation/plans/timeline/meal_planner/bloc/meal_planner_bloc.dart';
 import 'package:basic_diet/presentation/plans/timeline/meal_planner/bloc/meal_planner_state.dart';
 import 'package:basic_diet/presentation/plans/timeline/meal_planner/widgets/addon_selection_bottom_sheet.dart';
@@ -44,6 +45,10 @@ class DailyAddonSelectionCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _CardHeader(isReadOnly: isReadOnly),
+          if (state.addonEntitlements.isNotEmpty) ...[
+            Gap(AppSize.s12.h),
+            _EntitlementBanner(state: state),
+          ],
           Gap(AppSize.s16.h),
           if (state.plannerAddOnsCatalog.isEmpty)
             _DisabledSelectorField()
@@ -120,6 +125,14 @@ class _AddonSelectorField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final hasSelection = state.selectedAddOnModels.isNotEmpty;
+    final prompt =
+        hasSelection
+            ? Strings.addonSelectedCount.tr(
+              namedArgs: {
+                'count': state.selectedAddOnModels.length.toString(),
+              },
+            )
+            : _entitlementPrompt();
 
     return Opacity(
       opacity: isReadOnly ? 0.5 : 1.0,
@@ -149,13 +162,7 @@ class _AddonSelectorField extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  hasSelection
-                      ? Strings.addonSelectedCount.tr(
-                        namedArgs: {
-                          'count': state.selectedAddOnModels.length.toString(),
-                        },
-                      )
-                      : Strings.addonChoosePrompt.tr(),
+                  prompt,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.end,
@@ -181,6 +188,17 @@ class _AddonSelectorField extends StatelessWidget {
     );
   }
 
+  String _entitlementPrompt() {
+    final juiceEntitlement = state.addonEntitlements
+        .where((entitlement) => entitlement.category == 'juice')
+        .cast<AddonSubscriptionModel?>()
+        .firstWhere((item) => item != null, orElse: () => null);
+    if (juiceEntitlement != null && juiceEntitlement.includedCount > 0) {
+      return '${juiceEntitlement.includedCount} ${Strings.addonSelectJuice.tr()} ${Strings.includedPerDay.tr()}';
+    }
+    return Strings.addonChoosePrompt.tr();
+  }
+
   void _openCategorySheet(BuildContext context) {
     final bloc = context.read<MealPlannerBloc>();
     final selectedByCategory = {
@@ -202,13 +220,28 @@ class _AddonSelectorField extends StatelessWidget {
             selectedAddonIdsByCategory: selectedByCategory,
             emptyLabel: Strings.addonNoItemsAvailable.tr(),
             badgeLabelBuilder:
-                (addon) => _badgeLabelFor(addon.id, addon.priceHalala),
+                (addon, localSelections) => _badgeLabelFor(
+                  addon.id,
+                  addon.priceHalala,
+                  localSelections,
+                ),
           ),
     );
   }
 
-  String? _badgeLabelFor(String addonId, int priceHalala) {
-    final status = state.addonSelectionStatusFor(addonId);
+  String? _badgeLabelFor(
+    String addonId,
+    int priceHalala,
+    Map<String, List<String>> localSelections,
+  ) {
+    final selectedAddonIds = <String>[
+      for (final entry in state.groupedAddons.entries)
+        ...localSelections[entry.key] ?? const <String>[],
+    ];
+    final status = state.addonSelectionStatusFor(
+      addonId,
+      selectedAddonIdsOverride: selectedAddonIds,
+    );
     if (status == 'subscription' || status == 'included') {
       return Strings.addonStatusIncluded.tr();
     }
@@ -219,6 +252,127 @@ class _AddonSelectorField extends StatelessWidget {
       return '${Strings.addonStatusPendingPayment.tr()} (${_moneyLabel(priceHalala, state.paymentCurrency)})';
     }
     return null;
+  }
+}
+
+class _EntitlementBanner extends StatelessWidget {
+  final MealPlannerLoaded state;
+
+  const _EntitlementBanner({required this.state});
+
+  @override
+  Widget build(BuildContext context) {
+    final visibleEntitlements =
+        state.addonEntitlements
+            .where(
+              (entitlement) =>
+                  (entitlement.status == 'active' || entitlement.status.isEmpty) &&
+                  entitlement.includedCount > 0,
+            )
+            .toList();
+
+    if (visibleEntitlements.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    final primaryEntitlement = visibleEntitlements.first;
+    final primaryCategoryLabel = _categoryLabel(primaryEntitlement.category);
+
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.all(AppPadding.p14.w),
+      decoration: BoxDecoration(
+        color: ColorManager.stateSuccessSurface,
+        borderRadius: BorderRadius.circular(AppSize.s14.r),
+        border: Border.all(color: ColorManager.brandPrimary.withValues(alpha: 0.24)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: EdgeInsets.all(AppPadding.p8.w),
+                decoration: BoxDecoration(
+                  color: ColorManager.brandPrimaryTint,
+                  borderRadius: BorderRadius.circular(AppSize.s10.r),
+                ),
+                child: Icon(
+                  Icons.verified_rounded,
+                  color: ColorManager.brandPrimary,
+                  size: AppSize.s16.sp,
+                ),
+              ),
+              Gap(AppSize.s10.w),
+              Expanded(
+                child: Text(
+                  Strings.dayAddonsEntitlementTitle.tr(),
+                  textAlign: TextAlign.end,
+                  style: getBoldTextStyle(
+                    color: ColorManager.textPrimary,
+                    fontSize: FontSizeManager.s12.sp,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Gap(AppSize.s10.h),
+          Wrap(
+            spacing: AppSize.s8.w,
+            runSpacing: AppSize.s8.h,
+            alignment: WrapAlignment.end,
+            children:
+                visibleEntitlements
+                    .map(
+                      (entitlement) => _EntitlementChip(
+                        label:
+                            '${entitlement.includedCount} ${_categoryLabel(entitlement.category)} ${Strings.includedPerDay.tr()}',
+                      ),
+                    )
+                    .toList(),
+          ),
+          Gap(AppSize.s8.h),
+          Text(
+            Strings.dayAddonsEntitlementHint.tr(
+              namedArgs: {'category': primaryCategoryLabel},
+            ),
+            textAlign: TextAlign.end,
+            style: getRegularTextStyle(
+              color: ColorManager.stateSuccessEmphasis,
+              fontSize: FontSizeManager.s12.sp,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _EntitlementChip extends StatelessWidget {
+  final String label;
+
+  const _EntitlementChip({required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: AppPadding.p10.w,
+        vertical: AppPadding.p6.h,
+      ),
+      decoration: BoxDecoration(
+        color: ColorManager.backgroundSurface,
+        borderRadius: BorderRadius.circular(AppSize.s20.r),
+        border: Border.all(color: ColorManager.brandPrimary.withValues(alpha: 0.18)),
+      ),
+      child: Text(
+        label,
+        style: getBoldTextStyle(
+          color: ColorManager.brandPrimary,
+          fontSize: FontSizeManager.s10.sp,
+        ),
+      ),
+    );
   }
 }
 
@@ -410,4 +564,17 @@ class _PendingAddonBanner extends StatelessWidget {
 String _moneyLabel(int amountHalala, String currency) {
   final value = (amountHalala / 100).toStringAsFixed(2);
   return '${currency.isNotEmpty ? currency : 'SAR'} $value';
+}
+
+String _categoryLabel(String category) {
+  switch (category) {
+    case 'juice':
+      return Strings.addonSelectJuice.tr();
+    case 'snack':
+      return Strings.addonSelectSnack.tr();
+    case 'small_salad':
+      return Strings.addonSelectSalad.tr();
+    default:
+      return category;
+  }
 }
