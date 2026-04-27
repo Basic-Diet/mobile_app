@@ -366,6 +366,8 @@
     "dayLockedAddonsMessage": "This day is locked. Add-ons can't be changed now.",
     "dayAddonsTitle": "Day Add-ons",
     "dayAddonsSubtitle": "Choose add-ons for this day",
+    "dayAddonsEntitlementTitle": "Included with your plan",
+    "dayAddonsEntitlementHint": "Your first {category} selection today is free. Extra selections will require payment.",
     "pendingAddonsCheckoutTitle": "Pending Add-ons Payment",
     "pendingAddonBottomSheetTitle": "Choose your add-ons",
     "pendingAddonBottomSheetBody": "Select one item from each category.",

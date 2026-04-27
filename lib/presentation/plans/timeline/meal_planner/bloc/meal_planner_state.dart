@@ -219,9 +219,12 @@ final class MealPlannerLoaded extends MealPlannerState {
   }
 
   List<AddOnModel> get selectedAddOnModels {
-    final ids = selectedAddOnIds.toSet();
-    return plannerAddOnsCatalog
-        .where((addon) => ids.contains(addon.id))
+    final catalogMap = {
+      for (final addon in plannerAddOnsCatalog) addon.id: addon,
+    };
+    return selectedAddOnIds
+        .where((id) => catalogMap.containsKey(id))
+        .map((id) => catalogMap[id]!)
         .toList();
   }
 
@@ -236,33 +239,104 @@ final class MealPlannerLoaded extends MealPlannerState {
     return false;
   }
 
-  AddOnModel? selectedAddonForCategory(String category) {
-    for (final addon in selectedAddOnModels) {
-      if (addon.category == category) return addon;
-    }
-    return null;
+  List<AddOnModel> selectedAddonsForCategory(String category) {
+    return selectedAddOnModels
+        .where((addon) => addon.category == category)
+        .toList();
   }
 
-  String addonSelectionStatusFor(String addonId) {
+  String addonSelectionStatusFor(
+    String addonId, {
+    List<String>? selectedAddonIdsOverride,
+  }) {
+    final effectiveSelectedAddonIds =
+        selectedAddonIdsOverride ?? selectedAddOnIds;
+    final localStatus = _computeLocalAddonStatus(
+      addonId,
+      selectedAddonIds: effectiveSelectedAddonIds,
+    );
+
     final backendSelection = addonSelections
         .where((selection) => selection.addonId == addonId)
         .cast<AddonSelectionModel?>()
         .firstWhere((selection) => selection != null, orElse: () => null);
 
+    final hasLocalDraftOverride =
+        selectedAddonIdsOverride != null &&
+        !listEquals(selectedAddonIdsOverride, selectedAddOnIds);
+    if (hasLocalDraftOverride) {
+      return localStatus;
+    }
+
     if (backendSelection != null && backendSelection.status.isNotEmpty) {
+      // If backend says pending but local entitlement covers it,
+      // prefer local so the UI reflects the subscription correctly.
+      if (backendSelection.status == 'pending_payment' &&
+          localStatus == 'subscription') {
+        return 'subscription';
+      }
       return backendSelection.status;
     }
 
-    final selectedAddon = plannerAddOnsCatalog
+    return localStatus;
+  }
+
+  String _computeLocalAddonStatus(
+    String addonId, {
+    required List<String> selectedAddonIds,
+  }) {
+    debugPrint(
+      '[_computeLocalAddonStatus] addonId=$addonId | '
+      'addonEntitlements=${addonEntitlements.map((e) => '{cat:${e.category},inc:${e.includedCount},st:${e.status}}').toList()} | '
+      'selectedAddonIds=$selectedAddonIds',
+    );
+
+    final targetAddon = plannerAddOnsCatalog
         .where((addon) => addon.id == addonId)
         .cast<AddOnModel?>()
         .firstWhere((addon) => addon != null, orElse: () => null);
 
-    if (selectedAddon == null) return 'pending_payment';
+    if (targetAddon == null) {
+      debugPrint('[_computeLocalAddonStatus] targetAddon=null → pending_payment');
+      return 'pending_payment';
+    }
 
-    return isAddonCoveredBySubscription(selectedAddon.category)
-        ? 'subscription'
-        : 'pending_payment';
+    // Build per-category entitlement allowances (includedCount maps from maxPerDay)
+    final allowances = <String, int>{};
+    for (final entitlement in addonEntitlements) {
+      if ((entitlement.status == 'active' || entitlement.status.isEmpty) &&
+          entitlement.includedCount > 0) {
+        allowances[entitlement.category] =
+            (allowances[entitlement.category] ?? 0) + entitlement.includedCount;
+      }
+    }
+
+    debugPrint('[_computeLocalAddonStatus] allowances=$allowances');
+
+    // Walk through selected addons in order and consume allowances
+    final catalogById = {
+      for (final addon in plannerAddOnsCatalog) addon.id: addon,
+    };
+
+    for (final id in selectedAddonIds) {
+      final addon = catalogById[id];
+      if (addon == null) continue;
+      final remaining = allowances[addon.category] ?? 0;
+      if (addon.id == targetAddon.id) {
+        final result = remaining > 0 ? 'subscription' : 'pending_payment';
+        debugPrint('[_computeLocalAddonStatus] found target, remaining=$remaining → $result');
+        return result;
+      }
+      if (remaining > 0) {
+        allowances[addon.category] = remaining - 1;
+      }
+    }
+
+    // Target addon is not currently selected — check hypothetical coverage
+    final remaining = allowances[targetAddon.category] ?? 0;
+    final result = remaining > 0 ? 'subscription' : 'pending_payment';
+    debugPrint('[_computeLocalAddonStatus] not in selection, remaining=$remaining → $result');
+    return result;
   }
 
   int get localAddonPendingAmountHalala {
@@ -287,8 +361,7 @@ final class MealPlannerLoaded extends MealPlannerState {
   }
 
   int get addonPendingPaymentCount {
-    return selectedDayDetail?.paymentRequirement?.addonPendingPaymentCount ??
-        localAddonPendingCount;
+    return localAddonPendingCount;
   }
 
   int get addonPendingPaymentAmountHalala {

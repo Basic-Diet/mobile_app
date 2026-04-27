@@ -19,11 +19,13 @@ import 'package:basic_diet/presentation/plans/timeline/meal_planner/meal_planner
 class TimeLineScreen extends StatelessWidget {
   final String subscriptionId;
   final List<PremiumSummaryModel> premiumSummaries;
+  final List<AddonSubscriptionModel> addonSubscriptions;
 
   const TimeLineScreen({
     super.key,
     required this.subscriptionId,
     this.premiumSummaries = const [],
+    this.addonSubscriptions = const [],
   });
 
   @override
@@ -76,7 +78,7 @@ class TimeLineScreen extends StatelessWidget {
                       context,
                       days,
                       state.timeline.data.premiumMealsRemaining,
-                      state.timeline.data.addonSubscriptions,
+                      addonSubscriptions,
                       premiumSummaries,
                     ),
                     Gap(AppSize.s16.h),

@@ -366,6 +366,8 @@
     "dayLockedAddonsMessage": "هذا اليوم مقفل، ولا يمكن تعديل الإضافات الآن.",
     "dayAddonsTitle": "إضافات اليوم",
     "dayAddonsSubtitle": "اختر إضافات هذا اليوم",
+    "dayAddonsEntitlementTitle": "مشمول في اشتراكك",
+    "dayAddonsEntitlementHint": "أول اختيار من {category} اليوم مجاني. أي اختيار إضافي سيتطلب دفعًا.",
     "pendingAddonsCheckoutTitle": "مدفوعات إضافات معلقة",
     "pendingAddonBottomSheetTitle": "اختر إضافاتك",
     "pendingAddonBottomSheetBody": "اختر عنصرًا واحدًا من كل فئة.",

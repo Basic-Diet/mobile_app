@@ -338,6 +338,8 @@ class Strings {
   static const String usedThisWeek = 'usedThisWeek';
   static const String dayAddonsTitle = 'dayAddonsTitle';
   static const String dayAddonsSubtitle = 'dayAddonsSubtitle';
+  static const String dayAddonsEntitlementTitle = 'dayAddonsEntitlementTitle';
+  static const String dayAddonsEntitlementHint = 'dayAddonsEntitlementHint';
   static const String pendingAddonsCheckoutTitle = 'pendingAddonsCheckoutTitle';
   static const String pendingAddonBottomSheetTitle =
       'pendingAddonBottomSheetTitle';
