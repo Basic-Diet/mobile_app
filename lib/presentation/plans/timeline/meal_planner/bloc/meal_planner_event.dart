@@ -93,19 +93,18 @@ final class ToggleAddOnSelectionEvent extends MealPlannerEvent {
   List<Object?> get props => [addOn];
 }
 
-/// Selects a specific addon for its category, deselecting any previous selection
-/// in that category. Pass [addonId] as null to clear the category selection.
+/// Replaces the selected addons for a category. Pass an empty list to clear it.
 final class SelectAddonForCategoryEvent extends MealPlannerEvent {
   final String category;
-  final String? addonId;
+  final List<String> addonIds;
 
   const SelectAddonForCategoryEvent({
     required this.category,
-    required this.addonId,
+    required this.addonIds,
   });
 
   @override
-  List<Object?> get props => [category, addonId];
+  List<Object?> get props => [category, addonIds];
 }
 
 final class DismissPendingAddonPromptEvent extends MealPlannerEvent {

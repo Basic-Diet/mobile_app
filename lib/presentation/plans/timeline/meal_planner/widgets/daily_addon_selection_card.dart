@@ -185,7 +185,10 @@ class _AddonSelectorField extends StatelessWidget {
     final bloc = context.read<MealPlannerBloc>();
     final selectedByCategory = {
       for (final entry in state.groupedAddons.entries)
-        entry.key: state.selectedAddonForCategory(entry.key)?.id,
+        entry.key:
+            state.selectedAddonsForCategory(entry.key)
+                .map((addon) => addon.id)
+                .toList(),
     };
 
     showModalBottomSheet<void>(

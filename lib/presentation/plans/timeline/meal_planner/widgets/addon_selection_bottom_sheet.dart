@@ -14,7 +14,7 @@ import 'package:gap/gap.dart';
 class AddonSelectionBottomSheet extends StatefulWidget {
   final MealPlannerBloc bloc;
   final Map<String, List<AddOnModel>> groupedItems;
-  final Map<String, String?> selectedAddonIdsByCategory;
+  final Map<String, List<String>> selectedAddonIdsByCategory;
   final String emptyLabel;
   final String? Function(AddOnModel addon) badgeLabelBuilder;
 
@@ -36,16 +36,17 @@ class _AddonSelectionBottomSheetState extends State<AddonSelectionBottomSheet> {
   static const List<String> _categoryOrder = ['juice', 'snack', 'small_salad'];
 
   late final List<String> _categories;
-  late final Map<String, String?> _localSelections;
+  late final Map<String, List<String>> _localSelections;
   late String _activeCategory;
 
   @override
   void initState() {
     super.initState();
     _categories = _resolveOrderedCategories(widget.groupedItems);
-    _localSelections = Map<String, String?>.from(
-      widget.selectedAddonIdsByCategory,
-    );
+    _localSelections = {
+      for (final entry in widget.selectedAddonIdsByCategory.entries)
+        entry.key: List<String>.from(entry.value),
+    };
     _activeCategory = _categories.isNotEmpty ? _categories.first : 'juice';
   }
 
@@ -57,7 +58,7 @@ class _AddonSelectionBottomSheetState extends State<AddonSelectionBottomSheet> {
       widget.bloc.add(
         SelectAddonForCategoryEvent(
           category: category,
-          addonId: _localSelections[category],
+          addonIds: List<String>.from(_localSelections[category] ?? const []),
         ),
       );
     }
@@ -111,16 +112,26 @@ class _AddonSelectionBottomSheetState extends State<AddonSelectionBottomSheet> {
                           separatorBuilder: (_, __) => Gap(AppSize.s10.h),
                           itemBuilder: (context, index) {
                             final addon = _activeItems[index];
-                            final isSelected =
-                                _localSelections[_activeCategory] == addon.id;
+                            final selectedIds =
+                                _localSelections[_activeCategory] ?? const [];
+                            final isSelected = selectedIds.contains(addon.id);
                             return _AddonItemTile(
                               addon: addon,
                               isSelected: isSelected,
                               badgeLabel: widget.badgeLabelBuilder(addon),
                               onTap: () {
                                 setState(() {
+                                  final updatedIds = List<String>.from(
+                                    _localSelections[_activeCategory] ??
+                                        const [],
+                                  );
+                                  if (isSelected) {
+                                    updatedIds.remove(addon.id);
+                                  } else {
+                                    updatedIds.add(addon.id);
+                                  }
                                   _localSelections[_activeCategory] =
-                                      isSelected ? null : addon.id;
+                                      updatedIds;
                                 });
                               },
                             );
@@ -130,11 +141,11 @@ class _AddonSelectionBottomSheetState extends State<AddonSelectionBottomSheet> {
               _ApplyBar(
                 onApply: _applySelections,
                 onClear:
-                    _localSelections[_activeCategory] == null
+                    (_localSelections[_activeCategory] ?? const []).isEmpty
                         ? null
                         : () {
                           setState(() {
-                            _localSelections[_activeCategory] = null;
+                            _localSelections[_activeCategory] = [];
                           });
                         },
               ),
@@ -294,7 +305,9 @@ class _AddonItemTile extends StatelessWidget {
         child: Row(
           children: [
             Icon(
-              isSelected ? Icons.radio_button_checked : Icons.radio_button_off,
+              isSelected
+                  ? Icons.check_circle_rounded
+                  : Icons.radio_button_unchecked_rounded,
               color:
                   isSelected
                       ? ColorManager.brandPrimary

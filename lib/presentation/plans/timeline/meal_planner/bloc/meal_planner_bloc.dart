@@ -374,21 +374,18 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
       return;
     }
 
-    // Collect all addon IDs that belong to this category
     final categoryAddonIds =
         current.addOnsCatalog
             .where((a) => a.category == event.category)
             .map((a) => a.id)
             .toSet();
 
-    // Remove any existing selection for this category
     final currentIds = List<String>.from(current.selectedAddOnIds)
       ..removeWhere((id) => categoryAddonIds.contains(id));
 
-    // Add the new selection if non-null
-    if (event.addonId != null) {
-      currentIds.add(event.addonId!);
-    }
+    currentIds.addAll(
+      event.addonIds.where((id) => categoryAddonIds.contains(id)),
+    );
 
     final updatedSelections = Map<int, List<String>>.from(
       current.selectedAddOnIdsByDay,

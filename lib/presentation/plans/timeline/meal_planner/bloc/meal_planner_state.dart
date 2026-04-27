@@ -236,11 +236,10 @@ final class MealPlannerLoaded extends MealPlannerState {
     return false;
   }
 
-  AddOnModel? selectedAddonForCategory(String category) {
-    for (final addon in selectedAddOnModels) {
-      if (addon.category == category) return addon;
-    }
-    return null;
+  List<AddOnModel> selectedAddonsForCategory(String category) {
+    return selectedAddOnModels
+        .where((addon) => addon.category == category)
+        .toList();
   }
 
   String addonSelectionStatusFor(String addonId) {
