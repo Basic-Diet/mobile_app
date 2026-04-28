@@ -204,7 +204,7 @@ final class MealPlannerLoaded extends MealPlannerState {
       selectedDayDetail?.addonSelections ?? const [];
 
   List<AddOnModel> get plannerAddOnsCatalog =>
-      addOnsCatalog.where((addon) => addon.kind == 'item').toList();
+      addOnsCatalog.where((addon) => addon.isItem && addon.isFlatOnce).toList();
 
   Map<String, List<AddOnModel>> get groupedAddons {
     final grouped = <String, List<AddOnModel>>{

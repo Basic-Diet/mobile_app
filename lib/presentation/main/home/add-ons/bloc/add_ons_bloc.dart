@@ -1,5 +1,6 @@
 import 'package:basic_diet/domain/usecase/get_addons_usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../../domain/model/add_ons_model.dart';
 import 'add_ons_event.dart';
 import 'add_ons_state.dart';
 
@@ -19,7 +20,12 @@ class AddOnsBloc extends Bloc<AddOnsEvent, AddOnsState> {
     final result = await _getAddOnsUseCase.execute(null);
     result.fold(
       (failure) => emit(AddOnsError(failure.message)),
-      (addOnsModel) => emit(AddOnsSuccess(addOnsModel)),
+      (addOnsModel) {
+        final planAddOns = AddOnsModel(
+          addOns: addOnsModel.addOns.where((a) => a.isPlan).toList(),
+        );
+        emit(AddOnsSuccess(planAddOns));
+      },
     );
   }
 
