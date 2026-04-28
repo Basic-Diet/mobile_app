@@ -26,6 +26,7 @@ extension PremiumMealResponseMapper on PremiumMealResponse? {
       proteinGrams: this?.proteinGrams ?? Constants.zero,
       carbGrams: this?.carbGrams ?? Constants.zero,
       fatGrams: this?.fatGrams ?? Constants.zero,
+      premiumKey: this?.premiumKey ?? Constants.empty,
       ui:
           this?.ui.toDomain() ??
           PremiumMealUiModel(

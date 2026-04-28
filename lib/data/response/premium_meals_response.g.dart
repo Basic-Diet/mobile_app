@@ -35,6 +35,7 @@ PremiumMealResponse _$PremiumMealResponseFromJson(Map<String, dynamic> json) =>
       proteinGrams: (json['proteinGrams'] as num?)?.toInt(),
       carbGrams: (json['carbGrams'] as num?)?.toInt(),
       fatGrams: (json['fatGrams'] as num?)?.toInt(),
+      premiumKey: json['premiumKey'] as String?,
       ui:
           json['ui'] == null
               ? null
@@ -59,6 +60,7 @@ Map<String, dynamic> _$PremiumMealResponseToJson(
   'proteinGrams': instance.proteinGrams,
   'carbGrams': instance.carbGrams,
   'fatGrams': instance.fatGrams,
+  'premiumKey': instance.premiumKey,
   'ui': instance.ui,
 };
 

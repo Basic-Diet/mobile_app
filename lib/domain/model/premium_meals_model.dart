@@ -18,6 +18,7 @@ class PremiumMealModel {
   int proteinGrams;
   int carbGrams;
   int fatGrams;
+  String premiumKey;
   PremiumMealUiModel ui;
 
   PremiumMealModel({
@@ -34,6 +35,7 @@ class PremiumMealModel {
     required this.proteinGrams,
     required this.carbGrams,
     required this.fatGrams,
+    required this.premiumKey,
     required this.ui,
   });
 }

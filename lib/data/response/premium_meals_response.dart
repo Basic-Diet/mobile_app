@@ -45,6 +45,8 @@ class PremiumMealResponse {
   int? carbGrams;
   @JsonKey(name: "fatGrams")
   int? fatGrams;
+  @JsonKey(name: "premiumKey")
+  String? premiumKey;
   @JsonKey(name: "ui")
   PremiumMealUiResponse? ui;
 
@@ -62,6 +64,7 @@ class PremiumMealResponse {
     this.proteinGrams,
     this.carbGrams,
     this.fatGrams,
+    this.premiumKey,
     this.ui,
   });
 

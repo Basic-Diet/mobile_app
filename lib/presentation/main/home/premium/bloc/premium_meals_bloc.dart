@@ -23,7 +23,7 @@ class PremiumMealsBloc extends Bloc<PremiumMealsEvent, PremiumMealsState> {
       premiumMealsModel,
     ) {
       final initialCounters = <String, int>{
-        for (final meal in premiumMealsModel.meals) meal.id: 0,
+        for (final meal in premiumMealsModel.meals) meal.premiumKey: 0,
       };
       emit(
         PremiumMealsSuccess(premiumMealsModel, mealCounters: initialCounters),

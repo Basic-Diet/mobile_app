@@ -526,12 +526,12 @@ class SubscriptionBloc extends Bloc<SubscriptionEvent, SubscriptionState> {
   ) {
     final checkoutItems =
         checkoutRequest.premiumItems
-            .map((item) => '${item.proteinId}:${item.qty}')
+            .map((item) => '${item.premiumKey}:${item.qty}')
             .toList()
           ..sort();
     final quoteItems =
         quoteRequest.premiumItems
-            .map((item) => '${item.proteinId}:${item.qty}')
+            .map((item) => '${item.premiumKey}:${item.qty}')
             .toList()
           ..sort();
     return _stringListsEqual(checkoutItems, quoteItems);
