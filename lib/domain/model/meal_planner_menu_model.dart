@@ -1,8 +1,15 @@
+import 'package:basic_diet/domain/model/add_ons_model.dart';
+
 class MealPlannerMenuModel {
   final String currency;
   final BuilderCatalogModel builderCatalog;
+  final List<AddOnModel> addons;
 
-  MealPlannerMenuModel({required this.currency, required this.builderCatalog});
+  MealPlannerMenuModel({
+    required this.currency,
+    required this.builderCatalog,
+    this.addons = const [],
+  });
 }
 
 class BuilderCatalogModel {

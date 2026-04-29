@@ -213,6 +213,33 @@ class _AppServiceClient implements AppServiceClient {
   }
 
   @override
+  Future<SubscriptionMenuResponse> getSubscriptionMenu() async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<SubscriptionMenuResponse>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/subscriptions/menu',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late SubscriptionMenuResponse _value;
+    try {
+      _value = SubscriptionMenuResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
   Future<DeliveryOptionsResponse> getDeliveryOptions() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -826,17 +853,18 @@ class _AppServiceClient implements AppServiceClient {
   Future<PremiumPaymentVerificationResponse> verifyOneTimeAddonPayment(
     String subscriptionId,
     String date,
-    String paymentId,
+    Map<String, dynamic> body,
   ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
+    final _data = <String, dynamic>{};
+    _data.addAll(body);
     final _options = _setStreamType<PremiumPaymentVerificationResponse>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/api/subscriptions/${subscriptionId}/days/${date}/one-time-addons/payments/${paymentId}/verify',
+            '/api/subscriptions/${subscriptionId}/days/${date}/one-time-addons/payments/verify',
             queryParameters: queryParameters,
             data: _data,
           )

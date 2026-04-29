@@ -7,7 +7,6 @@ import 'package:basic_diet/domain/model/timeline_model.dart';
 import 'package:basic_diet/domain/usecase/confirm_day_selection_usecase.dart';
 import 'package:basic_diet/domain/usecase/create_one_time_addon_payment_usecase.dart';
 import 'package:basic_diet/domain/usecase/create_premium_payment_usecase.dart';
-import 'package:basic_diet/domain/usecase/get_addons_usecase.dart';
 import 'package:basic_diet/domain/usecase/get_meal_planner_menu_usecase.dart';
 import 'package:basic_diet/domain/usecase/get_subscription_day_usecase.dart';
 import 'package:basic_diet/domain/usecase/save_day_selection_usecase.dart';
@@ -22,7 +21,6 @@ import 'meal_planner_state.dart';
 class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
   final GetMealPlannerMenuUseCase _getMealPlannerMenuUseCase;
   final GetSubscriptionDayUseCase _getSubscriptionDayUseCase;
-  final GetAddOnsUseCase _getAddOnsUseCase;
   final SaveDaySelectionUseCase _saveDaySelectionUseCase;
   final CreatePremiumPaymentUseCase _createPremiumPaymentUseCase;
   final VerifyPremiumPaymentUseCase _verifyPremiumPaymentUseCase;
@@ -39,7 +37,6 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
   MealPlannerBloc(
     this._getMealPlannerMenuUseCase,
     this._getSubscriptionDayUseCase,
-    this._getAddOnsUseCase,
     this._saveDaySelectionUseCase,
     this._createPremiumPaymentUseCase,
     this._verifyPremiumPaymentUseCase,
@@ -80,7 +77,6 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
     emit(MealPlannerLoading());
 
     final menuResult = await _getMealPlannerMenuUseCase.execute(null);
-    final addonsResult = await _getAddOnsUseCase.execute(null);
 
     final menuFailure = menuResult.fold((failure) => failure, (_) => null);
     if (menuFailure != null) {
@@ -88,15 +84,8 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
       return;
     }
 
-    final addonsFailure = addonsResult.fold((failure) => failure, (_) => null);
-    if (addonsFailure != null) {
-      emit(MealPlannerError("${addonsFailure.code}: ${addonsFailure.message}"));
-      return;
-    }
-
     final menu = menuResult.getOrElse(() => throw Exception());
-    final addOnsCatalog =
-        addonsResult.getOrElse(() => throw Exception()).addOns;
+    final addOnsCatalog = menu.addons;
 
     final slotsByDay = <int, List<MealPlannerSlotSelection>>{};
     final savedSlotsByDay = <int, List<MealPlannerSlotSelection>>{};
@@ -808,6 +797,8 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
           isSaving: false,
           paymentError:
               "${verificationFailure.code}: ${verificationFailure.message}",
+          clearPaymentUrl: true,
+          clearPaymentId: true,
         ),
       );
       return;
@@ -819,6 +810,8 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
         current.copyWith(
           isSaving: false,
           paymentError: verificationModel.message,
+          clearPaymentUrl: true,
+          clearPaymentId: true,
         ),
       );
       return;
@@ -834,6 +827,8 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
           current.copyWith(
             isSaving: false,
             paymentError: "${failure.code}: ${failure.message}",
+            clearPaymentUrl: true,
+            clearPaymentId: true,
           ),
         );
       },

@@ -6,6 +6,7 @@ import 'package:basic_diet/data/data_source/remote_data_source.dart';
 import 'package:basic_diet/data/request/subscription_checkout_request.dart';
 import 'package:basic_diet/data/request/subscription_quote_request.dart';
 import 'package:basic_diet/data/response/addons_response.dart';
+import 'package:basic_diet/data/response/subscription_menu_response.dart';
 import 'package:basic_diet/data/response/auth_response.dart';
 import 'package:basic_diet/data/response/base_response/base_response.dart';
 import 'package:basic_diet/data/response/categories_with_meals_response.dart';
@@ -75,6 +76,11 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   @override
   Future<AddOnsResponse> getAddOns() {
     return _appServiceClient.getAddOns();
+  }
+
+  @override
+  Future<SubscriptionMenuResponse> getSubscriptionMenu() {
+    return _appServiceClient.getSubscriptionMenu();
   }
 
   @override
@@ -226,7 +232,7 @@ class RemoteDataSourceImpl implements RemoteDataSource {
     return _appServiceClient.verifyOneTimeAddonPayment(
       subscriptionId,
       date,
-      paymentId,
+      {'paymentId': paymentId},
     );
   }
 

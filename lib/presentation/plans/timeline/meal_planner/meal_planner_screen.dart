@@ -81,6 +81,18 @@ class MealPlannerScreen extends StatelessWidget {
                 listener: (context, state) async {
                   if (state is! MealPlannerLoaded) return;
 
+                  if (state.paymentError != null) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          _resolveErrorMessage(state.paymentError!),
+                        ),
+                        backgroundColor: ColorManager.stateError,
+                      ),
+                    );
+                    return;
+                  }
+
                   if (state.saveSuccess && state.paymentUrl == null) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
@@ -99,18 +111,6 @@ class MealPlannerScreen extends StatelessWidget {
                       state.paymentUrl!,
                       state.paymentId!,
                       state.activePaymentKind ?? 'premium',
-                    );
-                    return;
-                  }
-
-                  if (state.paymentError != null) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          _resolveErrorMessage(state.paymentError!),
-                        ),
-                        backgroundColor: ColorManager.stateError,
-                      ),
                     );
                   }
                 },

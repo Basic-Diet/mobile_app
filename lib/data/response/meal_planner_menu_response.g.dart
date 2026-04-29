@@ -27,6 +27,20 @@ Map<String, dynamic> _$MealPlannerMenuResponseToJson(
   'data': instance.data,
 };
 
+MealPlannerAddonsResponse _$MealPlannerAddonsResponseFromJson(
+  Map<String, dynamic> json,
+) => MealPlannerAddonsResponse(
+  items:
+      (json['items'] as List<dynamic>?)
+          ?.map((e) => AddOnResponse.fromJson(e as Map<String, dynamic>))
+          .toList(),
+  byType: json['byType'] as Map<String, dynamic>?,
+);
+
+Map<String, dynamic> _$MealPlannerAddonsResponseToJson(
+  MealPlannerAddonsResponse instance,
+) => <String, dynamic>{'items': instance.items, 'byType': instance.byType};
+
 MealPlannerMenuDataResponse _$MealPlannerMenuDataResponseFromJson(
   Map<String, dynamic> json,
 ) => MealPlannerMenuDataResponse(
@@ -37,6 +51,7 @@ MealPlannerMenuDataResponse _$MealPlannerMenuDataResponseFromJson(
           : BuilderCatalogResponse.fromJson(
             json['builderCatalog'] as Map<String, dynamic>,
           ),
+  addons: MealPlannerMenuDataResponse._addonsFromJson(json['addons']),
 );
 
 Map<String, dynamic> _$MealPlannerMenuDataResponseToJson(
@@ -44,6 +59,7 @@ Map<String, dynamic> _$MealPlannerMenuDataResponseToJson(
 ) => <String, dynamic>{
   'currency': instance.currency,
   'builderCatalog': instance.builderCatalog,
+  'addons': instance.addons,
 };
 
 BuilderCatalogResponse _$BuilderCatalogResponseFromJson(

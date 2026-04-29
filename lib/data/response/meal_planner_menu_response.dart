@@ -1,3 +1,4 @@
+import 'package:basic_diet/data/response/addons_response.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'meal_planner_menu_response.g.dart';
@@ -35,6 +36,14 @@ class MealPlannerMenuResponse {
 }
 
 @JsonSerializable()
+class MealPlannerAddonsResponse {
+  List<AddOnResponse>? items;
+  Map<String, dynamic>? byType;
+
+  MealPlannerAddonsResponse({this.items, this.byType});
+}
+
+@JsonSerializable()
 class MealPlannerMenuDataResponse {
   @JsonKey(name: "currency")
   String? currency;
@@ -42,7 +51,37 @@ class MealPlannerMenuDataResponse {
   @JsonKey(name: "builderCatalog")
   BuilderCatalogResponse? builderCatalog;
 
-  MealPlannerMenuDataResponse({this.currency, this.builderCatalog});
+  @JsonKey(name: "addons", fromJson: _addonsFromJson)
+  MealPlannerAddonsResponse? addons;
+
+  MealPlannerMenuDataResponse({this.currency, this.builderCatalog, this.addons});
+
+  static MealPlannerAddonsResponse? _addonsFromJson(dynamic value) {
+    if (value == null) return null;
+    if (value is List) {
+      return MealPlannerAddonsResponse(
+        items: value
+            .whereType<Map<String, dynamic>>()
+            .map((e) => AddOnResponse.fromJson(e))
+            .toList(),
+        byType: null,
+      );
+    }
+    if (value is Map<String, dynamic>) {
+      final itemsRaw = value['items'];
+      final byTypeRaw = value['byType'];
+      return MealPlannerAddonsResponse(
+        items: itemsRaw is List
+            ? itemsRaw
+                .whereType<Map<String, dynamic>>()
+                .map((e) => AddOnResponse.fromJson(e))
+                .toList()
+            : null,
+        byType: byTypeRaw is Map<String, dynamic> ? byTypeRaw : null,
+      );
+    }
+    return null;
+  }
 
   factory MealPlannerMenuDataResponse.fromJson(Map<String, dynamic> json) =>
       _$MealPlannerMenuDataResponseFromJson(json);

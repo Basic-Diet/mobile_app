@@ -22,6 +22,7 @@ import 'package:basic_diet/presentation/register/register_bloc.dart';
 import 'package:basic_diet/presentation/main/home/bloc/home_bloc.dart';
 import 'package:basic_diet/presentation/main/home/premium/bloc/premium_meals_bloc.dart';
 import 'package:basic_diet/domain/usecase/get_addons_usecase.dart';
+import 'package:basic_diet/domain/usecase/get_subscription_menu_usecase.dart';
 import 'package:basic_diet/presentation/main/home/add-ons/bloc/add_ons_bloc.dart';
 import 'package:basic_diet/presentation/main/home/delivery/bloc/delivery_options_bloc.dart';
 import 'package:dio/dio.dart';
@@ -178,15 +179,15 @@ void initPremiumMealsModule() {
 }
 
 void initAddOnsModule() {
-  if (!GetIt.I.isRegistered<GetAddOnsUseCase>()) {
-    instance.registerFactory<GetAddOnsUseCase>(
-      () => GetAddOnsUseCase(instance<Repository>()),
+  if (!GetIt.I.isRegistered<GetSubscriptionMenuUseCase>()) {
+    instance.registerFactory<GetSubscriptionMenuUseCase>(
+      () => GetSubscriptionMenuUseCase(instance<Repository>()),
     );
   }
 
   if (!GetIt.I.isRegistered<AddOnsBloc>()) {
     instance.registerFactory<AddOnsBloc>(
-      () => AddOnsBloc(instance<GetAddOnsUseCase>()),
+      () => AddOnsBloc(instance<GetSubscriptionMenuUseCase>()),
     );
   }
 }
@@ -299,12 +300,6 @@ void initTimelineModule() {
 }
 
 void initMealPlannerModule() {
-  if (!GetIt.I.isRegistered<GetAddOnsUseCase>()) {
-    instance.registerFactory<GetAddOnsUseCase>(
-      () => GetAddOnsUseCase(instance<Repository>()),
-    );
-  }
-
   if (!GetIt.I.isRegistered<GetMealPlannerMenuUseCase>()) {
     instance.registerFactory<GetMealPlannerMenuUseCase>(
       () => GetMealPlannerMenuUseCase(instance<Repository>()),
@@ -371,7 +366,6 @@ void initMealPlannerModule() {
       (params, _) => MealPlannerBloc(
         instance<GetMealPlannerMenuUseCase>(),
         instance<GetSubscriptionDayUseCase>(),
-        instance<GetAddOnsUseCase>(),
         instance<SaveDaySelectionUseCase>(),
         instance<CreatePremiumPaymentUseCase>(),
         instance<VerifyPremiumPaymentUseCase>(),
