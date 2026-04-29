@@ -259,56 +259,49 @@ class TimeLineScreen extends StatelessWidget {
         break;
     }
 
-    final String statusLower = day.status.toLowerCase();
-    final bool isClickable =
-        statusLower == 'open' ||
-        statusLower == 'planned' ||
-        statusLower == 'extension';
-    final bool isReadOnly = statusLower == 'planned';
+    final bool isReadOnly = day.commercialState.toLowerCase() == 'confirmed';
 
     return GestureDetector(
-      onTap: isClickable
-          ? () async {
-              final result = await Navigator.push<dynamic>(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => MealPlannerScreen(
-                    timelineDays: days,
-                    addonEntitlements: addonSubscriptions,
-                    premiumSummaries: premiumSummaries,
-                    initialDayIndex: index,
-                    premiumMealsRemaining: premiumMealsRemaining,
-                    subscriptionId: subscriptionId,
-                    readOnly: isReadOnly,
-                  ),
-                ),
-              );
+      onTap: () async {
+        final result = await Navigator.push<dynamic>(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MealPlannerScreen(
+              timelineDays: days,
+              addonEntitlements: addonSubscriptions,
+              premiumSummaries: premiumSummaries,
+              initialDayIndex: index,
+              premiumMealsRemaining: premiumMealsRemaining,
+              subscriptionId: subscriptionId,
+              readOnly: isReadOnly,
+            ),
+          ),
+        );
 
-              if (!context.mounted) return;
+        if (!context.mounted) return;
 
-              final shouldRefreshTimeline =
-                  result == true ||
-                  (result is MealPlannerScreenResult &&
-                      result.shouldRefreshTimeline);
+        final shouldRefreshTimeline =
+            result == true ||
+            (result is MealPlannerScreenResult &&
+                result.shouldRefreshTimeline);
 
-              if (result is MealPlannerScreenResult &&
-                  result.successMessage != null) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(result.successMessage!),
-                    backgroundColor: ColorManager.stateSuccess,
-                    duration: const Duration(seconds: 2),
-                  ),
-                );
-              }
+        if (result is MealPlannerScreenResult &&
+            result.successMessage != null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(result.successMessage!),
+              backgroundColor: ColorManager.stateSuccess,
+              duration: const Duration(seconds: 2),
+            ),
+          );
+        }
 
-              if (shouldRefreshTimeline) {
-                context.read<TimelineBloc>().add(
-                  FetchTimelineEvent(subscriptionId),
-                );
-              }
-            }
-          : null,
+        if (shouldRefreshTimeline) {
+          context.read<TimelineBloc>().add(
+            FetchTimelineEvent(subscriptionId),
+          );
+        }
+      },
       child: Container(
         padding: EdgeInsets.all(AppPadding.p16.w),
         decoration: BoxDecoration(

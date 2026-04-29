@@ -175,7 +175,7 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   }
 
   @override
-  Future<BaseResponse> confirmDaySelection(String id, String date) {
+  Future<SubscriptionDayResponse> confirmDaySelection(String id, String date) {
     return _appServiceClient.confirmDaySelection(id, date);
   }
 

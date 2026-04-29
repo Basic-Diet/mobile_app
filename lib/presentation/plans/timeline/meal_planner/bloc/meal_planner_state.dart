@@ -25,46 +25,99 @@ final class MealPlannerError extends MealPlannerState {
   List<Object?> get props => [message];
 }
 
+final class MealPlannerSlotCarbSelection extends Equatable {
+  final String carbId;
+  final int grams;
+
+  const MealPlannerSlotCarbSelection({required this.carbId, required this.grams});
+
+  @override
+  List<Object?> get props => [carbId, grams];
+}
+
+final class MealPlannerSaladGroupsSelection extends Equatable {
+  final List<String> leafyGreens;
+  final List<String> vegetables;
+  final List<String> protein;
+  final List<String> cheeseNuts;
+  final List<String> fruits;
+  final List<String> sauce;
+
+  const MealPlannerSaladGroupsSelection({
+    this.leafyGreens = const [],
+    this.vegetables = const [],
+    this.protein = const [],
+    this.cheeseNuts = const [],
+    this.fruits = const [],
+    this.sauce = const [],
+  });
+
+  @override
+  List<Object?> get props => [
+    leafyGreens,
+    vegetables,
+    protein,
+    cheeseNuts,
+    fruits,
+    sauce,
+  ];
+}
+
+final class PremiumLargeSaladSelection extends Equatable {
+  final String presetKey;
+  final MealPlannerSaladGroupsSelection groups;
+
+  const PremiumLargeSaladSelection({
+    required this.presetKey,
+    required this.groups,
+  });
+
+  @override
+  List<Object?> get props => [presetKey, groups];
+}
+
 final class MealPlannerSlotSelection extends Equatable {
   final int slotIndex;
   final String slotKey;
   final String selectionType;
   final String? proteinId;
-  final String? carbId;
+  final List<MealPlannerSlotCarbSelection> carbs;
   final String? sandwichId;
-  final CustomSaladSelection? customSalad;
+  final PremiumLargeSaladSelection? salad;
 
   const MealPlannerSlotSelection({
     required this.slotIndex,
     required this.slotKey,
-    this.selectionType = 'standard_combo',
+    this.selectionType = 'standard_meal',
     required this.proteinId,
-    required this.carbId,
+    this.carbs = const [],
     this.sandwichId,
-    this.customSalad,
+    this.salad,
   });
+
+  String? get primaryCarbId => carbs.isEmpty ? null : carbs.first.carbId;
 
   MealPlannerSlotSelection copyWith({
     int? slotIndex,
     String? slotKey,
     String? selectionType,
     String? proteinId,
-    String? carbId,
+    List<MealPlannerSlotCarbSelection>? carbs,
     String? sandwichId,
-    CustomSaladSelection? customSalad,
+    PremiumLargeSaladSelection? salad,
     bool clearProteinId = false,
-    bool clearCarbId = false,
+    bool clearCarbs = false,
     bool clearSandwichId = false,
-    bool clearCustomSalad = false,
+    bool clearSalad = false,
   }) {
     return MealPlannerSlotSelection(
       slotIndex: slotIndex ?? this.slotIndex,
       slotKey: slotKey ?? this.slotKey,
       selectionType: selectionType ?? this.selectionType,
       proteinId: clearProteinId ? null : proteinId ?? this.proteinId,
-      carbId: clearCarbId ? null : carbId ?? this.carbId,
+      carbs: clearCarbs ? const [] : carbs ?? this.carbs,
       sandwichId: clearSandwichId ? null : sandwichId ?? this.sandwichId,
-      customSalad: clearCustomSalad ? null : customSalad ?? this.customSalad,
+      salad: clearSalad ? null : salad ?? this.salad,
     );
   }
 
@@ -74,31 +127,10 @@ final class MealPlannerSlotSelection extends Equatable {
     slotKey,
     selectionType,
     proteinId,
-    carbId,
+    carbs,
     sandwichId,
-    customSalad,
+    salad,
   ];
-}
-
-final class CustomSaladSelection extends Equatable {
-  final String presetKey;
-  final List<String> vegetables;
-  final List<String> addons;
-  final List<String> fruits;
-  final List<String> nuts;
-  final List<String> sauce;
-
-  const CustomSaladSelection({
-    required this.presetKey,
-    this.vegetables = const [],
-    this.addons = const [],
-    this.fruits = const [],
-    this.nuts = const [],
-    this.sauce = const [],
-  });
-
-  @override
-  List<Object?> get props => [presetKey, vegetables, addons, fruits, nuts, sauce];
 }
 
 final class PendingAddonPrompt extends Equatable {
@@ -133,12 +165,6 @@ final class PremiumUsageEvaluation {
 }
 
 final class MealPlannerLoaded extends MealPlannerState {
-  static const List<String> addonCategoryOrder = [
-    'juice',
-    'snack',
-    'small_salad',
-  ];
-
   final List<TimelineDayModel> timelineDays;
   final MealPlannerMenuModel menu;
   final List<AddOnModel> addOnsCatalog;
@@ -180,7 +206,7 @@ final class MealPlannerLoaded extends MealPlannerState {
     this.isRefreshingDay = false,
     this.saveSuccess = false,
     this.showSavedBanner = false,
-    this.lastAddedMealName = "",
+    this.lastAddedMealName = '',
     this.premiumMealsPendingPayment = 0,
     this.paymentUrl,
     this.paymentId,
@@ -191,14 +217,11 @@ final class MealPlannerLoaded extends MealPlannerState {
 
   TimelineDayModel get selectedTimelineDay => timelineDays[selectedDayIndex];
 
-  SubscriptionDayModel? get selectedDayDetail =>
-      dayDetailsByIndex[selectedDayIndex];
+  SubscriptionDayModel? get selectedDayDetail => dayDetailsByIndex[selectedDayIndex];
 
-  List<String> get selectedAddOnIds =>
-      selectedAddOnIdsByDay[selectedDayIndex] ?? const [];
+  List<String> get selectedAddOnIds => selectedAddOnIdsByDay[selectedDayIndex] ?? const [];
 
-  List<String> get savedAddOnIds =>
-      savedAddOnIdsByDay[selectedDayIndex] ?? const [];
+  List<String> get savedAddOnIds => savedAddOnIdsByDay[selectedDayIndex] ?? const [];
 
   List<AddonSelectionModel> get addonSelections =>
       selectedDayDetail?.addonSelections ?? const [];
@@ -207,101 +230,58 @@ final class MealPlannerLoaded extends MealPlannerState {
       addOnsCatalog.where((addon) => addon.isItem && addon.isFlatOnce).toList();
 
   Map<String, List<AddOnModel>> get groupedAddons {
-    final grouped = <String, List<AddOnModel>>{
-      for (final category in addonCategoryOrder) category: <AddOnModel>[],
-    };
-
+    if (menu.addonsByCategory.isNotEmpty) {
+      return menu.addonsByCategory;
+    }
+    final grouped = <String, List<AddOnModel>>{};
     for (final addon in plannerAddOnsCatalog) {
       grouped.putIfAbsent(addon.category, () => <AddOnModel>[]).add(addon);
     }
-
     return grouped;
   }
 
   List<AddOnModel> get selectedAddOnModels {
-    final catalogMap = {
-      for (final addon in plannerAddOnsCatalog) addon.id: addon,
-    };
+    final catalogMap = {for (final addon in plannerAddOnsCatalog) addon.id: addon};
     return selectedAddOnIds
         .where((id) => catalogMap.containsKey(id))
         .map((id) => catalogMap[id]!)
         .toList();
   }
 
-  bool isAddonCoveredBySubscription(String category) {
-    for (final entitlement in addonEntitlements) {
-      if (entitlement.category == category &&
-          entitlement.status == 'active' &&
-          entitlement.includedCount > 0) {
-        return true;
-      }
-    }
-    return false;
-  }
-
   List<AddOnModel> selectedAddonsForCategory(String category) {
-    return selectedAddOnModels
-        .where((addon) => addon.category == category)
-        .toList();
+    return selectedAddOnModels.where((addon) => addon.category == category).toList();
   }
 
   String addonSelectionStatusFor(
     String addonId, {
     List<String>? selectedAddonIdsOverride,
   }) {
-    final effectiveSelectedAddonIds =
-        selectedAddonIdsOverride ?? selectedAddOnIds;
-    final localStatus = _computeLocalAddonStatus(
-      addonId,
-      selectedAddonIds: effectiveSelectedAddonIds,
-    );
-
     final backendSelection = addonSelections
         .where((selection) => selection.addonId == addonId)
         .cast<AddonSelectionModel?>()
         .firstWhere((selection) => selection != null, orElse: () => null);
-
-    final hasLocalDraftOverride =
-        selectedAddonIdsOverride != null &&
-        !listEquals(selectedAddonIdsOverride, selectedAddOnIds);
-    if (hasLocalDraftOverride) {
-      return localStatus;
-    }
-
-    if (backendSelection != null && backendSelection.status.isNotEmpty) {
-      // If backend says pending but local entitlement covers it,
-      // prefer local so the UI reflects the subscription correctly.
-      if (backendSelection.status == 'pending_payment' &&
-          localStatus == 'subscription') {
-        return 'subscription';
-      }
+    if (backendSelection != null && selectedAddonIdsOverride == null) {
       return backendSelection.status;
     }
-
-    return localStatus;
+    return _computeLocalAddonStatus(
+      addonId,
+      selectedAddonIds: selectedAddonIdsOverride ?? selectedAddOnIds,
+    );
   }
 
   String _computeLocalAddonStatus(
     String addonId, {
     required List<String> selectedAddonIds,
   }) {
-    debugPrint(
-      '[_computeLocalAddonStatus] addonId=$addonId | '
-      'addonEntitlements=${addonEntitlements.map((e) => '{cat:${e.category},inc:${e.includedCount},st:${e.status}}').toList()} | '
-      'selectedAddonIds=$selectedAddonIds',
-    );
-
     final targetAddon = plannerAddOnsCatalog
         .where((addon) => addon.id == addonId)
         .cast<AddOnModel?>()
         .firstWhere((addon) => addon != null, orElse: () => null);
 
     if (targetAddon == null) {
-      debugPrint('[_computeLocalAddonStatus] targetAddon=null → pending_payment');
       return 'pending_payment';
     }
 
-    // Build per-category entitlement allowances (includedCount maps from maxPerDay)
     final allowances = <String, int>{};
     for (final entitlement in addonEntitlements) {
       if ((entitlement.status == 'active' || entitlement.status.isEmpty) &&
@@ -311,39 +291,27 @@ final class MealPlannerLoaded extends MealPlannerState {
       }
     }
 
-    debugPrint('[_computeLocalAddonStatus] allowances=$allowances');
-
-    // Walk through selected addons in order and consume allowances
-    final catalogById = {
-      for (final addon in plannerAddOnsCatalog) addon.id: addon,
-    };
-
+    final catalogById = {for (final addon in plannerAddOnsCatalog) addon.id: addon};
     for (final id in selectedAddonIds) {
       final addon = catalogById[id];
       if (addon == null) continue;
       final remaining = allowances[addon.category] ?? 0;
       if (addon.id == targetAddon.id) {
-        final result = remaining > 0 ? 'subscription' : 'pending_payment';
-        debugPrint('[_computeLocalAddonStatus] found target, remaining=$remaining → $result');
-        return result;
+        return remaining > 0 ? 'subscription' : 'pending_payment';
       }
       if (remaining > 0) {
         allowances[addon.category] = remaining - 1;
       }
     }
 
-    // Target addon is not currently selected — check hypothetical coverage
     final remaining = allowances[targetAddon.category] ?? 0;
-    final result = remaining > 0 ? 'subscription' : 'pending_payment';
-    debugPrint('[_computeLocalAddonStatus] not in selection, remaining=$remaining → $result');
-    return result;
+    return remaining > 0 ? 'subscription' : 'pending_payment';
   }
 
   int get localAddonPendingAmountHalala {
     var total = 0;
     for (final addon in selectedAddOnModels) {
-      final status = addonSelectionStatusFor(addon.id);
-      if (status == 'pending_payment') {
+      if (addonSelectionStatusFor(addon.id) == 'pending_payment') {
         total += addon.priceHalala;
       }
     }
@@ -360,20 +328,39 @@ final class MealPlannerLoaded extends MealPlannerState {
     return total;
   }
 
-  int get addonPendingPaymentCount {
-    return localAddonPendingCount;
-  }
+  int get addonPendingPaymentCount =>
+      selectedDayDetail?.paymentRequirement?.addonPendingPaymentCount ??
+      localAddonPendingCount;
 
-  int get addonPendingPaymentAmountHalala {
-    return localAddonPendingAmountHalala;
-  }
+  int get addonPendingPaymentAmountHalala =>
+      selectedDayDetail?.paymentRequirement?.pendingAmountHalala != null &&
+              (selectedDayDetail?.paymentRequirement?.blockingReason ==
+                      'addons_pending_payment' ||
+                  (selectedDayDetail?.paymentRequirement?.addonPendingPaymentCount ?? 0) > 0)
+          ? selectedDayDetail!.paymentRequirement!.pendingAmountHalala
+          : localAddonPendingAmountHalala;
 
   int get premiumPendingPaymentAmountHalala {
+    final requirement = selectedDayDetail?.paymentRequirement;
+    if (requirement != null &&
+        ((requirement.blockingReason == 'premium_pending_payment') ||
+            requirement.premiumPendingPaymentCount > 0)) {
+      return requirement.pendingAmountHalala > 0
+          ? requirement.pendingAmountHalala
+          : requirement.amountHalala;
+    }
     return evaluatePremiumUsage().pendingAmountHalala;
   }
 
-  int get totalPendingPaymentAmountHalala =>
-      premiumPendingPaymentAmountHalala + addonPendingPaymentAmountHalala;
+  int get totalPendingPaymentAmountHalala {
+    final requirement = selectedDayDetail?.paymentRequirement;
+    if (requirement != null && requirement.requiresPayment) {
+      return requirement.pendingAmountHalala > 0
+          ? requirement.pendingAmountHalala
+          : requirement.amountHalala;
+    }
+    return premiumPendingPaymentAmountHalala + addonPendingPaymentAmountHalala;
+  }
 
   String get paymentCurrency {
     final dayCurrency = selectedDayDetail?.paymentRequirement?.currency;
@@ -387,18 +374,30 @@ final class MealPlannerLoaded extends MealPlannerState {
   int get maxMeals => selectedTimelineDay.requiredMeals;
 
   bool get isSelectedDayEditable {
-    final normalized = selectedTimelineDay.status.toLowerCase();
-    return normalized == 'open' || normalized == 'extension';
+    final detail = selectedDayDetail;
+    final commercialState = detail?.commercialState ?? selectedTimelineDay.commercialState;
+    final blockingReason = detail?.paymentRequirement?.blockingReason?.toUpperCase();
+    if (blockingReason == 'DAY_LOCKED_BEFORE_DELIVERY' ||
+        blockingReason == 'DELIVERY_TIME_UNAVAILABLE' ||
+        blockingReason == 'LOCKED' ||
+        blockingReason == 'DAY_ALREADY_CONFIRMED') {
+      return false;
+    }
+    if (commercialState.toLowerCase() == 'confirmed') {
+      return false;
+    }
+    return true;
   }
 
-  bool get hasPendingAddonPayment {
-    return addonPendingPaymentCount > 0;
-  }
+  bool get hasPendingAddonPayment =>
+      (selectedDayDetail?.paymentRequirement?.addonPendingPaymentCount ?? 0) > 0;
 
-  bool get hasPendingPremiumPayment => premiumMealsPendingPayment > 0;
+  bool get hasPendingPremiumPayment =>
+      (selectedDayDetail?.paymentRequirement?.premiumPendingPaymentCount ?? premiumMealsPendingPayment) > 0;
 
   bool get hasAnyPendingPayment =>
-      hasPendingPremiumPayment || hasPendingAddonPayment;
+      selectedDayDetail?.paymentRequirement?.requiresPayment ??
+      (hasPendingPremiumPayment || hasPendingAddonPayment);
 
   bool get isDirty {
     for (final entry in selectedSlotsPerDay.entries) {
@@ -413,10 +412,7 @@ final class MealPlannerLoaded extends MealPlannerState {
     for (final entry in selectedAddOnIdsByDay.entries) {
       final current = entry.value;
       final saved = savedAddOnIdsByDay[entry.key] ?? const [];
-      if (current.length != saved.length) return true;
-      for (var i = 0; i < current.length; i++) {
-        if (current[i] != saved[i]) return true;
-      }
+      if (!listEquals(current, saved)) return true;
     }
 
     return false;
@@ -516,9 +512,6 @@ final class MealPlannerLoaded extends MealPlannerState {
     Map<int, List<MealPlannerSlotSelection>>? selectedSlotsPerDay,
   }) {
     if (premiumSummaries.isEmpty) {
-      debugPrint(
-        '[evaluatePremiumUsage] FALLBACK to generic credits — premiumSummaries is empty',
-      );
       return _evaluatePremiumUsageByGenericCredits(selectedSlotsPerDay);
     }
 
@@ -528,23 +521,54 @@ final class MealPlannerLoaded extends MealPlannerState {
             .map(
               (summary) => _PremiumAllowanceEntry(
                 premiumMealId: summary.premiumMealId,
+                premiumKey: summary.premiumKey,
                 normalizedName: _normalizePremiumMealName(summary.name),
                 remainingCount: summary.remainingQtyTotal,
               ),
             )
             .toList();
 
-    debugPrint(
-      '[evaluatePremiumUsage] allowances: ${allowances.map((a) => '{id:${a.premiumMealId},name:${a.normalizedName},remaining:${a.remainingCount}}').toList()}',
-    );
-
     var coveredCount = 0;
     var pendingCount = 0;
     var pendingAmountHalala = 0;
-    final slots = (selectedSlotsPerDay ?? this.selectedSlotsPerDay)[selectedDayIndex] ??
-        const [];
+    final slots =
+        (selectedSlotsPerDay ?? this.selectedSlotsPerDay)[selectedDayIndex] ??
+            const [];
 
     for (final slot in slots) {
+      // --- Premium large salad slot ---
+      if (slot.selectionType == 'premium_large_salad') {
+        final salad = menu.builderCatalog.premiumLargeSalad;
+        if (salad == null) continue;
+
+        final keyMatchIndex = allowances.indexWhere(
+          (entry) =>
+              entry.remainingCount > 0 &&
+              entry.premiumKey.isNotEmpty &&
+              entry.premiumKey == salad.premiumKey,
+        );
+        final idMatchIndex = keyMatchIndex == -1
+            ? allowances.indexWhere(
+                (entry) =>
+                    entry.remainingCount > 0 &&
+                    entry.premiumMealId == salad.id,
+              )
+            : -1;
+
+        final matchIndex =
+            keyMatchIndex != -1 ? keyMatchIndex : idMatchIndex;
+
+        if (matchIndex != -1) {
+          allowances[matchIndex].remainingCount -= 1;
+          coveredCount += 1;
+        } else {
+          pendingCount += 1;
+          pendingAmountHalala += salad.extraFeeHalala;
+        }
+        continue;
+      }
+
+      // --- Regular / premium protein slot ---
       final proteinId = slot.proteinId;
       if (proteinId == null) continue;
 
@@ -556,23 +580,37 @@ final class MealPlannerLoaded extends MealPlannerState {
       if (protein == null || !protein.isPremium) continue;
 
       final normalizedProteinName = _normalizePremiumMealName(protein.name);
-      final exactMatchIndex = allowances.indexWhere(
-        (entry) => entry.remainingCount > 0 && entry.premiumMealId == protein.id,
-      );
-      final fallbackMatchIndex =
-          exactMatchIndex == -1
-              ? allowances.indexWhere(
-                (entry) =>
-                    entry.remainingCount > 0 &&
-                    entry.normalizedName == normalizedProteinName,
-              )
-              : -1;
-      final matchIndex =
-          exactMatchIndex != -1 ? exactMatchIndex : fallbackMatchIndex;
 
-      debugPrint(
-        '[evaluatePremiumUsage] slot:${slot.slotIndex}, proteinId:${protein.id}, name:${protein.name}, exactMatch:$exactMatchIndex, fallbackMatch:$fallbackMatchIndex',
-      );
+      // Match priority: premiumKey → premiumMealId → normalized name
+      final keyMatchIndex = protein.premiumKey.isNotEmpty
+          ? allowances.indexWhere(
+              (entry) =>
+                  entry.remainingCount > 0 &&
+                  entry.premiumKey.isNotEmpty &&
+                  entry.premiumKey == protein.premiumKey,
+            )
+          : -1;
+      final idMatchIndex = keyMatchIndex == -1
+          ? allowances.indexWhere(
+              (entry) =>
+                  entry.remainingCount > 0 &&
+                  entry.premiumMealId == protein.id,
+            )
+          : -1;
+      final nameMatchIndex =
+          keyMatchIndex == -1 && idMatchIndex == -1
+              ? allowances.indexWhere(
+                  (entry) =>
+                      entry.remainingCount > 0 &&
+                      entry.normalizedName == normalizedProteinName,
+                )
+              : -1;
+
+      final matchIndex = keyMatchIndex != -1
+          ? keyMatchIndex
+          : idMatchIndex != -1
+          ? idMatchIndex
+          : nameMatchIndex;
 
       if (matchIndex != -1) {
         allowances[matchIndex].remainingCount -= 1;
@@ -583,10 +621,6 @@ final class MealPlannerLoaded extends MealPlannerState {
       pendingCount += 1;
       pendingAmountHalala += protein.extraFeeHalala;
     }
-
-    debugPrint(
-      '[evaluatePremiumUsage] result — covered:$coveredCount, pending:$pendingCount, pendingAmountHalala:$pendingAmountHalala',
-    );
 
     return PremiumUsageEvaluation(
       coveredCount: coveredCount,
@@ -602,10 +636,26 @@ final class MealPlannerLoaded extends MealPlannerState {
     var pendingCount = 0;
     var pendingAmountHalala = 0;
     var usedCredits = 0;
-    final slots = (selectedSlotsPerDay ?? this.selectedSlotsPerDay)[selectedDayIndex] ??
-        const [];
+    final slots =
+        (selectedSlotsPerDay ?? this.selectedSlotsPerDay)[selectedDayIndex] ??
+            const [];
 
     for (final slot in slots) {
+      // --- Premium large salad slot ---
+      if (slot.selectionType == 'premium_large_salad') {
+        final salad = menu.builderCatalog.premiumLargeSalad;
+        if (salad == null) continue;
+        usedCredits += 1;
+        if (usedCredits > premiumMealsRemaining) {
+          pendingCount += 1;
+          pendingAmountHalala += salad.extraFeeHalala;
+        } else {
+          coveredCount += 1;
+        }
+        continue;
+      }
+
+      // --- Regular / premium protein slot ---
       final proteinId = slot.proteinId;
       if (proteinId == null) continue;
 
@@ -616,8 +666,7 @@ final class MealPlannerLoaded extends MealPlannerState {
 
       if (protein == null || !protein.isPremium) continue;
 
-      final cost =
-          protein.premiumCreditCost == 0 ? 1 : protein.premiumCreditCost;
+      final cost = protein.premiumCreditCost == 0 ? 1 : protein.premiumCreditCost;
       usedCredits += cost;
 
       if (usedCredits > premiumMealsRemaining) {
@@ -638,11 +687,13 @@ final class MealPlannerLoaded extends MealPlannerState {
 
 final class _PremiumAllowanceEntry {
   final String premiumMealId;
+  final String premiumKey;
   final String normalizedName;
   int remainingCount;
 
   _PremiumAllowanceEntry({
     required this.premiumMealId,
+    required this.premiumKey,
     required this.normalizedName,
     required this.remainingCount,
   });

@@ -1,5 +1,6 @@
 import 'package:basic_diet/data/response/subscription_day_response.dart';
 import 'package:basic_diet/data/response/validation_response.dart';
+import 'package:basic_diet/domain/model/meal_planner_menu_model.dart';
 import 'package:basic_diet/domain/model/subscription_day_model.dart';
 
 extension SubscriptionDayResponseMapper on SubscriptionDayResponse {
@@ -8,6 +9,7 @@ extension SubscriptionDayResponseMapper on SubscriptionDayResponse {
       date: data?.date ?? '',
       status: data?.status ?? 'open',
       plannerState: data?.plannerState ?? data?.planning?.state,
+      commercialState: data?.commercialState,
       mealSlots: data?.mealSlots.map((s) => s.toDomain()).toList() ?? [],
       addonSelections:
           data?.addonSelections
@@ -17,6 +19,8 @@ extension SubscriptionDayResponseMapper on SubscriptionDayResponse {
       plannerMeta:
           data?.plannerMeta?.toDomain() ?? data?.planning?.toPlannerMetaDomain(),
       paymentRequirement: data?.paymentRequirement?.toDomain(),
+      premiumExtraPayment: data?.premiumExtraPayment?.toDomain(),
+      rules: data?.rules?.toDomain(),
     );
   }
 }
@@ -44,9 +48,38 @@ extension AddonSelectionResponseMapper on AddonSelectionResponse {
       addonId: addonId ?? '',
       category: category ?? '',
       status: rawStatus == 'subscription' ? 'included' : rawStatus,
+      source: source ?? '',
       name: name ?? '',
       priceHalala: priceHalala ?? 0,
       currency: currency ?? 'SAR',
+    );
+  }
+}
+
+extension MealSlotCarbResponseMapper on MealSlotCarbResponse {
+  MealSlotCarbModel toDomain() {
+    return MealSlotCarbModel(carbId: carbId, grams: grams);
+  }
+}
+
+extension SaladGroupsResponseMapper on SaladGroupsResponse {
+  SaladGroupsModel toDomain() {
+    return SaladGroupsModel(
+      leafyGreens: leafyGreens,
+      vegetables: vegetables,
+      protein: protein,
+      cheeseNuts: cheeseNuts,
+      fruits: fruits,
+      sauce: sauce,
+    );
+  }
+}
+
+extension SaladResponseMapper on SaladResponse {
+  SaladSelectionModel toDomain() {
+    return SaladSelectionModel(
+      presetKey: presetKey,
+      groups: groups?.toDomain() ?? const SaladGroupsModel(),
     );
   }
 }
@@ -59,25 +92,14 @@ extension MealSlotResponseMapper on MealSlotResponse {
       status: status,
       selectionType: selectionType,
       proteinId: proteinId,
-      carbId: carbId,
+      carbs: carbs.map((carb) => carb.toDomain()).toList(),
       sandwichId: sandwichId,
-      customSalad: customSalad?.toDomain(),
+      salad: salad?.toDomain(),
       isPremium: isPremium,
       premiumSource: premiumSource,
+      premiumKey: premiumKey,
+      premiumExtraFeeHalala: premiumExtraFeeHalala,
       proteinFamilyKey: proteinFamilyKey,
-    );
-  }
-}
-
-extension CustomSaladResponseMapper on CustomSaladResponse {
-  CustomSaladModel toDomain() {
-    return CustomSaladModel(
-      presetKey: presetKey,
-      vegetables: vegetables,
-      addons: addons,
-      fruits: fruits,
-      nuts: nuts,
-      sauce: sauce,
     );
   }
 }
@@ -117,14 +139,47 @@ extension PaymentRequirementResponseMapper on PaymentRequirementResponse {
   }
 }
 
+extension PremiumExtraPaymentResponseMapper on PremiumExtraPaymentResponse {
+  PremiumExtraPaymentModel toDomain() {
+    return PremiumExtraPaymentModel(
+      paymentStatus: paymentStatus ?? '',
+      amountHalala: amountHalala ?? 0,
+      currency: currency ?? 'SAR',
+    );
+  }
+}
+
+extension DayRulesResponseMapper on DayRulesResponse {
+  BuilderRulesModel toDomain() {
+    return BuilderRulesModel(
+      version: version ?? '',
+      beef: BeefRuleModel(
+        proteinFamilyKey: beef?.proteinFamilyKey ?? '',
+        maxSlotsPerDay: beef?.maxSlotsPerDay ?? 0,
+      ),
+      maxCarbItemsPerMeal: maxCarbItemsPerMeal ?? 2,
+      maxCarbTotalGrams: maxCarbTotalGrams ?? 300,
+    );
+  }
+}
+
 extension ValidationResponseMapper on ValidationResponse {
   ValidationResultModel toDomain() {
     return ValidationResultModel(
-      valid: valid,
-      mealSlots: mealSlots?.map((s) => s.toDomain()).toList(),
-      plannerMeta: plannerMeta?.toDomain(),
-      paymentRequirement: paymentRequirement?.toDomain(),
-      slotErrors: slotErrors?.map((e) => e.toDomain()).toList(),
+      valid: data?.valid ?? false,
+      mealSlots: data?.mealSlots?.map((s) => s.toDomain()).toList(),
+      plannerMeta: data?.plannerMeta?.toDomain(),
+      paymentRequirement: data?.paymentRequirement?.toDomain(),
+      slotErrors: data?.slotErrors?.map((e) => e.toDomain()).toList(),
+      addonSelections:
+          data?.addonSelections?.map((selection) => selection.toDomain()).toList() ??
+          const [],
+      plannerRevisionHash: data?.plannerRevisionHash ?? '',
+      premiumExtraPayment: data?.premiumExtraPayment?.toDomain(),
+      commercialState: data?.commercialState ?? '',
+      isFulfillable: data?.isFulfillable ?? false,
+      canBePrepared: data?.canBePrepared ?? false,
+      rules: data?.rules?.toDomain(),
     );
   }
 }

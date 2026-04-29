@@ -38,15 +38,29 @@ Map<String, dynamic> _$BulkSelectionDayRequestToJson(
 MealSlotRequest _$MealSlotRequestFromJson(Map<String, dynamic> json) =>
     MealSlotRequest(
       slotIndex: (json['slotIndex'] as num).toInt(),
-      slotKey: json['slotKey'] as String,
+      slotKey: json['slotKey'] as String?,
+      selectionType: json['selectionType'] as String?,
       proteinId: json['proteinId'] as String?,
-      carbId: json['carbId'] as String?,
+      carbs:
+          (json['carbs'] as List<dynamic>?)
+              ?.map(
+                (e) => MealSlotCarbRequest.fromJson(e as Map<String, dynamic>),
+              )
+              .toList(),
+      sandwichId: json['sandwichId'] as String?,
+      salad:
+          json['salad'] == null
+              ? null
+              : SaladRequest.fromJson(json['salad'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$MealSlotRequestToJson(MealSlotRequest instance) =>
     <String, dynamic>{
       'slotIndex': instance.slotIndex,
-      'slotKey': instance.slotKey,
-      'proteinId': instance.proteinId,
-      'carbId': instance.carbId,
+      if (instance.slotKey case final value?) 'slotKey': value,
+      if (instance.selectionType case final value?) 'selectionType': value,
+      if (instance.proteinId case final value?) 'proteinId': value,
+      if (instance.carbs case final value?) 'carbs': value,
+      if (instance.sandwichId case final value?) 'sandwichId': value,
+      if (instance.salad case final value?) 'salad': value,
     };

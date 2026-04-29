@@ -40,33 +40,38 @@ final class SetMealSlotProteinEvent extends MealPlannerEvent {
 final class SetMealSlotCarbEvent extends MealPlannerEvent {
   final int slotIndex;
   final String? carbId;
+  final int grams;
+  final int carbIndex;
 
-  const SetMealSlotCarbEvent({required this.slotIndex, required this.carbId});
+  const SetMealSlotCarbEvent({
+    required this.slotIndex,
+    required this.carbId,
+    this.grams = 150,
+    this.carbIndex = 0,
+  });
 
   @override
-  List<Object?> get props => [slotIndex, carbId];
+  List<Object?> get props => [slotIndex, carbId, grams, carbIndex];
 }
 
-final class SetCustomPremiumMealEvent extends MealPlannerEvent {
+final class SetPremiumLargeSaladEvent extends MealPlannerEvent {
   final int slotIndex;
   final String proteinId;
-  final String carbId;
   final String presetKey;
+  final List<String> leafyGreens;
   final List<String> vegetables;
-  final List<String> addons;
+  final List<String> cheeseNuts;
   final List<String> fruits;
-  final List<String> nuts;
   final List<String> sauce;
 
-  const SetCustomPremiumMealEvent({
+  const SetPremiumLargeSaladEvent({
     required this.slotIndex,
     required this.proteinId,
-    required this.carbId,
     required this.presetKey,
+    this.leafyGreens = const [],
     this.vegetables = const [],
-    this.addons = const [],
+    this.cheeseNuts = const [],
     this.fruits = const [],
-    this.nuts = const [],
     this.sauce = const [],
   });
 
@@ -74,12 +79,11 @@ final class SetCustomPremiumMealEvent extends MealPlannerEvent {
   List<Object?> get props => [
     slotIndex,
     proteinId,
-    carbId,
     presetKey,
+    leafyGreens,
     vegetables,
-    addons,
+    cheeseNuts,
     fruits,
-    nuts,
     sauce,
   ];
 }

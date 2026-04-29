@@ -76,7 +76,7 @@ abstract class RemoteDataSource {
     DaySelectionRequest request,
   );
   Future<SubscriptionDayResponse> getSubscriptionDay(String id, String date);
-  Future<BaseResponse> confirmDaySelection(String id, String date);
+  Future<SubscriptionDayResponse> confirmDaySelection(String id, String date);
   Future<PickupPrepareResponse> preparePickup(String id, String date);
   Future<PickupStatusResponse> getPickupStatus(String id, String date);
   Future<MealPlannerMenuResponse> getMealPlannerMenu();

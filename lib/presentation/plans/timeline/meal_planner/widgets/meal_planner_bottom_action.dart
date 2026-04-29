@@ -10,7 +10,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:gap/gap.dart';
 
 class MealPlannerBottomAction extends StatelessWidget {
   final MealPlannerLoaded state;
@@ -19,13 +18,35 @@ class MealPlannerBottomAction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pendingAmountHalala = state.totalPendingPaymentAmountHalala;
+    final hasPendingPayment = pendingAmountHalala > 0;
     final canSave =
         state.isDirty &&
         _hasCompletedSelectedDay() &&
-        !state.hasAnyPendingPayment &&
         state.isSelectedDayEditable;
-    final hasPendingPayments = state.hasAnyPendingPayment;
-    final paymentAmount = state.totalPendingPaymentAmountHalala / 100.0;
+
+    final String label;
+    final Color bgColor;
+    final bool active;
+
+    if (!state.isSelectedDayEditable) {
+      label = Strings.dayLockedAddonsMessage.tr();
+      bgColor = ColorManager.stateDisabledSurface;
+      active = false;
+    } else if (hasPendingPayment) {
+      final amount = pendingAmountHalala / 100.0;
+      label = '${Strings.payNow.tr()} ${_moneyLabel(amount)}';
+      bgColor = ColorManager.brandAccent;
+      active = true;
+    } else if (canSave) {
+      label = Strings.saveChanges.tr();
+      bgColor = ColorManager.brandPrimary;
+      active = true;
+    } else {
+      label = Strings.noChangesToSave.tr();
+      bgColor = ColorManager.stateDisabledSurface;
+      active = false;
+    }
 
     return Container(
       padding: EdgeInsets.all(AppPadding.p16.w),
@@ -41,55 +62,18 @@ class MealPlannerBottomAction extends StatelessWidget {
       ),
       child: SafeArea(
         top: false,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (hasPendingPayments) ...[
-              _ActionButton(
-                label:
-                    '${Strings.addonPayButton.tr()} ${_moneyLabel(paymentAmount)}',
-                backgroundColor: ColorManager.brandAccent,
-                foregroundColor: ColorManager.textInverse,
-                isLoading:
-                    state.isSaving &&
-                    (state.activePaymentKind == 'premium' ||
-                        state.activePaymentKind == 'addons'),
-                onPressed:
-                    () => context.read<MealPlannerBloc>().add(
-                      state.hasPendingPremiumPayment
-                          ? const InitiatePremiumPaymentEvent()
-                          : const InitiateAddonPaymentEvent(),
-                    ),
-              ),
-              Gap(AppSize.s10.h),
-            ],
-            _ActionButton(
-              label:
-                  !state.isSelectedDayEditable
-                      ? Strings.dayLockedAddonsMessage.tr()
-                      : canSave
-                      ? Strings.saveChanges.tr()
-                      : Strings.noChangesToSave.tr(),
-              backgroundColor:
-                  canSave
-                      ? ColorManager.brandPrimary
-                      : ColorManager.stateDisabledSurface,
-              foregroundColor:
-                  canSave
-                      ? ColorManager.textInverse
-                      : ColorManager.stateDisabled,
-              isLoading:
-                  state.isSaving &&
-                  state.activePaymentKind != 'premium' &&
-                  state.activePaymentKind != 'addons',
-              onPressed:
-                  canSave
-                      ? () => context.read<MealPlannerBloc>().add(
-                        const SaveMealPlannerChangesEvent(),
-                      )
-                      : null,
-            ),
-          ],
+        child: _ActionButton(
+          label: label,
+          backgroundColor: bgColor,
+          foregroundColor:
+              active ? ColorManager.textInverse : ColorManager.stateDisabled,
+          isLoading: state.isSaving,
+          onPressed:
+              active
+                  ? () => context.read<MealPlannerBloc>().add(
+                    const SaveMealPlannerChangesEvent(),
+                  )
+                  : null,
         ),
       ),
     );
@@ -103,13 +87,13 @@ class MealPlannerBottomAction extends StatelessWidget {
           if (slot.selectionType == 'sandwich') {
             return slot.sandwichId != null && slot.sandwichId!.isNotEmpty;
           }
-          if (slot.selectionType == 'custom_premium_salad') {
-            return slot.proteinId != null &&
-                slot.carbId != null &&
-                slot.customSalad != null &&
-                slot.customSalad!.sauce.isNotEmpty;
+          if (slot.selectionType == 'premium_large_salad') {
+            return slot.salad != null &&
+                slot.salad!.groups.protein.length == 1 &&
+                slot.salad!.groups.sauce.length == 1 &&
+                slot.carbs.isEmpty;
           }
-          return slot.proteinId != null && slot.carbId != null;
+          return slot.proteinId != null && slot.carbs.isNotEmpty;
         }).length;
     return completeCount >= required;
   }

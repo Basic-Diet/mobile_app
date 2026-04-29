@@ -132,7 +132,6 @@ class MealPlannerScreen extends StatelessWidget {
                       context,
                       state.paymentUrl!,
                       state.paymentId!,
-                      state.activePaymentKind ?? 'premium',
                     );
                   }
                 },
@@ -142,9 +141,6 @@ class MealPlannerScreen extends StatelessWidget {
   }
 
   String _resolveErrorMessage(String message) {
-    if (message == 'DAY_LOCKED') {
-      return Strings.dayLockedAddonsMessage.tr();
-    }
     return message;
   }
 
@@ -152,7 +148,6 @@ class MealPlannerScreen extends StatelessWidget {
     BuildContext context,
     String paymentUrl,
     String paymentId,
-    String paymentKind,
   ) async {
     final uri = Uri.tryParse(paymentUrl);
     if (uri == null || !uri.hasScheme) {
@@ -165,15 +160,6 @@ class MealPlannerScreen extends StatelessWidget {
       return;
     }
 
-    final successUrl =
-        paymentKind == 'addons'
-            ? _addonPaymentSuccessUrl
-            : _premiumPaymentSuccessUrl;
-    final backUrl =
-        paymentKind == 'addons'
-            ? _addonPaymentCancelUrl
-            : _premiumPaymentCancelUrl;
-
     final result = await Navigator.push<PaymentWebViewResult>(
       context,
       MaterialPageRoute(
@@ -181,8 +167,8 @@ class MealPlannerScreen extends StatelessWidget {
             (_) => PaymentWebViewScreen(
               paymentUrl: paymentUrl,
               draftId: paymentId,
-              successUrl: successUrl,
-              backUrl: backUrl,
+              successUrl: _premiumPaymentSuccessUrl,
+              backUrl: _premiumPaymentCancelUrl,
               onSuccess: () => Navigator.of(context).pop(),
             ),
       ),
@@ -197,11 +183,7 @@ class MealPlannerScreen extends StatelessWidget {
       return;
     }
 
-    context.read<MealPlannerBloc>().add(
-      paymentKind == 'addons'
-          ? VerifyAddonPaymentEvent(paymentId)
-          : VerifyPremiumPaymentEvent(paymentId),
-    );
+    context.read<MealPlannerBloc>().add(VerifyPremiumPaymentEvent(paymentId));
   }
 }
 
@@ -209,10 +191,6 @@ const String _premiumPaymentSuccessUrl =
     'https://app.example.com/payments/premium/success';
 const String _premiumPaymentCancelUrl =
     'https://app.example.com/payments/premium/cancel';
-const String _addonPaymentSuccessUrl =
-    'https://app.example.com/payments/one-time-addons/success';
-const String _addonPaymentCancelUrl =
-    'https://app.example.com/payments/one-time-addons/cancel';
 
 class MealPlannerView extends StatelessWidget {
   final bool readOnly;
@@ -369,21 +347,42 @@ class _MealPlannerBody extends StatelessWidget {
     bool isReadOnly,
   ) {
     final slot = _slotForIndex(state, index);
-    final proteinIdForDisplay = slot?.proteinId ?? slot?.sandwichId;
     final protein =
-        proteinIdForDisplay == null
+        slot?.proteinId == null
             ? null
-            : _findProteinById(state.menu, proteinIdForDisplay);
-    final carb =
-        slot?.carbId == null ? null : _findCarbById(state.menu, slot!.carbId!);
-    final isSandwichSelection = _isSandwichProtein(protein);
+            : _findProteinById(state.menu, slot!.proteinId!);
+    final sandwich =
+        slot?.sandwichId == null
+            ? null
+            : _findSandwichById(state.menu, slot!.sandwichId!);
+    final isSandwichSelection = slot?.selectionType == 'sandwich';
+    final isPremiumLargeSaladSelection =
+        slot?.selectionType == 'premium_large_salad';
+    final proteinLabel =
+        isSandwichSelection ? (sandwich?.name ?? '') : (protein?.name ?? '');
+    final selectedProteinId =
+        isSandwichSelection ? slot?.sandwichId : slot?.proteinId;
+    final maxCarbItems =
+        state.menu.builderCatalog.rules.maxCarbItemsPerMeal <= 0
+            ? 2
+            : state.menu.builderCatalog.rules.maxCarbItemsPerMeal > 2
+            ? 2
+            : state.menu.builderCatalog.rules.maxCarbItemsPerMeal;
+    final maxCarbTotalGrams =
+        state.menu.builderCatalog.rules.maxCarbTotalGrams > 0
+            ? state.menu.builderCatalog.rules.maxCarbTotalGrams
+            : 300;
 
     return MealSlotCard(
       slotNumber: index + 1,
-      protein: protein,
-      carb: carb,
+      proteinLabel: proteinLabel,
+      hasProteinSelection: proteinLabel.isNotEmpty,
+      carbSelections: slot?.carbs ?? const [],
+      hasCarbSelection: (slot?.carbs ?? const []).isNotEmpty,
       isProteinPremium: protein?.isPremium ?? false,
-      showCarbField: !isSandwichSelection,
+      showCarbField: !isSandwichSelection && !isPremiumLargeSaladSelection,
+      maxCarbItems: maxCarbItems,
+      maxCarbTotalGrams: maxCarbTotalGrams,
       onSelectProtein:
           isReadOnly
               ? null
@@ -391,17 +390,52 @@ class _MealPlannerBody extends StatelessWidget {
                 context: context,
                 state: state,
                 slotIndex: index,
-                selectedProteinId: proteinIdForDisplay,
+                selectedProteinId: selectedProteinId,
               ),
       carbOptions: _sortedCarbs(state.menu),
       onCarbSelected:
-          isReadOnly || protein == null || isSandwichSelection
+          isReadOnly ||
+                  (!isSandwichSelection && protein == null) ||
+                  isSandwichSelection
               ? null
-              : (carbId) => context.read<MealPlannerBloc>().add(
-                SetMealSlotCarbEvent(slotIndex: index, carbId: carbId),
+              : (carbIndex, carbId) => context.read<MealPlannerBloc>().add(
+                SetMealSlotCarbEvent(
+                  slotIndex: index,
+                  carbId: carbId,
+                  carbIndex: carbIndex,
+                ),
+              ),
+      onCarbGramsChanged:
+          isReadOnly ||
+                  (!isSandwichSelection && protein == null) ||
+                  isSandwichSelection
+              ? null
+              : (carbIndex, grams) => context.read<MealPlannerBloc>().add(
+                SetMealSlotCarbEvent(
+                  slotIndex: index,
+                  carbId:
+                      slot != null && carbIndex < slot.carbs.length
+                          ? slot.carbs[carbIndex].carbId
+                          : null,
+                  grams: grams,
+                  carbIndex: carbIndex,
+                ),
+              ),
+      onRemoveCarb:
+          isReadOnly ||
+                  (!isSandwichSelection && protein == null) ||
+                  isSandwichSelection
+              ? null
+              : (carbIndex) => context.read<MealPlannerBloc>().add(
+                SetMealSlotCarbEvent(
+                  slotIndex: index,
+                  carbId: null,
+                  carbIndex: carbIndex,
+                ),
               ),
       onClear:
-          isReadOnly || protein == null
+          isReadOnly ||
+                  (!isSandwichSelection && protein == null && sandwich == null)
               ? null
               : () => context.read<MealPlannerBloc>().add(
                 SetMealSlotProteinEvent(slotIndex: index, proteinId: null),
@@ -420,13 +454,13 @@ class _MealPlannerBody extends StatelessWidget {
       if (slot.selectionType == 'sandwich') {
         return slot.sandwichId != null && slot.sandwichId!.isNotEmpty;
       }
-      if (slot.selectionType == 'custom_premium_salad') {
-        return slot.proteinId != null &&
-            slot.carbId != null &&
-            slot.customSalad != null &&
-            slot.customSalad!.sauce.isNotEmpty;
+      if (slot.selectionType == 'premium_large_salad') {
+        return slot.salad != null &&
+            slot.salad!.groups.protein.length == 1 &&
+            slot.salad!.groups.sauce.length == 1 &&
+            slot.carbs.isEmpty;
       }
-      return slot.proteinId != null && slot.carbId != null;
+      return slot.proteinId != null && slot.carbs.isNotEmpty;
     }).length;
   }
 
@@ -483,16 +517,14 @@ class _MealPlannerBody extends StatelessWidget {
     return null;
   }
 
-  BuilderCarbModel? _findCarbById(MealPlannerMenuModel menu, String id) {
-    for (final carb in menu.builderCatalog.carbs) {
-      if (carb.id == id) return carb;
+  BuilderSandwichModel? _findSandwichById(
+    MealPlannerMenuModel menu,
+    String id,
+  ) {
+    for (final sandwich in menu.builderCatalog.sandwiches) {
+      if (sandwich.id == id) return sandwich;
     }
     return null;
-  }
-
-  bool _isSandwichProtein(BuilderProteinModel? protein) {
-    if (protein == null) return false;
-    return protein.displayCategoryKey.toLowerCase().contains('sandwich');
   }
 
   Future<void> _openProteinPickerSheet({

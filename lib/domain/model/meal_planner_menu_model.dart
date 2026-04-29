@@ -4,11 +4,13 @@ class MealPlannerMenuModel {
   final String currency;
   final BuilderCatalogModel builderCatalog;
   final List<AddOnModel> addons;
+  final Map<String, List<AddOnModel>> addonsByCategory;
 
   MealPlannerMenuModel({
     required this.currency,
     required this.builderCatalog,
     this.addons = const [],
+    this.addonsByCategory = const {},
   });
 }
 
@@ -17,19 +19,23 @@ class BuilderCatalogModel {
   final List<BuilderProteinModel> proteins;
   final List<BuilderProteinModel> premiumProteins;
   final List<BuilderCarbModel> carbs;
+  final List<BuilderSandwichModel> sandwiches;
   final BuilderRulesModel rules;
-  final CustomPremiumSaladModel? customPremiumSalad;
+  final PremiumLargeSaladModel? premiumLargeSalad;
 
   BuilderCatalogModel({
     required this.categories,
     required this.proteins,
     required this.premiumProteins,
     required this.carbs,
+    required this.sandwiches,
     required this.rules,
-    this.customPremiumSalad,
+    this.premiumLargeSalad,
   });
 
   List<BuilderProteinModel> get allProteins => [...proteins, ...premiumProteins];
+
+  List<BuilderProteinModel> get allSaladProteins => allProteins;
 }
 
 class BuilderCategoryModel {
@@ -57,6 +63,7 @@ class BuilderProteinModel {
   final String name;
   final String description;
   final String proteinFamilyKey;
+  final String premiumKey;
   final List<String> ruleTags;
   final bool isPremium;
   final int premiumCreditCost;
@@ -71,6 +78,7 @@ class BuilderProteinModel {
     required this.name,
     required this.description,
     required this.proteinFamilyKey,
+    this.premiumKey = '',
     required this.ruleTags,
     required this.isPremium,
     required this.premiumCreditCost,
@@ -98,11 +106,34 @@ class BuilderCarbModel {
   });
 }
 
+class BuilderSandwichModel {
+  final String id;
+  final String selectionType;
+  final String name;
+  final String description;
+  final int sortOrder;
+
+  BuilderSandwichModel({
+    required this.id,
+    required this.selectionType,
+    required this.name,
+    required this.description,
+    required this.sortOrder,
+  });
+}
+
 class BuilderRulesModel {
   final String version;
   final BeefRuleModel beef;
+  final int maxCarbItemsPerMeal;
+  final int maxCarbTotalGrams;
 
-  BuilderRulesModel({required this.version, required this.beef});
+  BuilderRulesModel({
+    required this.version,
+    required this.beef,
+    this.maxCarbItemsPerMeal = 2,
+    this.maxCarbTotalGrams = 300,
+  });
 }
 
 class BeefRuleModel {
@@ -112,37 +143,41 @@ class BeefRuleModel {
   BeefRuleModel({required this.proteinFamilyKey, required this.maxSlotsPerDay});
 }
 
-class CustomPremiumSaladModel {
+class PremiumLargeSaladModel {
   final String id;
-  final String carbId;
   final String selectionType;
+  final String premiumKey;
+  final String presetKey;
   final String name;
   final int extraFeeHalala;
   final String currency;
-  final CustomPremiumSaladPresetModel preset;
-  final List<CustomPremiumSaladIngredientModel> ingredients;
+  final PremiumLargeSaladPresetModel preset;
+  final List<PremiumLargeSaladIngredientModel> ingredients;
+  final List<PremiumLargeSaladGroupRuleModel> groups;
 
-  CustomPremiumSaladModel({
+  PremiumLargeSaladModel({
     required this.id,
-    required this.carbId,
     required this.selectionType,
+    required this.premiumKey,
+    required this.presetKey,
     required this.name,
     required this.extraFeeHalala,
     required this.currency,
     required this.preset,
     required this.ingredients,
+    required this.groups,
   });
 }
 
-class CustomPremiumSaladPresetModel {
+class PremiumLargeSaladPresetModel {
   final String key;
   final String name;
   final String selectionType;
   final int fixedPriceHalala;
   final String currency;
-  final List<CustomPremiumSaladGroupRuleModel> groups;
+  final List<PremiumLargeSaladGroupRuleModel> groups;
 
-  CustomPremiumSaladPresetModel({
+  PremiumLargeSaladPresetModel({
     required this.key,
     required this.name,
     required this.selectionType,
@@ -152,25 +187,25 @@ class CustomPremiumSaladPresetModel {
   });
 }
 
-class CustomPremiumSaladGroupRuleModel {
+class PremiumLargeSaladGroupRuleModel {
   final String key;
   final int minSelect;
   final int maxSelect;
 
-  CustomPremiumSaladGroupRuleModel({
+  PremiumLargeSaladGroupRuleModel({
     required this.key,
     required this.minSelect,
     required this.maxSelect,
   });
 }
 
-class CustomPremiumSaladIngredientModel {
+class PremiumLargeSaladIngredientModel {
   final String id;
   final String groupKey;
   final String name;
   final int calories;
 
-  CustomPremiumSaladIngredientModel({
+  PremiumLargeSaladIngredientModel({
     required this.id,
     required this.groupKey,
     required this.name,

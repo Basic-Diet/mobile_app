@@ -1,15 +1,32 @@
 import 'package:basic_diet/domain/model/current_subscription_overview_model.dart';
+import 'package:basic_diet/domain/model/subscription_day_model.dart';
 
 class TimelineMealSlot {
   final int slotIndex;
+  final String? slotKey;
+  final String? selectionType;
   final String? proteinId;
-  final String? carbId;
+  final List<MealSlotCarbModel> carbs;
+  final String? sandwichId;
+  final SaladSelectionModel? salad;
+  final String? premiumKey;
+  final String premiumSource;
+  final int premiumExtraFeeHalala;
 
   const TimelineMealSlot({
     required this.slotIndex,
+    this.slotKey,
+    this.selectionType,
     this.proteinId,
-    this.carbId,
+    this.carbs = const [],
+    this.sandwichId,
+    this.salad,
+    this.premiumKey,
+    this.premiumSource = 'none',
+    this.premiumExtraFeeHalala = 0,
   });
+
+  String? get primaryCarbId => carbs.isEmpty ? null : carbs.first.carbId;
 }
 
 class TimelineDayModel {
@@ -18,14 +35,19 @@ class TimelineDayModel {
   final String month;
   final int dayNumber;
   final String status;
+  final String commercialState;
   final bool canBePrepared;
   final bool fulfillmentReady;
+  final bool planningReady;
+  final String fulfillmentMode;
   final String consumptionState;
   final int selectedMeals;
   final int requiredMeals;
   final List<String> selections;
   final List<String> premiumSelections;
+  final List<String> selectedMealIds;
   final List<TimelineMealSlot> mealSlots;
+  final PaymentRequirementModel? paymentRequirement;
 
   TimelineDayModel({
     required this.date,
@@ -33,14 +55,19 @@ class TimelineDayModel {
     required this.month,
     required this.dayNumber,
     required this.status,
+    this.commercialState = '',
     required this.canBePrepared,
     required this.fulfillmentReady,
+    this.planningReady = false,
+    this.fulfillmentMode = '',
     required this.consumptionState,
     required this.selectedMeals,
     required this.requiredMeals,
     required this.selections,
     required this.premiumSelections,
+    this.selectedMealIds = const [],
     this.mealSlots = const [],
+    this.paymentRequirement,
   });
 }
 
@@ -49,7 +76,6 @@ class TimelineDataModel {
   final int dailyMealsRequired;
   final int premiumMealsRemaining;
   final List<TimelineDayModel> days;
-  // اشتراكات الإضافات المضمنة في الخطة — تُمرَّر لشاشة تخطيط الوجبات
   final List<AddonSubscriptionModel> addonSubscriptions;
 
   TimelineDataModel({

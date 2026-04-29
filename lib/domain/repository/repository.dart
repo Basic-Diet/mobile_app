@@ -89,7 +89,7 @@ abstract class Repository {
     String id,
     String date,
   );
-  Future<Either<Failure, BaseModel>> confirmDaySelection(
+  Future<Either<Failure, SubscriptionDayModel>> confirmDaySelection(
     String id,
     String date,
   );

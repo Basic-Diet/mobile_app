@@ -186,6 +186,14 @@ class Strings {
   static const String fat = 'fat';
   static const String selectProtein = 'selectProtein';
   static const String selectCarb = 'selectCarb';
+  static const String chooseCarbType = 'chooseCarbType';
+  static const String carbSelection = 'carbSelection';
+  static const String addSecondCarb = 'addSecondCarb';
+  static const String removeSecondCarb = 'removeSecondCarb';
+  static const String remainingGrams = 'remainingGrams';
+  static const String selectAtLeastOneCarb = 'selectAtLeastOneCarb';
+  static const String carbGramsRequired = 'carbGramsRequired';
+  static const String carbTotalLimitExceeded = 'carbTotalLimitExceeded';
   static const String premium = 'premium';
 
   // Days
@@ -505,7 +513,8 @@ class Strings {
   static const String openPayment = 'openPayment';
   static const String createCustomMeal = 'createCustomMeal';
   static const String customMealBuilder = 'customMealBuilder';
-  static const String customMealBuilderDescription = 'customMealBuilderDescription';
+  static const String customMealBuilderDescription =
+      'customMealBuilderDescription';
   static const String chooseIngredients = 'chooseIngredients';
   static const String chooseOneRequired = 'chooseOneRequired';
   static const String chooseAtLeast = 'chooseAtLeast';

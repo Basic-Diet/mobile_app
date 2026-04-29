@@ -564,16 +564,16 @@ class RepositoryImpl implements Repository {
   }
 
   @override
-  Future<Either<Failure, BaseModel>> confirmDaySelection(
+  Future<Either<Failure, SubscriptionDayModel>> confirmDaySelection(
     String id,
     String date,
   ) async {
     try {
       final response = await _remoteDataSource.confirmDaySelection(id, date);
-      if (_isSuccessfulResponse(response)) {
+      if (response.status == true) {
         return Right(response.toDomain());
       } else {
-        return Left(_mapFailureFromResponse(response));
+        return Left(Failure(0, 'Failed to confirm day selection'));
       }
     } catch (error) {
       return _handleError(error);

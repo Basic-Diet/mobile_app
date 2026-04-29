@@ -37,8 +37,6 @@ class AddonSelectionBottomSheet extends StatefulWidget {
 }
 
 class _AddonSelectionBottomSheetState extends State<AddonSelectionBottomSheet> {
-  static const List<String> _categoryOrder = ['juice', 'snack', 'small_salad'];
-
   late final List<String> _categories;
   late final Map<String, List<String>> _localSelections;
   late String _activeCategory;
@@ -166,14 +164,9 @@ class _AddonSelectionBottomSheetState extends State<AddonSelectionBottomSheet> {
   List<String> _resolveOrderedCategories(
     Map<String, List<AddOnModel>> groupedItems,
   ) {
-    final existing =
-        groupedItems.keys
-            .where((key) => groupedItems[key]?.isNotEmpty ?? false)
-            .toSet();
-    return [
-      ..._categoryOrder.where(existing.contains),
-      ...groupedItems.keys.where((key) => !existing.contains(key)),
-    ];
+    return groupedItems.keys
+        .where((key) => groupedItems[key]?.isNotEmpty ?? false)
+        .toList();
   }
 }
 

@@ -9,41 +9,79 @@ part of 'timeline_response.dart';
 TimelineMealSlotResponse _$TimelineMealSlotResponseFromJson(
   Map<String, dynamic> json,
 ) => TimelineMealSlotResponse(
-  (json['slotIndex'] as num?)?.toInt(),
-  json['proteinId'] as String?,
-  json['carbId'] as String?,
+  slotIndex: (json['slotIndex'] as num?)?.toInt(),
+  slotKey: json['slotKey'] as String?,
+  selectionType: json['selectionType'] as String?,
+  proteinId: json['proteinId'] as String?,
+  carbs:
+      (json['carbs'] as List<dynamic>?)
+          ?.map((e) => MealSlotCarbResponse.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
+  sandwichId: json['sandwichId'] as String?,
+  salad:
+      json['salad'] == null
+          ? null
+          : SaladResponse.fromJson(json['salad'] as Map<String, dynamic>),
+  premiumKey: json['premiumKey'] as String?,
+  premiumSource: json['premiumSource'] as String?,
+  premiumExtraFeeHalala: (json['premiumExtraFeeHalala'] as num?)?.toInt(),
 );
 
 Map<String, dynamic> _$TimelineMealSlotResponseToJson(
   TimelineMealSlotResponse instance,
 ) => <String, dynamic>{
   'slotIndex': instance.slotIndex,
+  'slotKey': instance.slotKey,
+  'selectionType': instance.selectionType,
   'proteinId': instance.proteinId,
-  'carbId': instance.carbId,
+  'carbs': instance.carbs,
+  'sandwichId': instance.sandwichId,
+  'salad': instance.salad,
+  'premiumKey': instance.premiumKey,
+  'premiumSource': instance.premiumSource,
+  'premiumExtraFeeHalala': instance.premiumExtraFeeHalala,
 };
 
-TimelineDayResponse _$TimelineDayResponseFromJson(Map<String, dynamic> json) =>
-    TimelineDayResponse(
-      json['date'] as String?,
-      json['day'] as String?,
-      json['month'] as String?,
-      (json['dayNumber'] as num?)?.toInt(),
-      json['status'] as String?,
-      json['canBePrepared'] as bool?,
-      json['fulfillmentReady'] as bool?,
-      json['consumptionState'] as String?,
-      (json['selectedMeals'] as num?)?.toInt(),
-      (json['requiredMeals'] as num?)?.toInt(),
+TimelineDayResponse _$TimelineDayResponseFromJson(
+  Map<String, dynamic> json,
+) => TimelineDayResponse(
+  date: json['date'] as String?,
+  day: json['day'] as String?,
+  month: json['month'] as String?,
+  dayNumber: (json['dayNumber'] as num?)?.toInt(),
+  status: json['status'] as String?,
+  commercialState: json['commercialState'] as String?,
+  canBePrepared: json['canBePrepared'] as bool?,
+  fulfillmentReady: json['fulfillmentReady'] as bool?,
+  planningReady: json['planningReady'] as bool?,
+  fulfillmentMode: json['fulfillmentMode'] as String?,
+  consumptionState: json['consumptionState'] as String?,
+  selectedMeals: (json['selectedMeals'] as num?)?.toInt(),
+  requiredMeals: (json['requiredMeals'] as num?)?.toInt(),
+  selections:
       (json['selections'] as List<dynamic>?)?.map((e) => e as String).toList(),
+  premiumSelections:
       (json['premiumSelections'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
+  selectedMealIds:
+      (json['selectedMealIds'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
+  mealSlots:
       (json['mealSlots'] as List<dynamic>?)
           ?.map(
             (e) => TimelineMealSlotResponse.fromJson(e as Map<String, dynamic>),
           )
           .toList(),
-    );
+  paymentRequirement:
+      json['paymentRequirement'] == null
+          ? null
+          : PaymentRequirementResponse.fromJson(
+            json['paymentRequirement'] as Map<String, dynamic>,
+          ),
+);
 
 Map<String, dynamic> _$TimelineDayResponseToJson(
   TimelineDayResponse instance,
@@ -53,14 +91,19 @@ Map<String, dynamic> _$TimelineDayResponseToJson(
   'month': instance.month,
   'dayNumber': instance.dayNumber,
   'status': instance.status,
+  'commercialState': instance.commercialState,
   'canBePrepared': instance.canBePrepared,
   'fulfillmentReady': instance.fulfillmentReady,
+  'planningReady': instance.planningReady,
+  'fulfillmentMode': instance.fulfillmentMode,
   'consumptionState': instance.consumptionState,
   'selectedMeals': instance.selectedMeals,
   'requiredMeals': instance.requiredMeals,
   'selections': instance.selections,
   'premiumSelections': instance.premiumSelections,
+  'selectedMealIds': instance.selectedMealIds,
   'mealSlots': instance.mealSlots,
+  'paymentRequirement': instance.paymentRequirement,
 };
 
 TimelineDataResponse _$TimelineDataResponseFromJson(

@@ -5,27 +5,28 @@ import 'package:basic_diet/domain/model/meal_planner_menu_model.dart';
 import 'package:basic_diet/domain/model/subscription_day_model.dart';
 import 'package:basic_diet/domain/model/timeline_model.dart';
 import 'package:basic_diet/domain/usecase/confirm_day_selection_usecase.dart';
-import 'package:basic_diet/domain/usecase/create_one_time_addon_payment_usecase.dart';
 import 'package:basic_diet/domain/usecase/create_premium_payment_usecase.dart';
 import 'package:basic_diet/domain/usecase/get_meal_planner_menu_usecase.dart';
 import 'package:basic_diet/domain/usecase/get_subscription_day_usecase.dart';
 import 'package:basic_diet/domain/usecase/save_day_selection_usecase.dart';
-import 'package:basic_diet/domain/usecase/verify_one_time_addon_payment_usecase.dart';
+import 'package:basic_diet/domain/usecase/validate_day_selection_usecase.dart';
 import 'package:basic_diet/domain/usecase/verify_premium_payment_usecase.dart';
-import 'package:flutter/foundation.dart';
+import 'package:basic_diet/presentation/resources/strings_manager.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'meal_planner_event.dart';
 import 'meal_planner_state.dart';
 
 class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
+  static const int _carbGramStep = 50;
+
   final GetMealPlannerMenuUseCase _getMealPlannerMenuUseCase;
   final GetSubscriptionDayUseCase _getSubscriptionDayUseCase;
+  final ValidateDaySelectionUseCase _validateDaySelectionUseCase;
   final SaveDaySelectionUseCase _saveDaySelectionUseCase;
   final CreatePremiumPaymentUseCase _createPremiumPaymentUseCase;
   final VerifyPremiumPaymentUseCase _verifyPremiumPaymentUseCase;
-  final CreateOneTimeAddonPaymentUseCase _createOneTimeAddonPaymentUseCase;
-  final VerifyOneTimeAddonPaymentUseCase _verifyOneTimeAddonPaymentUseCase;
   final ConfirmDaySelectionUseCase _confirmDaySelectionUseCase;
   final List<TimelineDayModel> initialTimelineDays;
   final List<AddonSubscriptionModel> addonEntitlements;
@@ -37,11 +38,10 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
   MealPlannerBloc(
     this._getMealPlannerMenuUseCase,
     this._getSubscriptionDayUseCase,
+    this._validateDaySelectionUseCase,
     this._saveDaySelectionUseCase,
     this._createPremiumPaymentUseCase,
     this._verifyPremiumPaymentUseCase,
-    this._createOneTimeAddonPaymentUseCase,
-    this._verifyOneTimeAddonPaymentUseCase,
     this._confirmDaySelectionUseCase, {
     required this.initialTimelineDays,
     required this.addonEntitlements,
@@ -50,24 +50,18 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
     required this.premiumMealsRemaining,
     required this.subscriptionId,
   }) : super(MealPlannerInitial()) {
-    debugPrint(
-      '[MealPlannerBloc] init — premiumSummaries: ${premiumSummaries.map((s) => '{id:${s.premiumMealId},name:${s.name},remaining:${s.remainingQtyTotal}}').toList()}',
-    );
     on<GetMealPlannerDataEvent>(_onGetData);
     on<ChangeDateEvent>(_onChangeDate);
     on<RetrySelectedDayLoadEvent>(_onRetrySelectedDayLoad);
     on<SetMealSlotProteinEvent>(_onSetProtein);
     on<SetMealSlotCarbEvent>(_onSetCarb);
-    on<SetCustomPremiumMealEvent>(_onSetCustomPremiumMeal);
+    on<SetPremiumLargeSaladEvent>(_onSetPremiumLargeSalad);
     on<ToggleAddOnSelectionEvent>(_onToggleAddonSelection);
     on<SelectAddonForCategoryEvent>(_onSelectAddonForCategory);
     on<DismissPendingAddonPromptEvent>(_onDismissPendingAddonPrompt);
     on<SaveMealPlannerChangesEvent>(_onSave);
     on<HideBannerEvent>(_onHideBanner);
-    on<InitiatePremiumPaymentEvent>(_onInitiatePremiumPayment);
     on<VerifyPremiumPaymentEvent>(_onVerifyPremiumPayment);
-    on<InitiateAddonPaymentEvent>(_onInitiateAddonPayment);
-    on<VerifyAddonPaymentEvent>(_onVerifyAddonPayment);
   }
 
   Future<void> _onGetData(
@@ -77,16 +71,13 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
     emit(MealPlannerLoading());
 
     final menuResult = await _getMealPlannerMenuUseCase.execute(null);
-
     final menuFailure = menuResult.fold((failure) => failure, (_) => null);
     if (menuFailure != null) {
-      emit(MealPlannerError("${menuFailure.code}: ${menuFailure.message}"));
+      emit(MealPlannerError(_formatFailure(menuFailure)));
       return;
     }
 
     final menu = menuResult.getOrElse(() => throw Exception());
-    final addOnsCatalog = menu.addons;
-
     final slotsByDay = <int, List<MealPlannerSlotSelection>>{};
     final savedSlotsByDay = <int, List<MealPlannerSlotSelection>>{};
     final selectedAddOnIdsByDay = <int, List<String>>{};
@@ -103,8 +94,9 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
     final initialState = MealPlannerLoaded(
       timelineDays: initialTimelineDays,
       menu: menu,
-      addOnsCatalog: addOnsCatalog,
+      addOnsCatalog: menu.addons,
       addonEntitlements: addonEntitlements,
+      premiumSummaries: premiumSummaries,
       selectedDayIndex: initialDayIndex,
       selectedSlotsPerDay: slotsByDay,
       savedSlotsPerDay: savedSlotsByDay,
@@ -112,11 +104,10 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
       savedAddOnIdsByDay: savedAddOnIdsByDay,
       dayDetailsByIndex: const {},
       premiumMealsRemaining: premiumMealsRemaining,
-      premiumSummaries: premiumSummaries,
     );
 
     emit(initialState.copyWith(isRefreshingDay: true));
-    await _loadDayDetails(emit, initialState, initialDayIndex);
+    await _loadDayDetails(emit, initialState, initialDayIndex, force: true);
   }
 
   Future<void> _onChangeDate(
@@ -127,22 +118,12 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
     final current = state as MealPlannerLoaded;
     final next = current.copyWith(
       selectedDayIndex: event.index,
-      isRefreshingDay: !current.dayDetailsByIndex.containsKey(event.index),
+      isRefreshingDay: true,
       clearPaymentError: true,
       clearPendingAddonPrompt: true,
     );
     emit(next);
-
-    if (!next.dayDetailsByIndex.containsKey(event.index)) {
-      await _loadDayDetails(emit, next, event.index);
-      return;
-    }
-
-    emit(
-      next.copyWith(
-        premiumMealsPendingPayment: _currentPremiumPendingCount(next),
-      ),
-    );
+    await _loadDayDetails(emit, next, event.index, force: true);
   }
 
   Future<void> _onRetrySelectedDayLoad(
@@ -162,104 +143,121 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
     if (state is! MealPlannerLoaded) return;
     final current = state as MealPlannerLoaded;
     if (!current.isSelectedDayEditable) {
-      emit(
-        current.copyWith(
-          paymentError: 'DAY_LOCKED',
-          clearPendingAddonPrompt: true,
-        ),
-      );
+      emit(current.copyWith(paymentError: _dayNotEditableReason(current)));
       return;
     }
 
-    final dayIndex = current.selectedDayIndex;
-    final slots = List<MealPlannerSlotSelection>.from(
-      current.selectedSlotsPerDay[dayIndex] ?? const [],
-    );
+    final slots = _currentSlots(current);
     if (event.slotIndex < 0 || event.slotIndex >= slots.length) return;
 
     final previous = slots[event.slotIndex];
-    if (previous.proteinId == event.proteinId) return;
-
     final selectedProtein =
-        event.proteinId == null ? null : _findProteinById(current.menu, event.proteinId!);
-    final isSandwichSelection = _isSandwichProtein(selectedProtein);
+        event.proteinId == null
+            ? null
+            : _findProteinById(current.menu, event.proteinId!);
+    final selectedSandwich =
+        event.proteinId == null
+            ? null
+            : _findSandwichById(current.menu, event.proteinId!);
 
-    slots[event.slotIndex] = previous.copyWith(
-      selectionType:
-          event.proteinId == null
-              ? 'standard_combo'
-              : isSandwichSelection
-              ? 'sandwich'
-              : 'standard_combo',
-      proteinId: isSandwichSelection ? null : event.proteinId,
-      carbId:
-          event.proteinId == null || isSandwichSelection
-              ? null
-              : previous.carbId,
-      sandwichId: isSandwichSelection ? event.proteinId : null,
-      clearProteinId: event.proteinId == null || isSandwichSelection,
-      clearCarbId: event.proteinId == null || isSandwichSelection,
-      clearSandwichId: !isSandwichSelection,
-      clearCustomSalad: true,
-    );
-
-    final updatedSlotsByDay = Map<int, List<MealPlannerSlotSelection>>.from(
-      current.selectedSlotsPerDay,
-    )..[dayIndex] = slots;
-
-    String proteinName = '';
-    if (event.proteinId != null) {
-      proteinName =
-          _findProteinById(current.menu, event.proteinId!)?.name ?? '';
+    MealPlannerSlotSelection updated;
+    if (event.proteinId == null) {
+      updated = previous.copyWith(
+        selectionType: 'standard_meal',
+        clearProteinId: true,
+        clearCarbs: true,
+        clearSandwichId: true,
+        clearSalad: true,
+      );
+    } else if (selectedSandwich != null) {
+      updated = previous.copyWith(
+        selectionType: 'sandwich',
+        sandwichId: selectedSandwich.id,
+        clearProteinId: true,
+        clearCarbs: true,
+        clearSalad: true,
+      );
+    } else {
+      updated = previous.copyWith(
+        selectionType:
+            selectedProtein?.isPremium == true
+                ? 'premium_meal'
+                : 'standard_meal',
+        proteinId: event.proteinId,
+        clearSandwichId: true,
+        clearSalad: true,
+      );
     }
 
-    final pendingCount = _calculatePendingPaymentCount(
-      current,
-      selectedSlotsPerDay: updatedSlotsByDay,
+    slots[event.slotIndex] = updated;
+    emit(
+      current.copyWith(
+        selectedSlotsPerDay: _updatedSelectedSlots(current, slots),
+        showSavedBanner: event.proteinId != null,
+        lastAddedMealName:
+            selectedProtein?.name ??
+            selectedSandwich?.name ??
+            current.lastAddedMealName,
+        premiumMealsPendingPayment: _calculatePendingPaymentCount(
+          current,
+          selectedSlotsPerDay: _updatedSelectedSlots(current, slots),
+        ),
+        clearPaymentError: true,
+      ),
     );
-    debugPrint(
-      '[MealPlannerBloc] _onSetProtein — slot:${event.slotIndex}, proteinId:${event.proteinId}, pendingCount:$pendingCount, premiumMealsRemaining:$premiumMealsRemaining',
-    );
-
-    final next = current.copyWith(
-      selectedSlotsPerDay: updatedSlotsByDay,
-      showSavedBanner: event.proteinId != null,
-      lastAddedMealName:
-          proteinName.isNotEmpty ? proteinName : current.lastAddedMealName,
-      premiumMealsPendingPayment: pendingCount,
-      clearPaymentError: true,
-    );
-    emit(next);
   }
 
   void _onSetCarb(SetMealSlotCarbEvent event, Emitter<MealPlannerState> emit) {
     if (state is! MealPlannerLoaded) return;
     final current = state as MealPlannerLoaded;
     if (!current.isSelectedDayEditable) {
-      emit(current.copyWith(paymentError: 'DAY_LOCKED'));
+      emit(current.copyWith(paymentError: _dayNotEditableReason(current)));
       return;
     }
 
-    final dayIndex = current.selectedDayIndex;
-    final slots = List<MealPlannerSlotSelection>.from(
-      current.selectedSlotsPerDay[dayIndex] ?? const [],
-    );
+    final slots = _currentSlots(current);
     if (event.slotIndex < 0 || event.slotIndex >= slots.length) return;
-
     final previous = slots[event.slotIndex];
-    if (previous.carbId == event.carbId) return;
+    final rules = current.menu.builderCatalog.rules;
+    final maxItems = _maxCarbItems(rules);
+    final carbs = List<MealPlannerSlotCarbSelection>.from(previous.carbs);
+    final carbIndex = event.carbIndex.clamp(0, maxItems - 1).toInt();
+    if (event.carbId == null) {
+      if (carbIndex < carbs.length) {
+        carbs.removeAt(carbIndex);
+      }
+    } else {
+      final duplicateIndex = carbs.indexWhere(
+        (carb) => carb.carbId == event.carbId,
+      );
+      final targetIndex = carbIndex > carbs.length ? carbs.length : carbIndex;
+      if (duplicateIndex != -1 && duplicateIndex != targetIndex) {
+        emit(current.copyWith(clearPaymentError: true));
+        return;
+      }
+      final updatedSelection = MealPlannerSlotCarbSelection(
+        carbId: event.carbId!,
+        grams: event.grams,
+      );
+      if (targetIndex < carbs.length) {
+        carbs[targetIndex] = updatedSelection;
+      } else {
+        carbs.add(updatedSelection);
+      }
+    }
+    final normalizedCarbs = _normalizeCarbSelections(carbs, rules);
 
-    slots[event.slotIndex] = previous.copyWith(carbId: event.carbId);
-    slots[event.slotIndex] = slots[event.slotIndex].copyWith(
-      selectionType: 'standard_combo',
+    slots[event.slotIndex] = previous.copyWith(
+      carbs: normalizedCarbs,
+      selectionType: _resolvePlateSelectionType(
+        current.menu,
+        previous.proteinId,
+      ),
       clearSandwichId: true,
-      clearCustomSalad: true,
+      clearSalad: true,
     );
 
-    final updatedSlotsByDay = Map<int, List<MealPlannerSlotSelection>>.from(
-      current.selectedSlotsPerDay,
-    )..[dayIndex] = slots;
-
+    final updatedSlotsByDay = _updatedSelectedSlots(current, slots);
     emit(
       current.copyWith(
         selectedSlotsPerDay: updatedSlotsByDay,
@@ -272,51 +270,48 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
     );
   }
 
-  void _onSetCustomPremiumMeal(
-    SetCustomPremiumMealEvent event,
+  void _onSetPremiumLargeSalad(
+    SetPremiumLargeSaladEvent event,
     Emitter<MealPlannerState> emit,
   ) {
     if (state is! MealPlannerLoaded) return;
     final current = state as MealPlannerLoaded;
     if (!current.isSelectedDayEditable) {
-      emit(current.copyWith(paymentError: 'DAY_LOCKED'));
+      emit(current.copyWith(paymentError: _dayNotEditableReason(current)));
       return;
     }
 
-    final dayIndex = current.selectedDayIndex;
-    final slots = List<MealPlannerSlotSelection>.from(
-      current.selectedSlotsPerDay[dayIndex] ?? const [],
-    );
+    final slots = _currentSlots(current);
     if (event.slotIndex < 0 || event.slotIndex >= slots.length) return;
 
     slots[event.slotIndex] = slots[event.slotIndex].copyWith(
-      selectionType: 'custom_premium_salad',
+      selectionType: 'premium_large_salad',
       proteinId: event.proteinId,
-      carbId: event.carbId,
-      customSalad: CustomSaladSelection(
+      carbs: const [],
+      salad: PremiumLargeSaladSelection(
         presetKey: event.presetKey,
-        vegetables: event.vegetables,
-        addons: event.addons,
-        fruits: event.fruits,
-        nuts: event.nuts,
-        sauce: event.sauce,
+        groups: MealPlannerSaladGroupsSelection(
+          leafyGreens: event.leafyGreens,
+          vegetables: event.vegetables,
+          protein: [event.proteinId],
+          cheeseNuts: event.cheeseNuts,
+          fruits: event.fruits,
+          sauce: event.sauce,
+        ),
       ),
       clearSandwichId: true,
     );
 
-    final updatedSlotsByDay = Map<int, List<MealPlannerSlotSelection>>.from(
-      current.selectedSlotsPerDay,
-    )..[dayIndex] = slots;
-
+    final updatedSlotsByDay = _updatedSelectedSlots(current, slots);
     emit(
       current.copyWith(
         selectedSlotsPerDay: updatedSlotsByDay,
         showSavedBanner: true,
-        clearPaymentError: true,
         premiumMealsPendingPayment: _calculatePendingPaymentCount(
           current,
           selectedSlotsPerDay: updatedSlotsByDay,
         ),
+        clearPaymentError: true,
       ),
     );
   }
@@ -328,7 +323,7 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
     if (state is! MealPlannerLoaded) return;
     final current = state as MealPlannerLoaded;
     if (!current.isSelectedDayEditable) {
-      emit(current.copyWith(paymentError: 'DAY_LOCKED'));
+      emit(current.copyWith(paymentError: _dayNotEditableReason(current)));
       return;
     }
 
@@ -339,13 +334,11 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
       currentIds.add(event.addOn.id);
     }
 
-    final updatedSelections = Map<int, List<String>>.from(
-      current.selectedAddOnIdsByDay,
-    )..[current.selectedDayIndex] = currentIds;
-
     emit(
       current.copyWith(
-        selectedAddOnIdsByDay: updatedSelections,
+        selectedAddOnIdsByDay: Map<int, List<String>>.from(
+          current.selectedAddOnIdsByDay,
+        )..[current.selectedDayIndex] = currentIds,
         clearPendingAddonPrompt: true,
         clearPaymentError: true,
       ),
@@ -359,7 +352,7 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
     if (state is! MealPlannerLoaded) return;
     final current = state as MealPlannerLoaded;
     if (!current.isSelectedDayEditable) {
-      emit(current.copyWith(paymentError: 'DAY_LOCKED'));
+      emit(current.copyWith(paymentError: _dayNotEditableReason(current)));
       return;
     }
 
@@ -368,21 +361,16 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
             .where((a) => a.category == event.category)
             .map((a) => a.id)
             .toSet();
-
-    final currentIds = List<String>.from(current.selectedAddOnIds)
-      ..removeWhere((id) => categoryAddonIds.contains(id));
-
-    currentIds.addAll(
-      event.addonIds.where((id) => categoryAddonIds.contains(id)),
-    );
-
-    final updatedSelections = Map<int, List<String>>.from(
-      current.selectedAddOnIdsByDay,
-    )..[current.selectedDayIndex] = currentIds;
+    final currentIds =
+        List<String>.from(current.selectedAddOnIds)
+          ..removeWhere((id) => categoryAddonIds.contains(id))
+          ..addAll(event.addonIds.where((id) => categoryAddonIds.contains(id)));
 
     emit(
       current.copyWith(
-        selectedAddOnIdsByDay: updatedSelections,
+        selectedAddOnIdsByDay: Map<int, List<String>>.from(
+          current.selectedAddOnIdsByDay,
+        )..[current.selectedDayIndex] = currentIds,
         clearPendingAddonPrompt: true,
         clearPaymentError: true,
       ),
@@ -402,22 +390,12 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
     Emitter<MealPlannerState> emit,
   ) async {
     if (state is! MealPlannerLoaded) return;
-    final current = state as MealPlannerLoaded;
-    await _saveAndMaybeContinue(emit, current);
+    await _saveAndMaybeContinue(emit, state as MealPlannerLoaded);
   }
 
   void _onHideBanner(HideBannerEvent event, Emitter<MealPlannerState> emit) {
     if (state is! MealPlannerLoaded) return;
     emit((state as MealPlannerLoaded).copyWith(showSavedBanner: false));
-  }
-
-  Future<void> _onInitiatePremiumPayment(
-    InitiatePremiumPaymentEvent event,
-    Emitter<MealPlannerState> emit,
-  ) async {
-    if (state is! MealPlannerLoaded) return;
-    final current = state as MealPlannerLoaded;
-    await _saveAndMaybeContinue(emit, current, paymentKind: 'premium');
   }
 
   Future<void> _onVerifyPremiumPayment(
@@ -427,22 +405,6 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
     await _verifyPayment(emit, event.paymentId, kind: 'premium');
   }
 
-  Future<void> _onInitiateAddonPayment(
-    InitiateAddonPaymentEvent event,
-    Emitter<MealPlannerState> emit,
-  ) async {
-    if (state is! MealPlannerLoaded) return;
-    final current = state as MealPlannerLoaded;
-    await _saveAndMaybeContinue(emit, current, paymentKind: 'addons');
-  }
-
-  Future<void> _onVerifyAddonPayment(
-    VerifyAddonPaymentEvent event,
-    Emitter<MealPlannerState> emit,
-  ) async {
-    await _verifyPayment(emit, event.paymentId, kind: 'addons');
-  }
-
   Future<void> _loadDayDetails(
     Emitter<MealPlannerState> emit,
     MealPlannerLoaded baseState,
@@ -450,12 +412,7 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
     bool force = false,
   }) async {
     if (!force && baseState.dayDetailsByIndex.containsKey(dayIndex)) {
-      emit(
-        baseState.copyWith(
-          isRefreshingDay: false,
-          premiumMealsPendingPayment: _currentPremiumPendingCount(baseState),
-        ),
-      );
+      emit(baseState.copyWith(isRefreshingDay: false));
       return;
     }
 
@@ -470,64 +427,20 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
           emit(
             baseState.copyWith(
               isRefreshingDay: false,
-              paymentError: "${failure.code}: ${failure.message}",
+              paymentError: _formatFailure(failure),
             ),
           );
         }
       },
       (dayDetail) {
         if (emit.isDone) return;
-
-        final dayDetailsByIndex = Map<int, SubscriptionDayModel>.from(
-          baseState.dayDetailsByIndex,
-        )..[dayIndex] = dayDetail;
-
-        final selectedSlotsPerDay =
-            Map<int, List<MealPlannerSlotSelection>>.from(
-                baseState.selectedSlotsPerDay,
-              )
-              ..[dayIndex] = _buildSlotsFromSubscriptionDay(
-                dayDetail,
-                day.requiredMeals,
-              );
-
-        final savedSlotsPerDay = Map<int, List<MealPlannerSlotSelection>>.from(
-            baseState.savedSlotsPerDay,
-          )
-          ..[dayIndex] = List<MealPlannerSlotSelection>.from(
-            selectedSlotsPerDay[dayIndex] ?? const [],
-          );
-
-        final addonIds =
-            dayDetail.addonSelections
-                .map((selection) => selection.addonId)
-                .where((id) => id.isNotEmpty)
-                .toList();
-
-        final selectedAddOnIdsByDay = Map<int, List<String>>.from(
-          baseState.selectedAddOnIdsByDay,
-        )..[dayIndex] = addonIds;
-
-        final savedAddOnIdsByDay = Map<int, List<String>>.from(
-          baseState.savedAddOnIdsByDay,
-        )..[dayIndex] = List<String>.from(addonIds);
-
-        final next = baseState.copyWith(
+        final next = _applyUpdatedDay(
+          baseState,
+          dayDetail,
+          dayIndex: dayIndex,
+        ).copyWith(
           selectedDayIndex: dayIndex,
-          dayDetailsByIndex: dayDetailsByIndex,
-          selectedSlotsPerDay: selectedSlotsPerDay,
-          savedSlotsPerDay: savedSlotsPerDay,
-          selectedAddOnIdsByDay: selectedAddOnIdsByDay,
-          savedAddOnIdsByDay: savedAddOnIdsByDay,
           isRefreshingDay: false,
-          premiumMealsPendingPayment:
-              dayDetail.paymentRequirement?.premiumPendingPaymentCount ??
-              _calculatePendingPaymentCount(
-                baseState.copyWith(
-                  selectedSlotsPerDay: selectedSlotsPerDay,
-                  dayDetailsByIndex: dayDetailsByIndex,
-                ),
-              ),
           clearPaymentError: true,
         );
         emit(next);
@@ -537,27 +450,21 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
 
   Future<void> _saveAndMaybeContinue(
     Emitter<MealPlannerState> emit,
-    MealPlannerLoaded current, {
-    String? paymentKind,
-  }) async {
+    MealPlannerLoaded current,
+  ) async {
     if (!current.isSelectedDayEditable) {
-      emit(current.copyWith(paymentError: 'DAY_LOCKED'));
+      emit(current.copyWith(paymentError: _dayNotEditableReason(current)));
       return;
     }
 
+    final carbValidationMessage = _validateCurrentCarbSelections(current);
+    if (carbValidationMessage != null) {
+      emit(current.copyWith(paymentError: carbValidationMessage));
+      return;
+    }
+
+    final request = _buildRequest(current);
     final currentDay = current.selectedTimelineDay;
-    final slots = current.selectedSlotsPerDay[current.selectedDayIndex] ?? [];
-    final completeSlots = slots.where(_isCompleteSlot).toList();
-
-    if (completeSlots.length < currentDay.requiredMeals) {
-      emit(
-        current.copyWith(
-          paymentError:
-              "Please complete all required meals (${completeSlots.length}/${currentDay.requiredMeals})",
-        ),
-      );
-      return;
-    }
 
     emit(
       current.copyWith(
@@ -568,32 +475,36 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
       ),
     );
 
-    final request = DaySelectionRequest(
-      completeSlots
-          .map(
-            (slot) => MealSlotRequest(
-              slotIndex: slot.slotIndex,
-              slotKey: slot.slotKey,
-              selectionType: slot.selectionType,
-              proteinId: slot.proteinId,
-              carbId: slot.carbId,
-              sandwichId: slot.sandwichId,
-              customSalad:
-                  slot.customSalad == null
-                      ? null
-                      : CustomSaladRequest(
-                        presetKey: slot.customSalad!.presetKey,
-                        vegetables: slot.customSalad!.vegetables,
-                        addons: slot.customSalad!.addons,
-                        fruits: slot.customSalad!.fruits,
-                        nuts: slot.customSalad!.nuts,
-                        sauce: slot.customSalad!.sauce,
-                      ),
-            ),
-          )
-          .toList(),
-      addonsOneTime: current.selectedAddOnIds,
+    final validation = await _validateDaySelectionUseCase.execute(
+      ValidateDaySelectionUseCaseInput(
+        subscriptionId,
+        currentDay.date,
+        request,
+      ),
     );
+    final validationFailure = validation.fold(
+      (failure) => failure,
+      (_) => null,
+    );
+    if (validationFailure != null) {
+      emit(
+        current.copyWith(
+          isSaving: false,
+          paymentError: _formatFailure(validationFailure),
+        ),
+      );
+      return;
+    }
+
+    final validationResult = validation.getOrElse(() => throw Exception());
+    if (!validationResult.valid) {
+      final firstError =
+          validationResult.slotErrors?.isNotEmpty == true
+              ? validationResult.slotErrors!.first.message
+              : 'Validation failed';
+      emit(current.copyWith(isSaving: false, paymentError: firstError));
+      return;
+    }
 
     final result = await _saveDaySelectionUseCase.execute(
       SaveDaySelectionUseCaseInput(subscriptionId, currentDay.date, request),
@@ -605,7 +516,7 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
           emit(
             current.copyWith(
               isSaving: false,
-              paymentError: "${failure.code}: ${failure.message}",
+              paymentError: _formatFailure(failure),
             ),
           );
         }
@@ -614,40 +525,63 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
         if (emit.isDone) return;
 
         final updatedState = _applyUpdatedDay(current, updatedDay);
+        final requiresPayment =
+            updatedDay.paymentRequirement?.requiresPayment ?? false;
 
-        if (paymentKind == 'premium') {
+        if (!requiresPayment) {
+          await _confirmAndFinalize(emit, updatedState, currentDay.date);
+          return;
+        }
+
+        // Always use the premium payment endpoint — it covers all pending
+        // amounts (premium meals + addons) in a single payment session.
+        if (updatedDay.paymentRequirement?.canCreatePayment == true) {
           await _createPremiumPayment(emit, updatedState);
           return;
         }
 
-        if (paymentKind == 'addons') {
-          await _createAddonPayment(emit, updatedState);
-          return;
-        }
+        emit(updatedState.copyWith(isSaving: false, saveSuccess: false));
+      },
+    );
+  }
 
-        final requiresPayment =
-            updatedDay.paymentRequirement?.requiresPayment ?? false;
-        if (requiresPayment) {
-          emit(updatedState.copyWith(isSaving: false, saveSuccess: false));
-          return;
-        }
+  Future<void> _confirmAndFinalize(
+    Emitter<MealPlannerState> emit,
+    MealPlannerLoaded current,
+    String date,
+  ) async {
+    final confirmResult = await _confirmDaySelectionUseCase.execute(
+      ConfirmDaySelectionUseCaseInput(subscriptionId, date),
+    );
 
-        final confirmError = await _confirmSelection(date: currentDay.date);
-        if (confirmError != null) {
+    await confirmResult.fold(
+      (failure) async {
+        if (!emit.isDone) {
           emit(
-            updatedState.copyWith(
+            current.copyWith(
               isSaving: false,
-              paymentError: "${confirmError.code}: ${confirmError.message}",
+              paymentError: _formatFailure(failure),
             ),
           );
-          return;
         }
-
+      },
+      (confirmedDay) async {
+        if (emit.isDone) return;
+        var finalDay = confirmedDay;
+        final refreshed = await _getSubscriptionDayUseCase.execute(
+          GetSubscriptionDayUseCaseInput(subscriptionId, date),
+        );
+        refreshed.fold((failure) => null, (day) {
+          finalDay = day;
+          return null;
+        });
+        if (emit.isDone) return;
         emit(
-          updatedState.copyWith(
+          _applyUpdatedDay(current, finalDay).copyWith(
             isSaving: false,
             saveSuccess: true,
             premiumMealsPendingPayment: 0,
+            clearPaymentError: true,
           ),
         );
       },
@@ -658,22 +592,6 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
     Emitter<MealPlannerState> emit,
     MealPlannerLoaded stateAfterSave,
   ) async {
-    final premiumPending =
-        stateAfterSave
-            .selectedDayDetail
-            ?.paymentRequirement
-            ?.premiumPendingPaymentCount ??
-        stateAfterSave.premiumMealsPendingPayment;
-    if (premiumPending <= 0) {
-      emit(
-        stateAfterSave.copyWith(
-          isSaving: false,
-          paymentError: 'No pending premium payment found',
-        ),
-      );
-      return;
-    }
-
     final day = stateAfterSave.selectedTimelineDay;
     final paymentResult = await _createPremiumPaymentUseCase.execute(
       CreatePremiumPaymentUseCaseInput(subscriptionId, day.date),
@@ -685,7 +603,7 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
           emit(
             stateAfterSave.copyWith(
               isSaving: false,
-              paymentError: "${failure.code}: ${failure.message}",
+              paymentError: _formatFailure(failure),
             ),
           );
         }
@@ -705,57 +623,6 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
     );
   }
 
-  Future<void> _createAddonPayment(
-    Emitter<MealPlannerState> emit,
-    MealPlannerLoaded stateAfterSave,
-  ) async {
-    final addonPending =
-        stateAfterSave
-            .selectedDayDetail
-            ?.paymentRequirement
-            ?.addonPendingPaymentCount ??
-        stateAfterSave.addonPendingPaymentCount;
-    if (addonPending <= 0) {
-      emit(
-        stateAfterSave.copyWith(
-          isSaving: false,
-          paymentError: 'No pending add-on payment found',
-        ),
-      );
-      return;
-    }
-
-    final day = stateAfterSave.selectedTimelineDay;
-    final paymentResult = await _createOneTimeAddonPaymentUseCase.execute(
-      CreateOneTimeAddonPaymentUseCaseInput(subscriptionId, day.date),
-    );
-
-    paymentResult.fold(
-      (failure) {
-        if (!emit.isDone) {
-          emit(
-            stateAfterSave.copyWith(
-              isSaving: false,
-              paymentError: "${failure.code}: ${failure.message}",
-            ),
-          );
-        }
-      },
-      (paymentModel) {
-        if (!emit.isDone) {
-          emit(
-            stateAfterSave.copyWith(
-              isSaving: false,
-              paymentUrl: paymentModel.paymentUrl,
-              paymentId: paymentModel.paymentId,
-              activePaymentKind: 'addons',
-            ),
-          );
-        }
-      },
-    );
-  }
-
   Future<void> _verifyPayment(
     Emitter<MealPlannerState> emit,
     String paymentId, {
@@ -763,6 +630,7 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
   }) async {
     if (state is! MealPlannerLoaded) return;
     final current = state as MealPlannerLoaded;
+    final day = current.selectedTimelineDay;
 
     emit(
       current.copyWith(
@@ -772,31 +640,20 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
       ),
     );
 
-    final day = current.selectedTimelineDay;
-    final result =
-        kind == 'premium'
-            ? await _verifyPremiumPaymentUseCase.execute(
-              VerifyPremiumPaymentUseCaseInput(
-                subscriptionId,
-                day.date,
-                paymentId,
-              ),
-            )
-            : await _verifyOneTimeAddonPaymentUseCase.execute(
-              VerifyOneTimeAddonPaymentUseCaseInput(
-                subscriptionId,
-                day.date,
-                paymentId,
-              ),
-            );
+    final result = await _verifyPremiumPaymentUseCase.execute(
+      VerifyPremiumPaymentUseCaseInput(
+        subscriptionId,
+        day.date,
+        paymentId,
+      ),
+    );
 
     final verificationFailure = result.fold((failure) => failure, (_) => null);
     if (verificationFailure != null) {
       emit(
         current.copyWith(
           isSaving: false,
-          paymentError:
-              "${verificationFailure.code}: ${verificationFailure.message}",
+          paymentError: _formatFailure(verificationFailure),
           clearPaymentUrl: true,
           clearPaymentId: true,
         ),
@@ -817,6 +674,7 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
       return;
     }
 
+    // Payment confirmed — refresh day then confirm.
     final refreshed = await _getSubscriptionDayUseCase.execute(
       GetSubscriptionDayUseCaseInput(subscriptionId, day.date),
     );
@@ -826,7 +684,7 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
         emit(
           current.copyWith(
             isSaving: false,
-            paymentError: "${failure.code}: ${failure.message}",
+            paymentError: _formatFailure(failure),
             clearPaymentUrl: true,
             clearPaymentId: true,
           ),
@@ -839,57 +697,20 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
           clearPaymentId: true,
           activePaymentKind: kind,
         );
-
-        final stillRequiresPayment =
-            updatedDay.paymentRequirement?.requiresPayment ?? false;
-        final paymentFinalized =
-            verificationModel.paymentStatus == 'paid' &&
-            verificationModel.applied &&
-            verificationModel.isFinal;
-
-        if (kind == 'premium' && updatedState.hasPendingAddonPayment) {
-          await _createAddonPayment(emit, updatedState);
-          return;
-        }
-
-        if (kind == 'addons' && updatedState.hasPendingPremiumPayment) {
-          await _createPremiumPayment(emit, updatedState);
-          return;
-        }
-
-        if (stillRequiresPayment && !paymentFinalized) {
-          emit(updatedState);
-          return;
-        }
-
-        final confirmError = await _confirmSelection(date: day.date);
-        if (confirmError != null) {
-          emit(
-            updatedState.copyWith(
-              paymentError: "${confirmError.code}: ${confirmError.message}",
-            ),
-          );
-          return;
-        }
-
-        emit(
-          updatedState.copyWith(
-            saveSuccess: true,
-            premiumMealsPendingPayment: 0,
-          ),
-        );
+        await _confirmAndFinalize(emit, updatedState, day.date);
       },
     );
   }
 
   MealPlannerLoaded _applyUpdatedDay(
     MealPlannerLoaded state,
-    SubscriptionDayModel updatedDay,
-  ) {
-    final dayIndex = state.selectedDayIndex;
+    SubscriptionDayModel updatedDay, {
+    int? dayIndex,
+  }) {
+    final selectedIndex = dayIndex ?? state.selectedDayIndex;
     final newSlots = _buildSlotsFromSubscriptionDay(
       updatedDay,
-      state.selectedTimelineDay.requiredMeals,
+      state.timelineDays[selectedIndex].requiredMeals,
     );
     final addonIds =
         updatedDay.addonSelections
@@ -897,25 +718,76 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
             .where((id) => id.isNotEmpty)
             .toList();
 
+    final updatedTimelineDays = List<TimelineDayModel>.from(state.timelineDays);
+    updatedTimelineDays[selectedIndex] = _mergeTimelineDayWithDetail(
+      updatedTimelineDays[selectedIndex],
+      updatedDay,
+    );
+
     return state.copyWith(
+      timelineDays: updatedTimelineDays,
       selectedSlotsPerDay: Map<int, List<MealPlannerSlotSelection>>.from(
         state.selectedSlotsPerDay,
-      )..[dayIndex] = newSlots,
+      )..[selectedIndex] = newSlots,
       savedSlotsPerDay: Map<int, List<MealPlannerSlotSelection>>.from(
         state.savedSlotsPerDay,
-      )..[dayIndex] = List<MealPlannerSlotSelection>.from(newSlots),
+      )..[selectedIndex] = List<MealPlannerSlotSelection>.from(newSlots),
       selectedAddOnIdsByDay: Map<int, List<String>>.from(
         state.selectedAddOnIdsByDay,
-      )..[dayIndex] = addonIds,
+      )..[selectedIndex] = addonIds,
       savedAddOnIdsByDay: Map<int, List<String>>.from(state.savedAddOnIdsByDay)
-        ..[dayIndex] = List<String>.from(addonIds),
+        ..[selectedIndex] = List<String>.from(addonIds),
       dayDetailsByIndex: Map<int, SubscriptionDayModel>.from(
         state.dayDetailsByIndex,
-      )..[dayIndex] = updatedDay,
+      )..[selectedIndex] = updatedDay,
       premiumMealsPendingPayment:
           updatedDay.paymentRequirement?.premiumPendingPaymentCount ?? 0,
       clearPaymentError: true,
       clearPendingAddonPrompt: true,
+    );
+  }
+
+  TimelineDayModel _mergeTimelineDayWithDetail(
+    TimelineDayModel base,
+    SubscriptionDayModel detail,
+  ) {
+    return TimelineDayModel(
+      date: base.date,
+      day: base.day,
+      month: base.month,
+      dayNumber: base.dayNumber,
+      status: detail.status,
+      commercialState: detail.commercialState ?? base.commercialState,
+      canBePrepared: base.canBePrepared,
+      fulfillmentReady: base.fulfillmentReady,
+      planningReady: detail.plannerMeta?.isDraftValid ?? base.planningReady,
+      fulfillmentMode: base.fulfillmentMode,
+      consumptionState: base.consumptionState,
+      selectedMeals:
+          detail.plannerMeta?.completeSlotCount ?? base.selectedMeals,
+      requiredMeals:
+          detail.plannerMeta?.requiredSlotCount ?? base.requiredMeals,
+      selections: base.selections,
+      premiumSelections: base.premiumSelections,
+      selectedMealIds: base.selectedMealIds,
+      paymentRequirement: detail.paymentRequirement,
+      mealSlots:
+          detail.mealSlots
+              .map(
+                (slot) => TimelineMealSlot(
+                  slotIndex: slot.slotIndex,
+                  slotKey: slot.slotKey,
+                  selectionType: slot.selectionType,
+                  proteinId: slot.proteinId,
+                  carbs: slot.carbs,
+                  sandwichId: slot.sandwichId,
+                  salad: slot.salad,
+                  premiumKey: slot.premiumKey,
+                  premiumSource: slot.premiumSource,
+                  premiumExtraFeeHalala: slot.premiumExtraFeeHalala,
+                ),
+              )
+              .toList(),
     );
   }
 
@@ -927,22 +799,46 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
         final slot = index < day.mealSlots.length ? day.mealSlots[index] : null;
         return MealPlannerSlotSelection(
           slotIndex: index + 1,
-          slotKey: 'slot_${index + 1}',
-          selectionType: 'standard_combo',
+          slotKey: slot?.slotKey ?? 'slot_${index + 1}',
+          selectionType: slot?.selectionType ?? 'standard_meal',
           proteinId: slot?.proteinId,
-          carbId: slot?.carbId,
+          carbs:
+              slot?.carbs
+                  .map(
+                    (carb) => MealPlannerSlotCarbSelection(
+                      carbId: carb.carbId,
+                      grams: carb.grams,
+                    ),
+                  )
+                  .toList() ??
+              const [],
+          sandwichId: slot?.sandwichId,
+          salad:
+              slot?.salad == null
+                  ? null
+                  : PremiumLargeSaladSelection(
+                    presetKey: slot!.salad!.presetKey ?? 'large_salad',
+                    groups: MealPlannerSaladGroupsSelection(
+                      leafyGreens: slot.salad!.groups.leafyGreens,
+                      vegetables: slot.salad!.groups.vegetables,
+                      protein: slot.salad!.groups.protein,
+                      cheeseNuts: slot.salad!.groups.cheeseNuts,
+                      fruits: slot.salad!.groups.fruits,
+                      sauce: slot.salad!.groups.sauce,
+                    ),
+                  ),
         );
       });
     }
 
     final selections = [...day.selections, ...day.premiumSelections];
     return List.generate(day.requiredMeals, (index) {
+      final proteinId = index < selections.length ? selections[index] : null;
       return MealPlannerSlotSelection(
         slotIndex: index + 1,
         slotKey: 'slot_${index + 1}',
-        selectionType: 'standard_combo',
-        proteinId: index < selections.length ? selections[index] : null,
-        carbId: null,
+        selectionType: _defaultSelectionType(proteinId),
+        proteinId: proteinId,
       );
     });
   }
@@ -956,20 +852,32 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
       return MealPlannerSlotSelection(
         slotIndex: index + 1,
         slotKey: slot?.slotKey ?? 'slot_${index + 1}',
-        selectionType: slot?.selectionType ?? 'standard_combo',
+        selectionType: slot?.selectionType ?? 'standard_meal',
         proteinId: slot?.proteinId,
-        carbId: slot?.carbId,
+        carbs:
+            slot?.carbs
+                .map(
+                  (carb) => MealPlannerSlotCarbSelection(
+                    carbId: carb.carbId,
+                    grams: carb.grams,
+                  ),
+                )
+                .toList() ??
+            const [],
         sandwichId: slot?.sandwichId,
-        customSalad:
-            slot?.customSalad == null
+        salad:
+            slot?.salad == null
                 ? null
-                : CustomSaladSelection(
-                  presetKey: slot!.customSalad!.presetKey ?? '',
-                  vegetables: slot.customSalad!.vegetables,
-                  addons: slot.customSalad!.addons,
-                  fruits: slot.customSalad!.fruits,
-                  nuts: slot.customSalad!.nuts,
-                  sauce: slot.customSalad!.sauce,
+                : PremiumLargeSaladSelection(
+                  presetKey: slot!.salad!.presetKey ?? 'large_salad',
+                  groups: MealPlannerSaladGroupsSelection(
+                    leafyGreens: slot.salad!.groups.leafyGreens,
+                    vegetables: slot.salad!.groups.vegetables,
+                    protein: slot.salad!.groups.protein,
+                    cheeseNuts: slot.salad!.groups.cheeseNuts,
+                    fruits: slot.salad!.groups.fruits,
+                    sauce: slot.salad!.groups.sauce,
+                  ),
                 ),
       );
     });
@@ -979,13 +887,17 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
     if (slot.selectionType == 'sandwich') {
       return slot.sandwichId != null && slot.sandwichId!.isNotEmpty;
     }
-    if (slot.selectionType == 'custom_premium_salad') {
-      return slot.proteinId != null &&
-          slot.carbId != null &&
-          slot.customSalad != null &&
-          slot.customSalad!.sauce.isNotEmpty;
+    if (slot.selectionType == 'premium_large_salad') {
+      return slot.salad != null &&
+          slot.salad!.groups.protein.length == 1 &&
+          slot.salad!.groups.sauce.length == 1 &&
+          slot.carbs.isEmpty;
     }
-    return slot.proteinId != null && slot.carbId != null;
+    if (state is! MealPlannerLoaded) {
+      return slot.proteinId != null && slot.carbs.isNotEmpty;
+    }
+    final rules = (state as MealPlannerLoaded).menu.builderCatalog.rules;
+    return slot.proteinId != null && _hasValidCarbSelections(slot.carbs, rules);
   }
 
   BuilderProteinModel? _findProteinById(MealPlannerMenuModel menu, String id) {
@@ -995,10 +907,30 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
     return null;
   }
 
-  bool _isSandwichProtein(BuilderProteinModel? protein) {
-    if (protein == null) return false;
-    final key = protein.displayCategoryKey.toLowerCase();
-    return key.contains('sandwich');
+  BuilderSandwichModel? _findSandwichById(
+    MealPlannerMenuModel menu,
+    String id,
+  ) {
+    for (final sandwich in menu.builderCatalog.sandwiches) {
+      if (sandwich.id == id) return sandwich;
+    }
+    return null;
+  }
+
+  String _resolvePlateSelectionType(
+    MealPlannerMenuModel menu,
+    String? proteinId,
+  ) {
+    final protein =
+        proteinId == null ? null : _findProteinById(menu, proteinId);
+    return protein?.isPremium == true ? 'premium_meal' : 'standard_meal';
+  }
+
+  String _defaultSelectionType(String? proteinId) {
+    if (proteinId == null) {
+      return 'standard_meal';
+    }
+    return 'standard_meal';
   }
 
   int _calculatePendingPaymentCount(
@@ -1010,19 +942,185 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
         .pendingCount;
   }
 
-  int _currentPremiumPendingCount(MealPlannerLoaded state) {
-    return state
-            .selectedDayDetail
-            ?.paymentRequirement
-            ?.premiumPendingPaymentCount ??
-        _calculatePendingPaymentCount(state);
+  DaySelectionRequest _buildRequest(MealPlannerLoaded current) {
+    final slots = _currentSlots(current).where(_isCompleteSlot).toList();
+    return DaySelectionRequest(
+      slots.map((slot) {
+        if (slot.selectionType == 'sandwich') {
+          return MealSlotRequest(
+            slotIndex: slot.slotIndex,
+            slotKey: slot.slotKey,
+            selectionType: 'sandwich',
+            sandwichId: slot.sandwichId,
+          );
+        }
+        if (slot.selectionType == 'premium_large_salad' && slot.salad != null) {
+          return MealSlotRequest(
+            slotIndex: slot.slotIndex,
+            slotKey: slot.slotKey,
+            selectionType: 'premium_large_salad',
+            proteinId: slot.proteinId,
+            salad: SaladRequest(
+              presetKey: slot.salad!.presetKey,
+              groups: SaladGroupsRequest(
+                leafyGreens: slot.salad!.groups.leafyGreens,
+                vegetables: slot.salad!.groups.vegetables,
+                protein: slot.salad!.groups.protein,
+                cheeseNuts: slot.salad!.groups.cheeseNuts,
+                fruits: slot.salad!.groups.fruits,
+                sauce: slot.salad!.groups.sauce,
+              ),
+            ),
+          );
+        }
+
+        return MealSlotRequest(
+          slotIndex: slot.slotIndex,
+          slotKey: slot.slotKey,
+          selectionType: slot.selectionType,
+          proteinId: slot.proteinId,
+          carbs:
+              slot.carbs
+                  .map(
+                    (carb) => MealSlotCarbRequest(
+                      carbId: carb.carbId,
+                      grams: carb.grams,
+                    ),
+                  )
+                  .toList(),
+        );
+      }).toList(),
+      addonsOneTime: current.selectedAddOnIds,
+    );
   }
 
-  Future<Failure?> _confirmSelection({required String date}) async {
-    final confirmResult = await _confirmDaySelectionUseCase.execute(
-      ConfirmDaySelectionUseCaseInput(subscriptionId, date),
+  List<MealPlannerSlotSelection> _currentSlots(MealPlannerLoaded current) {
+    return List<MealPlannerSlotSelection>.from(
+      current.selectedSlotsPerDay[current.selectedDayIndex] ?? const [],
     );
+  }
 
-    return confirmResult.fold((failure) => failure, (_) => null);
+  Map<int, List<MealPlannerSlotSelection>> _updatedSelectedSlots(
+    MealPlannerLoaded current,
+    List<MealPlannerSlotSelection> slots,
+  ) {
+    return Map<int, List<MealPlannerSlotSelection>>.from(
+      current.selectedSlotsPerDay,
+    )..[current.selectedDayIndex] = slots;
+  }
+
+  String _dayNotEditableReason(MealPlannerLoaded current) {
+    final blocker =
+        current.selectedDayDetail?.paymentRequirement?.blockingReason;
+    return blocker?.isNotEmpty == true ? blocker! : 'LOCKED';
+  }
+
+  String? _validateCurrentCarbSelections(MealPlannerLoaded current) {
+    final rules = current.menu.builderCatalog.rules;
+    for (final slot in _currentSlots(current)) {
+      if (slot.selectionType == 'sandwich' ||
+          slot.selectionType == 'premium_large_salad' ||
+          slot.proteinId == null) {
+        continue;
+      }
+
+      if (slot.carbs.isEmpty) {
+        return Strings.selectAtLeastOneCarb.tr();
+      }
+
+      if (slot.carbs.any((carb) => carb.grams <= 0)) {
+        return Strings.carbGramsRequired.tr();
+      }
+
+      if (!_hasValidCarbSelections(slot.carbs, rules)) {
+        return Strings.carbTotalLimitExceeded.tr();
+      }
+    }
+    return null;
+  }
+
+  bool _hasValidCarbSelections(
+    List<MealPlannerSlotCarbSelection> carbs,
+    BuilderRulesModel rules,
+  ) {
+    if (carbs.isEmpty) return false;
+    if (carbs.length > _maxCarbItems(rules)) return false;
+    final seenIds = <String>{};
+    var totalGrams = 0;
+    for (final carb in carbs) {
+      if (carb.carbId.isEmpty || carb.grams <= 0 || !seenIds.add(carb.carbId)) {
+        return false;
+      }
+      totalGrams += carb.grams;
+    }
+    return totalGrams <= _maxCarbTotalGrams(rules);
+  }
+
+  List<MealPlannerSlotCarbSelection> _normalizeCarbSelections(
+    List<MealPlannerSlotCarbSelection> carbs,
+    BuilderRulesModel rules,
+  ) {
+    final normalized = <MealPlannerSlotCarbSelection>[];
+    final seenIds = <String>{};
+    final maxItems = _maxCarbItems(rules);
+    final maxTotal = _maxCarbTotalGrams(rules);
+    var consumedGrams = 0;
+
+    for (final carb in carbs) {
+      if (normalized.length >= maxItems || carb.carbId.isEmpty) {
+        continue;
+      }
+      if (!seenIds.add(carb.carbId)) {
+        continue;
+      }
+
+      final remainingGrams = maxTotal - consumedGrams;
+      final normalizedGrams = _normalizeCarbGrams(
+        carb.grams,
+        maxAllowed: remainingGrams,
+      );
+      if (normalizedGrams <= 0) {
+        continue;
+      }
+
+      normalized.add(
+        MealPlannerSlotCarbSelection(
+          carbId: carb.carbId,
+          grams: normalizedGrams,
+        ),
+      );
+      consumedGrams += normalizedGrams;
+    }
+
+    return normalized;
+  }
+
+  int _normalizeCarbGrams(int grams, {required int maxAllowed}) {
+    if (maxAllowed < _carbGramStep) {
+      return 0;
+    }
+    final boundedGrams = grams.clamp(_carbGramStep, maxAllowed).toInt();
+    final normalizedGrams = (boundedGrams ~/ _carbGramStep) * _carbGramStep;
+    return normalizedGrams < _carbGramStep ? 0 : normalizedGrams;
+  }
+
+  int _maxCarbItems(BuilderRulesModel rules) {
+    final configured = rules.maxCarbItemsPerMeal;
+    if (configured <= 0) {
+      return 2;
+    }
+    return configured > 2 ? 2 : configured;
+  }
+
+  int _maxCarbTotalGrams(BuilderRulesModel rules) {
+    return rules.maxCarbTotalGrams > 0 ? rules.maxCarbTotalGrams : 300;
+  }
+
+  String _formatFailure(Failure failure) {
+    final code = failure.code?.toString();
+    if (code != null && code.isNotEmpty) {
+      return failure.message.isNotEmpty ? '$code: ${failure.message}' : code;
+    }
+    return failure.message;
   }
 }

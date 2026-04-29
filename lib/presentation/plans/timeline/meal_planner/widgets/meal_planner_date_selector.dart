@@ -44,11 +44,20 @@ class MealPlannerDateSelector extends StatelessWidget {
 
   bool _isDayComplete(MealPlannerLoaded state, int index) {
     final day = state.timelineDays[index];
-    return (state.selectedSlotsPerDay[index]
-                ?.where((s) => s.proteinId != null && s.carbId != null)
-                .length ??
-            0) >=
-        day.requiredMeals;
+    final completed = state.selectedSlotsPerDay[index]?.where((slot) {
+          if (slot.selectionType == 'sandwich') {
+            return slot.sandwichId != null && slot.sandwichId!.isNotEmpty;
+          }
+          if (slot.selectionType == 'premium_large_salad') {
+            return slot.salad != null &&
+                slot.salad!.groups.protein.length == 1 &&
+                slot.salad!.groups.sauce.length == 1 &&
+                slot.carbs.isEmpty;
+          }
+          return slot.proteinId != null && slot.carbs.isNotEmpty;
+        }).length ??
+        0;
+    return completed >= day.requiredMeals;
   }
 }
 
@@ -67,11 +76,7 @@ class _DayCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isLocked = ![
-      'open',
-      'planned',
-      'extension',
-    ].contains(day.status.toLowerCase());
+    final isLocked = day.commercialState.toLowerCase() == 'confirmed';
     final _DayStyle style = _resolveDayStyle(
       day.status,
       isSelected,
