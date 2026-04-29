@@ -51,7 +51,7 @@ class _ProteinPickerSheetState extends State<ProteinPickerSheet> {
   }
 
   BuilderProteinModel? _proteinById(String id) {
-    for (final protein in widget.state.menu.builderCatalog.proteins) {
+    for (final protein in widget.state.menu.builderCatalog.allProteins) {
       if (protein.id == id) return protein;
     }
     return null;
@@ -75,7 +75,7 @@ class _ProteinPickerSheetState extends State<ProteinPickerSheet> {
   }
 
   List<BuilderProteinModel> _filteredProteins(String tabKey) {
-    final proteins = widget.state.menu.builderCatalog.proteins;
+    final proteins = widget.state.menu.builderCatalog.allProteins;
     final filtered = tabKey == 'premium'
         ? proteins.where((p) => p.isPremium).toList()
         : proteins
@@ -89,7 +89,7 @@ class _ProteinPickerSheetState extends State<ProteinPickerSheet> {
   Widget build(BuildContext context) {
     final allCategories =
         widget.state.menu.builderCatalog.categories
-            .where((c) => c.dimension == 'protein')
+            .where((c) => c.dimension == 'protein' && c.key != 'premium')
             .toList()
           ..sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
 
@@ -348,7 +348,7 @@ class _ProteinList extends StatelessWidget {
               selectedProteinName:
                   isCustomSelected ? _findProteinNameById(state, currentSlot?.proteinId) : null,
               onTap: () async {
-                final premiumProteins = state.menu.builderCatalog.proteins
+                final premiumProteins = state.menu.builderCatalog.allProteins
                     .where((protein) => protein.isPremium)
                     .toList()
                   ..sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
@@ -389,7 +389,7 @@ class _ProteinList extends StatelessWidget {
 
   String? _findProteinNameById(MealPlannerLoaded state, String? id) {
     if (id == null) return null;
-    for (final protein in state.menu.builderCatalog.proteins) {
+    for (final protein in state.menu.builderCatalog.allProteins) {
       if (protein.id == id) return protein.name;
     }
     return null;

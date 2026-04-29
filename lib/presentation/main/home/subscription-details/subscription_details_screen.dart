@@ -1629,7 +1629,7 @@ SubscriptionCheckoutRequestModel _buildCheckoutRequest(
     premiumItems: request.premiumItems
         .map(
           (item) => SubscriptionCheckoutPremiumItemRequestModel(
-            proteinId: item.proteinId,
+            premiumKey: item.premiumKey,
             qty: item.qty,
           ),
         )

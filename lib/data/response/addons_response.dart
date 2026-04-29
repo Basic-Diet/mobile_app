@@ -54,6 +54,15 @@ class AddOnResponse {
   @JsonKey(name: "kind")
   String? kind;
 
+  @JsonKey(name: "billingMode")
+  String? billingMode;
+
+  @JsonKey(name: "pricingModel")
+  String? pricingModel;
+
+  @JsonKey(name: "billingUnit")
+  String? billingUnit;
+
   @JsonKey(name: "ui")
   AddOnUiResponse? ui;
 
@@ -69,6 +78,9 @@ class AddOnResponse {
     this.priceLabel,
     this.type,
     this.kind,
+    this.billingMode,
+    this.pricingModel,
+    this.billingUnit,
     this.ui,
   );
 

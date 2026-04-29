@@ -204,7 +204,7 @@ final class MealPlannerLoaded extends MealPlannerState {
       selectedDayDetail?.addonSelections ?? const [];
 
   List<AddOnModel> get plannerAddOnsCatalog =>
-      addOnsCatalog.where((addon) => addon.kind == 'item').toList();
+      addOnsCatalog.where((addon) => addon.isItem && addon.isFlatOnce).toList();
 
   Map<String, List<AddOnModel>> get groupedAddons {
     final grouped = <String, List<AddOnModel>>{
@@ -548,7 +548,7 @@ final class MealPlannerLoaded extends MealPlannerState {
       final proteinId = slot.proteinId;
       if (proteinId == null) continue;
 
-      final protein = menu.builderCatalog.proteins
+      final protein = menu.builderCatalog.allProteins
           .where((item) => item.id == proteinId)
           .cast<BuilderProteinModel?>()
           .firstWhere((item) => item != null, orElse: () => null);
@@ -609,7 +609,7 @@ final class MealPlannerLoaded extends MealPlannerState {
       final proteinId = slot.proteinId;
       if (proteinId == null) continue;
 
-      final protein = menu.builderCatalog.proteins
+      final protein = menu.builderCatalog.allProteins
           .where((item) => item.id == proteinId)
           .cast<BuilderProteinModel?>()
           .firstWhere((item) => item != null, orElse: () => null);

@@ -27,7 +27,7 @@ extension SubscriptionCheckoutPremiumItemRequestMapper
     on SubscriptionCheckoutPremiumItemRequestModel {
   SubscriptionCheckoutPremiumItemRequest toRequest() {
     return SubscriptionCheckoutPremiumItemRequest(
-      proteinId: proteinId,
+      premiumKey: premiumKey,
       qty: qty,
     );
   }
@@ -75,7 +75,7 @@ extension SubscriptionQuoteToCheckoutRequestMapper
       premiumItems: premiumItems
           .map(
             (item) => SubscriptionCheckoutPremiumItemRequestModel(
-              proteinId: item.proteinId,
+              premiumKey: item.premiumKey,
               qty: item.qty,
             ),
           )

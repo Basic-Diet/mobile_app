@@ -1,3 +1,5 @@
+import 'package:basic_diet/data/response/subscription_menu_response.dart';
+import 'package:basic_diet/data/response/addons_response.dart';
 import 'package:basic_diet/data/request/bulk_selections_request.dart';
 import 'package:basic_diet/data/request/day_selection_request.dart';
 import 'package:basic_diet/data/response/checkout_draft_response.dart';
@@ -63,6 +65,9 @@ abstract class AppServiceClient {
 
   @GET("/api/addons")
   Future<AddOnsResponse> getAddOns();
+
+  @GET("/api/subscriptions/menu")
+  Future<SubscriptionMenuResponse> getSubscriptionMenu();
 
   @GET("/api/subscriptions/delivery-options")
   Future<DeliveryOptionsResponse> getDeliveryOptions();
@@ -176,12 +181,12 @@ abstract class AppServiceClient {
   );
 
   @POST(
-    "/api/subscriptions/{id}/days/{date}/one-time-addons/payments/{paymentId}/verify",
+    "/api/subscriptions/{id}/days/{date}/one-time-addons/payments/verify",
   )
   Future<PremiumPaymentVerificationResponse> verifyOneTimeAddonPayment(
     @Path("id") String subscriptionId,
     @Path("date") String date,
-    @Path("paymentId") String paymentId,
+    @Body() Map<String, dynamic> body,
   );
 
   @POST("/api/subscriptions/{id}/cancel")

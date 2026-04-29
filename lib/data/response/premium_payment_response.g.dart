@@ -63,6 +63,8 @@ PremiumPaymentVerificationData _$PremiumPaymentVerificationDataFromJson(
 ) => PremiumPaymentVerificationData(
   paymentStatus: json['paymentStatus'] as String?,
   message: json['message'] as String?,
+  applied: json['applied'] as bool?,
+  isFinal: json['isFinal'] as bool?,
 );
 
 Map<String, dynamic> _$PremiumPaymentVerificationDataToJson(
@@ -70,4 +72,6 @@ Map<String, dynamic> _$PremiumPaymentVerificationDataToJson(
 ) => <String, dynamic>{
   'paymentStatus': instance.paymentStatus,
   'message': instance.message,
+  'applied': instance.applied,
+  'isFinal': instance.isFinal,
 };

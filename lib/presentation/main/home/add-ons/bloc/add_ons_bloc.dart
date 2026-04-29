@@ -1,12 +1,13 @@
-import 'package:basic_diet/domain/usecase/get_addons_usecase.dart';
+import 'package:basic_diet/domain/model/add_ons_model.dart';
+import 'package:basic_diet/domain/usecase/get_subscription_menu_usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'add_ons_event.dart';
 import 'add_ons_state.dart';
 
 class AddOnsBloc extends Bloc<AddOnsEvent, AddOnsState> {
-  final GetAddOnsUseCase _getAddOnsUseCase;
+  final GetSubscriptionMenuUseCase _getSubscriptionMenuUseCase;
 
-  AddOnsBloc(this._getAddOnsUseCase) : super(const AddOnsInitial()) {
+  AddOnsBloc(this._getSubscriptionMenuUseCase) : super(const AddOnsInitial()) {
     on<GetAddOnsEvent>(_onGetAddOns);
     on<ToggleAddOnSelectionEvent>(_onToggleSelection);
   }
@@ -16,10 +17,13 @@ class AddOnsBloc extends Bloc<AddOnsEvent, AddOnsState> {
     Emitter<AddOnsState> emit,
   ) async {
     emit(const AddOnsLoading());
-    final result = await _getAddOnsUseCase.execute(null);
+    final result = await _getSubscriptionMenuUseCase.execute(null);
     result.fold(
       (failure) => emit(AddOnsError(failure.message)),
-      (addOnsModel) => emit(AddOnsSuccess(addOnsModel)),
+      (menuModel) {
+        final planAddOns = AddOnsModel(addOns: menuModel.addons);
+        emit(AddOnsSuccess(planAddOns));
+      },
     );
   }
 

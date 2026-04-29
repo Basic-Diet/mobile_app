@@ -1,5 +1,6 @@
 import 'package:basic_diet/app/constants.dart';
 import 'package:basic_diet/app/extensions.dart';
+import 'package:basic_diet/data/mappers/addons_mapper.dart';
 import 'package:basic_diet/data/response/meal_planner_menu_response.dart';
 import 'package:basic_diet/domain/model/meal_planner_menu_model.dart';
 
@@ -73,6 +74,8 @@ extension BuilderCatalogResponseMapper on BuilderCatalogResponse? {
     return BuilderCatalogModel(
       categories: (self?.categories?.map((e) => e.toDomain()).toList()) ?? [],
       proteins: (self?.proteins?.map((e) => e.toDomain()).toList()) ?? [],
+      premiumProteins:
+          (self?.premiumProteins?.map((e) => e.toDomain()).toList()) ?? [],
       carbs: (self?.carbs?.map((e) => e.toDomain()).toList()) ?? [],
       rules: (self?.rules).toDomain(),
       customPremiumSalad: self?.customPremiumSalad?.toDomain(),
@@ -138,6 +141,11 @@ extension MealPlannerMenuResponseMapper on MealPlannerMenuResponse? {
     return MealPlannerMenuModel(
       currency: self?.data?.currency.orEmpty() ?? Constants.empty,
       builderCatalog: (self?.data?.builderCatalog).toDomain(),
+      addons: self?.data?.addons?.items
+                ?.map((e) => e.toDomain())
+                .where((addon) => addon.isItem && addon.isFlatOnce)
+                .toList() ??
+            const [],
     );
   }
 }

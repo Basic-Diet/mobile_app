@@ -30,17 +30,17 @@ class PremiumMealsSuccessView extends StatelessWidget {
                 const PremiumInfoBanner(),
                 Gap(AppSize.s16.h),
                 ...state.premiumMealsModel.meals.map((meal) {
-                  final quantity = state.mealCounters[meal.id] ?? 0;
+                  final quantity = state.mealCounters[meal.premiumKey] ?? 0;
                   return Padding(
                     padding: EdgeInsetsDirectional.only(bottom: AppSize.s16.h),
                     child: PremiumMealCard(
                       meal: meal,
                       quantity: quantity,
                       onIncrement: () => context.read<PremiumMealsBloc>().add(
-                        UpdateMealCounterEvent(meal.id, quantity + 1),
+                        UpdateMealCounterEvent(meal.premiumKey, quantity + 1),
                       ),
                       onDecrement: () => context.read<PremiumMealsBloc>().add(
-                        UpdateMealCounterEvent(meal.id, quantity - 1),
+                        UpdateMealCounterEvent(meal.premiumKey, quantity - 1),
                       ),
                     ),
                   );

@@ -25,6 +25,24 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 
+class MealPlannerScreenResult {
+  final bool shouldRefreshTimeline;
+  final String? successMessage;
+
+  const MealPlannerScreenResult({
+    required this.shouldRefreshTimeline,
+    this.successMessage,
+  });
+
+  const MealPlannerScreenResult.saved()
+    : shouldRefreshTimeline = true,
+      successMessage = null;
+
+  const MealPlannerScreenResult.paymentVerified(String message)
+    : shouldRefreshTimeline = true,
+      successMessage = message;
+}
+
 class MealPlannerScreen extends StatelessWidget {
   final List<TimelineDayModel> timelineDays;
   final List<AddonSubscriptionModel> addonEntitlements;
@@ -81,15 +99,31 @@ class MealPlannerScreen extends StatelessWidget {
                 listener: (context, state) async {
                   if (state is! MealPlannerLoaded) return;
 
-                  if (state.saveSuccess && state.paymentUrl == null) {
+                  if (state.paymentError != null) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text(Strings.changesSavedSuccessfully.tr()),
-                        backgroundColor: ColorManager.stateSuccess,
-                        duration: const Duration(seconds: 2),
+                        content: Text(
+                          _resolveErrorMessage(state.paymentError!),
+                        ),
+                        backgroundColor: ColorManager.stateError,
                       ),
                     );
-                    Navigator.pop(context, true);
+                    return;
+                  }
+
+                  if (state.saveSuccess && state.paymentUrl == null) {
+                    final successMessage =
+                        state.activePaymentKind == null
+                            ? null
+                            : Strings.paymentSuccessful.tr();
+                    Navigator.pop(
+                      context,
+                      successMessage == null
+                          ? const MealPlannerScreenResult.saved()
+                          : MealPlannerScreenResult.paymentVerified(
+                            successMessage,
+                          ),
+                    );
                     return;
                   }
 
@@ -99,18 +133,6 @@ class MealPlannerScreen extends StatelessWidget {
                       state.paymentUrl!,
                       state.paymentId!,
                       state.activePaymentKind ?? 'premium',
-                    );
-                    return;
-                  }
-
-                  if (state.paymentError != null) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          _resolveErrorMessage(state.paymentError!),
-                        ),
-                        backgroundColor: ColorManager.stateError,
-                      ),
                     );
                   }
                 },
@@ -455,7 +477,7 @@ class _MealPlannerBody extends StatelessWidget {
   }
 
   BuilderProteinModel? _findProteinById(MealPlannerMenuModel menu, String id) {
-    for (final protein in menu.builderCatalog.proteins) {
+    for (final protein in menu.builderCatalog.allProteins) {
       if (protein.id == id) return protein;
     }
     return null;

@@ -35,6 +35,9 @@ AddOnResponse _$AddOnResponseFromJson(Map<String, dynamic> json) =>
       json['priceLabel'] as String?,
       json['type'] as String?,
       json['kind'] as String?,
+      json['billingMode'] as String?,
+      json['pricingModel'] as String?,
+      json['billingUnit'] as String?,
       json['ui'] == null
           ? null
           : AddOnUiResponse.fromJson(json['ui'] as Map<String, dynamic>),
@@ -53,6 +56,9 @@ Map<String, dynamic> _$AddOnResponseToJson(AddOnResponse instance) =>
       'priceLabel': instance.priceLabel,
       'type': instance.type,
       'kind': instance.kind,
+      'billingMode': instance.billingMode,
+      'pricingModel': instance.pricingModel,
+      'billingUnit': instance.billingUnit,
       'ui': instance.ui,
     };
 

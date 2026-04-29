@@ -261,7 +261,7 @@ class DeliveryMethodContentView extends StatelessWidget {
       premiumItems: subscriptionState.selectedPremiumMealCounters.entries
           .map(
             (e) => SubscriptionQuotePremiumItemRequestModel(
-              proteinId: e.key,
+              premiumKey: e.key,
               qty: e.value,
             ),
           )

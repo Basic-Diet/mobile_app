@@ -22,7 +22,10 @@ extension AddOnResponseMapper on AddOnResponse? {
       priceHalala: this?.priceHalala.orZero() ?? 0,
       priceSar: this?.priceSar.orZero() ?? 0,
       priceLabel: this?.priceLabel.orEmpty() ?? "",
-      type: (this?.kind ?? this?.type).orEmpty(),
+      kind: (this?.kind ?? this?.type).orEmpty(),
+      billingMode: this?.billingMode.orEmpty() ?? "",
+      pricingModel: this?.pricingModel.orEmpty() ?? "",
+      billingUnit: this?.billingUnit.orEmpty() ?? "",
       ui:
           this?.ui.toDomain() ??
           const AddOnUiModel(title: "", subtitle: "", ctaLabel: "", badge: ""),

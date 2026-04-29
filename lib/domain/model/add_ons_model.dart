@@ -19,7 +19,10 @@ class AddOnModel extends Equatable {
   final int priceHalala;
   final double priceSar;
   final String priceLabel;
-  final String type;
+  final String kind;
+  final String billingMode;
+  final String pricingModel;
+  final String billingUnit;
   final AddOnUiModel ui;
 
   const AddOnModel({
@@ -32,11 +35,17 @@ class AddOnModel extends Equatable {
     required this.priceHalala,
     required this.priceSar,
     required this.priceLabel,
-    required this.type,
+    required this.kind,
+    required this.billingMode,
+    required this.pricingModel,
+    required this.billingUnit,
     required this.ui,
   });
 
-  String get kind => type;
+  bool get isPlan => kind == 'plan';
+  bool get isItem => kind == 'item';
+  bool get isPerDay => billingMode == 'per_day';
+  bool get isFlatOnce => billingMode == 'flat_once';
 
   @override
   List<Object?> get props => [
@@ -49,7 +58,10 @@ class AddOnModel extends Equatable {
     priceHalala,
     priceSar,
     priceLabel,
-    type,
+    kind,
+    billingMode,
+    pricingModel,
+    billingUnit,
     ui,
   ];
 }

@@ -1,272 +1,1613 @@
-╔╣ Response ║ GET ║ Status: 200 OK  ║ Time: 1382 ms
-I/flutter (30962): ║  https://basicdiet145.onrender.com/api/subscriptions/current/overview
-I/flutter (30962): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter (30962): ╔ Headers
-I/flutter (30962): ╟ x-dns-prefetch-control: [off]
-I/flutter (30962): ╟ x-render-origin-server: [Render]
-I/flutter (30962): ╟ date: [Mon, 27 Apr 2026 15:16:23 GMT]
-I/flutter (30962): ╟ transfer-encoding: [chunked]
-I/flutter (30962): ╟ origin-agent-cluster: [?1]
-I/flutter (30962): ╟ vary: [Origin, Accept-Encoding]
-I/flutter (30962): ╟ content-encoding: [gzip]
-I/flutter (30962): ╟ server: [cloudflare]
-I/flutter (30962): ╟ cross-origin-resource-policy: [same-origin]
-I/flutter (30962): ╟ cf-ray: [9f2ec9b77b533d70-MRS]
-I/flutter (30962): ╟ etag: [W/"166a-CNlYQJ51NsAyffRNbhtIltKl58c"]
-I/flutter (30962): ╟ x-frame-options: [SAMEORIGIN]
-I/flutter (30962): ╟ content-security-policy:
-I/flutter (30962): ║ [default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-
-I/flutter (30962): ║ ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr
-I/flutter (30962): ║ 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests]
-I/flutter (30962): ╟ connection: [keep-alive]
-I/flutter (30962): ╟ strict-transport-security: [max-age=15552000; includeSubDomains]
-I/flutter (30962): ╟ referrer-policy: [no-referrer]
-I/flutter (30962): ╟ cf-cache-status: [DYNAMIC]
-I/flutter (30962): ╟ x-permitted-cross-domain-policies: [none]
-I/flutter (30962): ╟ content-type: [application/json; charset=utf-8]
-I/flutter (30962): ╟ cross-origin-opener-policy: [same-origin]
-I/flutter (30962): ╟ rndr-id: [f6c7398e-4be4-4325]
-I/flutter (30962): ╟ x-xss-protection: [0]
-I/flutter (30962): ╟ access-control-allow-credentials: [true]
-I/flutter (30962): ╟ alt-svc: [h3=":443"; ma=86400]
-I/flutter (30962): ╟ x-download-options: [noopen]
-I/flutter (30962): ╟ x-content-type-options: [nosniff]
-I/flutter (30962): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter (30962): ╔ Body
-I/flutter (30962): ║
-I/flutter (30962): ║    {
-I/flutter (30962): ║         "status": true,
-I/flutter (30962): ║         "data": {
-I/flutter (30962): ║             "_id": "69ef60c44c830639da607ee6",
-I/flutter (30962): ║             "userId": "69cc9627631e9c1b1da825c1",
-I/flutter (30962): ║             "planId": "69e4f868fdfc954fcae79f59",
-I/flutter (30962): ║             "status": "active",
-I/flutter (30962): ║             "startDate": "2026-04-26T21:00:00.000Z",
-I/flutter (30962): ║             "endDate": "2026-05-21T21:00:00.000Z",
-I/flutter (30962): ║             "validityEndDate": "2026-05-21T21:00:00.000Z",
-I/flutter (30962): ║             "canceledAt": null,
-I/flutter (30962): ║             "totalMeals": 52,
-I/flutter (30962): ║             "remainingMeals": 52,
-I/flutter (30962): ║             "addonSubscriptions": [
-I/flutter (30962): ║                {
-I/flutter (30962): ║                     "addonId": "69ead23e31962803c5407d39",
-I/flutter (30962): ║                     "name": "Juice Subscription",
-I/flutter (30962): ║                     "category": "juice",
-I/flutter (30962): ║                     "maxPerDay": 1
-I/flutter (30962): ║                }
-I/flutter (30962): ║             ],
-I/flutter (30962): ║             "selectedGrams": 100,
-I/flutter (30962): ║             "selectedMealsPerDay": 2,
-I/flutter (30962): ║             "basePlanPriceHalala": 79500,
-I/flutter (30962): ║             "discountHalala": 0,
-I/flutter (30962): ║             "subtotalHalala": 114600,
-I/flutter (30962): ║             "vatPercentage": 15,
-I/flutter (30962): ║             "vatHalala": 17190,
-I/flutter (30962): ║             "totalPriceHalala": 131790,
-I/flutter (30962): ║             "checkoutCurrency": "SAR",
-I/flutter (30962): ║             "appliedPromo": null,
-I/flutter (30962): ║             "premiumBalance": [
-I/flutter (30962): ║                {
-I/flutter (30962): ║                     "proteinId": "69dfcca68ad797e60eed6138",
-I/flutter (30962): ║                     "premiumKey": null,
-I/flutter (30962): ║                     "purchasedQty": 2,
-I/flutter (30962): ║                     "remainingQty": 2,
-I/flutter (30962): ║                     "unitExtraFeeHalala": 2000,
-I/flutter (30962): ║                     "currency": "SAR",
-I/flutter (30962): ║                     "purchasedAt": "2026-04-27T13:12:36.867Z",
-I/flutter (30962): ║                     "_id": "69ef60c44c830639da607ee7",
-I/flutter (30962): ║                     "name": "جمبري"
-I/flutter (30962): ║                },
-I/flutter (30962): ║                {
-I/flutter (30962): ║                     "proteinId": "69dfcca68ad797e60eed6137",
-I/flutter (30962): ║                     "premiumKey": null,
-I/flutter (30962): ║                     "purchasedQty": 1,
-I/flutter (30962): ║                     "remainingQty": 1,
-I/flutter (30962): ║                     "unitExtraFeeHalala": 2500,
-I/flutter (30962): ║                     "currency": "SAR",
-I/flutter (30962): ║                     "purchasedAt": "2026-04-27T13:12:36.867Z",
-I/flutter (30962): ║                     "_id": "69ef60c44c830639da607ee8",
-I/flutter (30962): ║                     "name": "ستيك لحم"
-I/flutter (30962): ║                }
-I/flutter (30962): ║             ],
-I/flutter (30962): ║             "contractVersion": "subscription_contract.v1",
-I/flutter (30962): ║             "contractMode": "canonical",
-I/flutter (30962): ║             "contractCompleteness": "authoritative",
-I/flutter (30962): ║             "contractSource": "customer_checkout",
-I/flutter (30962): ║             "contractHash": "0971fd4ef259c6816b77c475348da31726c2cacc195b2b3cee678a671dd4d336",
-I/flutter (30962): ║             "contractSnapshot": {
-I/flutter (30962): ║                 "meta": {
-I/flutter (30962): ║                     "version": "subscription_contract.v1",
-I/flutter (30962): ║                     "capturedAt": "2026-04-27T13:12:17.283Z",
-I/flutter (30962): ║                     "source": "customer_checkout",
-I/flutter (30962): ║                     "mode": "canonical",
-I/flutter (30962): ║                     "completeness": "authoritative"
-I/flutter (30962): ║                }
-I/flutter (30962): ║                 "origin": {
-I/flutter (30962): ║                     "actorRole": "client",
-I/flutter (30962): ║                     "actorUserId": "69cc9627631e9c1b1da825c1",
-I/flutter (30962): ║                     "renewedFromSubscriptionId": null,
-I/flutter (30962): ║                     "adminOverrideMeta": null,
-I/flutter (30962): ║                     "deliveryPreferenceSeeded": false
-I/flutter (30962): ║                }
-I/flutter (30962): ║                 "plan": {
-I/flutter (30962): ║                     "planId": "69e4f868fdfc954fcae79f59",
-I/flutter (30962): ║                     "planName": {ar: أشتراك 26 ايام, en: 26 days},
-I/flutter (30962): ║                     "daysCount": 26,
-I/flutter (30962): ║                     "selectedGrams": 100,
-I/flutter (30962): ║                     "mealsPerDay": 2,
-I/flutter (30962): ║                     "totalMeals": 52,
-I/flutter (30962): ║                     "currency": "SAR"
-I/flutter (30962): ║                }
-I/flutter (30962): ║                 "start": {
-I/flutter (30962): ║                     "requestedStartDate": "2026-04-27",
-I/flutter (30962): ║                     "resolvedStartDate": "2026-04-26T21:00:00.000Z",
-I/flutter (30962): ║                     "defaultedToTomorrow": false,
-I/flutter (30962): ║                     "timezone": "Asia/Riyadh"
-I/flutter (30962): ║                }
-I/flutter (30962): ║                 "pricing": {
-I/flutter (30962): ║                     "basePlanPriceHalala": 79500,
-I/flutter (30962): ║                     "premiumTotalHalala": 6500,
-I/flutter (30962): ║                     "addonsTotalHalala": 28600,
-I/flutter (30962): ║                     "deliveryFeeHalala": 0,
-I/flutter (30962): ║                     "discountHalala": 0,
-I/flutter (30962): ║                     "subtotalHalala": 114600,
-I/flutter (30962): ║                     "vatPercentage": 15,
-I/flutter (30962): ║                     "vatHalala": 17190,
-I/flutter (30962): ║                     "totalHalala": 131790,
-I/flutter (30962): ║                     "currency": "SAR"
-I/flutter (30962): ║                }
-I/flutter (30962): ║                 "promo": null,
-I/flutter (30962): ║                 "premiumSelections": [
-I/flutter (30962): ║                  {proteinId: 69dfcca68ad797e60eed6138, qty: 2, unitExtraFeeHalala: 2000, currency: SAR},
-I/flutter (30962): ║                  {proteinId: 69dfcca68ad797e60eed6137, qty: 1, unitExtraFeeHalala: 2500, currency: SAR}
-I/flutter (30962): ║                 ],
-I/flutter (30962): ║                 "delivery": {
-I/flutter (30962): ║                     "mode": "pickup",
-I/flutter (30962): ║                     "pricingMode": "pickup_legacy",
-I/flutter (30962): ║                     "seedOnlyFromPreviousPreference": false,
-I/flutter (30962): ║                     "slot": {type: pickup, window: , slotId: },
-I/flutter (30962): ║                     "address": null,
-I/flutter (30962): ║                     "zoneId": null,
-I/flutter (30962): ║                     "zoneName": "",
-I/flutter (30962): ║                     "pickupLocationId": null
-I/flutter (30962): ║                }
-I/flutter (30962): ║                 "policySnapshot": {
-I/flutter (30962): ║                     "freezePolicy": {enabled: false, maxDays: 1, maxTimes: 1},
-I/flutter (30962): ║                     "skipPolicy": {enabled: true, maxDays: 4},
-I/flutter (30962): ║                     "fallbackMode": "current",
-I/flutter (30962): ║                     "directPremiumPricing": true,
-I/flutter (30962): ║                     "oneTimeAddonRequiresPaymentBeforeConfirmation": true
-I/flutter (30962): ║                }
-I/flutter (30962): ║                 "entitlementContract": {
-I/flutter (30962): ║                     "premiumItems": [
-I/flutter (30962): ║                      {proteinId: 69dfcca68ad797e60eed6138, qty: 2, unitExtraFeeHalala: 2000, currency: SAR},
-I/flutter (30962): ║                      {proteinId: 69dfcca68ad797e60eed6137, qty: 1, unitExtraFeeHalala: 2500, currency: SAR}
-I/flutter (30962): ║                     ],
-I/flutter (30962): ║                     "addonSubscriptions": []
-I/flutter (30962): ║                }
-I/flutter (30962): ║                 "compatibility": {
-I/flutter (30962): ║                     "directPremiumPricingOnly": true,
-I/flutter (30962): ║                     "usesCategoryAddons": true,
-I/flutter (30962): ║                     "usesLegacyDeliveryRuntime": true,
-I/flutter (30962): ║                     "usesLegacySkipRuntime": false
-I/flutter (30962): ║                }
-I/flutter (30962): ║            }
-I/flutter (30962): ║             "renewedFromSubscriptionId": null,
-I/flutter (30962): ║             "deliveryMode": "pickup",
-I/flutter (30962): ║             "deliveryZoneId": null,
-I/flutter (30962): ║             "deliveryZoneName": "",
-I/flutter (30962): ║             "deliveryFeeHalala": 0,
-I/flutter (30962): ║             "pickupLocationId": "",
-I/flutter (30962): ║             "deliverySlot": {type: pickup, window: , slotId: },
-I/flutter (30962): ║             "skippedCount": 0,
-I/flutter (30962): ║             "skipDaysUsed": 0,
-I/flutter (30962): ║             "expiryReminder3dSentAt": null,
-I/flutter (30962): ║             "expiryReminder24hSentAt": null,
-I/flutter (30962): ║             "premiumSelections": []
-I/flutter (30962): ║             "createdAt": "2026-04-27T13:12:36.873Z",
-I/flutter (30962): ║             "updatedAt": "2026-04-27T13:12:36.873Z",
-I/flutter (30962): ║             "deliveryAddress": null,
-I/flutter (30962): ║             "pricingSummary": {
-I/flutter (30962): ║                 "basePriceHalala": 114600,
-I/flutter (30962): ║                 "basePriceSar": 1146,
-I/flutter (30962): ║                 "vatPercentage": 15,
-I/flutter (30962): ║                 "vatHalala": 17190,
-I/flutter (30962): ║                 "vatSar": 171.9,
-I/flutter (30962): ║                 "totalPriceHalala": 131790,
-I/flutter (30962): ║                 "totalPriceSar": 1317.9,
-I/flutter (30962): ║                 "currency": "SAR"
-I/flutter (30962): ║            }
-I/flutter (30962): ║             "contract": {isCanonical: true, isGrandfathered: false, version: subscription_contract.v1},
-I/flutter (30962): ║             "statusLabel": "نشط",
-I/flutter (30962): ║             "statusLabelAr": "نشط",
-I/flutter (30962): ║             "statusLabelEn": "Active",
-I/flutter (30962): ║             "deliveryModeLabel": "استلام",
-I/flutter (30962): ║             "deliveryModeLabelAr": "استلام",
-I/flutter (30962): ║             "deliveryModeLabelEn": "Pickup",
-I/flutter (30962): ║             "planName": "أشتراك 26 ايام",
-I/flutter (30962): ║             "skipDaysLimit": 4,
-I/flutter (30962): ║             "remainingSkipDays": 4,
-I/flutter (30962): ║             "businessDate": "2026-04-27",
-I/flutter (30962): ║             "pickupPreparation": {
-I/flutter (30962): ║                 "flowStatus": "disabled",
-I/flutter (30962): ║                 "reason": "PLANNING_INCOMPLETE",
-I/flutter (30962): ║                 "canRequestPrepare": false,
-I/flutter (30962): ║                 "canBePrepared": false,
-I/flutter (30962): ║                 "planningReady": false,
-I/flutter (30962): ║                 "showMealPlannerCta": true,
-I/flutter (30962): ║                 "mealPlannerCtaLabelAr": "اختيار الوجبات",
-I/flutter (30962): ║                 "mealPlannerCtaLabelEn": "Choose meals",
-I/flutter (30962): ║                 "pickupPreparationFlowStatus": "waiting_for_prepare",
-I/flutter (30962): ║                 "buttonLabel": "تجهيز الطلب",
-I/flutter (30962): ║                 "buttonLabelAr": "تجهيز الطلب",
-I/flutter (30962): ║                 "buttonLabelEn": "Prepare Request",
-I/flutter (30962): ║                 "messageAr": "اختر وجباتك أولًا",
-I/flutter (30962): ║                 "messageEn": "Choose your meals first",
-I/flutter (30962): ║                 "message": "اختر وجباتك أولًا",
-I/flutter (30962): ║                 "pickupRequested": false,
-I/flutter (30962): ║                 "pickupPrepared": false,
-I/flutter (30962): ║                 "consumptionState": "consumable_today",
-I/flutter (30962): ║                 "fulfillmentMode": "quantity_only",
-I/flutter (30962): ║                 "dayEndConsumptionReason": null
-I/flutter (30962): ║            }
-I/flutter (30962): ║             "premiumSummary": [
-I/flutter (30962): ║                {
-I/flutter (30962): ║                     "premiumMealId": "69eea04b2736ec179c09b110",
-I/flutter (30962): ║                     "premiumKey": "beef_steak",
-I/flutter (30962): ║                     "name": "ستيك لحم",
-I/flutter (30962): ║                     "purchasedQtyTotal": 0,
-I/flutter (30962): ║                     "remainingQtyTotal": 0,
-I/flutter (30962): ║                     "consumedQtyTotal": 0
-I/flutter (30962): ║                },
-I/flutter (30962): ║                {
-I/flutter (30962): ║                     "premiumMealId": "69eea04c2736ec179c09b114",
-I/flutter (30962): ║                     "premiumKey": "salmon",
-I/flutter (30962): ║                     "name": "سلمون",
-I/flutter (30962): ║                     "purchasedQtyTotal": 0,
-I/flutter (30962): ║                     "remainingQtyTotal": 0,
-I/flutter (30962): ║                     "consumedQtyTotal": 0
-I/flutter (30962): ║                },
-I/flutter (30962): ║                {
-I/flutter (30962): ║                     "premiumMealId": "69eea04b2736ec179c09b109",
-I/flutter (30962): ║                     "premiumKey": "shrimp",
-I/flutter (30962): ║                     "name": "جمبري",
-I/flutter (30962): ║                     "purchasedQtyTotal": 0,
-I/flutter (30962): ║                     "remainingQtyTotal": 0,
-I/flutter (30962): ║                     "consumedQtyTotal": 0
-I/flutter (30962): ║                },
-I/flutter (30962): ║                {
-I/flutter (30962): ║                     "premiumMealId": "custom_premium_salad",
-I/flutter (30962): ║                     "premiumKey": "custom_premium_salad",
-I/flutter (30962): ║                     "name": "سلطة مميزة",
-I/flutter (30962): ║                     "type": "custom_premium_salad",
-I/flutter (30962): ║                     "extraFeeHalala": 3000,
-I/flutter (30962): ║                     "purchasedQtyTotal": 0,
-I/flutter (30962): ║                     "remainingQtyTotal": 0,
-I/flutter (30962): ║                     "consumedQtyTotal": 0
-I/flutter (30962): ║                }
-I/flutter (30962): ║             ]
-I/flutter (30962): ║        }
-I/flutter (30962): ║    }
-I/flutter (30962): ║
-I/flutter (30962): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
+{
+"status": true,
+"data": {
+"builderCatalog": {
+"categories": [
+{
+"id": "69f02ab131962803c54b0a2f",
+"key": "standard_carbs",
+"dimension": "carb",
+"name": "Standard Carbs",
+"description": "Carb selections for plate meals",
+"sortOrder": 10,
+"rules": {
+"maxTypes": 2,
+"maxTotalGrams": 300,
+"unit": "grams",
+"ruleKey": "carb_split"
+}
+},
+{
+"id": "69f0b8e9197cc97fb217862c",
+"key": "large_salad",
+"dimension": "carb",
+"name": "Premium Large Salad",
+"description": "Reference identity for premium large salad",
+"sortOrder": 20,
+"rules": {
+"ruleKey": "premium_large_salad"
+}
+},
+{
+"id": "69f02ab131962803c54b0a32",
+"key": "chicken",
+"dimension": "protein",
+"name": "Chicken",
+"description": "Chicken protein options",
+"sortOrder": 10,
+"rules": {}
+},
+{
+"id": "69f02ab131962803c54b0a34",
+"key": "beef",
+"dimension": "protein",
+"name": "Beef",
+"description": "Beef protein options",
+"sortOrder": 20,
+"rules": {
+"dailyLimit": 1,
+"ruleKey": "beef_daily_limit",
+"unit": "slots"
+}
+},
+{
+"id": "69f02ab131962803c54b0a35",
+"key": "fish",
+"dimension": "protein",
+"name": "Fish",
+"description": "Fish protein options",
+"sortOrder": 30,
+"rules": {}
+},
+{
+"id": "69f02ab131962803c54b0a31",
+"key": "eggs",
+"dimension": "protein",
+"name": "Eggs",
+"description": "Eggs protein options",
+"sortOrder": 40,
+"rules": {}
+},
+{
+"id": "69f188fcc48e7ad405aff597",
+"key": "premium",
+"dimension": "protein",
+"name": "Premium",
+"description": "Premium protein options",
+"sortOrder": 50,
+"rules": {}
+},
+{
+"id": "69f1896831962803c54be727",
+"key": "other",
+"dimension": "protein",
+"name": "Other",
+"description": "Other protein options",
+"sortOrder": 60,
+"rules": {}
+}
+],
+"proteins": [
+{
+"id": "69f1897d31962803c54be740",
+"displayCategoryKey": "beef",
+"name": "Meatballs",
+"description": "",
+"proteinFamilyKey": "beef",
+"ruleTags": [],
+"selectionType": "standard_meal",
+"isPremium": false,
+"sortOrder": 1
+},
+{
+"id": "69f1897931962803c54be734",
+"displayCategoryKey": "chicken",
+"name": "Fajita",
+"description": "",
+"proteinFamilyKey": "chicken",
+"ruleTags": [],
+"selectionType": "standard_meal",
+"isPremium": false,
+"sortOrder": 1
+},
+{
+"id": "69f1897831962803c54be732",
+"displayCategoryKey": "fish",
+"name": "Tuna",
+"description": "",
+"proteinFamilyKey": "fish",
+"ruleTags": [],
+"selectionType": "standard_meal",
+"isPremium": false,
+"sortOrder": 1
+},
+{
+"id": "69f1897831962803c54be731",
+"displayCategoryKey": "eggs",
+"name": "Boiled Eggs",
+"description": "",
+"proteinFamilyKey": "eggs",
+"ruleTags": [],
+"selectionType": "standard_meal",
+"isPremium": false,
+"sortOrder": 1
+},
+{
+"id": "69f1897d31962803c54be741",
+"displayCategoryKey": "beef",
+"name": "Beef Stroganoff",
+"description": "",
+"proteinFamilyKey": "beef",
+"ruleTags": [],
+"selectionType": "standard_meal",
+"isPremium": false,
+"sortOrder": 2
+},
+{
+"id": "69f1897931962803c54be736",
+"displayCategoryKey": "chicken",
+"name": "Butter Chicken",
+"description": "",
+"proteinFamilyKey": "chicken",
+"ruleTags": [],
+"selectionType": "standard_meal",
+"isPremium": false,
+"sortOrder": 2
+},
+{
+"id": "69f1897a31962803c54be737",
+"displayCategoryKey": "chicken",
+"name": "Cream Chicken",
+"description": "",
+"proteinFamilyKey": "chicken",
+"ruleTags": [],
+"selectionType": "standard_meal",
+"isPremium": false,
+"sortOrder": 3
+},
+{
+"id": "69f1897a31962803c54be738",
+"displayCategoryKey": "chicken",
+"name": "Coconut Curry Chicken",
+"description": "",
+"proteinFamilyKey": "chicken",
+"ruleTags": [],
+"selectionType": "standard_meal",
+"isPremium": false,
+"sortOrder": 4
+},
+{
+"id": "69f1897a31962803c54be739",
+"displayCategoryKey": "chicken",
+"name": "Spicy Chicken",
+"description": "",
+"proteinFamilyKey": "chicken",
+"ruleTags": [],
+"selectionType": "standard_meal",
+"isPremium": false,
+"sortOrder": 5
+},
+{
+"id": "69f1897b31962803c54be73a",
+"displayCategoryKey": "chicken",
+"name": "Italian Chicken",
+"description": "",
+"proteinFamilyKey": "chicken",
+"ruleTags": [],
+"selectionType": "standard_meal",
+"isPremium": false,
+"sortOrder": 6
+},
+{
+"id": "69f1897b31962803c54be73b",
+"displayCategoryKey": "chicken",
+"name": "Chicken Tikka",
+"description": "",
+"proteinFamilyKey": "chicken",
+"ruleTags": [],
+"selectionType": "standard_meal",
+"isPremium": false,
+"sortOrder": 7
+},
+{
+"id": "69f1897b31962803c54be73c",
+"displayCategoryKey": "chicken",
+"name": "Asian Chicken",
+"description": "",
+"proteinFamilyKey": "chicken",
+"ruleTags": [],
+"selectionType": "standard_meal",
+"isPremium": false,
+"sortOrder": 8
+},
+{
+"id": "69f1897c31962803c54be73d",
+"displayCategoryKey": "chicken",
+"name": "Strips",
+"description": "",
+"proteinFamilyKey": "chicken",
+"ruleTags": [],
+"selectionType": "standard_meal",
+"isPremium": false,
+"sortOrder": 9
+},
+{
+"id": "69f1897c31962803c54be73e",
+"displayCategoryKey": "chicken",
+"name": "Grilled Chicken",
+"description": "",
+"proteinFamilyKey": "chicken",
+"ruleTags": [],
+"selectionType": "standard_meal",
+"isPremium": false,
+"sortOrder": 10
+},
+{
+"id": "69f1897c31962803c54be73f",
+"displayCategoryKey": "chicken",
+"name": "Mexican Chicken",
+"description": "",
+"proteinFamilyKey": "chicken",
+"ruleTags": [],
+"selectionType": "standard_meal",
+"isPremium": false,
+"sortOrder": 11
+}
+],
+"premiumProteins": [
+{
+"id": "69f188fdc48e7ad405aff5a0",
+"displayCategoryKey": "premium",
+"name": "Beef Steak",
+"description": "Grilled beef steak",
+"proteinFamilyKey": "beef",
+"ruleTags": [
+"premium"
+],
+"selectionType": "premium_meal",
+"isPremium": true,
+"premiumKey": "beef_steak",
+"extraFeeHalala": 2200,
+"sortOrder": 10
+},
+{
+"id": "69f188fdc48e7ad405aff5a3",
+"displayCategoryKey": "premium",
+"name": "Salmon",
+"description": "Grilled salmon",
+"proteinFamilyKey": "fish",
+"ruleTags": [
+"premium"
+],
+"selectionType": "premium_meal",
+"isPremium": true,
+"premiumKey": "salmon",
+"extraFeeHalala": 2500,
+"sortOrder": 20
+},
+{
+"id": "69f188fdc48e7ad405aff59d",
+"displayCategoryKey": "premium",
+"name": "Shrimp",
+"description": "Grilled shrimp",
+"proteinFamilyKey": "fish",
+"ruleTags": [
+"premium"
+],
+"selectionType": "premium_meal",
+"isPremium": true,
+"premiumKey": "shrimp",
+"extraFeeHalala": 2000,
+"sortOrder": 30
+}
+],
+"carbs": [
+{
+"id": "69f02ab231962803c54b0a36",
+"displayCategoryKey": "standard_carbs",
+"name": "White Rice",
+"description": "",
+"sortOrder": 1
+},
+{
+"id": "69f02ab231962803c54b0a37",
+"displayCategoryKey": "standard_carbs",
+"name": "Turmeric Rice",
+"description": "",
+"sortOrder": 2
+},
+{
+"id": "69f02ab331962803c54b0a38",
+"displayCategoryKey": "standard_carbs",
+"name": "Biryani Rice",
+"description": "",
+"sortOrder": 3
+},
+{
+"id": "69f02ab331962803c54b0a39",
+"displayCategoryKey": "standard_carbs",
+"name": "Quinoa",
+"description": "",
+"sortOrder": 4
+},
+{
+"id": "69f02ab331962803c54b0a3b",
+"displayCategoryKey": "standard_carbs",
+"name": "Alfredo Pasta",
+"description": "",
+"sortOrder": 5
+},
+{
+"id": "69f02ab431962803c54b0a3c",
+"displayCategoryKey": "standard_carbs",
+"name": "Red Sauce Pasta",
+"description": "",
+"sortOrder": 6
+},
+{
+"id": "69f02ab431962803c54b0a3d",
+"displayCategoryKey": "standard_carbs",
+"name": "Roasted Potato",
+"description": "",
+"sortOrder": 7
+},
+{
+"id": "69f02ab431962803c54b0a3e",
+"displayCategoryKey": "standard_carbs",
+"name": "Sweet Potato",
+"description": "",
+"sortOrder": 8
+},
+{
+"id": "69f02ab531962803c54b0a3f",
+"displayCategoryKey": "standard_carbs",
+"name": "Grilled Mixed Vegetables",
+"description": "",
+"sortOrder": 9
+}
+],
+"sandwiches": [
+{
+"id": "69f18904c48e7ad405aff5ce",
+"name": "Sandwich",
+"description": "Sandwich meal",
+"imageUrl": "",
+"calories": 0,
+"selectionType": "sandwich"
+}
+],
+"premiumLargeSalad": {
+"id": "premium_large_salad",
+"enabled": true,
+"carbId": "69f1897831962803c54be730",
+"premiumKey": "custom_premium_salad",
+"selectionType": "premium_large_salad",
+"presetKey": "large_salad",
+"name": "Premium Large Salad",
+"extraFeeHalala": 3000,
+"currency": "SAR",
+"preset": {
+"key": "large_salad",
+"name": "Premium Large Salad",
+"selectionType": "premium_large_salad",
+"fixedPriceHalala": 3000,
+"currency": "SAR",
+"groups": [
+{
+"key": "leafy_greens",
+"name": "Leafy Greens",
+"minSelect": 0,
+"maxSelect": 99
+},
+{
+"key": "vegetables",
+"name": "Vegetables",
+"minSelect": 0,
+"maxSelect": 99
+},
+{
+"key": "protein",
+"name": "Protein",
+"minSelect": 1,
+"maxSelect": 1
+},
+{
+"key": "cheese_nuts",
+"name": "Cheese & Nuts",
+"minSelect": 0,
+"maxSelect": 99
+},
+{
+"key": "fruits",
+"name": "Fruits",
+"minSelect": 0,
+"maxSelect": 99
+},
+{
+"key": "sauce",
+"name": "Sauce",
+"minSelect": 1,
+"maxSelect": 1
+}
+]
+},
+"groups": [
+{
+"key": "leafy_greens",
+"name": "Leafy Greens",
+"minSelect": 0,
+"maxSelect": 99
+},
+{
+"key": "vegetables",
+"name": "Vegetables",
+"minSelect": 0,
+"maxSelect": 99
+},
+{
+"key": "protein",
+"name": "Protein",
+"minSelect": 1,
+"maxSelect": 1
+},
+{
+"key": "cheese_nuts",
+"name": "Cheese & Nuts",
+"minSelect": 0,
+"maxSelect": 99
+},
+{
+"key": "fruits",
+"name": "Fruits",
+"minSelect": 0,
+"maxSelect": 99
+},
+{
+"key": "sauce",
+"name": "Sauce",
+"minSelect": 1,
+"maxSelect": 1
+}
+],
+"ingredients": [
+{
+"id": "69f188ff31962803c54be6b5",
+"groupKey": "leafy_greens",
+"name": "Romaine Lettuce",
+"calories": 50,
+"sortOrder": 10
+},
+{
+"id": "69f188ff31962803c54be6b6",
+"groupKey": "leafy_greens",
+"name": "Arugula",
+"calories": 50,
+"sortOrder": 10.01
+},
+{
+"id": "69f00a8431962803c54af61c",
+"groupKey": "vegetables",
+"name": "Vegetables",
+"calories": 0,
+"sortOrder": 1
+},
+{
+"id": "69f188ff31962803c54be6b7",
+"groupKey": "vegetables",
+"name": "Pickled Onion",
+"calories": 50,
+"sortOrder": 20.02
+},
+{
+"id": "69f1890031962803c54be6b8",
+"groupKey": "vegetables",
+"name": "Mint",
+"calories": 50,
+"sortOrder": 20.03
+},
+{
+"id": "69f1890031962803c54be6b9",
+"groupKey": "vegetables",
+"name": "Black Olive",
+"calories": 50,
+"sortOrder": 20.04
+},
+{
+"id": "69f1890031962803c54be6ba",
+"groupKey": "vegetables",
+"name": "Green Olive",
+"calories": 50,
+"sortOrder": 20.05
+},
+{
+"id": "69f1890031962803c54be6bb",
+"groupKey": "vegetables",
+"name": "Broccoli",
+"calories": 50,
+"sortOrder": 20.06
+},
+{
+"id": "69f1890031962803c54be6bc",
+"groupKey": "vegetables",
+"name": "Mushroom",
+"calories": 50,
+"sortOrder": 20.07
+},
+{
+"id": "69f1890031962803c54be6bd",
+"groupKey": "vegetables",
+"name": "Coriander",
+"calories": 50,
+"sortOrder": 20.08
+},
+{
+"id": "69f1890031962803c54be6be",
+"groupKey": "vegetables",
+"name": "Pepper",
+"calories": 50,
+"sortOrder": 20.09
+},
+{
+"id": "69f1890131962803c54be6bf",
+"groupKey": "vegetables",
+"name": "Beet",
+"calories": 50,
+"sortOrder": 20.1
+},
+{
+"id": "69f1890131962803c54be6c0",
+"groupKey": "vegetables",
+"name": "Jalapeno",
+"calories": 50,
+"sortOrder": 20.11
+},
+{
+"id": "69f1898431962803c54be749",
+"groupKey": "vegetables",
+"name": "Cucumber",
+"calories": 0,
+"sortOrder": 30
+},
+{
+"id": "69f00a8431962803c54af61d",
+"groupKey": "cheese_nuts",
+"name": "Add-ons",
+"calories": 0,
+"sortOrder": 2
+},
+{
+"id": "69f00a8531962803c54af620",
+"groupKey": "cheese_nuts",
+"name": "Nuts",
+"calories": 0,
+"sortOrder": 4
+},
+{
+"id": "69f1890131962803c54be6c1",
+"groupKey": "cheese_nuts",
+"name": "Parmesan",
+"calories": 50,
+"sortOrder": 40.12
+},
+{
+"id": "69f1890131962803c54be6c2",
+"groupKey": "cheese_nuts",
+"name": "Feta",
+"calories": 50,
+"sortOrder": 40.13
+},
+{
+"id": "69f1890231962803c54be6c7",
+"groupKey": "cheese_nuts",
+"name": "Sesame",
+"calories": 50,
+"sortOrder": 40.18
+},
+{
+"id": "69f1890231962803c54be6c9",
+"groupKey": "cheese_nuts",
+"name": "Cashew",
+"calories": 50,
+"sortOrder": 40.19
+},
+{
+"id": "69f1890331962803c54be6ca",
+"groupKey": "cheese_nuts",
+"name": "Walnut",
+"calories": 50,
+"sortOrder": 40.2
+},
+{
+"id": "69f00a8531962803c54af61f",
+"groupKey": "fruits",
+"name": "Fruits",
+"calories": 0,
+"sortOrder": 3
+},
+{
+"id": "69f1890131962803c54be6c3",
+"groupKey": "fruits",
+"name": "Dates",
+"calories": 50,
+"sortOrder": 50.14
+},
+{
+"id": "69f1890231962803c54be6c4",
+"groupKey": "fruits",
+"name": "Blueberry",
+"calories": 50,
+"sortOrder": 50.15
+},
+{
+"id": "69f1890231962803c54be6c5",
+"groupKey": "fruits",
+"name": "Strawberry",
+"calories": 50,
+"sortOrder": 50.16
+},
+{
+"id": "69f1890231962803c54be6c6",
+"groupKey": "fruits",
+"name": "Pomegranate",
+"calories": 50,
+"sortOrder": 50.17
+},
+{
+"id": "69f00a8531962803c54af621",
+"groupKey": "sauce",
+"name": "Sauce",
+"calories": 0,
+"sortOrder": 5
+},
+{
+"id": "69f1890331962803c54be6cc",
+"groupKey": "sauce",
+"name": "Honey Lemon",
+"calories": 50,
+"sortOrder": 60.21
+},
+{
+"id": "69f1890331962803c54be6cd",
+"groupKey": "sauce",
+"name": "Yogurt Mint",
+"calories": 50,
+"sortOrder": 60.22
+},
+{
+"id": "69f1890331962803c54be6ce",
+"groupKey": "sauce",
+"name": "Honey Mustard",
+"calories": 50,
+"sortOrder": 60.23
+},
+{
+"id": "69f1890331962803c54be6cf",
+"groupKey": "sauce",
+"name": "Pesto Sauce",
+"calories": 50,
+"sortOrder": 60.24
+},
+{
+"id": "69f1890431962803c54be6d0",
+"groupKey": "sauce",
+"name": "Caesar",
+"calories": 50,
+"sortOrder": 60.25
+},
+{
+"id": "69f1890431962803c54be6d2",
+"groupKey": "sauce",
+"name": "Ranch",
+"calories": 50,
+"sortOrder": 60.26
+},
+{
+"id": "69f1897931962803c54be734",
+"groupKey": "protein",
+"name": "Fajita",
+"calories": 0,
+"displayCategoryKey": "chicken",
+"proteinFamilyKey": "chicken",
+"isPremium": false,
+"premiumKey": null,
+"extraFeeHalala": 0,
+"sortOrder": 1
+},
+{
+"id": "69f1897931962803c54be736",
+"groupKey": "protein",
+"name": "Butter Chicken",
+"calories": 0,
+"displayCategoryKey": "chicken",
+"proteinFamilyKey": "chicken",
+"isPremium": false,
+"premiumKey": null,
+"extraFeeHalala": 0,
+"sortOrder": 2
+},
+{
+"id": "69f1897a31962803c54be737",
+"groupKey": "protein",
+"name": "Cream Chicken",
+"calories": 0,
+"displayCategoryKey": "chicken",
+"proteinFamilyKey": "chicken",
+"isPremium": false,
+"premiumKey": null,
+"extraFeeHalala": 0,
+"sortOrder": 3
+},
+{
+"id": "69f1897a31962803c54be738",
+"groupKey": "protein",
+"name": "Coconut Curry Chicken",
+"calories": 0,
+"displayCategoryKey": "chicken",
+"proteinFamilyKey": "chicken",
+"isPremium": false,
+"premiumKey": null,
+"extraFeeHalala": 0,
+"sortOrder": 4
+},
+{
+"id": "69f1897a31962803c54be739",
+"groupKey": "protein",
+"name": "Spicy Chicken",
+"calories": 0,
+"displayCategoryKey": "chicken",
+"proteinFamilyKey": "chicken",
+"isPremium": false,
+"premiumKey": null,
+"extraFeeHalala": 0,
+"sortOrder": 5
+},
+{
+"id": "69f1897b31962803c54be73a",
+"groupKey": "protein",
+"name": "Italian Chicken",
+"calories": 0,
+"displayCategoryKey": "chicken",
+"proteinFamilyKey": "chicken",
+"isPremium": false,
+"premiumKey": null,
+"extraFeeHalala": 0,
+"sortOrder": 6
+},
+{
+"id": "69f1897b31962803c54be73b",
+"groupKey": "protein",
+"name": "Chicken Tikka",
+"calories": 0,
+"displayCategoryKey": "chicken",
+"proteinFamilyKey": "chicken",
+"isPremium": false,
+"premiumKey": null,
+"extraFeeHalala": 0,
+"sortOrder": 7
+},
+{
+"id": "69f1897b31962803c54be73c",
+"groupKey": "protein",
+"name": "Asian Chicken",
+"calories": 0,
+"displayCategoryKey": "chicken",
+"proteinFamilyKey": "chicken",
+"isPremium": false,
+"premiumKey": null,
+"extraFeeHalala": 0,
+"sortOrder": 8
+},
+{
+"id": "69f1897c31962803c54be73d",
+"groupKey": "protein",
+"name": "Strips",
+"calories": 0,
+"displayCategoryKey": "chicken",
+"proteinFamilyKey": "chicken",
+"isPremium": false,
+"premiumKey": null,
+"extraFeeHalala": 0,
+"sortOrder": 9
+},
+{
+"id": "69f1897c31962803c54be73e",
+"groupKey": "protein",
+"name": "Grilled Chicken",
+"calories": 0,
+"displayCategoryKey": "chicken",
+"proteinFamilyKey": "chicken",
+"isPremium": false,
+"premiumKey": null,
+"extraFeeHalala": 0,
+"sortOrder": 10
+},
+{
+"id": "69f1897c31962803c54be73f",
+"groupKey": "protein",
+"name": "Mexican Chicken",
+"calories": 0,
+"displayCategoryKey": "chicken",
+"proteinFamilyKey": "chicken",
+"isPremium": false,
+"premiumKey": null,
+"extraFeeHalala": 0,
+"sortOrder": 11
+},
+{
+"id": "69f1897d31962803c54be740",
+"groupKey": "protein",
+"name": "Meatballs",
+"calories": 0,
+"displayCategoryKey": "beef",
+"proteinFamilyKey": "beef",
+"isPremium": false,
+"premiumKey": null,
+"extraFeeHalala": 0,
+"sortOrder": 1
+},
+{
+"id": "69f1897d31962803c54be741",
+"groupKey": "protein",
+"name": "Beef Stroganoff",
+"calories": 0,
+"displayCategoryKey": "beef",
+"proteinFamilyKey": "beef",
+"isPremium": false,
+"premiumKey": null,
+"extraFeeHalala": 0,
+"sortOrder": 2
+},
+{
+"id": "69f1897831962803c54be732",
+"groupKey": "protein",
+"name": "Tuna",
+"calories": 0,
+"displayCategoryKey": "fish",
+"proteinFamilyKey": "fish",
+"isPremium": false,
+"premiumKey": null,
+"extraFeeHalala": 0,
+"sortOrder": 1
+},
+{
+"id": "69f1897831962803c54be731",
+"groupKey": "protein",
+"name": "Boiled Eggs",
+"calories": 0,
+"displayCategoryKey": "eggs",
+"proteinFamilyKey": "eggs",
+"isPremium": false,
+"premiumKey": null,
+"extraFeeHalala": 0,
+"sortOrder": 1
+},
+{
+"id": "69f188fdc48e7ad405aff5a0",
+"groupKey": "protein",
+"name": "Beef Steak",
+"calories": 0,
+"displayCategoryKey": "premium",
+"proteinFamilyKey": "beef",
+"isPremium": true,
+"premiumKey": "beef_steak",
+"extraFeeHalala": 2200,
+"sortOrder": 10
+},
+{
+"id": "69f188fdc48e7ad405aff5a3",
+"groupKey": "protein",
+"name": "Salmon",
+"calories": 0,
+"displayCategoryKey": "premium",
+"proteinFamilyKey": "fish",
+"isPremium": true,
+"premiumKey": "salmon",
+"extraFeeHalala": 2500,
+"sortOrder": 20
+},
+{
+"id": "69f188fdc48e7ad405aff59d",
+"groupKey": "protein",
+"name": "Shrimp",
+"calories": 0,
+"displayCategoryKey": "premium",
+"proteinFamilyKey": "fish",
+"isPremium": true,
+"premiumKey": "shrimp",
+"extraFeeHalala": 2000,
+"sortOrder": 30
+}
+]
+},
+"rules": {
+"version": "meal_planner_rules.v3",
+"beef": {
+"proteinFamilyKey": "beef",
+"maxSlotsPerDay": 1
+},
+"standardCarbs": {
+"maxTypes": 2,
+"maxTotalGrams": 300,
+"unit": "grams"
+},
+"premiumCarbs": {
+"maxTypes": 2,
+"maxTotalGrams": 300,
+"unit": "grams"
+},
+"proteinGroups": [
+{
+"key": "chicken",
+"name": {
+"ar": "دجاج",
+"en": "Chicken"
+},
+"sortOrder": 10
+},
+{
+"key": "beef",
+"name": {
+"ar": "لحم",
+"en": "Beef"
+},
+"sortOrder": 20
+},
+{
+"key": "fish",
+"name": {
+"ar": "أسماك",
+"en": "Fish"
+},
+"sortOrder": 30
+},
+{
+"key": "eggs",
+"name": {
+"ar": "بيض",
+"en": "Eggs"
+},
+"sortOrder": 40
+},
+{
+"key": "premium",
+"name": {
+"ar": "بريميوم",
+"en": "Premium"
+},
+"sortOrder": 50
+},
+{
+"key": "other",
+"name": {
+"ar": "أخرى",
+"en": "Other"
+},
+"sortOrder": 60
+}
+],
+"premiumLargeSalad": {
+"premiumKey": "custom_premium_salad",
+"presetKey": "large_salad",
+"extraFeeHalala": 3000,
+"groups": [
+{
+"key": "leafy_greens",
+"minSelect": 0,
+"maxSelect": 99
+},
+{
+"key": "vegetables",
+"minSelect": 0,
+"maxSelect": 99
+},
+{
+"key": "protein",
+"minSelect": 1,
+"maxSelect": 1
+},
+{
+"key": "cheese_nuts",
+"minSelect": 0,
+"maxSelect": 99
+},
+{
+"key": "fruits",
+"minSelect": 0,
+"maxSelect": 99
+},
+{
+"key": "sauce",
+"minSelect": 1,
+"maxSelect": 1
+}
+]
+}
+}
+},
+"addonCatalog": {
+"items": [
+{
+"id": "69f18906c48e7ad405aff5db",
+"name": "Small Salad",
+"description": "",
+"imageUrl": "",
+"currency": "SAR",
+"priceHalala": 1200,
+"priceSar": 12,
+"priceLabel": "12 SAR",
+"kind": "item",
+"category": "small_salad",
+"type": "one_time",
+"billingMode": "flat_once",
+"pricingModel": "one_time",
+"billingUnit": "item",
+"ui": {
+"title": "Small Salad",
+"subtitle": "",
+"ctaLabel": "Add",
+"badge": "One-time add-on"
+}
+},
+{
+"id": "69f142e831962803c54bbb63",
+"name": "Berry Blast",
+"description": "Juice item in the juice category.",
+"imageUrl": "",
+"currency": "SAR",
+"priceHalala": 1100,
+"priceSar": 11,
+"priceLabel": "11 SAR",
+"kind": "item",
+"category": "juice",
+"type": "one_time",
+"billingMode": "flat_once",
+"pricingModel": "one_time",
+"billingUnit": "item",
+"ui": {
+"title": "Berry Blast",
+"subtitle": "Juice item in the juice category.",
+"ctaLabel": "Add",
+"badge": "One-time add-on"
+}
+},
+{
+"id": "69f142e831962803c54bbb68",
+"name": "Berry Brute",
+"description": "Juice item in the juice category.",
+"imageUrl": "",
+"currency": "SAR",
+"priceHalala": 1300,
+"priceSar": 13,
+"priceLabel": "13 SAR",
+"kind": "item",
+"category": "juice",
+"type": "one_time",
+"billingMode": "flat_once",
+"pricingModel": "one_time",
+"billingUnit": "item",
+"ui": {
+"title": "Berry Brute",
+"subtitle": "Juice item in the juice category.",
+"ctaLabel": "Add",
+"badge": "One-time add-on"
+}
+},
+{
+"id": "69f142e931962803c54bbb6b",
+"name": "Classic Green",
+"description": "Juice item in the juice category.",
+"imageUrl": "",
+"currency": "SAR",
+"priceHalala": 1100,
+"priceSar": 11,
+"priceLabel": "11 SAR",
+"kind": "item",
+"category": "juice",
+"type": "one_time",
+"billingMode": "flat_once",
+"pricingModel": "one_time",
+"billingUnit": "item",
+"ui": {
+"title": "Classic Green",
+"subtitle": "Juice item in the juice category.",
+"ctaLabel": "Add",
+"badge": "One-time add-on"
+}
+},
+{
+"id": "69f142e931962803c54bbb6f",
+"name": "Beet Punch",
+"description": "Juice item in the juice category.",
+"imageUrl": "",
+"currency": "SAR",
+"priceHalala": 1100,
+"priceSar": 11,
+"priceLabel": "11 SAR",
+"kind": "item",
+"category": "juice",
+"type": "one_time",
+"billingMode": "flat_once",
+"pricingModel": "one_time",
+"billingUnit": "item",
+"ui": {
+"title": "Beet Punch",
+"subtitle": "Juice item in the juice category.",
+"ctaLabel": "Add",
+"badge": "One-time add-on"
+}
+},
+{
+"id": "69f142e931962803c54bbb71",
+"name": "Orange Carrot",
+"description": "Juice item in the juice category.",
+"imageUrl": "",
+"currency": "SAR",
+"priceHalala": 1100,
+"priceSar": 11,
+"priceLabel": "11 SAR",
+"kind": "item",
+"category": "juice",
+"type": "one_time",
+"billingMode": "flat_once",
+"pricingModel": "one_time",
+"billingUnit": "item",
+"ui": {
+"title": "Orange Carrot",
+"subtitle": "Juice item in the juice category.",
+"ctaLabel": "Add",
+"badge": "One-time add-on"
+}
+},
+{
+"id": "69f142e931962803c54bbb73",
+"name": "Watermelon Mint",
+"description": "Juice item in the juice category.",
+"imageUrl": "",
+"currency": "SAR",
+"priceHalala": 1100,
+"priceSar": 11,
+"priceLabel": "11 SAR",
+"kind": "item",
+"category": "juice",
+"type": "one_time",
+"billingMode": "flat_once",
+"pricingModel": "one_time",
+"billingUnit": "item",
+"ui": {
+"title": "Watermelon Mint",
+"subtitle": "Juice item in the juice category.",
+"ctaLabel": "Add",
+"badge": "One-time add-on"
+}
+},
+{
+"id": "69f142e931962803c54bbb75",
+"name": "Protein Drink",
+"description": "Drink item in the juice category.",
+"imageUrl": "",
+"currency": "SAR",
+"priceHalala": 1900,
+"priceSar": 19,
+"priceLabel": "19 SAR",
+"kind": "item",
+"category": "juice",
+"type": "one_time",
+"billingMode": "flat_once",
+"pricingModel": "one_time",
+"billingUnit": "item",
+"ui": {
+"title": "Protein Drink",
+"subtitle": "Drink item in the juice category.",
+"ctaLabel": "Add",
+"badge": "One-time add-on"
+}
+},
+{
+"id": "69f142ea31962803c54bbb77",
+"name": "Diet Iced Tea",
+"description": "Drink item in the juice category.",
+"imageUrl": "",
+"currency": "SAR",
+"priceHalala": 400,
+"priceSar": 4,
+"priceLabel": "4 SAR",
+"kind": "item",
+"category": "juice",
+"type": "one_time",
+"billingMode": "flat_once",
+"pricingModel": "one_time",
+"billingUnit": "item",
+"ui": {
+"title": "Diet Iced Tea",
+"subtitle": "Drink item in the juice category.",
+"ctaLabel": "Add",
+"badge": "One-time add-on"
+}
+},
+{
+"id": "69f142ea31962803c54bbb79",
+"name": "Diet Soda",
+"description": "Drink item in the juice category.",
+"imageUrl": "",
+"currency": "SAR",
+"priceHalala": 300,
+"priceSar": 3,
+"priceLabel": "3 SAR",
+"kind": "item",
+"category": "juice",
+"type": "one_time",
+"billingMode": "flat_once",
+"pricingModel": "one_time",
+"billingUnit": "item",
+"ui": {
+"title": "Diet Soda",
+"subtitle": "Drink item in the juice category.",
+"ctaLabel": "Add",
+"badge": "One-time add-on"
+}
+},
+{
+"id": "69f142ea31962803c54bbb7b",
+"name": "Water",
+"description": "Water item in the juice category.",
+"imageUrl": "",
+"currency": "SAR",
+"priceHalala": 200,
+"priceSar": 2,
+"priceLabel": "2 SAR",
+"kind": "item",
+"category": "juice",
+"type": "one_time",
+"billingMode": "flat_once",
+"pricingModel": "one_time",
+"billingUnit": "item",
+"ui": {
+"title": "Water",
+"subtitle": "Water item in the juice category.",
+"ctaLabel": "Add",
+"badge": "One-time add-on"
+}
+},
+{
+"id": "69f142ea31962803c54bbb7d",
+"name": "Cinnamon Apple Muffin (2 pieces)",
+"description": "Snack item in the snack category.",
+"imageUrl": "",
+"currency": "SAR",
+"priceHalala": 1200,
+"priceSar": 12,
+"priceLabel": "12 SAR",
+"kind": "item",
+"category": "snack",
+"type": "one_time",
+"billingMode": "flat_once",
+"pricingModel": "one_time",
+"billingUnit": "item",
+"ui": {
+"title": "Cinnamon Apple Muffin (2 pieces)",
+"subtitle": "Snack item in the snack category.",
+"ctaLabel": "Add",
+"badge": "One-time add-on"
+}
+},
+{
+"id": "69f142ea31962803c54bbb7f",
+"name": "Blueberry Cheesecake",
+"description": "Snack item in the snack category.",
+"imageUrl": "",
+"currency": "SAR",
+"priceHalala": 1900,
+"priceSar": 19,
+"priceLabel": "19 SAR",
+"kind": "item",
+"category": "snack",
+"type": "one_time",
+"billingMode": "flat_once",
+"pricingModel": "one_time",
+"billingUnit": "item",
+"ui": {
+"title": "Blueberry Cheesecake",
+"subtitle": "Snack item in the snack category.",
+"ctaLabel": "Add",
+"badge": "One-time add-on"
+}
+}
+],
+"byCategory": {
+"small_salad": [
+{
+"id": "69f18906c48e7ad405aff5db",
+"name": "Small Salad",
+"description": "",
+"imageUrl": "",
+"currency": "SAR",
+"priceHalala": 1200,
+"priceSar": 12,
+"priceLabel": "12 SAR",
+"kind": "item",
+"category": "small_salad",
+"type": "one_time",
+"billingMode": "flat_once",
+"pricingModel": "one_time",
+"billingUnit": "item",
+"ui": {
+"title": "Small Salad",
+"subtitle": "",
+"ctaLabel": "Add",
+"badge": "One-time add-on"
+}
+}
+],
+"juice": [
+{
+"id": "69f142e831962803c54bbb63",
+"name": "Berry Blast",
+"description": "Juice item in the juice category.",
+"imageUrl": "",
+"currency": "SAR",
+"priceHalala": 1100,
+"priceSar": 11,
+"priceLabel": "11 SAR",
+"kind": "item",
+"category": "juice",
+"type": "one_time",
+"billingMode": "flat_once",
+"pricingModel": "one_time",
+"billingUnit": "item",
+"ui": {
+"title": "Berry Blast",
+"subtitle": "Juice item in the juice category.",
+"ctaLabel": "Add",
+"badge": "One-time add-on"
+}
+},
+{
+"id": "69f142e831962803c54bbb68",
+"name": "Berry Brute",
+"description": "Juice item in the juice category.",
+"imageUrl": "",
+"currency": "SAR",
+"priceHalala": 1300,
+"priceSar": 13,
+"priceLabel": "13 SAR",
+"kind": "item",
+"category": "juice",
+"type": "one_time",
+"billingMode": "flat_once",
+"pricingModel": "one_time",
+"billingUnit": "item",
+"ui": {
+"title": "Berry Brute",
+"subtitle": "Juice item in the juice category.",
+"ctaLabel": "Add",
+"badge": "One-time add-on"
+}
+},
+{
+"id": "69f142e931962803c54bbb6b",
+"name": "Classic Green",
+"description": "Juice item in the juice category.",
+"imageUrl": "",
+"currency": "SAR",
+"priceHalala": 1100,
+"priceSar": 11,
+"priceLabel": "11 SAR",
+"kind": "item",
+"category": "juice",
+"type": "one_time",
+"billingMode": "flat_once",
+"pricingModel": "one_time",
+"billingUnit": "item",
+"ui": {
+"title": "Classic Green",
+"subtitle": "Juice item in the juice category.",
+"ctaLabel": "Add",
+"badge": "One-time add-on"
+}
+},
+{
+"id": "69f142e931962803c54bbb6f",
+"name": "Beet Punch",
+"description": "Juice item in the juice category.",
+"imageUrl": "",
+"currency": "SAR",
+"priceHalala": 1100,
+"priceSar": 11,
+"priceLabel": "11 SAR",
+"kind": "item",
+"category": "juice",
+"type": "one_time",
+"billingMode": "flat_once",
+"pricingModel": "one_time",
+"billingUnit": "item",
+"ui": {
+"title": "Beet Punch",
+"subtitle": "Juice item in the juice category.",
+"ctaLabel": "Add",
+"badge": "One-time add-on"
+}
+},
+{
+"id": "69f142e931962803c54bbb71",
+"name": "Orange Carrot",
+"description": "Juice item in the juice category.",
+"imageUrl": "",
+"currency": "SAR",
+"priceHalala": 1100,
+"priceSar": 11,
+"priceLabel": "11 SAR",
+"kind": "item",
+"category": "juice",
+"type": "one_time",
+"billingMode": "flat_once",
+"pricingModel": "one_time",
+"billingUnit": "item",
+"ui": {
+"title": "Orange Carrot",
+"subtitle": "Juice item in the juice category.",
+"ctaLabel": "Add",
+"badge": "One-time add-on"
+}
+},
+{
+"id": "69f142e931962803c54bbb73",
+"name": "Watermelon Mint",
+"description": "Juice item in the juice category.",
+"imageUrl": "",
+"currency": "SAR",
+"priceHalala": 1100,
+"priceSar": 11,
+"priceLabel": "11 SAR",
+"kind": "item",
+"category": "juice",
+"type": "one_time",
+"billingMode": "flat_once",
+"pricingModel": "one_time",
+"billingUnit": "item",
+"ui": {
+"title": "Watermelon Mint",
+"subtitle": "Juice item in the juice category.",
+"ctaLabel": "Add",
+"badge": "One-time add-on"
+}
+},
+{
+"id": "69f142e931962803c54bbb75",
+"name": "Protein Drink",
+"description": "Drink item in the juice category.",
+"imageUrl": "",
+"currency": "SAR",
+"priceHalala": 1900,
+"priceSar": 19,
+"priceLabel": "19 SAR",
+"kind": "item",
+"category": "juice",
+"type": "one_time",
+"billingMode": "flat_once",
+"pricingModel": "one_time",
+"billingUnit": "item",
+"ui": {
+"title": "Protein Drink",
+"subtitle": "Drink item in the juice category.",
+"ctaLabel": "Add",
+"badge": "One-time add-on"
+}
+},
+{
+"id": "69f142ea31962803c54bbb77",
+"name": "Diet Iced Tea",
+"description": "Drink item in the juice category.",
+"imageUrl": "",
+"currency": "SAR",
+"priceHalala": 400,
+"priceSar": 4,
+"priceLabel": "4 SAR",
+"kind": "item",
+"category": "juice",
+"type": "one_time",
+"billingMode": "flat_once",
+"pricingModel": "one_time",
+"billingUnit": "item",
+"ui": {
+"title": "Diet Iced Tea",
+"subtitle": "Drink item in the juice category.",
+"ctaLabel": "Add",
+"badge": "One-time add-on"
+}
+},
+{
+"id": "69f142ea31962803c54bbb79",
+"name": "Diet Soda",
+"description": "Drink item in the juice category.",
+"imageUrl": "",
+"currency": "SAR",
+"priceHalala": 300,
+"priceSar": 3,
+"priceLabel": "3 SAR",
+"kind": "item",
+"category": "juice",
+"type": "one_time",
+"billingMode": "flat_once",
+"pricingModel": "one_time",
+"billingUnit": "item",
+"ui": {
+"title": "Diet Soda",
+"subtitle": "Drink item in the juice category.",
+"ctaLabel": "Add",
+"badge": "One-time add-on"
+}
+},
+{
+"id": "69f142ea31962803c54bbb7b",
+"name": "Water",
+"description": "Water item in the juice category.",
+"imageUrl": "",
+"currency": "SAR",
+"priceHalala": 200,
+"priceSar": 2,
+"priceLabel": "2 SAR",
+"kind": "item",
+"category": "juice",
+"type": "one_time",
+"billingMode": "flat_once",
+"pricingModel": "one_time",
+"billingUnit": "item",
+"ui": {
+"title": "Water",
+"subtitle": "Water item in the juice category.",
+"ctaLabel": "Add",
+"badge": "One-time add-on"
+}
+}
+],
+"snack": [
+{
+"id": "69f142ea31962803c54bbb7d",
+"name": "Cinnamon Apple Muffin (2 pieces)",
+"description": "Snack item in the snack category.",
+"imageUrl": "",
+"currency": "SAR",
+"priceHalala": 1200,
+"priceSar": 12,
+"priceLabel": "12 SAR",
+"kind": "item",
+"category": "snack",
+"type": "one_time",
+"billingMode": "flat_once",
+"pricingModel": "one_time",
+"billingUnit": "item",
+"ui": {
+"title": "Cinnamon Apple Muffin (2 pieces)",
+"subtitle": "Snack item in the snack category.",
+"ctaLabel": "Add",
+"badge": "One-time add-on"
+}
+},
+{
+"id": "69f142ea31962803c54bbb7f",
+"name": "Blueberry Cheesecake",
+"description": "Snack item in the snack category.",
+"imageUrl": "",
+"currency": "SAR",
+"priceHalala": 1900,
+"priceSar": 19,
+"priceLabel": "19 SAR",
+"kind": "item",
+"category": "snack",
+"type": "one_time",
+"billingMode": "flat_once",
+"pricingModel": "one_time",
+"billingUnit": "item",
+"ui": {
+"title": "Blueberry Cheesecake",
+"subtitle": "Snack item in the snack category.",
+"ctaLabel": "Add",
+"badge": "One-time add-on"
+}
+}
+]
+},
+"totalCount": 13
+}
+}
+}

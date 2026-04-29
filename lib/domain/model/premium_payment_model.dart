@@ -17,9 +17,13 @@ class PremiumPaymentModel {
 class PremiumPaymentVerificationModel {
   final String paymentStatus;
   final String message;
+  final bool applied;
+  final bool isFinal;
 
   PremiumPaymentVerificationModel({
     required this.paymentStatus,
     required this.message,
+    required this.applied,
+    required this.isFinal,
   });
 }

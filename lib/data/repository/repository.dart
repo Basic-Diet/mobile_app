@@ -33,6 +33,8 @@ import 'package:dio/dio.dart';
 
 import 'package:basic_diet/data/mappers/addons_mapper.dart';
 import 'package:basic_diet/domain/model/add_ons_model.dart';
+import 'package:basic_diet/data/mappers/subscription_menu_mapper.dart';
+import 'package:basic_diet/domain/model/subscription_menu_model.dart';
 import 'package:basic_diet/data/mappers/current_subscription_overview_mapper.dart';
 import 'package:basic_diet/domain/model/current_subscription_overview_model.dart';
 import 'package:basic_diet/data/request/skip_days_request.dart';
@@ -256,6 +258,22 @@ class RepositoryImpl implements Repository {
   Future<Either<Failure, AddOnsModel>> getAddOns() async {
     try {
       final response = await _remoteDataSource.getAddOns();
+      if (_isSuccessfulResponse(response)) {
+        return Right(response.toDomain());
+      } else {
+        return Left(
+          Failure(ApiInternalStatus.failure, ResponseMessage.defaultError),
+        );
+      }
+    } catch (error) {
+      return _handleError(error);
+    }
+  }
+
+  @override
+  Future<Either<Failure, SubscriptionMenuModel>> getSubscriptionMenu() async {
+    try {
+      final response = await _remoteDataSource.getSubscriptionMenu();
       if (_isSuccessfulResponse(response)) {
         return Right(response.toDomain());
       } else {
