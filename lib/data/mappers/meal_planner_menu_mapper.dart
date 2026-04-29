@@ -74,6 +74,8 @@ extension BuilderCatalogResponseMapper on BuilderCatalogResponse? {
     return BuilderCatalogModel(
       categories: (self?.categories?.map((e) => e.toDomain()).toList()) ?? [],
       proteins: (self?.proteins?.map((e) => e.toDomain()).toList()) ?? [],
+      premiumProteins:
+          (self?.premiumProteins?.map((e) => e.toDomain()).toList()) ?? [],
       carbs: (self?.carbs?.map((e) => e.toDomain()).toList()) ?? [],
       rules: (self?.rules).toDomain(),
       customPremiumSalad: self?.customPremiumSalad?.toDomain(),

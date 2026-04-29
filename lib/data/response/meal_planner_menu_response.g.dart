@@ -79,6 +79,12 @@ BuilderCatalogResponse _$BuilderCatalogResponseFromJson(
             (e) => BuilderProteinResponse.fromJson(e as Map<String, dynamic>),
           )
           .toList(),
+  premiumProteins:
+      (json['premiumProteins'] as List<dynamic>?)
+          ?.map(
+            (e) => BuilderProteinResponse.fromJson(e as Map<String, dynamic>),
+          )
+          .toList(),
   carbs:
       (json['carbs'] as List<dynamic>?)
           ?.map((e) => BuilderCarbResponse.fromJson(e as Map<String, dynamic>))
@@ -102,6 +108,7 @@ Map<String, dynamic> _$BuilderCatalogResponseToJson(
 ) => <String, dynamic>{
   'categories': instance.categories,
   'proteins': instance.proteins,
+  'premiumProteins': instance.premiumProteins,
   'carbs': instance.carbs,
   'rules': instance.rules,
   'customPremiumSalad': instance.customPremiumSalad,

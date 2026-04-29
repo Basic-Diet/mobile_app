@@ -477,7 +477,7 @@ class _MealPlannerBody extends StatelessWidget {
   }
 
   BuilderProteinModel? _findProteinById(MealPlannerMenuModel menu, String id) {
-    for (final protein in menu.builderCatalog.proteins) {
+    for (final protein in menu.builderCatalog.allProteins) {
       if (protein.id == id) return protein;
     }
     return null;

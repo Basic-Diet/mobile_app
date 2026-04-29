@@ -15,6 +15,7 @@ class MealPlannerMenuModel {
 class BuilderCatalogModel {
   final List<BuilderCategoryModel> categories;
   final List<BuilderProteinModel> proteins;
+  final List<BuilderProteinModel> premiumProteins;
   final List<BuilderCarbModel> carbs;
   final BuilderRulesModel rules;
   final CustomPremiumSaladModel? customPremiumSalad;
@@ -22,10 +23,13 @@ class BuilderCatalogModel {
   BuilderCatalogModel({
     required this.categories,
     required this.proteins,
+    required this.premiumProteins,
     required this.carbs,
     required this.rules,
     this.customPremiumSalad,
   });
+
+  List<BuilderProteinModel> get allProteins => [...proteins, ...premiumProteins];
 }
 
 class BuilderCategoryModel {

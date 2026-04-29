@@ -102,6 +102,8 @@ class BuilderCatalogResponse {
   List<BuilderCategoryResponse>? categories;
   @JsonKey(name: "proteins")
   List<BuilderProteinResponse>? proteins;
+  @JsonKey(name: "premiumProteins")
+  List<BuilderProteinResponse>? premiumProteins;
   @JsonKey(name: "carbs")
   List<BuilderCarbResponse>? carbs;
   @JsonKey(name: "rules")
@@ -112,6 +114,7 @@ class BuilderCatalogResponse {
   BuilderCatalogResponse({
     this.categories,
     this.proteins,
+    this.premiumProteins,
     this.carbs,
     this.rules,
     this.customPremiumSalad,
