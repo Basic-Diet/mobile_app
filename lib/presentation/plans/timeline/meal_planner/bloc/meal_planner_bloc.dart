@@ -842,6 +842,10 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
 
         final stillRequiresPayment =
             updatedDay.paymentRequirement?.requiresPayment ?? false;
+        final paymentFinalized =
+            verificationModel.paymentStatus == 'paid' &&
+            verificationModel.applied &&
+            verificationModel.isFinal;
 
         if (kind == 'premium' && updatedState.hasPendingAddonPayment) {
           await _createAddonPayment(emit, updatedState);
@@ -853,7 +857,7 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
           return;
         }
 
-        if (stillRequiresPayment) {
+        if (stillRequiresPayment && !paymentFinalized) {
           emit(updatedState);
           return;
         }

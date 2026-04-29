@@ -25,6 +25,24 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 
+class MealPlannerScreenResult {
+  final bool shouldRefreshTimeline;
+  final String? successMessage;
+
+  const MealPlannerScreenResult({
+    required this.shouldRefreshTimeline,
+    this.successMessage,
+  });
+
+  const MealPlannerScreenResult.saved()
+    : shouldRefreshTimeline = true,
+      successMessage = null;
+
+  const MealPlannerScreenResult.paymentVerified(String message)
+    : shouldRefreshTimeline = true,
+      successMessage = message;
+}
+
 class MealPlannerScreen extends StatelessWidget {
   final List<TimelineDayModel> timelineDays;
   final List<AddonSubscriptionModel> addonEntitlements;
@@ -94,14 +112,18 @@ class MealPlannerScreen extends StatelessWidget {
                   }
 
                   if (state.saveSuccess && state.paymentUrl == null) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(Strings.changesSavedSuccessfully.tr()),
-                        backgroundColor: ColorManager.stateSuccess,
-                        duration: const Duration(seconds: 2),
-                      ),
+                    final successMessage =
+                        state.activePaymentKind == null
+                            ? null
+                            : Strings.paymentSuccessful.tr();
+                    Navigator.pop(
+                      context,
+                      successMessage == null
+                          ? const MealPlannerScreenResult.saved()
+                          : MealPlannerScreenResult.paymentVerified(
+                            successMessage,
+                          ),
                     );
-                    Navigator.pop(context, true);
                     return;
                   }
 

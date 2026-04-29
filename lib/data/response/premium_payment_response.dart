@@ -75,7 +75,18 @@ class PremiumPaymentVerificationData {
   @JsonKey(name: 'message')
   final String? message;
 
-  PremiumPaymentVerificationData({this.paymentStatus, this.message});
+  @JsonKey(name: 'applied')
+  final bool? applied;
+
+  @JsonKey(name: 'isFinal')
+  final bool? isFinal;
+
+  PremiumPaymentVerificationData({
+    this.paymentStatus,
+    this.message,
+    this.applied,
+    this.isFinal,
+  });
 
   factory PremiumPaymentVerificationData.fromJson(Map<String, dynamic> json) =>
       _$PremiumPaymentVerificationDataFromJson(json);

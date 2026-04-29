@@ -269,8 +269,7 @@ class TimeLineScreen extends StatelessWidget {
     return GestureDetector(
       onTap: isClickable
           ? () async {
-
-              final result = await Navigator.push(
+              final result = await Navigator.push<dynamic>(
                 context,
                 MaterialPageRoute(
                   builder: (context) => MealPlannerScreen(
@@ -285,7 +284,25 @@ class TimeLineScreen extends StatelessWidget {
                 ),
               );
 
-              if (result == true && context.mounted) {
+              if (!context.mounted) return;
+
+              final shouldRefreshTimeline =
+                  result == true ||
+                  (result is MealPlannerScreenResult &&
+                      result.shouldRefreshTimeline);
+
+              if (result is MealPlannerScreenResult &&
+                  result.successMessage != null) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(result.successMessage!),
+                    backgroundColor: ColorManager.stateSuccess,
+                    duration: const Duration(seconds: 2),
+                  ),
+                );
+              }
+
+              if (shouldRefreshTimeline) {
                 context.read<TimelineBloc>().add(
                   FetchTimelineEvent(subscriptionId),
                 );

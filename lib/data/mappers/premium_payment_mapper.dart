@@ -22,6 +22,8 @@ extension PremiumPaymentVerificationResponseMapper
     return PremiumPaymentVerificationModel(
       paymentStatus: data?.paymentStatus ?? Constants.empty,
       message: data?.message ?? Constants.empty,
+      applied: data?.applied ?? false,
+      isFinal: data?.isFinal ?? false,
     );
   }
 }
