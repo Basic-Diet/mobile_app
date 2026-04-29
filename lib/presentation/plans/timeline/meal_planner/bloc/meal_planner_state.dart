@@ -521,6 +521,7 @@ final class MealPlannerLoaded extends MealPlannerState {
             .map(
               (summary) => _PremiumAllowanceEntry(
                 premiumMealId: summary.premiumMealId,
+                premiumKey: summary.premiumKey,
                 normalizedName: _normalizePremiumMealName(summary.name),
                 remainingCount: summary.remainingQtyTotal,
               ),
@@ -535,6 +536,39 @@ final class MealPlannerLoaded extends MealPlannerState {
             const [];
 
     for (final slot in slots) {
+      // --- Premium large salad slot ---
+      if (slot.selectionType == 'premium_large_salad') {
+        final salad = menu.builderCatalog.premiumLargeSalad;
+        if (salad == null) continue;
+
+        final keyMatchIndex = allowances.indexWhere(
+          (entry) =>
+              entry.remainingCount > 0 &&
+              entry.premiumKey.isNotEmpty &&
+              entry.premiumKey == salad.premiumKey,
+        );
+        final idMatchIndex = keyMatchIndex == -1
+            ? allowances.indexWhere(
+                (entry) =>
+                    entry.remainingCount > 0 &&
+                    entry.premiumMealId == salad.id,
+              )
+            : -1;
+
+        final matchIndex =
+            keyMatchIndex != -1 ? keyMatchIndex : idMatchIndex;
+
+        if (matchIndex != -1) {
+          allowances[matchIndex].remainingCount -= 1;
+          coveredCount += 1;
+        } else {
+          pendingCount += 1;
+          pendingAmountHalala += salad.extraFeeHalala;
+        }
+        continue;
+      }
+
+      // --- Regular / premium protein slot ---
       final proteinId = slot.proteinId;
       if (proteinId == null) continue;
 
@@ -546,18 +580,37 @@ final class MealPlannerLoaded extends MealPlannerState {
       if (protein == null || !protein.isPremium) continue;
 
       final normalizedProteinName = _normalizePremiumMealName(protein.name);
-      final exactMatchIndex = allowances.indexWhere(
-        (entry) => entry.remainingCount > 0 && entry.premiumMealId == protein.id,
-      );
-      final fallbackMatchIndex = exactMatchIndex == -1
+
+      // Match priority: premiumKey → premiumMealId → normalized name
+      final keyMatchIndex = protein.premiumKey.isNotEmpty
           ? allowances.indexWhere(
               (entry) =>
                   entry.remainingCount > 0 &&
-                  entry.normalizedName == normalizedProteinName,
+                  entry.premiumKey.isNotEmpty &&
+                  entry.premiumKey == protein.premiumKey,
             )
           : -1;
-      final matchIndex =
-          exactMatchIndex != -1 ? exactMatchIndex : fallbackMatchIndex;
+      final idMatchIndex = keyMatchIndex == -1
+          ? allowances.indexWhere(
+              (entry) =>
+                  entry.remainingCount > 0 &&
+                  entry.premiumMealId == protein.id,
+            )
+          : -1;
+      final nameMatchIndex =
+          keyMatchIndex == -1 && idMatchIndex == -1
+              ? allowances.indexWhere(
+                  (entry) =>
+                      entry.remainingCount > 0 &&
+                      entry.normalizedName == normalizedProteinName,
+                )
+              : -1;
+
+      final matchIndex = keyMatchIndex != -1
+          ? keyMatchIndex
+          : idMatchIndex != -1
+          ? idMatchIndex
+          : nameMatchIndex;
 
       if (matchIndex != -1) {
         allowances[matchIndex].remainingCount -= 1;
@@ -588,6 +641,21 @@ final class MealPlannerLoaded extends MealPlannerState {
             const [];
 
     for (final slot in slots) {
+      // --- Premium large salad slot ---
+      if (slot.selectionType == 'premium_large_salad') {
+        final salad = menu.builderCatalog.premiumLargeSalad;
+        if (salad == null) continue;
+        usedCredits += 1;
+        if (usedCredits > premiumMealsRemaining) {
+          pendingCount += 1;
+          pendingAmountHalala += salad.extraFeeHalala;
+        } else {
+          coveredCount += 1;
+        }
+        continue;
+      }
+
+      // --- Regular / premium protein slot ---
       final proteinId = slot.proteinId;
       if (proteinId == null) continue;
 
@@ -619,11 +687,13 @@ final class MealPlannerLoaded extends MealPlannerState {
 
 final class _PremiumAllowanceEntry {
   final String premiumMealId;
+  final String premiumKey;
   final String normalizedName;
   int remainingCount;
 
   _PremiumAllowanceEntry({
     required this.premiumMealId,
+    required this.premiumKey,
     required this.normalizedName,
     required this.remainingCount,
   });

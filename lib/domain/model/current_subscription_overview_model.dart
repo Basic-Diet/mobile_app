@@ -71,6 +71,7 @@ class AddonSubscriptionModel {
 
 class PremiumSummaryModel {
   String premiumMealId;
+  String premiumKey;
   String name;
   int purchasedQtyTotal;
   int remainingQtyTotal;
@@ -78,6 +79,7 @@ class PremiumSummaryModel {
 
   PremiumSummaryModel(
     this.premiumMealId,
+    this.premiumKey,
     this.name,
     this.purchasedQtyTotal,
     this.remainingQtyTotal,

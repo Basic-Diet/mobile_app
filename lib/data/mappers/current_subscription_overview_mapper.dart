@@ -66,6 +66,7 @@ extension PremiumSummaryResponseMapper on PremiumSummaryResponse? {
   PremiumSummaryModel toDomain() {
     return PremiumSummaryModel(
       this?.premiumMealId.orEmpty() ?? Constants.empty,
+      this?.premiumKey.orEmpty() ?? Constants.empty,
       this?.name.orEmpty() ?? Constants.empty,
       this?.purchasedQtyTotal.orZero() ?? Constants.zero,
       this?.remainingQtyTotal.orZero() ?? Constants.zero,

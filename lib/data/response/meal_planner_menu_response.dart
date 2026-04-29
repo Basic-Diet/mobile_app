@@ -322,6 +322,9 @@ class BuilderProteinResponse {
   @JsonKey(name: 'proteinFamilyKey')
   final String? proteinFamilyKey;
 
+  @JsonKey(name: 'premiumKey')
+  final String? premiumKey;
+
   @JsonKey(name: 'ruleTags')
   final List<String>? ruleTags;
 
@@ -347,6 +350,7 @@ class BuilderProteinResponse {
     this.name,
     this.description,
     this.proteinFamilyKey,
+    this.premiumKey,
     this.ruleTags,
     this.isPremium,
     this.premiumCreditCost,

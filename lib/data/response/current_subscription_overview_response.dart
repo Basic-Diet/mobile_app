@@ -134,6 +134,8 @@ class AddonSubscriptionResponse {
 class PremiumSummaryResponse {
   @JsonKey(name: "premiumMealId")
   String? premiumMealId;
+  @JsonKey(name: "premiumKey")
+  String? premiumKey;
   @JsonKey(name: "name")
   String? name;
   @JsonKey(name: "purchasedQtyTotal")
@@ -145,6 +147,7 @@ class PremiumSummaryResponse {
 
   PremiumSummaryResponse(
     this.premiumMealId,
+    this.premiumKey,
     this.name,
     this.purchasedQtyTotal,
     this.remainingQtyTotal,

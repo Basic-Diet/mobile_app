@@ -28,6 +28,7 @@ extension BuilderProteinResponseMapper on BuilderProteinResponse? {
       name: this?.name.orEmpty() ?? Constants.empty,
       description: this?.description.orEmpty() ?? Constants.empty,
       proteinFamilyKey: this?.proteinFamilyKey.orEmpty() ?? Constants.empty,
+      premiumKey: this?.premiumKey.orEmpty() ?? Constants.empty,
       ruleTags: this?.ruleTags ?? const [],
       isPremium: this?.isPremium.orFalse() ?? Constants.falseValue,
       premiumCreditCost: this?.premiumCreditCost.orZero() ?? Constants.zero,

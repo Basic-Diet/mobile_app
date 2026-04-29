@@ -106,6 +106,7 @@ PremiumSummaryResponse _$PremiumSummaryResponseFromJson(
   Map<String, dynamic> json,
 ) => PremiumSummaryResponse(
   json['premiumMealId'] as String?,
+  json['premiumKey'] as String?,
   json['name'] as String?,
   (json['purchasedQtyTotal'] as num?)?.toInt(),
   (json['remainingQtyTotal'] as num?)?.toInt(),
@@ -116,6 +117,7 @@ Map<String, dynamic> _$PremiumSummaryResponseToJson(
   PremiumSummaryResponse instance,
 ) => <String, dynamic>{
   'premiumMealId': instance.premiumMealId,
+  'premiumKey': instance.premiumKey,
   'name': instance.name,
   'purchasedQtyTotal': instance.purchasedQtyTotal,
   'remainingQtyTotal': instance.remainingQtyTotal,

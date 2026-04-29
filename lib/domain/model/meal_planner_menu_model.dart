@@ -63,6 +63,7 @@ class BuilderProteinModel {
   final String name;
   final String description;
   final String proteinFamilyKey;
+  final String premiumKey;
   final List<String> ruleTags;
   final bool isPremium;
   final int premiumCreditCost;
@@ -77,6 +78,7 @@ class BuilderProteinModel {
     required this.name,
     required this.description,
     required this.proteinFamilyKey,
+    this.premiumKey = '',
     required this.ruleTags,
     required this.isPremium,
     required this.premiumCreditCost,
