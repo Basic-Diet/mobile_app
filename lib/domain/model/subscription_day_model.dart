@@ -1,20 +1,28 @@
+import 'package:basic_diet/domain/model/meal_planner_menu_model.dart';
+
 class SubscriptionDayModel {
   final String date;
   final String status;
   final String? plannerState;
+  final String? commercialState;
   final List<MealSlotModel> mealSlots;
   final List<AddonSelectionModel> addonSelections;
   final PlannerMetaModel? plannerMeta;
   final PaymentRequirementModel? paymentRequirement;
+  final PremiumExtraPaymentModel? premiumExtraPayment;
+  final BuilderRulesModel? rules;
 
   SubscriptionDayModel({
     required this.date,
     required this.status,
     this.plannerState,
+    this.commercialState,
     required this.mealSlots,
     this.addonSelections = const [],
     this.plannerMeta,
     this.paymentRequirement,
+    this.premiumExtraPayment,
+    this.rules,
   });
 }
 
@@ -22,6 +30,7 @@ class AddonSelectionModel {
   final String addonId;
   final String category;
   final String status;
+  final String source;
   final String name;
   final int priceHalala;
   final String currency;
@@ -30,14 +39,48 @@ class AddonSelectionModel {
     required this.addonId,
     required this.category,
     required this.status,
+    this.source = '',
     this.name = '',
     this.priceHalala = 0,
     this.currency = 'SAR',
   });
 
-  bool get isIncluded => status == 'included' || status == 'subscription';
+  bool get isIncluded =>
+      status == 'included' || source == 'subscription' || status == 'subscription';
   bool get isPendingPayment => status == 'pending_payment';
   bool get isPaid => status == 'paid';
+}
+
+class MealSlotCarbModel {
+  final String carbId;
+  final int grams;
+
+  const MealSlotCarbModel({required this.carbId, required this.grams});
+}
+
+class SaladGroupsModel {
+  final List<String> leafyGreens;
+  final List<String> vegetables;
+  final List<String> protein;
+  final List<String> cheeseNuts;
+  final List<String> fruits;
+  final List<String> sauce;
+
+  const SaladGroupsModel({
+    this.leafyGreens = const [],
+    this.vegetables = const [],
+    this.protein = const [],
+    this.cheeseNuts = const [],
+    this.fruits = const [],
+    this.sauce = const [],
+  });
+}
+
+class SaladSelectionModel {
+  final String? presetKey;
+  final SaladGroupsModel groups;
+
+  const SaladSelectionModel({this.presetKey, this.groups = const SaladGroupsModel()});
 }
 
 class MealSlotModel {
@@ -46,11 +89,13 @@ class MealSlotModel {
   final String status;
   final String? selectionType;
   final String? proteinId;
-  final String? carbId;
+  final List<MealSlotCarbModel> carbs;
   final String? sandwichId;
-  final CustomSaladModel? customSalad;
+  final SaladSelectionModel? salad;
   final bool isPremium;
   final String premiumSource;
+  final String? premiumKey;
+  final int premiumExtraFeeHalala;
   final String? proteinFamilyKey;
 
   MealSlotModel({
@@ -59,31 +104,17 @@ class MealSlotModel {
     required this.status,
     this.selectionType,
     this.proteinId,
-    this.carbId,
+    this.carbs = const [],
     this.sandwichId,
-    this.customSalad,
+    this.salad,
     required this.isPremium,
     required this.premiumSource,
+    this.premiumKey,
+    this.premiumExtraFeeHalala = 0,
     this.proteinFamilyKey,
   });
-}
 
-class CustomSaladModel {
-  final String? presetKey;
-  final List<String> vegetables;
-  final List<String> addons;
-  final List<String> fruits;
-  final List<String> nuts;
-  final List<String> sauce;
-
-  CustomSaladModel({
-    this.presetKey,
-    this.vegetables = const [],
-    this.addons = const [],
-    this.fruits = const [],
-    this.nuts = const [],
-    this.sauce = const [],
-  });
+  String? get primaryCarbId => carbs.isEmpty ? null : carbs.first.carbId;
 }
 
 class PlannerMetaModel {
@@ -140,12 +171,31 @@ class PaymentRequirementModel {
   });
 }
 
+class PremiumExtraPaymentModel {
+  final String paymentStatus;
+  final int amountHalala;
+  final String currency;
+
+  const PremiumExtraPaymentModel({
+    this.paymentStatus = '',
+    this.amountHalala = 0,
+    this.currency = 'SAR',
+  });
+}
+
 class ValidationResultModel {
   final bool valid;
   final List<MealSlotModel>? mealSlots;
   final PlannerMetaModel? plannerMeta;
   final PaymentRequirementModel? paymentRequirement;
   final List<SlotErrorModel>? slotErrors;
+  final List<AddonSelectionModel> addonSelections;
+  final String plannerRevisionHash;
+  final PremiumExtraPaymentModel? premiumExtraPayment;
+  final String commercialState;
+  final bool isFulfillable;
+  final bool canBePrepared;
+  final BuilderRulesModel? rules;
 
   ValidationResultModel({
     required this.valid,
@@ -153,6 +203,13 @@ class ValidationResultModel {
     this.plannerMeta,
     this.paymentRequirement,
     this.slotErrors,
+    this.addonSelections = const [],
+    this.plannerRevisionHash = '',
+    this.premiumExtraPayment,
+    this.commercialState = '',
+    this.isFulfillable = false,
+    this.canBePrepared = false,
+    this.rules,
   });
 }
 

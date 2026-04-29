@@ -16,12 +16,14 @@ class CarbPickerSheet extends StatelessWidget {
   final List<BuilderCarbModel> options;
   final String? selectedId;
   final int slotIndex;
+  final int carbIndex;
 
   const CarbPickerSheet({
     super.key,
     required this.options,
     required this.selectedId,
     required this.slotIndex,
+    required this.carbIndex,
   });
 
   @override
@@ -55,15 +57,16 @@ class CarbPickerSheet extends StatelessWidget {
                   ),
                   itemCount: options.length,
                   separatorBuilder: (_, __) => Gap(AppSize.s10.h),
-                  itemBuilder: (context, index) {
-                    final carb = options[index];
-                    final isSelected = selectedId == carb.id;
+	                  itemBuilder: (context, index) {
+	                    final carb = options[index];
+	                    final isSelected = selectedId == carb.id;
                     return _CarbItem(
                       carb: carb,
                       isSelected: isSelected,
                       slotIndex: slotIndex,
+                      carbIndex: carbIndex,
                     );
-                  },
+	                  },
                 ),
               ),
             ],
@@ -78,11 +81,13 @@ class _CarbItem extends StatelessWidget {
   final BuilderCarbModel carb;
   final bool isSelected;
   final int slotIndex;
+  final int carbIndex;
 
   const _CarbItem({
     required this.carb,
     required this.isSelected,
     required this.slotIndex,
+    required this.carbIndex,
   });
 
   @override
@@ -90,7 +95,11 @@ class _CarbItem extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         context.read<MealPlannerBloc>().add(
-          SetMealSlotCarbEvent(slotIndex: slotIndex, carbId: carb.id),
+          SetMealSlotCarbEvent(
+            slotIndex: slotIndex,
+            carbId: carb.id,
+            carbIndex: carbIndex,
+          ),
         );
         Navigator.pop(context);
       },

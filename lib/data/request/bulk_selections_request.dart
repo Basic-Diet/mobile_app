@@ -1,3 +1,5 @@
+import 'package:basic_diet/data/request/day_selection_request.dart'
+    show MealSlotCarbRequest, SaladRequest;
 import 'package:json_annotation/json_annotation.dart';
 
 part 'bulk_selections_request.g.dart';
@@ -31,25 +33,37 @@ class BulkSelectionDayRequest {
   Map<String, dynamic> toJson() => _$BulkSelectionDayRequestToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(includeIfNull: false)
 class MealSlotRequest {
   @JsonKey(name: "slotIndex")
   int slotIndex;
 
   @JsonKey(name: "slotKey")
-  String slotKey;
+  String? slotKey;
+
+  @JsonKey(name: "selectionType")
+  String? selectionType;
 
   @JsonKey(name: "proteinId")
   String? proteinId;
 
-  @JsonKey(name: "carbId")
-  String? carbId;
+  @JsonKey(name: "carbs")
+  List<MealSlotCarbRequest>? carbs;
+
+  @JsonKey(name: "sandwichId")
+  String? sandwichId;
+
+  @JsonKey(name: "salad")
+  SaladRequest? salad;
 
   MealSlotRequest({
     required this.slotIndex,
-    required this.slotKey,
+    this.slotKey,
+    this.selectionType,
     this.proteinId,
-    this.carbId,
+    this.carbs,
+    this.sandwichId,
+    this.salad,
   });
 
   factory MealSlotRequest.fromJson(Map<String, dynamic> json) =>

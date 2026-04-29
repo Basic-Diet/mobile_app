@@ -15,6 +15,7 @@ SubscriptionDayData _$SubscriptionDayDataFromJson(Map<String, dynamic> json) =>
       json['date'] as String,
       json['status'] as String,
       json['plannerState'] as String?,
+      json['commercialState'] as String?,
       (json['mealSlots'] as List<dynamic>?)
               ?.map((e) => MealSlotResponse.fromJson(e as Map<String, dynamic>))
               .toList() ??
@@ -39,6 +40,14 @@ SubscriptionDayData _$SubscriptionDayDataFromJson(Map<String, dynamic> json) =>
           : PaymentRequirementResponse.fromJson(
             json['paymentRequirement'] as Map<String, dynamic>,
           ),
+      json['premiumExtraPayment'] == null
+          ? null
+          : PremiumExtraPaymentResponse.fromJson(
+            json['premiumExtraPayment'] as Map<String, dynamic>,
+          ),
+      json['rules'] == null
+          ? null
+          : DayRulesResponse.fromJson(json['rules'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$SubscriptionDayDataToJson(
@@ -47,11 +56,14 @@ Map<String, dynamic> _$SubscriptionDayDataToJson(
   'date': instance.date,
   'status': instance.status,
   'plannerState': instance.plannerState,
+  'commercialState': instance.commercialState,
   'mealSlots': instance.mealSlots,
   'addonSelections': instance.addonSelections,
   'plannerMeta': instance.plannerMeta,
   'planning': instance.planning,
   'paymentRequirement': instance.paymentRequirement,
+  'premiumExtraPayment': instance.premiumExtraPayment,
+  'rules': instance.rules,
 };
 
 PlanningResponse _$PlanningResponseFromJson(Map<String, dynamic> json) =>
@@ -104,18 +116,25 @@ MealSlotResponse _$MealSlotResponseFromJson(Map<String, dynamic> json) =>
     MealSlotResponse(
       (json['slotIndex'] as num).toInt(),
       json['slotKey'] as String,
-      json['status'] as String,
+      json['status'] as String? ?? 'empty',
       json['proteinId'] as String?,
-      json['carbId'] as String?,
+      (json['carbs'] as List<dynamic>?)
+              ?.map(
+                (e) => MealSlotCarbResponse.fromJson(e as Map<String, dynamic>),
+              )
+              .toList() ??
+          [],
       json['selectionType'] as String?,
       json['sandwichId'] as String?,
-      json['customSalad'] == null
+      MealSlotResponse._readSalad(json, 'salad') == null
           ? null
-          : CustomSaladResponse.fromJson(
-            json['customSalad'] as Map<String, dynamic>,
+          : SaladResponse.fromJson(
+            MealSlotResponse._readSalad(json, 'salad') as Map<String, dynamic>,
           ),
       json['isPremium'] as bool? ?? false,
       json['premiumSource'] as String? ?? 'none',
+      json['premiumKey'] as String?,
+      (json['premiumExtraFeeHalala'] as num?)?.toInt() ?? 0,
       json['proteinFamilyKey'] as String?,
     );
 
@@ -125,35 +144,81 @@ Map<String, dynamic> _$MealSlotResponseToJson(MealSlotResponse instance) =>
       'slotKey': instance.slotKey,
       'status': instance.status,
       'proteinId': instance.proteinId,
-      'carbId': instance.carbId,
+      'carbs': instance.carbs,
       'selectionType': instance.selectionType,
       'sandwichId': instance.sandwichId,
-      'customSalad': instance.customSalad,
+      'salad': instance.salad,
       'isPremium': instance.isPremium,
       'premiumSource': instance.premiumSource,
+      'premiumKey': instance.premiumKey,
+      'premiumExtraFeeHalala': instance.premiumExtraFeeHalala,
       'proteinFamilyKey': instance.proteinFamilyKey,
     };
 
-CustomSaladResponse _$CustomSaladResponseFromJson(
+MealSlotCarbResponse _$MealSlotCarbResponseFromJson(
   Map<String, dynamic> json,
-) => CustomSaladResponse(
-  json['presetKey'] as String?,
-  (json['vegetables'] as List<dynamic>?)?.map((e) => e as String).toList() ??
-      [],
-  (json['addons'] as List<dynamic>?)?.map((e) => e as String).toList() ?? [],
-  (json['fruits'] as List<dynamic>?)?.map((e) => e as String).toList() ?? [],
-  (json['nuts'] as List<dynamic>?)?.map((e) => e as String).toList() ?? [],
-  (json['sauce'] as List<dynamic>?)?.map((e) => e as String).toList() ?? [],
+) => MealSlotCarbResponse(
+  carbId: json['carbId'] as String,
+  grams: (json['grams'] as num).toInt(),
 );
 
-Map<String, dynamic> _$CustomSaladResponseToJson(
-  CustomSaladResponse instance,
+Map<String, dynamic> _$MealSlotCarbResponseToJson(
+  MealSlotCarbResponse instance,
+) => <String, dynamic>{'carbId': instance.carbId, 'grams': instance.grams};
+
+SaladResponse _$SaladResponseFromJson(Map<String, dynamic> json) =>
+    SaladResponse(
+      presetKey: json['presetKey'] as String?,
+      groups:
+          json['groups'] == null
+              ? null
+              : SaladGroupsResponse.fromJson(
+                json['groups'] as Map<String, dynamic>,
+              ),
+    );
+
+Map<String, dynamic> _$SaladResponseToJson(SaladResponse instance) =>
+    <String, dynamic>{
+      'presetKey': instance.presetKey,
+      'groups': instance.groups,
+    };
+
+SaladGroupsResponse _$SaladGroupsResponseFromJson(
+  Map<String, dynamic> json,
+) => SaladGroupsResponse(
+  leafyGreens:
+      (json['leafy_greens'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList() ??
+      [],
+  vegetables:
+      (json['vegetables'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList() ??
+      [],
+  protein:
+      (json['protein'] as List<dynamic>?)?.map((e) => e as String).toList() ??
+      [],
+  cheeseNuts:
+      (json['cheese_nuts'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList() ??
+      [],
+  fruits:
+      (json['fruits'] as List<dynamic>?)?.map((e) => e as String).toList() ??
+      [],
+  sauce:
+      (json['sauce'] as List<dynamic>?)?.map((e) => e as String).toList() ?? [],
+);
+
+Map<String, dynamic> _$SaladGroupsResponseToJson(
+  SaladGroupsResponse instance,
 ) => <String, dynamic>{
-  'presetKey': instance.presetKey,
+  'leafy_greens': instance.leafyGreens,
   'vegetables': instance.vegetables,
-  'addons': instance.addons,
+  'protein': instance.protein,
+  'cheese_nuts': instance.cheeseNuts,
   'fruits': instance.fruits,
-  'nuts': instance.nuts,
   'sauce': instance.sauce,
 };
 
@@ -216,4 +281,54 @@ Map<String, dynamic> _$PaymentRequirementResponseToJson(
   'pricingStatus': instance.pricingStatus,
   'blockingReason': instance.blockingReason,
   'canCreatePayment': instance.canCreatePayment,
+};
+
+PremiumExtraPaymentResponse _$PremiumExtraPaymentResponseFromJson(
+  Map<String, dynamic> json,
+) => PremiumExtraPaymentResponse(
+  paymentStatus: json['paymentStatus'] as String?,
+  amountHalala: (json['amountHalala'] as num?)?.toInt(),
+  currency: json['currency'] as String?,
+);
+
+Map<String, dynamic> _$PremiumExtraPaymentResponseToJson(
+  PremiumExtraPaymentResponse instance,
+) => <String, dynamic>{
+  'paymentStatus': instance.paymentStatus,
+  'amountHalala': instance.amountHalala,
+  'currency': instance.currency,
+};
+
+DayRulesResponse _$DayRulesResponseFromJson(Map<String, dynamic> json) =>
+    DayRulesResponse(
+      version: json['version'] as String?,
+      beef:
+          json['beef'] == null
+              ? null
+              : DayBeefRuleResponse.fromJson(
+                json['beef'] as Map<String, dynamic>,
+              ),
+      maxCarbItemsPerMeal: (json['maxCarbItemsPerMeal'] as num?)?.toInt(),
+      maxCarbTotalGrams: (json['maxCarbTotalGrams'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$DayRulesResponseToJson(DayRulesResponse instance) =>
+    <String, dynamic>{
+      'version': instance.version,
+      'beef': instance.beef,
+      'maxCarbItemsPerMeal': instance.maxCarbItemsPerMeal,
+      'maxCarbTotalGrams': instance.maxCarbTotalGrams,
+    };
+
+DayBeefRuleResponse _$DayBeefRuleResponseFromJson(Map<String, dynamic> json) =>
+    DayBeefRuleResponse(
+      proteinFamilyKey: json['proteinFamilyKey'] as String?,
+      maxSlotsPerDay: (json['maxSlotsPerDay'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$DayBeefRuleResponseToJson(
+  DayBeefRuleResponse instance,
+) => <String, dynamic>{
+  'proteinFamilyKey': instance.proteinFamilyKey,
+  'maxSlotsPerDay': instance.maxSlotsPerDay,
 };

@@ -11,7 +11,6 @@ import 'package:basic_diet/data/response/base_response/base_response.dart';
 import 'package:basic_diet/data/response/plans_response.dart';
 import 'package:basic_diet/data/response/popular_packages_response.dart';
 import 'package:basic_diet/data/response/premium_meals_response.dart';
-import 'package:basic_diet/data/response/addons_response.dart';
 import 'package:basic_diet/data/response/subscription_checkout_response.dart';
 import 'package:basic_diet/data/response/subscription_quote_response.dart';
 import 'package:basic_diet/data/response/current_subscription_overview_response.dart';
@@ -139,7 +138,7 @@ abstract class AppServiceClient {
   );
 
   @POST("/api/subscriptions/{id}/days/{date}/confirm")
-  Future<BaseResponse> confirmDaySelection(
+  Future<SubscriptionDayResponse> confirmDaySelection(
     @Path("id") String id,
     @Path("date") String date,
   );

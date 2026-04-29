@@ -1,6 +1,7 @@
 import 'package:basic_diet/app/constants.dart';
 import 'package:basic_diet/app/extensions.dart';
 import 'package:basic_diet/data/mappers/current_subscription_overview_mapper.dart';
+import 'package:basic_diet/data/mappers/subscription_day_mapper.dart';
 import 'package:basic_diet/data/response/timeline_response.dart';
 import 'package:basic_diet/domain/model/timeline_model.dart';
 
@@ -12,20 +13,32 @@ extension TimelineDayResponseMapper on TimelineDayResponse? {
       month: this?.month.orEmpty() ?? Constants.empty,
       dayNumber: this?.dayNumber.orZero() ?? Constants.zero,
       status: this?.status.orEmpty() ?? Constants.empty,
+      commercialState: this?.commercialState.orEmpty() ?? Constants.empty,
       canBePrepared: this?.canBePrepared ?? false,
       fulfillmentReady: this?.fulfillmentReady ?? false,
+      planningReady: this?.planningReady ?? false,
+      fulfillmentMode: this?.fulfillmentMode.orEmpty() ?? Constants.empty,
       consumptionState: this?.consumptionState.orEmpty() ?? Constants.empty,
       selectedMeals: this?.selectedMeals.orZero() ?? Constants.zero,
       requiredMeals: this?.requiredMeals.orZero() ?? Constants.zero,
       selections: this?.selections ?? [],
       premiumSelections: this?.premiumSelections ?? [],
+      selectedMealIds: this?.selectedMealIds ?? [],
+      paymentRequirement: this?.paymentRequirement?.toDomain(),
       mealSlots:
           this?.mealSlots
               ?.map(
                 (s) => TimelineMealSlot(
                   slotIndex: s.slotIndex ?? 0,
+                  slotKey: s.slotKey,
+                  selectionType: s.selectionType,
                   proteinId: s.proteinId,
-                  carbId: s.carbId,
+                  carbs: s.carbs.map((carb) => carb.toDomain()).toList(),
+                  sandwichId: s.sandwichId,
+                  salad: s.salad?.toDomain(),
+                  premiumKey: s.premiumKey,
+                  premiumSource: s.premiumSource ?? 'none',
+                  premiumExtraFeeHalala: s.premiumExtraFeeHalala ?? 0,
                 ),
               )
               .toList() ??
@@ -42,7 +55,6 @@ extension TimelineDataResponseMapper on TimelineDataResponse? {
       premiumMealsRemaining:
           this?.premiumMealsRemaining.orZero() ?? Constants.zero,
       days: (this?.days?.map((e) => e.toDomain()).toList()) ?? [],
-      // تحويل بيانات الإضافات المضمنة من الاستجابة إلى النموذج المجالي
       addonSubscriptions:
           (this?.addonSubscriptions?.map((e) => e.toDomain()).toList() ?? [])
               .cast(),

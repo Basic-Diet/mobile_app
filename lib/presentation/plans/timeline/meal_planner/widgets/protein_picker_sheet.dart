@@ -42,8 +42,12 @@ class _ProteinPickerSheetState extends State<ProteinPickerSheet> {
     final selectedProtein = widget.selectedProteinId == null
         ? null
         : _proteinById(widget.selectedProteinId!);
+    final selectedSandwich =
+        widget.selectedProteinId == null ? null : _sandwichById(widget.selectedProteinId!);
 
-    if (selectedProtein != null && selectedProtein.isPremium) {
+    if (selectedSandwich != null) {
+      _activeTabKey = 'sandwich';
+    } else if (selectedProtein != null && selectedProtein.isPremium) {
       _activeTabKey = 'premium';
     } else if (selectedProtein != null) {
       _activeTabKey = selectedProtein.displayCategoryKey;
@@ -53,6 +57,13 @@ class _ProteinPickerSheetState extends State<ProteinPickerSheet> {
   BuilderProteinModel? _proteinById(String id) {
     for (final protein in widget.state.menu.builderCatalog.allProteins) {
       if (protein.id == id) return protein;
+    }
+    return null;
+  }
+
+  BuilderSandwichModel? _sandwichById(String id) {
+    for (final sandwich in widget.state.menu.builderCatalog.sandwiches) {
+      if (sandwich.id == id) return sandwich;
     }
     return null;
   }
@@ -129,6 +140,8 @@ class _ProteinPickerSheetState extends State<ProteinPickerSheet> {
 
     final tabs = [
       _ProteinTab(key: 'premium', label: Strings.premium.tr()),
+      if (widget.state.menu.builderCatalog.sandwiches.isNotEmpty)
+        _ProteinTab(key: 'sandwich', label: 'Sandwich'),
       ...allCategories.map((c) => _ProteinTab(key: c.key, label: c.name)),
     ];
 
@@ -163,6 +176,7 @@ class _ProteinPickerSheetState extends State<ProteinPickerSheet> {
               Expanded(
                 child: _ProteinList(
                   proteins: _filteredProteins(_activeTabKey),
+                  sandwiches: widget.state.menu.builderCatalog.sandwiches,
                   selectedProteinId: widget.selectedProteinId,
                   slotIndex: widget.slotIndex,
                   state: widget.state,
@@ -273,6 +287,7 @@ class _CategoryTabs extends StatelessWidget {
 
 class _ProteinList extends StatelessWidget {
   final List<BuilderProteinModel> proteins;
+  final List<BuilderSandwichModel> sandwiches;
   final String? selectedProteinId;
   final int slotIndex;
   final MealPlannerLoaded state;
@@ -284,6 +299,7 @@ class _ProteinList extends StatelessWidget {
 
   const _ProteinList({
     required this.proteins,
+    required this.sandwiches,
     required this.selectedProteinId,
     required this.slotIndex,
     required this.state,
@@ -296,15 +312,16 @@ class _ProteinList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final customPremiumSalad = state.menu.builderCatalog.customPremiumSalad;
+    final premiumLargeSalad = state.menu.builderCatalog.premiumLargeSalad;
     final showCustomBuilderOption =
-        activeTabKey == 'premium' && customPremiumSalad != null;
+        activeTabKey == 'premium' && premiumLargeSalad != null;
     final currentSlot =
         (state.selectedSlotsPerDay[state.selectedDayIndex] ?? const [])
             .where((slot) => slot.slotIndex == slotIndex + 1)
             .cast<MealPlannerSlotSelection?>()
             .firstWhere((slot) => slot != null, orElse: () => null);
-    final isCustomSelected = currentSlot?.selectionType == 'custom_premium_salad';
+    final isCustomSelected = currentSlot?.selectionType == 'premium_large_salad';
+    final showSandwiches = activeTabKey == 'sandwich';
 
     return SafeArea(
       child: Column(
@@ -317,8 +334,22 @@ class _ProteinList extends StatelessWidget {
                 right: AppPadding.p16.w,
                 bottom: 12.h,
               ),
-              children:
-                  proteins.map((protein) {
+              children: [
+                  if (showSandwiches)
+                    ...sandwiches.map((sandwich) {
+                      final isSelected = currentSlot?.selectionType == 'sandwich' &&
+                          currentSlot?.sandwichId == sandwich.id;
+                      return Padding(
+                        padding: EdgeInsets.only(bottom: AppSize.s10.h),
+                        child: _SandwichItem(
+                          sandwich: sandwich,
+                          isSelected: isSelected,
+                          slotIndex: slotIndex,
+                        ),
+                      );
+                    }),
+                  if (!showSandwiches)
+                    ...proteins.map((protein) {
                     final isSelected =
                         !isCustomSelected && selectedProteinId == protein.id;
                     final isItemDisabled =
@@ -336,7 +367,8 @@ class _ProteinList extends StatelessWidget {
                         slotIndex: slotIndex,
                       ),
                     );
-                  }).toList(),
+                    }).toList(),
+                ],
             ),
           ),
           if (showCustomBuilderOption)
@@ -358,7 +390,7 @@ class _ProteinList extends StatelessWidget {
                   MaterialPageRoute(
                     builder:
                         (_) => CustomPremiumMealBuilderScreen(
-                          config: customPremiumSalad,
+                          config: premiumLargeSalad,
                           premiumProteins: premiumProteins,
                           initialProteinId: currentSlot?.proteinId,
                         ),
@@ -367,15 +399,14 @@ class _ProteinList extends StatelessWidget {
       
                 if (result == null || !context.mounted) return;
                 context.read<MealPlannerBloc>().add(
-                  SetCustomPremiumMealEvent(
+                  SetPremiumLargeSaladEvent(
                     slotIndex: slotIndex,
                     proteinId: result.proteinId,
-                    carbId: result.carbId,
                     presetKey: result.presetKey,
+                    leafyGreens: result.leafyGreens,
                     vegetables: result.vegetables,
-                    addons: result.addons,
+                    cheeseNuts: result.cheeseNuts,
                     fruits: result.fruits,
-                    nuts: result.nuts,
                     sauce: result.sauce,
                   ),
                 );
@@ -393,6 +424,62 @@ class _ProteinList extends StatelessWidget {
       if (protein.id == id) return protein.name;
     }
     return null;
+  }
+}
+
+class _SandwichItem extends StatelessWidget {
+  final BuilderSandwichModel sandwich;
+  final bool isSelected;
+  final int slotIndex;
+
+  const _SandwichItem({
+    required this.sandwich,
+    required this.isSelected,
+    required this.slotIndex,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        context.read<MealPlannerBloc>().add(
+          SetMealSlotProteinEvent(slotIndex: slotIndex, proteinId: sandwich.id),
+        );
+        Navigator.pop(context);
+      },
+      child: Container(
+        padding: EdgeInsets.all(AppPadding.p14.w),
+        decoration: BoxDecoration(
+          color: isSelected ? ColorManager.brandPrimaryTint : ColorManager.backgroundSurface,
+          borderRadius: BorderRadius.circular(AppSize.s16.r),
+          border: Border.all(
+            color: isSelected ? ColorManager.brandPrimary : ColorManager.borderDefault,
+          ),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              sandwich.name,
+              style: getBoldTextStyle(
+                color: ColorManager.textPrimary,
+                fontSize: FontSizeManager.s14.sp,
+              ),
+            ),
+            if (sandwich.description.isNotEmpty) ...[
+              Gap(4.h),
+              Text(
+                sandwich.description,
+                style: getRegularTextStyle(
+                  color: ColorManager.textSecondary,
+                  fontSize: FontSizeManager.s12.sp,
+                ),
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
   }
 }
 

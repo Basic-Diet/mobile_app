@@ -142,9 +142,6 @@ class MealPlannerScreen extends StatelessWidget {
   }
 
   String _resolveErrorMessage(String message) {
-    if (message == 'DAY_LOCKED') {
-      return Strings.dayLockedAddonsMessage.tr();
-    }
     return message;
   }
 
@@ -369,21 +366,32 @@ class _MealPlannerBody extends StatelessWidget {
     bool isReadOnly,
   ) {
     final slot = _slotForIndex(state, index);
-    final proteinIdForDisplay = slot?.proteinId ?? slot?.sandwichId;
     final protein =
-        proteinIdForDisplay == null
-            ? null
-            : _findProteinById(state.menu, proteinIdForDisplay);
-    final carb =
-        slot?.carbId == null ? null : _findCarbById(state.menu, slot!.carbId!);
-    final isSandwichSelection = _isSandwichProtein(protein);
+        slot?.proteinId == null ? null : _findProteinById(state.menu, slot!.proteinId!);
+    final sandwich =
+        slot?.sandwichId == null ? null : _findSandwichById(state.menu, slot!.sandwichId!);
+    final isSandwichSelection = slot?.selectionType == 'sandwich';
+    final isPremiumLargeSaladSelection = slot?.selectionType == 'premium_large_salad';
+    final selectedCarbIds =
+        slot?.carbs.map((carb) => carb.carbId).where((id) => id.isNotEmpty).take(2).toList() ??
+        const <String>[];
+    final carbLabels = selectedCarbIds
+        .map((id) => _findCarbById(state.menu, id)?.name ?? '')
+        .toList();
+    final proteinLabel = isSandwichSelection
+        ? (sandwich?.name ?? '')
+        : (protein?.name ?? '');
+    final selectedProteinId = isSandwichSelection ? slot?.sandwichId : slot?.proteinId;
 
     return MealSlotCard(
       slotNumber: index + 1,
-      protein: protein,
-      carb: carb,
+      proteinLabel: proteinLabel,
+      hasProteinSelection: proteinLabel.isNotEmpty,
+      carbLabels: carbLabels,
+      selectedCarbIds: selectedCarbIds,
+      hasCarbSelection: selectedCarbIds.isNotEmpty,
       isProteinPremium: protein?.isPremium ?? false,
-      showCarbField: !isSandwichSelection,
+      showCarbField: !isSandwichSelection && !isPremiumLargeSaladSelection,
       onSelectProtein:
           isReadOnly
               ? null
@@ -391,17 +399,21 @@ class _MealPlannerBody extends StatelessWidget {
                 context: context,
                 state: state,
                 slotIndex: index,
-                selectedProteinId: proteinIdForDisplay,
+                selectedProteinId: selectedProteinId,
               ),
       carbOptions: _sortedCarbs(state.menu),
       onCarbSelected:
-          isReadOnly || protein == null || isSandwichSelection
+          isReadOnly || (!isSandwichSelection && protein == null) || isSandwichSelection
               ? null
-              : (carbId) => context.read<MealPlannerBloc>().add(
-                SetMealSlotCarbEvent(slotIndex: index, carbId: carbId),
+              : (carbIndex, carbId) => context.read<MealPlannerBloc>().add(
+                SetMealSlotCarbEvent(
+                  slotIndex: index,
+                  carbId: carbId,
+                  carbIndex: carbIndex,
+                ),
               ),
       onClear:
-          isReadOnly || protein == null
+          isReadOnly || (!isSandwichSelection && protein == null && sandwich == null)
               ? null
               : () => context.read<MealPlannerBloc>().add(
                 SetMealSlotProteinEvent(slotIndex: index, proteinId: null),
@@ -420,13 +432,13 @@ class _MealPlannerBody extends StatelessWidget {
       if (slot.selectionType == 'sandwich') {
         return slot.sandwichId != null && slot.sandwichId!.isNotEmpty;
       }
-      if (slot.selectionType == 'custom_premium_salad') {
-        return slot.proteinId != null &&
-            slot.carbId != null &&
-            slot.customSalad != null &&
-            slot.customSalad!.sauce.isNotEmpty;
+      if (slot.selectionType == 'premium_large_salad') {
+        return slot.salad != null &&
+            slot.salad!.groups.protein.length == 1 &&
+            slot.salad!.groups.sauce.length == 1 &&
+            slot.carbs.isEmpty;
       }
-      return slot.proteinId != null && slot.carbId != null;
+      return slot.proteinId != null && slot.carbs.isNotEmpty;
     }).length;
   }
 
@@ -483,16 +495,18 @@ class _MealPlannerBody extends StatelessWidget {
     return null;
   }
 
+  BuilderSandwichModel? _findSandwichById(MealPlannerMenuModel menu, String id) {
+    for (final sandwich in menu.builderCatalog.sandwiches) {
+      if (sandwich.id == id) return sandwich;
+    }
+    return null;
+  }
+
   BuilderCarbModel? _findCarbById(MealPlannerMenuModel menu, String id) {
     for (final carb in menu.builderCatalog.carbs) {
       if (carb.id == id) return carb;
     }
     return null;
-  }
-
-  bool _isSandwichProtein(BuilderProteinModel? protein) {
-    if (protein == null) return false;
-    return protein.displayCategoryKey.toLowerCase().contains('sandwich');
   }
 
   Future<void> _openProteinPickerSheet({

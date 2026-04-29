@@ -19,13 +19,16 @@ class MealPlannerBottomAction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final paymentRequirement = state.selectedDayDetail?.paymentRequirement;
     final canSave =
         state.isDirty &&
         _hasCompletedSelectedDay() &&
-        !state.hasAnyPendingPayment &&
         state.isSelectedDayEditable;
-    final hasPendingPayments = state.hasAnyPendingPayment;
+    final hasPendingPayments = paymentRequirement?.requiresPayment ?? false;
+    final canCreatePayment = paymentRequirement?.canCreatePayment ?? false;
     final paymentAmount = state.totalPendingPaymentAmountHalala / 100.0;
+    final blocker = paymentRequirement?.blockingReason;
+    final payPremium = blocker == 'premium_pending_payment';
 
     return Container(
       padding: EdgeInsets.all(AppPadding.p16.w),
@@ -55,11 +58,13 @@ class MealPlannerBottomAction extends StatelessWidget {
                     (state.activePaymentKind == 'premium' ||
                         state.activePaymentKind == 'addons'),
                 onPressed:
-                    () => context.read<MealPlannerBloc>().add(
-                      state.hasPendingPremiumPayment
-                          ? const InitiatePremiumPaymentEvent()
-                          : const InitiateAddonPaymentEvent(),
-                    ),
+                    canCreatePayment
+                        ? () => context.read<MealPlannerBloc>().add(
+                          payPremium
+                              ? const InitiatePremiumPaymentEvent()
+                              : const InitiateAddonPaymentEvent(),
+                        )
+                        : null,
               ),
               Gap(AppSize.s10.h),
             ],
@@ -103,13 +108,13 @@ class MealPlannerBottomAction extends StatelessWidget {
           if (slot.selectionType == 'sandwich') {
             return slot.sandwichId != null && slot.sandwichId!.isNotEmpty;
           }
-          if (slot.selectionType == 'custom_premium_salad') {
-            return slot.proteinId != null &&
-                slot.carbId != null &&
-                slot.customSalad != null &&
-                slot.customSalad!.sauce.isNotEmpty;
+          if (slot.selectionType == 'premium_large_salad') {
+            return slot.salad != null &&
+                slot.salad!.groups.protein.length == 1 &&
+                slot.salad!.groups.sauce.length == 1 &&
+                slot.carbs.isEmpty;
           }
-          return slot.proteinId != null && slot.carbId != null;
+          return slot.proteinId != null && slot.carbs.isNotEmpty;
         }).length;
     return completeCount >= required;
   }

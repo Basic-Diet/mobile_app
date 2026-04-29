@@ -21,7 +21,6 @@ import 'package:basic_diet/domain/usecase/get_premium_meals_usecase.dart';
 import 'package:basic_diet/presentation/register/register_bloc.dart';
 import 'package:basic_diet/presentation/main/home/bloc/home_bloc.dart';
 import 'package:basic_diet/presentation/main/home/premium/bloc/premium_meals_bloc.dart';
-import 'package:basic_diet/domain/usecase/get_addons_usecase.dart';
 import 'package:basic_diet/domain/usecase/get_subscription_menu_usecase.dart';
 import 'package:basic_diet/presentation/main/home/add-ons/bloc/add_ons_bloc.dart';
 import 'package:basic_diet/presentation/main/home/delivery/bloc/delivery_options_bloc.dart';
@@ -366,6 +365,7 @@ void initMealPlannerModule() {
       (params, _) => MealPlannerBloc(
         instance<GetMealPlannerMenuUseCase>(),
         instance<GetSubscriptionDayUseCase>(),
+        instance<ValidateDaySelectionUseCase>(),
         instance<SaveDaySelectionUseCase>(),
         instance<CreatePremiumPaymentUseCase>(),
         instance<VerifyPremiumPaymentUseCase>(),

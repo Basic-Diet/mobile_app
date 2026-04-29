@@ -28,59 +28,89 @@ Map<String, dynamic> _$DaySelectionRequestToJson(
 MealSlotRequest _$MealSlotRequestFromJson(Map<String, dynamic> json) =>
     MealSlotRequest(
       slotIndex: (json['slotIndex'] as num).toInt(),
-      proteinId: json['proteinId'] as String?,
-      carbId: json['carbId'] as String?,
       slotKey: json['slotKey'] as String?,
       selectionType: json['selectionType'] as String?,
+      proteinId: json['proteinId'] as String?,
+      carbs:
+          (json['carbs'] as List<dynamic>?)
+              ?.map(
+                (e) => MealSlotCarbRequest.fromJson(e as Map<String, dynamic>),
+              )
+              .toList(),
       sandwichId: json['sandwichId'] as String?,
-      customSalad:
-          json['customSalad'] == null
+      salad:
+          json['salad'] == null
               ? null
-              : CustomSaladRequest.fromJson(
-                json['customSalad'] as Map<String, dynamic>,
-              ),
+              : SaladRequest.fromJson(json['salad'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$MealSlotRequestToJson(MealSlotRequest instance) =>
     <String, dynamic>{
       'slotIndex': instance.slotIndex,
-      'proteinId': instance.proteinId,
-      'carbId': instance.carbId,
-      'slotKey': instance.slotKey,
-      'selectionType': instance.selectionType,
-      'sandwichId': instance.sandwichId,
-      'customSalad': instance.customSalad,
+      if (instance.slotKey case final value?) 'slotKey': value,
+      if (instance.selectionType case final value?) 'selectionType': value,
+      if (instance.proteinId case final value?) 'proteinId': value,
+      if (instance.carbs case final value?) 'carbs': value,
+      if (instance.sandwichId case final value?) 'sandwichId': value,
+      if (instance.salad case final value?) 'salad': value,
     };
 
-CustomSaladRequest _$CustomSaladRequestFromJson(
-  Map<String, dynamic> json,
-) => CustomSaladRequest(
+MealSlotCarbRequest _$MealSlotCarbRequestFromJson(Map<String, dynamic> json) =>
+    MealSlotCarbRequest(
+      carbId: json['carbId'] as String,
+      grams: (json['grams'] as num).toInt(),
+    );
+
+Map<String, dynamic> _$MealSlotCarbRequestToJson(
+  MealSlotCarbRequest instance,
+) => <String, dynamic>{'carbId': instance.carbId, 'grams': instance.grams};
+
+SaladRequest _$SaladRequestFromJson(Map<String, dynamic> json) => SaladRequest(
   presetKey: json['presetKey'] as String,
+  groups: SaladGroupsRequest.fromJson(json['groups'] as Map<String, dynamic>),
+);
+
+Map<String, dynamic> _$SaladRequestToJson(SaladRequest instance) =>
+    <String, dynamic>{
+      'presetKey': instance.presetKey,
+      'groups': instance.groups,
+    };
+
+SaladGroupsRequest _$SaladGroupsRequestFromJson(
+  Map<String, dynamic> json,
+) => SaladGroupsRequest(
+  leafyGreens:
+      (json['leafy_greens'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList() ??
+      const [],
   vegetables:
       (json['vegetables'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList() ??
       const [],
-  addons:
-      (json['addons'] as List<dynamic>?)?.map((e) => e as String).toList() ??
+  protein:
+      (json['protein'] as List<dynamic>?)?.map((e) => e as String).toList() ??
+      const [],
+  cheeseNuts:
+      (json['cheese_nuts'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList() ??
       const [],
   fruits:
       (json['fruits'] as List<dynamic>?)?.map((e) => e as String).toList() ??
-      const [],
-  nuts:
-      (json['nuts'] as List<dynamic>?)?.map((e) => e as String).toList() ??
       const [],
   sauce:
       (json['sauce'] as List<dynamic>?)?.map((e) => e as String).toList() ??
       const [],
 );
 
-Map<String, dynamic> _$CustomSaladRequestToJson(CustomSaladRequest instance) =>
+Map<String, dynamic> _$SaladGroupsRequestToJson(SaladGroupsRequest instance) =>
     <String, dynamic>{
-      'presetKey': instance.presetKey,
+      'leafy_greens': instance.leafyGreens,
       'vegetables': instance.vegetables,
-      'addons': instance.addons,
+      'protein': instance.protein,
+      'cheese_nuts': instance.cheeseNuts,
       'fruits': instance.fruits,
-      'nuts': instance.nuts,
       'sauce': instance.sauce,
     };

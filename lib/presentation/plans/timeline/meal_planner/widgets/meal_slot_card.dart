@@ -15,20 +15,26 @@ import 'package:gap/gap.dart';
 
 class MealSlotCard extends StatelessWidget {
   final int slotNumber;
-  final BuilderProteinModel? protein;
-  final BuilderCarbModel? carb;
+  final String proteinLabel;
+  final bool hasProteinSelection;
+  final List<String> carbLabels;
+  final List<String> selectedCarbIds;
+  final bool hasCarbSelection;
   final bool isProteinPremium;
   final VoidCallback? onSelectProtein;
   final List<BuilderCarbModel> carbOptions;
-  final void Function(String carbId)? onCarbSelected;
+  final void Function(int carbIndex, String carbId)? onCarbSelected;
   final VoidCallback? onClear;
   final bool showCarbField;
 
   const MealSlotCard({
     super.key,
     required this.slotNumber,
-    required this.protein,
-    required this.carb,
+    required this.proteinLabel,
+    required this.hasProteinSelection,
+    required this.carbLabels,
+    required this.selectedCarbIds,
+    required this.hasCarbSelection,
     required this.isProteinPremium,
     required this.onSelectProtein,
     required this.carbOptions,
@@ -39,7 +45,8 @@ class MealSlotCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isComplete = protein != null && (!showCarbField || carb != null);
+    final isComplete =
+        hasProteinSelection && (!showCarbField || hasCarbSelection);
     final borderColor = isComplete
         ? isProteinPremium
               ? ColorManager.brandAccentBorder
@@ -70,53 +77,71 @@ class MealSlotCard extends StatelessWidget {
                 isComplete: isComplete,
                 isProteinPremium: isProteinPremium,
                 onClear: onClear,
-                protein: protein,
+                hasProteinSelection: hasProteinSelection,
               ),
               Gap(AppSize.s16.h),
               PlannerField(
                 title: Strings.selectProtein.tr(),
-                value: protein?.name ?? Strings.selectMeal.tr(),
-                isSelected: protein != null,
-                isPremium: isProteinPremium && protein != null,
+                value: hasProteinSelection ? proteinLabel : Strings.selectMeal.tr(),
+                isSelected: hasProteinSelection,
+                isPremium: isProteinPremium && hasProteinSelection,
                 onTap: onSelectProtein ?? () {},
                 isDisabled: onSelectProtein == null,
               ),
               if (showCarbField) ...[
                 Gap(AppSize.s12.h),
-                PlannerField(
-                  title: Strings.selectCarb.tr(),
-                  value: carb?.name ?? Strings.selectMeal.tr(),
-                  isSelected: carb != null,
-                  isPremium: false,
-                  onTap: onCarbSelected == null
-                      ? () {}
-                      : () => _openCarbPickerSheet(context),
-                  isDisabled: onCarbSelected == null,
-                ),
+                for (var carbIndex = 0; carbIndex < 2; carbIndex++) ...[
+                  if (carbIndex > 0) Gap(AppSize.s8.h),
+                  PlannerField(
+                    title: '${Strings.selectCarb.tr()} ${carbIndex + 1}',
+                    value: _carbLabel(carbIndex),
+                    isSelected: _selectedCarbId(carbIndex) != null,
+                    isPremium: false,
+                    onTap: onCarbSelected == null
+                        ? () {}
+                        : () => _openCarbPickerSheet(context, carbIndex),
+                    isDisabled: onCarbSelected == null,
+                  ),
+                ],
               ],
             ],
           ),
         ),
-        if (isProteinPremium && protein != null)
+        if (isProteinPremium && hasProteinSelection)
           Positioned(top: -10.h, right: -6.w, child: _PremiumBadge()),
       ],
     );
   }
 
-  Future<void> _openCarbPickerSheet(BuildContext context) {
+  String _carbLabel(int carbIndex) {
+    if (carbIndex < carbLabels.length && carbLabels[carbIndex].isNotEmpty) {
+      return carbLabels[carbIndex];
+    }
+    return Strings.selectMeal.tr();
+  }
+
+  String? _selectedCarbId(int carbIndex) {
+    if (carbIndex < selectedCarbIds.length && selectedCarbIds[carbIndex].isNotEmpty) {
+      return selectedCarbIds[carbIndex];
+    }
+    return null;
+  }
+
+  Future<void> _openCarbPickerSheet(BuildContext context, int carbIndex) {
     final bloc = context.read<MealPlannerBloc>();
     return showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
       backgroundColor: ColorManager.transparent,
-      builder: (sheetContext) => BlocProvider.value(
-        value: bloc,
+	      builder: (sheetContext) => BlocProvider.value(
+	        value: bloc,
         child: CarbPickerSheet(
           options: carbOptions,
-          selectedId: carb?.id,
+          selectedId: _selectedCarbId(carbIndex),
           slotIndex: slotNumber - 1,
+          carbIndex: carbIndex,
         ),
-      ),
+	      ),
     );
   }
 }
@@ -126,14 +151,14 @@ class _SlotHeader extends StatelessWidget {
   final bool isComplete;
   final bool isProteinPremium;
   final VoidCallback? onClear;
-  final BuilderProteinModel? protein;
+  final bool hasProteinSelection;
 
   const _SlotHeader({
     required this.slotNumber,
     required this.isComplete,
     required this.isProteinPremium,
     required this.onClear,
-    required this.protein,
+    required this.hasProteinSelection,
   });
 
   @override
@@ -153,7 +178,7 @@ class _SlotHeader extends StatelessWidget {
             borderRadius: BorderRadius.circular(AppSize.s14.r),
           ),
           child: Text(
-            "$slotNumber",
+            '$slotNumber',
             style: getBoldTextStyle(
               color: isComplete
                   ? ColorManager.textInverse
@@ -168,7 +193,7 @@ class _SlotHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "${Strings.meal.tr()} $slotNumber",
+                '${Strings.meal.tr()} $slotNumber',
                 style: getBoldTextStyle(
                   color: ColorManager.textPrimary,
                   fontSize: FontSizeManager.s16.sp,
@@ -185,7 +210,7 @@ class _SlotHeader extends StatelessWidget {
             ],
           ),
         ),
-        if (onClear != null && protein != null)
+        if (onClear != null && hasProteinSelection)
           IconButton(
             onPressed: onClear,
             icon: Icon(

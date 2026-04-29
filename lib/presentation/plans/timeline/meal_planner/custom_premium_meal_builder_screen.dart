@@ -11,28 +11,26 @@ import 'package:gap/gap.dart';
 
 class CustomPremiumMealBuilderResult {
   final String proteinId;
-  final String carbId;
   final String presetKey;
+  final List<String> leafyGreens;
   final List<String> vegetables;
-  final List<String> addons;
+  final List<String> cheeseNuts;
   final List<String> fruits;
-  final List<String> nuts;
   final List<String> sauce;
 
   const CustomPremiumMealBuilderResult({
     required this.proteinId,
-    required this.carbId,
     required this.presetKey,
+    this.leafyGreens = const [],
     this.vegetables = const [],
-    this.addons = const [],
+    this.cheeseNuts = const [],
     this.fruits = const [],
-    this.nuts = const [],
     this.sauce = const [],
   });
 }
 
 class CustomPremiumMealBuilderScreen extends StatefulWidget {
-  final CustomPremiumSaladModel config;
+  final PremiumLargeSaladModel config;
   final List<BuilderProteinModel> premiumProteins;
   final String? initialProteinId;
 
@@ -73,9 +71,7 @@ class _CustomPremiumMealBuilderScreenState
 
     return Scaffold(
       backgroundColor: ColorManager.backgroundSurface,
-      appBar: AppBar(
-        title: Text(Strings.customMealBuilder.tr()),
-      ),
+      appBar: AppBar(title: Text(Strings.customMealBuilder.tr())),
       body: SafeArea(
         child: Column(
           children: [
@@ -124,10 +120,9 @@ class _CustomPremiumMealBuilderScreenState
                       child: Text(
                         isLastStep ? Strings.confirm.tr() : Strings.continueText.tr(),
                         style: getBoldTextStyle(
-                          color:
-                              canContinue
-                                  ? ColorManager.textInverse
-                                  : ColorManager.stateDisabled,
+                          color: canContinue
+                              ? ColorManager.textInverse
+                              : ColorManager.stateDisabled,
                           fontSize: FontSizeManager.s14.sp,
                         ),
                       ),
@@ -176,15 +171,14 @@ class _CustomPremiumMealBuilderScreenState
         Wrap(
           spacing: AppSize.s8.w,
           runSpacing: AppSize.s8.h,
-          children:
-              widget.premiumProteins.map((protein) {
-                final isSelected = selectedId == protein.id;
-                return _SelectionChip(
-                  label: protein.name,
-                  selected: isSelected,
-                  onTap: () => setState(() => _selectedProteinId = protein.id),
-                );
-              }).toList(),
+          children: widget.premiumProteins.map((protein) {
+            final isSelected = selectedId == protein.id;
+            return _SelectionChip(
+              label: protein.name,
+              selected: isSelected,
+              onTap: () => setState(() => _selectedProteinId = protein.id),
+            );
+          }).toList(),
         ),
       ],
     );
@@ -195,13 +189,8 @@ class _CustomPremiumMealBuilderScreenState
     final group = widget.config.preset.groups.firstWhere((g) => g.key == groupKey);
     final normalizedGroupKey = _normalizedGroupKey(group.key);
     final ingredients = widget.config.ingredients.where((ingredient) {
-      final normalized = _normalizedGroupKey(ingredient.groupKey);
-      return normalized == normalizedGroupKey;
+      return _normalizedGroupKey(ingredient.groupKey) == normalizedGroupKey;
     }).toList();
-
-    if (ingredients.isEmpty) {
-      return const SizedBox.shrink();
-    }
 
     final selected = _selectedByGroup[group.key] ?? const [];
     final helper = _groupRuleText(group);
@@ -230,20 +219,18 @@ class _CustomPremiumMealBuilderScreenState
         Wrap(
           spacing: AppSize.s8.w,
           runSpacing: AppSize.s8.h,
-          children:
-              ingredients.map((item) {
-                final isSelected = selected.contains(item.id);
-                return _SelectionChip(
-                  label: item.name,
-                  selected: isSelected,
-                  onTap:
-                      () => _toggleIngredient(
-                        group: group,
-                        ingredientId: item.id,
-                        isSelected: isSelected,
-                      ),
-                );
-              }).toList(),
+          children: ingredients.map((item) {
+            final isSelected = selected.contains(item.id);
+            return _SelectionChip(
+              label: item.name,
+              selected: isSelected,
+              onTap: () => _toggleIngredient(
+                group: group,
+                ingredientId: item.id,
+                isSelected: isSelected,
+              ),
+            );
+          }).toList(),
         ),
       ],
     );
@@ -294,12 +281,11 @@ class _CustomPremiumMealBuilderScreenState
   }
 
   void _toggleIngredient({
-    required CustomPremiumSaladGroupRuleModel group,
+    required PremiumLargeSaladGroupRuleModel group,
     required String ingredientId,
     required bool isSelected,
   }) {
     final current = List<String>.from(_selectedByGroup[group.key] ?? const []);
-
     if (isSelected) {
       current.remove(ingredientId);
     } else {
@@ -319,14 +305,14 @@ class _CustomPremiumMealBuilderScreenState
 
   String _groupTitle(String key) {
     switch (_normalizedGroupKey(key)) {
+      case 'leafy_greens':
+        return 'Leafy Greens';
       case 'vegetables':
         return 'Vegetables';
-      case 'addons':
-        return 'Add-ons';
+      case 'cheese_nuts':
+        return 'Cheese & Nuts';
       case 'fruits':
         return 'Fruits';
-      case 'nuts':
-        return 'Nuts';
       case 'sauce':
         return 'Sauce';
       default:
@@ -334,7 +320,7 @@ class _CustomPremiumMealBuilderScreenState
     }
   }
 
-  String _groupRuleText(CustomPremiumSaladGroupRuleModel group) {
+  String _groupRuleText(PremiumLargeSaladGroupRuleModel group) {
     if (group.minSelect == 1 && group.maxSelect == 1) {
       return Strings.chooseOneRequired.tr();
     }
@@ -345,19 +331,17 @@ class _CustomPremiumMealBuilderScreenState
   }
 
   String _normalizedGroupKey(String input) {
-    final key = input.toLowerCase().replaceAll('_', '').replaceAll(' ', '');
-    if (key == 'nutscheese') return 'nuts';
-    if (key == 'addon' || key == 'addons' || key == 'additions') return 'addons';
-    if (key == 'vegetable' || key == 'vegetables') return 'vegetables';
-    if (key == 'fruit' || key == 'fruits') return 'fruits';
-    if (key == 'nut' || key == 'nuts') return 'nuts';
-    if (key == 'sauce' || key == 'sauces') return 'sauce';
+    final key = input.toLowerCase().replaceAll(' ', '').replaceAll('-', '_');
+    if (key == 'leafygreens') return 'leafy_greens';
+    if (key == 'cheesenuts' || key == 'nutscheese') return 'cheese_nuts';
+    if (key == 'vegetable') return 'vegetables';
+    if (key == 'fruit') return 'fruits';
+    if (key == 'sauces') return 'sauce';
     return key;
   }
 
   bool get _isFormValid {
     if (_selectedProteinId == null || _selectedProteinId!.isEmpty) return false;
-
     for (final group in widget.config.preset.groups) {
       final selected = _selectedByGroup[group.key] ?? const [];
       if (selected.length < group.minSelect) return false;
@@ -370,11 +354,9 @@ class _CustomPremiumMealBuilderScreenState
     if (_stepIndex == 0) {
       return _selectedProteinId != null && _selectedProteinId!.isNotEmpty;
     }
-
     if (_stepIndex == _totalSteps - 1) {
       return _isFormValid;
     }
-
     final groupKey = _groupOrder[_stepIndex - 1];
     final group = widget.config.preset.groups.firstWhere((g) => g.key == groupKey);
     final selected = _selectedByGroup[groupKey] ?? const [];
@@ -418,17 +400,17 @@ class _CustomPremiumMealBuilderScreenState
   }
 
   void _onApply() {
-    final result = CustomPremiumMealBuilderResult(
-      proteinId: _selectedProteinId!,
-      carbId: widget.config.carbId,
-      presetKey: widget.config.preset.key,
-      vegetables: _selectedCanonicalGroup('vegetables'),
-      addons: _selectedCanonicalGroup('addons'),
-      fruits: _selectedCanonicalGroup('fruits'),
-      nuts: _selectedCanonicalGroup('nuts'),
-      sauce: _selectedCanonicalGroup('sauce'),
+    Navigator.of(context).pop(
+      CustomPremiumMealBuilderResult(
+        proteinId: _selectedProteinId!,
+        presetKey: widget.config.preset.key,
+        leafyGreens: _selectedCanonicalGroup('leafy_greens'),
+        vegetables: _selectedCanonicalGroup('vegetables'),
+        cheeseNuts: _selectedCanonicalGroup('cheese_nuts'),
+        fruits: _selectedCanonicalGroup('fruits'),
+        sauce: _selectedCanonicalGroup('sauce'),
+      ),
     );
-    Navigator.of(context).pop(result);
   }
 
   List<String> _selectedCanonicalGroup(String target) {
@@ -542,52 +524,20 @@ class _SelectionChip extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Stack(
-        clipBehavior: Clip.none,
-        children: [
-          AnimatedContainer(
-            duration: const Duration(milliseconds: 160),
-            padding: EdgeInsets.symmetric(
-              horizontal: AppPadding.p12.w,
-              vertical: AppPadding.p10.h,
-            ),
-            decoration: BoxDecoration(
-              color:
-                  selected
-                      ? ColorManager.brandPrimary.withValues(alpha: 0.14)
-                      : ColorManager.backgroundSurface,
-              borderRadius: BorderRadius.circular(AppSize.s12.r),
-              border: Border.all(
-                color: selected ? ColorManager.brandPrimary : ColorManager.borderDefault,
-              ),
-            ),
-            child: Text(
-              label,
-              style: getBoldTextStyle(
-                color: selected ? ColorManager.brandPrimary : ColorManager.textPrimary,
-                fontSize: FontSizeManager.s12.sp,
-              ),
-            ),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 180),
+        padding: EdgeInsets.symmetric(horizontal: AppPadding.p14.w, vertical: AppPadding.p10.h),
+        decoration: BoxDecoration(
+          color: selected ? ColorManager.brandPrimary : ColorManager.backgroundSubtle,
+          borderRadius: BorderRadius.circular(AppSize.s14.r),
+        ),
+        child: Text(
+          label,
+          style: getBoldTextStyle(
+            color: selected ? ColorManager.textInverse : ColorManager.textPrimary,
+            fontSize: FontSizeManager.s12.sp,
           ),
-          if (selected)
-            PositionedDirectional(
-              top: -6.h,
-              end: -6.w,
-              child: Container(
-                height: 18.w,
-                width: 18.w,
-                decoration: const BoxDecoration(
-                  color: ColorManager.brandPrimary,
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(
-                  Icons.check,
-                  color: ColorManager.textInverse,
-                  size: 12.w,
-                ),
-              ),
-            ),
-        ],
+        ),
       ),
     );
   }

@@ -189,12 +189,12 @@ class _AddonSelectorField extends StatelessWidget {
   }
 
   String _entitlementPrompt() {
-    final juiceEntitlement = state.addonEntitlements
-        .where((entitlement) => entitlement.category == 'juice')
+    final activeEntitlement = state.addonEntitlements
+        .where((entitlement) => entitlement.includedCount > 0)
         .cast<AddonSubscriptionModel?>()
         .firstWhere((item) => item != null, orElse: () => null);
-    if (juiceEntitlement != null && juiceEntitlement.includedCount > 0) {
-      return '${juiceEntitlement.includedCount} ${Strings.addonSelectJuice.tr()} ${Strings.includedPerDay.tr()}';
+    if (activeEntitlement != null) {
+      return '${activeEntitlement.includedCount} ${Strings.includedPerDay.tr()}';
     }
     return Strings.addonChoosePrompt.tr();
   }

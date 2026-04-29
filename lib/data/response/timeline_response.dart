@@ -1,70 +1,150 @@
-import 'package:json_annotation/json_annotation.dart';
 import 'package:basic_diet/data/response/base_response/base_response.dart';
 import 'package:basic_diet/data/response/current_subscription_overview_response.dart';
+import 'package:basic_diet/data/response/subscription_day_response.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 part 'timeline_response.g.dart';
 
 @JsonSerializable()
 class TimelineMealSlotResponse {
-  @JsonKey(name: "slotIndex")
-  int? slotIndex;
-  @JsonKey(name: "proteinId")
-  String? proteinId;
-  @JsonKey(name: "carbId")
-  String? carbId;
+  @JsonKey(name: 'slotIndex')
+  final int? slotIndex;
 
-  TimelineMealSlotResponse(this.slotIndex, this.proteinId, this.carbId);
+  @JsonKey(name: 'slotKey')
+  final String? slotKey;
 
-  factory TimelineMealSlotResponse.fromJson(Map<String, dynamic> json) =>
-      _$TimelineMealSlotResponseFromJson(json);
+  @JsonKey(name: 'selectionType')
+  final String? selectionType;
+
+  @JsonKey(name: 'proteinId')
+  final String? proteinId;
+
+  @JsonKey(name: 'carbs', defaultValue: [])
+  final List<MealSlotCarbResponse> carbs;
+
+  @JsonKey(name: 'sandwichId')
+  final String? sandwichId;
+
+  @JsonKey(name: 'salad')
+  final SaladResponse? salad;
+
+  @JsonKey(name: 'premiumKey')
+  final String? premiumKey;
+
+  @JsonKey(name: 'premiumSource')
+  final String? premiumSource;
+
+  @JsonKey(name: 'premiumExtraFeeHalala')
+  final int? premiumExtraFeeHalala;
+
+  const TimelineMealSlotResponse({
+    this.slotIndex,
+    this.slotKey,
+    this.selectionType,
+    this.proteinId,
+    this.carbs = const [],
+    this.sandwichId,
+    this.salad,
+    this.premiumKey,
+    this.premiumSource,
+    this.premiumExtraFeeHalala,
+  });
+
+  factory TimelineMealSlotResponse.fromJson(Map<String, dynamic> json) {
+    final normalized = Map<String, dynamic>.from(json);
+    if (normalized['carbs'] == null && normalized['carbId'] != null) {
+      normalized['carbs'] = [
+        {'carbId': normalized['carbId'], 'grams': 150},
+      ];
+    }
+    if (normalized['selectionType'] == 'standard_combo') {
+      normalized['selectionType'] = 'standard_meal';
+    }
+    if (normalized['selectionType'] == 'custom_premium_salad') {
+      normalized['selectionType'] = 'premium_large_salad';
+    }
+    return _$TimelineMealSlotResponseFromJson(normalized);
+  }
 
   Map<String, dynamic> toJson() => _$TimelineMealSlotResponseToJson(this);
 }
 
 @JsonSerializable()
 class TimelineDayResponse {
-  @JsonKey(name: "date")
-  String? date;
-  @JsonKey(name: "day")
-  String? day;
-  @JsonKey(name: "month")
-  String? month;
-  @JsonKey(name: "dayNumber")
-  int? dayNumber;
-  @JsonKey(name: "status")
-  String? status;
-  @JsonKey(name: "canBePrepared")
-  bool? canBePrepared;
-  @JsonKey(name: "fulfillmentReady")
-  bool? fulfillmentReady;
-  @JsonKey(name: "consumptionState")
-  String? consumptionState;
-  @JsonKey(name: "selectedMeals")
-  int? selectedMeals;
-  @JsonKey(name: "requiredMeals")
-  int? requiredMeals;
-  @JsonKey(name: "selections")
-  List<String>? selections;
-  @JsonKey(name: "premiumSelections")
-  List<String>? premiumSelections;
-  @JsonKey(name: "mealSlots")
-  List<TimelineMealSlotResponse>? mealSlots;
+  @JsonKey(name: 'date')
+  final String? date;
 
-  TimelineDayResponse(
+  @JsonKey(name: 'day')
+  final String? day;
+
+  @JsonKey(name: 'month')
+  final String? month;
+
+  @JsonKey(name: 'dayNumber')
+  final int? dayNumber;
+
+  @JsonKey(name: 'status')
+  final String? status;
+
+  @JsonKey(name: 'commercialState')
+  final String? commercialState;
+
+  @JsonKey(name: 'canBePrepared')
+  final bool? canBePrepared;
+
+  @JsonKey(name: 'fulfillmentReady')
+  final bool? fulfillmentReady;
+
+  @JsonKey(name: 'planningReady')
+  final bool? planningReady;
+
+  @JsonKey(name: 'fulfillmentMode')
+  final String? fulfillmentMode;
+
+  @JsonKey(name: 'consumptionState')
+  final String? consumptionState;
+
+  @JsonKey(name: 'selectedMeals')
+  final int? selectedMeals;
+
+  @JsonKey(name: 'requiredMeals')
+  final int? requiredMeals;
+
+  @JsonKey(name: 'selections')
+  final List<String>? selections;
+
+  @JsonKey(name: 'premiumSelections')
+  final List<String>? premiumSelections;
+
+  @JsonKey(name: 'selectedMealIds')
+  final List<String>? selectedMealIds;
+
+  @JsonKey(name: 'mealSlots')
+  final List<TimelineMealSlotResponse>? mealSlots;
+
+  @JsonKey(name: 'paymentRequirement')
+  final PaymentRequirementResponse? paymentRequirement;
+
+  const TimelineDayResponse({
     this.date,
     this.day,
     this.month,
     this.dayNumber,
     this.status,
+    this.commercialState,
     this.canBePrepared,
     this.fulfillmentReady,
+    this.planningReady,
+    this.fulfillmentMode,
     this.consumptionState,
     this.selectedMeals,
     this.requiredMeals,
     this.selections,
     this.premiumSelections,
+    this.selectedMealIds,
     this.mealSlots,
-  );
+    this.paymentRequirement,
+  });
 
   factory TimelineDayResponse.fromJson(Map<String, dynamic> json) =>
       _$TimelineDayResponseFromJson(json);
@@ -74,18 +154,22 @@ class TimelineDayResponse {
 
 @JsonSerializable()
 class TimelineDataResponse {
-  @JsonKey(name: "subscriptionId")
-  String? subscriptionId;
-  @JsonKey(name: "dailyMealsRequired")
-  int? dailyMealsRequired;
-  @JsonKey(name: "days")
-  List<TimelineDayResponse>? days;
-  @JsonKey(name: "premiumMealsRemaining")
-  int? premiumMealsRemaining;
-  @JsonKey(name: "addonSubscriptions")
-  List<AddonSubscriptionResponse>? addonSubscriptions;
+  @JsonKey(name: 'subscriptionId')
+  final String? subscriptionId;
 
-  TimelineDataResponse(
+  @JsonKey(name: 'dailyMealsRequired')
+  final int? dailyMealsRequired;
+
+  @JsonKey(name: 'days')
+  final List<TimelineDayResponse>? days;
+
+  @JsonKey(name: 'premiumMealsRemaining')
+  final int? premiumMealsRemaining;
+
+  @JsonKey(name: 'addonSubscriptions')
+  final List<AddonSubscriptionResponse>? addonSubscriptions;
+
+  const TimelineDataResponse(
     this.subscriptionId,
     this.dailyMealsRequired,
     this.days,
@@ -101,8 +185,8 @@ class TimelineDataResponse {
 
 @JsonSerializable()
 class TimelineResponse extends BaseResponse {
-  @JsonKey(name: "data")
-  TimelineDataResponse? data;
+  @JsonKey(name: 'data')
+  final TimelineDataResponse? data;
 
   TimelineResponse(this.data);
 
