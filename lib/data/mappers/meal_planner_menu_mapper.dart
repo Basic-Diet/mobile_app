@@ -2,7 +2,6 @@ import 'package:basic_diet/app/constants.dart';
 import 'package:basic_diet/app/extensions.dart';
 import 'package:basic_diet/data/mappers/addons_mapper.dart';
 import 'package:basic_diet/data/response/meal_planner_menu_response.dart';
-import 'package:basic_diet/domain/model/add_ons_model.dart';
 import 'package:basic_diet/domain/model/meal_planner_menu_model.dart';
 
 extension BuilderCategoryResponseMapper on BuilderCategoryResponse? {

@@ -51,7 +51,9 @@ MealPlannerMenuDataResponse _$MealPlannerMenuDataResponseFromJson(
           : BuilderCatalogResponse.fromJson(
             json['builderCatalog'] as Map<String, dynamic>,
           ),
-  addons: MealPlannerMenuDataResponse._addonsFromJson(json['addons']),
+  addons: MealPlannerMenuDataResponse._addonsFromJson(
+    MealPlannerMenuDataResponse._readAddonsOrCatalog(json, 'addons'),
+  ),
 );
 
 Map<String, dynamic> _$MealPlannerMenuDataResponseToJson(

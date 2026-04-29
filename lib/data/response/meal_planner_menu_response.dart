@@ -51,10 +51,18 @@ class MealPlannerMenuDataResponse {
   @JsonKey(name: "builderCatalog")
   BuilderCatalogResponse? builderCatalog;
 
-  @JsonKey(name: "addons", fromJson: _addonsFromJson)
+  @JsonKey(
+    name: "addons",
+    readValue: _readAddonsOrCatalog,
+    fromJson: _addonsFromJson,
+  )
   MealPlannerAddonsResponse? addons;
 
   MealPlannerMenuDataResponse({this.currency, this.builderCatalog, this.addons});
+
+  static Object? _readAddonsOrCatalog(Map<dynamic, dynamic> json, String key) {
+    return json[key] ?? json['addonCatalog'];
+  }
 
   static MealPlannerAddonsResponse? _addonsFromJson(dynamic value) {
     if (value == null) return null;
@@ -69,7 +77,7 @@ class MealPlannerMenuDataResponse {
     }
     if (value is Map<String, dynamic>) {
       final itemsRaw = value['items'];
-      final byTypeRaw = value['byType'];
+      final byTypeRaw = value['byType'] ?? value['byCategory'];
       return MealPlannerAddonsResponse(
         items: itemsRaw is List
             ? itemsRaw
