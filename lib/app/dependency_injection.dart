@@ -341,18 +341,6 @@ void initMealPlannerModule() {
     );
   }
 
-  if (!GetIt.I.isRegistered<CreateOneTimeAddonPaymentUseCase>()) {
-    instance.registerFactory<CreateOneTimeAddonPaymentUseCase>(
-      () => CreateOneTimeAddonPaymentUseCase(instance<Repository>()),
-    );
-  }
-
-  if (!GetIt.I.isRegistered<VerifyOneTimeAddonPaymentUseCase>()) {
-    instance.registerFactory<VerifyOneTimeAddonPaymentUseCase>(
-      () => VerifyOneTimeAddonPaymentUseCase(instance<Repository>()),
-    );
-  }
-
   if (!GetIt.I.isRegistered<ConfirmDaySelectionUseCase>()) {
     instance.registerFactory<ConfirmDaySelectionUseCase>(
       () => ConfirmDaySelectionUseCase(instance<Repository>()),
@@ -369,8 +357,6 @@ void initMealPlannerModule() {
         instance<SaveDaySelectionUseCase>(),
         instance<CreatePremiumPaymentUseCase>(),
         instance<VerifyPremiumPaymentUseCase>(),
-        instance<CreateOneTimeAddonPaymentUseCase>(),
-        instance<VerifyOneTimeAddonPaymentUseCase>(),
         instance<ConfirmDaySelectionUseCase>(),
         initialTimelineDays: params['timelineDays'],
         addonEntitlements: params['addonEntitlements'] ?? const [],

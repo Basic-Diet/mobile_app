@@ -132,7 +132,6 @@ class MealPlannerScreen extends StatelessWidget {
                       context,
                       state.paymentUrl!,
                       state.paymentId!,
-                      state.activePaymentKind ?? 'premium',
                     );
                   }
                 },
@@ -149,7 +148,6 @@ class MealPlannerScreen extends StatelessWidget {
     BuildContext context,
     String paymentUrl,
     String paymentId,
-    String paymentKind,
   ) async {
     final uri = Uri.tryParse(paymentUrl);
     if (uri == null || !uri.hasScheme) {
@@ -162,15 +160,6 @@ class MealPlannerScreen extends StatelessWidget {
       return;
     }
 
-    final successUrl =
-        paymentKind == 'addons'
-            ? _addonPaymentSuccessUrl
-            : _premiumPaymentSuccessUrl;
-    final backUrl =
-        paymentKind == 'addons'
-            ? _addonPaymentCancelUrl
-            : _premiumPaymentCancelUrl;
-
     final result = await Navigator.push<PaymentWebViewResult>(
       context,
       MaterialPageRoute(
@@ -178,8 +167,8 @@ class MealPlannerScreen extends StatelessWidget {
             (_) => PaymentWebViewScreen(
               paymentUrl: paymentUrl,
               draftId: paymentId,
-              successUrl: successUrl,
-              backUrl: backUrl,
+              successUrl: _premiumPaymentSuccessUrl,
+              backUrl: _premiumPaymentCancelUrl,
               onSuccess: () => Navigator.of(context).pop(),
             ),
       ),
@@ -194,11 +183,7 @@ class MealPlannerScreen extends StatelessWidget {
       return;
     }
 
-    context.read<MealPlannerBloc>().add(
-      paymentKind == 'addons'
-          ? VerifyAddonPaymentEvent(paymentId)
-          : VerifyPremiumPaymentEvent(paymentId),
-    );
+    context.read<MealPlannerBloc>().add(VerifyPremiumPaymentEvent(paymentId));
   }
 }
 
@@ -206,10 +191,6 @@ const String _premiumPaymentSuccessUrl =
     'https://app.example.com/payments/premium/success';
 const String _premiumPaymentCancelUrl =
     'https://app.example.com/payments/premium/cancel';
-const String _addonPaymentSuccessUrl =
-    'https://app.example.com/payments/one-time-addons/success';
-const String _addonPaymentCancelUrl =
-    'https://app.example.com/payments/one-time-addons/cancel';
 
 class MealPlannerView extends StatelessWidget {
   final bool readOnly;
