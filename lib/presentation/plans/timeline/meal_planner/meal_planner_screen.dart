@@ -367,31 +367,41 @@ class _MealPlannerBody extends StatelessWidget {
   ) {
     final slot = _slotForIndex(state, index);
     final protein =
-        slot?.proteinId == null ? null : _findProteinById(state.menu, slot!.proteinId!);
+        slot?.proteinId == null
+            ? null
+            : _findProteinById(state.menu, slot!.proteinId!);
     final sandwich =
-        slot?.sandwichId == null ? null : _findSandwichById(state.menu, slot!.sandwichId!);
+        slot?.sandwichId == null
+            ? null
+            : _findSandwichById(state.menu, slot!.sandwichId!);
     final isSandwichSelection = slot?.selectionType == 'sandwich';
-    final isPremiumLargeSaladSelection = slot?.selectionType == 'premium_large_salad';
-    final selectedCarbIds =
-        slot?.carbs.map((carb) => carb.carbId).where((id) => id.isNotEmpty).take(2).toList() ??
-        const <String>[];
-    final carbLabels = selectedCarbIds
-        .map((id) => _findCarbById(state.menu, id)?.name ?? '')
-        .toList();
-    final proteinLabel = isSandwichSelection
-        ? (sandwich?.name ?? '')
-        : (protein?.name ?? '');
-    final selectedProteinId = isSandwichSelection ? slot?.sandwichId : slot?.proteinId;
+    final isPremiumLargeSaladSelection =
+        slot?.selectionType == 'premium_large_salad';
+    final proteinLabel =
+        isSandwichSelection ? (sandwich?.name ?? '') : (protein?.name ?? '');
+    final selectedProteinId =
+        isSandwichSelection ? slot?.sandwichId : slot?.proteinId;
+    final maxCarbItems =
+        state.menu.builderCatalog.rules.maxCarbItemsPerMeal <= 0
+            ? 2
+            : state.menu.builderCatalog.rules.maxCarbItemsPerMeal > 2
+            ? 2
+            : state.menu.builderCatalog.rules.maxCarbItemsPerMeal;
+    final maxCarbTotalGrams =
+        state.menu.builderCatalog.rules.maxCarbTotalGrams > 0
+            ? state.menu.builderCatalog.rules.maxCarbTotalGrams
+            : 300;
 
     return MealSlotCard(
       slotNumber: index + 1,
       proteinLabel: proteinLabel,
       hasProteinSelection: proteinLabel.isNotEmpty,
-      carbLabels: carbLabels,
-      selectedCarbIds: selectedCarbIds,
-      hasCarbSelection: selectedCarbIds.isNotEmpty,
+      carbSelections: slot?.carbs ?? const [],
+      hasCarbSelection: (slot?.carbs ?? const []).isNotEmpty,
       isProteinPremium: protein?.isPremium ?? false,
       showCarbField: !isSandwichSelection && !isPremiumLargeSaladSelection,
+      maxCarbItems: maxCarbItems,
+      maxCarbTotalGrams: maxCarbTotalGrams,
       onSelectProtein:
           isReadOnly
               ? null
@@ -403,7 +413,9 @@ class _MealPlannerBody extends StatelessWidget {
               ),
       carbOptions: _sortedCarbs(state.menu),
       onCarbSelected:
-          isReadOnly || (!isSandwichSelection && protein == null) || isSandwichSelection
+          isReadOnly ||
+                  (!isSandwichSelection && protein == null) ||
+                  isSandwichSelection
               ? null
               : (carbIndex, carbId) => context.read<MealPlannerBloc>().add(
                 SetMealSlotCarbEvent(
@@ -412,8 +424,37 @@ class _MealPlannerBody extends StatelessWidget {
                   carbIndex: carbIndex,
                 ),
               ),
+      onCarbGramsChanged:
+          isReadOnly ||
+                  (!isSandwichSelection && protein == null) ||
+                  isSandwichSelection
+              ? null
+              : (carbIndex, grams) => context.read<MealPlannerBloc>().add(
+                SetMealSlotCarbEvent(
+                  slotIndex: index,
+                  carbId:
+                      slot != null && carbIndex < slot.carbs.length
+                          ? slot.carbs[carbIndex].carbId
+                          : null,
+                  grams: grams,
+                  carbIndex: carbIndex,
+                ),
+              ),
+      onRemoveCarb:
+          isReadOnly ||
+                  (!isSandwichSelection && protein == null) ||
+                  isSandwichSelection
+              ? null
+              : (carbIndex) => context.read<MealPlannerBloc>().add(
+                SetMealSlotCarbEvent(
+                  slotIndex: index,
+                  carbId: null,
+                  carbIndex: carbIndex,
+                ),
+              ),
       onClear:
-          isReadOnly || (!isSandwichSelection && protein == null && sandwich == null)
+          isReadOnly ||
+                  (!isSandwichSelection && protein == null && sandwich == null)
               ? null
               : () => context.read<MealPlannerBloc>().add(
                 SetMealSlotProteinEvent(slotIndex: index, proteinId: null),
@@ -495,16 +536,12 @@ class _MealPlannerBody extends StatelessWidget {
     return null;
   }
 
-  BuilderSandwichModel? _findSandwichById(MealPlannerMenuModel menu, String id) {
+  BuilderSandwichModel? _findSandwichById(
+    MealPlannerMenuModel menu,
+    String id,
+  ) {
     for (final sandwich in menu.builderCatalog.sandwiches) {
       if (sandwich.id == id) return sandwich;
-    }
-    return null;
-  }
-
-  BuilderCarbModel? _findCarbById(MealPlannerMenuModel menu, String id) {
-    for (final carb in menu.builderCatalog.carbs) {
-      if (carb.id == id) return carb;
     }
     return null;
   }
