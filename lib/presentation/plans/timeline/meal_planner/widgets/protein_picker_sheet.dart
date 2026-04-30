@@ -77,12 +77,18 @@ class _ProteinPickerSheetState extends State<ProteinPickerSheet> {
         return '🍗';
       case 'beef':
         return '🥩';
+      case 'fish':
       case 'seafood':
         return '🦐';
+      case 'eggs':
       case 'egg':
         return '🥚';
       case 'premium':
         return '⭐';
+      case 'sandwich':
+        return '🥪';
+      case 'other':
+        return '🍽️';
       default:
         return '🍽️';
     }
