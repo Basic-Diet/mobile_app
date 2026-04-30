@@ -518,7 +518,7 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
       final firstError =
           validationResult.slotErrors?.isNotEmpty == true
               ? validationResult.slotErrors!.first.message
-              : 'Validation failed';
+              : Strings.validationFailed.tr();
       emit(current.copyWith(isSaving: false, paymentError: firstError));
       return;
     }
@@ -1063,7 +1063,7 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
   String _dayNotEditableReason(MealPlannerLoaded current) {
     final blocker =
         current.selectedDayDetail?.paymentRequirement?.blockingReason;
-    return blocker?.isNotEmpty == true ? blocker! : 'LOCKED';
+    return blocker?.isNotEmpty == true ? blocker! : Strings.locked.tr();
   }
 
   String? _validateCurrentCarbSelections(MealPlannerLoaded current) {

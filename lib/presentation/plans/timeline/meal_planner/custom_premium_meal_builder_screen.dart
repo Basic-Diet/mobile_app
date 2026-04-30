@@ -306,15 +306,15 @@ class _CustomPremiumMealBuilderScreenState
   String _groupTitle(String key) {
     switch (_normalizedGroupKey(key)) {
       case 'leafy_greens':
-        return 'Leafy Greens';
+        return Strings.leafyGreens.tr();
       case 'vegetables':
-        return 'Vegetables';
+        return Strings.vegetables.tr();
       case 'cheese_nuts':
-        return 'Cheese & Nuts';
+        return Strings.cheeseNuts.tr();
       case 'fruits':
-        return 'Fruits';
+        return Strings.fruits.tr();
       case 'sauce':
-        return 'Sauce';
+        return Strings.sauce.tr();
       default:
         return key;
     }

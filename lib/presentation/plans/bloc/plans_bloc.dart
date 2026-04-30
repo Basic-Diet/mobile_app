@@ -4,6 +4,8 @@ import 'package:basic_diet/domain/usecase/get_timeline_usecase.dart';
 import 'package:basic_diet/domain/usecase/prepare_pickup_usecase.dart';
 import 'package:basic_diet/presentation/plans/bloc/plans_event.dart';
 import 'package:basic_diet/presentation/plans/bloc/plans_state.dart';
+import 'package:basic_diet/presentation/resources/strings_manager.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PlansBloc extends Bloc<PlansEvent, PlansState> {
@@ -190,7 +192,7 @@ class PlansBloc extends Bloc<PlansEvent, PlansState> {
         } else {
           emit(
             PlansError(
-              "No available days for meal planning",
+              Strings.noAvailableDaysForPlanning.tr(),
               data: currentData,
               fulfillmentDay: state.fulfillmentDay,
             ),
@@ -220,7 +222,7 @@ class PlansBloc extends Bloc<PlansEvent, PlansState> {
     if (resolvedDate.isEmpty) {
       emit(
         PlansError(
-          'Unable to resolve pickup day',
+          Strings.unableToResolvePickupDay.tr(),
           data: currentData,
           fulfillmentDay: state.fulfillmentDay,
         ),

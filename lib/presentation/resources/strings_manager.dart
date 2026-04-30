@@ -197,6 +197,15 @@ class Strings {
   static const String carbGramsRequired = 'carbGramsRequired';
   static const String carbTotalLimitExceeded = 'carbTotalLimitExceeded';
   static const String premium = 'premium';
+  static const String leafyGreens = 'leafyGreens';
+  static const String vegetables = 'vegetables';
+  static const String cheeseNuts = 'cheeseNuts';
+  static const String fruits = 'fruits';
+  static const String sauce = 'sauce';
+  static const String sandwich = 'sandwich';
+  static const String noAvailableDaysForPlanning = 'noAvailableDaysForPlanning';
+  static const String unableToResolvePickupDay = 'unableToResolvePickupDay';
+  static const String validationFailed = 'validationFailed';
 
   // Days
   static const String monday = 'monday';

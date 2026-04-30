@@ -3,6 +3,8 @@ import 'package:basic_diet/domain/model/current_subscription_overview_model.dart
 import 'package:basic_diet/domain/model/meal_planner_menu_model.dart';
 import 'package:basic_diet/domain/model/subscription_day_model.dart';
 import 'package:basic_diet/domain/model/timeline_model.dart';
+import 'package:basic_diet/presentation/resources/strings_manager.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 
@@ -370,7 +372,7 @@ final class MealPlannerLoaded extends MealPlannerState {
       return dayCurrency;
     }
     if (menu.currency.isNotEmpty) return menu.currency;
-    return 'SAR';
+    return Strings.sar.tr();
   }
 
   int get maxMeals => selectedTimelineDay.requiredMeals;

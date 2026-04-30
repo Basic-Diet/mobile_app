@@ -439,5 +439,14 @@
     "pickupCompletedConsumedSubtitle": "This day ended without a pickup preparation request.",
     "pickupStatusDone": "Done",
     "pickupStatusCurrent": "Current",
-    "pickupStatusLocked": "Locked"
+    "pickupStatusLocked": "Locked",
+    "leafyGreens": "Leafy Greens",
+    "vegetables": "Vegetables",
+    "cheeseNuts": "Cheese & Nuts",
+    "fruits": "Fruits",
+    "sauce": "Sauce",
+    "sandwich": "Sandwich",
+    "noAvailableDaysForPlanning": "No available days for meal planning",
+    "unableToResolvePickupDay": "Unable to resolve pickup day",
+    "validationFailed": "Validation failed"
 }

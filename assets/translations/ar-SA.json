@@ -439,5 +439,14 @@
     "pickupCompletedConsumedSubtitle": "انتهى هذا اليوم بدون طلب تجهيز للاستلام.",
     "pickupStatusDone": "مكتمل",
     "pickupStatusCurrent": "الحالي",
-    "pickupStatusLocked": "مقفل"
+    "pickupStatusLocked": "مقفل",
+    "leafyGreens": "خضروات ورقية",
+    "vegetables": "خضروات",
+    "cheeseNuts": "جبن ومكسرات",
+    "fruits": "فواكه",
+    "sauce": "صوص",
+    "sandwich": "ساندويتش",
+    "noAvailableDaysForPlanning": "لا توجد أيام متاحة للتخطيط",
+    "unableToResolvePickupDay": "تعذر تحديد يوم الاستلام",
+    "validationFailed": "فشل التحقق"
 }

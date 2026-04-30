@@ -563,7 +563,7 @@ class _PendingAddonBanner extends StatelessWidget {
 
 String _moneyLabel(int amountHalala, String currency) {
   final value = (amountHalala / 100).toStringAsFixed(2);
-  return '${currency.isNotEmpty ? currency : 'SAR'} $value';
+  return '${currency.isNotEmpty ? currency : Strings.sar.tr()} $value';
 }
 
 String _categoryLabel(String category) {

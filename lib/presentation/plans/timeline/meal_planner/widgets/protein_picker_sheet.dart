@@ -146,7 +146,7 @@ class _ProteinPickerSheetState extends State<ProteinPickerSheet> {
     final tabs = [
       _ProteinTab(key: 'premium', label: Strings.premium.tr()),
       if (widget.state.menu.builderCatalog.sandwiches.isNotEmpty)
-        _ProteinTab(key: 'sandwich', label: 'Sandwich'),
+        _ProteinTab(key: 'sandwich', label: Strings.sandwich.tr()),
       ...allCategories.map((c) => _ProteinTab(key: c.key, label: c.name)),
     ];
 
