@@ -137,14 +137,16 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
           vertical: AppPadding.p18.h,
         ),
         decoration: BoxDecoration(
-          color: isSelected
-              ? ColorManager.brandPrimary.withOpacity(0.1)
-              : ColorManager.backgroundSubtle,
+          color:
+              isSelected
+                  ? ColorManager.brandPrimary.withValues(alpha: 0.1)
+                  : ColorManager.backgroundSubtle,
           borderRadius: BorderRadius.circular(AppSize.s12.r),
           border: Border.all(
-            color: isSelected
-                ? ColorManager.brandPrimary
-                : ColorManager.borderDefault,
+            color:
+                isSelected
+                    ? ColorManager.brandPrimary
+                    : ColorManager.borderDefault,
             width: isSelected ? 2 : 1,
           ),
         ),
@@ -156,32 +158,35 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: isSelected
-                      ? ColorManager.brandPrimary
-                      : ColorManager.textSecondary,
+                  color:
+                      isSelected
+                          ? ColorManager.brandPrimary
+                          : ColorManager.textSecondary,
                   width: 2,
                 ),
               ),
-              child: isSelected
-                  ? Center(
-                      child: Container(
-                        width: AppSize.s12.w,
-                        height: AppSize.s12.h,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: ColorManager.brandPrimary,
+              child:
+                  isSelected
+                      ? Center(
+                        child: Container(
+                          width: AppSize.s12.w,
+                          height: AppSize.s12.h,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: ColorManager.brandPrimary,
+                          ),
                         ),
-                      ),
-                    )
-                  : null,
+                      )
+                      : null,
             ),
             Gap(AppSize.s16.w),
             Text(
               languageName,
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                color: isSelected
-                    ? ColorManager.brandPrimary
-                    : ColorManager.textPrimary,
+                color:
+                    isSelected
+                        ? ColorManager.brandPrimary
+                        : ColorManager.textPrimary,
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                 fontSize: FontSizeManager.s16.sp,
               ),
@@ -220,9 +225,10 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
         child: Text(
           Strings.continue_.tr(),
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
-            color: _selectedLanguage != null
-                ? ColorManager.backgroundSurface
-                : ColorManager.textSecondary,
+            color:
+                _selectedLanguage != null
+                    ? ColorManager.backgroundSurface
+                    : ColorManager.textSecondary,
             fontWeight: FontWeight.bold,
             fontSize: FontSizeManager.s16.sp,
           ),

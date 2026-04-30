@@ -86,8 +86,17 @@ class TimelineDayResponse {
   @JsonKey(name: 'status')
   final String? status;
 
+  @JsonKey(name: 'deliveryMode')
+  final String? deliveryMode;
+
+  @JsonKey(name: 'statusLabel')
+  final String? statusLabel;
+
   @JsonKey(name: 'commercialState')
   final String? commercialState;
+
+  @JsonKey(name: 'commercialStateLabel')
+  final String? commercialStateLabel;
 
   @JsonKey(name: 'canBePrepared')
   final bool? canBePrepared;
@@ -97,6 +106,9 @@ class TimelineDayResponse {
 
   @JsonKey(name: 'planningReady')
   final bool? planningReady;
+
+  @JsonKey(name: 'isFulfillable')
+  final bool? isFulfillable;
 
   @JsonKey(name: 'fulfillmentMode')
   final String? fulfillmentMode;
@@ -109,6 +121,15 @@ class TimelineDayResponse {
 
   @JsonKey(name: 'requiredMeals')
   final int? requiredMeals;
+
+  @JsonKey(name: 'specifiedMealCount')
+  final int? specifiedMealCount;
+
+  @JsonKey(name: 'unspecifiedMealCount')
+  final int? unspecifiedMealCount;
+
+  @JsonKey(name: 'hasCustomerSelections')
+  final bool? hasCustomerSelections;
 
   @JsonKey(name: 'selections')
   final List<String>? selections;
@@ -125,25 +146,56 @@ class TimelineDayResponse {
   @JsonKey(name: 'paymentRequirement')
   final PaymentRequirementResponse? paymentRequirement;
 
+  @JsonKey(name: 'deliveryAddress')
+  final OverviewAddressSummaryResponse? deliveryAddress;
+
+  @JsonKey(name: 'deliveryWindow', readValue: readDeliveryWindowSummary)
+  final OverviewDeliveryWindowSummaryResponse? deliveryWindow;
+
+  @JsonKey(name: 'pickupLocation')
+  final OverviewPickupLocationSummaryResponse? pickupLocation;
+
+  @JsonKey(name: 'fulfillmentSummary')
+  final OverviewFulfillmentSummaryResponse? fulfillmentSummary;
+
+  @JsonKey(name: 'lockedReason')
+  final String? lockedReason;
+
+  @JsonKey(name: 'lockedMessage')
+  final String? lockedMessage;
+
   const TimelineDayResponse({
     this.date,
     this.day,
     this.month,
     this.dayNumber,
     this.status,
+    this.deliveryMode,
+    this.statusLabel,
     this.commercialState,
+    this.commercialStateLabel,
     this.canBePrepared,
     this.fulfillmentReady,
     this.planningReady,
+    this.isFulfillable,
     this.fulfillmentMode,
     this.consumptionState,
     this.selectedMeals,
     this.requiredMeals,
+    this.specifiedMealCount,
+    this.unspecifiedMealCount,
+    this.hasCustomerSelections,
     this.selections,
     this.premiumSelections,
     this.selectedMealIds,
     this.mealSlots,
     this.paymentRequirement,
+    this.deliveryAddress,
+    this.deliveryWindow,
+    this.pickupLocation,
+    this.fulfillmentSummary,
+    this.lockedReason,
+    this.lockedMessage,
   });
 
   factory TimelineDayResponse.fromJson(Map<String, dynamic> json) =>

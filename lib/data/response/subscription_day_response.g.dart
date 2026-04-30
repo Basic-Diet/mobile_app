@@ -16,6 +16,7 @@ SubscriptionDayData _$SubscriptionDayDataFromJson(Map<String, dynamic> json) =>
       json['status'] as String,
       json['plannerState'] as String?,
       json['commercialState'] as String?,
+      json['plannerRevisionHash'] as String?,
       (json['mealSlots'] as List<dynamic>?)
               ?.map((e) => MealSlotResponse.fromJson(e as Map<String, dynamic>))
               .toList() ??
@@ -48,6 +49,29 @@ SubscriptionDayData _$SubscriptionDayDataFromJson(Map<String, dynamic> json) =>
       json['rules'] == null
           ? null
           : DayRulesResponse.fromJson(json['rules'] as Map<String, dynamic>),
+      json['pickupLocation'] == null
+          ? null
+          : OverviewPickupLocationSummaryResponse.fromJson(
+            json['pickupLocation'] as Map<String, dynamic>,
+          ),
+      json['deliveryAddress'] == null
+          ? null
+          : OverviewAddressSummaryResponse.fromJson(
+            json['deliveryAddress'] as Map<String, dynamic>,
+          ),
+      readDeliveryWindowSummary(json, 'deliveryWindow') == null
+          ? null
+          : OverviewDeliveryWindowSummaryResponse.fromJson(
+            readDeliveryWindowSummary(json, 'deliveryWindow')
+                as Map<String, dynamic>,
+          ),
+      json['fulfillmentSummary'] == null
+          ? null
+          : OverviewFulfillmentSummaryResponse.fromJson(
+            json['fulfillmentSummary'] as Map<String, dynamic>,
+          ),
+      json['lockedReason'] as String?,
+      json['lockedMessage'] as String?,
     );
 
 Map<String, dynamic> _$SubscriptionDayDataToJson(
@@ -57,6 +81,7 @@ Map<String, dynamic> _$SubscriptionDayDataToJson(
   'status': instance.status,
   'plannerState': instance.plannerState,
   'commercialState': instance.commercialState,
+  'plannerRevisionHash': instance.plannerRevisionHash,
   'mealSlots': instance.mealSlots,
   'addonSelections': instance.addonSelections,
   'plannerMeta': instance.plannerMeta,
@@ -64,6 +89,12 @@ Map<String, dynamic> _$SubscriptionDayDataToJson(
   'paymentRequirement': instance.paymentRequirement,
   'premiumExtraPayment': instance.premiumExtraPayment,
   'rules': instance.rules,
+  'pickupLocation': instance.pickupLocation,
+  'deliveryAddress': instance.deliveryAddress,
+  'deliveryWindow': instance.deliveryWindow,
+  'fulfillmentSummary': instance.fulfillmentSummary,
+  'lockedReason': instance.lockedReason,
+  'lockedMessage': instance.lockedMessage,
 };
 
 PlanningResponse _$PlanningResponseFromJson(Map<String, dynamic> json) =>
@@ -262,7 +293,9 @@ PaymentRequirementResponse _$PaymentRequirementResponseFromJson(
   (json['pendingAmountHalala'] as num?)?.toInt() ?? 0,
   json['currency'] as String? ?? 'SAR',
   json['pricingStatus'] as String? ?? 'not_required',
+  json['pricingStatusLabel'] as String?,
   json['blockingReason'] as String?,
+  json['blockingReasonLabel'] as String?,
   json['canCreatePayment'] as bool? ?? false,
 );
 
@@ -279,7 +312,9 @@ Map<String, dynamic> _$PaymentRequirementResponseToJson(
   'pendingAmountHalala': instance.pendingAmountHalala,
   'currency': instance.currency,
   'pricingStatus': instance.pricingStatus,
+  'pricingStatusLabel': instance.pricingStatusLabel,
   'blockingReason': instance.blockingReason,
+  'blockingReasonLabel': instance.blockingReasonLabel,
   'canCreatePayment': instance.canCreatePayment,
 };
 

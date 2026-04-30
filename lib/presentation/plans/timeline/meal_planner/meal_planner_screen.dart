@@ -167,8 +167,8 @@ class MealPlannerScreen extends StatelessWidget {
             (_) => PaymentWebViewScreen(
               paymentUrl: paymentUrl,
               draftId: paymentId,
-              successUrl: _premiumPaymentSuccessUrl,
-              backUrl: _premiumPaymentCancelUrl,
+              successUrl: _unifiedDayPaymentSuccessUrl,
+              backUrl: _unifiedDayPaymentCancelUrl,
               onSuccess: () => Navigator.of(context).pop(),
             ),
       ),
@@ -180,17 +180,18 @@ class MealPlannerScreen extends StatelessWidget {
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text(Strings.paymentCancelled.tr())));
+      context.read<MealPlannerBloc>().add(const PaymentCancelledEvent());
       return;
     }
 
-    context.read<MealPlannerBloc>().add(VerifyPremiumPaymentEvent(paymentId));
+    context.read<MealPlannerBloc>().add(VerifyUnifiedDayPaymentEvent(paymentId));
   }
 }
 
-const String _premiumPaymentSuccessUrl =
-    'https://app.example.com/payments/premium/success';
-const String _premiumPaymentCancelUrl =
-    'https://app.example.com/payments/premium/cancel';
+const String _unifiedDayPaymentSuccessUrl =
+    'https://app.example.com/payments/day-planning/success';
+const String _unifiedDayPaymentCancelUrl =
+    'https://app.example.com/payments/day-planning/cancel';
 
 class MealPlannerView extends StatelessWidget {
   final bool readOnly;

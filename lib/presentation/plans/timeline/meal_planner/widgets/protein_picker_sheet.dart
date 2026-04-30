@@ -39,11 +39,14 @@ class _ProteinPickerSheetState extends State<ProteinPickerSheet> {
   void initState() {
     super.initState();
     _activeTabKey = 'premium';
-    final selectedProtein = widget.selectedProteinId == null
-        ? null
-        : _proteinById(widget.selectedProteinId!);
+    final selectedProtein =
+        widget.selectedProteinId == null
+            ? null
+            : _proteinById(widget.selectedProteinId!);
     final selectedSandwich =
-        widget.selectedProteinId == null ? null : _sandwichById(widget.selectedProteinId!);
+        widget.selectedProteinId == null
+            ? null
+            : _sandwichById(widget.selectedProteinId!);
 
     if (selectedSandwich != null) {
       _activeTabKey = 'sandwich';
@@ -87,11 +90,12 @@ class _ProteinPickerSheetState extends State<ProteinPickerSheet> {
 
   List<BuilderProteinModel> _filteredProteins(String tabKey) {
     final proteins = widget.state.menu.builderCatalog.allProteins;
-    final filtered = tabKey == 'premium'
-        ? proteins.where((p) => p.isPremium).toList()
-        : proteins
-              .where((p) => !p.isPremium && p.displayCategoryKey == tabKey)
-              .toList();
+    final filtered =
+        tabKey == 'premium'
+            ? proteins.where((p) => p.isPremium).toList()
+            : proteins
+                .where((p) => !p.isPremium && p.displayCategoryKey == tabKey)
+                .toList();
     filtered.sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
     return filtered;
   }
@@ -108,9 +112,10 @@ class _ProteinPickerSheetState extends State<ProteinPickerSheet> {
       return _EmptySheet();
     }
 
-    final selectedProtein = widget.selectedProteinId == null
-        ? null
-        : _proteinById(widget.selectedProteinId!);
+    final selectedProtein =
+        widget.selectedProteinId == null
+            ? null
+            : _proteinById(widget.selectedProteinId!);
 
     final beefRule = widget.state.menu.builderCatalog.rules.beef;
     final slots =
@@ -227,9 +232,10 @@ class _CategoryTabs extends StatelessWidget {
           final isPremiumTab = tab.key == 'premium';
           final isBeefTab = tab.key == beefRuleKey && !isPremiumTab;
           final isTabDisabled = isBeefTab && isBeefDisabled;
-          final activeCardColor = isPremiumTab
-              ? ColorManager.brandAccent
-              : ColorManager.brandPrimary;
+          final activeCardColor =
+              isPremiumTab
+                  ? ColorManager.brandAccent
+                  : ColorManager.brandPrimary;
 
           return GestureDetector(
             onTap: isTabDisabled ? null : () => onTabSelected(tab.key),
@@ -243,17 +249,20 @@ class _CategoryTabs extends StatelessWidget {
                     width: 56.w,
                     height: 56.w,
                     decoration: BoxDecoration(
-                      color: isSelected
-                          ? activeCardColor
-                          : ColorManager.backgroundSurface,
+                      color:
+                          isSelected
+                              ? activeCardColor
+                              : ColorManager.backgroundSurface,
                       borderRadius: BorderRadius.circular(AppSize.s16.r),
-                      border: isSelected
-                          ? null
-                          : Border.all(
-                              color: isPremiumTab
-                                  ? ColorManager.brandAccentBorder
-                                  : ColorManager.borderDefault,
-                            ),
+                      border:
+                          isSelected
+                              ? null
+                              : Border.all(
+                                color:
+                                    isPremiumTab
+                                        ? ColorManager.brandAccentBorder
+                                        : ColorManager.borderDefault,
+                              ),
                     ),
                     alignment: Alignment.center,
                     child: Text(
@@ -267,11 +276,12 @@ class _CategoryTabs extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: getBoldTextStyle(
-                      color: isSelected
-                          ? (isPremiumTab
-                                ? ColorManager.brandAccent
-                                : ColorManager.brandPrimary)
-                          : ColorManager.textSecondary,
+                      color:
+                          isSelected
+                              ? (isPremiumTab
+                                  ? ColorManager.brandAccent
+                                  : ColorManager.brandPrimary)
+                              : ColorManager.textSecondary,
                       fontSize: FontSizeManager.s10.sp,
                     ),
                   ),
@@ -315,12 +325,13 @@ class _ProteinList extends StatelessWidget {
     final premiumLargeSalad = state.menu.builderCatalog.premiumLargeSalad;
     final showCustomBuilderOption =
         activeTabKey == 'premium' && premiumLargeSalad != null;
-    final currentSlot =
-        (state.selectedSlotsPerDay[state.selectedDayIndex] ?? const [])
-            .where((slot) => slot.slotIndex == slotIndex + 1)
-            .cast<MealPlannerSlotSelection?>()
-            .firstWhere((slot) => slot != null, orElse: () => null);
-    final isCustomSelected = currentSlot?.selectionType == 'premium_large_salad';
+    final currentSlot = (state.selectedSlotsPerDay[state.selectedDayIndex] ??
+            const [])
+        .where((slot) => slot.slotIndex == slotIndex + 1)
+        .cast<MealPlannerSlotSelection?>()
+        .firstWhere((slot) => slot != null, orElse: () => null);
+    final isCustomSelected =
+        currentSlot?.selectionType == 'premium_large_salad';
     final showSandwiches = activeTabKey == 'sandwich';
 
     return SafeArea(
@@ -335,21 +346,22 @@ class _ProteinList extends StatelessWidget {
                 bottom: 12.h,
               ),
               children: [
-                  if (showSandwiches)
-                    ...sandwiches.map((sandwich) {
-                      final isSelected = currentSlot?.selectionType == 'sandwich' &&
-                          currentSlot?.sandwichId == sandwich.id;
-                      return Padding(
-                        padding: EdgeInsets.only(bottom: AppSize.s10.h),
-                        child: _SandwichItem(
-                          sandwich: sandwich,
-                          isSelected: isSelected,
-                          slotIndex: slotIndex,
-                        ),
-                      );
-                    }),
-                  if (!showSandwiches)
-                    ...proteins.map((protein) {
+                if (showSandwiches)
+                  ...sandwiches.map((sandwich) {
+                    final isSelected =
+                        currentSlot?.selectionType == 'sandwich' &&
+                        currentSlot?.sandwichId == sandwich.id;
+                    return Padding(
+                      padding: EdgeInsets.only(bottom: AppSize.s10.h),
+                      child: _SandwichItem(
+                        sandwich: sandwich,
+                        isSelected: isSelected,
+                        slotIndex: slotIndex,
+                      ),
+                    );
+                  }),
+                if (!showSandwiches)
+                  ...proteins.map((protein) {
                     final isSelected =
                         !isCustomSelected && selectedProteinId == protein.id;
                     final isItemDisabled =
@@ -357,7 +369,7 @@ class _ProteinList extends StatelessWidget {
                         isBeefDisabled &&
                         protein.proteinFamilyKey == beefFamilyKey &&
                         !currentIsBeef;
-      
+
                     return Padding(
                       padding: EdgeInsets.only(bottom: AppSize.s10.h),
                       child: _ProteinItem(
@@ -367,8 +379,8 @@ class _ProteinList extends StatelessWidget {
                         slotIndex: slotIndex,
                       ),
                     );
-                    }).toList(),
-                ],
+                  }),
+              ],
             ),
           ),
           if (showCustomBuilderOption)
@@ -378,25 +390,29 @@ class _ProteinList extends StatelessWidget {
               buttonLabel: Strings.buildMeal.tr(),
               isSelected: isCustomSelected,
               selectedProteinName:
-                  isCustomSelected ? _findProteinNameById(state, currentSlot?.proteinId) : null,
+                  isCustomSelected
+                      ? _findProteinNameById(state, currentSlot?.proteinId)
+                      : null,
               onTap: () async {
-                final premiumProteins = state.menu.builderCatalog.allProteins
-                    .where((protein) => protein.isPremium)
-                    .toList()
-                  ..sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
-      
-                final result = await Navigator.push<CustomPremiumMealBuilderResult>(
-                  context,
-                  MaterialPageRoute(
-                    builder:
-                        (_) => CustomPremiumMealBuilderScreen(
-                          config: premiumLargeSalad,
-                          premiumProteins: premiumProteins,
-                          initialProteinId: currentSlot?.proteinId,
-                        ),
-                  ),
-                );
-      
+                final premiumProteins =
+                    state.menu.builderCatalog.allProteins
+                        .where((protein) => protein.isPremium)
+                        .toList()
+                      ..sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
+
+                final result =
+                    await Navigator.push<CustomPremiumMealBuilderResult>(
+                      context,
+                      MaterialPageRoute(
+                        builder:
+                            (_) => CustomPremiumMealBuilderScreen(
+                              config: premiumLargeSalad,
+                              premiumProteins: premiumProteins,
+                              initialProteinId: currentSlot?.proteinId,
+                            ),
+                      ),
+                    );
+
                 if (result == null || !context.mounted) return;
                 context.read<MealPlannerBloc>().add(
                   SetPremiumLargeSaladEvent(
@@ -450,10 +466,16 @@ class _SandwichItem extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.all(AppPadding.p14.w),
         decoration: BoxDecoration(
-          color: isSelected ? ColorManager.brandPrimaryTint : ColorManager.backgroundSurface,
+          color:
+              isSelected
+                  ? ColorManager.brandPrimaryTint
+                  : ColorManager.backgroundSurface,
           borderRadius: BorderRadius.circular(AppSize.s16.r),
           border: Border.all(
-            color: isSelected ? ColorManager.brandPrimary : ColorManager.borderDefault,
+            color:
+                isSelected
+                    ? ColorManager.brandPrimary
+                    : ColorManager.borderDefault,
           ),
         ),
         child: Column(
@@ -517,7 +539,10 @@ class _CustomBuilderCta extends StatelessWidget {
                 : ColorManager.transparent,
         borderRadius: BorderRadius.circular(AppSize.s16.r),
         border: Border.all(
-          color: isSelected ? ColorManager.brandPrimary : ColorManager.brandAccentBorder,
+          color:
+              isSelected
+                  ? ColorManager.brandPrimary
+                  : ColorManager.brandAccentBorder,
         ),
       ),
       child: Column(
@@ -531,7 +556,10 @@ class _CustomBuilderCta extends StatelessWidget {
                 child: Text(
                   title,
                   style: getBoldTextStyle(
-                    color: isSelected ? ColorManager.brandPrimary : ColorManager.brandAccent,
+                    color:
+                        isSelected
+                            ? ColorManager.brandPrimary
+                            : ColorManager.brandAccent,
                     fontSize: FontSizeManager.s14.sp,
                   ),
                 ),
@@ -602,31 +630,34 @@ class _ProteinItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: isDisabled
-          ? null
-          : () {
-              context.read<MealPlannerBloc>().add(
-                SetMealSlotProteinEvent(
-                  slotIndex: slotIndex,
-                  proteinId: protein.id,
-                ),
-              );
-              Navigator.pop(context);
-            },
+      onTap:
+          isDisabled
+              ? null
+              : () {
+                context.read<MealPlannerBloc>().add(
+                  SetMealSlotProteinEvent(
+                    slotIndex: slotIndex,
+                    proteinId: protein.id,
+                  ),
+                );
+                Navigator.pop(context);
+              },
       child: Opacity(
         opacity: isDisabled ? 0.4 : 1.0,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 200),
           padding: EdgeInsets.all(AppPadding.p12.w),
           decoration: BoxDecoration(
-            color: isSelected
-                ? ColorManager.brandPrimaryTint
-                : ColorManager.backgroundSurface,
+            color:
+                isSelected
+                    ? ColorManager.brandPrimaryTint
+                    : ColorManager.backgroundSurface,
             borderRadius: BorderRadius.circular(AppSize.s16.r),
             border: Border.all(
-              color: isSelected
-                  ? ColorManager.brandPrimary
-                  : ColorManager.borderDefault,
+              color:
+                  isSelected
+                      ? ColorManager.brandPrimary
+                      : ColorManager.borderDefault,
             ),
           ),
           child: Row(
@@ -672,9 +703,10 @@ class _ProteinItem extends StatelessWidget {
               Gap(AppSize.s8.w),
               Icon(
                 isSelected ? Icons.check_circle : Icons.radio_button_unchecked,
-                color: isSelected
-                    ? ColorManager.brandPrimary
-                    : ColorManager.stateDisabled,
+                color:
+                    isSelected
+                        ? ColorManager.brandPrimary
+                        : ColorManager.stateDisabled,
                 size: 22.w,
               ),
             ],

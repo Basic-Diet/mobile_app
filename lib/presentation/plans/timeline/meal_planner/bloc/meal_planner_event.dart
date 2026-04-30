@@ -123,28 +123,15 @@ final class HideBannerEvent extends MealPlannerEvent {
   const HideBannerEvent();
 }
 
-final class InitiatePremiumPaymentEvent extends MealPlannerEvent {
-  const InitiatePremiumPaymentEvent();
-}
-
-final class VerifyPremiumPaymentEvent extends MealPlannerEvent {
+final class VerifyUnifiedDayPaymentEvent extends MealPlannerEvent {
   final String paymentId;
 
-  const VerifyPremiumPaymentEvent(this.paymentId);
+  const VerifyUnifiedDayPaymentEvent(this.paymentId);
 
   @override
   List<Object?> get props => [paymentId];
 }
 
-final class InitiateAddonPaymentEvent extends MealPlannerEvent {
-  const InitiateAddonPaymentEvent();
-}
-
-final class VerifyAddonPaymentEvent extends MealPlannerEvent {
-  final String paymentId;
-
-  const VerifyAddonPaymentEvent(this.paymentId);
-
-  @override
-  List<Object?> get props => [paymentId];
+final class PaymentCancelledEvent extends MealPlannerEvent {
+  const PaymentCancelledEvent();
 }

@@ -4,10 +4,11 @@ import 'package:equatable/equatable.dart';
 
 abstract class PlansState extends Equatable {
   final CurrentSubscriptionOverviewModel? data;
-  const PlansState({this.data});
+  final TimelineDayModel? fulfillmentDay;
+  const PlansState({this.data, this.fulfillmentDay});
 
   @override
-  List<Object?> get props => [data];
+  List<Object?> get props => [data, fulfillmentDay];
 }
 
 class PlansInitial extends PlansState {
@@ -19,11 +20,13 @@ class PlansLoading extends PlansState {
 }
 
 class CurrentSubscriptionOverviewLoaded extends PlansState {
-  const CurrentSubscriptionOverviewLoaded(CurrentSubscriptionOverviewModel data)
-    : super(data: data);
+  const CurrentSubscriptionOverviewLoaded(
+    CurrentSubscriptionOverviewModel data, {
+    super.fulfillmentDay,
+  }) : super(data: data);
 
   @override
-  List<Object> get props => [data!];
+  List<Object?> get props => [data, fulfillmentDay];
 }
 
 class NavigateToMealPlannerState extends PlansState {
@@ -40,36 +43,38 @@ class NavigateToMealPlannerState extends PlansState {
     required this.premiumSummaries,
     required this.subscriptionId,
     super.data,
+    super.fulfillmentDay,
   });
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
     timelineDays,
     initialDayIndex,
     premiumMealsRemaining,
     premiumSummaries,
     subscriptionId,
-    if (data != null) data!,
+    data,
+    fulfillmentDay,
   ];
 }
 
 class OpenPlannerLoading extends PlansState {
-  const OpenPlannerLoading({super.data});
+  const OpenPlannerLoading({super.data, super.fulfillmentDay});
 }
 
 class PreparePickupLoading extends PlansState {
-  const PreparePickupLoading({super.data});
+  const PreparePickupLoading({super.data, super.fulfillmentDay});
 }
 
 class PreparePickupSuccess extends PlansState {
-  const PreparePickupSuccess({super.data});
+  const PreparePickupSuccess({super.data, super.fulfillmentDay});
 }
 
 class PlansError extends PlansState {
   final String message;
 
-  const PlansError(this.message, {super.data});
+  const PlansError(this.message, {super.data, super.fulfillmentDay});
 
   @override
-  List<Object> get props => [message, if (data != null) data!];
+  List<Object?> get props => [message, data, fulfillmentDay];
 }

@@ -51,14 +51,21 @@ TimelineDayResponse _$TimelineDayResponseFromJson(
   month: json['month'] as String?,
   dayNumber: (json['dayNumber'] as num?)?.toInt(),
   status: json['status'] as String?,
+  deliveryMode: json['deliveryMode'] as String?,
+  statusLabel: json['statusLabel'] as String?,
   commercialState: json['commercialState'] as String?,
+  commercialStateLabel: json['commercialStateLabel'] as String?,
   canBePrepared: json['canBePrepared'] as bool?,
   fulfillmentReady: json['fulfillmentReady'] as bool?,
   planningReady: json['planningReady'] as bool?,
+  isFulfillable: json['isFulfillable'] as bool?,
   fulfillmentMode: json['fulfillmentMode'] as String?,
   consumptionState: json['consumptionState'] as String?,
   selectedMeals: (json['selectedMeals'] as num?)?.toInt(),
   requiredMeals: (json['requiredMeals'] as num?)?.toInt(),
+  specifiedMealCount: (json['specifiedMealCount'] as num?)?.toInt(),
+  unspecifiedMealCount: (json['unspecifiedMealCount'] as num?)?.toInt(),
+  hasCustomerSelections: json['hasCustomerSelections'] as bool?,
   selections:
       (json['selections'] as List<dynamic>?)?.map((e) => e as String).toList(),
   premiumSelections:
@@ -81,6 +88,33 @@ TimelineDayResponse _$TimelineDayResponseFromJson(
           : PaymentRequirementResponse.fromJson(
             json['paymentRequirement'] as Map<String, dynamic>,
           ),
+  deliveryAddress:
+      json['deliveryAddress'] == null
+          ? null
+          : OverviewAddressSummaryResponse.fromJson(
+            json['deliveryAddress'] as Map<String, dynamic>,
+          ),
+  deliveryWindow:
+      readDeliveryWindowSummary(json, 'deliveryWindow') == null
+          ? null
+          : OverviewDeliveryWindowSummaryResponse.fromJson(
+            readDeliveryWindowSummary(json, 'deliveryWindow')
+                as Map<String, dynamic>,
+          ),
+  pickupLocation:
+      json['pickupLocation'] == null
+          ? null
+          : OverviewPickupLocationSummaryResponse.fromJson(
+            json['pickupLocation'] as Map<String, dynamic>,
+          ),
+  fulfillmentSummary:
+      json['fulfillmentSummary'] == null
+          ? null
+          : OverviewFulfillmentSummaryResponse.fromJson(
+            json['fulfillmentSummary'] as Map<String, dynamic>,
+          ),
+  lockedReason: json['lockedReason'] as String?,
+  lockedMessage: json['lockedMessage'] as String?,
 );
 
 Map<String, dynamic> _$TimelineDayResponseToJson(
@@ -91,19 +125,32 @@ Map<String, dynamic> _$TimelineDayResponseToJson(
   'month': instance.month,
   'dayNumber': instance.dayNumber,
   'status': instance.status,
+  'deliveryMode': instance.deliveryMode,
+  'statusLabel': instance.statusLabel,
   'commercialState': instance.commercialState,
+  'commercialStateLabel': instance.commercialStateLabel,
   'canBePrepared': instance.canBePrepared,
   'fulfillmentReady': instance.fulfillmentReady,
   'planningReady': instance.planningReady,
+  'isFulfillable': instance.isFulfillable,
   'fulfillmentMode': instance.fulfillmentMode,
   'consumptionState': instance.consumptionState,
   'selectedMeals': instance.selectedMeals,
   'requiredMeals': instance.requiredMeals,
+  'specifiedMealCount': instance.specifiedMealCount,
+  'unspecifiedMealCount': instance.unspecifiedMealCount,
+  'hasCustomerSelections': instance.hasCustomerSelections,
   'selections': instance.selections,
   'premiumSelections': instance.premiumSelections,
   'selectedMealIds': instance.selectedMealIds,
   'mealSlots': instance.mealSlots,
   'paymentRequirement': instance.paymentRequirement,
+  'deliveryAddress': instance.deliveryAddress,
+  'deliveryWindow': instance.deliveryWindow,
+  'pickupLocation': instance.pickupLocation,
+  'fulfillmentSummary': instance.fulfillmentSummary,
+  'lockedReason': instance.lockedReason,
+  'lockedMessage': instance.lockedMessage,
 };
 
 TimelineDataResponse _$TimelineDataResponseFromJson(

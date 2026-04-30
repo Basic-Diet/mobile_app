@@ -51,8 +51,129 @@ class DeliverySlotModel {
   String slotId;
   String type;
   String window;
+  String label;
 
-  DeliverySlotModel(this.slotId, this.type, this.window);
+  DeliverySlotModel(this.slotId, this.type, this.window, [this.label = '']);
+}
+
+class AddressSummaryModel {
+  final String label;
+  final String line1;
+  final String line2;
+  final String city;
+  final String district;
+  final String zoneName;
+  final String formatted;
+  final String street;
+  final String building;
+  final String apartment;
+  final String notes;
+
+  const AddressSummaryModel({
+    this.label = '',
+    this.line1 = '',
+    this.line2 = '',
+    this.city = '',
+    this.district = '',
+    this.zoneName = '',
+    this.formatted = '',
+    this.street = '',
+    this.building = '',
+    this.apartment = '',
+    this.notes = '',
+  });
+
+  String get summary {
+    if (formatted.trim().isNotEmpty) return formatted;
+    final parts = <String>[
+      label,
+      line1,
+      line2,
+      district,
+      city,
+      zoneName,
+      street,
+      building,
+      apartment,
+    ].where((value) => value.trim().isNotEmpty).toList();
+
+    return parts.join(' - ');
+  }
+}
+
+class PickupLocationSummaryModel {
+  final String id;
+  final String name;
+  final String address;
+  final String phone;
+  final String city;
+  final String district;
+  final String workingHours;
+  final double? latitude;
+  final double? longitude;
+  final String mapUrl;
+
+  const PickupLocationSummaryModel({
+    this.id = '',
+    this.name = '',
+    this.address = '',
+    this.phone = '',
+    this.city = '',
+    this.district = '',
+    this.workingHours = '',
+    this.latitude,
+    this.longitude,
+    this.mapUrl = '',
+  });
+
+  String get summary {
+    final parts = <String>[name, address, district, city]
+        .where((value) => value.trim().isNotEmpty)
+        .toList();
+    return parts.join(' - ');
+  }
+}
+
+class DeliveryWindowSummaryModel {
+  final String from;
+  final String to;
+  final String label;
+
+  const DeliveryWindowSummaryModel({
+    this.from = '',
+    this.to = '',
+    this.label = '',
+  });
+}
+
+class FulfillmentSummaryModel {
+  final String mode;
+  final String title;
+  final String status;
+  final String statusLabel;
+  final String message;
+  final String nextAction;
+  final bool isEditable;
+  final bool isFulfillable;
+  final bool planningReady;
+  final bool fulfillmentReady;
+  final String lockedReason;
+  final String lockedMessage;
+
+  const FulfillmentSummaryModel({
+    this.mode = '',
+    this.title = '',
+    this.status = '',
+    this.statusLabel = '',
+    this.message = '',
+    this.nextAction = '',
+    this.isEditable = false,
+    this.isFulfillable = false,
+    this.planningReady = false,
+    this.fulfillmentReady = false,
+    this.lockedReason = '',
+    this.lockedMessage = '',
+  });
 }
 
 class AddonSubscriptionModel {
@@ -119,6 +240,8 @@ class CurrentSubscriptionOverviewDataModel {
   List<AddonSummaryModel> addonsSummary;
   String statusLabel;
   String deliveryModeLabel;
+  String deliveryWindow;
+  String pickupLocationId;
   String validityEndDate;
   int skipDaysUsed;
   int skipDaysLimit;
@@ -127,6 +250,10 @@ class CurrentSubscriptionOverviewDataModel {
   ContractModel? contract;
   PickupPreparationModel? pickupPreparation;
   DeliverySlotModel? deliverySlot;
+  AddressSummaryModel? deliveryAddress;
+  PickupLocationSummaryModel? pickupLocation;
+  DeliveryWindowSummaryModel? deliveryWindowSummary;
+  FulfillmentSummaryModel? fulfillmentSummary;
 
   CurrentSubscriptionOverviewDataModel(
     this.id,
@@ -144,6 +271,8 @@ class CurrentSubscriptionOverviewDataModel {
     this.addonsSummary,
     this.statusLabel,
     this.deliveryModeLabel,
+    this.deliveryWindow,
+    this.pickupLocationId,
     this.validityEndDate,
     this.skipDaysUsed,
     this.skipDaysLimit,
@@ -152,6 +281,11 @@ class CurrentSubscriptionOverviewDataModel {
     this.contract,
     this.pickupPreparation,
     this.deliverySlot,
+    this.deliveryAddress,
+    this.pickupLocation, [
+    this.deliveryWindowSummary,
+    this.fulfillmentSummary,
+    ]
   );
 }
 

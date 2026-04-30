@@ -334,8 +334,9 @@ final class MealPlannerLoaded extends MealPlannerState {
 
   int get addonPendingPaymentAmountHalala =>
       selectedDayDetail?.paymentRequirement?.pendingAmountHalala != null &&
-              (selectedDayDetail?.paymentRequirement?.blockingReason ==
-                      'addons_pending_payment' ||
+              (selectedDayDetail?.paymentRequirement?.blockingReason
+                          ?.toUpperCase() ==
+                      'ADDON_PAYMENT_REQUIRED' ||
                   (selectedDayDetail?.paymentRequirement?.addonPendingPaymentCount ?? 0) > 0)
           ? selectedDayDetail!.paymentRequirement!.pendingAmountHalala
           : localAddonPendingAmountHalala;
@@ -343,7 +344,8 @@ final class MealPlannerLoaded extends MealPlannerState {
   int get premiumPendingPaymentAmountHalala {
     final requirement = selectedDayDetail?.paymentRequirement;
     if (requirement != null &&
-        ((requirement.blockingReason == 'premium_pending_payment') ||
+        ((requirement.blockingReason?.toUpperCase() ==
+                'PREMIUM_PAYMENT_REQUIRED') ||
             requirement.premiumPendingPaymentCount > 0)) {
       return requirement.pendingAmountHalala > 0
           ? requirement.pendingAmountHalala

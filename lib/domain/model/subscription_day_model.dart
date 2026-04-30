@@ -1,28 +1,43 @@
 import 'package:basic_diet/domain/model/meal_planner_menu_model.dart';
+import 'package:basic_diet/domain/model/current_subscription_overview_model.dart';
 
 class SubscriptionDayModel {
   final String date;
   final String status;
   final String? plannerState;
   final String? commercialState;
+  final String plannerRevisionHash;
   final List<MealSlotModel> mealSlots;
   final List<AddonSelectionModel> addonSelections;
   final PlannerMetaModel? plannerMeta;
   final PaymentRequirementModel? paymentRequirement;
   final PremiumExtraPaymentModel? premiumExtraPayment;
   final BuilderRulesModel? rules;
+  final PickupLocationSummaryModel? pickupLocation;
+  final AddressSummaryModel? deliveryAddress;
+  final DeliveryWindowSummaryModel? deliveryWindow;
+  final FulfillmentSummaryModel? fulfillmentSummary;
+  final String lockedReason;
+  final String lockedMessage;
 
   SubscriptionDayModel({
     required this.date,
     required this.status,
     this.plannerState,
     this.commercialState,
+    this.plannerRevisionHash = '',
     required this.mealSlots,
     this.addonSelections = const [],
     this.plannerMeta,
     this.paymentRequirement,
     this.premiumExtraPayment,
     this.rules,
+    this.pickupLocation,
+    this.deliveryAddress,
+    this.deliveryWindow,
+    this.fulfillmentSummary,
+    this.lockedReason = '',
+    this.lockedMessage = '',
   });
 }
 
@@ -152,7 +167,9 @@ class PaymentRequirementModel {
   final String currency;
   final String status;
   final String pricingStatus;
+  final String pricingStatusLabel;
   final String? blockingReason;
+  final String blockingReasonLabel;
   final bool canCreatePayment;
 
   PaymentRequirementModel({
@@ -166,7 +183,9 @@ class PaymentRequirementModel {
     required this.currency,
     this.status = 'satisfied',
     this.pricingStatus = 'not_required',
+    this.pricingStatusLabel = '',
     this.blockingReason,
+    this.blockingReasonLabel = '',
     this.canCreatePayment = false,
   });
 }

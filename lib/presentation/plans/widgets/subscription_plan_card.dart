@@ -17,9 +17,8 @@ class SubscriptionPlanCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final progressValue = data.totalMeals > 0
-        ? (data.remainingMeals / data.totalMeals)
-        : 0.0;
+    final progressValue =
+        data.totalMeals > 0 ? (data.remainingMeals / data.totalMeals) : 0.0;
 
     return Container(
       decoration: BoxDecoration(
@@ -67,20 +66,22 @@ class SubscriptionPlanCard extends StatelessWidget {
           ),
         ),
         InkWell(
-          onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => ManageSubscriptionScreen(
-                subscriptionId: data.id,
-                selectedMealsPerDay: data.selectedMealsPerDay,
-                deliveryModeLabel: data.deliveryModeLabel,
-                validityEndDate: data.validityEndDate,
-                skipDaysUsed: data.skipDaysUsed,
-                skipDaysLimit: data.skipDaysLimit,
-                remainingSkipDays: data.remainingSkipDays,
+          onTap:
+              () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder:
+                      (_) => ManageSubscriptionScreen(
+                        subscriptionId: data.id,
+                        selectedMealsPerDay: data.selectedMealsPerDay,
+                        deliveryModeLabel: data.deliveryModeLabel,
+                        validityEndDate: data.validityEndDate,
+                        skipDaysUsed: data.skipDaysUsed,
+                        skipDaysLimit: data.skipDaysLimit,
+                        remainingSkipDays: data.remainingSkipDays,
+                      ),
+                ),
               ),
-            ),
-          ),
           child: Icon(
             Icons.settings_outlined,
             color: ColorManager.brandPrimary,
@@ -214,35 +215,26 @@ class SubscriptionPlanCard extends StatelessWidget {
   }
 
   Widget _buildAddonsSection() {
-    final summaryByAddonId = {
-      for (final summary in data.addonsSummary) summary.addonId: summary,
-    };
-
     return Column(
-      children: data.addonSubscriptions.map((addon) {
-        final summary = summaryByAddonId[addon.addonId];
-        final used = summary?.consumedQtyTotal ?? 0;
-        final total = summary?.purchasedQtyTotal ?? addon.includedCount;
-        final progress = total > 0 ? used / total : 0.0;
-        return Container(
-          margin: EdgeInsets.only(bottom: AppSize.s12.h),
-          padding: EdgeInsets.all(AppPadding.p14.w),
-          decoration: BoxDecoration(
-            color: ColorManager.brandAccentSoft,
-            border: Border.all(color: ColorManager.brandAccentBorder),
-            borderRadius: BorderRadius.circular(AppSize.s18.r),
-          ),
-          child: Text(
-            '${addon.includedCount} ${addon.category.isNotEmpty
-                ? addon.category
-                : Strings.addOns.tr()} ${Strings.includedPerDay.tr()}',
-            style: getBoldTextStyle(
-              color: ColorManager.brandAccent,
+      children:
+          data.addonSubscriptions.map((addon) {
+            return Container(
+              margin: EdgeInsets.only(bottom: AppSize.s12.h),
+              padding: EdgeInsets.all(AppPadding.p14.w),
+              decoration: BoxDecoration(
+                color: ColorManager.brandAccentSoft,
+                border: Border.all(color: ColorManager.brandAccentBorder),
+                borderRadius: BorderRadius.circular(AppSize.s18.r),
+              ),
+              child: Text(
+                '${addon.includedCount} ${addon.category.isNotEmpty ? addon.category : Strings.addOns.tr()} ${Strings.includedPerDay.tr()}',
+                style: getBoldTextStyle(
+                  color: ColorManager.brandAccent,
                   fontSize: FontSizeManager.s12.sp,
-            ),
-          ),
-        );
-      }).toList(),
+                ),
+              ),
+            );
+          }).toList(),
     );
   }
 

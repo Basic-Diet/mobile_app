@@ -27,6 +27,7 @@ import 'package:basic_diet/domain/model/cancel_subscription_model.dart';
 
 import 'package:basic_diet/domain/model/pickup_prepare_model.dart';
 import 'package:basic_diet/domain/model/pickup_status_model.dart';
+import 'package:basic_diet/domain/model/fulfillment_status_model.dart';
 
 import '../model/bulk_selections_model.dart';
 
@@ -101,11 +102,26 @@ abstract class Repository {
     String id,
     String date,
   );
+  Future<Either<Failure, FulfillmentStatusModel>> getDayFulfillmentStatus(
+    String id,
+    String date,
+  );
   Future<Either<Failure, PremiumPaymentModel>> createPremiumPayment(
     String subscriptionId,
     String date,
   );
   Future<Either<Failure, PremiumPaymentVerificationModel>> verifyPremiumPayment(
+    String subscriptionId,
+    String date,
+    String paymentId,
+  );
+  Future<Either<Failure, PremiumPaymentModel>> createUnifiedDayPayment(
+    String subscriptionId,
+    String date, {
+    String plannerRevisionHash = '',
+  });
+  Future<Either<Failure, PremiumPaymentVerificationModel>>
+  verifyUnifiedDayPayment(
     String subscriptionId,
     String date,
     String paymentId,

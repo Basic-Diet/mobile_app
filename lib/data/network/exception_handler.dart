@@ -11,7 +11,7 @@ class ExceptionHandler implements Exception {
     if (exception is DioException) {
       failure = _handleException(exception);
     } else {
-      failure = DataSource.DEFAULT.getFailure();
+      failure = DataSource.defaultError.getFailure();
     }
   }
 }
@@ -19,13 +19,13 @@ class ExceptionHandler implements Exception {
 Failure _handleException(DioException exception) {
   switch (exception.type) {
     case DioExceptionType.connectionTimeout:
-      return DataSource.CONNECT_TIMEOUT.getFailure();
+      return DataSource.connectTimeout.getFailure();
     case DioExceptionType.sendTimeout:
-      return DataSource.SEND_TIMEOUT.getFailure();
+      return DataSource.sendTimeout.getFailure();
     case DioExceptionType.receiveTimeout:
-      return DataSource.RECEIVE_TIMEOUT.getFailure();
+      return DataSource.receiveTimeout.getFailure();
     case DioExceptionType.badCertificate:
-      return DataSource.BAD_REQUEST.getFailure();
+      return DataSource.badRequest.getFailure();
     case DioExceptionType.badResponse:
       if (exception.response != null &&
           exception.response?.statusCode != null &&
@@ -35,80 +35,80 @@ Failure _handleException(DioException exception) {
           exception.response!.statusMessage!,
         );
       } else {
-        return DataSource.DEFAULT.getFailure();
+        return DataSource.defaultError.getFailure();
       }
     case DioExceptionType.cancel:
-      return DataSource.CANCEL.getFailure();
+      return DataSource.cancel.getFailure();
     case DioExceptionType.connectionError:
-      return DataSource.NO_INTERNET_CONNECTION.getFailure();
+      return DataSource.noInternetConnection.getFailure();
     case DioExceptionType.unknown:
       debugPrint("Unknown DioException: ${exception.error}");
       if (exception.error is SocketException) {
-        return DataSource.NO_INTERNET_CONNECTION.getFailure();
+        return DataSource.noInternetConnection.getFailure();
       }
-      return DataSource.DEFAULT.getFailure();
+      return DataSource.defaultError.getFailure();
   }
 }
 
 enum DataSource {
-  SUCCESS,
-  NO_CONTENT,
-  BAD_REQUEST,
-  FORBIDDEN,
-  UNAUTHORISED,
-  NOT_FOUND,
-  INTERNAL_SERVER_ERROR,
-  CONNECT_TIMEOUT,
-  CANCEL,
-  RECEIVE_TIMEOUT,
-  SEND_TIMEOUT,
-  CACHE_ERROR,
-  NO_INTERNET_CONNECTION,
-  DEFAULT,
+  success,
+  noContent,
+  badRequest,
+  forbidden,
+  unauthorised,
+  notFound,
+  internalServerError,
+  connectTimeout,
+  cancel,
+  receiveTimeout,
+  sendTimeout,
+  cacheError,
+  noInternetConnection,
+  defaultError,
 }
 
 extension DataSourceExtension on DataSource {
   Failure getFailure() {
     switch (this) {
-      case DataSource.SUCCESS:
+      case DataSource.success:
         return Failure(ResponseCode.success, ResponseMessage.success);
-      case DataSource.NO_CONTENT:
+      case DataSource.noContent:
         return Failure(ResponseCode.noContent, ResponseMessage.noContent);
-      case DataSource.BAD_REQUEST:
+      case DataSource.badRequest:
         return Failure(ResponseCode.badRequest, ResponseMessage.badRequest);
-      case DataSource.FORBIDDEN:
+      case DataSource.forbidden:
         return Failure(ResponseCode.forbidden, ResponseMessage.forbidden);
-      case DataSource.UNAUTHORISED:
+      case DataSource.unauthorised:
         return Failure(ResponseCode.unauthorised, ResponseMessage.unauthorised);
-      case DataSource.NOT_FOUND:
+      case DataSource.notFound:
         return Failure(ResponseCode.noContent, ResponseMessage.notFound);
-      case DataSource.INTERNAL_SERVER_ERROR:
+      case DataSource.internalServerError:
         return Failure(
           ResponseCode.internalServerError,
           ResponseMessage.internalServerError,
         );
-      case DataSource.CONNECT_TIMEOUT:
+      case DataSource.connectTimeout:
         return Failure(
           ResponseCode.connectTimeout,
           ResponseMessage.connectTimeout,
         );
-      case DataSource.CANCEL:
+      case DataSource.cancel:
         return Failure(ResponseCode.cancel, ResponseMessage.cancel);
-      case DataSource.RECEIVE_TIMEOUT:
+      case DataSource.receiveTimeout:
         return Failure(
           ResponseCode.receiveTimeout,
           ResponseMessage.receiveTimeout,
         );
-      case DataSource.SEND_TIMEOUT:
+      case DataSource.sendTimeout:
         return Failure(ResponseCode.sendTimeout, ResponseMessage.sendTimeout);
-      case DataSource.CACHE_ERROR:
+      case DataSource.cacheError:
         return Failure(ResponseCode.cacheError, ResponseMessage.cacheError);
-      case DataSource.NO_INTERNET_CONNECTION:
+      case DataSource.noInternetConnection:
         return Failure(
           ResponseCode.noInternetConnection,
           ResponseMessage.noInternetConnection,
         );
-      case DataSource.DEFAULT:
+      case DataSource.defaultError:
         return Failure(ResponseCode.defaultError, ResponseMessage.defaultError);
     }
   }

@@ -55,6 +55,8 @@ import 'package:basic_diet/domain/model/pickup_prepare_model.dart';
 
 import 'package:basic_diet/data/mappers/pickup_status_mapper.dart';
 import 'package:basic_diet/domain/model/pickup_status_model.dart';
+import 'package:basic_diet/data/mappers/fulfillment_status_mapper.dart';
+import 'package:basic_diet/domain/model/fulfillment_status_model.dart';
 
 import 'package:basic_diet/data/mappers/premium_payment_mapper.dart';
 import 'package:basic_diet/domain/model/premium_payment_model.dart';
@@ -71,11 +73,15 @@ class RepositoryImpl implements Repository {
   RepositoryImpl(this._remoteDataSource);
 
   bool _isSuccessfulResponse(dynamic response) {
-    if (response.status is bool) return response.status == true;
-    if (response.status is num)
+    if (response.status is bool) {
+      return response.status == true;
+    }
+    if (response.status is num) {
       return response.status >= 200 && response.status < 300;
-    if (response.status is String)
+    }
+    if (response.status is String) {
       return response.status.toString().toLowerCase() == 'true';
+    }
     return false;
   }
 
@@ -615,6 +621,23 @@ class RepositoryImpl implements Repository {
   }
 
   @override
+  Future<Either<Failure, FulfillmentStatusModel>> getDayFulfillmentStatus(
+    String id,
+    String date,
+  ) async {
+    try {
+      final response = await _remoteDataSource.getDayFulfillmentStatus(id, date);
+      if (_isSuccessfulResponse(response)) {
+        return Right(response.data.toDomain());
+      } else {
+        return Left(_mapFailureFromResponse(response));
+      }
+    } catch (error) {
+      return _handleError(error);
+    }
+  }
+
+  @override
   Future<Either<Failure, PremiumPaymentModel>> createPremiumPayment(
     String subscriptionId,
     String date,
@@ -638,6 +661,47 @@ class RepositoryImpl implements Repository {
   ) async {
     try {
       final response = await _remoteDataSource.verifyPremiumPayment(
+        subscriptionId,
+        date,
+        paymentId,
+      );
+      return Right(response.toDomain());
+    } catch (error) {
+      return _handleError(error);
+    }
+  }
+
+  @override
+  Future<Either<Failure, PremiumPaymentModel>> createUnifiedDayPayment(
+    String subscriptionId,
+    String date, {
+    String plannerRevisionHash = '',
+  }) async {
+    try {
+      final body = <String, dynamic>{};
+      if (plannerRevisionHash.isNotEmpty) {
+        body['plannerRevisionHash'] = plannerRevisionHash;
+      }
+      final response = await _remoteDataSource.createUnifiedDayPayment(
+        subscriptionId,
+        date,
+        body,
+      );
+      return Right(response.toDomain());
+    } catch (error) {
+      return _handleError(error);
+    }
+  }
+
+  @override
+  Future<Either<Failure, PremiumPaymentVerificationModel>>
+  verifyUnifiedDayPayment(
+    String subscriptionId,
+    String date,
+    String paymentId,
+  ) async {
+    try {
+      final response = await _remoteDataSource.verifyUnifiedDayPayment(
         subscriptionId,
         date,
         paymentId,
