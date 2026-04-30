@@ -1,1426 +1,2070 @@
-E/libEGL  (19235): called unimplemented OpenGL ES API
-I/flutter (19235): onChange -- MealPlannerBloc, Change { currentState: MealPlannerLoaded([Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel'], Instance of 'MealPlannerMenuModel', [AddOnModel(69f2399d4eee65376d14b40a, بيري بلاست, juice, عصير ضمن فئة العصير., , SAR, 1100, 11.0, 11 SAR, item, flat_once, one_time, item, AddOnUiModel(بيري بلاست, عصير ضمن فئة العصير., أضف, إضافة مرة واحدة)), AddOnModel(69f2399d4eee65376d14b40b, بيري بروت, juice, عصير ضمن فئة العصير., , SAR, 1300, 13.0, 13 SAR, item, flat_once, one_time, item, AddOnUiModel(بيري بروت, عصير ضمن فئة العصير., أضف, إضافة مرة واحدة)), AddOnModel(69f2399d4eee65376d14b40c, كلاسيك جرين, juice, عصير ضمن فئة العصير., , SAR, 1100, 11.0, 11 SAR, item, flat_o
-I/flutter (19235): [🌎 Easy Localization] [WARNING] Localization key [estimatedPayNow] not found
-I/flutter (19235):
-I/flutter (19235): ╔╣ Request ║ POST
-I/flutter (19235): ║  https://basicdiet145.onrender.com/api/subscriptions/69f35054a01ff9b3c33d0f94/days/2026-04-30/selection/validate
-I/flutter (19235): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter (19235): ╔ Headers
-I/flutter (19235): ╟ accept: application/json
-I/flutter (19235): ╟ content-type: application/json
-I/flutter (19235): ╟ authorization:
-I/flutter (19235): ║ Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWYyMzdmMjE5Mjg4ZGJjOWUxNjMxZG
-I/flutter (19235): ║ UiLCJyb2xlIjoiY2xpZW50IiwidG9rZW5UeXBlIjoiYXBwX2FjY2VzcyIsImlhdCI6MTc3NzQ5MDg2NSwiZXhwIjox
-I/flutter (19235): ║ NzgwMTY5MjY1fQ.wQdMvBRkWrYPGGrvx5HtsUbTO-B9NlayVB5uRMS4rVE
-I/flutter (19235): ╟ Accept-Language: ar
-I/flutter (19235): ╟ contentType: application/json
-I/flutter (19235): ╟ responseType: ResponseType.json
-I/flutter (19235): ╟ followRedirects: true
-I/flutter (19235): ╟ receiveTimeout: 16:40:00.000000
-I/flutter (19235): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter (19235): ╔ Body
-I/flutter (19235): ╟ mealSlots: [Instance of 'MealSlotRequest']
-I/flutter (19235): ╟ addonsOneTime:
-I/flutter (19235): ║ [69f2399d4eee65376d14b40a, 69f2399d4eee65376d14b414, 69f2399d4eee65376d14b415]
-I/flutter (19235): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter (19235): ║ {mealSlots: [Instance of 'MealSlotRequest'], addonsOneTime: [69f2399d4eee65376d14b40a, 69f
-I/flutter (19235): ║ 2399d4eee65376d14b414, 69f2399d4eee65376d14b415]}
-E/libEGL  (19235): called unimplemented OpenGL ES API
-I/flutter (19235):
-I/flutter (19235): ╔╣ Request ║ GET
-I/flutter (19235): ║  https://basicdiet145.onrender.com/api/subscriptions/69f35054a01ff9b3c33d0f94/days/2026-04-30/fulfillment/status
-I/flutter (19235): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter (19235): ╔ Headers
-I/flutter (19235): ╟ accept: application/json
-I/flutter (19235): ╟ content-type: application/json
-I/flutter (19235): ╟ authorization:
-I/flutter (19235): ║ Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWYyMzdmMjE5Mjg4ZGJjOWUxNjMxZG
-I/flutter (19235): ║ UiLCJyb2xlIjoiY2xpZW50IiwidG9rZW5UeXBlIjoiYXBwX2FjY2VzcyIsImlhdCI6MTc3NzQ5MDg2NSwiZXhwIjox
-I/flutter (19235): ║ NzgwMTY5MjY1fQ.wQdMvBRkWrYPGGrvx5HtsUbTO-B9NlayVB5uRMS4rVE
-I/flutter (19235): ╟ Accept-Language: ar
-I/flutter (19235): ╟ contentType: application/json
-I/flutter (19235): ╟ responseType: ResponseType.json
-I/flutter (19235): ╟ followRedirects: true
-I/flutter (19235): ╟ receiveTimeout: 16:40:00.000000
-I/flutter (19235): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter (19235):
-I/flutter (19235): ╔╣ Response ║ POST ║ Status: 200 OK  ║ Time: 1347 ms
-I/flutter (19235): ║  https://basicdiet145.onrender.com/api/subscriptions/69f35054a01ff9b3c33d0f94/days/2026-04-30/selection/validate
-I/flutter (19235): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter (19235): ╔ Headers
-I/flutter (19235): ╟ x-dns-prefetch-control: [off]
-I/flutter (19235): ╟ x-render-origin-server: [Render]
-I/flutter (19235): ╟ date: [Thu, 30 Apr 2026 12:52:47 GMT]
-I/flutter (19235): ╟ transfer-encoding: [chunked]
-I/flutter (19235): ╟ origin-agent-cluster: [?1]
-I/flutter (19235): ╟ vary: [Origin, Accept-Encoding]
-I/flutter (19235): ╟ content-encoding: [gzip]
-I/flutter (19235): ╟ server: [cloudflare]
-I/flutter (19235): ╟ cross-origin-resource-policy: [same-origin]
-I/flutter (19235): ╟ cf-ray: [9f46af7e0b1b8aa0-MRS]
-I/flutter (19235): ╟ etag: [W/"1466-K1DPrO7153dgyzRmUqwb/K9dupo"]
-I/flutter (19235): ╟ x-frame-options: [SAMEORIGIN]
-I/flutter (19235): ╟ content-security-policy:
-I/flutter (19235): ║ [default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-
-I/flutter (19235): ║ ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr
-I/flutter (19235): ║ 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests]
-I/flutter (19235): ╟ connection: [keep-alive]
-I/flutter (19235): ╟ strict-transport-security: [max-age=15552000; includeSubDomains]
-I/flutter (19235): ╟ referrer-policy: [no-referrer]
-I/flutter (19235): ╟ cf-cache-status: [DYNAMIC]
-I/flutter (19235): ╟ x-permitted-cross-domain-policies: [none]
-I/flutter (19235): ╟ content-type: [application/json; charset=utf-8]
-I/flutter (19235): ╟ cross-origin-opener-policy: [same-origin]
-I/flutter (19235): ╟ rndr-id: [d471f2b6-2a58-4843]
-I/flutter (19235): ╟ x-xss-protection: [0]
-I/flutter (19235): ╟ access-control-allow-credentials: [true]
-I/flutter (19235): ╟ alt-svc: [h3=":443"; ma=86400]
-I/flutter (19235): ╟ x-download-options: [noopen]
-I/flutter (19235): ╟ x-content-type-options: [nosniff]
-I/flutter (19235): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter (19235): ╔ Body
-I/flutter (19235): ║
-I/flutter (19235): ║    {
-I/flutter (19235): ║         "status": true,
-I/flutter (19235): ║         "data": {
-I/flutter (19235): ║             "valid": true,
-I/flutter (19235): ║             "plannerState": "draft",
-I/flutter (19235): ║             "mealSlots": [
-I/flutter (19235): ║                {
-I/flutter (19235): ║                     "slotIndex": 1,
-I/flutter (19235): ║                     "slotKey": "slot_1",
-I/flutter (19235): ║                     "status": "complete",
-I/flutter (19235): ║                     "selectionType": "premium_meal",
-I/flutter (19235): ║                     "proteinId": "69f188fdc48e7ad405aff5a3",
-I/flutter (19235): ║                     "carbs": [{carbId: 69f02ab331962803c54b0a39, grams: 150}]
-I/flutter (19235): ║                     "sandwichId": null,
-I/flutter (19235): ║                     "salad": null,
-I/flutter (19235): ║                     "isPremium": true,
-I/flutter (19235): ║                     "premiumKey": "salmon",
-I/flutter (19235): ║                     "premiumSource": "balance",
-I/flutter (19235): ║                     "premiumExtraFeeHalala": 0,
-I/flutter (19235): ║                     "proteinFamilyKey": "fish",
-I/flutter (19235): ║                     "proteinDisplayCategoryKey": "premium",
-I/flutter (19235): ║                     "proteinRuleTags": [premium]
-I/flutter (19235): ║                }
-I/flutter (19235): ║             ],
-I/flutter (19235): ║             "plannerMeta": {
-I/flutter (19235): ║                 "requiredSlotCount": 1,
-I/flutter (19235): ║                 "emptySlotCount": 0,
-I/flutter (19235): ║                 "partialSlotCount": 0,
-I/flutter (19235): ║                 "completeSlotCount": 1,
-I/flutter (19235): ║                 "beefSlotCount": 0,
-I/flutter (19235): ║                 "premiumSlotCount": 1,
-I/flutter (19235): ║                 "premiumCoveredByBalanceCount": 1,
-I/flutter (19235): ║                 "premiumPendingPaymentCount": 0,
-I/flutter (19235): ║                 "premiumPaidExtraCount": 0,
-I/flutter (19235): ║                 "premiumTotalHalala": 0,
-I/flutter (19235): ║                 "isDraftValid": true,
-I/flutter (19235): ║                 "isConfirmable": true,
-I/flutter (19235): ║                 "lastEditedAt": "2026-04-30T12:52:47.320Z"
-I/flutter (19235): ║            }
-I/flutter (19235): ║             "addonSelections": [
-I/flutter (19235): ║                {
-I/flutter (19235): ║                     "addonId": "69f2399d4eee65376d14b40a",
-I/flutter (19235): ║                     "name": "Berry Blast",
-I/flutter (19235): ║                     "category": "juice",
-I/flutter (19235): ║                     "source": "subscription",
-I/flutter (19235): ║                     "priceHalala": 0,
-I/flutter (19235): ║                     "currency": "SAR",
-I/flutter (19235): ║                     "consumedAt": "2026-04-30T12:52:47.387Z"
-I/flutter (19235): ║                },
-I/flutter (19235): ║                {
-I/flutter (19235): ║                     "addonId": "69f2399d4eee65376d14b414",
-I/flutter (19235): ║                     "name": "Cinnamon Apple Muffin (2 pieces)",
-I/flutter (19235): ║                     "category": "snack",
-I/flutter (19235): ║                     "source": "subscription",
-I/flutter (19235): ║                     "priceHalala": 0,
-I/flutter (19235): ║                     "currency": "SAR",
-I/flutter (19235): ║                     "consumedAt": "2026-04-30T12:52:47.387Z"
-I/flutter (19235): ║                },
-I/flutter (19235): ║                {
-I/flutter (19235): ║                     "addonId": "69f2399d4eee65376d14b415",
-I/flutter (19235): ║                     "name": "Blueberry Cheesecake",
-I/flutter (19235): ║                     "category": "snack",
-I/flutter (19235): ║                     "source": "pending_payment",
-I/flutter (19235): ║                     "priceHalala": 1900,
-I/flutter (19235): ║                     "currency": "SAR",
-I/flutter (19235): ║                     "consumedAt": "2026-04-30T12:52:47.387Z"
-I/flutter (19235): ║                }
-I/flutter (19235): ║             ],
-I/flutter (19235): ║             "plannerRevisionHash": "74dab2242cdfb7584f407eb82c9a3245adecea5e89f0bc779f4af3b7be76f87f",
-I/flutter (19235): ║             "premiumSummary": {
-I/flutter (19235): ║                 "selectedCount": 1,
-I/flutter (19235): ║                 "coveredByBalanceCount": 1,
-I/flutter (19235): ║                 "pendingPaymentCount": 0,
-I/flutter (19235): ║                 "paidExtraCount": 0,
-I/flutter (19235): ║                 "totalExtraHalala": 0,
-I/flutter (19235): ║                 "currency": "SAR"
-I/flutter (19235): ║            }
-I/flutter (19235): ║             "premiumExtraPayment": {
-I/flutter (19235): ║                 "status": "none",
-I/flutter (19235): ║                 "paymentId": null,
-I/flutter (19235): ║                 "providerInvoiceId": null,
-I/flutter (19235): ║                 "amountHalala": 0,
-I/flutter (19235): ║                 "currency": "SAR",
-I/flutter (19235): ║                 "expiresAt": null,
-I/flutter (19235): ║                 "reused": false,
-I/flutter (19235): ║                 "revisionHash": "74dab2242cdfb7584f407eb82c9a3245adecea5e89f0bc779f4af3b7be76f87f"
-I/flutter (19235): ║                 "createdAt": null,
-I/flutter (19235): ║                 "paidAt": null,
-I/flutter (19235): ║                 "extraPremiumCount": 0,
-I/flutter (19235): ║                 "statusLabel": "لا يوجد دفع"
-I/flutter (19235): ║            }
-I/flutter (19235): ║             "paymentRequirement": {
-I/flutter (19235): ║                 "status": "priced",
-I/flutter (19235): ║                 "requiresPayment": true,
-I/flutter (19235): ║                 "pricingStatus": "priced",
-I/flutter (19235): ║                 "blockingReason": "ADDON_PAYMENT_REQUIRED",
-I/flutter (19235): ║                 "canCreatePayment": true,
-I/flutter (19235): ║                 "premiumSelectedCount": 1,
-I/flutter (19235): ║                 "premiumPendingPaymentCount": 0,
-I/flutter (19235): ║                 "addonSelectedCount": 3,
-I/flutter (19235): ║                 "addonPendingPaymentCount": 1,
-I/flutter (19235): ║                 "pendingAmountHalala": 1900,
-I/flutter (19235): ║                 "amountHalala": 1900,
-I/flutter (19235): ║                 "currency": "SAR",
-I/flutter (19235): ║                 "pricingStatusLabel": "مسعر",
-I/flutter (19235): ║                 "blockingReasonLabel": ""
-I/flutter (19235): ║            }
-I/flutter (19235): ║             "commercialState": "payment_required",
-I/flutter (19235): ║             "isFulfillable": false,
-I/flutter (19235): ║             "canBePrepared": false,
-I/flutter (19235): ║             "rules": {
-I/flutter (19235): ║                 "version": "meal_planner_rules.v3",
-I/flutter (19235): ║                 "beef": {proteinFamilyKey: beef, maxSlotsPerDay: 1},
-I/flutter (19235): ║                 "standardCarbs": {maxTypes: 2, maxTotalGrams: 300, unit: grams},
-I/flutter (19235): ║                 "premiumCarbs": {maxTypes: 2, maxTotalGrams: 300, unit: grams},
-I/flutter (19235): ║                 "proteinGroups": [
-I/flutter (19235): ║                    {
-I/flutter (19235): ║                         "key": "chicken",
-I/flutter (19235): ║                         "name": {ar: دجاج, en: Chicken},
-I/flutter (19235): ║                         "sortOrder": 10
-I/flutter (19235): ║                    },
-I/flutter (19235): ║                    {
-I/flutter (19235): ║                         "key": "beef",
-I/flutter (19235): ║                         "name": {ar: لحم, en: Beef},
-I/flutter (19235): ║                         "sortOrder": 20
-I/flutter (19235): ║                    },
-I/flutter (19235): ║                    {
-I/flutter (19235): ║                         "key": "fish",
-I/flutter (19235): ║                         "name": {ar: أسماك, en: Fish},
-I/flutter (19235): ║                         "sortOrder": 30
-I/flutter (19235): ║                    },
-I/flutter (19235): ║                    {
-I/flutter (19235): ║                         "key": "eggs",
-I/flutter (19235): ║                         "name": {ar: بيض, en: Eggs},
-I/flutter (19235): ║                         "sortOrder": 40
-I/flutter (19235): ║                    },
-I/flutter (19235): ║                    {
-I/flutter (19235): ║                         "key": "premium",
-I/flutter (19235): ║                         "name": {ar: بريميوم, en: Premium},
-I/flutter (19235): ║                         "sortOrder": 50
-I/flutter (19235): ║                    },
-I/flutter (19235): ║                    {
-I/flutter (19235): ║                         "key": "other",
-I/flutter (19235): ║                         "name": {ar: أخرى, en: Other},
-I/flutter (19235): ║                         "sortOrder": 60
-I/flutter (19235): ║                    }
-I/flutter (19235): ║                 ],
-I/flutter (19235): ║                 "premiumLargeSalad": {
-I/flutter (19235): ║                     "premiumKey": "custom_premium_salad",
-I/flutter (19235): ║                     "presetKey": "large_salad",
-I/flutter (19235): ║                     "extraFeeHalala": 3000,
-I/flutter (19235): ║                     "groups": [
-I/flutter (19235): ║                      {key: leafy_greens, minSelect: 0, maxSelect: 99},
-I/flutter (19235): ║                      {key: vegetables, minSelect: 0, maxSelect: 99},
-I/flutter (19235): ║                      {key: protein, minSelect: 1, maxSelect: 1},
-I/flutter (19235): ║                      {key: cheese_nuts, minSelect: 0, maxSelect: 99},
-I/flutter (19235): ║                      {key: fruits, minSelect: 0, maxSelect: 99},
-I/flutter (19235): ║                      {key: sauce, minSelect: 1, maxSelect: 1}
-I/flutter (19235): ║                     ]
-I/flutter (19235): ║                }
-I/flutter (19235): ║            }
-I/flutter (19235): ║             "planningState": "draft",
-I/flutter (19235): ║             "planningMeta": {
-I/flutter (19235): ║                 "requiredMealCount": 1,
-I/flutter (19235): ║                 "selectedBaseMealCount": 0,
-I/flutter (19235): ║                 "selectedPremiumMealCount": 1,
-I/flutter (19235): ║                 "selectedTotalMealCount": 1,
-I/flutter (19235): ║                 "isExactCountSatisfied": true,
-I/flutter (19235): ║                 "lastEditedAt": null,
-I/flutter (19235): ║                 "confirmedAt": null,
-I/flutter (19235): ║                 "confirmedByRole": null
-I/flutter (19235): ║            }
-I/flutter (19235): ║             "planning": {
-I/flutter (19235): ║                 "version": "subscription_day_planning.v1",
-I/flutter (19235): ║                 "state": "draft",
-I/flutter (19235): ║                 "requiredMealCount": 1,
-I/flutter (19235): ║                 "selectedBaseMealCount": 0,
-I/flutter (19235): ║                 "selectedPremiumMealCount": 1,
-I/flutter (19235): ║                 "selectedTotalMealCount": 1,
-I/flutter (19235): ║                 "isExactCountSatisfied": true,
-I/flutter (19235): ║                 "confirmedAt": null,
-I/flutter (19235): ║                 "confirmedByRole": null,
-I/flutter (19235): ║                 "baseMealSlots": []
-I/flutter (19235): ║                 "premiumOverageCount": 0,
-I/flutter (19235): ║                 "premiumOverageStatus": null,
-I/flutter (19235): ║                 "stateLabel": "مسودة",
-I/flutter (19235): ║                 "premiumOverageStatusLabel": ""
-I/flutter (19235): ║            }
-I/flutter (19235): ║             "pickupRequested": false,
-I/flutter (19235): ║             "pickupPrepared": false,
-I/flutter (19235): ║             "pickupPreparationFlowStatus": "waiting_for_prepare",
-I/flutter (19235): ║             "dayEndConsumptionReason": null,
-I/flutter (19235): ║             "fulfillmentMode": "customer_selected",
-I/flutter (19235): ║             "consumptionState": "pending_day",
-I/flutter (19235): ║             "requiredMealCount": 1,
-I/flutter (19235): ║             "specifiedMealCount": 1,
-I/flutter (19235): ║             "unspecifiedMealCount": 0,
-I/flutter (19235): ║             "hasCustomerSelections": true,
-I/flutter (19235): ║             "requiresMealTypeKnowledge": true,
-I/flutter (19235): ║             "mealTypesSpecified": true,
-I/flutter (19235): ║             "planningReady": false,
-I/flutter (19235): ║             "fulfillmentReady": false,
-I/flutter (19235): ║             "deliveryMode": "pickup",
-I/flutter (19235): ║             "pickupLocation": null,
-I/flutter (19235): ║             "deliveryAddress": null,
-I/flutter (19235): ║             "deliveryWindow": null,
-I/flutter (19235): ║             "deliverySlot": {type: pickup, slotId: , window: , label: },
-I/flutter (19235): ║             "fulfillmentSummary": {
-I/flutter (19235): ║                 "mode": "pickup",
-I/flutter (19235): ║                 "title": "الاستلام من الفرع",
-I/flutter (19235): ║                 "status": "active",
-I/flutter (19235): ║                 "statusLabel": "نشط",
-I/flutter (19235): ║                 "message": "تفاصيل الفرع غير متاحة حاليا",
-I/flutter (19235): ║                 "nextAction": "",
-I/flutter (19235): ║                 "isEditable": false,
-I/flutter (19235): ║                 "isFulfillable": false,
-I/flutter (19235): ║                 "planningReady": false,
-I/flutter (19235): ║                 "fulfillmentReady": false,
-I/flutter (19235): ║                 "lockedReason": "PICKUP_LOCATION_MISSING",
-I/flutter (19235): ║                 "lockedMessage": "تفاصيل الفرع غير متاحة حاليا"
-I/flutter (19235): ║            }
-I/flutter (19235): ║             "lockedReason": "PICKUP_LOCATION_MISSING",
-I/flutter (19235): ║             "lockedMessage": "تفاصيل الفرع غير متاحة حاليا",
-I/flutter (19235): ║             "commercialStateLabel": "الدفع مطلوب"
-I/flutter (19235): ║        }
-I/flutter (19235): ║    }
-I/flutter (19235): ║
-I/flutter (19235): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter (19235):
-I/flutter (19235): ╔╣ Request ║ PUT
-I/flutter (19235): ║  https://basicdiet145.onrender.com/api/subscriptions/69f35054a01ff9b3c33d0f94/days/2026-04-30/selection
-I/flutter (19235): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter (19235): ╔ Headers
-I/flutter (19235): ╟ accept: application/json
-I/flutter (19235): ╟ content-type: application/json
-I/flutter (19235): ╟ authorization:
-I/flutter (19235): ║ Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWYyMzdmMjE5Mjg4ZGJjOWUxNjMxZG
-I/flutter (19235): ║ UiLCJyb2xlIjoiY2xpZW50IiwidG9rZW5UeXBlIjoiYXBwX2FjY2VzcyIsImlhdCI6MTc3NzQ5MDg2NSwiZXhwIjox
-I/flutter (19235): ║ NzgwMTY5MjY1fQ.wQdMvBRkWrYPGGrvx5HtsUbTO-B9NlayVB5uRMS4rVE
-I/flutter (19235): ╟ Accept-Language: ar
-I/flutter (19235): ╟ contentType: application/json
-I/flutter (19235): ╟ responseType: ResponseType.json
-I/flutter (19235): ╟ followRedirects: true
-I/flutter (19235): ╟ receiveTimeout: 16:40:00.000000
-I/flutter (19235): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter (19235): ╔ Body
-I/flutter (19235): ╟ mealSlots: [Instance of 'MealSlotRequest']
-I/flutter (19235): ╟ addonsOneTime:
-I/flutter (19235): ║ [69f2399d4eee65376d14b40a, 69f2399d4eee65376d14b414, 69f2399d4eee65376d14b415]
-I/flutter (19235): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter (19235): ║ {mealSlots: [Instance of 'MealSlotRequest'], addonsOneTime: [69f2399d4eee65376d14b40a, 69f
-I/flutter (19235): ║ 2399d4eee65376d14b414, 69f2399d4eee65376d14b415]}
-I/flutter (19235):
-I/flutter (19235): ╔╣ Response ║ GET ║ Status: 200 OK  ║ Time: 609 ms
-I/flutter (19235): ║  https://basicdiet145.onrender.com/api/subscriptions/69f35054a01ff9b3c33d0f94/days/2026-04-30/fulfillment/status
-I/flutter (19235): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter (19235): ╔ Headers
-I/flutter (19235): ╟ x-dns-prefetch-control: [off]
-I/flutter (19235): ╟ x-render-origin-server: [Render]
-I/flutter (19235): ╟ date: [Thu, 30 Apr 2026 12:52:47 GMT]
-I/flutter (19235): ╟ transfer-encoding: [chunked]
-I/flutter (19235): ╟ origin-agent-cluster: [?1]
-I/flutter (19235): ╟ vary: [Origin, Accept-Encoding]
-I/flutter (19235): ╟ content-encoding: [gzip]
-I/flutter (19235): ╟ server: [cloudflare]
-I/flutter (19235): ╟ cross-origin-resource-policy: [same-origin]
-I/flutter (19235): ╟ cf-ray: [9f46af84682b7d33-MRS]
-I/flutter (19235): ╟ etag: [W/"3e8-sd+/ZwH/95VMhbEDk0Kmng16KJA"]
-I/flutter (19235): ╟ x-frame-options: [SAMEORIGIN]
-I/flutter (19235): ╟ content-security-policy:
-I/flutter (19235): ║ [default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-
-I/flutter (19235): ║ ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr
-I/flutter (19235): ║ 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests]
-I/flutter (19235): ╟ connection: [keep-alive]
-I/flutter (19235): ╟ strict-transport-security: [max-age=15552000; includeSubDomains]
-I/flutter (19235): ╟ referrer-policy: [no-referrer]
-I/flutter (19235): ╟ cf-cache-status: [DYNAMIC]
-I/flutter (19235): ╟ x-permitted-cross-domain-policies: [none]
-I/flutter (19235): ╟ cross-origin-opener-policy: [same-origin]
-I/flutter (19235): ╟ content-type: [application/json; charset=utf-8]
-I/flutter (19235): ╟ rndr-id: [6ccf462f-d483-48bc]
-I/flutter (19235): ╟ x-xss-protection: [0]
-I/flutter (19235): ╟ access-control-allow-credentials: [true]
-I/flutter (19235): ╟ alt-svc: [h3=":443"; ma=86400]
-I/flutter (19235): ╟ x-download-options: [noopen]
-I/flutter (19235): ╟ x-content-type-options: [nosniff]
-I/flutter (19235): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter (19235): ╔ Body
-I/flutter (19235): ║
-I/flutter (19235): ║    {
-I/flutter (19235): ║         "status": true,
-I/flutter (19235): ║         "data": {
-I/flutter (19235): ║             "subscriptionId": "69f35054a01ff9b3c33d0f94",
-I/flutter (19235): ║             "date": "2026-04-30",
-I/flutter (19235): ║             "deliveryMode": "pickup",
-I/flutter (19235): ║             "status": "open",
-I/flutter (19235): ║             "statusLabel": "مفتوح",
-I/flutter (19235): ║             "message": "تفاصيل الفرع غير متاحة حاليا",
-I/flutter (19235): ║             "nextAction": "",
-I/flutter (19235): ║             "isTerminal": false,
-I/flutter (19235): ║             "pollingIntervalSeconds": 60,
-I/flutter (19235): ║             "lastUpdatedAt": "2026-04-30T12:51:32.878Z",
-I/flutter (19235): ║             "fulfillmentSummary": {
-I/flutter (19235): ║                 "mode": "pickup",
-I/flutter (19235): ║                 "title": "الاستلام من الفرع",
-I/flutter (19235): ║                 "status": "open",
-I/flutter (19235): ║                 "statusLabel": "مفتوح",
-I/flutter (19235): ║                 "message": "تفاصيل الفرع غير متاحة حاليا",
-I/flutter (19235): ║                 "nextAction": "",
-I/flutter (19235): ║                 "isEditable": false,
-I/flutter (19235): ║                 "isFulfillable": false,
-I/flutter (19235): ║                 "planningReady": false,
-I/flutter (19235): ║                 "fulfillmentReady": true,
-I/flutter (19235): ║                 "lockedReason": "PICKUP_LOCATION_MISSING",
-I/flutter (19235): ║                 "lockedMessage": "تفاصيل الفرع غير متاحة حاليا"
-I/flutter (19235): ║            }
-I/flutter (19235): ║             "deliveryAddress": null,
-I/flutter (19235): ║             "deliveryWindow": null,
-I/flutter (19235): ║             "deliverySlot": {type: pickup, slotId: , window: , label: },
-I/flutter (19235): ║             "pickupLocation": null,
-I/flutter (19235): ║             "pickupCode": null,
-I/flutter (19235): ║             "pickupCodeIssuedAt": null,
-I/flutter (19235): ║             "planningReady": false,
-I/flutter (19235): ║             "fulfillmentReady": true,
-I/flutter (19235): ║             "isFulfillable": false,
-I/flutter (19235): ║             "canBePrepared": false
-I/flutter (19235): ║        }
-I/flutter (19235): ║    }
-I/flutter (19235): ║
-I/flutter (19235): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter (19235): onChange -- FulfillmentStatusCubit, Change { currentState: FulfillmentStatusState(FulfillmentStatusStateStatus.success, FulfillmentStatusModel(69f35054a01ff9b3c33d0f94, 2026-04-30, pickup, open, مفتوح, , , , , Instance of 'FulfillmentSummaryModel', null, null, null, null, false, 2026-04-30 15:51:32.878, 60), null, true), nextState: FulfillmentStatusState(FulfillmentStatusStateStatus.success, FulfillmentStatusModel(69f35054a01ff9b3c33d0f94, 2026-04-30, pickup, open, مفتوح, , , , , Instance of 'FulfillmentSummaryModel', null, null, null, null, false, 2026-04-30 15:51:32.878, 60), null, true) }
-E/libEGL  (19235): called unimplemented OpenGL ES API
-I/flutter (19235):
-I/flutter (19235): ╔╣ Response ║ PUT ║ Status: 200 OK  ║ Time: 1434 ms
-I/flutter (19235): ║  https://basicdiet145.onrender.com/api/subscriptions/69f35054a01ff9b3c33d0f94/days/2026-04-30/selection
-I/flutter (19235): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter (19235): ╔ Headers
-I/flutter (19235): ╟ x-dns-prefetch-control: [off]
-I/flutter (19235): ╟ x-render-origin-server: [Render]
-I/flutter (19235): ╟ date: [Thu, 30 Apr 2026 12:52:48 GMT]
-I/flutter (19235): ╟ transfer-encoding: [chunked]
-I/flutter (19235): ╟ origin-agent-cluster: [?1]
-I/flutter (19235): ╟ vary: [Origin, Accept-Encoding]
-I/flutter (19235): ╟ content-encoding: [gzip]
-I/flutter (19235): ╟ server: [cloudflare]
-I/flutter (19235): ╟ cross-origin-resource-policy: [same-origin]
-I/flutter (19235): ╟ cf-ray: [9f46af85dca18aa0-MRS]
-I/flutter (19235): ╟ etag: [W/"1c3c-z8oWvgusszKGXBMYQ9069wa+dlI"]
-I/flutter (19235): ╟ x-frame-options: [SAMEORIGIN]
-I/flutter (19235): ╟ content-security-policy:
-I/flutter (19235): ║ [default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-
-I/flutter (19235): ║ ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr
-I/flutter (19235): ║ 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests]
-I/flutter (19235): ╟ connection: [keep-alive]
-I/flutter (19235): ╟ strict-transport-security: [max-age=15552000; includeSubDomains]
-I/flutter (19235): ╟ referrer-policy: [no-referrer]
-I/flutter (19235): ╟ cf-cache-status: [DYNAMIC]
-I/flutter (19235): ╟ x-permitted-cross-domain-policies: [none]
-I/flutter (19235): ╟ cross-origin-opener-policy: [same-origin]
-I/flutter (19235): ╟ content-type: [application/json; charset=utf-8]
-I/flutter (19235): ╟ rndr-id: [a59249f4-36d3-4a0f]
-I/flutter (19235): ╟ x-xss-protection: [0]
-I/flutter (19235): ╟ access-control-allow-credentials: [true]
-I/flutter (19235): ╟ alt-svc: [h3=":443"; ma=86400]
-I/flutter (19235): ╟ x-download-options: [noopen]
-I/flutter (19235): ╟ x-content-type-options: [nosniff]
-I/flutter (19235): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter (19235): ╔ Body
-I/flutter (19235): ║
-I/flutter (19235): ║    {
-I/flutter (19235): ║         "status": true,
-I/flutter (19235): ║         "data": {
-I/flutter (19235): ║             "planningMeta": {
-I/flutter (19235): ║                 "requiredMealCount": 1,
-I/flutter (19235): ║                 "selectedBaseMealCount": 0,
-I/flutter (19235): ║                 "selectedPremiumMealCount": 1,
-I/flutter (19235): ║                 "selectedTotalMealCount": 1,
-I/flutter (19235): ║                 "isExactCountSatisfied": true,
-I/flutter (19235): ║                 "lastEditedAt": "2026-04-30T12:52:48.368Z",
-I/flutter (19235): ║                 "confirmedAt": null,
-I/flutter (19235): ║                 "confirmedByRole": null
-I/flutter (19235): ║            }
-I/flutter (19235): ║             "_id": "69f35054a01ff9b3c33d0f98",
-I/flutter (19235): ║             "subscriptionId": "69f35054a01ff9b3c33d0f94",
-I/flutter (19235): ║             "date": "2026-04-30",
-I/flutter (19235): ║             "status": "open",
-I/flutter (19235): ║             "selections": [69f188fdc48e7ad405aff5a3]
-I/flutter (19235): ║             "skippedByUser": false,
-I/flutter (19235): ║             "skipCompensated": false,
-I/flutter (19235): ║             "assignedByKitchen": false,
-I/flutter (19235): ║             "pickupRequested": false,
-I/flutter (19235): ║             "pickupRequestedAt": null,
-I/flutter (19235): ║             "pickupPreparationStartedAt": null,
-I/flutter (19235): ║             "pickupPreparedAt": null,
-I/flutter (19235): ║             "pickupCode": null,
-I/flutter (19235): ║             "pickupCodeIssuedAt": null,
-I/flutter (19235): ║             "pickupVerifiedAt": null,
-I/flutter (19235): ║             "pickupVerifiedByDashboardUserId": null,
-I/flutter (19235): ║             "pickupNoShowAt": null,
-I/flutter (19235): ║             "dayEndConsumptionReason": null,
-I/flutter (19235): ║             "cancellationReason": null,
-I/flutter (19235): ║             "cancellationCategory": null,
-I/flutter (19235): ║             "cancellationNote": null,
-I/flutter (19235): ║             "canceledBy": null,
-I/flutter (19235): ║             "canceledAt": null,
-I/flutter (19235): ║             "creditsDeducted": false,
-I/flutter (19235): ║             "autoLocked": false,
-I/flutter (19235): ║             "plannerRevisionHash": "74dab2242cdfb7584f407eb82c9a3245adecea5e89f0bc779f4af3b7be76f87f",
-I/flutter (19235): ║             "mealReminderSentAt": null,
-I/flutter (19235): ║             "addonSelections": [
-I/flutter (19235): ║                {
-I/flutter (19235): ║                     "addonId": "69f2399d4eee65376d14b40a",
-I/flutter (19235): ║                     "name": "Berry Blast",
-I/flutter (19235): ║                     "category": "juice",
-I/flutter (19235): ║                     "source": "subscription",
-I/flutter (19235): ║                     "priceHalala": 0,
-I/flutter (19235): ║                     "currency": "SAR",
-I/flutter (19235): ║                     "paymentId": null,
-I/flutter (19235): ║                     "consumedAt": "2026-04-30T12:52:48.213Z",
-I/flutter (19235): ║                     "_id": "69f350a0a01ff9b3c33d101f"
-I/flutter (19235): ║                },
-I/flutter (19235): ║                {
-I/flutter (19235): ║                     "addonId": "69f2399d4eee65376d14b414",
-I/flutter (19235): ║                     "name": "Cinnamon Apple Muffin (2 pieces)",
-I/flutter (19235): ║                     "category": "snack",
-I/flutter (19235): ║                     "source": "subscription",
-I/flutter (19235): ║                     "priceHalala": 0,
-I/flutter (19235): ║                     "currency": "SAR",
-I/flutter (19235): ║                     "paymentId": null,
-I/flutter (19235): ║                     "consumedAt": "2026-04-30T12:52:48.213Z",
-I/flutter (19235): ║                     "_id": "69f350a0a01ff9b3c33d1020"
-I/flutter (19235): ║                },
-I/flutter (19235): ║                {
-I/flutter (19235): ║                     "addonId": "69f2399d4eee65376d14b415",
-I/flutter (19235): ║                     "name": "Blueberry Cheesecake",
-I/flutter (19235): ║                     "category": "snack",
-I/flutter (19235): ║                     "source": "pending_payment",
-I/flutter (19235): ║                     "priceHalala": 1900,
-I/flutter (19235): ║                     "currency": "SAR",
-I/flutter (19235): ║                     "paymentId": null,
-I/flutter (19235): ║                     "consumedAt": "2026-04-30T12:52:48.213Z",
-I/flutter (19235): ║                     "_id": "69f350a0a01ff9b3c33d1021"
-I/flutter (19235): ║                }
-I/flutter (19235): ║             ],
-I/flutter (19235): ║             "premiumUpgradeSelections": [
-I/flutter (19235): ║                {
-I/flutter (19235): ║                     "baseSlotKey": "slot_1",
-I/flutter (19235): ║                     "proteinId": "69f188fdc48e7ad405aff5a3",
-I/flutter (19235): ║                     "premiumKey": "salmon",
-I/flutter (19235): ║                     "unitExtraFeeHalala": 0,
-I/flutter (19235): ║                     "currency": "SAR",
-I/flutter (19235): ║                     "premiumSource": "balance",
-I/flutter (19235): ║                     "_id": "69f350a0a01ff9b3c33d102d",
-I/flutter (19235): ║                     "consumedAt": "2026-04-30T12:52:48.494Z"
-I/flutter (19235): ║                }
-I/flutter (19235): ║             ],
-I/flutter (19235): ║             "operationAuditLog": []
-I/flutter (19235): ║             "customSalads": []
-I/flutter (19235): ║             "customMeals": []
-I/flutter (19235): ║             "baseMealSlots": [
-I/flutter (19235): ║                {
-I/flutter (19235): ║                     "slotKey": "base_slot_1",
-I/flutter (19235): ║                     "mealId": "69f188fdc48e7ad405aff5a3",
-I/flutter (19235): ║                     "assignmentSource": "client",
-I/flutter (19235): ║                     "assignedAt": "2026-04-30T12:52:48.368Z",
-I/flutter (19235): ║                     "_id": "69f350a0a01ff9b3c33d102a"
-I/flutter (19235): ║                }
-I/flutter (19235): ║             ],
-I/flutter (19235): ║             "__v": 1,
-I/flutter (19235): ║             "createdAt": "2026-04-30T12:51:32.878Z",
-I/flutter (19235): ║             "updatedAt": "2026-04-30T12:52:48.567Z",
-I/flutter (19235): ║             "materializedMeals": [
-I/flutter (19235): ║                {
-I/flutter (19235): ║                     "slotKey": "slot_1",
-I/flutter (19235): ║                     "selectionType": "premium_meal",
-I/flutter (19235): ║                     "sandwichId": null,
-I/flutter (19235): ║                     "proteinId": "69f188fdc48e7ad405aff5a3",
-I/flutter (19235): ║                     "carbId": "69f02ab331962803c54b0a39",
-I/flutter (19235): ║                     "isPremium": true,
-I/flutter (19235): ║                     "premiumSource": "balance",
-I/flutter (19235): ║                     "premiumKey": "salmon",
-I/flutter (19235): ║                     "premiumExtraFeeHalala": 0,
-I/flutter (19235): ║                     "comboKey": "69f188fdc48e7ad405aff5a3:69f02ab331962803c54b0a39"
-I/flutter (19235): ║                     "operationalSku": "69f188fdc48e7ad405aff5a3:69f02ab331962803c54b0a39"
-I/flutter (19235): ║                     "generatedAt": "2026-04-30T12:52:48.146Z"
-I/flutter (19235): ║                }
-I/flutter (19235): ║             ],
-I/flutter (19235): ║             "mealSlots": [
-I/flutter (19235): ║                {
-I/flutter (19235): ║                     "slotIndex": 1,
-I/flutter (19235): ║                     "slotKey": "slot_1",
-I/flutter (19235): ║                     "status": "complete",
-I/flutter (19235): ║                     "selectionType": "premium_meal",
-I/flutter (19235): ║                     "proteinId": "69f188fdc48e7ad405aff5a3",
-I/flutter (19235): ║                     "carbs": [{carbId: 69f02ab331962803c54b0a39, grams: 150}]
-I/flutter (19235): ║                     "sandwichId": null,
-I/flutter (19235): ║                     "salad": null,
-I/flutter (19235): ║                     "isPremium": true,
-I/flutter (19235): ║                     "premiumKey": "salmon",
-I/flutter (19235): ║                     "premiumSource": "balance",
-I/flutter (19235): ║                     "premiumExtraFeeHalala": 0
-I/flutter (19235): ║                }
-I/flutter (19235): ║             ],
-I/flutter (19235): ║             "plannerMeta": {
-I/flutter (19235): ║                 "requiredSlotCount": 1,
-I/flutter (19235): ║                 "emptySlotCount": 0,
-I/flutter (19235): ║                 "partialSlotCount": 0,
-I/flutter (19235): ║                 "completeSlotCount": 1,
-I/flutter (19235): ║                 "beefSlotCount": 0,
-I/flutter (19235): ║                 "premiumSlotCount": 1,
-I/flutter (19235): ║                 "premiumCoveredByBalanceCount": 1,
-I/flutter (19235): ║                 "premiumPendingPaymentCount": 0,
-I/flutter (19235): ║                 "premiumPaidExtraCount": 0,
-I/flutter (19235): ║                 "premiumTotalHalala": 0,
-I/flutter (19235): ║                 "isDraftValid": true,
-I/flutter (19235): ║                 "isConfirmable": true,
-I/flutter (19235): ║                 "lastEditedAt": "2026-04-30T12:52:48.146Z",
-I/flutter (19235): ║                 "confirmedAt": null,
-I/flutter (19235): ║                 "confirmedByRole": null
-I/flutter (19235): ║            }
-I/flutter (19235): ║             "plannerState": "draft",
-I/flutter (19235): ║             "plannerVersion": "v1",
-I/flutter (19235): ║             "premiumExtraPayment": {
-I/flutter (19235): ║                 "status": "none",
-I/flutter (19235): ║                 "paymentId": null,
-I/flutter (19235): ║                 "providerInvoiceId": null,
-I/flutter (19235): ║                 "amountHalala": 0,
-I/flutter (19235): ║                 "currency": "SAR",
-I/flutter (19235): ║                 "expiresAt": null,
-I/flutter (19235): ║                 "reused": false,
-I/flutter (19235): ║                 "revisionHash": "74dab2242cdfb7584f407eb82c9a3245adecea5e89f0bc779f4af3b7be76f87f"
-I/flutter (19235): ║                 "createdAt": null,
-I/flutter (19235): ║                 "paidAt": null,
-I/flutter (19235): ║                 "extraPremiumCount": 0,
-I/flutter (19235): ║                 "statusLabel": "لا يوجد دفع"
-I/flutter (19235): ║            }
-I/flutter (19235): ║             "planningVersion": "subscription_day_planning.v1",
-I/flutter (19235): ║             "planningState": "draft",
-I/flutter (19235): ║             "planning": {
-I/flutter (19235): ║                 "version": "subscription_day_planning.v1",
-I/flutter (19235): ║                 "state": "draft",
-I/flutter (19235): ║                 "requiredMealCount": 1,
-I/flutter (19235): ║                 "selectedBaseMealCount": 0,
-I/flutter (19235): ║                 "selectedPremiumMealCount": 1,
-I/flutter (19235): ║                 "selectedTotalMealCount": 1,
-I/flutter (19235): ║                 "isExactCountSatisfied": true,
-I/flutter (19235): ║                 "confirmedAt": null,
-I/flutter (19235): ║                 "confirmedByRole": null,
-I/flutter (19235): ║                 "baseMealSlots": [
-I/flutter (19235): ║                    {
-I/flutter (19235): ║                         "slotKey": "base_slot_1",
-I/flutter (19235): ║                         "mealId": "69f188fdc48e7ad405aff5a3",
-I/flutter (19235): ║                         "assignmentSource": "client",
-I/flutter (19235): ║                         "assignedAt": "2026-04-30T12:52:48.368Z",
-I/flutter (19235): ║                         "_id": "69f350a0a01ff9b3c33d102a"
-I/flutter (19235): ║                    }
-I/flutter (19235): ║                 ],
-I/flutter (19235): ║                 "premiumOverageCount": 0,
-I/flutter (19235): ║                 "premiumOverageStatus": null,
-I/flutter (19235): ║                 "stateLabel": "مسودة",
-I/flutter (19235): ║                 "premiumOverageStatusLabel": ""
-I/flutter (19235): ║            }
-I/flutter (19235): ║             "statusLabel": "مفتوح",
-I/flutter (19235): ║             "premiumSummary": {
-I/flutter (19235): ║                 "selectedCount": 1,
-I/flutter (19235): ║                 "coveredByBalanceCount": 1,
-I/flutter (19235): ║                 "pendingPaymentCount": 0,
-I/flutter (19235): ║                 "paidExtraCount": 0,
-I/flutter (19235): ║                 "totalExtraHalala": 0,
-I/flutter (19235): ║                 "currency": "SAR"
-I/flutter (19235): ║            }
-I/flutter (19235): ║             "paymentRequirement": {
-I/flutter (19235): ║                 "status": "priced",
-I/flutter (19235): ║                 "requiresPayment": true,
-I/flutter (19235): ║                 "pricingStatus": "priced",
-I/flutter (19235): ║                 "blockingReason": "ADDON_PAYMENT_REQUIRED",
-I/flutter (19235): ║                 "canCreatePayment": true,
-I/flutter (19235): ║                 "premiumSelectedCount": 1,
-I/flutter (19235): ║                 "premiumPendingPaymentCount": 0,
-I/flutter (19235): ║                 "addonSelectedCount": 3,
-I/flutter (19235): ║                 "addonPendingPaymentCount": 1,
-I/flutter (19235): ║                 "pendingAmountHalala": 1900,
-I/flutter (19235): ║                 "amountHalala": 1900,
-I/flutter (19235): ║                 "currency": "SAR",
-I/flutter (19235): ║                 "pricingStatusLabel": "مسعر",
-I/flutter (19235): ║                 "blockingReasonLabel": ""
-I/flutter (19235): ║            }
-I/flutter (19235): ║             "commercialState": "payment_required",
-I/flutter (19235): ║             "isFulfillable": false,
-I/flutter (19235): ║             "canBePrepared": false,
-I/flutter (19235): ║             "pickupPrepared": false,
-I/flutter (19235): ║             "pickupPreparationFlowStatus": "waiting_for_prepare",
-I/flutter (19235): ║             "fulfillmentMode": "customer_selected",
-I/flutter (19235): ║             "consumptionState": "consumable_today",
-I/flutter (19235): ║             "requiredMealCount": 1,
-I/flutter (19235): ║             "specifiedMealCount": 1,
-I/flutter (19235): ║             "unspecifiedMealCount": 0,
-I/flutter (19235): ║             "hasCustomerSelections": true,
-I/flutter (19235): ║             "requiresMealTypeKnowledge": true,
-I/flutter (19235): ║             "mealTypesSpecified": true,
-I/flutter (19235): ║             "planningReady": false,
-I/flutter (19235): ║             "fulfillmentReady": false,
-I/flutter (19235): ║             "deliveryMode": "pickup",
-I/flutter (19235): ║             "pickupLocation": null,
-I/flutter (19235): ║             "deliveryAddress": null,
-I/flutter (19235): ║             "deliveryWindow": null,
-I/flutter (19235): ║             "deliverySlot": {type: pickup, slotId: , window: , label: },
-I/flutter (19235): ║             "fulfillmentSummary": {
-I/flutter (19235): ║                 "mode": "pickup",
-I/flutter (19235): ║                 "title": "الاستلام من الفرع",
-I/flutter (19235): ║                 "status": "open",
-I/flutter (19235): ║                 "statusLabel": "مفتوح",
-I/flutter (19235): ║                 "message": "تفاصيل الفرع غير متاحة حاليا",
-I/flutter (19235): ║                 "nextAction": "",
-I/flutter (19235): ║                 "isEditable": false,
-I/flutter (19235): ║                 "isFulfillable": false,
-I/flutter (19235): ║                 "planningReady": false,
-I/flutter (19235): ║                 "fulfillmentReady": false,
-I/flutter (19235): ║                 "lockedReason": "PICKUP_LOCATION_MISSING",
-I/flutter (19235): ║                 "lockedMessage": "تفاصيل الفرع غير متاحة حاليا"
-I/flutter (19235): ║            }
-I/flutter (19235): ║             "lockedReason": "PICKUP_LOCATION_MISSING",
-I/flutter (19235): ║             "lockedMessage": "تفاصيل الفرع غير متاحة حاليا",
-I/flutter (19235): ║             "rules": {
-I/flutter (19235): ║                 "version": "meal_planner_rules.v3",
-I/flutter (19235): ║                 "beef": {proteinFamilyKey: beef, maxSlotsPerDay: 1},
-I/flutter (19235): ║                 "standardCarbs": {maxTypes: 2, maxTotalGrams: 300, unit: grams},
-I/flutter (19235): ║                 "premiumCarbs": {maxTypes: 2, maxTotalGrams: 300, unit: grams},
-I/flutter (19235): ║                 "proteinGroups": [
-I/flutter (19235): ║                    {
-I/flutter (19235): ║                         "key": "chicken",
-I/flutter (19235): ║                         "name": {ar: دجاج, en: Chicken},
-I/flutter (19235): ║                         "sortOrder": 10
-I/flutter (19235): ║                    },
-I/flutter (19235): ║                    {
-I/flutter (19235): ║                         "key": "beef",
-I/flutter (19235): ║                         "name": {ar: لحم, en: Beef},
-I/flutter (19235): ║                         "sortOrder": 20
-I/flutter (19235): ║                    },
-I/flutter (19235): ║                    {
-I/flutter (19235): ║                         "key": "fish",
-I/flutter (19235): ║                         "name": {ar: أسماك, en: Fish},
-I/flutter (19235): ║                         "sortOrder": 30
-I/flutter (19235): ║                    },
-I/flutter (19235): ║                    {
-I/flutter (19235): ║                         "key": "eggs",
-I/flutter (19235): ║                         "name": {ar: بيض, en: Eggs},
-I/flutter (19235): ║                         "sortOrder": 40
-I/flutter (19235): ║                    },
-I/flutter (19235): ║                    {
-I/flutter (19235): ║                         "key": "premium",
-I/flutter (19235): ║                         "name": {ar: بريميوم, en: Premium},
-I/flutter (19235): ║                         "sortOrder": 50
-I/flutter (19235): ║                    },
-I/flutter (19235): ║                    {
-I/flutter (19235): ║                         "key": "other",
-I/flutter (19235): ║                         "name": {ar: أخرى, en: Other},
-I/flutter (19235): ║                         "sortOrder": 60
-I/flutter (19235): ║                    }
-I/flutter (19235): ║                 ],
-I/flutter (19235): ║                 "premiumLargeSalad": {
-I/flutter (19235): ║                     "premiumKey": "custom_premium_salad",
-I/flutter (19235): ║                     "presetKey": "large_salad",
-I/flutter (19235): ║                     "extraFeeHalala": 3000,
-I/flutter (19235): ║                     "groups": [
-I/flutter (19235): ║                      {key: leafy_greens, minSelect: 0, maxSelect: 99},
-I/flutter (19235): ║                      {key: vegetables, minSelect: 0, maxSelect: 99},
-I/flutter (19235): ║                      {key: protein, minSelect: 1, maxSelect: 1},
-I/flutter (19235): ║                      {key: cheese_nuts, minSelect: 0, maxSelect: 99},
-I/flutter (19235): ║                      {key: fruits, minSelect: 0, maxSelect: 99},
-I/flutter (19235): ║                      {key: sauce, minSelect: 1, maxSelect: 1}
-I/flutter (19235): ║                     ]
-I/flutter (19235): ║                }
-I/flutter (19235): ║            }
-I/flutter (19235): ║             "commercialStateLabel": "الدفع مطلوب"
-I/flutter (19235): ║        }
-I/flutter (19235): ║    }
-I/flutter (19235): ║
-I/flutter (19235): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter (19235):
-I/flutter (19235): ╔╣ Request ║ POST
-I/flutter (19235): ║  https://basicdiet145.onrender.com/api/subscriptions/69f35054a01ff9b3c33d0f94/days/2026-04-30/payments
-I/flutter (19235): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter (19235): ╔ Headers
-I/flutter (19235): ╟ accept: application/json
-I/flutter (19235): ╟ content-type: application/json
-I/flutter (19235): ╟ authorization:
-I/flutter (19235): ║ Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWYyMzdmMjE5Mjg4ZGJjOWUxNjMxZG
-I/flutter (19235): ║ UiLCJyb2xlIjoiY2xpZW50IiwidG9rZW5UeXBlIjoiYXBwX2FjY2VzcyIsImlhdCI6MTc3NzQ5MDg2NSwiZXhwIjox
-I/flutter (19235): ║ NzgwMTY5MjY1fQ.wQdMvBRkWrYPGGrvx5HtsUbTO-B9NlayVB5uRMS4rVE
-I/flutter (19235): ╟ Accept-Language: ar
-I/flutter (19235): ╟ contentType: application/json
-I/flutter (19235): ╟ responseType: ResponseType.json
-I/flutter (19235): ╟ followRedirects: true
-I/flutter (19235): ╟ receiveTimeout: 16:40:00.000000
-I/flutter (19235): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter (19235): ╔ Body
-I/flutter (19235): ╟ plannerRevisionHash: 74dab2242cdfb7584f407eb82c9a3245adecea5e89f0bc779f4af3b7be76f87f
-I/flutter (19235): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter (19235): ║ {plannerRevisionHash: 74dab2242cdfb7584f407eb82c9a3245adecea5e89f0bc779f4af3b7be76f87f}
-E/libEGL  (19235): called unimplemented OpenGL ES API
-E/libEGL  (19235): called unimplemented OpenGL ES API
-I/flutter (19235):
-I/flutter (19235): ╔╣ Response ║ POST ║ Status: 201 Created  ║ Time: 1487 ms
-I/flutter (19235): ║  https://basicdiet145.onrender.com/api/subscriptions/69f35054a01ff9b3c33d0f94/days/2026-04-30/payments
-I/flutter (19235): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter (19235): ╔ Headers
-I/flutter (19235): ╟ x-dns-prefetch-control: [off]
-I/flutter (19235): ╟ x-render-origin-server: [Render]
-I/flutter (19235): ╟ date: [Thu, 30 Apr 2026 12:52:50 GMT]
-I/flutter (19235): ╟ transfer-encoding: [chunked]
-I/flutter (19235): ╟ origin-agent-cluster: [?1]
-I/flutter (19235): ╟ vary: [Origin, Accept-Encoding]
-I/flutter (19235): ╟ server: [cloudflare]
-I/flutter (19235): ╟ cross-origin-resource-policy: [same-origin]
-I/flutter (19235): ╟ cf-ray: [9f46af8ef8837d33-MRS]
-I/flutter (19235): ╟ etag: [W/"354-WSDNAGMrT8WQvfQbf7U88yPIbi4"]
-I/flutter (19235): ╟ x-frame-options: [SAMEORIGIN]
-I/flutter (19235): ╟ content-security-policy:
-I/flutter (19235): ║ [default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-
-I/flutter (19235): ║ ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr
-I/flutter (19235): ║ 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests]
-I/flutter (19235): ╟ connection: [keep-alive]
-I/flutter (19235): ╟ strict-transport-security: [max-age=15552000; includeSubDomains]
-I/flutter (19235): ╟ referrer-policy: [no-referrer]
-I/flutter (19235): ╟ cf-cache-status: [DYNAMIC]
-I/flutter (19235): ╟ x-permitted-cross-domain-policies: [none]
-I/flutter (19235): ╟ cross-origin-opener-policy: [same-origin]
-I/flutter (19235): ╟ content-type: [application/json; charset=utf-8]
-I/flutter (19235): ╟ rndr-id: [3f7d6cbc-ab94-4fe4]
-I/flutter (19235): ╟ x-xss-protection: [0]
-I/flutter (19235): ╟ access-control-allow-credentials: [true]
-I/flutter (19235): ╟ alt-svc: [h3=":443"; ma=86400]
-I/flutter (19235): ╟ x-download-options: [noopen]
-I/flutter (19235): ╟ x-content-type-options: [nosniff]
-I/flutter (19235): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter (19235): ╔ Body
-I/flutter (19235): ║
-I/flutter (19235): ║    {
-I/flutter (19235): ║         "status": true,
-I/flutter (19235): ║         "data": {
-I/flutter (19235): ║             "payment_id": "69f350a2a01ff9b3c33d1042",
-I/flutter (19235): ║             "paymentId": "69f350a2a01ff9b3c33d1042",
-I/flutter (19235): ║             "payment_url": "https://checkout.moyasar.com/invoices/74db9748-aa08-4b56-ac2b-24f598740e6f?la
-I/flutter (19235): ║              ng=en"
-I/flutter (19235): ║             "invoice_id": "74db9748-aa08-4b56-ac2b-24f598740e6f",
-I/flutter (19235): ║             "providerInvoiceId": "74db9748-aa08-4b56-ac2b-24f598740e6f",
-I/flutter (19235): ║             "totalHalala": 1900,
-I/flutter (19235): ║             "premiumAmountHalala": 0,
-I/flutter (19235): ║             "addonsAmountHalala": 1900,
-I/flutter (19235): ║             "currency": "SAR",
-I/flutter (19235): ║             "plannerRevisionHash": "74dab2242cdfb7584f407eb82c9a3245adecea5e89f0bc779f4af3b7be76f87f",
-I/flutter (19235): ║             "paymentRequirement": {
-I/flutter (19235): ║                 "status": "priced",
-I/flutter (19235): ║                 "requiresPayment": true,
-I/flutter (19235): ║                 "pricingStatus": "priced",
-I/flutter (19235): ║                 "blockingReason": "ADDON_PAYMENT_REQUIRED",
-I/flutter (19235): ║                 "canCreatePayment": true,
-I/flutter (19235): ║                 "premiumSelectedCount": 1,
-I/flutter (19235): ║                 "premiumPendingPaymentCount": 0,
-I/flutter (19235): ║                 "addonSelectedCount": 3,
-I/flutter (19235): ║                 "addonPendingPaymentCount": 1,
-I/flutter (19235): ║                 "pendingAmountHalala": 1900,
-I/flutter (19235): ║                 "amountHalala": 1900,
-I/flutter (19235): ║                 "currency": "SAR"
-I/flutter (19235): ║            }
-I/flutter (19235): ║             "commercialState": "payment_required"
-I/flutter (19235): ║        }
-I/flutter (19235): ║    }
-I/flutter (19235): ║
-I/flutter (19235): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter (19235): onChange -- MealPlannerBloc, Change { currentState: MealPlannerLoaded([Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel'], Instance of 'MealPlannerMenuModel', [AddOnModel(69f2399d4eee65376d14b40a, بيري بلاست, juice, عصير ضمن فئة العصير., , SAR, 1100, 11.0, 11 SAR, item, flat_once, one_time, item, AddOnUiModel(بيري بلاست, عصير ضمن فئة العصير., أضف, إضافة مرة واحدة)), AddOnModel(69f2399d4eee65376d14b40b, بيري بروت, juice, عصير ضمن فئة العصير., , SAR, 1300, 13.0, 13 SAR, item, flat_once, one_time, item, AddOnUiModel(بيري بروت, عصير ضمن فئة العصير., أضف, إضافة مرة واحدة)), AddOnModel(69f2399d4eee65376d14b40c, كلاسيك جرين, juice, عصير ضمن فئة العصير., , SAR, 1100, 11.0, 11 SAR, item, flat_o
-W/HWUI    (19235): Image decoding logging dropped!
-W/HWUI    (19235): Image decoding logging dropped!
-I/PlatformViewsController(19235): Hosting view in view hierarchy for platform view: 1
-I/PlatformViewsController(19235): PlatformView is using SurfaceProducer backend
-E/libEGL  (19235): called unimplemented OpenGL ES API
-I/chromium(19235): [INFO:CONSOLE(16)] "To speed up loading of Samsung Pay button you can include the Samsung Pay Web SDK JavaScript file in your website front-end directly. If there will be no Samsung Pay available on form initialization it will be loaded automatically", source: https://cdn.jsdelivr.net/npm/moyasar-payment-form@latest/dist/moyasar.umd.min.js (16)
-I/chromium(19235): [INFO:CONSOLE(14)] "Cannot initialize Samsung Pay", source: https://cdn.jsdelivr.net/npm/moyasar-payment-form@latest/dist/moyasar.umd.min.js (14)
-I/ImeTracker(19235): com.example.basic_diet:f0df8616: onRequestShow at ORIGIN_CLIENT reason SHOW_SOFT_INPUT fromUser false
-D/InsetsController(19235): show(ime(), fromIme=false)
-D/InsetsController(19235): Setting requestedVisibleTypes to -1 (was -9)
-I/AssistStructure(19235): Flattened final assist data: 5048 bytes, containing 1 windows, 7 views
-E/libEGL  (19235): called unimplemented OpenGL ES API
-I/ImeTracker(19235): com.example.basic_diet:f0df8616: onShown
-E/libEGL  (19235): called unimplemented OpenGL ES API
-E/libEGL  (19235): called unimplemented OpenGL ES API
-I/ImeTracker(19235): com.example.basic_diet:18007c67: onRequestShow at ORIGIN_CLIENT reason SHOW_SOFT_INPUT fromUser false
-D/InsetsController(19235): show(ime(), fromIme=false)
-I/ImeTracker(19235): com.example.basic_diet:18007c67: onCancelled at PHASE_CLIENT_APPLY_ANIMATION
-I/AssistStructure(19235): Flattened final assist data: 5064 bytes, containing 1 windows, 7 views
-E/libEGL  (19235): called unimplemented OpenGL ES API
-E/libEGL  (19235): called unimplemented OpenGL ES API
-E/libEGL  (19235): called unimplemented OpenGL ES API
-E/libEGL  (19235): called unimplemented OpenGL ES API
-I/ImeTracker(19235): com.example.basic_diet:49b1277d: onRequestShow at ORIGIN_CLIENT reason SHOW_SOFT_INPUT fromUser false
-D/InsetsController(19235): show(ime(), fromIme=false)
-I/ImeTracker(19235): com.example.basic_diet:49b1277d: onCancelled at PHASE_CLIENT_APPLY_ANIMATION
-I/AssistStructure(19235): Flattened final assist data: 5080 bytes, containing 1 windows, 7 views
-E/libEGL  (19235): called unimplemented OpenGL ES API
-E/libEGL  (19235): called unimplemented OpenGL ES API
-I/ImeTracker(19235): com.example.basic_diet:f648fc7d: onRequestShow at ORIGIN_CLIENT reason SHOW_SOFT_INPUT fromUser false
-D/InsetsController(19235): show(ime(), fromIme=false)
-I/ImeTracker(19235): com.example.basic_diet:f648fc7d: onCancelled at PHASE_CLIENT_APPLY_ANIMATION
-I/AssistStructure(19235): Flattened final assist data: 5084 bytes, containing 1 windows, 7 views
-E/libEGL  (19235): called unimplemented OpenGL ES API
-E/libEGL  (19235): called unimplemented OpenGL ES API
-E/libEGL  (19235): called unimplemented OpenGL ES API
-D/InsetsController(19235): Setting requestedVisibleTypes to -9 (was -1)
-W/WindowOnBackDispatcher(19235): sendCancelIfRunning: isInProgress=false callback=android.view.ImeBackAnimationController@a6bbe23
-I/ImeTracker(19235): com.example.basic_diet:ac2fcc08: onRequestHide at ORIGIN_CLIENT reason HIDE_SOFT_INPUT_REQUEST_HIDE_WITH_CONTROL fromUser true
-D/InsetsController(19235): hide(ime(), fromIme=false)
-I/ImeTracker(19235): com.example.basic_diet:ac2fcc08: onCancelled at PHASE_CLIENT_ALREADY_HIDDEN
-I/ImeTracker(19235): system_server:d38fcc34: onCancelled at PHASE_CLIENT_ON_CONTROLS_CHANGED
-E/libEGL  (19235): called unimplemented OpenGL ES API
-I/ImeTracker(19235): com.example.basic_diet:81d28eb2: onRequestHide at ORIGIN_CLIENT reason HIDE_SOFT_INPUT fromUser false
-D/InsetsController(19235): hide(ime(), fromIme=false)
-I/ImeTracker(19235): com.example.basic_diet:81d28eb2: onCancelled at PHASE_CLIENT_ALREADY_HIDDEN
-E/libEGL  (19235): called unimplemented OpenGL ES API
-E/libEGL  (19235): called unimplemented OpenGL ES API
-I/flutter (19235): onChange -- MealPlannerBloc, Change { currentState: MealPlannerLoaded([Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel'], Instance of 'MealPlannerMenuModel', [AddOnModel(69f2399d4eee65376d14b40a, بيري بلاست, juice, عصير ضمن فئة العصير., , SAR, 1100, 11.0, 11 SAR, item, flat_once, one_time, item, AddOnUiModel(بيري بلاست, عصير ضمن فئة العصير., أضف, إضافة مرة واحدة)), AddOnModel(69f2399d4eee65376d14b40b, بيري بروت, juice, عصير ضمن فئة العصير., , SAR, 1300, 13.0, 13 SAR, item, flat_once, one_time, item, AddOnUiModel(بيري بروت, عصير ضمن فئة العصير., أضف, إضافة مرة واحدة)), AddOnModel(69f2399d4eee65376d14b40c, كلاسيك جرين, juice, عصير ضمن فئة العصير., , SAR, 1100, 11.0, 11 SAR, item, flat_o
-I/flutter (19235):
-I/flutter (19235): ╔╣ Request ║ POST
-I/flutter (19235): ║  https://basicdiet145.onrender.com/api/subscriptions/69f35054a01ff9b3c33d0f94/days/2026-04-30/payments/69f350a2a01ff9b3c33d1042/verify
-I/flutter (19235): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter (19235): ╔ Headers
-I/flutter (19235): ╟ accept: application/json
-I/flutter (19235): ╟ content-type: application/json
-I/flutter (19235): ╟ authorization:
-I/flutter (19235): ║ Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWYyMzdmMjE5Mjg4ZGJjOWUxNjMxZG
-I/flutter (19235): ║ UiLCJyb2xlIjoiY2xpZW50IiwidG9rZW5UeXBlIjoiYXBwX2FjY2VzcyIsImlhdCI6MTc3NzQ5MDg2NSwiZXhwIjox
-I/flutter (19235): ║ NzgwMTY5MjY1fQ.wQdMvBRkWrYPGGrvx5HtsUbTO-B9NlayVB5uRMS4rVE
-I/flutter (19235): ╟ Accept-Language: ar
-I/flutter (19235): ╟ contentType: application/json
-I/flutter (19235): ╟ responseType: ResponseType.json
-I/flutter (19235): ╟ followRedirects: true
-I/flutter (19235): ╟ receiveTimeout: 16:40:00.000000
-I/flutter (19235): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-E/libEGL  (19235): called unimplemented OpenGL ES API
-E/libEGL  (19235): called unimplemented OpenGL ES API
-I/flutter (19235):
-I/flutter (19235): ╔╣ Response ║ POST ║ Status: 200 OK  ║ Time: 1163 ms
-I/flutter (19235): ║  https://basicdiet145.onrender.com/api/subscriptions/69f35054a01ff9b3c33d0f94/days/2026-04-30/payments/69f350a2a01ff9b3c33d1042/verify
-I/flutter (19235): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter (19235): ╔ Headers
-I/flutter (19235): ╟ x-dns-prefetch-control: [off]
-I/flutter (19235): ╟ x-render-origin-server: [Render]
-I/flutter (19235): ╟ date: [Thu, 30 Apr 2026 12:53:11 GMT]
-I/flutter (19235): ╟ transfer-encoding: [chunked]
-I/flutter (19235): ╟ origin-agent-cluster: [?1]
-I/flutter (19235): ╟ vary: [Origin, Accept-Encoding]
-I/flutter (19235): ╟ content-encoding: [gzip]
-I/flutter (19235): ╟ server: [cloudflare]
-I/flutter (19235): ╟ cross-origin-resource-policy: [same-origin]
-I/flutter (19235): ╟ cf-ray: [9f46b016dbd7e20c-MRS]
-I/flutter (19235): ╟ etag: [W/"84b-8nMILANUOqpTP4OIs8i2gkrnEj4"]
-I/flutter (19235): ╟ x-frame-options: [SAMEORIGIN]
-I/flutter (19235): ╟ content-security-policy:
-I/flutter (19235): ║ [default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-
-I/flutter (19235): ║ ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr
-I/flutter (19235): ║ 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests]
-I/flutter (19235): ╟ connection: [keep-alive]
-I/flutter (19235): ╟ strict-transport-security: [max-age=15552000; includeSubDomains]
-I/flutter (19235): ╟ referrer-policy: [no-referrer]
-I/flutter (19235): ╟ cf-cache-status: [DYNAMIC]
-I/flutter (19235): ╟ x-permitted-cross-domain-policies: [none]
-I/flutter (19235): ╟ content-type: [application/json; charset=utf-8]
-I/flutter (19235): ╟ cross-origin-opener-policy: [same-origin]
-I/flutter (19235): ╟ rndr-id: [0eea8258-4765-4a3f]
-I/flutter (19235): ╟ x-xss-protection: [0]
-I/flutter (19235): ╟ access-control-allow-credentials: [true]
-I/flutter (19235): ╟ alt-svc: [h3=":443"; ma=86400]
-I/flutter (19235): ╟ x-download-options: [noopen]
-I/flutter (19235): ╟ x-content-type-options: [nosniff]
-I/flutter (19235): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter (19235): ╔ Body
-I/flutter (19235): ║
-I/flutter (19235): ║    {
-I/flutter (19235): ║         "status": true,
-I/flutter (19235): ║         "data": {
-I/flutter (19235): ║             "subscriptionId": "69f35054a01ff9b3c33d0f94",
-I/flutter (19235): ║             "dayId": "69f35054a01ff9b3c33d0f98",
-I/flutter (19235): ║             "date": "2026-04-30",
-I/flutter (19235): ║             "paymentStatus": "paid",
-I/flutter (19235): ║             "applied": true,
-I/flutter (19235): ║             "isFinal": true,
-I/flutter (19235): ║             "premiumSummary": {
-I/flutter (19235): ║                 "selectedCount": 1,
-I/flutter (19235): ║                 "coveredByBalanceCount": 1,
-I/flutter (19235): ║                 "pendingPaymentCount": 0,
-I/flutter (19235): ║                 "paidExtraCount": 0,
-I/flutter (19235): ║                 "totalExtraHalala": 0,
-I/flutter (19235): ║                 "currency": "SAR"
-I/flutter (19235): ║            }
-I/flutter (19235): ║             "premiumExtraPayment": {
-I/flutter (19235): ║                 "status": "none",
-I/flutter (19235): ║                 "paymentId": null,
-I/flutter (19235): ║                 "providerInvoiceId": null,
-I/flutter (19235): ║                 "amountHalala": 0,
-I/flutter (19235): ║                 "currency": "SAR",
-I/flutter (19235): ║                 "expiresAt": null,
-I/flutter (19235): ║                 "reused": false,
-I/flutter (19235): ║                 "revisionHash": "74dab2242cdfb7584f407eb82c9a3245adecea5e89f0bc779f4af3b7be76f87f"
-I/flutter (19235): ║                 "createdAt": null,
-I/flutter (19235): ║                 "paidAt": null,
-I/flutter (19235): ║                 "extraPremiumCount": 0
-I/flutter (19235): ║            }
-I/flutter (19235): ║             "addonSelections": [
-I/flutter (19235): ║                {
-I/flutter (19235): ║                     "addonId": "69f2399d4eee65376d14b40a",
-I/flutter (19235): ║                     "name": "Berry Blast",
-I/flutter (19235): ║                     "category": "juice",
-I/flutter (19235): ║                     "source": "subscription",
-I/flutter (19235): ║                     "priceHalala": 0,
-I/flutter (19235): ║                     "currency": "SAR",
-I/flutter (19235): ║                     "paymentId": null,
-I/flutter (19235): ║                     "consumedAt": "2026-04-30T12:52:48.213Z",
-I/flutter (19235): ║                     "_id": "69f350a0a01ff9b3c33d101f"
-I/flutter (19235): ║                },
-I/flutter (19235): ║                {
-I/flutter (19235): ║                     "addonId": "69f2399d4eee65376d14b414",
-I/flutter (19235): ║                     "name": "Cinnamon Apple Muffin (2 pieces)",
-I/flutter (19235): ║                     "category": "snack",
-I/flutter (19235): ║                     "source": "subscription",
-I/flutter (19235): ║                     "priceHalala": 0,
-I/flutter (19235): ║                     "currency": "SAR",
-I/flutter (19235): ║                     "paymentId": null,
-I/flutter (19235): ║                     "consumedAt": "2026-04-30T12:52:48.213Z",
-I/flutter (19235): ║                     "_id": "69f350a0a01ff9b3c33d1020"
-I/flutter (19235): ║                },
-I/flutter (19235): ║                {
-I/flutter (19235): ║                     "addonId": "69f2399d4eee65376d14b415",
-I/flutter (19235): ║                     "name": "Blueberry Cheesecake",
-I/flutter (19235): ║                     "category": "snack",
-I/flutter (19235): ║                     "source": "pending_payment",
-I/flutter (19235): ║                     "priceHalala": 1900,
-I/flutter (19235): ║                     "currency": "SAR",
-I/flutter (19235): ║                     "paymentId": null,
-I/flutter (19235): ║                     "consumedAt": "2026-04-30T12:52:48.213Z",
-I/flutter (19235): ║                     "_id": "69f350a0a01ff9b3c33d1021"
-I/flutter (19235): ║                }
-I/flutter (19235): ║             ],
-I/flutter (19235): ║             "paymentRequirement": {
-I/flutter (19235): ║                 "status": "priced",
-I/flutter (19235): ║                 "requiresPayment": true,
-I/flutter (19235): ║                 "pricingStatus": "priced",
-I/flutter (19235): ║                 "blockingReason": "ADDON_PAYMENT_REQUIRED",
-I/flutter (19235): ║                 "canCreatePayment": true,
-I/flutter (19235): ║                 "premiumSelectedCount": 1,
-I/flutter (19235): ║                 "premiumPendingPaymentCount": 0,
-I/flutter (19235): ║                 "addonSelectedCount": 3,
-I/flutter (19235): ║                 "addonPendingPaymentCount": 1,
-I/flutter (19235): ║                 "pendingAmountHalala": 1900,
-I/flutter (19235): ║                 "amountHalala": 1900,
-I/flutter (19235): ║                 "currency": "SAR"
-I/flutter (19235): ║            }
-I/flutter (19235): ║             "commercialState": "payment_required",
-I/flutter (19235): ║             "providerInvoice": null,
-I/flutter (19235): ║             "payment": {
-I/flutter (19235): ║                 "id": "69f350a2a01ff9b3c33d1042",
-I/flutter (19235): ║                 "provider": "moyasar",
-I/flutter (19235): ║                 "type": "day_planning_payment",
-I/flutter (19235): ║                 "status": "paid",
-I/flutter (19235): ║                 "amount": 1900,
-I/flutter (19235): ║                 "currency": "SAR",
-I/flutter (19235): ║                 "providerInvoiceId": "74db9748-aa08-4b56-ac2b-24f598740e6f",
-I/flutter (19235): ║                 "providerPaymentId": null,
-I/flutter (19235): ║                 "applied": true,
-I/flutter (19235): ║                 "paidAt": "2026-04-30T12:53:10.847Z",
-I/flutter (19235): ║                 "createdAt": "2026-04-30T12:52:50.321Z",
-I/flutter (19235): ║                 "updatedAt": "2026-04-30T12:53:11.048Z"
-I/flutter (19235): ║            }
-I/flutter (19235): ║             "checkedProvider": false,
-I/flutter (19235): ║             "synchronized": true
-I/flutter (19235): ║        }
-I/flutter (19235): ║    }
-I/flutter (19235): ║
-I/flutter (19235): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter (19235):
-I/flutter (19235): ╔╣ Request ║ GET
-I/flutter (19235): ║  https://basicdiet145.onrender.com/api/subscriptions/69f35054a01ff9b3c33d0f94/days/2026-04-30
-I/flutter (19235): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter (19235): ╔ Headers
-I/flutter (19235): ╟ accept: application/json
-I/flutter (19235): ╟ content-type: application/json
-I/flutter (19235): ╟ authorization:
-I/flutter (19235): ║ Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWYyMzdmMjE5Mjg4ZGJjOWUxNjMxZG
-I/flutter (19235): ║ UiLCJyb2xlIjoiY2xpZW50IiwidG9rZW5UeXBlIjoiYXBwX2FjY2VzcyIsImlhdCI6MTc3NzQ5MDg2NSwiZXhwIjox
-I/flutter (19235): ║ NzgwMTY5MjY1fQ.wQdMvBRkWrYPGGrvx5HtsUbTO-B9NlayVB5uRMS4rVE
-I/flutter (19235): ╟ Accept-Language: ar
-I/flutter (19235): ╟ contentType: application/json
-I/flutter (19235): ╟ responseType: ResponseType.json
-I/flutter (19235): ╟ followRedirects: true
-I/flutter (19235): ╟ receiveTimeout: 16:40:00.000000
-I/flutter (19235): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter (19235):
-I/flutter (19235): ╔╣ Response ║ GET ║ Status: 200 OK  ║ Time: 520 ms
-I/flutter (19235): ║  https://basicdiet145.onrender.com/api/subscriptions/69f35054a01ff9b3c33d0f94/days/2026-04-30
-I/flutter (19235): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter (19235): ╔ Headers
-I/flutter (19235): ╟ x-dns-prefetch-control: [off]
-I/flutter (19235): ╟ x-render-origin-server: [Render]
-I/flutter (19235): ╟ date: [Thu, 30 Apr 2026 12:53:12 GMT]
-I/flutter (19235): ╟ transfer-encoding: [chunked]
-I/flutter (19235): ╟ origin-agent-cluster: [?1]
-I/flutter (19235): ╟ vary: [Origin, Accept-Encoding]
-I/flutter (19235): ╟ content-encoding: [gzip]
-I/flutter (19235): ╟ server: [cloudflare]
-I/flutter (19235): ╟ cross-origin-resource-policy: [same-origin]
-I/flutter (19235): ╟ cf-ray: [9f46b01d5a51e20c-MRS]
-I/flutter (19235): ╟ etag: [W/"1c3c-wfK3N4ekcjj4EDMEtoVjltiiTnk"]
-I/flutter (19235): ╟ x-frame-options: [SAMEORIGIN]
-I/flutter (19235): ╟ content-security-policy:
-I/flutter (19235): ║ [default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-
-I/flutter (19235): ║ ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr
-I/flutter (19235): ║ 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests]
-I/flutter (19235): ╟ connection: [keep-alive]
-I/flutter (19235): ╟ strict-transport-security: [max-age=15552000; includeSubDomains]
-I/flutter (19235): ╟ referrer-policy: [no-referrer]
-I/flutter (19235): ╟ cf-cache-status: [DYNAMIC]
-I/flutter (19235): ╟ x-permitted-cross-domain-policies: [none]
-I/flutter (19235): ╟ content-type: [application/json; charset=utf-8]
-I/flutter (19235): ╟ cross-origin-opener-policy: [same-origin]
-I/flutter (19235): ╟ rndr-id: [2657c00f-6515-4122]
-I/flutter (19235): ╟ x-xss-protection: [0]
-I/flutter (19235): ╟ access-control-allow-credentials: [true]
-I/flutter (19235): ╟ alt-svc: [h3=":443"; ma=86400]
-I/flutter (19235): ╟ x-download-options: [noopen]
-I/flutter (19235): ╟ x-content-type-options: [nosniff]
-I/flutter (19235): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter (19235): ╔ Body
-I/flutter (19235): ║
-I/flutter (19235): ║    {
-I/flutter (19235): ║         "status": true,
-I/flutter (19235): ║         "data": {
-I/flutter (19235): ║             "_id": "69f35054a01ff9b3c33d0f98",
-I/flutter (19235): ║             "subscriptionId": "69f35054a01ff9b3c33d0f94",
-I/flutter (19235): ║             "date": "2026-04-30",
-I/flutter (19235): ║             "status": "open",
-I/flutter (19235): ║             "selections": [69f188fdc48e7ad405aff5a3]
-I/flutter (19235): ║             "skippedByUser": false,
-I/flutter (19235): ║             "skipCompensated": false,
-I/flutter (19235): ║             "assignedByKitchen": false,
-I/flutter (19235): ║             "pickupRequested": false,
-I/flutter (19235): ║             "pickupRequestedAt": null,
-I/flutter (19235): ║             "pickupPreparationStartedAt": null,
-I/flutter (19235): ║             "pickupPreparedAt": null,
-I/flutter (19235): ║             "pickupCode": null,
-I/flutter (19235): ║             "pickupCodeIssuedAt": null,
-I/flutter (19235): ║             "pickupVerifiedAt": null,
-I/flutter (19235): ║             "pickupVerifiedByDashboardUserId": null,
-I/flutter (19235): ║             "pickupNoShowAt": null,
-I/flutter (19235): ║             "dayEndConsumptionReason": null,
-I/flutter (19235): ║             "cancellationReason": null,
-I/flutter (19235): ║             "cancellationCategory": null,
-I/flutter (19235): ║             "cancellationNote": null,
-I/flutter (19235): ║             "canceledBy": null,
-I/flutter (19235): ║             "canceledAt": null,
-I/flutter (19235): ║             "creditsDeducted": false,
-I/flutter (19235): ║             "autoLocked": false,
-I/flutter (19235): ║             "plannerRevisionHash": "74dab2242cdfb7584f407eb82c9a3245adecea5e89f0bc779f4af3b7be76f87f",
-I/flutter (19235): ║             "mealReminderSentAt": null,
-I/flutter (19235): ║             "addonSelections": [
-I/flutter (19235): ║                {
-I/flutter (19235): ║                     "addonId": "69f2399d4eee65376d14b40a",
-I/flutter (19235): ║                     "name": "Berry Blast",
-I/flutter (19235): ║                     "category": "juice",
-I/flutter (19235): ║                     "source": "subscription",
-I/flutter (19235): ║                     "priceHalala": 0,
-I/flutter (19235): ║                     "currency": "SAR",
-I/flutter (19235): ║                     "paymentId": null,
-I/flutter (19235): ║                     "consumedAt": "2026-04-30T12:52:48.213Z",
-I/flutter (19235): ║                     "_id": "69f350a0a01ff9b3c33d101f"
-I/flutter (19235): ║                },
-I/flutter (19235): ║                {
-I/flutter (19235): ║                     "addonId": "69f2399d4eee65376d14b414",
-I/flutter (19235): ║                     "name": "Cinnamon Apple Muffin (2 pieces)",
-I/flutter (19235): ║                     "category": "snack",
-I/flutter (19235): ║                     "source": "subscription",
-I/flutter (19235): ║                     "priceHalala": 0,
-I/flutter (19235): ║                     "currency": "SAR",
-I/flutter (19235): ║                     "paymentId": null,
-I/flutter (19235): ║                     "consumedAt": "2026-04-30T12:52:48.213Z",
-I/flutter (19235): ║                     "_id": "69f350a0a01ff9b3c33d1020"
-I/flutter (19235): ║                },
-I/flutter (19235): ║                {
-I/flutter (19235): ║                     "addonId": "69f2399d4eee65376d14b415",
-I/flutter (19235): ║                     "name": "Blueberry Cheesecake",
-I/flutter (19235): ║                     "category": "snack",
-I/flutter (19235): ║                     "source": "pending_payment",
-I/flutter (19235): ║                     "priceHalala": 1900,
-I/flutter (19235): ║                     "currency": "SAR",
-I/flutter (19235): ║                     "paymentId": null,
-I/flutter (19235): ║                     "consumedAt": "2026-04-30T12:52:48.213Z",
-I/flutter (19235): ║                     "_id": "69f350a0a01ff9b3c33d1021"
-I/flutter (19235): ║                }
-I/flutter (19235): ║             ],
-I/flutter (19235): ║             "premiumUpgradeSelections": [
-I/flutter (19235): ║                {
-I/flutter (19235): ║                     "baseSlotKey": "slot_1",
-I/flutter (19235): ║                     "proteinId": "69f188fdc48e7ad405aff5a3",
-I/flutter (19235): ║                     "premiumKey": "salmon",
-I/flutter (19235): ║                     "unitExtraFeeHalala": 0,
-I/flutter (19235): ║                     "currency": "SAR",
-I/flutter (19235): ║                     "premiumSource": "balance",
-I/flutter (19235): ║                     "_id": "69f350a0a01ff9b3c33d102d",
-I/flutter (19235): ║                     "consumedAt": "2026-04-30T12:52:48.494Z"
-I/flutter (19235): ║                }
-I/flutter (19235): ║             ],
-I/flutter (19235): ║             "operationAuditLog": []
-I/flutter (19235): ║             "customSalads": []
-I/flutter (19235): ║             "customMeals": []
-I/flutter (19235): ║             "baseMealSlots": [
-I/flutter (19235): ║                {
-I/flutter (19235): ║                     "slotKey": "base_slot_1",
-I/flutter (19235): ║                     "mealId": "69f188fdc48e7ad405aff5a3",
-I/flutter (19235): ║                     "assignmentSource": "client",
-I/flutter (19235): ║                     "assignedAt": "2026-04-30T12:52:48.368Z",
-I/flutter (19235): ║                     "_id": "69f350a0a01ff9b3c33d102a"
-I/flutter (19235): ║                }
-I/flutter (19235): ║             ],
-I/flutter (19235): ║             "__v": 1,
-I/flutter (19235): ║             "createdAt": "2026-04-30T12:51:32.878Z",
-I/flutter (19235): ║             "updatedAt": "2026-04-30T12:52:48.567Z",
-I/flutter (19235): ║             "materializedMeals": [
-I/flutter (19235): ║                {
-I/flutter (19235): ║                     "slotKey": "slot_1",
-I/flutter (19235): ║                     "selectionType": "premium_meal",
-I/flutter (19235): ║                     "sandwichId": null,
-I/flutter (19235): ║                     "proteinId": "69f188fdc48e7ad405aff5a3",
-I/flutter (19235): ║                     "carbId": "69f02ab331962803c54b0a39",
-I/flutter (19235): ║                     "isPremium": true,
-I/flutter (19235): ║                     "premiumSource": "balance",
-I/flutter (19235): ║                     "premiumKey": "salmon",
-I/flutter (19235): ║                     "premiumExtraFeeHalala": 0,
-I/flutter (19235): ║                     "comboKey": "69f188fdc48e7ad405aff5a3:69f02ab331962803c54b0a39"
-I/flutter (19235): ║                     "operationalSku": "69f188fdc48e7ad405aff5a3:69f02ab331962803c54b0a39"
-I/flutter (19235): ║                     "generatedAt": "2026-04-30T12:52:48.146Z"
-I/flutter (19235): ║                }
-I/flutter (19235): ║             ],
-I/flutter (19235): ║             "mealSlots": [
-I/flutter (19235): ║                {
-I/flutter (19235): ║                     "slotIndex": 1,
-I/flutter (19235): ║                     "slotKey": "slot_1",
-I/flutter (19235): ║                     "status": "complete",
-I/flutter (19235): ║                     "selectionType": "premium_meal",
-I/flutter (19235): ║                     "proteinId": "69f188fdc48e7ad405aff5a3",
-I/flutter (19235): ║                     "carbs": [{carbId: 69f02ab331962803c54b0a39, grams: 150}]
-I/flutter (19235): ║                     "sandwichId": null,
-I/flutter (19235): ║                     "salad": null,
-I/flutter (19235): ║                     "isPremium": true,
-I/flutter (19235): ║                     "premiumKey": "salmon",
-I/flutter (19235): ║                     "premiumSource": "balance",
-I/flutter (19235): ║                     "premiumExtraFeeHalala": 0
-I/flutter (19235): ║                }
-I/flutter (19235): ║             ],
-I/flutter (19235): ║             "plannerMeta": {
-I/flutter (19235): ║                 "requiredSlotCount": 1,
-I/flutter (19235): ║                 "emptySlotCount": 0,
-I/flutter (19235): ║                 "partialSlotCount": 0,
-I/flutter (19235): ║                 "completeSlotCount": 1,
-I/flutter (19235): ║                 "beefSlotCount": 0,
-I/flutter (19235): ║                 "premiumSlotCount": 1,
-I/flutter (19235): ║                 "premiumCoveredByBalanceCount": 1,
-I/flutter (19235): ║                 "premiumPendingPaymentCount": 0,
-I/flutter (19235): ║                 "premiumPaidExtraCount": 0,
-I/flutter (19235): ║                 "premiumTotalHalala": 0,
-I/flutter (19235): ║                 "isDraftValid": true,
-I/flutter (19235): ║                 "isConfirmable": true,
-I/flutter (19235): ║                 "lastEditedAt": "2026-04-30T12:52:48.146Z",
-I/flutter (19235): ║                 "confirmedAt": null,
-I/flutter (19235): ║                 "confirmedByRole": null
-I/flutter (19235): ║            }
-I/flutter (19235): ║             "plannerState": "draft",
-I/flutter (19235): ║             "plannerVersion": "v1",
-I/flutter (19235): ║             "premiumExtraPayment": {
-I/flutter (19235): ║                 "status": "none",
-I/flutter (19235): ║                 "paymentId": null,
-I/flutter (19235): ║                 "providerInvoiceId": null,
-I/flutter (19235): ║                 "amountHalala": 0,
-I/flutter (19235): ║                 "currency": "SAR",
-I/flutter (19235): ║                 "expiresAt": null,
-I/flutter (19235): ║                 "reused": false,
-I/flutter (19235): ║                 "revisionHash": "74dab2242cdfb7584f407eb82c9a3245adecea5e89f0bc779f4af3b7be76f87f"
-I/flutter (19235): ║                 "createdAt": null,
-I/flutter (19235): ║                 "paidAt": null,
-I/flutter (19235): ║                 "extraPremiumCount": 0,
-I/flutter (19235): ║                 "statusLabel": "لا يوجد دفع"
-I/flutter (19235): ║            }
-I/flutter (19235): ║             "planningMeta": {
-I/flutter (19235): ║                 "requiredMealCount": 1,
-I/flutter (19235): ║                 "selectedBaseMealCount": 0,
-I/flutter (19235): ║                 "selectedPremiumMealCount": 1,
-I/flutter (19235): ║                 "selectedTotalMealCount": 1,
-I/flutter (19235): ║                 "isExactCountSatisfied": true,
-I/flutter (19235): ║                 "lastEditedAt": "2026-04-30T12:52:48.368Z",
-I/flutter (19235): ║                 "confirmedAt": null,
-I/flutter (19235): ║                 "confirmedByRole": null
-I/flutter (19235): ║            }
-I/flutter (19235): ║             "planningState": "draft",
-I/flutter (19235): ║             "planningVersion": "subscription_day_planning.v1",
-I/flutter (19235): ║             "planning": {
-I/flutter (19235): ║                 "version": "subscription_day_planning.v1",
-I/flutter (19235): ║                 "state": "draft",
-I/flutter (19235): ║                 "requiredMealCount": 1,
-I/flutter (19235): ║                 "selectedBaseMealCount": 0,
-I/flutter (19235): ║                 "selectedPremiumMealCount": 1,
-I/flutter (19235): ║                 "selectedTotalMealCount": 1,
-I/flutter (19235): ║                 "isExactCountSatisfied": true,
-I/flutter (19235): ║                 "confirmedAt": null,
-I/flutter (19235): ║                 "confirmedByRole": null,
-I/flutter (19235): ║                 "baseMealSlots": [
-I/flutter (19235): ║                    {
-I/flutter (19235): ║                         "slotKey": "base_slot_1",
-I/flutter (19235): ║                         "mealId": "69f188fdc48e7ad405aff5a3",
-I/flutter (19235): ║                         "assignmentSource": "client",
-I/flutter (19235): ║                         "assignedAt": "2026-04-30T12:52:48.368Z",
-I/flutter (19235): ║                         "_id": "69f350a0a01ff9b3c33d102a"
-I/flutter (19235): ║                    }
-I/flutter (19235): ║                 ],
-I/flutter (19235): ║                 "premiumOverageCount": 0,
-I/flutter (19235): ║                 "premiumOverageStatus": null,
-I/flutter (19235): ║                 "stateLabel": "مسودة",
-I/flutter (19235): ║                 "premiumOverageStatusLabel": ""
-I/flutter (19235): ║            }
-I/flutter (19235): ║             "statusLabel": "مفتوح",
-I/flutter (19235): ║             "premiumSummary": {
-I/flutter (19235): ║                 "selectedCount": 1,
-I/flutter (19235): ║                 "coveredByBalanceCount": 1,
-I/flutter (19235): ║                 "pendingPaymentCount": 0,
-I/flutter (19235): ║                 "paidExtraCount": 0,
-I/flutter (19235): ║                 "totalExtraHalala": 0,
-I/flutter (19235): ║                 "currency": "SAR"
-I/flutter (19235): ║            }
-I/flutter (19235): ║             "paymentRequirement": {
-I/flutter (19235): ║                 "status": "priced",
-I/flutter (19235): ║                 "requiresPayment": true,
-I/flutter (19235): ║                 "pricingStatus": "priced",
-I/flutter (19235): ║                 "blockingReason": "ADDON_PAYMENT_REQUIRED",
-I/flutter (19235): ║                 "canCreatePayment": true,
-I/flutter (19235): ║                 "premiumSelectedCount": 1,
-I/flutter (19235): ║                 "premiumPendingPaymentCount": 0,
-I/flutter (19235): ║                 "addonSelectedCount": 3,
-I/flutter (19235): ║                 "addonPendingPaymentCount": 1,
-I/flutter (19235): ║                 "pendingAmountHalala": 1900,
-I/flutter (19235): ║                 "amountHalala": 1900,
-I/flutter (19235): ║                 "currency": "SAR",
-I/flutter (19235): ║                 "pricingStatusLabel": "مسعر",
-I/flutter (19235): ║                 "blockingReasonLabel": ""
-I/flutter (19235): ║            }
-I/flutter (19235): ║             "commercialState": "payment_required",
-I/flutter (19235): ║             "isFulfillable": false,
-I/flutter (19235): ║             "canBePrepared": false,
-I/flutter (19235): ║             "pickupPrepared": false,
-I/flutter (19235): ║             "pickupPreparationFlowStatus": "waiting_for_prepare",
-I/flutter (19235): ║             "fulfillmentMode": "customer_selected",
-I/flutter (19235): ║             "consumptionState": "consumable_today",
-I/flutter (19235): ║             "requiredMealCount": 1,
-I/flutter (19235): ║             "specifiedMealCount": 1,
-I/flutter (19235): ║             "unspecifiedMealCount": 0,
-I/flutter (19235): ║             "hasCustomerSelections": true,
-I/flutter (19235): ║             "requiresMealTypeKnowledge": true,
-I/flutter (19235): ║             "mealTypesSpecified": true,
-I/flutter (19235): ║             "planningReady": false,
-I/flutter (19235): ║             "fulfillmentReady": false,
-I/flutter (19235): ║             "deliveryMode": "pickup",
-I/flutter (19235): ║             "pickupLocation": null,
-I/flutter (19235): ║             "deliveryAddress": null,
-I/flutter (19235): ║             "deliveryWindow": null,
-I/flutter (19235): ║             "deliverySlot": {type: pickup, slotId: , window: , label: },
-I/flutter (19235): ║             "fulfillmentSummary": {
-I/flutter (19235): ║                 "mode": "pickup",
-I/flutter (19235): ║                 "title": "الاستلام من الفرع",
-I/flutter (19235): ║                 "status": "open",
-I/flutter (19235): ║                 "statusLabel": "مفتوح",
-I/flutter (19235): ║                 "message": "تفاصيل الفرع غير متاحة حاليا",
-I/flutter (19235): ║                 "nextAction": "",
-I/flutter (19235): ║                 "isEditable": false,
-I/flutter (19235): ║                 "isFulfillable": false,
-I/flutter (19235): ║                 "planningReady": false,
-I/flutter (19235): ║                 "fulfillmentReady": false,
-I/flutter (19235): ║                 "lockedReason": "PICKUP_LOCATION_MISSING",
-I/flutter (19235): ║                 "lockedMessage": "تفاصيل الفرع غير متاحة حاليا"
-I/flutter (19235): ║            }
-I/flutter (19235): ║             "lockedReason": "PICKUP_LOCATION_MISSING",
-I/flutter (19235): ║             "lockedMessage": "تفاصيل الفرع غير متاحة حاليا",
-I/flutter (19235): ║             "rules": {
-I/flutter (19235): ║                 "version": "meal_planner_rules.v3",
-I/flutter (19235): ║                 "beef": {proteinFamilyKey: beef, maxSlotsPerDay: 1},
-I/flutter (19235): ║                 "standardCarbs": {maxTypes: 2, maxTotalGrams: 300, unit: grams},
-I/flutter (19235): ║                 "premiumCarbs": {maxTypes: 2, maxTotalGrams: 300, unit: grams},
-I/flutter (19235): ║                 "proteinGroups": [
-I/flutter (19235): ║                    {
-I/flutter (19235): ║                         "key": "chicken",
-I/flutter (19235): ║                         "name": {ar: دجاج, en: Chicken},
-I/flutter (19235): ║                         "sortOrder": 10
-I/flutter (19235): ║                    },
-I/flutter (19235): ║                    {
-I/flutter (19235): ║                         "key": "beef",
-I/flutter (19235): ║                         "name": {ar: لحم, en: Beef},
-I/flutter (19235): ║                         "sortOrder": 20
-I/flutter (19235): ║                    },
-I/flutter (19235): ║                    {
-I/flutter (19235): ║                         "key": "fish",
-I/flutter (19235): ║                         "name": {ar: أسماك, en: Fish},
-I/flutter (19235): ║                         "sortOrder": 30
-I/flutter (19235): ║                    },
-I/flutter (19235): ║                    {
-I/flutter (19235): ║                         "key": "eggs",
-I/flutter (19235): ║                         "name": {ar: بيض, en: Eggs},
-I/flutter (19235): ║                         "sortOrder": 40
-I/flutter (19235): ║                    },
-I/flutter (19235): ║                    {
-I/flutter (19235): ║                         "key": "premium",
-I/flutter (19235): ║                         "name": {ar: بريميوم, en: Premium},
-I/flutter (19235): ║                         "sortOrder": 50
-I/flutter (19235): ║                    },
-I/flutter (19235): ║                    {
-I/flutter (19235): ║                         "key": "other",
-I/flutter (19235): ║                         "name": {ar: أخرى, en: Other},
-I/flutter (19235): ║                         "sortOrder": 60
-I/flutter (19235): ║                    }
-I/flutter (19235): ║                 ],
-I/flutter (19235): ║                 "premiumLargeSalad": {
-I/flutter (19235): ║                     "premiumKey": "custom_premium_salad",
-I/flutter (19235): ║                     "presetKey": "large_salad",
-I/flutter (19235): ║                     "extraFeeHalala": 3000,
-I/flutter (19235): ║                     "groups": [
-I/flutter (19235): ║                      {key: leafy_greens, minSelect: 0, maxSelect: 99},
-I/flutter (19235): ║                      {key: vegetables, minSelect: 0, maxSelect: 99},
-I/flutter (19235): ║                      {key: protein, minSelect: 1, maxSelect: 1},
-I/flutter (19235): ║                      {key: cheese_nuts, minSelect: 0, maxSelect: 99},
-I/flutter (19235): ║                      {key: fruits, minSelect: 0, maxSelect: 99},
-I/flutter (19235): ║                      {key: sauce, minSelect: 1, maxSelect: 1}
-I/flutter (19235): ║                     ]
-I/flutter (19235): ║                }
-I/flutter (19235): ║            }
-I/flutter (19235): ║             "commercialStateLabel": "الدفع مطلوب"
-I/flutter (19235): ║        }
-I/flutter (19235): ║    }
-I/flutter (19235): ║
-I/flutter (19235): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter (19235): onChange -- MealPlannerBloc, Change { currentState: MealPlannerLoaded([Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel'], Instance of 'MealPlannerMenuModel', [AddOnModel(69f2399d4eee65376d14b40a, بيري بلاست, juice, عصير ضمن فئة العصير., , SAR, 1100, 11.0, 11 SAR, item, flat_once, one_time, item, AddOnUiModel(بيري بلاست, عصير ضمن فئة العصير., أضف, إضافة مرة واحدة)), AddOnModel(69f2399d4eee65376d14b40b, بيري بروت, juice, عصير ضمن فئة العصير., , SAR, 1300, 13.0, 13 SAR, item, flat_once, one_time, item, AddOnUiModel(بيري بروت, عصير ضمن فئة العصير., أضف, إضافة مرة واحدة)), AddOnModel(69f2399d4eee65376d14b40c, كلاسيك جرين, juice, عصير ضمن فئة العصير., , SAR, 1100, 11.0, 11 SAR, item, flat_o
-E/libEGL  (19235): called unimplemented OpenGL ES API
+E/libEGL  (26929): called unimplemented OpenGL ES API
+E/libEGL  (26929): called unimplemented OpenGL ES API
+I/flutter (26929): onClose -- MealPlannerBloc
+E/libEGL  (26929): called unimplemented OpenGL ES API
+I/flutter (26929): onCreate -- MealPlannerBloc
+I/flutter (26929): onChange -- MealPlannerBloc, Change { currentState: MealPlannerInitial(), nextState: MealPlannerLoading() }
+I/flutter (26929):
+I/flutter (26929): ╔╣ Request ║ GET
+I/flutter (26929): ║  https://basicdiet145.onrender.com/api/subscriptions/meal-planner-menu
+I/flutter (26929): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
+I/flutter (26929): ╔ Headers
+I/flutter (26929): ╟ accept: application/json
+I/flutter (26929): ╟ content-type: application/json
+I/flutter (26929): ╟ authorization:
+I/flutter (26929): ║ Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWYyMzdmMjE5Mjg4ZGJjOWUxNjMxZG
+I/flutter (26929): ║ UiLCJyb2xlIjoiY2xpZW50IiwidG9rZW5UeXBlIjoiYXBwX2FjY2VzcyIsImlhdCI6MTc3NzQ5MDg2NSwiZXhwIjox
+I/flutter (26929): ║ NzgwMTY5MjY1fQ.wQdMvBRkWrYPGGrvx5HtsUbTO-B9NlayVB5uRMS4rVE
+I/flutter (26929): ╟ Accept-Language: ar
+I/flutter (26929): ╟ contentType: application/json
+I/flutter (26929): ╟ responseType: ResponseType.json
+I/flutter (26929): ╟ followRedirects: true
+I/flutter (26929): ╟ receiveTimeout: 16:40:00.000000
+I/flutter (26929): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
+I/flutter (26929):
+I/flutter (26929): ╔╣ Response ║ GET ║ Status: 200 OK  ║ Time: 707 ms
+I/flutter (26929): ║  https://basicdiet145.onrender.com/api/subscriptions/meal-planner-menu
+I/flutter (26929): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
+I/flutter (26929): ╔ Headers
+I/flutter (26929): ╟ x-dns-prefetch-control: [off]
+I/flutter (26929): ╟ x-render-origin-server: [Render]
+I/flutter (26929): ╟ date: [Thu, 30 Apr 2026 19:03:14 GMT]
+I/flutter (26929): ╟ transfer-encoding: [chunked]
+I/flutter (26929): ╟ origin-agent-cluster: [?1]
+I/flutter (26929): ╟ vary: [Origin, Accept-Encoding]
+I/flutter (26929): ╟ content-encoding: [gzip]
+I/flutter (26929): ╟ server: [cloudflare]
+I/flutter (26929): ╟ cross-origin-resource-policy: [same-origin]
+I/flutter (26929): ╟ cf-ray: [9f48ce260b0be22c-MRS]
+I/flutter (26929): ╟ etag: [W/"9016-vZ69KoEdSWavGcG/sy5EGtCdyos"]
+I/flutter (26929): ╟ x-frame-options: [SAMEORIGIN]
+I/flutter (26929): ╟ content-security-policy:
+I/flutter (26929): ║ [default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-
+I/flutter (26929): ║ ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr
+I/flutter (26929): ║ 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests]
+I/flutter (26929): ╟ connection: [keep-alive]
+I/flutter (26929): ╟ strict-transport-security: [max-age=15552000; includeSubDomains]
+I/flutter (26929): ╟ referrer-policy: [no-referrer]
+I/flutter (26929): ╟ cf-cache-status: [DYNAMIC]
+I/flutter (26929): ╟ x-permitted-cross-domain-policies: [none]
+I/flutter (26929): ╟ cross-origin-opener-policy: [same-origin]
+I/flutter (26929): ╟ content-type: [application/json; charset=utf-8]
+I/flutter (26929): ╟ rndr-id: [cc6a16db-7baa-43c6]
+I/flutter (26929): ╟ x-xss-protection: [0]
+I/flutter (26929): ╟ access-control-allow-credentials: [true]
+I/flutter (26929): ╟ alt-svc: [h3=":443"; ma=86400]
+I/flutter (26929): ╟ x-download-options: [noopen]
+I/flutter (26929): ╟ x-content-type-options: [nosniff]
+I/flutter (26929): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
+I/flutter (26929): ╔ Body
+I/flutter (26929): ║
+I/flutter (26929): ║    {
+I/flutter (26929): ║         "status": true,
+I/flutter (26929): ║         "data": {
+I/flutter (26929): ║             "builderCatalog": {
+I/flutter (26929): ║                 "categories": [
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f02ab131962803c54b0a2f",
+I/flutter (26929): ║                         "key": "standard_carbs",
+I/flutter (26929): ║                         "dimension": "carb",
+I/flutter (26929): ║                         "name": "كربوهيدرات",
+I/flutter (26929): ║                         "description": "اختيارات الكربوهيدرات للوجبات",
+I/flutter (26929): ║                         "sortOrder": 10,
+I/flutter (26929): ║                         "rules": {maxTypes: 2, maxTotalGrams: 300, unit: grams, ruleKey: carb_split}
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f0b8e9197cc97fb217862c",
+I/flutter (26929): ║                         "key": "large_salad",
+I/flutter (26929): ║                         "dimension": "carb",
+I/flutter (26929): ║                         "name": "سلطة كبيرة مميزة",
+I/flutter (26929): ║                         "description": "الهوية المرجعية للسلطة الكبيرة المميزة",
+I/flutter (26929): ║                         "sortOrder": 20,
+I/flutter (26929): ║                         "rules": {ruleKey: premium_large_salad}
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f02ab131962803c54b0a32",
+I/flutter (26929): ║                         "key": "chicken",
+I/flutter (26929): ║                         "dimension": "protein",
+I/flutter (26929): ║                         "name": "دجاج",
+I/flutter (26929): ║                         "description": "خيارات دجاج",
+I/flutter (26929): ║                         "sortOrder": 10,
+I/flutter (26929): ║                         "rules": {}
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f02ab131962803c54b0a34",
+I/flutter (26929): ║                         "key": "beef",
+I/flutter (26929): ║                         "dimension": "protein",
+I/flutter (26929): ║                         "name": "لحم",
+I/flutter (26929): ║                         "description": "خيارات لحم",
+I/flutter (26929): ║                         "sortOrder": 20,
+I/flutter (26929): ║                         "rules": {dailyLimit: 1, ruleKey: beef_daily_limit, unit: slots}
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f02ab131962803c54b0a35",
+I/flutter (26929): ║                         "key": "fish",
+I/flutter (26929): ║                         "dimension": "protein",
+I/flutter (26929): ║                         "name": "أسماك",
+I/flutter (26929): ║                         "description": "خيارات أسماك",
+I/flutter (26929): ║                         "sortOrder": 30,
+I/flutter (26929): ║                         "rules": {}
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f02ab131962803c54b0a31",
+I/flutter (26929): ║                         "key": "eggs",
+I/flutter (26929): ║                         "dimension": "protein",
+I/flutter (26929): ║                         "name": "بيض",
+I/flutter (26929): ║                         "description": "خيارات بيض",
+I/flutter (26929): ║                         "sortOrder": 40,
+I/flutter (26929): ║                         "rules": {}
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f188fcc48e7ad405aff597",
+I/flutter (26929): ║                         "key": "premium",
+I/flutter (26929): ║                         "dimension": "protein",
+I/flutter (26929): ║                         "name": "بريميوم",
+I/flutter (26929): ║                         "description": "خيارات البروتينات المميزة",
+I/flutter (26929): ║                         "sortOrder": 50,
+I/flutter (26929): ║                         "rules": {}
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f1896831962803c54be727",
+I/flutter (26929): ║                         "key": "other",
+I/flutter (26929): ║                         "dimension": "protein",
+I/flutter (26929): ║                         "name": "أخرى",
+I/flutter (26929): ║                         "description": "خيارات أخرى",
+I/flutter (26929): ║                         "sortOrder": 60,
+I/flutter (26929): ║                         "rules": {}
+I/flutter (26929): ║                    }
+I/flutter (26929): ║                 ],
+I/flutter (26929): ║                 "proteins": [
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f1897d31962803c54be740",
+I/flutter (26929): ║                         "displayCategoryKey": "beef",
+I/flutter (26929): ║                         "name": "كرات لحم",
+I/flutter (26929): ║                         "description": "",
+I/flutter (26929): ║                         "proteinFamilyKey": "beef",
+I/flutter (26929): ║                         "ruleTags": []
+I/flutter (26929): ║                         "selectionType": "standard_meal",
+I/flutter (26929): ║                         "isPremium": false,
+I/flutter (26929): ║                         "sortOrder": 1
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f1897931962803c54be734",
+I/flutter (26929): ║                         "displayCategoryKey": "chicken",
+I/flutter (26929): ║                         "name": "فاهيتا",
+I/flutter (26929): ║                         "description": "",
+I/flutter (26929): ║                         "proteinFamilyKey": "chicken",
+I/flutter (26929): ║                         "ruleTags": []
+I/flutter (26929): ║                         "selectionType": "standard_meal",
+I/flutter (26929): ║                         "isPremium": false,
+I/flutter (26929): ║                         "sortOrder": 1
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f1897831962803c54be732",
+I/flutter (26929): ║                         "displayCategoryKey": "fish",
+I/flutter (26929): ║                         "name": "تونا",
+I/flutter (26929): ║                         "description": "",
+I/flutter (26929): ║                         "proteinFamilyKey": "fish",
+I/flutter (26929): ║                         "ruleTags": []
+I/flutter (26929): ║                         "selectionType": "standard_meal",
+I/flutter (26929): ║                         "isPremium": false,
+I/flutter (26929): ║                         "sortOrder": 1
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f1897831962803c54be731",
+I/flutter (26929): ║                         "displayCategoryKey": "eggs",
+I/flutter (26929): ║                         "name": "بيض مسلوق",
+I/flutter (26929): ║                         "description": "",
+I/flutter (26929): ║                         "proteinFamilyKey": "eggs",
+I/flutter (26929): ║                         "ruleTags": []
+I/flutter (26929): ║                         "selectionType": "standard_meal",
+I/flutter (26929): ║                         "isPremium": false,
+I/flutter (26929): ║                         "sortOrder": 1
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f1897d31962803c54be741",
+I/flutter (26929): ║                         "displayCategoryKey": "beef",
+I/flutter (26929): ║                         "name": "لحم استرغانوف",
+I/flutter (26929): ║                         "description": "",
+I/flutter (26929): ║                         "proteinFamilyKey": "beef",
+I/flutter (26929): ║                         "ruleTags": []
+I/flutter (26929): ║                         "selectionType": "standard_meal",
+I/flutter (26929): ║                         "isPremium": false,
+I/flutter (26929): ║                         "sortOrder": 2
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f1897931962803c54be736",
+I/flutter (26929): ║                         "displayCategoryKey": "chicken",
+I/flutter (26929): ║                         "name": "دجاج زبدة",
+I/flutter (26929): ║                         "description": "",
+I/flutter (26929): ║                         "proteinFamilyKey": "chicken",
+I/flutter (26929): ║                         "ruleTags": []
+I/flutter (26929): ║                         "selectionType": "standard_meal",
+I/flutter (26929): ║                         "isPremium": false,
+I/flutter (26929): ║                         "sortOrder": 2
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f1897a31962803c54be737",
+I/flutter (26929): ║                         "displayCategoryKey": "chicken",
+I/flutter (26929): ║                         "name": "دجاج كريمة",
+I/flutter (26929): ║                         "description": "",
+I/flutter (26929): ║                         "proteinFamilyKey": "chicken",
+I/flutter (26929): ║                         "ruleTags": []
+I/flutter (26929): ║                         "selectionType": "standard_meal",
+I/flutter (26929): ║                         "isPremium": false,
+I/flutter (26929): ║                         "sortOrder": 3
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f1897a31962803c54be738",
+I/flutter (26929): ║                         "displayCategoryKey": "chicken",
+I/flutter (26929): ║                         "name": "دجاج كاري وجوز الهند",
+I/flutter (26929): ║                         "description": "",
+I/flutter (26929): ║                         "proteinFamilyKey": "chicken",
+I/flutter (26929): ║                         "ruleTags": []
+I/flutter (26929): ║                         "selectionType": "standard_meal",
+I/flutter (26929): ║                         "isPremium": false,
+I/flutter (26929): ║                         "sortOrder": 4
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f1897a31962803c54be739",
+I/flutter (26929): ║                         "displayCategoryKey": "chicken",
+I/flutter (26929): ║                         "name": "دجاج سبايسي",
+I/flutter (26929): ║                         "description": "",
+I/flutter (26929): ║                         "proteinFamilyKey": "chicken",
+I/flutter (26929): ║                         "ruleTags": []
+I/flutter (26929): ║                         "selectionType": "standard_meal",
+I/flutter (26929): ║                         "isPremium": false,
+I/flutter (26929): ║                         "sortOrder": 5
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f1897b31962803c54be73a",
+I/flutter (26929): ║                         "displayCategoryKey": "chicken",
+I/flutter (26929): ║                         "name": "دجاج توابل إيطالية",
+I/flutter (26929): ║                         "description": "",
+I/flutter (26929): ║                         "proteinFamilyKey": "chicken",
+I/flutter (26929): ║                         "ruleTags": []
+I/flutter (26929): ║                         "selectionType": "standard_meal",
+I/flutter (26929): ║                         "isPremium": false,
+I/flutter (26929): ║                         "sortOrder": 6
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f1897b31962803c54be73b",
+I/flutter (26929): ║                         "displayCategoryKey": "chicken",
+I/flutter (26929): ║                         "name": "دجاج تكا",
+I/flutter (26929): ║                         "description": "",
+I/flutter (26929): ║                         "proteinFamilyKey": "chicken",
+I/flutter (26929): ║                         "ruleTags": []
+I/flutter (26929): ║                         "selectionType": "standard_meal",
+I/flutter (26929): ║                         "isPremium": false,
+I/flutter (26929): ║                         "sortOrder": 7
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f1897b31962803c54be73c",
+I/flutter (26929): ║                         "displayCategoryKey": "chicken",
+I/flutter (26929): ║                         "name": "دجاج آسيوي",
+I/flutter (26929): ║                         "description": "",
+I/flutter (26929): ║                         "proteinFamilyKey": "chicken",
+I/flutter (26929): ║                         "ruleTags": []
+I/flutter (26929): ║                         "selectionType": "standard_meal",
+I/flutter (26929): ║                         "isPremium": false,
+I/flutter (26929): ║                         "sortOrder": 8
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f1897c31962803c54be73d",
+I/flutter (26929): ║                         "displayCategoryKey": "chicken",
+I/flutter (26929): ║                         "name": "استربس",
+I/flutter (26929): ║                         "description": "",
+I/flutter (26929): ║                         "proteinFamilyKey": "chicken",
+I/flutter (26929): ║                         "ruleTags": []
+I/flutter (26929): ║                         "selectionType": "standard_meal",
+I/flutter (26929): ║                         "isPremium": false,
+I/flutter (26929): ║                         "sortOrder": 9
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f1897c31962803c54be73e",
+I/flutter (26929): ║                         "displayCategoryKey": "chicken",
+I/flutter (26929): ║                         "name": "دجاج مشوي",
+I/flutter (26929): ║                         "description": "",
+I/flutter (26929): ║                         "proteinFamilyKey": "chicken",
+I/flutter (26929): ║                         "ruleTags": []
+I/flutter (26929): ║                         "selectionType": "standard_meal",
+I/flutter (26929): ║                         "isPremium": false,
+I/flutter (26929): ║                         "sortOrder": 10
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f1897c31962803c54be73f",
+I/flutter (26929): ║                         "displayCategoryKey": "chicken",
+I/flutter (26929): ║                         "name": "دجاج مكسيكي",
+I/flutter (26929): ║                         "description": "",
+I/flutter (26929): ║                         "proteinFamilyKey": "chicken",
+I/flutter (26929): ║                         "ruleTags": []
+I/flutter (26929): ║                         "selectionType": "standard_meal",
+I/flutter (26929): ║                         "isPremium": false,
+I/flutter (26929): ║                         "sortOrder": 11
+I/flutter (26929): ║                    }
+I/flutter (26929): ║                 ],
+I/flutter (26929): ║                 "premiumProteins": [
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f188fdc48e7ad405aff5a0",
+I/flutter (26929): ║                         "displayCategoryKey": "premium",
+I/flutter (26929): ║                         "name": "ستيك لحم",
+I/flutter (26929): ║                         "description": "ستيك لحم طري مشوي يقدم بتتبيلة غنية ولمسة مطاعم راقية."
+I/flutter (26929): ║                         "proteinFamilyKey": "beef",
+I/flutter (26929): ║                         "ruleTags": [premium]
+I/flutter (26929): ║                         "selectionType": "premium_meal",
+I/flutter (26929): ║                         "isPremium": true,
+I/flutter (26929): ║                         "premiumKey": "beef_steak",
+I/flutter (26929): ║                         "extraFeeHalala": 2200,
+I/flutter (26929): ║                         "sortOrder": 10
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f188fdc48e7ad405aff5a3",
+I/flutter (26929): ║                         "displayCategoryKey": "premium",
+I/flutter (26929): ║                         "name": "سلمون",
+I/flutter (26929): ║                         "description": "فيليه سلمون مشوي مع خضار طازجة ولمسة ليمون وأعشاب خفيفة."
+I/flutter (26929): ║                         "proteinFamilyKey": "fish",
+I/flutter (26929): ║                         "ruleTags": [premium]
+I/flutter (26929): ║                         "selectionType": "premium_meal",
+I/flutter (26929): ║                         "isPremium": true,
+I/flutter (26929): ║                         "premiumKey": "salmon",
+I/flutter (26929): ║                         "extraFeeHalala": 2500,
+I/flutter (26929): ║                         "sortOrder": 20
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f188fdc48e7ad405aff59d",
+I/flutter (26929): ║                         "displayCategoryKey": "premium",
+I/flutter (26929): ║                         "name": "روبيان",
+I/flutter (26929): ║                         "description": "طبق روبيان مشوي مع خضار ملونة وصوص خفيف بنكهة غنية."
+I/flutter (26929): ║                         "proteinFamilyKey": "fish",
+I/flutter (26929): ║                         "ruleTags": [premium]
+I/flutter (26929): ║                         "selectionType": "premium_meal",
+I/flutter (26929): ║                         "isPremium": true,
+I/flutter (26929): ║                         "premiumKey": "shrimp",
+I/flutter (26929): ║                         "extraFeeHalala": 2000,
+I/flutter (26929): ║                         "sortOrder": 30
+I/flutter (26929): ║                    }
+I/flutter (26929): ║                 ],
+I/flutter (26929): ║                 "carbs": [
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f02ab231962803c54b0a36",
+I/flutter (26929): ║                         "displayCategoryKey": "standard_carbs",
+I/flutter (26929): ║                         "name": "رز أبيض",
+I/flutter (26929): ║                         "description": "",
+I/flutter (26929): ║                         "sortOrder": 1
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f02ab231962803c54b0a37",
+I/flutter (26929): ║                         "displayCategoryKey": "standard_carbs",
+I/flutter (26929): ║                         "name": "رز بالكركم",
+I/flutter (26929): ║                         "description": "",
+I/flutter (26929): ║                         "sortOrder": 2
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f02ab331962803c54b0a38",
+I/flutter (26929): ║                         "displayCategoryKey": "standard_carbs",
+I/flutter (26929): ║                         "name": "رز برياني",
+I/flutter (26929): ║                         "description": "",
+I/flutter (26929): ║                         "sortOrder": 3
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f02ab331962803c54b0a39",
+I/flutter (26929): ║                         "displayCategoryKey": "standard_carbs",
+I/flutter (26929): ║                         "name": "كينوا",
+I/flutter (26929): ║                         "description": "",
+I/flutter (26929): ║                         "sortOrder": 4
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f02ab331962803c54b0a3b",
+I/flutter (26929): ║                         "displayCategoryKey": "standard_carbs",
+I/flutter (26929): ║                         "name": "باستا الفريدو",
+I/flutter (26929): ║                         "description": "",
+I/flutter (26929): ║                         "sortOrder": 5
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f02ab431962803c54b0a3c",
+I/flutter (26929): ║                         "displayCategoryKey": "standard_carbs",
+I/flutter (26929): ║                         "name": "باستا بالصوص الأحمر",
+I/flutter (26929): ║                         "description": "",
+I/flutter (26929): ║                         "sortOrder": 6
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f02ab431962803c54b0a3d",
+I/flutter (26929): ║                         "displayCategoryKey": "standard_carbs",
+I/flutter (26929): ║                         "name": "بطاطس مشوي",
+I/flutter (26929): ║                         "description": "",
+I/flutter (26929): ║                         "sortOrder": 7
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f02ab431962803c54b0a3e",
+I/flutter (26929): ║                         "displayCategoryKey": "standard_carbs",
+I/flutter (26929): ║                         "name": "بطاطا حلوة",
+I/flutter (26929): ║                         "description": "",
+I/flutter (26929): ║                         "sortOrder": 8
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f02ab531962803c54b0a3f",
+I/flutter (26929): ║                         "displayCategoryKey": "standard_carbs",
+I/flutter (26929): ║                         "name": "خضار مشكل مشوي",
+I/flutter (26929): ║                         "description": "",
+I/flutter (26929): ║                         "sortOrder": 9
+I/flutter (26929): ║                    }
+I/flutter (26929): ║                 ],
+I/flutter (26929): ║                 "sandwiches": [
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f3a136d960b113ace19df3",
+I/flutter (26929): ║                         "name": "بيض مسلوق",
+I/flutter (26929): ║                         "description": "",
+I/flutter (26929): ║                         "imageUrl": "",
+I/flutter (26929): ║                         "calories": 0,
+I/flutter (26929): ║                         "selectionType": "sandwich",
+I/flutter (26929): ║                         "categoryKey": "sandwich",
+I/flutter (26929): ║                         "pricingModel": "included",
+I/flutter (26929): ║                         "priceHalala": 0,
+I/flutter (26929): ║                         "proteinFamilyKey": "eggs",
+I/flutter (26929): ║                         "sortOrder": 1
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f3a209d960b113ace19dfd",
+I/flutter (26929): ║                         "name": "تركي",
+I/flutter (26929): ║                         "description": "",
+I/flutter (26929): ║                         "imageUrl": "",
+I/flutter (26929): ║                         "calories": 0,
+I/flutter (26929): ║                         "selectionType": "sandwich",
+I/flutter (26929): ║                         "categoryKey": "sandwich",
+I/flutter (26929): ║                         "pricingModel": "included",
+I/flutter (26929): ║                         "priceHalala": 0,
+I/flutter (26929): ║                         "proteinFamilyKey": "other",
+I/flutter (26929): ║                         "sortOrder": 2
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f3a212d960b113ace19dff",
+I/flutter (26929): ║                         "name": "حلوم كلاسيكي",
+I/flutter (26929): ║                         "description": "",
+I/flutter (26929): ║                         "imageUrl": "",
+I/flutter (26929): ║                         "calories": 0,
+I/flutter (26929): ║                         "selectionType": "sandwich",
+I/flutter (26929): ║                         "categoryKey": "sandwich",
+I/flutter (26929): ║                         "pricingModel": "included",
+I/flutter (26929): ║                         "priceHalala": 0,
+I/flutter (26929): ║                         "proteinFamilyKey": "other",
+I/flutter (26929): ║                         "sortOrder": 3
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f3a21bd960b113ace19e01",
+I/flutter (26929): ║                         "name": "تونا",
+I/flutter (26929): ║                         "description": "",
+I/flutter (26929): ║                         "imageUrl": "",
+I/flutter (26929): ║                         "calories": 0,
+I/flutter (26929): ║                         "selectionType": "sandwich",
+I/flutter (26929): ║                         "categoryKey": "sandwich",
+I/flutter (26929): ║                         "pricingModel": "included",
+I/flutter (26929): ║                         "priceHalala": 0,
+I/flutter (26929): ║                         "proteinFamilyKey": "fish",
+I/flutter (26929): ║                         "sortOrder": 4
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f3a226d960b113ace19e03",
+I/flutter (26929): ║                         "name": "بيض اسكرامبل",
+I/flutter (26929): ║                         "description": "",
+I/flutter (26929): ║                         "imageUrl": "",
+I/flutter (26929): ║                         "calories": 0,
+I/flutter (26929): ║                         "selectionType": "sandwich",
+I/flutter (26929): ║                         "categoryKey": "sandwich",
+I/flutter (26929): ║                         "pricingModel": "included",
+I/flutter (26929): ║                         "priceHalala": 0,
+I/flutter (26929): ║                         "proteinFamilyKey": "eggs",
+I/flutter (26929): ║                         "sortOrder": 5
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f3a22fd960b113ace19e07",
+I/flutter (26929): ║                         "name": "دجاج فاهيتا",
+I/flutter (26929): ║                         "description": "",
+I/flutter (26929): ║                         "imageUrl": "",
+I/flutter (26929): ║                         "calories": 0,
+I/flutter (26929): ║                         "selectionType": "sandwich",
+I/flutter (26929): ║                         "categoryKey": "sandwich",
+I/flutter (26929): ║                         "pricingModel": "included",
+I/flutter (26929): ║                         "priceHalala": 0,
+I/flutter (26929): ║                         "proteinFamilyKey": "chicken",
+I/flutter (26929): ║                         "sortOrder": 6
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f3a238d960b113ace19e09",
+I/flutter (26929): ║                         "name": "دجاج مكسيكي",
+I/flutter (26929): ║                         "description": "",
+I/flutter (26929): ║                         "imageUrl": "",
+I/flutter (26929): ║                         "calories": 0,
+I/flutter (26929): ║                         "selectionType": "sandwich",
+I/flutter (26929): ║                         "categoryKey": "sandwich",
+I/flutter (26929): ║                         "pricingModel": "included",
+I/flutter (26929): ║                         "priceHalala": 0,
+I/flutter (26929): ║                         "proteinFamilyKey": "chicken",
+I/flutter (26929): ║                         "sortOrder": 7
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f3a241d960b113ace19e0b",
+I/flutter (26929): ║                         "name": "دجاج مشوي",
+I/flutter (26929): ║                         "description": "",
+I/flutter (26929): ║                         "imageUrl": "",
+I/flutter (26929): ║                         "calories": 0,
+I/flutter (26929): ║                         "selectionType": "sandwich",
+I/flutter (26929): ║                         "categoryKey": "sandwich",
+I/flutter (26929): ║                         "pricingModel": "included",
+I/flutter (26929): ║                         "priceHalala": 0,
+I/flutter (26929): ║                         "proteinFamilyKey": "chicken",
+I/flutter (26929): ║                         "sortOrder": 8
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f18904c48e7ad405aff5ce",
+I/flutter (26929): ║                         "name": "ساندويتش",
+I/flutter (26929): ║                         "description": "ساندويتش",
+I/flutter (26929): ║                         "imageUrl": "",
+I/flutter (26929): ║                         "calories": 0,
+I/flutter (26929): ║                         "selectionType": "sandwich",
+I/flutter (26929): ║                         "categoryKey": "sandwich",
+I/flutter (26929): ║                         "pricingModel": "included",
+I/flutter (26929): ║                         "priceHalala": 0,
+I/flutter (26929): ║                         "proteinFamilyKey": "other",
+I/flutter (26929): ║                         "sortOrder": 0
+I/flutter (26929): ║                    }
+I/flutter (26929): ║                 ],
+I/flutter (26929): ║                 "premiumLargeSalad": {
+I/flutter (26929): ║                     "id": "premium_large_salad",
+I/flutter (26929): ║                     "enabled": true,
+I/flutter (26929): ║                     "carbId": "69f1897831962803c54be730",
+I/flutter (26929): ║                     "premiumKey": "custom_premium_salad",
+I/flutter (26929): ║                     "selectionType": "premium_large_salad",
+I/flutter (26929): ║                     "presetKey": "large_salad",
+I/flutter (26929): ║                     "name": "سلطة كبيرة مميزة",
+I/flutter (26929): ║                     "extraFeeHalala": 3000,
+I/flutter (26929): ║                     "currency": "SAR",
+I/flutter (26929): ║                     "preset": {
+I/flutter (26929): ║                         "key": "large_salad",
+I/flutter (26929): ║                         "name": "سلطة كبيرة مميزة",
+I/flutter (26929): ║                         "selectionType": "premium_large_salad",
+I/flutter (26929): ║                         "fixedPriceHalala": 3000,
+I/flutter (26929): ║                         "currency": "SAR",
+I/flutter (26929): ║                         "groups": [
+I/flutter (26929): ║                          {key: leafy_greens, name: ورقيات, minSelect: 0, maxSelect: 99},
+I/flutter (26929): ║                          {key: vegetables, name: خضار, minSelect: 0, maxSelect: 99},
+I/flutter (26929): ║                          {key: protein, name: بروتين, minSelect: 1, maxSelect: 1},
+I/flutter (26929): ║                          {key: cheese_nuts, name: أجبان ومكسرات, minSelect: 0, maxSelect: 99},
+I/flutter (26929): ║                          {key: fruits, name: فواكه, minSelect: 0, maxSelect: 99},
+I/flutter (26929): ║                          {key: sauce, name: صوص, minSelect: 1, maxSelect: 1}
+I/flutter (26929): ║                         ]
+I/flutter (26929): ║                    }
+I/flutter (26929): ║                     "groups": [
+I/flutter (26929): ║                      {key: leafy_greens, name: ورقيات, minSelect: 0, maxSelect: 99},
+I/flutter (26929): ║                      {key: vegetables, name: خضار, minSelect: 0, maxSelect: 99},
+I/flutter (26929): ║                      {key: protein, name: بروتين, minSelect: 1, maxSelect: 1},
+I/flutter (26929): ║                      {key: cheese_nuts, name: أجبان ومكسرات, minSelect: 0, maxSelect: 99},
+I/flutter (26929): ║                      {key: fruits, name: فواكه, minSelect: 0, maxSelect: 99},
+I/flutter (26929): ║                      {key: sauce, name: صوص, minSelect: 1, maxSelect: 1}
+I/flutter (26929): ║                     ],
+I/flutter (26929): ║                     "ingredients": [
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f188ff31962803c54be6b5",
+I/flutter (26929): ║                             "groupKey": "leafy_greens",
+I/flutter (26929): ║                             "name": "خس روماني",
+I/flutter (26929): ║                             "calories": 0,
+I/flutter (26929): ║                             "sortOrder": 10
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f188ff31962803c54be6b6",
+I/flutter (26929): ║                             "groupKey": "leafy_greens",
+I/flutter (26929): ║                             "name": "جرجير",
+I/flutter (26929): ║                             "calories": 0,
+I/flutter (26929): ║                             "sortOrder": 20
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f00a8431962803c54af61c",
+I/flutter (26929): ║                             "groupKey": "vegetables",
+I/flutter (26929): ║                             "name": "الخضروات",
+I/flutter (26929): ║                             "calories": 0,
+I/flutter (26929): ║                             "sortOrder": 1
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f188ff31962803c54be6b7",
+I/flutter (26929): ║                             "groupKey": "vegetables",
+I/flutter (26929): ║                             "name": "بصل مخلل",
+I/flutter (26929): ║                             "calories": 50,
+I/flutter (26929): ║                             "sortOrder": 20.02
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f1890031962803c54be6b8",
+I/flutter (26929): ║                             "groupKey": "vegetables",
+I/flutter (26929): ║                             "name": "نعناع",
+I/flutter (26929): ║                             "calories": 50,
+I/flutter (26929): ║                             "sortOrder": 20.03
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f1890031962803c54be6b9",
+I/flutter (26929): ║                             "groupKey": "vegetables",
+I/flutter (26929): ║                             "name": "زيتون أسود",
+I/flutter (26929): ║                             "calories": 50,
+I/flutter (26929): ║                             "sortOrder": 20.04
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f1890031962803c54be6ba",
+I/flutter (26929): ║                             "groupKey": "vegetables",
+I/flutter (26929): ║                             "name": "زيتون أخضر",
+I/flutter (26929): ║                             "calories": 50,
+I/flutter (26929): ║                             "sortOrder": 20.05
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f1890031962803c54be6bb",
+I/flutter (26929): ║                             "groupKey": "vegetables",
+I/flutter (26929): ║                             "name": "بروكلي",
+I/flutter (26929): ║                             "calories": 50,
+I/flutter (26929): ║                             "sortOrder": 20.06
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f1890031962803c54be6bc",
+I/flutter (26929): ║                             "groupKey": "vegetables",
+I/flutter (26929): ║                             "name": "فطر",
+I/flutter (26929): ║                             "calories": 50,
+I/flutter (26929): ║                             "sortOrder": 20.07
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f1890031962803c54be6bd",
+I/flutter (26929): ║                             "groupKey": "vegetables",
+I/flutter (26929): ║                             "name": "كزبرة",
+I/flutter (26929): ║                             "calories": 50,
+I/flutter (26929): ║                             "sortOrder": 20.08
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f1890031962803c54be6be",
+I/flutter (26929): ║                             "groupKey": "vegetables",
+I/flutter (26929): ║                             "name": "فلفل",
+I/flutter (26929): ║                             "calories": 50,
+I/flutter (26929): ║                             "sortOrder": 20.09
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f1890131962803c54be6c0",
+I/flutter (26929): ║                             "groupKey": "vegetables",
+I/flutter (26929): ║                             "name": "هالينو",
+I/flutter (26929): ║                             "calories": 50,
+I/flutter (26929): ║                             "sortOrder": 20.11
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f1898431962803c54be749",
+I/flutter (26929): ║                             "groupKey": "vegetables",
+I/flutter (26929): ║                             "name": "خيار",
+I/flutter (26929): ║                             "calories": 0,
+I/flutter (26929): ║                             "sortOrder": 30
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f1890131962803c54be6bf",
+I/flutter (26929): ║                             "groupKey": "vegetables",
+I/flutter (26929): ║                             "name": "بنجر",
+I/flutter (26929): ║                             "calories": 0,
+I/flutter (26929): ║                             "sortOrder": 40
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f00a8431962803c54af61d",
+I/flutter (26929): ║                             "groupKey": "cheese_nuts",
+I/flutter (26929): ║                             "name": "الإضافات",
+I/flutter (26929): ║                             "calories": 0,
+I/flutter (26929): ║                             "sortOrder": 2
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f00a8531962803c54af620",
+I/flutter (26929): ║                             "groupKey": "cheese_nuts",
+I/flutter (26929): ║                             "name": "المكسرات",
+I/flutter (26929): ║                             "calories": 0,
+I/flutter (26929): ║                             "sortOrder": 4
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f1890131962803c54be6c2",
+I/flutter (26929): ║                             "groupKey": "cheese_nuts",
+I/flutter (26929): ║                             "name": "فيتا",
+I/flutter (26929): ║                             "calories": 50,
+I/flutter (26929): ║                             "sortOrder": 40.13
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f1890231962803c54be6c7",
+I/flutter (26929): ║                             "groupKey": "cheese_nuts",
+I/flutter (26929): ║                             "name": "سمسم",
+I/flutter (26929): ║                             "calories": 50,
+I/flutter (26929): ║                             "sortOrder": 40.18
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f1890231962803c54be6c9",
+I/flutter (26929): ║                             "groupKey": "cheese_nuts",
+I/flutter (26929): ║                             "name": "كاجو",
+I/flutter (26929): ║                             "calories": 50,
+I/flutter (26929): ║                             "sortOrder": 40.19
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f1890131962803c54be6c1",
+I/flutter (26929): ║                             "groupKey": "cheese_nuts",
+I/flutter (26929): ║                             "name": "بارميزان",
+I/flutter (26929): ║                             "calories": 0,
+I/flutter (26929): ║                             "sortOrder": 50
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f1890331962803c54be6ca",
+I/flutter (26929): ║                             "groupKey": "cheese_nuts",
+I/flutter (26929): ║                             "name": "عين الجمل",
+I/flutter (26929): ║                             "calories": 0,
+I/flutter (26929): ║                             "sortOrder": 60
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f00a8531962803c54af61f",
+I/flutter (26929): ║                             "groupKey": "fruits",
+I/flutter (26929): ║                             "name": "الفواكه",
+I/flutter (26929): ║                             "calories": 0,
+I/flutter (26929): ║                             "sortOrder": 3
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f1890131962803c54be6c3",
+I/flutter (26929): ║                             "groupKey": "fruits",
+I/flutter (26929): ║                             "name": "تمر",
+I/flutter (26929): ║                             "calories": 50,
+I/flutter (26929): ║                             "sortOrder": 50.14
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f1890231962803c54be6c4",
+I/flutter (26929): ║                             "groupKey": "fruits",
+I/flutter (26929): ║                             "name": "توت أزرق",
+I/flutter (26929): ║                             "calories": 50,
+I/flutter (26929): ║                             "sortOrder": 50.15
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                      {id: 69f1890231962803c54be6c6, groupKey: fruits, name: رمان, calories: 0, sortOrder: 70},
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f1890231962803c54be6c5",
+I/flutter (26929): ║                             "groupKey": "fruits",
+I/flutter (26929): ║                             "name": "فراولة",
+I/flutter (26929): ║                             "calories": 0,
+I/flutter (26929): ║                             "sortOrder": 80
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                      {id: 69f00a8531962803c54af621, groupKey: sauce, name: الصوص, calories: 0, sortOrder: 5},
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f1890331962803c54be6cc",
+I/flutter (26929): ║                             "groupKey": "sauce",
+I/flutter (26929): ║                             "name": "عسل بالليمون",
+I/flutter (26929): ║                             "calories": 50,
+I/flutter (26929): ║                             "sortOrder": 60.21
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f1890331962803c54be6cd",
+I/flutter (26929): ║                             "groupKey": "sauce",
+I/flutter (26929): ║                             "name": "زبادي بالنعناع",
+I/flutter (26929): ║                             "calories": 50,
+I/flutter (26929): ║                             "sortOrder": 60.22
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f1890331962803c54be6cf",
+I/flutter (26929): ║                             "groupKey": "sauce",
+I/flutter (26929): ║                             "name": "صوص بيستو",
+I/flutter (26929): ║                             "calories": 50,
+I/flutter (26929): ║                             "sortOrder": 60.24
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f1890431962803c54be6d2",
+I/flutter (26929): ║                             "groupKey": "sauce",
+I/flutter (26929): ║                             "name": "رانش",
+I/flutter (26929): ║                             "calories": 50,
+I/flutter (26929): ║                             "sortOrder": 60.26
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                      {id: 69f1890431962803c54be6d0, groupKey: sauce, name: سيزر, calories: 0, sortOrder: 90},
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f1890331962803c54be6ce",
+I/flutter (26929): ║                             "groupKey": "sauce",
+I/flutter (26929): ║                             "name": "هاني ماستر",
+I/flutter (26929): ║                             "calories": 0,
+I/flutter (26929): ║                             "sortOrder": 100
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f1897931962803c54be734",
+I/flutter (26929): ║                             "groupKey": "protein",
+I/flutter (26929): ║                             "name": "فاهيتا",
+I/flutter (26929): ║                             "calories": 0,
+I/flutter (26929): ║                             "displayCategoryKey": "chicken",
+I/flutter (26929): ║                             "proteinFamilyKey": "chicken",
+I/flutter (26929): ║                             "isPremium": false,
+I/flutter (26929): ║                             "premiumKey": null,
+I/flutter (26929): ║                             "extraFeeHalala": 0,
+I/flutter (26929): ║                             "sortOrder": 1
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f1897931962803c54be736",
+I/flutter (26929): ║                             "groupKey": "protein",
+I/flutter (26929): ║                             "name": "دجاج زبدة",
+I/flutter (26929): ║                             "calories": 0,
+I/flutter (26929): ║                             "displayCategoryKey": "chicken",
+I/flutter (26929): ║                             "proteinFamilyKey": "chicken",
+I/flutter (26929): ║                             "isPremium": false,
+I/flutter (26929): ║                             "premiumKey": null,
+I/flutter (26929): ║                             "extraFeeHalala": 0,
+I/flutter (26929): ║                             "sortOrder": 2
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f1897a31962803c54be737",
+I/flutter (26929): ║                             "groupKey": "protein",
+I/flutter (26929): ║                             "name": "دجاج كريمة",
+I/flutter (26929): ║                             "calories": 0,
+I/flutter (26929): ║                             "displayCategoryKey": "chicken",
+I/flutter (26929): ║                             "proteinFamilyKey": "chicken",
+I/flutter (26929): ║                             "isPremium": false,
+I/flutter (26929): ║                             "premiumKey": null,
+I/flutter (26929): ║                             "extraFeeHalala": 0,
+I/flutter (26929): ║                             "sortOrder": 3
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f1897a31962803c54be738",
+I/flutter (26929): ║                             "groupKey": "protein",
+I/flutter (26929): ║                             "name": "دجاج كاري وجوز الهند",
+I/flutter (26929): ║                             "calories": 0,
+I/flutter (26929): ║                             "displayCategoryKey": "chicken",
+I/flutter (26929): ║                             "proteinFamilyKey": "chicken",
+I/flutter (26929): ║                             "isPremium": false,
+I/flutter (26929): ║                             "premiumKey": null,
+I/flutter (26929): ║                             "extraFeeHalala": 0,
+I/flutter (26929): ║                             "sortOrder": 4
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f1897a31962803c54be739",
+I/flutter (26929): ║                             "groupKey": "protein",
+I/flutter (26929): ║                             "name": "دجاج سبايسي",
+I/flutter (26929): ║                             "calories": 0,
+I/flutter (26929): ║                             "displayCategoryKey": "chicken",
+I/flutter (26929): ║                             "proteinFamilyKey": "chicken",
+I/flutter (26929): ║                             "isPremium": false,
+I/flutter (26929): ║                             "premiumKey": null,
+I/flutter (26929): ║                             "extraFeeHalala": 0,
+I/flutter (26929): ║                             "sortOrder": 5
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f1897b31962803c54be73a",
+I/flutter (26929): ║                             "groupKey": "protein",
+I/flutter (26929): ║                             "name": "دجاج توابل إيطالية",
+I/flutter (26929): ║                             "calories": 0,
+I/flutter (26929): ║                             "displayCategoryKey": "chicken",
+I/flutter (26929): ║                             "proteinFamilyKey": "chicken",
+I/flutter (26929): ║                             "isPremium": false,
+I/flutter (26929): ║                             "premiumKey": null,
+I/flutter (26929): ║                             "extraFeeHalala": 0,
+I/flutter (26929): ║                             "sortOrder": 6
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f1897b31962803c54be73b",
+I/flutter (26929): ║                             "groupKey": "protein",
+I/flutter (26929): ║                             "name": "دجاج تكا",
+I/flutter (26929): ║                             "calories": 0,
+I/flutter (26929): ║                             "displayCategoryKey": "chicken",
+I/flutter (26929): ║                             "proteinFamilyKey": "chicken",
+I/flutter (26929): ║                             "isPremium": false,
+I/flutter (26929): ║                             "premiumKey": null,
+I/flutter (26929): ║                             "extraFeeHalala": 0,
+I/flutter (26929): ║                             "sortOrder": 7
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f1897b31962803c54be73c",
+I/flutter (26929): ║                             "groupKey": "protein",
+I/flutter (26929): ║                             "name": "دجاج آسيوي",
+I/flutter (26929): ║                             "calories": 0,
+I/flutter (26929): ║                             "displayCategoryKey": "chicken",
+I/flutter (26929): ║                             "proteinFamilyKey": "chicken",
+I/flutter (26929): ║                             "isPremium": false,
+I/flutter (26929): ║                             "premiumKey": null,
+I/flutter (26929): ║                             "extraFeeHalala": 0,
+I/flutter (26929): ║                             "sortOrder": 8
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f1897c31962803c54be73d",
+I/flutter (26929): ║                             "groupKey": "protein",
+I/flutter (26929): ║                             "name": "استربس",
+I/flutter (26929): ║                             "calories": 0,
+I/flutter (26929): ║                             "displayCategoryKey": "chicken",
+I/flutter (26929): ║                             "proteinFamilyKey": "chicken",
+I/flutter (26929): ║                             "isPremium": false,
+I/flutter (26929): ║                             "premiumKey": null,
+I/flutter (26929): ║                             "extraFeeHalala": 0,
+I/flutter (26929): ║                             "sortOrder": 9
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f1897c31962803c54be73e",
+I/flutter (26929): ║                             "groupKey": "protein",
+I/flutter (26929): ║                             "name": "دجاج مشوي",
+I/flutter (26929): ║                             "calories": 0,
+I/flutter (26929): ║                             "displayCategoryKey": "chicken",
+I/flutter (26929): ║                             "proteinFamilyKey": "chicken",
+I/flutter (26929): ║                             "isPremium": false,
+I/flutter (26929): ║                             "premiumKey": null,
+I/flutter (26929): ║                             "extraFeeHalala": 0,
+I/flutter (26929): ║                             "sortOrder": 10
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f1897c31962803c54be73f",
+I/flutter (26929): ║                             "groupKey": "protein",
+I/flutter (26929): ║                             "name": "دجاج مكسيكي",
+I/flutter (26929): ║                             "calories": 0,
+I/flutter (26929): ║                             "displayCategoryKey": "chicken",
+I/flutter (26929): ║                             "proteinFamilyKey": "chicken",
+I/flutter (26929): ║                             "isPremium": false,
+I/flutter (26929): ║                             "premiumKey": null,
+I/flutter (26929): ║                             "extraFeeHalala": 0,
+I/flutter (26929): ║                             "sortOrder": 11
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f1897d31962803c54be740",
+I/flutter (26929): ║                             "groupKey": "protein",
+I/flutter (26929): ║                             "name": "كرات لحم",
+I/flutter (26929): ║                             "calories": 0,
+I/flutter (26929): ║                             "displayCategoryKey": "beef",
+I/flutter (26929): ║                             "proteinFamilyKey": "beef",
+I/flutter (26929): ║                             "isPremium": false,
+I/flutter (26929): ║                             "premiumKey": null,
+I/flutter (26929): ║                             "extraFeeHalala": 0,
+I/flutter (26929): ║                             "sortOrder": 1
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f1897d31962803c54be741",
+I/flutter (26929): ║                             "groupKey": "protein",
+I/flutter (26929): ║                             "name": "لحم استرغانوف",
+I/flutter (26929): ║                             "calories": 0,
+I/flutter (26929): ║                             "displayCategoryKey": "beef",
+I/flutter (26929): ║                             "proteinFamilyKey": "beef",
+I/flutter (26929): ║                             "isPremium": false,
+I/flutter (26929): ║                             "premiumKey": null,
+I/flutter (26929): ║                             "extraFeeHalala": 0,
+I/flutter (26929): ║                             "sortOrder": 2
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f1897831962803c54be732",
+I/flutter (26929): ║                             "groupKey": "protein",
+I/flutter (26929): ║                             "name": "تونا",
+I/flutter (26929): ║                             "calories": 0,
+I/flutter (26929): ║                             "displayCategoryKey": "fish",
+I/flutter (26929): ║                             "proteinFamilyKey": "fish",
+I/flutter (26929): ║                             "isPremium": false,
+I/flutter (26929): ║                             "premiumKey": null,
+I/flutter (26929): ║                             "extraFeeHalala": 0,
+I/flutter (26929): ║                             "sortOrder": 1
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f1897831962803c54be731",
+I/flutter (26929): ║                             "groupKey": "protein",
+I/flutter (26929): ║                             "name": "بيض مسلوق",
+I/flutter (26929): ║                             "calories": 0,
+I/flutter (26929): ║                             "displayCategoryKey": "eggs",
+I/flutter (26929): ║                             "proteinFamilyKey": "eggs",
+I/flutter (26929): ║                             "isPremium": false,
+I/flutter (26929): ║                             "premiumKey": null,
+I/flutter (26929): ║                             "extraFeeHalala": 0,
+I/flutter (26929): ║                             "sortOrder": 1
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f188fdc48e7ad405aff5a0",
+I/flutter (26929): ║                             "groupKey": "protein",
+I/flutter (26929): ║                             "name": "ستيك لحم",
+I/flutter (26929): ║                             "calories": 0,
+I/flutter (26929): ║                             "displayCategoryKey": "premium",
+I/flutter (26929): ║                             "proteinFamilyKey": "beef",
+I/flutter (26929): ║                             "isPremium": true,
+I/flutter (26929): ║                             "premiumKey": "beef_steak",
+I/flutter (26929): ║                             "extraFeeHalala": 2200,
+I/flutter (26929): ║                             "sortOrder": 10
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f188fdc48e7ad405aff5a3",
+I/flutter (26929): ║                             "groupKey": "protein",
+I/flutter (26929): ║                             "name": "سلمون",
+I/flutter (26929): ║                             "calories": 0,
+I/flutter (26929): ║                             "displayCategoryKey": "premium",
+I/flutter (26929): ║                             "proteinFamilyKey": "fish",
+I/flutter (26929): ║                             "isPremium": true,
+I/flutter (26929): ║                             "premiumKey": "salmon",
+I/flutter (26929): ║                             "extraFeeHalala": 2500,
+I/flutter (26929): ║                             "sortOrder": 20
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f188fdc48e7ad405aff59d",
+I/flutter (26929): ║                             "groupKey": "protein",
+I/flutter (26929): ║                             "name": "روبيان",
+I/flutter (26929): ║                             "calories": 0,
+I/flutter (26929): ║                             "displayCategoryKey": "premium",
+I/flutter (26929): ║                             "proteinFamilyKey": "fish",
+I/flutter (26929): ║                             "isPremium": true,
+I/flutter (26929): ║                             "premiumKey": "shrimp",
+I/flutter (26929): ║                             "extraFeeHalala": 2000,
+I/flutter (26929): ║                             "sortOrder": 30
+I/flutter (26929): ║                        }
+I/flutter (26929): ║                     ]
+I/flutter (26929): ║                }
+I/flutter (26929): ║                 "rules": {
+I/flutter (26929): ║                     "version": "meal_planner_rules.v3",
+I/flutter (26929): ║                     "beef": {proteinFamilyKey: beef, maxSlotsPerDay: 1},
+I/flutter (26929): ║                     "standardCarbs": {maxTypes: 2, maxTotalGrams: 300, unit: grams},
+I/flutter (26929): ║                     "premiumCarbs": {maxTypes: 2, maxTotalGrams: 300, unit: grams},
+I/flutter (26929): ║                     "proteinGroups": [
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "key": "chicken",
+I/flutter (26929): ║                             "name": {ar: دجاج, en: Chicken},
+I/flutter (26929): ║                             "sortOrder": 10
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "key": "beef",
+I/flutter (26929): ║                             "name": {ar: لحم, en: Beef},
+I/flutter (26929): ║                             "sortOrder": 20
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "key": "fish",
+I/flutter (26929): ║                             "name": {ar: أسماك, en: Fish},
+I/flutter (26929): ║                             "sortOrder": 30
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "key": "eggs",
+I/flutter (26929): ║                             "name": {ar: بيض, en: Eggs},
+I/flutter (26929): ║                             "sortOrder": 40
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "key": "premium",
+I/flutter (26929): ║                             "name": {ar: بريميوم, en: Premium},
+I/flutter (26929): ║                             "sortOrder": 50
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "key": "other",
+I/flutter (26929): ║                             "name": {ar: أخرى, en: Other},
+I/flutter (26929): ║                             "sortOrder": 60
+I/flutter (26929): ║                        }
+I/flutter (26929): ║                     ],
+I/flutter (26929): ║                     "premiumLargeSalad": {
+I/flutter (26929): ║                         "premiumKey": "custom_premium_salad",
+I/flutter (26929): ║                         "presetKey": "large_salad",
+I/flutter (26929): ║                         "extraFeeHalala": 3000,
+I/flutter (26929): ║                         "groups": [
+I/flutter (26929): ║                          {key: leafy_greens, minSelect: 0, maxSelect: 99},
+I/flutter (26929): ║                          {key: vegetables, minSelect: 0, maxSelect: 99},
+I/flutter (26929): ║                          {key: protein, minSelect: 1, maxSelect: 1},
+I/flutter (26929): ║                          {key: cheese_nuts, minSelect: 0, maxSelect: 99},
+I/flutter (26929): ║                          {key: fruits, minSelect: 0, maxSelect: 99},
+I/flutter (26929): ║                          {key: sauce, minSelect: 1, maxSelect: 1}
+I/flutter (26929): ║                         ]
+I/flutter (26929): ║                    }
+I/flutter (26929): ║                }
+I/flutter (26929): ║            }
+I/flutter (26929): ║             "addonCatalog": {
+I/flutter (26929): ║                 "items": [
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f2399d4eee65376d14b40a",
+I/flutter (26929): ║                         "name": "بيري بلاست",
+I/flutter (26929): ║                         "description": "عصير ضمن فئة العصير.",
+I/flutter (26929): ║                         "imageUrl": "",
+I/flutter (26929): ║                         "currency": "SAR",
+I/flutter (26929): ║                         "priceHalala": 1100,
+I/flutter (26929): ║                         "priceSar": 11,
+I/flutter (26929): ║                         "priceLabel": "11 SAR",
+I/flutter (26929): ║                         "kind": "item",
+I/flutter (26929): ║                         "category": "juice",
+I/flutter (26929): ║                         "type": "one_time",
+I/flutter (26929): ║                         "billingMode": "flat_once",
+I/flutter (26929): ║                         "pricingModel": "one_time",
+I/flutter (26929): ║                         "billingUnit": "item",
+I/flutter (26929): ║                         "ui": {
+I/flutter (26929): ║                             "title": "بيري بلاست",
+I/flutter (26929): ║                             "subtitle": "عصير ضمن فئة العصير.",
+I/flutter (26929): ║                             "ctaLabel": "أضف",
+I/flutter (26929): ║                             "badge": "إضافة مرة واحدة"
+I/flutter (26929): ║                        }
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f2399d4eee65376d14b40b",
+I/flutter (26929): ║                         "name": "بيري بروت",
+I/flutter (26929): ║                         "description": "عصير ضمن فئة العصير.",
+I/flutter (26929): ║                         "imageUrl": "",
+I/flutter (26929): ║                         "currency": "SAR",
+I/flutter (26929): ║                         "priceHalala": 1300,
+I/flutter (26929): ║                         "priceSar": 13,
+I/flutter (26929): ║                         "priceLabel": "13 SAR",
+I/flutter (26929): ║                         "kind": "item",
+I/flutter (26929): ║                         "category": "juice",
+I/flutter (26929): ║                         "type": "one_time",
+I/flutter (26929): ║                         "billingMode": "flat_once",
+I/flutter (26929): ║                         "pricingModel": "one_time",
+I/flutter (26929): ║                         "billingUnit": "item",
+I/flutter (26929): ║                         "ui": {title: بيري بروت, subtitle: عصير ضمن فئة العصير., ctaLabel: أضف, badge: إضافة مرة واحدة}
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f2399d4eee65376d14b40c",
+I/flutter (26929): ║                         "name": "كلاسيك جرين",
+I/flutter (26929): ║                         "description": "عصير ضمن فئة العصير.",
+I/flutter (26929): ║                         "imageUrl": "",
+I/flutter (26929): ║                         "currency": "SAR",
+I/flutter (26929): ║                         "priceHalala": 1100,
+I/flutter (26929): ║                         "priceSar": 11,
+I/flutter (26929): ║                         "priceLabel": "11 SAR",
+I/flutter (26929): ║                         "kind": "item",
+I/flutter (26929): ║                         "category": "juice",
+I/flutter (26929): ║                         "type": "one_time",
+I/flutter (26929): ║                         "billingMode": "flat_once",
+I/flutter (26929): ║                         "pricingModel": "one_time",
+I/flutter (26929): ║                         "billingUnit": "item",
+I/flutter (26929): ║                         "ui": {
+I/flutter (26929): ║                             "title": "كلاسيك جرين",
+I/flutter (26929): ║                             "subtitle": "عصير ضمن فئة العصير.",
+I/flutter (26929): ║                             "ctaLabel": "أضف",
+I/flutter (26929): ║                             "badge": "إضافة مرة واحدة"
+I/flutter (26929): ║                        }
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f2399d4eee65376d14b40d",
+I/flutter (26929): ║                         "name": "بيت بانش",
+I/flutter (26929): ║                         "description": "عصير ضمن فئة العصير.",
+I/flutter (26929): ║                         "imageUrl": "",
+I/flutter (26929): ║                         "currency": "SAR",
+I/flutter (26929): ║                         "priceHalala": 1100,
+I/flutter (26929): ║                         "priceSar": 11,
+I/flutter (26929): ║                         "priceLabel": "11 SAR",
+I/flutter (26929): ║                         "kind": "item",
+I/flutter (26929): ║                         "category": "juice",
+I/flutter (26929): ║                         "type": "one_time",
+I/flutter (26929): ║                         "billingMode": "flat_once",
+I/flutter (26929): ║                         "pricingModel": "one_time",
+I/flutter (26929): ║                         "billingUnit": "item",
+I/flutter (26929): ║                         "ui": {title: بيت بانش, subtitle: عصير ضمن فئة العصير., ctaLabel: أضف, badge: إضافة مرة واحدة}
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f2399d4eee65376d14b40e",
+I/flutter (26929): ║                         "name": "أورانج كاروت",
+I/flutter (26929): ║                         "description": "عصير ضمن فئة العصير.",
+I/flutter (26929): ║                         "imageUrl": "",
+I/flutter (26929): ║                         "currency": "SAR",
+I/flutter (26929): ║                         "priceHalala": 1100,
+I/flutter (26929): ║                         "priceSar": 11,
+I/flutter (26929): ║                         "priceLabel": "11 SAR",
+I/flutter (26929): ║                         "kind": "item",
+I/flutter (26929): ║                         "category": "juice",
+I/flutter (26929): ║                         "type": "one_time",
+I/flutter (26929): ║                         "billingMode": "flat_once",
+I/flutter (26929): ║                         "pricingModel": "one_time",
+I/flutter (26929): ║                         "billingUnit": "item",
+I/flutter (26929): ║                         "ui": {
+I/flutter (26929): ║                             "title": "أورانج كاروت",
+I/flutter (26929): ║                             "subtitle": "عصير ضمن فئة العصير.",
+I/flutter (26929): ║                             "ctaLabel": "أضف",
+I/flutter (26929): ║                             "badge": "إضافة مرة واحدة"
+I/flutter (26929): ║                        }
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f2399d4eee65376d14b40f",
+I/flutter (26929): ║                         "name": "واترميلون منت",
+I/flutter (26929): ║                         "description": "عصير ضمن فئة العصير.",
+I/flutter (26929): ║                         "imageUrl": "",
+I/flutter (26929): ║                         "currency": "SAR",
+I/flutter (26929): ║                         "priceHalala": 1100,
+I/flutter (26929): ║                         "priceSar": 11,
+I/flutter (26929): ║                         "priceLabel": "11 SAR",
+I/flutter (26929): ║                         "kind": "item",
+I/flutter (26929): ║                         "category": "juice",
+I/flutter (26929): ║                         "type": "one_time",
+I/flutter (26929): ║                         "billingMode": "flat_once",
+I/flutter (26929): ║                         "pricingModel": "one_time",
+I/flutter (26929): ║                         "billingUnit": "item",
+I/flutter (26929): ║                         "ui": {
+I/flutter (26929): ║                             "title": "واترميلون منت",
+I/flutter (26929): ║                             "subtitle": "عصير ضمن فئة العصير.",
+I/flutter (26929): ║                             "ctaLabel": "أضف",
+I/flutter (26929): ║                             "badge": "إضافة مرة واحدة"
+I/flutter (26929): ║                        }
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f2399d4eee65376d14b410",
+I/flutter (26929): ║                         "name": "بروتين درينك",
+I/flutter (26929): ║                         "description": "مشروب ضمن فئة العصير.",
+I/flutter (26929): ║                         "imageUrl": "",
+I/flutter (26929): ║                         "currency": "SAR",
+I/flutter (26929): ║                         "priceHalala": 1900,
+I/flutter (26929): ║                         "priceSar": 19,
+I/flutter (26929): ║                         "priceLabel": "19 SAR",
+I/flutter (26929): ║                         "kind": "item",
+I/flutter (26929): ║                         "category": "juice",
+I/flutter (26929): ║                         "type": "one_time",
+I/flutter (26929): ║                         "billingMode": "flat_once",
+I/flutter (26929): ║                         "pricingModel": "one_time",
+I/flutter (26929): ║                         "billingUnit": "item",
+I/flutter (26929): ║                         "ui": {
+I/flutter (26929): ║                             "title": "بروتين درينك",
+I/flutter (26929): ║                             "subtitle": "مشروب ضمن فئة العصير.",
+I/flutter (26929): ║                             "ctaLabel": "أضف",
+I/flutter (26929): ║                             "badge": "إضافة مرة واحدة"
+I/flutter (26929): ║                        }
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f2399d4eee65376d14b411",
+I/flutter (26929): ║                         "name": "دايت آيسد تي",
+I/flutter (26929): ║                         "description": "مشروب ضمن فئة العصير.",
+I/flutter (26929): ║                         "imageUrl": "",
+I/flutter (26929): ║                         "currency": "SAR",
+I/flutter (26929): ║                         "priceHalala": 400,
+I/flutter (26929): ║                         "priceSar": 4,
+I/flutter (26929): ║                         "priceLabel": "4 SAR",
+I/flutter (26929): ║                         "kind": "item",
+I/flutter (26929): ║                         "category": "juice",
+I/flutter (26929): ║                         "type": "one_time",
+I/flutter (26929): ║                         "billingMode": "flat_once",
+I/flutter (26929): ║                         "pricingModel": "one_time",
+I/flutter (26929): ║                         "billingUnit": "item",
+I/flutter (26929): ║                         "ui": {
+I/flutter (26929): ║                             "title": "دايت آيسد تي",
+I/flutter (26929): ║                             "subtitle": "مشروب ضمن فئة العصير.",
+I/flutter (26929): ║                             "ctaLabel": "أضف",
+I/flutter (26929): ║                             "badge": "إضافة مرة واحدة"
+I/flutter (26929): ║                        }
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f2399d4eee65376d14b412",
+I/flutter (26929): ║                         "name": "دايت صودا",
+I/flutter (26929): ║                         "description": "مشروب ضمن فئة العصير.",
+I/flutter (26929): ║                         "imageUrl": "",
+I/flutter (26929): ║                         "currency": "SAR",
+I/flutter (26929): ║                         "priceHalala": 300,
+I/flutter (26929): ║                         "priceSar": 3,
+I/flutter (26929): ║                         "priceLabel": "3 SAR",
+I/flutter (26929): ║                         "kind": "item",
+I/flutter (26929): ║                         "category": "juice",
+I/flutter (26929): ║                         "type": "one_time",
+I/flutter (26929): ║                         "billingMode": "flat_once",
+I/flutter (26929): ║                         "pricingModel": "one_time",
+I/flutter (26929): ║                         "billingUnit": "item",
+I/flutter (26929): ║                         "ui": {
+I/flutter (26929): ║                             "title": "دايت صودا",
+I/flutter (26929): ║                             "subtitle": "مشروب ضمن فئة العصير.",
+I/flutter (26929): ║                             "ctaLabel": "أضف",
+I/flutter (26929): ║                             "badge": "إضافة مرة واحدة"
+I/flutter (26929): ║                        }
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f2399d4eee65376d14b413",
+I/flutter (26929): ║                         "name": "ماء",
+I/flutter (26929): ║                         "description": "مياه ضمن فئة العصير.",
+I/flutter (26929): ║                         "imageUrl": "",
+I/flutter (26929): ║                         "currency": "SAR",
+I/flutter (26929): ║                         "priceHalala": 200,
+I/flutter (26929): ║                         "priceSar": 2,
+I/flutter (26929): ║                         "priceLabel": "2 SAR",
+I/flutter (26929): ║                         "kind": "item",
+I/flutter (26929): ║                         "category": "juice",
+I/flutter (26929): ║                         "type": "one_time",
+I/flutter (26929): ║                         "billingMode": "flat_once",
+I/flutter (26929): ║                         "pricingModel": "one_time",
+I/flutter (26929): ║                         "billingUnit": "item",
+I/flutter (26929): ║                         "ui": {title: ماء, subtitle: مياه ضمن فئة العصير., ctaLabel: أضف, badge: إضافة مرة واحدة}
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f2399d4eee65376d14b414",
+I/flutter (26929): ║                         "name": "مافن تفاح بالقرفة (قطعتان)",
+I/flutter (26929): ║                         "description": "سناك ضمن فئة السناك.",
+I/flutter (26929): ║                         "imageUrl": "",
+I/flutter (26929): ║                         "currency": "SAR",
+I/flutter (26929): ║                         "priceHalala": 1200,
+I/flutter (26929): ║                         "priceSar": 12,
+I/flutter (26929): ║                         "priceLabel": "12 SAR",
+I/flutter (26929): ║                         "kind": "item",
+I/flutter (26929): ║                         "category": "snack",
+I/flutter (26929): ║                         "type": "one_time",
+I/flutter (26929): ║                         "billingMode": "flat_once",
+I/flutter (26929): ║                         "pricingModel": "one_time",
+I/flutter (26929): ║                         "billingUnit": "item",
+I/flutter (26929): ║                         "ui": {
+I/flutter (26929): ║                             "title": "مافن تفاح بالقرفة (قطعتان)",
+I/flutter (26929): ║                             "subtitle": "سناك ضمن فئة السناك.",
+I/flutter (26929): ║                             "ctaLabel": "أضف",
+I/flutter (26929): ║                             "badge": "إضافة مرة واحدة"
+I/flutter (26929): ║                        }
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f2399d4eee65376d14b415",
+I/flutter (26929): ║                         "name": "بلو بيري تشيزكيك",
+I/flutter (26929): ║                         "description": "سناك ضمن فئة السناك.",
+I/flutter (26929): ║                         "imageUrl": "",
+I/flutter (26929): ║                         "currency": "SAR",
+I/flutter (26929): ║                         "priceHalala": 1900,
+I/flutter (26929): ║                         "priceSar": 19,
+I/flutter (26929): ║                         "priceLabel": "19 SAR",
+I/flutter (26929): ║                         "kind": "item",
+I/flutter (26929): ║                         "category": "snack",
+I/flutter (26929): ║                         "type": "one_time",
+I/flutter (26929): ║                         "billingMode": "flat_once",
+I/flutter (26929): ║                         "pricingModel": "one_time",
+I/flutter (26929): ║                         "billingUnit": "item",
+I/flutter (26929): ║                         "ui": {
+I/flutter (26929): ║                             "title": "بلو بيري تشيزكيك",
+I/flutter (26929): ║                             "subtitle": "سناك ضمن فئة السناك.",
+I/flutter (26929): ║                             "ctaLabel": "أضف",
+I/flutter (26929): ║                             "badge": "إضافة مرة واحدة"
+I/flutter (26929): ║                        }
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f2399d4eee65376d14b416",
+I/flutter (26929): ║                         "name": "ستروبيري تشيزكيك",
+I/flutter (26929): ║                         "description": "سناك ضمن فئة السناك.",
+I/flutter (26929): ║                         "imageUrl": "",
+I/flutter (26929): ║                         "currency": "SAR",
+I/flutter (26929): ║                         "priceHalala": 1900,
+I/flutter (26929): ║                         "priceSar": 19,
+I/flutter (26929): ║                         "priceLabel": "19 SAR",
+I/flutter (26929): ║                         "kind": "item",
+I/flutter (26929): ║                         "category": "snack",
+I/flutter (26929): ║                         "type": "one_time",
+I/flutter (26929): ║                         "billingMode": "flat_once",
+I/flutter (26929): ║                         "pricingModel": "one_time",
+I/flutter (26929): ║                         "billingUnit": "item",
+I/flutter (26929): ║                         "ui": {
+I/flutter (26929): ║                             "title": "ستروبيري تشيزكيك",
+I/flutter (26929): ║                             "subtitle": "سناك ضمن فئة السناك.",
+I/flutter (26929): ║                             "ctaLabel": "أضف",
+I/flutter (26929): ║                             "badge": "إضافة مرة واحدة"
+I/flutter (26929): ║                        }
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f2399d4eee65376d14b417",
+I/flutter (26929): ║                         "name": "دارك براونيز",
+I/flutter (26929): ║                         "description": "سناك ضمن فئة السناك.",
+I/flutter (26929): ║                         "imageUrl": "",
+I/flutter (26929): ║                         "currency": "SAR",
+I/flutter (26929): ║                         "priceHalala": 1300,
+I/flutter (26929): ║                         "priceSar": 13,
+I/flutter (26929): ║                         "priceLabel": "13 SAR",
+I/flutter (26929): ║                         "kind": "item",
+I/flutter (26929): ║                         "category": "snack",
+I/flutter (26929): ║                         "type": "one_time",
+I/flutter (26929): ║                         "billingMode": "flat_once",
+I/flutter (26929): ║                         "pricingModel": "one_time",
+I/flutter (26929): ║                         "billingUnit": "item",
+I/flutter (26929): ║                         "ui": {
+I/flutter (26929): ║                             "title": "دارك براونيز",
+I/flutter (26929): ║                             "subtitle": "سناك ضمن فئة السناك.",
+I/flutter (26929): ║                             "ctaLabel": "أضف",
+I/flutter (26929): ║                             "badge": "إضافة مرة واحدة"
+I/flutter (26929): ║                        }
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f2399d4eee65376d14b418",
+I/flutter (26929): ║                         "name": "بروتين بار",
+I/flutter (26929): ║                         "description": "سناك ضمن فئة السناك.",
+I/flutter (26929): ║                         "imageUrl": "",
+I/flutter (26929): ║                         "currency": "SAR",
+I/flutter (26929): ║                         "priceHalala": 1500,
+I/flutter (26929): ║                         "priceSar": 15,
+I/flutter (26929): ║                         "priceLabel": "15 SAR",
+I/flutter (26929): ║                         "kind": "item",
+I/flutter (26929): ║                         "category": "snack",
+I/flutter (26929): ║                         "type": "one_time",
+I/flutter (26929): ║                         "billingMode": "flat_once",
+I/flutter (26929): ║                         "pricingModel": "one_time",
+I/flutter (26929): ║                         "billingUnit": "item",
+I/flutter (26929): ║                         "ui": {
+I/flutter (26929): ║                             "title": "بروتين بار",
+I/flutter (26929): ║                             "subtitle": "سناك ضمن فئة السناك.",
+I/flutter (26929): ║                             "ctaLabel": "أضف",
+I/flutter (26929): ║                             "badge": "إضافة مرة واحدة"
+I/flutter (26929): ║                        }
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f2399d4eee65376d14b419",
+I/flutter (26929): ║                         "name": "كلاسيك بيسك",
+I/flutter (26929): ║                         "description": "سناك ضمن فئة السناك.",
+I/flutter (26929): ║                         "imageUrl": "",
+I/flutter (26929): ║                         "currency": "SAR",
+I/flutter (26929): ║                         "priceHalala": 1400,
+I/flutter (26929): ║                         "priceSar": 14,
+I/flutter (26929): ║                         "priceLabel": "14 SAR",
+I/flutter (26929): ║                         "kind": "item",
+I/flutter (26929): ║                         "category": "snack",
+I/flutter (26929): ║                         "type": "one_time",
+I/flutter (26929): ║                         "billingMode": "flat_once",
+I/flutter (26929): ║                         "pricingModel": "one_time",
+I/flutter (26929): ║                         "billingUnit": "item",
+I/flutter (26929): ║                         "ui": {
+I/flutter (26929): ║                             "title": "كلاسيك بيسك",
+I/flutter (26929): ║                             "subtitle": "سناك ضمن فئة السناك.",
+I/flutter (26929): ║                             "ctaLabel": "أضف",
+I/flutter (26929): ║                             "badge": "إضافة مرة واحدة"
+I/flutter (26929): ║                        }
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f2399d4eee65376d14b41a",
+I/flutter (26929): ║                         "name": "كيكة بروتين بالشوكولاتة",
+I/flutter (26929): ║                         "description": "سناك ضمن فئة السناك.",
+I/flutter (26929): ║                         "imageUrl": "",
+I/flutter (26929): ║                         "currency": "SAR",
+I/flutter (26929): ║                         "priceHalala": 400,
+I/flutter (26929): ║                         "priceSar": 4,
+I/flutter (26929): ║                         "priceLabel": "4 SAR",
+I/flutter (26929): ║                         "kind": "item",
+I/flutter (26929): ║                         "category": "snack",
+I/flutter (26929): ║                         "type": "one_time",
+I/flutter (26929): ║                         "billingMode": "flat_once",
+I/flutter (26929): ║                         "pricingModel": "one_time",
+I/flutter (26929): ║                         "billingUnit": "item",
+I/flutter (26929): ║                         "ui": {
+I/flutter (26929): ║                             "title": "كيكة بروتين بالشوكولاتة",
+I/flutter (26929): ║                             "subtitle": "سناك ضمن فئة السناك.",
+I/flutter (26929): ║                             "ctaLabel": "أضف",
+I/flutter (26929): ║                             "badge": "إضافة مرة واحدة"
+I/flutter (26929): ║                        }
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "id": "69f2399d4eee65376d14b41b",
+I/flutter (26929): ║                         "name": "سلطة صغيرة",
+I/flutter (26929): ║                         "description": "سلطة ضمن فئة السلطة الصغيرة.",
+I/flutter (26929): ║                         "imageUrl": "",
+I/flutter (26929): ║                         "currency": "SAR",
+I/flutter (26929): ║                         "priceHalala": 1200,
+I/flutter (26929): ║                         "priceSar": 12,
+I/flutter (26929): ║                         "priceLabel": "12 SAR",
+I/flutter (26929): ║                         "kind": "item",
+I/flutter (26929): ║                         "category": "small_salad",
+I/flutter (26929): ║                         "type": "one_time",
+I/flutter (26929): ║                         "billingMode": "flat_once",
+I/flutter (26929): ║                         "pricingModel": "one_time",
+I/flutter (26929): ║                         "billingUnit": "item",
+I/flutter (26929): ║                         "ui": {
+I/flutter (26929): ║                             "title": "سلطة صغيرة",
+I/flutter (26929): ║                             "subtitle": "سلطة ضمن فئة السلطة الصغيرة.",
+I/flutter (26929): ║                             "ctaLabel": "أضف",
+I/flutter (26929): ║                             "badge": "إضافة مرة واحدة"
+I/flutter (26929): ║                        }
+I/flutter (26929): ║                    }
+I/flutter (26929): ║                 ],
+I/flutter (26929): ║                 "byCategory": {
+I/flutter (26929): ║                     "juice": [
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f2399d4eee65376d14b40a",
+I/flutter (26929): ║                             "name": "بيري بلاست",
+I/flutter (26929): ║                             "description": "عصير ضمن فئة العصير.",
+I/flutter (26929): ║                             "imageUrl": "",
+I/flutter (26929): ║                             "currency": "SAR",
+I/flutter (26929): ║                             "priceHalala": 1100,
+I/flutter (26929): ║                             "priceSar": 11,
+I/flutter (26929): ║                             "priceLabel": "11 SAR",
+I/flutter (26929): ║                             "kind": "item",
+I/flutter (26929): ║                             "category": "juice",
+I/flutter (26929): ║                             "type": "one_time",
+I/flutter (26929): ║                             "billingMode": "flat_once",
+I/flutter (26929): ║                             "pricingModel": "one_time",
+I/flutter (26929): ║                             "billingUnit": "item",
+I/flutter (26929): ║                             "ui": {
+I/flutter (26929): ║                                 "title": "بيري بلاست",
+I/flutter (26929): ║                                 "subtitle": "عصير ضمن فئة العصير.",
+I/flutter (26929): ║                                 "ctaLabel": "أضف",
+I/flutter (26929): ║                                 "badge": "إضافة مرة واحدة"
+I/flutter (26929): ║                            }
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f2399d4eee65376d14b40b",
+I/flutter (26929): ║                             "name": "بيري بروت",
+I/flutter (26929): ║                             "description": "عصير ضمن فئة العصير.",
+I/flutter (26929): ║                             "imageUrl": "",
+I/flutter (26929): ║                             "currency": "SAR",
+I/flutter (26929): ║                             "priceHalala": 1300,
+I/flutter (26929): ║                             "priceSar": 13,
+I/flutter (26929): ║                             "priceLabel": "13 SAR",
+I/flutter (26929): ║                             "kind": "item",
+I/flutter (26929): ║                             "category": "juice",
+I/flutter (26929): ║                             "type": "one_time",
+I/flutter (26929): ║                             "billingMode": "flat_once",
+I/flutter (26929): ║                             "pricingModel": "one_time",
+I/flutter (26929): ║                             "billingUnit": "item",
+I/flutter (26929): ║                             "ui": {title: بيري بروت, subtitle: عصير ضمن فئة العصير., ctaLabel: أضف, badge: إضافة مرة واحدة}
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f2399d4eee65376d14b40c",
+I/flutter (26929): ║                             "name": "كلاسيك جرين",
+I/flutter (26929): ║                             "description": "عصير ضمن فئة العصير.",
+I/flutter (26929): ║                             "imageUrl": "",
+I/flutter (26929): ║                             "currency": "SAR",
+I/flutter (26929): ║                             "priceHalala": 1100,
+I/flutter (26929): ║                             "priceSar": 11,
+I/flutter (26929): ║                             "priceLabel": "11 SAR",
+I/flutter (26929): ║                             "kind": "item",
+I/flutter (26929): ║                             "category": "juice",
+I/flutter (26929): ║                             "type": "one_time",
+I/flutter (26929): ║                             "billingMode": "flat_once",
+I/flutter (26929): ║                             "pricingModel": "one_time",
+I/flutter (26929): ║                             "billingUnit": "item",
+I/flutter (26929): ║                             "ui": {
+I/flutter (26929): ║                                 "title": "كلاسيك جرين",
+I/flutter (26929): ║                                 "subtitle": "عصير ضمن فئة العصير.",
+I/flutter (26929): ║                                 "ctaLabel": "أضف",
+I/flutter (26929): ║                                 "badge": "إضافة مرة واحدة"
+I/flutter (26929): ║                            }
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f2399d4eee65376d14b40d",
+I/flutter (26929): ║                             "name": "بيت بانش",
+I/flutter (26929): ║                             "description": "عصير ضمن فئة العصير.",
+I/flutter (26929): ║                             "imageUrl": "",
+I/flutter (26929): ║                             "currency": "SAR",
+I/flutter (26929): ║                             "priceHalala": 1100,
+I/flutter (26929): ║                             "priceSar": 11,
+I/flutter (26929): ║                             "priceLabel": "11 SAR",
+I/flutter (26929): ║                             "kind": "item",
+I/flutter (26929): ║                             "category": "juice",
+I/flutter (26929): ║                             "type": "one_time",
+I/flutter (26929): ║                             "billingMode": "flat_once",
+I/flutter (26929): ║                             "pricingModel": "one_time",
+I/flutter (26929): ║                             "billingUnit": "item",
+I/flutter (26929): ║                             "ui": {title: بيت بانش, subtitle: عصير ضمن فئة العصير., ctaLabel: أضف, badge: إضافة مرة واحدة}
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f2399d4eee65376d14b40e",
+I/flutter (26929): ║                             "name": "أورانج كاروت",
+I/flutter (26929): ║                             "description": "عصير ضمن فئة العصير.",
+I/flutter (26929): ║                             "imageUrl": "",
+I/flutter (26929): ║                             "currency": "SAR",
+I/flutter (26929): ║                             "priceHalala": 1100,
+I/flutter (26929): ║                             "priceSar": 11,
+I/flutter (26929): ║                             "priceLabel": "11 SAR",
+I/flutter (26929): ║                             "kind": "item",
+I/flutter (26929): ║                             "category": "juice",
+I/flutter (26929): ║                             "type": "one_time",
+I/flutter (26929): ║                             "billingMode": "flat_once",
+I/flutter (26929): ║                             "pricingModel": "one_time",
+I/flutter (26929): ║                             "billingUnit": "item",
+I/flutter (26929): ║                             "ui": {
+I/flutter (26929): ║                                 "title": "أورانج كاروت",
+I/flutter (26929): ║                                 "subtitle": "عصير ضمن فئة العصير.",
+I/flutter (26929): ║                                 "ctaLabel": "أضف",
+I/flutter (26929): ║                                 "badge": "إضافة مرة واحدة"
+I/flutter (26929): ║                            }
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f2399d4eee65376d14b40f",
+I/flutter (26929): ║                             "name": "واترميلون منت",
+I/flutter (26929): ║                             "description": "عصير ضمن فئة العصير.",
+I/flutter (26929): ║                             "imageUrl": "",
+I/flutter (26929): ║                             "currency": "SAR",
+I/flutter (26929): ║                             "priceHalala": 1100,
+I/flutter (26929): ║                             "priceSar": 11,
+I/flutter (26929): ║                             "priceLabel": "11 SAR",
+I/flutter (26929): ║                             "kind": "item",
+I/flutter (26929): ║                             "category": "juice",
+I/flutter (26929): ║                             "type": "one_time",
+I/flutter (26929): ║                             "billingMode": "flat_once",
+I/flutter (26929): ║                             "pricingModel": "one_time",
+I/flutter (26929): ║                             "billingUnit": "item",
+I/flutter (26929): ║                             "ui": {
+I/flutter (26929): ║                                 "title": "واترميلون منت",
+I/flutter (26929): ║                                 "subtitle": "عصير ضمن فئة العصير.",
+I/flutter (26929): ║                                 "ctaLabel": "أضف",
+I/flutter (26929): ║                                 "badge": "إضافة مرة واحدة"
+I/flutter (26929): ║                            }
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f2399d4eee65376d14b410",
+I/flutter (26929): ║                             "name": "بروتين درينك",
+I/flutter (26929): ║                             "description": "مشروب ضمن فئة العصير.",
+I/flutter (26929): ║                             "imageUrl": "",
+I/flutter (26929): ║                             "currency": "SAR",
+I/flutter (26929): ║                             "priceHalala": 1900,
+I/flutter (26929): ║                             "priceSar": 19,
+I/flutter (26929): ║                             "priceLabel": "19 SAR",
+I/flutter (26929): ║                             "kind": "item",
+I/flutter (26929): ║                             "category": "juice",
+I/flutter (26929): ║                             "type": "one_time",
+I/flutter (26929): ║                             "billingMode": "flat_once",
+I/flutter (26929): ║                             "pricingModel": "one_time",
+I/flutter (26929): ║                             "billingUnit": "item",
+I/flutter (26929): ║                             "ui": {
+I/flutter (26929): ║                                 "title": "بروتين درينك",
+I/flutter (26929): ║                                 "subtitle": "مشروب ضمن فئة العصير.",
+I/flutter (26929): ║                                 "ctaLabel": "أضف",
+I/flutter (26929): ║                                 "badge": "إضافة مرة واحدة"
+I/flutter (26929): ║                            }
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f2399d4eee65376d14b411",
+I/flutter (26929): ║                             "name": "دايت آيسد تي",
+I/flutter (26929): ║                             "description": "مشروب ضمن فئة العصير.",
+I/flutter (26929): ║                             "imageUrl": "",
+I/flutter (26929): ║                             "currency": "SAR",
+I/flutter (26929): ║                             "priceHalala": 400,
+I/flutter (26929): ║                             "priceSar": 4,
+I/flutter (26929): ║                             "priceLabel": "4 SAR",
+I/flutter (26929): ║                             "kind": "item",
+I/flutter (26929): ║                             "category": "juice",
+I/flutter (26929): ║                             "type": "one_time",
+I/flutter (26929): ║                             "billingMode": "flat_once",
+I/flutter (26929): ║                             "pricingModel": "one_time",
+I/flutter (26929): ║                             "billingUnit": "item",
+I/flutter (26929): ║                             "ui": {
+I/flutter (26929): ║                                 "title": "دايت آيسد تي",
+I/flutter (26929): ║                                 "subtitle": "مشروب ضمن فئة العصير.",
+I/flutter (26929): ║                                 "ctaLabel": "أضف",
+I/flutter (26929): ║                                 "badge": "إضافة مرة واحدة"
+I/flutter (26929): ║                            }
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f2399d4eee65376d14b412",
+I/flutter (26929): ║                             "name": "دايت صودا",
+I/flutter (26929): ║                             "description": "مشروب ضمن فئة العصير.",
+I/flutter (26929): ║                             "imageUrl": "",
+I/flutter (26929): ║                             "currency": "SAR",
+I/flutter (26929): ║                             "priceHalala": 300,
+I/flutter (26929): ║                             "priceSar": 3,
+I/flutter (26929): ║                             "priceLabel": "3 SAR",
+I/flutter (26929): ║                             "kind": "item",
+I/flutter (26929): ║                             "category": "juice",
+I/flutter (26929): ║                             "type": "one_time",
+I/flutter (26929): ║                             "billingMode": "flat_once",
+I/flutter (26929): ║                             "pricingModel": "one_time",
+I/flutter (26929): ║                             "billingUnit": "item",
+I/flutter (26929): ║                             "ui": {
+I/flutter (26929): ║                                 "title": "دايت صودا",
+I/flutter (26929): ║                                 "subtitle": "مشروب ضمن فئة العصير.",
+I/flutter (26929): ║                                 "ctaLabel": "أضف",
+I/flutter (26929): ║                                 "badge": "إضافة مرة واحدة"
+I/flutter (26929): ║                            }
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f2399d4eee65376d14b413",
+I/flutter (26929): ║                             "name": "ماء",
+I/flutter (26929): ║                             "description": "مياه ضمن فئة العصير.",
+I/flutter (26929): ║                             "imageUrl": "",
+I/flutter (26929): ║                             "currency": "SAR",
+I/flutter (26929): ║                             "priceHalala": 200,
+I/flutter (26929): ║                             "priceSar": 2,
+I/flutter (26929): ║                             "priceLabel": "2 SAR",
+I/flutter (26929): ║                             "kind": "item",
+I/flutter (26929): ║                             "category": "juice",
+I/flutter (26929): ║                             "type": "one_time",
+I/flutter (26929): ║                             "billingMode": "flat_once",
+I/flutter (26929): ║                             "pricingModel": "one_time",
+I/flutter (26929): ║                             "billingUnit": "item",
+I/flutter (26929): ║                             "ui": {title: ماء, subtitle: مياه ضمن فئة العصير., ctaLabel: أضف, badge: إضافة مرة واحدة}
+I/flutter (26929): ║                        }
+I/flutter (26929): ║                     ],
+I/flutter (26929): ║                     "snack": [
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f2399d4eee65376d14b414",
+I/flutter (26929): ║                             "name": "مافن تفاح بالقرفة (قطعتان)",
+I/flutter (26929): ║                             "description": "سناك ضمن فئة السناك.",
+I/flutter (26929): ║                             "imageUrl": "",
+I/flutter (26929): ║                             "currency": "SAR",
+I/flutter (26929): ║                             "priceHalala": 1200,
+I/flutter (26929): ║                             "priceSar": 12,
+I/flutter (26929): ║                             "priceLabel": "12 SAR",
+I/flutter (26929): ║                             "kind": "item",
+I/flutter (26929): ║                             "category": "snack",
+I/flutter (26929): ║                             "type": "one_time",
+I/flutter (26929): ║                             "billingMode": "flat_once",
+I/flutter (26929): ║                             "pricingModel": "one_time",
+I/flutter (26929): ║                             "billingUnit": "item",
+I/flutter (26929): ║                             "ui": {
+I/flutter (26929): ║                                 "title": "مافن تفاح بالقرفة (قطعتان)"
+I/flutter (26929): ║                                 "subtitle": "سناك ضمن فئة السناك.",
+I/flutter (26929): ║                                 "ctaLabel": "أضف",
+I/flutter (26929): ║                                 "badge": "إضافة مرة واحدة"
+I/flutter (26929): ║                            }
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f2399d4eee65376d14b415",
+I/flutter (26929): ║                             "name": "بلو بيري تشيزكيك",
+I/flutter (26929): ║                             "description": "سناك ضمن فئة السناك.",
+I/flutter (26929): ║                             "imageUrl": "",
+I/flutter (26929): ║                             "currency": "SAR",
+I/flutter (26929): ║                             "priceHalala": 1900,
+I/flutter (26929): ║                             "priceSar": 19,
+I/flutter (26929): ║                             "priceLabel": "19 SAR",
+I/flutter (26929): ║                             "kind": "item",
+I/flutter (26929): ║                             "category": "snack",
+I/flutter (26929): ║                             "type": "one_time",
+I/flutter (26929): ║                             "billingMode": "flat_once",
+I/flutter (26929): ║                             "pricingModel": "one_time",
+I/flutter (26929): ║                             "billingUnit": "item",
+I/flutter (26929): ║                             "ui": {
+I/flutter (26929): ║                                 "title": "بلو بيري تشيزكيك",
+I/flutter (26929): ║                                 "subtitle": "سناك ضمن فئة السناك.",
+I/flutter (26929): ║                                 "ctaLabel": "أضف",
+I/flutter (26929): ║                                 "badge": "إضافة مرة واحدة"
+I/flutter (26929): ║                            }
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f2399d4eee65376d14b416",
+I/flutter (26929): ║                             "name": "ستروبيري تشيزكيك",
+I/flutter (26929): ║                             "description": "سناك ضمن فئة السناك.",
+I/flutter (26929): ║                             "imageUrl": "",
+I/flutter (26929): ║                             "currency": "SAR",
+I/flutter (26929): ║                             "priceHalala": 1900,
+I/flutter (26929): ║                             "priceSar": 19,
+I/flutter (26929): ║                             "priceLabel": "19 SAR",
+I/flutter (26929): ║                             "kind": "item",
+I/flutter (26929): ║                             "category": "snack",
+I/flutter (26929): ║                             "type": "one_time",
+I/flutter (26929): ║                             "billingMode": "flat_once",
+I/flutter (26929): ║                             "pricingModel": "one_time",
+I/flutter (26929): ║                             "billingUnit": "item",
+I/flutter (26929): ║                             "ui": {
+I/flutter (26929): ║                                 "title": "ستروبيري تشيزكيك",
+I/flutter (26929): ║                                 "subtitle": "سناك ضمن فئة السناك.",
+I/flutter (26929): ║                                 "ctaLabel": "أضف",
+I/flutter (26929): ║                                 "badge": "إضافة مرة واحدة"
+I/flutter (26929): ║                            }
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f2399d4eee65376d14b417",
+I/flutter (26929): ║                             "name": "دارك براونيز",
+I/flutter (26929): ║                             "description": "سناك ضمن فئة السناك.",
+I/flutter (26929): ║                             "imageUrl": "",
+I/flutter (26929): ║                             "currency": "SAR",
+I/flutter (26929): ║                             "priceHalala": 1300,
+I/flutter (26929): ║                             "priceSar": 13,
+I/flutter (26929): ║                             "priceLabel": "13 SAR",
+I/flutter (26929): ║                             "kind": "item",
+I/flutter (26929): ║                             "category": "snack",
+I/flutter (26929): ║                             "type": "one_time",
+I/flutter (26929): ║                             "billingMode": "flat_once",
+I/flutter (26929): ║                             "pricingModel": "one_time",
+I/flutter (26929): ║                             "billingUnit": "item",
+I/flutter (26929): ║                             "ui": {
+I/flutter (26929): ║                                 "title": "دارك براونيز",
+I/flutter (26929): ║                                 "subtitle": "سناك ضمن فئة السناك.",
+I/flutter (26929): ║                                 "ctaLabel": "أضف",
+I/flutter (26929): ║                                 "badge": "إضافة مرة واحدة"
+I/flutter (26929): ║                            }
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f2399d4eee65376d14b418",
+I/flutter (26929): ║                             "name": "بروتين بار",
+I/flutter (26929): ║                             "description": "سناك ضمن فئة السناك.",
+I/flutter (26929): ║                             "imageUrl": "",
+I/flutter (26929): ║                             "currency": "SAR",
+I/flutter (26929): ║                             "priceHalala": 1500,
+I/flutter (26929): ║                             "priceSar": 15,
+I/flutter (26929): ║                             "priceLabel": "15 SAR",
+I/flutter (26929): ║                             "kind": "item",
+I/flutter (26929): ║                             "category": "snack",
+I/flutter (26929): ║                             "type": "one_time",
+I/flutter (26929): ║                             "billingMode": "flat_once",
+I/flutter (26929): ║                             "pricingModel": "one_time",
+I/flutter (26929): ║                             "billingUnit": "item",
+I/flutter (26929): ║                             "ui": {
+I/flutter (26929): ║                                 "title": "بروتين بار",
+I/flutter (26929): ║                                 "subtitle": "سناك ضمن فئة السناك.",
+I/flutter (26929): ║                                 "ctaLabel": "أضف",
+I/flutter (26929): ║                                 "badge": "إضافة مرة واحدة"
+I/flutter (26929): ║                            }
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f2399d4eee65376d14b419",
+I/flutter (26929): ║                             "name": "كلاسيك بيسك",
+I/flutter (26929): ║                             "description": "سناك ضمن فئة السناك.",
+I/flutter (26929): ║                             "imageUrl": "",
+I/flutter (26929): ║                             "currency": "SAR",
+I/flutter (26929): ║                             "priceHalala": 1400,
+I/flutter (26929): ║                             "priceSar": 14,
+I/flutter (26929): ║                             "priceLabel": "14 SAR",
+I/flutter (26929): ║                             "kind": "item",
+I/flutter (26929): ║                             "category": "snack",
+I/flutter (26929): ║                             "type": "one_time",
+I/flutter (26929): ║                             "billingMode": "flat_once",
+I/flutter (26929): ║                             "pricingModel": "one_time",
+I/flutter (26929): ║                             "billingUnit": "item",
+I/flutter (26929): ║                             "ui": {
+I/flutter (26929): ║                                 "title": "كلاسيك بيسك",
+I/flutter (26929): ║                                 "subtitle": "سناك ضمن فئة السناك.",
+I/flutter (26929): ║                                 "ctaLabel": "أضف",
+I/flutter (26929): ║                                 "badge": "إضافة مرة واحدة"
+I/flutter (26929): ║                            }
+I/flutter (26929): ║                        },
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f2399d4eee65376d14b41a",
+I/flutter (26929): ║                             "name": "كيكة بروتين بالشوكولاتة",
+I/flutter (26929): ║                             "description": "سناك ضمن فئة السناك.",
+I/flutter (26929): ║                             "imageUrl": "",
+I/flutter (26929): ║                             "currency": "SAR",
+I/flutter (26929): ║                             "priceHalala": 400,
+I/flutter (26929): ║                             "priceSar": 4,
+I/flutter (26929): ║                             "priceLabel": "4 SAR",
+I/flutter (26929): ║                             "kind": "item",
+I/flutter (26929): ║                             "category": "snack",
+I/flutter (26929): ║                             "type": "one_time",
+I/flutter (26929): ║                             "billingMode": "flat_once",
+I/flutter (26929): ║                             "pricingModel": "one_time",
+I/flutter (26929): ║                             "billingUnit": "item",
+I/flutter (26929): ║                             "ui": {
+I/flutter (26929): ║                                 "title": "كيكة بروتين بالشوكولاتة",
+I/flutter (26929): ║                                 "subtitle": "سناك ضمن فئة السناك.",
+I/flutter (26929): ║                                 "ctaLabel": "أضف",
+I/flutter (26929): ║                                 "badge": "إضافة مرة واحدة"
+I/flutter (26929): ║                            }
+I/flutter (26929): ║                        }
+I/flutter (26929): ║                     ],
+I/flutter (26929): ║                     "small_salad": [
+I/flutter (26929): ║                        {
+I/flutter (26929): ║                             "id": "69f2399d4eee65376d14b41b",
+I/flutter (26929): ║                             "name": "سلطة صغيرة",
+I/flutter (26929): ║                             "description": "سلطة ضمن فئة السلطة الصغيرة.",
+I/flutter (26929): ║                             "imageUrl": "",
+I/flutter (26929): ║                             "currency": "SAR",
+I/flutter (26929): ║                             "priceHalala": 1200,
+I/flutter (26929): ║                             "priceSar": 12,
+I/flutter (26929): ║                             "priceLabel": "12 SAR",
+I/flutter (26929): ║                             "kind": "item",
+I/flutter (26929): ║                             "category": "small_salad",
+I/flutter (26929): ║                             "type": "one_time",
+I/flutter (26929): ║                             "billingMode": "flat_once",
+I/flutter (26929): ║                             "pricingModel": "one_time",
+I/flutter (26929): ║                             "billingUnit": "item",
+I/flutter (26929): ║                             "ui": {
+I/flutter (26929): ║                                 "title": "سلطة صغيرة",
+I/flutter (26929): ║                                 "subtitle": "سلطة ضمن فئة السلطة الصغيرة."
+I/flutter (26929): ║                                 "ctaLabel": "أضف",
+I/flutter (26929): ║                                 "badge": "إضافة مرة واحدة"
+I/flutter (26929): ║                            }
+I/flutter (26929): ║                        }
+I/flutter (26929): ║                     ]
+I/flutter (26929): ║                }
+I/flutter (26929): ║                 "totalCount": 18
+I/flutter (26929): ║            }
+I/flutter (26929): ║        }
+I/flutter (26929): ║    }
+I/flutter (26929): ║
+I/flutter (26929): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
+I/flutter (26929): onChange -- MealPlannerBloc, Change { currentState: MealPlannerLoading(), nextState: MealPlannerLoaded([Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel'], Instance of 'MealPlannerMenuModel', [AddOnModel(69f2399d4eee65376d14b40a, بيري بلاست, juice, عصير ضمن فئة العصير., , SAR, 1100, 11.0, 11 SAR, item, flat_once, one_time, item, AddOnUiModel(بيري بلاست, عصير ضمن فئة العصير., أضف, إضافة مرة واحدة)), AddOnModel(69f2399d4eee65376d14b40b, بيري بروت, juice, عصير ضمن فئة العصير., , SAR, 1300, 13.0, 13 SAR, item, flat_once, one_time, item, AddOnUiModel(بيري بروت, عصير ضمن فئة العصير., أضف, إضافة مرة واحدة)), AddOnModel(69f2399d4eee65376d14b40c, كلاسيك جرين, juice, عصير ضمن فئة العصير., , SAR,
+I/flutter (26929):
+I/flutter (26929): ╔╣ Request ║ GET
+I/flutter (26929): ║  https://basicdiet145.onrender.com/api/subscriptions/69f3a6e75d7207d8b22fd98f/days/2026-05-01
+I/flutter (26929): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
+I/flutter (26929): ╔ Headers
+I/flutter (26929): ╟ accept: application/json
+I/flutter (26929): ╟ content-type: application/json
+I/flutter (26929): ╟ authorization:
+I/flutter (26929): ║ Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWYyMzdmMjE5Mjg4ZGJjOWUxNjMxZG
+I/flutter (26929): ║ UiLCJyb2xlIjoiY2xpZW50IiwidG9rZW5UeXBlIjoiYXBwX2FjY2VzcyIsImlhdCI6MTc3NzQ5MDg2NSwiZXhwIjox
+I/flutter (26929): ║ NzgwMTY5MjY1fQ.wQdMvBRkWrYPGGrvx5HtsUbTO-B9NlayVB5uRMS4rVE
+I/flutter (26929): ╟ Accept-Language: ar
+I/flutter (26929): ╟ contentType: application/json
+I/flutter (26929): ╟ responseType: ResponseType.json
+I/flutter (26929): ╟ followRedirects: true
+I/flutter (26929): ╟ receiveTimeout: 16:40:00.000000
+I/flutter (26929): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
+E/libEGL  (26929): called unimplemented OpenGL ES API
+I/flutter (26929):
+I/flutter (26929): ╔╣ Response ║ GET ║ Status: 200 OK  ║ Time: 1027 ms
+I/flutter (26929): ║  https://basicdiet145.onrender.com/api/subscriptions/69f3a6e75d7207d8b22fd98f/days/2026-05-01
+I/flutter (26929): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
+I/flutter (26929): ╔ Headers
+I/flutter (26929): ╟ x-dns-prefetch-control: [off]
+I/flutter (26929): ╟ x-render-origin-server: [Render]
+I/flutter (26929): ╟ date: [Thu, 30 Apr 2026 19:03:15 GMT]
+I/flutter (26929): ╟ transfer-encoding: [chunked]
+I/flutter (26929): ╟ origin-agent-cluster: [?1]
+I/flutter (26929): ╟ vary: [Origin, Accept-Encoding]
+I/flutter (26929): ╟ content-encoding: [gzip]
+I/flutter (26929): ╟ server: [cloudflare]
+I/flutter (26929): ╟ cross-origin-resource-policy: [same-origin]
+I/flutter (26929): ╟ cf-ray: [9f48ce2a7ccbe22c-MRS]
+I/flutter (26929): ╟ etag: [W/"1159-HMj1riQCGBFJqqjrDf1CaKjTeXY"]
+I/flutter (26929): ╟ x-frame-options: [SAMEORIGIN]
+I/flutter (26929): ╟ content-security-policy:
+I/flutter (26929): ║ [default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-
+I/flutter (26929): ║ ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr
+I/flutter (26929): ║ 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests]
+I/flutter (26929): ╟ connection: [keep-alive]
+I/flutter (26929): ╟ strict-transport-security: [max-age=15552000; includeSubDomains]
+I/flutter (26929): ╟ referrer-policy: [no-referrer]
+I/flutter (26929): ╟ cf-cache-status: [DYNAMIC]
+I/flutter (26929): ╟ x-permitted-cross-domain-policies: [none]
+I/flutter (26929): ╟ content-type: [application/json; charset=utf-8]
+I/flutter (26929): ╟ cross-origin-opener-policy: [same-origin]
+I/flutter (26929): ╟ rndr-id: [93befbab-c8d0-43b6]
+I/flutter (26929): ╟ x-xss-protection: [0]
+I/flutter (26929): ╟ access-control-allow-credentials: [true]
+I/flutter (26929): ╟ alt-svc: [h3=":443"; ma=86400]
+I/flutter (26929): ╟ x-download-options: [noopen]
+I/flutter (26929): ╟ x-content-type-options: [nosniff]
+I/flutter (26929): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
+I/flutter (26929): ╔ Body
+I/flutter (26929): ║
+I/flutter (26929): ║    {
+I/flutter (26929): ║         "status": true,
+I/flutter (26929): ║         "data": {
+I/flutter (26929): ║             "_id": "69f3a6e85d7207d8b22fd995",
+I/flutter (26929): ║             "subscriptionId": "69f3a6e75d7207d8b22fd98f",
+I/flutter (26929): ║             "date": "2026-05-01",
+I/flutter (26929): ║             "status": "open",
+I/flutter (26929): ║             "selections": []
+I/flutter (26929): ║             "skippedByUser": false,
+I/flutter (26929): ║             "skipCompensated": false,
+I/flutter (26929): ║             "assignedByKitchen": false,
+I/flutter (26929): ║             "pickupRequested": false,
+I/flutter (26929): ║             "pickupRequestedAt": null,
+I/flutter (26929): ║             "pickupPreparationStartedAt": null,
+I/flutter (26929): ║             "pickupPreparedAt": null,
+I/flutter (26929): ║             "pickupCode": null,
+I/flutter (26929): ║             "pickupCodeIssuedAt": null,
+I/flutter (26929): ║             "pickupVerifiedAt": null,
+I/flutter (26929): ║             "pickupVerifiedByDashboardUserId": null,
+I/flutter (26929): ║             "pickupNoShowAt": null,
+I/flutter (26929): ║             "dayEndConsumptionReason": null,
+I/flutter (26929): ║             "cancellationReason": null,
+I/flutter (26929): ║             "cancellationCategory": null,
+I/flutter (26929): ║             "cancellationNote": null,
+I/flutter (26929): ║             "canceledBy": null,
+I/flutter (26929): ║             "canceledAt": null,
+I/flutter (26929): ║             "creditsDeducted": false,
+I/flutter (26929): ║             "autoLocked": false,
+I/flutter (26929): ║             "plannerRevisionHash": "b0ddd7e6b9051b1c961aa465baaa398393149b64baaf0d86503e2b7694ca46e4",
+I/flutter (26929): ║             "mealReminderSentAt": null,
+I/flutter (26929): ║             "addonSelections": []
+I/flutter (26929): ║             "premiumUpgradeSelections": []
+I/flutter (26929): ║             "operationAuditLog": []
+I/flutter (26929): ║             "customSalads": []
+I/flutter (26929): ║             "customMeals": []
+I/flutter (26929): ║             "baseMealSlots": []
+I/flutter (26929): ║             "__v": 0,
+I/flutter (26929): ║             "createdAt": "2026-04-30T19:00:56.107Z",
+I/flutter (26929): ║             "updatedAt": "2026-04-30T19:00:56.107Z",
+I/flutter (26929): ║             "planning": {
+I/flutter (26929): ║                 "version": "subscription_day_planning.v1",
+I/flutter (26929): ║                 "state": "draft",
+I/flutter (26929): ║                 "requiredMealCount": 1,
+I/flutter (26929): ║                 "selectedBaseMealCount": 0,
+I/flutter (26929): ║                 "selectedPremiumMealCount": 0,
+I/flutter (26929): ║                 "selectedTotalMealCount": 0,
+I/flutter (26929): ║                 "isExactCountSatisfied": false,
+I/flutter (26929): ║                 "confirmedAt": null,
+I/flutter (26929): ║                 "confirmedByRole": null,
+I/flutter (26929): ║                 "baseMealSlots": []
+I/flutter (26929): ║                 "premiumOverageCount": 0,
+I/flutter (26929): ║                 "premiumOverageStatus": null,
+I/flutter (26929): ║                 "stateLabel": "مسودة",
+I/flutter (26929): ║                 "premiumOverageStatusLabel": ""
+I/flutter (26929): ║            }
+I/flutter (26929): ║             "statusLabel": "مفتوح",
+I/flutter (26929): ║             "premiumSummary": {
+I/flutter (26929): ║                 "selectedCount": 0,
+I/flutter (26929): ║                 "coveredByBalanceCount": 0,
+I/flutter (26929): ║                 "pendingPaymentCount": 0,
+I/flutter (26929): ║                 "paidExtraCount": 0,
+I/flutter (26929): ║                 "totalExtraHalala": 0,
+I/flutter (26929): ║                 "currency": "SAR"
+I/flutter (26929): ║            }
+I/flutter (26929): ║             "premiumExtraPayment": {
+I/flutter (26929): ║                 "status": "none",
+I/flutter (26929): ║                 "paymentId": null,
+I/flutter (26929): ║                 "providerInvoiceId": null,
+I/flutter (26929): ║                 "amountHalala": 0,
+I/flutter (26929): ║                 "currency": "SAR",
+I/flutter (26929): ║                 "expiresAt": null,
+I/flutter (26929): ║                 "reused": false,
+I/flutter (26929): ║                 "revisionHash": "b0ddd7e6b9051b1c961aa465baaa398393149b64baaf0d86503e2b7694ca46e4"
+I/flutter (26929): ║                 "createdAt": null,
+I/flutter (26929): ║                 "paidAt": null,
+I/flutter (26929): ║                 "extraPremiumCount": 0,
+I/flutter (26929): ║                 "statusLabel": "لا يوجد دفع"
+I/flutter (26929): ║            }
+I/flutter (26929): ║             "paymentRequirement": {
+I/flutter (26929): ║                 "status": "satisfied",
+I/flutter (26929): ║                 "requiresPayment": false,
+I/flutter (26929): ║                 "pricingStatus": "not_required",
+I/flutter (26929): ║                 "blockingReason": "PLANNING_INCOMPLETE",
+I/flutter (26929): ║                 "canCreatePayment": false,
+I/flutter (26929): ║                 "premiumSelectedCount": 0,
+I/flutter (26929): ║                 "premiumPendingPaymentCount": 0,
+I/flutter (26929): ║                 "addonSelectedCount": 0,
+I/flutter (26929): ║                 "addonPendingPaymentCount": 0,
+I/flutter (26929): ║                 "pendingAmountHalala": 0,
+I/flutter (26929): ║                 "amountHalala": 0,
+I/flutter (26929): ║                 "currency": "SAR",
+I/flutter (26929): ║                 "pricingStatusLabel": "غير مطلوب",
+I/flutter (26929): ║                 "blockingReasonLabel": ""
+I/flutter (26929): ║            }
+I/flutter (26929): ║             "commercialState": "draft",
+I/flutter (26929): ║             "isFulfillable": false,
+I/flutter (26929): ║             "canBePrepared": false,
+I/flutter (26929): ║             "pickupPrepared": false,
+I/flutter (26929): ║             "pickupPreparationFlowStatus": "waiting_for_prepare",
+I/flutter (26929): ║             "fulfillmentMode": "no_service",
+I/flutter (26929): ║             "consumptionState": "pending_day",
+I/flutter (26929): ║             "requiredMealCount": 1,
+I/flutter (26929): ║             "specifiedMealCount": 0,
+I/flutter (26929): ║             "unspecifiedMealCount": 1,
+I/flutter (26929): ║             "hasCustomerSelections": false,
+I/flutter (26929): ║             "requiresMealTypeKnowledge": false,
+I/flutter (26929): ║             "mealTypesSpecified": false,
+I/flutter (26929): ║             "planningReady": false,
+I/flutter (26929): ║             "fulfillmentReady": false,
+I/flutter (26929): ║             "deliveryMode": "pickup",
+I/flutter (26929): ║             "pickupLocation": null,
+I/flutter (26929): ║             "deliveryAddress": null,
+I/flutter (26929): ║             "deliveryWindow": null,
+I/flutter (26929): ║             "deliverySlot": {type: pickup, slotId: , window: , label: },
+I/flutter (26929): ║             "fulfillmentSummary": {
+I/flutter (26929): ║                 "mode": "pickup",
+I/flutter (26929): ║                 "title": "الاستلام من الفرع",
+I/flutter (26929): ║                 "status": "open",
+I/flutter (26929): ║                 "statusLabel": "مفتوح",
+I/flutter (26929): ║                 "message": "تفاصيل الفرع غير متاحة حاليا",
+I/flutter (26929): ║                 "nextAction": "",
+I/flutter (26929): ║                 "isEditable": false,
+I/flutter (26929): ║                 "isFulfillable": false,
+I/flutter (26929): ║                 "planningReady": false,
+I/flutter (26929): ║                 "fulfillmentReady": false,
+I/flutter (26929): ║                 "lockedReason": "PICKUP_LOCATION_MISSING",
+I/flutter (26929): ║                 "lockedMessage": "تفاصيل الفرع غير متاحة حاليا"
+I/flutter (26929): ║            }
+I/flutter (26929): ║             "lockedReason": "PICKUP_LOCATION_MISSING",
+I/flutter (26929): ║             "lockedMessage": "تفاصيل الفرع غير متاحة حاليا",
+I/flutter (26929): ║             "rules": {
+I/flutter (26929): ║                 "version": "meal_planner_rules.v3",
+I/flutter (26929): ║                 "beef": {proteinFamilyKey: beef, maxSlotsPerDay: 1},
+I/flutter (26929): ║                 "standardCarbs": {maxTypes: 2, maxTotalGrams: 300, unit: grams},
+I/flutter (26929): ║                 "premiumCarbs": {maxTypes: 2, maxTotalGrams: 300, unit: grams},
+I/flutter (26929): ║                 "proteinGroups": [
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "key": "chicken",
+I/flutter (26929): ║                         "name": {ar: دجاج, en: Chicken},
+I/flutter (26929): ║                         "sortOrder": 10
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "key": "beef",
+I/flutter (26929): ║                         "name": {ar: لحم, en: Beef},
+I/flutter (26929): ║                         "sortOrder": 20
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "key": "fish",
+I/flutter (26929): ║                         "name": {ar: أسماك, en: Fish},
+I/flutter (26929): ║                         "sortOrder": 30
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "key": "eggs",
+I/flutter (26929): ║                         "name": {ar: بيض, en: Eggs},
+I/flutter (26929): ║                         "sortOrder": 40
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "key": "premium",
+I/flutter (26929): ║                         "name": {ar: بريميوم, en: Premium},
+I/flutter (26929): ║                         "sortOrder": 50
+I/flutter (26929): ║                    },
+I/flutter (26929): ║                    {
+I/flutter (26929): ║                         "key": "other",
+I/flutter (26929): ║                         "name": {ar: أخرى, en: Other},
+I/flutter (26929): ║                         "sortOrder": 60
+I/flutter (26929): ║                    }
+I/flutter (26929): ║                 ],
+I/flutter (26929): ║                 "premiumLargeSalad": {
+I/flutter (26929): ║                     "premiumKey": "custom_premium_salad",
+I/flutter (26929): ║                     "presetKey": "large_salad",
+I/flutter (26929): ║                     "extraFeeHalala": 3000,
+I/flutter (26929): ║                     "groups": [
+I/flutter (26929): ║                      {key: leafy_greens, minSelect: 0, maxSelect: 99},
+I/flutter (26929): ║                      {key: vegetables, minSelect: 0, maxSelect: 99},
+I/flutter (26929): ║                      {key: protein, minSelect: 1, maxSelect: 1},
+I/flutter (26929): ║                      {key: cheese_nuts, minSelect: 0, maxSelect: 99},
+I/flutter (26929): ║                      {key: fruits, minSelect: 0, maxSelect: 99},
+I/flutter (26929): ║                      {key: sauce, minSelect: 1, maxSelect: 1}
+I/flutter (26929): ║                     ]
+I/flutter (26929): ║                }
+I/flutter (26929): ║            }
+I/flutter (26929): ║             "commercialStateLabel": "مسودة"
+I/flutter (26929): ║        }
+I/flutter (26929): ║    }
+I/flutter (26929): ║
+I/flutter (26929): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
+I/flutter (26929): onChange -- MealPlannerBloc, Change { currentState: MealPlannerLoaded([Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel'], Instance of 'MealPlannerMenuModel', [AddOnModel(69f2399d4eee65376d14b40a, بيري بلاست, juice, عصير ضمن فئة العصير., , SAR, 1100, 11.0, 11 SAR, item, flat_once, one_time, item, AddOnUiModel(بيري بلاست, عصير ضمن فئة العصير., أضف, إضافة مرة واحدة)), AddOnModel(69f2399d4eee65376d14b40b, بيري بروت, juice, عصير ضمن فئة العصير., , SAR, 1300, 13.0, 13 SAR, item, flat_once, one_time, item, AddOnUiModel(بيري بروت, عصير ضمن فئة العصير., أضف, إضافة مرة واحدة)), AddOnModel(69f2399d4eee65376d14b40c, كلاسيك جرين, juice, عصير ضمن فئة العصير., , SAR, 1100, 11.0, 11 SAR, item, flat_o
+E/libEGL  (26929): called unimplemented OpenGL ES API
