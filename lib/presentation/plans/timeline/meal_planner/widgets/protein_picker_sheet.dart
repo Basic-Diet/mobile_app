@@ -400,11 +400,9 @@ class _ProteinList extends StatelessWidget {
                       ? _findProteinNameById(state, currentSlot?.proteinId)
                       : null,
               onTap: () async {
-                final premiumProteins =
-                    state.menu.builderCatalog.allProteins
-                        .where((protein) => protein.isPremium)
-                        .toList()
-                      ..sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
+                final builderProteins = _customBuilderProteins(
+                  state.menu.builderCatalog,
+                );
 
                 final result =
                     await Navigator.push<CustomPremiumMealBuilderResult>(
@@ -413,7 +411,7 @@ class _ProteinList extends StatelessWidget {
                         builder:
                             (_) => CustomPremiumMealBuilderScreen(
                               config: premiumLargeSalad,
-                              premiumProteins: premiumProteins,
+                              proteins: builderProteins,
                               initialProteinId: currentSlot?.proteinId,
                             ),
                       ),
@@ -446,6 +444,19 @@ class _ProteinList extends StatelessWidget {
       if (protein.id == id) return protein.name;
     }
     return null;
+  }
+
+  List<BuilderProteinModel> _customBuilderProteins(BuilderCatalogModel catalog) {
+    final proteinsById = <String, BuilderProteinModel>{};
+
+    for (final protein in catalog.allProteins) {
+      proteinsById[protein.id] = protein;
+    }
+
+    final proteins = proteinsById.values.toList()
+      ..sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
+
+    return proteins;
   }
 }
 
