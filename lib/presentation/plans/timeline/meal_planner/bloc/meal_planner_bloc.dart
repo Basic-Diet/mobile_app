@@ -2,6 +2,7 @@ import 'package:basic_diet/data/network/failure.dart';
 import 'package:basic_diet/data/request/day_selection_request.dart';
 import 'package:basic_diet/domain/model/current_subscription_overview_model.dart';
 import 'package:basic_diet/domain/model/meal_planner_menu_model.dart';
+import 'package:basic_diet/domain/model/premium_payment_model.dart';
 import 'package:basic_diet/domain/model/subscription_day_model.dart';
 import 'package:basic_diet/domain/model/timeline_model.dart';
 import 'package:basic_diet/domain/usecase/confirm_day_selection_usecase.dart';
@@ -20,6 +21,8 @@ import 'meal_planner_state.dart';
 
 class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
   static const int _carbGramStep = 50;
+  static const String _dayPaymentRevisionMismatchCode =
+      'DAY_PAYMENT_REVISION_MISMATCH';
 
   final GetMealPlannerMenuUseCase _getMealPlannerMenuUseCase;
   final GetSubscriptionDayUseCase _getSubscriptionDayUseCase;
@@ -541,7 +544,12 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
       (updatedDay) async {
         if (emit.isDone) return;
 
-        final updatedState = _applyUpdatedDay(current, updatedDay);
+        final updatedState = _applyUpdatedDay(current, updatedDay).copyWith(
+          isSaving: true,
+          clearPaymentError: true,
+        );
+        emit(updatedState);
+
         final requiresPayment =
             updatedDay.paymentRequirement?.requiresPayment ?? false;
 
@@ -626,38 +634,125 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
     SubscriptionDayModel updatedDay,
   ) async {
     final day = stateAfterSave.selectedTimelineDay;
+    var paymentState = stateAfterSave;
+    var paymentDay = updatedDay;
+
+    if (paymentDay.plannerRevisionHash.isEmpty) {
+      final refreshed = await _reloadPaymentDay(emit, paymentState, day.date);
+      if (refreshed == null) return;
+      paymentState = refreshed.state;
+      paymentDay = refreshed.day;
+    }
+
     final paymentResult = await _createUnifiedDayPaymentUseCase.execute(
       CreateUnifiedDayPaymentUseCaseInput(
         subscriptionId,
         day.date,
-        plannerRevisionHash: updatedDay.plannerRevisionHash,
+        plannerRevisionHash: paymentDay.plannerRevisionHash,
       ),
     );
 
-    paymentResult.fold(
+    await paymentResult.fold(
+      (failure) async {
+        if (!_isDayPaymentRevisionMismatch(failure)) {
+          if (!emit.isDone) {
+            emit(
+              paymentState.copyWith(
+                isSaving: false,
+                paymentError: _formatFailure(failure),
+              ),
+            );
+          }
+          return;
+        }
+
+        final refreshed = await _reloadPaymentDay(emit, paymentState, day.date);
+        if (refreshed == null) return;
+
+        final retryResult = await _createUnifiedDayPaymentUseCase.execute(
+          CreateUnifiedDayPaymentUseCaseInput(
+            subscriptionId,
+            day.date,
+            plannerRevisionHash: refreshed.day.plannerRevisionHash,
+          ),
+        );
+
+        retryResult.fold(
+          (_) {
+            if (!emit.isDone) {
+              emit(
+                refreshed.state.copyWith(
+                  isSaving: false,
+                  paymentError: Strings.daySelectionChangedReview.tr(),
+                ),
+              );
+            }
+          },
+          (paymentModel) {
+            _emitPaymentReady(emit, refreshed.state, paymentModel);
+          },
+        );
+      },
+      (paymentModel) async {
+        _emitPaymentReady(emit, paymentState, paymentModel);
+      },
+    );
+  }
+
+  Future<({MealPlannerLoaded state, SubscriptionDayModel day})?>
+  _reloadPaymentDay(
+    Emitter<MealPlannerState> emit,
+    MealPlannerLoaded baseState,
+    String date,
+  ) async {
+    final refreshed = await _getSubscriptionDayUseCase.execute(
+      GetSubscriptionDayUseCaseInput(subscriptionId, date),
+    );
+
+    return refreshed.fold(
       (failure) {
         if (!emit.isDone) {
           emit(
-            stateAfterSave.copyWith(
+            baseState.copyWith(
               isSaving: false,
               paymentError: _formatFailure(failure),
             ),
           );
         }
+        return null;
       },
-      (paymentModel) {
-        if (!emit.isDone) {
-          emit(
-            stateAfterSave.copyWith(
-              isSaving: false,
-              paymentUrl: paymentModel.paymentUrl,
-              paymentId: paymentModel.paymentId,
-              activePaymentKind: 'unified_day',
-            ),
-          );
-        }
+      (freshDay) {
+        if (emit.isDone) return null;
+        final freshState = _applyUpdatedDay(
+          baseState,
+          freshDay,
+        ).copyWith(isSaving: true, clearPaymentError: true);
+        emit(freshState);
+        return (state: freshState, day: freshDay);
       },
     );
+  }
+
+  void _emitPaymentReady(
+    Emitter<MealPlannerState> emit,
+    MealPlannerLoaded paymentState,
+    PremiumPaymentModel paymentModel,
+  ) {
+    if (!emit.isDone) {
+      emit(
+        paymentState.copyWith(
+          isSaving: false,
+          paymentUrl: paymentModel.paymentUrl,
+          paymentId: paymentModel.paymentId,
+          activePaymentKind: 'unified_day',
+        ),
+      );
+    }
+  }
+
+  bool _isDayPaymentRevisionMismatch(Failure failure) {
+    return failure.code?.toString().toUpperCase() ==
+        _dayPaymentRevisionMismatchCode;
   }
 
   Future<void> _verifyPayment(
@@ -1063,7 +1158,7 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
   String _dayNotEditableReason(MealPlannerLoaded current) {
     final blocker =
         current.selectedDayDetail?.paymentRequirement?.blockingReason;
-    return blocker?.isNotEmpty == true ? blocker! : Strings.locked.tr();
+    return blocker?.isNotEmpty == true ? blocker! : 'LOCKED';
   }
 
   String? _validateCurrentCarbSelections(MealPlannerLoaded current) {
