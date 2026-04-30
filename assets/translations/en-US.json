@@ -477,5 +477,6 @@
     "fulfillmentOpenPlannerAction": "Open Meal Planner",
     "pickupPreparationOnlyDuringWorkingHours": "Pickup preparation is only available during working hours.",
     "branchOpen": "Open",
-    "branchClosed": "Closed"
+    "branchClosed": "Closed",
+    "daySelectionChangedReview": "Day selection changed. Please review your order again."
 }

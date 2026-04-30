@@ -477,5 +477,6 @@
     "fulfillmentOpenPlannerAction": "افتح مخطط الوجبات",
     "pickupPreparationOnlyDuringWorkingHours": "تجهيز الاستلام متاح فقط خلال ساعات العمل.",
     "branchOpen": "مفتوح",
-    "branchClosed": "مغلق"
+    "branchClosed": "مغلق",
+    "daySelectionChangedReview": "تم تغيير اختيار اليوم. يرجى مراجعة طلبك مرة أخرى."
 }

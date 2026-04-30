@@ -206,6 +206,7 @@ class Strings {
   static const String noAvailableDaysForPlanning = 'noAvailableDaysForPlanning';
   static const String unableToResolvePickupDay = 'unableToResolvePickupDay';
   static const String validationFailed = 'validationFailed';
+  static const String daySelectionChangedReview = 'daySelectionChangedReview';
 
   // Days
   static const String monday = 'monday';
