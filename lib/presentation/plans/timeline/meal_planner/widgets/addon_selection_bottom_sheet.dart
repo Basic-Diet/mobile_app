@@ -316,11 +316,9 @@ class _AddonItemTile extends StatelessWidget {
             ),
             Gap(AppSize.s12.w),
             if (badgeLabel != null) ...[
-              Flexible(
-                child: _AddonStatusBadge(
-                  label: badgeLabel!,
-                  highlighted: requiresPayment,
-                ),
+              _AddonStatusBadge(
+                label: badgeLabel!,
+                highlighted: requiresPayment,
               ),
               Gap(AppSize.s10.w),
             ],
