@@ -31,13 +31,13 @@ class CustomPremiumMealBuilderResult {
 
 class CustomPremiumMealBuilderScreen extends StatefulWidget {
   final PremiumLargeSaladModel config;
-  final List<BuilderProteinModel> premiumProteins;
+  final List<BuilderProteinModel> proteins;
   final String? initialProteinId;
 
   const CustomPremiumMealBuilderScreen({
     super.key,
     required this.config,
-    required this.premiumProteins,
+    required this.proteins,
     this.initialProteinId,
   });
 
@@ -57,7 +57,10 @@ class _CustomPremiumMealBuilderScreenState
   void initState() {
     super.initState();
     _selectedProteinId = widget.initialProteinId;
-    _groupOrder = widget.config.preset.groups.map((group) => group.key).toList();
+    _groupOrder = widget.config.preset.groups
+        .where((group) => !_isProteinGroup(group.key))
+        .map((group) => group.key)
+        .toList();
     for (final key in _groupOrder) {
       _selectedByGroup[key] = <String>[];
     }
@@ -171,7 +174,7 @@ class _CustomPremiumMealBuilderScreenState
         Wrap(
           spacing: AppSize.s8.w,
           runSpacing: AppSize.s8.h,
-          children: widget.premiumProteins.map((protein) {
+          children: widget.proteins.map((protein) {
             final isSelected = selectedId == protein.id;
             return _SelectionChip(
               label: protein.name,
@@ -340,9 +343,17 @@ class _CustomPremiumMealBuilderScreenState
     return key;
   }
 
+  bool _isProteinGroup(String key) {
+    final normalizedKey = _normalizedGroupKey(key);
+    return normalizedKey == 'protein' || normalizedKey == 'proteins';
+  }
+
   bool get _isFormValid {
     if (_selectedProteinId == null || _selectedProteinId!.isEmpty) return false;
-    for (final group in widget.config.preset.groups) {
+    for (final groupKey in _groupOrder) {
+      final group = widget.config.preset.groups.firstWhere(
+        (item) => item.key == groupKey,
+      );
       final selected = _selectedByGroup[group.key] ?? const [];
       if (selected.length < group.minSelect) return false;
       if (group.maxSelect > 0 && selected.length > group.maxSelect) return false;
@@ -369,7 +380,7 @@ class _CustomPremiumMealBuilderScreenState
 
   String _proteinNameById(String? id) {
     if (id == null) return '-';
-    for (final protein in widget.premiumProteins) {
+    for (final protein in widget.proteins) {
       if (protein.id == id) return protein.name;
     }
     return '-';
