@@ -25,6 +25,8 @@ class SubscriptionQuoteDataResponse {
   SubscriptionQuoteBreakdownResponse? breakdown;
   @JsonKey(name: 'totalSar')
   double? totalSar;
+  @JsonKey(name: 'pricingSummary')
+  SubscriptionQuotePricingSummaryResponse? pricingSummary;
   @JsonKey(name: 'summary')
   SubscriptionQuoteSummaryResponse? summary;
   @JsonKey(name: 'promoCode', readValue: _readPromoPayload)
@@ -33,6 +35,7 @@ class SubscriptionQuoteDataResponse {
   SubscriptionQuoteDataResponse({
     this.breakdown,
     this.totalSar,
+    this.pricingSummary,
     this.summary,
     this.appliedPromo,
   });
@@ -152,6 +155,41 @@ class SubscriptionQuoteBreakdownResponse {
 
   Map<String, dynamic> toJson() =>
       _$SubscriptionQuoteBreakdownResponseToJson(this);
+}
+
+@JsonSerializable()
+class SubscriptionQuotePricingSummaryResponse {
+  @JsonKey(name: 'basePlanGrossSar')
+  double? basePlanGrossSar;
+  @JsonKey(name: 'basePlanNetSar')
+  double? basePlanNetSar;
+  @JsonKey(name: 'subtotalSar')
+  double? subtotalSar;
+  @JsonKey(name: 'vatPercentage')
+  double? vatPercentage;
+  @JsonKey(name: 'vatSar')
+  double? vatSar;
+  @JsonKey(name: 'totalPriceSar')
+  double? totalPriceSar;
+  @JsonKey(name: 'currency')
+  String? currency;
+
+  SubscriptionQuotePricingSummaryResponse({
+    this.basePlanGrossSar,
+    this.basePlanNetSar,
+    this.subtotalSar,
+    this.vatPercentage,
+    this.vatSar,
+    this.totalPriceSar,
+    this.currency,
+  });
+
+  factory SubscriptionQuotePricingSummaryResponse.fromJson(
+    Map<String, dynamic> json,
+  ) => _$SubscriptionQuotePricingSummaryResponseFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$SubscriptionQuotePricingSummaryResponseToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)

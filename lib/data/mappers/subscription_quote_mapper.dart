@@ -65,6 +65,17 @@ extension SubscriptionQuoteResponseMapper on SubscriptionQuoteResponse? {
             currency: Constants.empty,
           ),
       totalSar: this?.data?.totalSar ?? Constants.decimalZero,
+      pricingSummary:
+          this?.data?.pricingSummary.toDomain() ??
+          const SubscriptionQuotePricingSummaryModel(
+            basePlanGrossSar: Constants.decimalZero,
+            basePlanNetSar: Constants.decimalZero,
+            subtotalSar: Constants.decimalZero,
+            vatPercentage: Constants.decimalZero,
+            vatSar: Constants.decimalZero,
+            totalPriceSar: Constants.decimalZero,
+            currency: Constants.empty,
+          ),
       summary:
           this?.data?.summary.toDomain() ??
           const SubscriptionQuoteSummaryModel(
@@ -106,6 +117,21 @@ extension SubscriptionQuoteBreakdownResponseMapper
       deliveryFeeHalala: this?.deliveryFeeHalala ?? Constants.zero,
       vatHalala: this?.vatHalala ?? Constants.zero,
       totalHalala: this?.totalHalala ?? Constants.zero,
+      currency: this?.currency ?? Constants.empty,
+    );
+  }
+}
+
+extension SubscriptionQuotePricingSummaryResponseMapper
+    on SubscriptionQuotePricingSummaryResponse? {
+  SubscriptionQuotePricingSummaryModel toDomain() {
+    return SubscriptionQuotePricingSummaryModel(
+      basePlanGrossSar: this?.basePlanGrossSar ?? Constants.decimalZero,
+      basePlanNetSar: this?.basePlanNetSar ?? Constants.decimalZero,
+      subtotalSar: this?.subtotalSar ?? Constants.decimalZero,
+      vatPercentage: this?.vatPercentage ?? Constants.decimalZero,
+      vatSar: this?.vatSar ?? Constants.decimalZero,
+      totalPriceSar: this?.totalPriceSar ?? Constants.decimalZero,
       currency: this?.currency ?? Constants.empty,
     );
   }

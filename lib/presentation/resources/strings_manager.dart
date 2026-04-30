@@ -431,13 +431,18 @@ class Strings {
   static const String updatedJustNow = 'updatedJustNow';
   static const String branchOpen = 'branchOpen';
   static const String branchClosed = 'branchClosed';
-  static const String pickupNotReadyForPreparation = 'pickupNotReadyForPreparation';
-  static const String pickupPreparationUnavailable = 'pickupPreparationUnavailable';
-  static const String pickupPreparationOnlyDuringWorkingHours = 'pickupPreparationOnlyDuringWorkingHours';
-  static const String fulfillmentLocationMissingSubtext = 'fulfillmentLocationMissingSubtext';
+  static const String pickupNotReadyForPreparation =
+      'pickupNotReadyForPreparation';
+  static const String pickupPreparationUnavailable =
+      'pickupPreparationUnavailable';
+  static const String pickupPreparationOnlyDuringWorkingHours =
+      'pickupPreparationOnlyDuringWorkingHours';
+  static const String fulfillmentLocationMissingSubtext =
+      'fulfillmentLocationMissingSubtext';
   static const String updatedMinuteAgo = 'updatedMinuteAgo';
   static const String orderOpenState = 'orderOpenState';
-  static const String fulfillmentPrepareActionNow = 'fulfillmentPrepareActionNow';
+  static const String fulfillmentPrepareActionNow =
+      'fulfillmentPrepareActionNow';
 
   // Add-on Entitlements
   static const String includedPerDay = 'includedPerDay';
@@ -481,6 +486,9 @@ class Strings {
   static const String openingPayment = 'openingPayment';
 
   static const String priceBreakdown = 'priceBreakdown';
+  static const String packagePriceBeforeTax = 'packagePriceBeforeTax';
+  static const String packagePriceAfterTax = 'packagePriceAfterTax';
+  static const String valueAddedAmount = 'valueAddedAmount';
   static const String deliveryNotes = 'deliveryNotes';
   static const String timeSlot = 'timeSlot';
   static const String orderSummary = 'orderSummary';
@@ -575,6 +583,10 @@ class Strings {
   static const String premiumProteinSelection = 'premiumProteinSelection';
   static const String premiumProteinDesc = 'premiumProteinDesc';
   static const String skipThisStep = 'skipThisStep';
+  static const String optionalStepLabel = 'optionalStepLabel';
+  static const String premiumStepTitle = 'premiumStepTitle';
+  static const String premiumStepDescription = 'premiumStepDescription';
+  static const String premiumStepHint = 'premiumStepHint';
   static const String howWouldYouLikeToReceiveYourMeals =
       'howWouldYouLikeToReceiveYourMeals';
   static const String chooseDeliveryType = 'chooseDeliveryType';
@@ -589,6 +601,9 @@ class Strings {
   static const String enhanceYourPlan = 'enhanceYourPlan';
   static const String addExtraItemsOptional = 'addExtraItemsOptional';
   static const String noAddOnsSelected = 'noAddOnsSelected';
+  static const String addOnsStepTitle = 'addOnsStepTitle';
+  static const String addOnsStepDescription = 'addOnsStepDescription';
+  static const String addOnsStepHint = 'addOnsStepHint';
   static const String appliedTo = 'appliedTo';
   static const String signInToContinueYourHealthyJourney =
       'signInToContinueYourHealthyJourney';

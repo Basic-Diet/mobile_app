@@ -13,6 +13,7 @@ import 'package:basic_diet/presentation/resources/font_manager.dart';
 import 'package:basic_diet/presentation/resources/strings_manager.dart';
 import 'package:basic_diet/presentation/resources/styles_manager.dart';
 import 'package:basic_diet/presentation/resources/values_manager.dart';
+import 'package:basic_diet/presentation/widgets/subscription_step_intro_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -145,21 +146,24 @@ class _AddOnsListView extends StatelessWidget {
 
   Widget _buildHeader() {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          Strings.enhanceYourPlan.tr(),
-          style: getBoldTextStyle(
-            color: ColorManager.textPrimary,
-            fontSize: FontSizeManager.s18.sp,
-          ),
+        SubscriptionStepIntroCard(
+          badge: Strings.optionalStepLabel.tr(),
+          title: Strings.addOnsStepTitle.tr(),
+          description: Strings.addOnsStepDescription.tr(),
+          hint: Strings.addOnsStepHint.tr(),
+          icon: Icons.local_cafe_rounded,
+          accentColor: ColorManager.brandPrimary,
+          surfaceColor: ColorManager.brandPrimaryTint,
+          borderColor: ColorManager.brandPrimary.withValues(alpha: 0.18),
         ),
-        Gap(AppSize.s8.h),
+        Gap(AppSize.s24.h),
         Text(
-          Strings.addExtraItemsOptional.tr(),
-          textAlign: TextAlign.center,
+          Strings.addonChoosePrompt.tr(),
           style: getRegularTextStyle(
-            color: ColorManager.textSecondary,
-            fontSize: FontSizeManager.s14.sp,
+            color: ColorManager.textPrimary,
+            fontSize: FontSizeManager.s16.sp,
           ),
         ),
       ],
@@ -513,7 +517,7 @@ class _AddOnsSummary {
   }
 
   String get countLabel =>
-      '$count ${Strings.addOns.tr()}${count > 1 ? 's' : ''} ${Strings.selected.tr()}';
+      Strings.addonSelectedCount.tr(namedArgs: {'count': count.toString()});
 
   String get priceBreakdownLabel =>
       '${pricePerDay.toInt()} ${Strings.sar.tr()} × $daysCount ${Strings.days.tr()}';
