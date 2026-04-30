@@ -1,5 +1,6 @@
 import 'package:basic_diet/data/response/subscription_day_response.dart';
 import 'package:basic_diet/data/response/validation_response.dart';
+import 'package:basic_diet/data/mappers/current_subscription_overview_mapper.dart';
 import 'package:basic_diet/domain/model/meal_planner_menu_model.dart';
 import 'package:basic_diet/domain/model/subscription_day_model.dart';
 
@@ -10,6 +11,7 @@ extension SubscriptionDayResponseMapper on SubscriptionDayResponse {
       status: data?.status ?? 'open',
       plannerState: data?.plannerState ?? data?.planning?.state,
       commercialState: data?.commercialState,
+      plannerRevisionHash: data?.plannerRevisionHash ?? '',
       mealSlots: data?.mealSlots.map((s) => s.toDomain()).toList() ?? [],
       addonSelections:
           data?.addonSelections
@@ -21,6 +23,12 @@ extension SubscriptionDayResponseMapper on SubscriptionDayResponse {
       paymentRequirement: data?.paymentRequirement?.toDomain(),
       premiumExtraPayment: data?.premiumExtraPayment?.toDomain(),
       rules: data?.rules?.toDomain(),
+      pickupLocation: data?.pickupLocation?.toDomain(),
+      deliveryAddress: data?.deliveryAddress?.toDomain(),
+      deliveryWindow: data?.deliveryWindow?.toDomain(),
+      fulfillmentSummary: data?.fulfillmentSummary?.toDomain(),
+      lockedReason: data?.lockedReason ?? '',
+      lockedMessage: data?.lockedMessage ?? '',
     );
   }
 }
@@ -133,7 +141,9 @@ extension PaymentRequirementResponseMapper on PaymentRequirementResponse {
       pendingAmountHalala: pendingAmountHalala,
       currency: currency,
       pricingStatus: pricingStatus,
+      pricingStatusLabel: pricingStatusLabel ?? '',
       blockingReason: blockingReason,
+      blockingReasonLabel: blockingReasonLabel ?? '',
       canCreatePayment: canCreatePayment,
     );
   }

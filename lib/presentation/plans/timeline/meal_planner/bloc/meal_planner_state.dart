@@ -3,6 +3,8 @@ import 'package:basic_diet/domain/model/current_subscription_overview_model.dart
 import 'package:basic_diet/domain/model/meal_planner_menu_model.dart';
 import 'package:basic_diet/domain/model/subscription_day_model.dart';
 import 'package:basic_diet/domain/model/timeline_model.dart';
+import 'package:basic_diet/presentation/resources/strings_manager.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 
@@ -334,8 +336,9 @@ final class MealPlannerLoaded extends MealPlannerState {
 
   int get addonPendingPaymentAmountHalala =>
       selectedDayDetail?.paymentRequirement?.pendingAmountHalala != null &&
-              (selectedDayDetail?.paymentRequirement?.blockingReason ==
-                      'addons_pending_payment' ||
+              (selectedDayDetail?.paymentRequirement?.blockingReason
+                          ?.toUpperCase() ==
+                      'ADDON_PAYMENT_REQUIRED' ||
                   (selectedDayDetail?.paymentRequirement?.addonPendingPaymentCount ?? 0) > 0)
           ? selectedDayDetail!.paymentRequirement!.pendingAmountHalala
           : localAddonPendingAmountHalala;
@@ -343,7 +346,8 @@ final class MealPlannerLoaded extends MealPlannerState {
   int get premiumPendingPaymentAmountHalala {
     final requirement = selectedDayDetail?.paymentRequirement;
     if (requirement != null &&
-        ((requirement.blockingReason == 'premium_pending_payment') ||
+        ((requirement.blockingReason?.toUpperCase() ==
+                'PREMIUM_PAYMENT_REQUIRED') ||
             requirement.premiumPendingPaymentCount > 0)) {
       return requirement.pendingAmountHalala > 0
           ? requirement.pendingAmountHalala
@@ -368,7 +372,7 @@ final class MealPlannerLoaded extends MealPlannerState {
       return dayCurrency;
     }
     if (menu.currency.isNotEmpty) return menu.currency;
-    return 'SAR';
+    return Strings.sar.tr();
   }
 
   int get maxMeals => selectedTimelineDay.requiredMeals;

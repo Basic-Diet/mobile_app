@@ -863,8 +863,9 @@ class _PriceBreakdownSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final totalItem = _findLineItemFromQuote(quote, 'total');
+    final pricingSummary = quote.pricingSummary;
     final otherItems = quote.summary.lineItems
-        .where((item) => item.kind != 'total')
+        .where((item) => item.kind != 'total' && item.kind != 'vat')
         .toList();
 
     return _SummarySectionCard(
@@ -872,6 +873,23 @@ class _PriceBreakdownSection extends StatelessWidget {
       icon: Icons.attach_money_rounded,
       child: Column(
         children: [
+          _StaticPriceRow(
+            label: Strings.packagePriceBeforeTax.tr(),
+            value: _formatSar(pricingSummary.basePlanNetSar),
+          ),
+          const Divider(height: 1, color: ColorManager.formFieldsBorderColor),
+          _StaticPriceRow(
+            label: Strings.valueAddedAmount.tr(),
+            value: _formatSar(pricingSummary.vatSar),
+            isVat: true,
+          ),
+          const Divider(height: 1, color: ColorManager.formFieldsBorderColor),
+          _StaticPriceRow(
+            label: Strings.packagePriceAfterTax.tr(),
+            value: _formatSar(pricingSummary.basePlanGrossSar),
+          ),
+          if (otherItems.isNotEmpty)
+            const Divider(height: 1, color: ColorManager.formFieldsBorderColor),
           for (int index = 0; index < otherItems.length; index++)
             Column(
               children: [
@@ -923,6 +941,62 @@ class _PriceBreakdownSection extends StatelessWidget {
               ),
             ),
           ],
+        ],
+      ),
+    );
+  }
+}
+
+class _StaticPriceRow extends StatelessWidget {
+  final String label;
+  final String value;
+  final bool isVat;
+
+  const _StaticPriceRow({
+    required this.label,
+    required this.value,
+    this.isVat = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final valueColor = isVat
+        ? ColorManager.grey6A7282
+        : ColorManager.black101828;
+    final labelColor = isVat
+        ? ColorManager.grey6A7282
+        : ColorManager.grey4A5565;
+
+    return Padding(
+      padding: EdgeInsetsDirectional.symmetric(
+        horizontal: AppPadding.p16.w,
+        vertical: AppPadding.p14.h,
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Text(
+              label,
+              style: getRegularTextStyle(
+                color: labelColor,
+                fontSize: isVat
+                    ? FontSizeManager.s12.sp
+                    : FontSizeManager.s14.sp,
+              ),
+            ),
+          ),
+          Text(
+            value,
+            style: isVat
+                ? getRegularTextStyle(
+                    color: valueColor,
+                    fontSize: FontSizeManager.s12.sp,
+                  )
+                : getBoldTextStyle(
+                    color: valueColor,
+                    fontSize: FontSizeManager.s14.sp,
+                  ),
+          ),
         ],
       ),
     );

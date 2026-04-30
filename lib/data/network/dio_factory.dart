@@ -4,11 +4,11 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
-const String APPLICATION_JSON = "application/json";
-const String CONTENT_TYPE = "content-type";
-const String ACCEPT = "accept";
-const String AUTHORIZATION = "authorization";
-const String LANGUAGE = "Accept-Language";
+const String applicationJson = "application/json";
+const String contentType = "content-type";
+const String accept = "accept";
+const String authorization = "authorization";
+const String language = "Accept-Language";
 
 class DioFactory {
   final AppPreferences _appPreferences;
@@ -20,12 +20,12 @@ class DioFactory {
     // Base configuration for Dio
     final baseDioOptions = BaseOptions(
       baseUrl: _baseUrl,
-      headers: {ACCEPT: APPLICATION_JSON, CONTENT_TYPE: APPLICATION_JSON},
+      headers: {accept: applicationJson, contentType: applicationJson},
       receiveDataWhenStatusError: true,
       sendTimeout: const Duration(seconds: Constants.timeout),
       receiveTimeout: const Duration(seconds: Constants.timeout),
-      validateStatus: (status) =>
-          status != null && status >= 200 && status < 400,
+      validateStatus:
+          (status) => status != null && status >= 200 && status < 400,
     );
 
     final dioInstance = Dio(baseDioOptions);
@@ -71,10 +71,10 @@ class DioFactory {
       final accessToken = await _appPreferences.getUserToken("login");
 
       if (_isUserLoggedIn(accessToken)) {
-        options.headers["Authorization"] = "Bearer $accessToken";
+        options.headers[authorization] = "Bearer $accessToken";
         // options.headers["Authorization"] = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWRjMjI2NThhZDc5N2U2MGVlYjRmNjMiLCJyb2xlIjoiY2xpZW50IiwidG9rZW5UeXBlIjoiYXBwX2FjY2VzcyIsImlhdCI6MTc3NjAzNDQyMiwiZXhwIjoxNzc4NzEyODIyfQ.ulgPpaLhSMHKpDiRXRE6_F4OGVzrzVUkYHuRD3tLbEw";
       } else {
-        options.headers.remove("Authorization");
+        options.headers.remove(authorization);
       }
     } catch (error) {
       debugPrint("⚠️ Failed to attach authorization header: $error");
@@ -84,7 +84,7 @@ class DioFactory {
   bool _isUserLoggedIn(String token) => token.isNotEmpty;
 
   Future<void> _addLanguageHeader(RequestOptions options) async {
-    final language = await _appPreferences.getAppLanguage();
-    options.headers[LANGUAGE] = language;
+    final selectedLanguage = await _appPreferences.getAppLanguage();
+    options.headers[language] = selectedLanguage;
   }
 }

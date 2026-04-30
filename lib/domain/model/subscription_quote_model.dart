@@ -95,18 +95,26 @@ class SubscriptionAddressModel extends Equatable {
 class SubscriptionQuoteModel extends Equatable {
   final SubscriptionQuoteBreakdownModel breakdown;
   final double totalSar;
+  final SubscriptionQuotePricingSummaryModel pricingSummary;
   final SubscriptionQuoteSummaryModel summary;
   final SubscriptionAppliedPromoModel? appliedPromo;
 
   const SubscriptionQuoteModel({
     required this.breakdown,
     required this.totalSar,
+    required this.pricingSummary,
     required this.summary,
     this.appliedPromo,
   });
 
   @override
-  List<Object?> get props => [breakdown, totalSar, summary, appliedPromo];
+  List<Object?> get props => [
+    breakdown,
+    totalSar,
+    pricingSummary,
+    summary,
+    appliedPromo,
+  ];
 }
 
 class SubscriptionQuoteBreakdownModel extends Equatable {
@@ -136,6 +144,37 @@ class SubscriptionQuoteBreakdownModel extends Equatable {
     deliveryFeeHalala,
     vatHalala,
     totalHalala,
+    currency,
+  ];
+}
+
+class SubscriptionQuotePricingSummaryModel extends Equatable {
+  final double basePlanGrossSar;
+  final double basePlanNetSar;
+  final double subtotalSar;
+  final double vatPercentage;
+  final double vatSar;
+  final double totalPriceSar;
+  final String currency;
+
+  const SubscriptionQuotePricingSummaryModel({
+    required this.basePlanGrossSar,
+    required this.basePlanNetSar,
+    required this.subtotalSar,
+    required this.vatPercentage,
+    required this.vatSar,
+    required this.totalPriceSar,
+    required this.currency,
+  });
+
+  @override
+  List<Object?> get props => [
+    basePlanGrossSar,
+    basePlanNetSar,
+    subtotalSar,
+    vatPercentage,
+    vatSar,
+    totalPriceSar,
     currency,
   ];
 }

@@ -13,18 +13,33 @@ extension TimelineDayResponseMapper on TimelineDayResponse? {
       month: this?.month.orEmpty() ?? Constants.empty,
       dayNumber: this?.dayNumber.orZero() ?? Constants.zero,
       status: this?.status.orEmpty() ?? Constants.empty,
+      deliveryMode: this?.deliveryMode.orEmpty() ?? Constants.empty,
+      statusLabel: this?.statusLabel.orEmpty() ?? Constants.empty,
       commercialState: this?.commercialState.orEmpty() ?? Constants.empty,
+      commercialStateLabel:
+          this?.commercialStateLabel.orEmpty() ?? Constants.empty,
       canBePrepared: this?.canBePrepared ?? false,
       fulfillmentReady: this?.fulfillmentReady ?? false,
       planningReady: this?.planningReady ?? false,
+      isFulfillable: this?.isFulfillable ?? false,
       fulfillmentMode: this?.fulfillmentMode.orEmpty() ?? Constants.empty,
       consumptionState: this?.consumptionState.orEmpty() ?? Constants.empty,
       selectedMeals: this?.selectedMeals.orZero() ?? Constants.zero,
       requiredMeals: this?.requiredMeals.orZero() ?? Constants.zero,
+      specifiedMealCount: this?.specifiedMealCount.orZero() ?? Constants.zero,
+      unspecifiedMealCount:
+          this?.unspecifiedMealCount.orZero() ?? Constants.zero,
+      hasCustomerSelections: this?.hasCustomerSelections ?? false,
       selections: this?.selections ?? [],
       premiumSelections: this?.premiumSelections ?? [],
       selectedMealIds: this?.selectedMealIds ?? [],
       paymentRequirement: this?.paymentRequirement?.toDomain(),
+      deliveryAddress: this?.deliveryAddress?.toDomain(),
+      deliveryWindow: this?.deliveryWindow?.toDomain(),
+      pickupLocation: this?.pickupLocation?.toDomain(),
+      fulfillmentSummary: this?.fulfillmentSummary?.toDomain(),
+      lockedReason: this?.lockedReason.orEmpty() ?? Constants.empty,
+      lockedMessage: this?.lockedMessage.orEmpty() ?? Constants.empty,
       mealSlots:
           this?.mealSlots
               ?.map(

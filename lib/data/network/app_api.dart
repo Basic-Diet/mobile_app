@@ -1,3 +1,4 @@
+import 'package:basic_diet/data/response/fulfillment_status_response.dart';
 import 'package:basic_diet/data/response/subscription_menu_response.dart';
 import 'package:basic_diet/data/response/addons_response.dart';
 import 'package:basic_diet/data/request/bulk_selections_request.dart';
@@ -155,17 +156,39 @@ abstract class AppServiceClient {
     @Path("date") String date,
   );
 
+  @GET("/api/subscriptions/{id}/days/{date}/fulfillment/status")
+  Future<FulfillmentStatusResponse> getDayFulfillmentStatus(
+    @Path("id") String id,
+    @Path("date") String date,
+  );
+
   @GET("/api/subscriptions/meal-planner-menu")
   Future<MealPlannerMenuResponse> getMealPlannerMenu();
 
-  @POST("/api/subscriptions/{id}/days/{date}/premium-extra/payments")
+  @POST("/api/subscriptions/{id}/days/{date}/payments")
+  Future<PremiumPaymentResponse> createUnifiedDayPayment(
+    @Path("id") String subscriptionId,
+    @Path("date") String date,
+    @Body() Map<String, dynamic> body,
+  );
+
+  @POST(
+    "/api/subscriptions/{id}/days/{date}/payments/{paymentId}/verify",
+  )
+  Future<PremiumPaymentVerificationResponse> verifyUnifiedDayPayment(
+    @Path("id") String subscriptionId,
+    @Path("date") String date,
+    @Path("paymentId") String paymentId,
+  );
+
+  @POST("/api/subscriptions/{id}/days/{date}/payments")
   Future<PremiumPaymentResponse> createPremiumPayment(
     @Path("id") String subscriptionId,
     @Path("date") String date,
   );
 
   @POST(
-    "/api/subscriptions/{id}/days/{date}/premium-extra/payments/{paymentId}/verify",
+    "/api/subscriptions/{id}/days/{date}/payments/{paymentId}/verify",
   )
   Future<PremiumPaymentVerificationResponse> verifyPremiumPayment(
     @Path("id") String subscriptionId,

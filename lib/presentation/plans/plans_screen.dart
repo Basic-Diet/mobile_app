@@ -3,8 +3,9 @@ import 'package:basic_diet/presentation/plans/bloc/plans_bloc.dart';
 import 'package:basic_diet/presentation/plans/bloc/plans_event.dart';
 import 'package:basic_diet/presentation/plans/bloc/plans_state.dart';
 import 'package:basic_diet/presentation/plans/timeline/meal_planner/meal_planner_screen.dart';
+import 'package:basic_diet/presentation/plans/fulfillment_status/fulfillment_status_cubit.dart';
+import 'package:basic_diet/presentation/plans/widgets/fulfillment/fulfillment_status_section.dart';
 import 'package:basic_diet/presentation/plans/widgets/no_subscription_view.dart';
-import 'package:basic_diet/presentation/plans/widgets/pickup_preparation/pickup_preparation_section.dart';
 import 'package:basic_diet/presentation/plans/widgets/plans_action_buttons.dart';
 import 'package:basic_diet/presentation/plans/widgets/plans_header.dart';
 import 'package:basic_diet/presentation/plans/widgets/subscription_plan_card.dart';
@@ -15,24 +16,62 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 
-class PlansScreen extends StatelessWidget {
+class PlansScreen extends StatefulWidget {
   const PlansScreen({super.key});
 
   @override
+  State<PlansScreen> createState() => _PlansScreenState();
+}
+
+class _PlansScreenState extends State<PlansScreen> with WidgetsBindingObserver {
+  late FulfillmentStatusCubit _fulfillmentStatusCubit;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    initPlansModule();
+    _fulfillmentStatusCubit = instance<FulfillmentStatusCubit>();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    _fulfillmentStatusCubit.close();
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      _fulfillmentStatusCubit.onAppResumed();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) {
-        initPlansModule();
-        return instance<PlansBloc>()
-          ..add(FetchCurrentSubscriptionOverviewEvent());
-      },
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<PlansBloc>(
+          create: (context) => instance<PlansBloc>()
+            ..add(FetchCurrentSubscriptionOverviewEvent()),
+        ),
+        BlocProvider<FulfillmentStatusCubit>.value(
+          value: _fulfillmentStatusCubit,
+        ),
+      ],
       child: BlocListener<PlansBloc, PlansState>(
         listener: _onStateChanged,
         child: Scaffold(
           backgroundColor: ColorManager.backgroundApp,
           body: SafeArea(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.all(AppPadding.p16),
+              padding: EdgeInsets.fromLTRB(
+                AppPadding.p16,
+                AppPadding.p16,
+                AppPadding.p16,
+                AppPadding.p24 + MediaQuery.of(context).padding.bottom,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -55,14 +94,16 @@ class PlansScreen extends StatelessWidget {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (_) => MealPlannerScreen(
-            timelineDays: state.timelineDays,
-            addonEntitlements: state.data?.data?.addonSubscriptions ?? const [],
-            initialDayIndex: state.initialDayIndex,
-            premiumMealsRemaining: state.premiumMealsRemaining,
-            premiumSummaries: state.premiumSummaries,
-            subscriptionId: state.subscriptionId,
-          ),
+          builder:
+              (_) => MealPlannerScreen(
+                timelineDays: state.timelineDays,
+                addonEntitlements:
+                    state.data?.data?.addonSubscriptions ?? const [],
+                initialDayIndex: state.initialDayIndex,
+                premiumMealsRemaining: state.premiumMealsRemaining,
+                premiumSummaries: state.premiumSummaries,
+                subscriptionId: state.subscriptionId,
+              ),
         ),
       ).then((_) {
         if (context.mounted) {
@@ -97,9 +138,10 @@ class PlansScreen extends StatelessWidget {
             SubscriptionPlanCard(data: data),
             Gap(AppSize.s16.h),
             PlansActionButtons(data: data),
-            if (data.pickupPreparation != null &&
-                data.pickupPreparation!.flowStatus != 'hidden')
-              PickupPreparationSection(data: data),
+            FulfillmentStatusSection(
+              data: data,
+              fulfillmentDay: state.fulfillmentDay,
+            ),
             Gap(AppSize.s24.h),
           ],
         ),

@@ -41,10 +41,8 @@ import 'package:basic_diet/domain/usecase/get_subscription_day_usecase.dart';
 import 'package:basic_diet/domain/usecase/save_meal_planner_changes_usecase.dart';
 import 'package:basic_diet/domain/usecase/validate_day_selection_usecase.dart';
 import 'package:basic_diet/domain/usecase/save_day_selection_usecase.dart';
-import 'package:basic_diet/domain/usecase/create_premium_payment_usecase.dart';
-import 'package:basic_diet/domain/usecase/create_one_time_addon_payment_usecase.dart';
-import 'package:basic_diet/domain/usecase/verify_premium_payment_usecase.dart';
-import 'package:basic_diet/domain/usecase/verify_one_time_addon_payment_usecase.dart';
+import 'package:basic_diet/domain/usecase/create_unified_day_payment_usecase.dart';
+import 'package:basic_diet/domain/usecase/verify_unified_day_payment_usecase.dart';
 import 'package:basic_diet/domain/usecase/confirm_day_selection_usecase.dart';
 import 'package:basic_diet/presentation/plans/timeline/bloc/timeline_bloc.dart';
 import 'package:basic_diet/presentation/plans/timeline/meal_planner/bloc/meal_planner_bloc.dart';
@@ -52,6 +50,8 @@ import 'package:basic_diet/domain/usecase/get_checkout_draft_usecase.dart';
 import 'package:basic_diet/domain/usecase/get_pickup_status_usecase.dart';
 import 'package:basic_diet/presentation/main/home/payment-success/payment_validation_cubit.dart';
 import 'package:basic_diet/presentation/plans/pickup_status/pickup_status_cubit.dart';
+import 'package:basic_diet/domain/usecase/get_day_fulfillment_status_usecase.dart';
+import 'package:basic_diet/presentation/plans/fulfillment_status/fulfillment_status_cubit.dart';
 import 'package:get_it/get_it.dart';
 
 final instance = GetIt.instance; // Singleton instance of GetIt
@@ -219,6 +219,18 @@ void initPlansModule() {
     );
   }
 
+  if (!GetIt.I.isRegistered<GetDayFulfillmentStatusUseCase>()) {
+    instance.registerFactory<GetDayFulfillmentStatusUseCase>(
+      () => GetDayFulfillmentStatusUseCase(instance<Repository>()),
+    );
+  }
+
+  if (!GetIt.I.isRegistered<FulfillmentStatusCubit>()) {
+    instance.registerFactory<FulfillmentStatusCubit>(
+      () => FulfillmentStatusCubit(instance<GetDayFulfillmentStatusUseCase>()),
+    );
+  }
+
   if (!GetIt.I.isRegistered<PlansBloc>()) {
     instance.registerFactory<PlansBloc>(
       () => PlansBloc(
@@ -329,15 +341,15 @@ void initMealPlannerModule() {
     );
   }
 
-  if (!GetIt.I.isRegistered<CreatePremiumPaymentUseCase>()) {
-    instance.registerFactory<CreatePremiumPaymentUseCase>(
-      () => CreatePremiumPaymentUseCase(instance<Repository>()),
+  if (!GetIt.I.isRegistered<CreateUnifiedDayPaymentUseCase>()) {
+    instance.registerFactory<CreateUnifiedDayPaymentUseCase>(
+      () => CreateUnifiedDayPaymentUseCase(instance<Repository>()),
     );
   }
 
-  if (!GetIt.I.isRegistered<VerifyPremiumPaymentUseCase>()) {
-    instance.registerFactory<VerifyPremiumPaymentUseCase>(
-      () => VerifyPremiumPaymentUseCase(instance<Repository>()),
+  if (!GetIt.I.isRegistered<VerifyUnifiedDayPaymentUseCase>()) {
+    instance.registerFactory<VerifyUnifiedDayPaymentUseCase>(
+      () => VerifyUnifiedDayPaymentUseCase(instance<Repository>()),
     );
   }
 
@@ -355,8 +367,8 @@ void initMealPlannerModule() {
         instance<GetSubscriptionDayUseCase>(),
         instance<ValidateDaySelectionUseCase>(),
         instance<SaveDaySelectionUseCase>(),
-        instance<CreatePremiumPaymentUseCase>(),
-        instance<VerifyPremiumPaymentUseCase>(),
+        instance<CreateUnifiedDayPaymentUseCase>(),
+        instance<VerifyUnifiedDayPaymentUseCase>(),
         instance<ConfirmDaySelectionUseCase>(),
         initialTimelineDays: params['timelineDays'],
         addonEntitlements: params['addonEntitlements'] ?? const [],

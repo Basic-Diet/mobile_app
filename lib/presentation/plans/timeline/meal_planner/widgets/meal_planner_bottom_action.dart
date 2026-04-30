@@ -30,12 +30,15 @@ class MealPlannerBottomAction extends StatelessWidget {
     final bool active;
 
     if (!state.isSelectedDayEditable) {
-      label = Strings.dayLockedAddonsMessage.tr();
+      label = Strings.dayLocked.tr();
       bgColor = ColorManager.stateDisabledSurface;
       active = false;
     } else if (hasPendingPayment) {
       final amount = pendingAmountHalala / 100.0;
-      label = '${Strings.payNow.tr()} ${_moneyLabel(amount)}';
+      final hasBackendPaymentRequirement =
+          state.selectedDayDetail?.paymentRequirement?.requiresPayment == true;
+      label =
+          '${hasBackendPaymentRequirement ? Strings.payNow.tr() : Strings.estimatedPayNow.tr()} ${_moneyLabel(amount)}';
       bgColor = ColorManager.brandAccent;
       active = true;
     } else if (canSave) {

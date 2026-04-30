@@ -29,6 +29,7 @@ import 'package:basic_diet/data/request/cancel_subscription_request.dart';
 
 import 'package:basic_diet/data/response/pickup_prepare_response.dart';
 import 'package:basic_diet/data/response/pickup_status_response.dart';
+import 'package:basic_diet/data/response/fulfillment_status_response.dart';
 
 import '../response/bulk_selections_response.dart';
 
@@ -79,12 +80,23 @@ abstract class RemoteDataSource {
   Future<SubscriptionDayResponse> confirmDaySelection(String id, String date);
   Future<PickupPrepareResponse> preparePickup(String id, String date);
   Future<PickupStatusResponse> getPickupStatus(String id, String date);
+  Future<FulfillmentStatusResponse> getDayFulfillmentStatus(String id, String date);
   Future<MealPlannerMenuResponse> getMealPlannerMenu();
   Future<PremiumPaymentResponse> createPremiumPayment(
     String subscriptionId,
     String date,
   );
   Future<PremiumPaymentVerificationResponse> verifyPremiumPayment(
+    String subscriptionId,
+    String date,
+    String paymentId,
+  );
+  Future<PremiumPaymentResponse> createUnifiedDayPayment(
+    String subscriptionId,
+    String date,
+    Map<String, dynamic> body,
+  );
+  Future<PremiumPaymentVerificationResponse> verifyUnifiedDayPayment(
     String subscriptionId,
     String date,
     String paymentId,

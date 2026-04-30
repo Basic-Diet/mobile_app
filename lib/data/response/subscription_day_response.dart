@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:basic_diet/data/response/current_subscription_overview_response.dart';
 
 part 'subscription_day_response.g.dart';
 
@@ -47,6 +48,9 @@ class SubscriptionDayData {
   @JsonKey(name: 'commercialState')
   final String? commercialState;
 
+  @JsonKey(name: 'plannerRevisionHash')
+  final String? plannerRevisionHash;
+
   @JsonKey(name: 'mealSlots', defaultValue: [])
   final List<MealSlotResponse> mealSlots;
 
@@ -68,11 +72,30 @@ class SubscriptionDayData {
   @JsonKey(name: 'rules')
   final DayRulesResponse? rules;
 
+  @JsonKey(name: 'pickupLocation')
+  final OverviewPickupLocationSummaryResponse? pickupLocation;
+
+  @JsonKey(name: 'deliveryAddress')
+  final OverviewAddressSummaryResponse? deliveryAddress;
+
+  @JsonKey(name: 'deliveryWindow', readValue: readDeliveryWindowSummary)
+  final OverviewDeliveryWindowSummaryResponse? deliveryWindow;
+
+  @JsonKey(name: 'fulfillmentSummary')
+  final OverviewFulfillmentSummaryResponse? fulfillmentSummary;
+
+  @JsonKey(name: 'lockedReason')
+  final String? lockedReason;
+
+  @JsonKey(name: 'lockedMessage')
+  final String? lockedMessage;
+
   SubscriptionDayData(
     this.date,
     this.status,
     this.plannerState,
     this.commercialState,
+    this.plannerRevisionHash,
     this.mealSlots,
     this.addonSelections,
     this.plannerMeta,
@@ -80,6 +103,12 @@ class SubscriptionDayData {
     this.paymentRequirement,
     this.premiumExtraPayment,
     this.rules,
+    this.pickupLocation,
+    this.deliveryAddress,
+    this.deliveryWindow,
+    this.fulfillmentSummary,
+    this.lockedReason,
+    this.lockedMessage,
   );
 
   factory SubscriptionDayData.fromJson(Map<String, dynamic> json) =>
@@ -409,8 +438,14 @@ class PaymentRequirementResponse {
   @JsonKey(name: 'pricingStatus', defaultValue: 'not_required')
   final String pricingStatus;
 
+  @JsonKey(name: 'pricingStatusLabel')
+  final String? pricingStatusLabel;
+
   @JsonKey(name: 'blockingReason')
   final String? blockingReason;
+
+  @JsonKey(name: 'blockingReasonLabel')
+  final String? blockingReasonLabel;
 
   @JsonKey(name: 'canCreatePayment', defaultValue: false)
   final bool canCreatePayment;
@@ -426,7 +461,9 @@ class PaymentRequirementResponse {
     this.pendingAmountHalala,
     this.currency,
     this.pricingStatus,
+    this.pricingStatusLabel,
     this.blockingReason,
+    this.blockingReasonLabel,
     this.canCreatePayment,
   );
 

@@ -18,7 +18,6 @@ class PickupReadyCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isCompleted = data.isCompleted;
-    final code = data.pickupCode ?? '';
 
     return Container(
       width: double.infinity,

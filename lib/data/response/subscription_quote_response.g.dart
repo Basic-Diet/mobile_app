@@ -37,6 +37,12 @@ SubscriptionQuoteDataResponse _$SubscriptionQuoteDataResponseFromJson(
             json['breakdown'] as Map<String, dynamic>,
           ),
   totalSar: (json['totalSar'] as num?)?.toDouble(),
+  pricingSummary:
+      json['pricingSummary'] == null
+          ? null
+          : SubscriptionQuotePricingSummaryResponse.fromJson(
+            json['pricingSummary'] as Map<String, dynamic>,
+          ),
   summary:
       json['summary'] == null
           ? null
@@ -56,6 +62,7 @@ Map<String, dynamic> _$SubscriptionQuoteDataResponseToJson(
 ) => <String, dynamic>{
   'breakdown': instance.breakdown?.toJson(),
   'totalSar': instance.totalSar,
+  'pricingSummary': instance.pricingSummary?.toJson(),
   'summary': instance.summary?.toJson(),
   'promoCode': instance.appliedPromo?.toJson(),
 };
@@ -107,6 +114,30 @@ Map<String, dynamic> _$SubscriptionQuoteBreakdownResponseToJson(
   'deliveryFeeHalala': instance.deliveryFeeHalala,
   'vatHalala': instance.vatHalala,
   'totalHalala': instance.totalHalala,
+  'currency': instance.currency,
+};
+
+SubscriptionQuotePricingSummaryResponse
+_$SubscriptionQuotePricingSummaryResponseFromJson(Map<String, dynamic> json) =>
+    SubscriptionQuotePricingSummaryResponse(
+      basePlanGrossSar: (json['basePlanGrossSar'] as num?)?.toDouble(),
+      basePlanNetSar: (json['basePlanNetSar'] as num?)?.toDouble(),
+      subtotalSar: (json['subtotalSar'] as num?)?.toDouble(),
+      vatPercentage: (json['vatPercentage'] as num?)?.toDouble(),
+      vatSar: (json['vatSar'] as num?)?.toDouble(),
+      totalPriceSar: (json['totalPriceSar'] as num?)?.toDouble(),
+      currency: json['currency'] as String?,
+    );
+
+Map<String, dynamic> _$SubscriptionQuotePricingSummaryResponseToJson(
+  SubscriptionQuotePricingSummaryResponse instance,
+) => <String, dynamic>{
+  'basePlanGrossSar': instance.basePlanGrossSar,
+  'basePlanNetSar': instance.basePlanNetSar,
+  'subtotalSar': instance.subtotalSar,
+  'vatPercentage': instance.vatPercentage,
+  'vatSar': instance.vatSar,
+  'totalPriceSar': instance.totalPriceSar,
   'currency': instance.currency,
 };
 

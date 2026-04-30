@@ -735,6 +735,36 @@ class _AppServiceClient implements AppServiceClient {
   }
 
   @override
+  Future<FulfillmentStatusResponse> getDayFulfillmentStatus(
+    String id,
+    String date,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<FulfillmentStatusResponse>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/subscriptions/${id}/days/${date}/fulfillment/status',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late FulfillmentStatusResponse _value;
+    try {
+      _value = FulfillmentStatusResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
   Future<MealPlannerMenuResponse> getMealPlannerMenu() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -762,6 +792,69 @@ class _AppServiceClient implements AppServiceClient {
   }
 
   @override
+  Future<PremiumPaymentResponse> createUnifiedDayPayment(
+    String subscriptionId,
+    String date,
+    Map<String, dynamic> body,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(body);
+    final _options = _setStreamType<PremiumPaymentResponse>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/subscriptions/${subscriptionId}/days/${date}/payments',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late PremiumPaymentResponse _value;
+    try {
+      _value = PremiumPaymentResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<PremiumPaymentVerificationResponse> verifyUnifiedDayPayment(
+    String subscriptionId,
+    String date,
+    String paymentId,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<PremiumPaymentVerificationResponse>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/subscriptions/${subscriptionId}/days/${date}/payments/${paymentId}/verify',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late PremiumPaymentVerificationResponse _value;
+    try {
+      _value = PremiumPaymentVerificationResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
   Future<PremiumPaymentResponse> createPremiumPayment(
     String subscriptionId,
     String date,
@@ -774,7 +867,7 @@ class _AppServiceClient implements AppServiceClient {
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/api/subscriptions/${subscriptionId}/days/${date}/premium-extra/payments',
+            '/api/subscriptions/${subscriptionId}/days/${date}/payments',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -805,7 +898,7 @@ class _AppServiceClient implements AppServiceClient {
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/api/subscriptions/${subscriptionId}/days/${date}/premium-extra/payments/${paymentId}/verify',
+            '/api/subscriptions/${subscriptionId}/days/${date}/payments/${paymentId}/verify',
             queryParameters: queryParameters,
             data: _data,
           )

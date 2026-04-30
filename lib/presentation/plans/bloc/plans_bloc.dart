@@ -4,6 +4,8 @@ import 'package:basic_diet/domain/usecase/get_timeline_usecase.dart';
 import 'package:basic_diet/domain/usecase/prepare_pickup_usecase.dart';
 import 'package:basic_diet/presentation/plans/bloc/plans_event.dart';
 import 'package:basic_diet/presentation/plans/bloc/plans_state.dart';
+import 'package:basic_diet/presentation/resources/strings_manager.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PlansBloc extends Bloc<PlansEvent, PlansState> {
@@ -42,6 +44,44 @@ class PlansBloc extends Bloc<PlansEvent, PlansState> {
     return '';
   }
 
+  TimelineDayModel? _resolveFulfillmentDay({
+    required TimelineModel timeline,
+    required String preferredDate,
+  }) {
+    final days = timeline.data.days;
+
+    if (days.isEmpty) return null;
+
+    if (preferredDate.isNotEmpty) {
+      final exactMatch = days.where((day) => day.date.startsWith(preferredDate));
+      if (exactMatch.isNotEmpty) {
+        return exactMatch.first;
+      }
+    }
+
+    for (final day in days) {
+      if (day.consumptionState == 'consumable_today') {
+        return day;
+      }
+    }
+
+    for (final day in days) {
+      if (day.status.toLowerCase() == 'locked' ||
+          day.fulfillmentReady ||
+          day.isFulfillable) {
+        return day;
+      }
+    }
+
+    for (final day in days) {
+      if (day.hasCustomerSelections || day.selectedMeals > 0) {
+        return day;
+      }
+    }
+
+    return days.first;
+  }
+
   Future<String> _resolveBusinessDate({
     required String subscriptionId,
     required String preferredDate,
@@ -67,6 +107,7 @@ class PlansBloc extends Bloc<PlansEvent, PlansState> {
       },
       (data) async {
         final overview = data.data;
+        TimelineDayModel? fulfillmentDay;
         final needsOperationalDay =
             overview != null &&
             overview.deliveryMode == 'pickup' &&
@@ -79,7 +120,23 @@ class PlansBloc extends Bloc<PlansEvent, PlansState> {
           );
         }
 
-        emit(CurrentSubscriptionOverviewLoaded(data));
+        if (overview != null && overview.id.isNotEmpty) {
+          final timelineResult = await _getTimelineUseCase.execute(overview.id);
+          fulfillmentDay = timelineResult.fold(
+            (_) => null,
+            (timeline) => _resolveFulfillmentDay(
+              timeline: timeline,
+              preferredDate: overview.businessDate,
+            ),
+          );
+        }
+
+        emit(
+          CurrentSubscriptionOverviewLoaded(
+            data,
+            fulfillmentDay: fulfillmentDay,
+          ),
+        );
       },
     );
   }
@@ -89,7 +146,12 @@ class PlansBloc extends Bloc<PlansEvent, PlansState> {
     Emitter<PlansState> emit,
   ) async {
     final currentData = state.data;
-    emit(OpenPlannerLoading(data: currentData));
+    emit(
+      OpenPlannerLoading(
+        data: currentData,
+        fulfillmentDay: state.fulfillmentDay,
+      ),
+    );
     final result = await _getTimelineUseCase.execute(event.subscriptionId);
     result.fold(
       (failure) => emit(PlansError(failure.message, data: currentData)),
@@ -124,13 +186,15 @@ class PlansBloc extends Bloc<PlansEvent, PlansState> {
               premiumSummaries: state.data?.data?.premiumSummary ?? const [],
               subscriptionId: event.subscriptionId,
               data: currentData,
+              fulfillmentDay: state.fulfillmentDay,
             ),
           );
         } else {
           emit(
             PlansError(
-              "No available days for meal planning",
+              Strings.noAvailableDaysForPlanning.tr(),
               data: currentData,
+              fulfillmentDay: state.fulfillmentDay,
             ),
           );
         }
@@ -143,7 +207,12 @@ class PlansBloc extends Bloc<PlansEvent, PlansState> {
     Emitter<PlansState> emit,
   ) async {
     final currentData = state.data;
-    emit(PreparePickupLoading(data: currentData));
+    emit(
+      PreparePickupLoading(
+        data: currentData,
+        fulfillmentDay: state.fulfillmentDay,
+      ),
+    );
 
     final resolvedDate = await _resolveBusinessDate(
       subscriptionId: event.subscriptionId,
@@ -151,7 +220,13 @@ class PlansBloc extends Bloc<PlansEvent, PlansState> {
     );
 
     if (resolvedDate.isEmpty) {
-      emit(PlansError('Unable to resolve pickup day', data: currentData));
+      emit(
+        PlansError(
+          Strings.unableToResolvePickupDay.tr(),
+          data: currentData,
+          fulfillmentDay: state.fulfillmentDay,
+        ),
+      );
       return;
     }
 
@@ -160,9 +235,20 @@ class PlansBloc extends Bloc<PlansEvent, PlansState> {
     );
 
     result.fold(
-      (failure) => emit(PlansError(failure.message, data: currentData)),
+      (failure) => emit(
+        PlansError(
+          failure.message,
+          data: currentData,
+          fulfillmentDay: state.fulfillmentDay,
+        ),
+      ),
       (data) {
-        emit(PreparePickupSuccess(data: currentData));
+        emit(
+          PreparePickupSuccess(
+            data: currentData,
+            fulfillmentDay: state.fulfillmentDay,
+          ),
+        );
         add(FetchCurrentSubscriptionOverviewEvent());
       },
     );

@@ -1,6 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:basic_diet/app/dependency_injection.dart';
-import 'package:basic_diet/presentation/widgets/network_image_placeholder.dart';
 import 'package:basic_diet/domain/model/add_ons_model.dart';
 import 'package:basic_diet/presentation/main/home/add-ons/bloc/add_ons_bloc.dart';
 import 'package:basic_diet/presentation/main/home/add-ons/bloc/add_ons_event.dart';
@@ -14,6 +13,7 @@ import 'package:basic_diet/presentation/resources/font_manager.dart';
 import 'package:basic_diet/presentation/resources/strings_manager.dart';
 import 'package:basic_diet/presentation/resources/styles_manager.dart';
 import 'package:basic_diet/presentation/resources/values_manager.dart';
+import 'package:basic_diet/presentation/widgets/subscription_step_intro_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -34,10 +34,7 @@ class AddOnsScreen extends StatelessWidget {
         appBar: _buildAppBar(context),
         body: SafeArea(
           child: Column(
-            children: [
-              Expanded(child: _buildBody()),
-              const _BottomActions(),
-            ],
+            children: [Expanded(child: _buildBody()), const _BottomActions()],
           ),
         ),
       ),
@@ -46,15 +43,16 @@ class AddOnsScreen extends StatelessWidget {
 
   Widget _buildBody() {
     return BlocBuilder<AddOnsBloc, AddOnsState>(
-      builder: (context, state) => switch (state) {
-        AddOnsLoading() => const _LoadingView(),
-        AddOnsError() => _ErrorView(message: state.message),
-        AddOnsSuccess() => _AddOnsListView(
-          addOns: state.addOnsModel.addOns,
-          selectedAddOns: state.selectedAddOns,
-        ),
-        _ => const SizedBox.shrink(),
-      },
+      builder:
+          (context, state) => switch (state) {
+            AddOnsLoading() => const _LoadingView(),
+            AddOnsError() => _ErrorView(message: state.message),
+            AddOnsSuccess() => _AddOnsListView(
+              addOns: state.addOnsModel.addOns,
+              selectedAddOns: state.selectedAddOns,
+            ),
+            _ => const SizedBox.shrink(),
+          },
     );
   }
 
@@ -148,21 +146,24 @@ class _AddOnsListView extends StatelessWidget {
 
   Widget _buildHeader() {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          Strings.enhanceYourPlan.tr(),
-          style: getBoldTextStyle(
-            color: ColorManager.textPrimary,
-            fontSize: FontSizeManager.s18.sp,
-          ),
+        SubscriptionStepIntroCard(
+          badge: Strings.optionalStepLabel.tr(),
+          title: Strings.addOnsStepTitle.tr(),
+          description: Strings.addOnsStepDescription.tr(),
+          hint: Strings.addOnsStepHint.tr(),
+          icon: Icons.local_cafe_rounded,
+          accentColor: ColorManager.brandPrimary,
+          surfaceColor: ColorManager.brandPrimaryTint,
+          borderColor: ColorManager.brandPrimary.withValues(alpha: 0.18),
         ),
-        Gap(AppSize.s8.h),
+        Gap(AppSize.s24.h),
         Text(
-          Strings.addExtraItemsOptional.tr(),
-          textAlign: TextAlign.center,
+          Strings.addonChoosePrompt.tr(),
           style: getRegularTextStyle(
-            color: ColorManager.textSecondary,
-            fontSize: FontSizeManager.s14.sp,
+            color: ColorManager.textPrimary,
+            fontSize: FontSizeManager.s16.sp,
           ),
         ),
       ],
@@ -176,8 +177,10 @@ class _AddOnsListView extends StatelessWidget {
         child: _AddOnCard(
           addOn: addOn,
           isSelected: selectedAddOns.contains(addOn),
-          onTap: () =>
-              context.read<AddOnsBloc>().add(ToggleAddOnSelectionEvent(addOn)),
+          onTap:
+              () => context.read<AddOnsBloc>().add(
+                ToggleAddOnSelectionEvent(addOn),
+              ),
         ),
       );
     }).toList();
@@ -212,8 +215,6 @@ class _AddOnCard extends StatelessWidget {
         decoration: _cardDecoration(),
         child: Row(
           children: [
-            // _AddOnImage(addOn: addOn),
-            // Gap(AppSize.s8.w),
             Expanded(child: _AddOnInfo(addOn: addOn)),
             Gap(AppSize.s8.w),
             _SelectionIndicator(isSelected: isSelected),
@@ -228,9 +229,8 @@ class _AddOnCard extends StatelessWidget {
       color: ColorManager.backgroundSurface,
       borderRadius: BorderRadius.circular(AppSize.s16.r),
       border: Border.all(
-        color: isSelected
-            ? ColorManager.brandPrimary
-            : ColorManager.borderDefault,
+        color:
+            isSelected ? ColorManager.brandPrimary : ColorManager.borderDefault,
         width: isSelected ? 2 : 1,
       ),
       boxShadow: [_buildShadow()],
@@ -240,76 +240,15 @@ class _AddOnCard extends StatelessWidget {
   BoxShadow _buildShadow() {
     return isSelected
         ? BoxShadow(
-            color: ColorManager.brandPrimary.withValues(alpha: 0.1),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          )
+          color: ColorManager.brandPrimary.withValues(alpha: 0.1),
+          blurRadius: 10,
+          offset: const Offset(0, 4),
+        )
         : BoxShadow(
-            color: ColorManager.textPrimary.withValues(alpha: 0.02),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          );
-  }
-}
-
-class _AddOnImage extends StatelessWidget {
-  final AddOnModel addOn;
-
-  const _AddOnImage({required this.addOn});
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: AppSize.s70.w,
-      height: AppSize.s70.h,
-      child: Stack(
-        clipBehavior: Clip.hardEdge,
-        children: [
-          NetworkImagePlaceholder(
-            imageUrl: addOn.imageUrl,
-            width: AppSize.s70.w,
-            height: AppSize.s70.h,
-            fit: BoxFit.cover,
-            borderRadius: BorderRadius.circular(AppSize.s12.r),
-          ),
-          if (addOn.ui.badge.isNotEmpty)
-            Positioned(
-              top: 4.h,
-              left: 4.w,
-              child: _AddOnBadge(badge: addOn.ui.badge),
-            ),
-        ],
-      ),
-    );
-  }
-}
-
-class _AddOnBadge extends StatelessWidget {
-  final String badge;
-
-  const _AddOnBadge({required this.badge});
-
-  // Presentation logic isolated here, not scattered in the card widget.
-  String get _label => badge.contains('Subscription')
-      ? Strings.daily.tr()
-      : Strings.oneTime.tr();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsetsDirectional.symmetric(horizontal: 6.w, vertical: 2.h),
-      decoration: BoxDecoration(
-        color: ColorManager.backgroundSurface,
-        borderRadius: BorderRadius.circular(4.r),
-      ),
-      child: Text(
-        _label,
-        style: getBoldTextStyle(
-          color: ColorManager.brandPrimary,
-          fontSize: 8.sp,
-        ),
-      ),
-    );
+          color: ColorManager.textPrimary.withValues(alpha: 0.02),
+          blurRadius: 8,
+          offset: const Offset(0, 2),
+        );
   }
 }
 
@@ -368,21 +307,22 @@ class _SelectionIndicator extends StatelessWidget {
       width: AppSize.s24.w,
       height: AppSize.s24.w,
       decoration: BoxDecoration(
-        color: isSelected
-            ? ColorManager.brandPrimary
-            : ColorManager.backgroundSubtle.withValues(alpha: 0.5),
+        color:
+            isSelected
+                ? ColorManager.brandPrimary
+                : ColorManager.backgroundSubtle.withValues(alpha: 0.5),
         shape: BoxShape.circle,
-        border: isSelected
-            ? null
-            : Border.all(color: ColorManager.borderDefault),
+        border:
+            isSelected ? null : Border.all(color: ColorManager.borderDefault),
       ),
-      child: isSelected
-          ? const Icon(
-              Icons.check,
-              color: ColorManager.backgroundSurface,
-              size: AppSize.s14, // replace magic 14 with a constant
-            )
-          : null,
+      child:
+          isSelected
+              ? const Icon(
+                Icons.check,
+                color: ColorManager.backgroundSurface,
+                size: AppSize.s14, // replace magic 14 with a constant
+              )
+              : null,
     );
   }
 }
@@ -577,7 +517,7 @@ class _AddOnsSummary {
   }
 
   String get countLabel =>
-      '$count ${Strings.addOns.tr()}${count > 1 ? 's' : ''} ${Strings.selected.tr()}';
+      Strings.addonSelectedCount.tr(namedArgs: {'count': count.toString()});
 
   String get priceBreakdownLabel =>
       '${pricePerDay.toInt()} ${Strings.sar.tr()} × $daysCount ${Strings.days.tr()}';

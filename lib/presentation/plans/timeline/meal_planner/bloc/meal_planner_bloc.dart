@@ -2,15 +2,16 @@ import 'package:basic_diet/data/network/failure.dart';
 import 'package:basic_diet/data/request/day_selection_request.dart';
 import 'package:basic_diet/domain/model/current_subscription_overview_model.dart';
 import 'package:basic_diet/domain/model/meal_planner_menu_model.dart';
+import 'package:basic_diet/domain/model/premium_payment_model.dart';
 import 'package:basic_diet/domain/model/subscription_day_model.dart';
 import 'package:basic_diet/domain/model/timeline_model.dart';
 import 'package:basic_diet/domain/usecase/confirm_day_selection_usecase.dart';
-import 'package:basic_diet/domain/usecase/create_premium_payment_usecase.dart';
+import 'package:basic_diet/domain/usecase/create_unified_day_payment_usecase.dart';
 import 'package:basic_diet/domain/usecase/get_meal_planner_menu_usecase.dart';
 import 'package:basic_diet/domain/usecase/get_subscription_day_usecase.dart';
 import 'package:basic_diet/domain/usecase/save_day_selection_usecase.dart';
 import 'package:basic_diet/domain/usecase/validate_day_selection_usecase.dart';
-import 'package:basic_diet/domain/usecase/verify_premium_payment_usecase.dart';
+import 'package:basic_diet/domain/usecase/verify_unified_day_payment_usecase.dart';
 import 'package:basic_diet/presentation/resources/strings_manager.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,13 +21,15 @@ import 'meal_planner_state.dart';
 
 class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
   static const int _carbGramStep = 50;
+  static const String _dayPaymentRevisionMismatchCode =
+      'DAY_PAYMENT_REVISION_MISMATCH';
 
   final GetMealPlannerMenuUseCase _getMealPlannerMenuUseCase;
   final GetSubscriptionDayUseCase _getSubscriptionDayUseCase;
   final ValidateDaySelectionUseCase _validateDaySelectionUseCase;
   final SaveDaySelectionUseCase _saveDaySelectionUseCase;
-  final CreatePremiumPaymentUseCase _createPremiumPaymentUseCase;
-  final VerifyPremiumPaymentUseCase _verifyPremiumPaymentUseCase;
+  final CreateUnifiedDayPaymentUseCase _createUnifiedDayPaymentUseCase;
+  final VerifyUnifiedDayPaymentUseCase _verifyUnifiedDayPaymentUseCase;
   final ConfirmDaySelectionUseCase _confirmDaySelectionUseCase;
   final List<TimelineDayModel> initialTimelineDays;
   final List<AddonSubscriptionModel> addonEntitlements;
@@ -40,8 +43,8 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
     this._getSubscriptionDayUseCase,
     this._validateDaySelectionUseCase,
     this._saveDaySelectionUseCase,
-    this._createPremiumPaymentUseCase,
-    this._verifyPremiumPaymentUseCase,
+    this._createUnifiedDayPaymentUseCase,
+    this._verifyUnifiedDayPaymentUseCase,
     this._confirmDaySelectionUseCase, {
     required this.initialTimelineDays,
     required this.addonEntitlements,
@@ -61,7 +64,8 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
     on<DismissPendingAddonPromptEvent>(_onDismissPendingAddonPrompt);
     on<SaveMealPlannerChangesEvent>(_onSave);
     on<HideBannerEvent>(_onHideBanner);
-    on<VerifyPremiumPaymentEvent>(_onVerifyPremiumPayment);
+    on<VerifyUnifiedDayPaymentEvent>(_onVerifyUnifiedDayPayment);
+    on<PaymentCancelledEvent>(_onPaymentCancelled);
   }
 
   Future<void> _onGetData(
@@ -398,11 +402,27 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
     emit((state as MealPlannerLoaded).copyWith(showSavedBanner: false));
   }
 
-  Future<void> _onVerifyPremiumPayment(
-    VerifyPremiumPaymentEvent event,
+  Future<void> _onVerifyUnifiedDayPayment(
+    VerifyUnifiedDayPaymentEvent event,
     Emitter<MealPlannerState> emit,
   ) async {
-    await _verifyPayment(emit, event.paymentId, kind: 'premium');
+    await _verifyPayment(emit, event.paymentId);
+  }
+
+  Future<void> _onPaymentCancelled(
+    PaymentCancelledEvent event,
+    Emitter<MealPlannerState> emit,
+  ) async {
+    if (state is! MealPlannerLoaded) return;
+    final current = state as MealPlannerLoaded;
+    final cleared = current.copyWith(
+      isSaving: false,
+      clearPaymentUrl: true,
+      clearPaymentId: true,
+      clearPaymentError: true,
+    );
+    emit(cleared);
+    await _loadDayDetails(emit, cleared, cleared.selectedDayIndex, force: true);
   }
 
   Future<void> _loadDayDetails(
@@ -501,7 +521,7 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
       final firstError =
           validationResult.slotErrors?.isNotEmpty == true
               ? validationResult.slotErrors!.first.message
-              : 'Validation failed';
+              : Strings.validationFailed.tr();
       emit(current.copyWith(isSaving: false, paymentError: firstError));
       return;
     }
@@ -524,25 +544,45 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
       (updatedDay) async {
         if (emit.isDone) return;
 
-        final updatedState = _applyUpdatedDay(current, updatedDay);
+        final updatedState = _applyUpdatedDay(current, updatedDay).copyWith(
+          isSaving: true,
+          clearPaymentError: true,
+        );
+        emit(updatedState);
+
         final requiresPayment =
             updatedDay.paymentRequirement?.requiresPayment ?? false;
 
-        if (!requiresPayment) {
+        if (!requiresPayment && _canConfirm(updatedDay.paymentRequirement)) {
           await _confirmAndFinalize(emit, updatedState, currentDay.date);
           return;
         }
 
-        // Always use the premium payment endpoint — it covers all pending
-        // amounts (premium meals + addons) in a single payment session.
         if (updatedDay.paymentRequirement?.canCreatePayment == true) {
-          await _createPremiumPayment(emit, updatedState);
+          await _createUnifiedDayPayment(emit, updatedState, updatedDay);
           return;
         }
 
-        emit(updatedState.copyWith(isSaving: false, saveSuccess: false));
+        emit(
+          updatedState.copyWith(
+            isSaving: false,
+            saveSuccess: false,
+            paymentError: _blockingReasonMessage(updatedDay.paymentRequirement),
+          ),
+        );
       },
     );
+  }
+
+  bool _canConfirm(PaymentRequirementModel? requirement) {
+    if (requirement?.requiresPayment == true) return false;
+    final reason = requirement?.blockingReason?.toUpperCase();
+    return reason == null || reason.isEmpty || reason == 'PLANNER_UNCONFIRMED';
+  }
+
+  String _blockingReasonMessage(PaymentRequirementModel? requirement) {
+    final reason = requirement?.blockingReason;
+    return reason?.isNotEmpty == true ? reason! : Strings.paymentRequiredMessage.tr();
   }
 
   Future<void> _confirmAndFinalize(
@@ -588,46 +628,137 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
     );
   }
 
-  Future<void> _createPremiumPayment(
+  Future<void> _createUnifiedDayPayment(
     Emitter<MealPlannerState> emit,
     MealPlannerLoaded stateAfterSave,
+    SubscriptionDayModel updatedDay,
   ) async {
     final day = stateAfterSave.selectedTimelineDay;
-    final paymentResult = await _createPremiumPaymentUseCase.execute(
-      CreatePremiumPaymentUseCaseInput(subscriptionId, day.date),
+    var paymentState = stateAfterSave;
+    var paymentDay = updatedDay;
+
+    if (paymentDay.plannerRevisionHash.isEmpty) {
+      final refreshed = await _reloadPaymentDay(emit, paymentState, day.date);
+      if (refreshed == null) return;
+      paymentState = refreshed.state;
+      paymentDay = refreshed.day;
+    }
+
+    final paymentResult = await _createUnifiedDayPaymentUseCase.execute(
+      CreateUnifiedDayPaymentUseCaseInput(
+        subscriptionId,
+        day.date,
+        plannerRevisionHash: paymentDay.plannerRevisionHash,
+      ),
     );
 
-    paymentResult.fold(
+    await paymentResult.fold(
+      (failure) async {
+        if (!_isDayPaymentRevisionMismatch(failure)) {
+          if (!emit.isDone) {
+            emit(
+              paymentState.copyWith(
+                isSaving: false,
+                paymentError: _formatFailure(failure),
+              ),
+            );
+          }
+          return;
+        }
+
+        final refreshed = await _reloadPaymentDay(emit, paymentState, day.date);
+        if (refreshed == null) return;
+
+        final retryResult = await _createUnifiedDayPaymentUseCase.execute(
+          CreateUnifiedDayPaymentUseCaseInput(
+            subscriptionId,
+            day.date,
+            plannerRevisionHash: refreshed.day.plannerRevisionHash,
+          ),
+        );
+
+        retryResult.fold(
+          (_) {
+            if (!emit.isDone) {
+              emit(
+                refreshed.state.copyWith(
+                  isSaving: false,
+                  paymentError: Strings.daySelectionChangedReview.tr(),
+                ),
+              );
+            }
+          },
+          (paymentModel) {
+            _emitPaymentReady(emit, refreshed.state, paymentModel);
+          },
+        );
+      },
+      (paymentModel) async {
+        _emitPaymentReady(emit, paymentState, paymentModel);
+      },
+    );
+  }
+
+  Future<({MealPlannerLoaded state, SubscriptionDayModel day})?>
+  _reloadPaymentDay(
+    Emitter<MealPlannerState> emit,
+    MealPlannerLoaded baseState,
+    String date,
+  ) async {
+    final refreshed = await _getSubscriptionDayUseCase.execute(
+      GetSubscriptionDayUseCaseInput(subscriptionId, date),
+    );
+
+    return refreshed.fold(
       (failure) {
         if (!emit.isDone) {
           emit(
-            stateAfterSave.copyWith(
+            baseState.copyWith(
               isSaving: false,
               paymentError: _formatFailure(failure),
             ),
           );
         }
+        return null;
       },
-      (paymentModel) {
-        if (!emit.isDone) {
-          emit(
-            stateAfterSave.copyWith(
-              isSaving: false,
-              paymentUrl: paymentModel.paymentUrl,
-              paymentId: paymentModel.paymentId,
-              activePaymentKind: 'premium',
-            ),
-          );
-        }
+      (freshDay) {
+        if (emit.isDone) return null;
+        final freshState = _applyUpdatedDay(
+          baseState,
+          freshDay,
+        ).copyWith(isSaving: true, clearPaymentError: true);
+        emit(freshState);
+        return (state: freshState, day: freshDay);
       },
     );
   }
 
+  void _emitPaymentReady(
+    Emitter<MealPlannerState> emit,
+    MealPlannerLoaded paymentState,
+    PremiumPaymentModel paymentModel,
+  ) {
+    if (!emit.isDone) {
+      emit(
+        paymentState.copyWith(
+          isSaving: false,
+          paymentUrl: paymentModel.paymentUrl,
+          paymentId: paymentModel.paymentId,
+          activePaymentKind: 'unified_day',
+        ),
+      );
+    }
+  }
+
+  bool _isDayPaymentRevisionMismatch(Failure failure) {
+    return failure.code?.toString().toUpperCase() ==
+        _dayPaymentRevisionMismatchCode;
+  }
+
   Future<void> _verifyPayment(
     Emitter<MealPlannerState> emit,
-    String paymentId, {
-    required String kind,
-  }) async {
+    String paymentId,
+  ) async {
     if (state is! MealPlannerLoaded) return;
     final current = state as MealPlannerLoaded;
     final day = current.selectedTimelineDay;
@@ -640,8 +771,8 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
       ),
     );
 
-    final result = await _verifyPremiumPaymentUseCase.execute(
-      VerifyPremiumPaymentUseCaseInput(
+    final result = await _verifyUnifiedDayPaymentUseCase.execute(
+      VerifyUnifiedDayPaymentUseCaseInput(
         subscriptionId,
         day.date,
         paymentId,
@@ -695,9 +826,18 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
           isSaving: false,
           clearPaymentUrl: true,
           clearPaymentId: true,
-          activePaymentKind: kind,
+          activePaymentKind: 'unified_day',
         );
-        await _confirmAndFinalize(emit, updatedState, day.date);
+        final requirement = updatedDay.paymentRequirement;
+        if (_canConfirm(requirement)) {
+          await _confirmAndFinalize(emit, updatedState, day.date);
+          return;
+        }
+        emit(
+          updatedState.copyWith(
+            paymentError: _blockingReasonMessage(requirement),
+          ),
+        );
       },
     );
   }
@@ -757,16 +897,22 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
       month: base.month,
       dayNumber: base.dayNumber,
       status: detail.status,
+      statusLabel: base.statusLabel,
       commercialState: detail.commercialState ?? base.commercialState,
+      commercialStateLabel: base.commercialStateLabel,
       canBePrepared: base.canBePrepared,
       fulfillmentReady: base.fulfillmentReady,
       planningReady: detail.plannerMeta?.isDraftValid ?? base.planningReady,
+      isFulfillable: base.isFulfillable,
       fulfillmentMode: base.fulfillmentMode,
       consumptionState: base.consumptionState,
       selectedMeals:
           detail.plannerMeta?.completeSlotCount ?? base.selectedMeals,
       requiredMeals:
           detail.plannerMeta?.requiredSlotCount ?? base.requiredMeals,
+      specifiedMealCount: base.specifiedMealCount,
+      unspecifiedMealCount: base.unspecifiedMealCount,
+      hasCustomerSelections: base.hasCustomerSelections,
       selections: base.selections,
       premiumSelections: base.premiumSelections,
       selectedMealIds: base.selectedMealIds,

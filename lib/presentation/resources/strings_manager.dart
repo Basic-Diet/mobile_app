@@ -176,6 +176,8 @@ class Strings {
   static const String left = 'left';
   static const String noChangesToSave = 'noChangesToSave';
   static const String saveChanges = 'saveChanges';
+  static const String dayLocked = 'dayLocked';
+  static const String estimatedPayNow = 'estimatedPayNow';
   static const String changesSavedSuccessfully = 'changesSavedSuccessfully';
   static const String premiumMealsAvailable = 'premiumMealsAvailable';
   static const String youHave = 'youHave';
@@ -195,6 +197,16 @@ class Strings {
   static const String carbGramsRequired = 'carbGramsRequired';
   static const String carbTotalLimitExceeded = 'carbTotalLimitExceeded';
   static const String premium = 'premium';
+  static const String leafyGreens = 'leafyGreens';
+  static const String vegetables = 'vegetables';
+  static const String cheeseNuts = 'cheeseNuts';
+  static const String fruits = 'fruits';
+  static const String sauce = 'sauce';
+  static const String sandwich = 'sandwich';
+  static const String noAvailableDaysForPlanning = 'noAvailableDaysForPlanning';
+  static const String unableToResolvePickupDay = 'unableToResolvePickupDay';
+  static const String validationFailed = 'validationFailed';
+  static const String daySelectionChangedReview = 'daySelectionChangedReview';
 
   // Days
   static const String monday = 'monday';
@@ -340,6 +352,97 @@ class Strings {
   static const String pickupStatusDone = 'pickupStatusDone';
   static const String pickupStatusCurrent = 'pickupStatusCurrent';
   static const String pickupStatusLocked = 'pickupStatusLocked';
+  static const String fulfillmentTitle = 'fulfillmentTitle';
+  static const String fulfillmentSubtitle = 'fulfillmentSubtitle';
+  static const String fulfillmentPickupTitle = 'fulfillmentPickupTitle';
+  static const String fulfillmentDeliveryTitle = 'fulfillmentDeliveryTitle';
+  static const String fulfillmentPickupSubtitle = 'fulfillmentPickupSubtitle';
+  static const String fulfillmentDeliverySubtitle =
+      'fulfillmentDeliverySubtitle';
+  static const String fulfillmentStatusLabel = 'fulfillmentStatusLabel';
+  static const String fulfillmentMainInfoLabel = 'fulfillmentMainInfoLabel';
+  static const String fulfillmentNextActionLabel = 'fulfillmentNextActionLabel';
+  static const String fulfillmentLocationLabel = 'fulfillmentLocationLabel';
+  static const String fulfillmentPickupDetailsTitle =
+      'fulfillmentPickupDetailsTitle';
+  static const String fulfillmentDeliveryDetailsTitle =
+      'fulfillmentDeliveryDetailsTitle';
+  static const String fulfillmentDeliveryAddressLabel =
+      'fulfillmentDeliveryAddressLabel';
+  static const String fulfillmentWindowLabel = 'fulfillmentWindowLabel';
+  static const String fulfillmentRestaurantHoursLabel =
+      'fulfillmentRestaurantHoursLabel';
+  static const String fulfillmentRestaurantHoursMissing =
+      'fulfillmentRestaurantHoursMissing';
+  static const String fulfillmentLockedLabel = 'fulfillmentLockedLabel';
+  static const String fulfillmentLockedYes = 'fulfillmentLockedYes';
+  static const String fulfillmentLockedNo = 'fulfillmentLockedNo';
+  static const String fulfillmentAddressMissing = 'fulfillmentAddressMissing';
+  static const String fulfillmentPickupLocationMissing =
+      'fulfillmentPickupLocationMissing';
+  static const String fulfillmentWindowMissing = 'fulfillmentWindowMissing';
+  static const String fulfillmentPickupFallbackMessage =
+      'fulfillmentPickupFallbackMessage';
+  static const String fulfillmentDeliveryFallbackMessage =
+      'fulfillmentDeliveryFallbackMessage';
+  static const String fulfillmentDeliveryLockedMessage =
+      'fulfillmentDeliveryLockedMessage';
+  static const String fulfillmentOpenPlannerAction =
+      'fulfillmentOpenPlannerAction';
+  static const String fulfillmentPrepareAction = 'fulfillmentPrepareAction';
+  static const String fulfillmentNoAction = 'fulfillmentNoAction';
+  static const String fulfillmentDeliveryScheduledAction =
+      'fulfillmentDeliveryScheduledAction';
+  static const String fulfillmentDeliveryOutForDeliveryAction =
+      'fulfillmentDeliveryOutForDeliveryAction';
+  static const String fulfillmentDeliveredAction = 'fulfillmentDeliveredAction';
+  static const String fulfillmentCanceledAction = 'fulfillmentCanceledAction';
+  static const String fulfillmentPickupReviewAction =
+      'fulfillmentPickupReviewAction';
+  static const String fulfillmentPickupReadyAction =
+      'fulfillmentPickupReadyAction';
+  static const String fulfillmentPickupCodeAction =
+      'fulfillmentPickupCodeAction';
+  static const String fulfillmentPickupCompletedAction =
+      'fulfillmentPickupCompletedAction';
+  static const String fulfillmentPickupRestaurantClosedMessage =
+      'fulfillmentPickupRestaurantClosedMessage';
+  static const String fulfillmentPickupConsumedWithoutPreparationMessage =
+      'fulfillmentPickupConsumedWithoutPreparationMessage';
+  static const String fulfillmentPickupNoShowMessage =
+      'fulfillmentPickupNoShowMessage';
+  static const String fulfillmentDeliveryTimeUnavailableMessage =
+      'fulfillmentDeliveryTimeUnavailableMessage';
+  static const String fulfillmentPickupStepSelections =
+      'fulfillmentPickupStepSelections';
+  static const String fulfillmentPickupStepPreparing =
+      'fulfillmentPickupStepPreparing';
+  static const String fulfillmentPickupStepReady = 'fulfillmentPickupStepReady';
+  static const String fulfillmentDeliveryStepConfirmed =
+      'fulfillmentDeliveryStepConfirmed';
+  static const String fulfillmentDeliveryStepPreparing =
+      'fulfillmentDeliveryStepPreparing';
+  static const String fulfillmentDeliveryStepOnTheWay =
+      'fulfillmentDeliveryStepOnTheWay';
+  static const String fulfillmentDeliveryStepDelivered =
+      'fulfillmentDeliveryStepDelivered';
+  static const String fulfillmentUnknownStatus = 'fulfillmentUnknownStatus';
+  static const String autoUpdatingStatus = 'autoUpdatingStatus';
+  static const String updatedJustNow = 'updatedJustNow';
+  static const String branchOpen = 'branchOpen';
+  static const String branchClosed = 'branchClosed';
+  static const String pickupNotReadyForPreparation =
+      'pickupNotReadyForPreparation';
+  static const String pickupPreparationUnavailable =
+      'pickupPreparationUnavailable';
+  static const String pickupPreparationOnlyDuringWorkingHours =
+      'pickupPreparationOnlyDuringWorkingHours';
+  static const String fulfillmentLocationMissingSubtext =
+      'fulfillmentLocationMissingSubtext';
+  static const String updatedMinuteAgo = 'updatedMinuteAgo';
+  static const String orderOpenState = 'orderOpenState';
+  static const String fulfillmentPrepareActionNow =
+      'fulfillmentPrepareActionNow';
 
   // Add-on Entitlements
   static const String includedPerDay = 'includedPerDay';
@@ -383,6 +486,9 @@ class Strings {
   static const String openingPayment = 'openingPayment';
 
   static const String priceBreakdown = 'priceBreakdown';
+  static const String packagePriceBeforeTax = 'packagePriceBeforeTax';
+  static const String packagePriceAfterTax = 'packagePriceAfterTax';
+  static const String valueAddedAmount = 'valueAddedAmount';
   static const String deliveryNotes = 'deliveryNotes';
   static const String timeSlot = 'timeSlot';
   static const String orderSummary = 'orderSummary';
@@ -477,6 +583,10 @@ class Strings {
   static const String premiumProteinSelection = 'premiumProteinSelection';
   static const String premiumProteinDesc = 'premiumProteinDesc';
   static const String skipThisStep = 'skipThisStep';
+  static const String optionalStepLabel = 'optionalStepLabel';
+  static const String premiumStepTitle = 'premiumStepTitle';
+  static const String premiumStepDescription = 'premiumStepDescription';
+  static const String premiumStepHint = 'premiumStepHint';
   static const String howWouldYouLikeToReceiveYourMeals =
       'howWouldYouLikeToReceiveYourMeals';
   static const String chooseDeliveryType = 'chooseDeliveryType';
@@ -491,6 +601,9 @@ class Strings {
   static const String enhanceYourPlan = 'enhanceYourPlan';
   static const String addExtraItemsOptional = 'addExtraItemsOptional';
   static const String noAddOnsSelected = 'noAddOnsSelected';
+  static const String addOnsStepTitle = 'addOnsStepTitle';
+  static const String addOnsStepDescription = 'addOnsStepDescription';
+  static const String addOnsStepHint = 'addOnsStepHint';
   static const String appliedTo = 'appliedTo';
   static const String signInToContinueYourHealthyJourney =
       'signInToContinueYourHealthyJourney';

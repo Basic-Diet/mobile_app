@@ -3,6 +3,16 @@ import 'package:basic_diet/data/response/base_response/base_response.dart';
 
 part 'current_subscription_overview_response.g.dart';
 
+Object? readDeliveryWindowSummary(Map json, String key) {
+  final value = json[key];
+  if (value is Map<String, dynamic>) return value;
+  if (value is Map) return Map<String, dynamic>.from(value);
+  if (value is String && value.trim().isNotEmpty) {
+    return <String, dynamic>{'from': '', 'to': '', 'label': value};
+  }
+  return null;
+}
+
 @JsonSerializable()
 class MetaResponse {
   @JsonKey(name: "testScenario")
@@ -95,12 +105,189 @@ class OverviewDeliverySlotResponse {
   String? type;
   @JsonKey(name: "window")
   String? window;
+  @JsonKey(name: "label")
+  String? label;
 
-  OverviewDeliverySlotResponse(this.slotId, this.type, this.window);
+  OverviewDeliverySlotResponse(this.slotId, this.type, this.window, [this.label]);
 
   factory OverviewDeliverySlotResponse.fromJson(Map<String, dynamic> json) =>
       _$OverviewDeliverySlotResponseFromJson(json);
   Map<String, dynamic> toJson() => _$OverviewDeliverySlotResponseToJson(this);
+}
+
+@JsonSerializable()
+class OverviewAddressSummaryResponse {
+  @JsonKey(name: "label")
+  String? label;
+  @JsonKey(name: "line1")
+  String? line1;
+  @JsonKey(name: "line2")
+  String? line2;
+  @JsonKey(name: "city")
+  String? city;
+  @JsonKey(name: "district")
+  String? district;
+  @JsonKey(name: "zoneName")
+  String? zoneName;
+  @JsonKey(name: "formatted")
+  String? formatted;
+  @JsonKey(name: "street")
+  String? street;
+  @JsonKey(name: "building")
+  String? building;
+  @JsonKey(name: "apartment")
+  String? apartment;
+  @JsonKey(name: "notes")
+  String? notes;
+
+  OverviewAddressSummaryResponse(
+    this.label,
+    this.line1,
+    this.line2,
+    this.city,
+    this.district,
+    this.zoneName,
+    this.formatted,
+    this.street,
+    this.building,
+    this.apartment,
+    this.notes,
+  );
+
+  factory OverviewAddressSummaryResponse.fromJson(Map<String, dynamic> json) =>
+      _$OverviewAddressSummaryResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$OverviewAddressSummaryResponseToJson(this);
+}
+
+@JsonSerializable()
+class OverviewPickupLocationSummaryResponse {
+  @JsonKey(name: "id")
+  String? id;
+  @JsonKey(name: "_id")
+  String? rawId;
+  @JsonKey(name: "name")
+  String? name;
+  @JsonKey(name: "address", readValue: _readAddress)
+  String? address;
+  @JsonKey(name: "phone")
+  String? phone;
+  @JsonKey(name: "city")
+  String? city;
+  @JsonKey(name: "district")
+  String? district;
+  @JsonKey(name: "workingHours")
+  String? workingHours;
+  @JsonKey(name: "latitude")
+  double? latitude;
+  @JsonKey(name: "longitude")
+  double? longitude;
+  @JsonKey(name: "mapUrl")
+  String? mapUrl;
+
+  OverviewPickupLocationSummaryResponse(
+    this.id,
+    this.rawId,
+    this.name,
+    this.address,
+    this.phone,
+    this.city,
+    this.district,
+    this.workingHours,
+    this.latitude,
+    this.longitude,
+    this.mapUrl,
+  );
+
+  static Object? _readAddress(Map json, String key) {
+    final value = json[key];
+    if (value is String) return value;
+    if (value is Map) {
+      return [
+        value['line1'],
+        value['line2'],
+        value['district'],
+        value['city'],
+      ].whereType<String>().where((part) => part.trim().isNotEmpty).join(' - ');
+    }
+    return null;
+  }
+
+  factory OverviewPickupLocationSummaryResponse.fromJson(
+    Map<String, dynamic> json,
+  ) => _$OverviewPickupLocationSummaryResponseFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$OverviewPickupLocationSummaryResponseToJson(this);
+}
+
+@JsonSerializable()
+class OverviewDeliveryWindowSummaryResponse {
+  @JsonKey(name: "from")
+  String? from;
+  @JsonKey(name: "to")
+  String? to;
+  @JsonKey(name: "label")
+  String? label;
+
+  OverviewDeliveryWindowSummaryResponse(this.from, this.to, this.label);
+
+  factory OverviewDeliveryWindowSummaryResponse.fromJson(
+    Map<String, dynamic> json,
+  ) => _$OverviewDeliveryWindowSummaryResponseFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$OverviewDeliveryWindowSummaryResponseToJson(this);
+}
+
+@JsonSerializable()
+class OverviewFulfillmentSummaryResponse {
+  @JsonKey(name: "mode")
+  String? mode;
+  @JsonKey(name: "title")
+  String? title;
+  @JsonKey(name: "status")
+  String? status;
+  @JsonKey(name: "statusLabel")
+  String? statusLabel;
+  @JsonKey(name: "message")
+  String? message;
+  @JsonKey(name: "nextAction")
+  String? nextAction;
+  @JsonKey(name: "isEditable")
+  bool? isEditable;
+  @JsonKey(name: "isFulfillable")
+  bool? isFulfillable;
+  @JsonKey(name: "planningReady")
+  bool? planningReady;
+  @JsonKey(name: "fulfillmentReady")
+  bool? fulfillmentReady;
+  @JsonKey(name: "lockedReason")
+  String? lockedReason;
+  @JsonKey(name: "lockedMessage")
+  String? lockedMessage;
+
+  OverviewFulfillmentSummaryResponse(
+    this.mode,
+    this.title,
+    this.status,
+    this.statusLabel,
+    this.message,
+    this.nextAction,
+    this.isEditable,
+    this.isFulfillable,
+    this.planningReady,
+    this.fulfillmentReady,
+    this.lockedReason,
+    this.lockedMessage,
+  );
+
+  factory OverviewFulfillmentSummaryResponse.fromJson(
+    Map<String, dynamic> json,
+  ) => _$OverviewFulfillmentSummaryResponseFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$OverviewFulfillmentSummaryResponseToJson(this);
 }
 
 @JsonSerializable()
@@ -219,6 +406,10 @@ class CurrentSubscriptionOverviewDataResponse {
   String? statusLabel;
   @JsonKey(name: "deliveryModeLabel")
   String? deliveryModeLabel;
+  @JsonKey(name: "deliveryWindowLegacy")
+  String? deliveryWindow;
+  @JsonKey(name: "pickupLocationId")
+  String? pickupLocationId;
   @JsonKey(name: "validityEndDate")
   String? validityEndDate;
   @JsonKey(name: "skipDaysUsed")
@@ -235,6 +426,14 @@ class CurrentSubscriptionOverviewDataResponse {
   PickupPreparationResponse? pickupPreparation;
   @JsonKey(name: "deliverySlot")
   OverviewDeliverySlotResponse? deliverySlot;
+  @JsonKey(name: "deliveryAddress")
+  OverviewAddressSummaryResponse? deliveryAddress;
+  @JsonKey(name: "deliveryWindow", readValue: readDeliveryWindowSummary)
+  OverviewDeliveryWindowSummaryResponse? deliveryWindowSummary;
+  @JsonKey(name: "pickupLocation")
+  OverviewPickupLocationSummaryResponse? pickupLocation;
+  @JsonKey(name: "fulfillmentSummary")
+  OverviewFulfillmentSummaryResponse? fulfillmentSummary;
 
   CurrentSubscriptionOverviewDataResponse(
     this.id,
@@ -252,6 +451,8 @@ class CurrentSubscriptionOverviewDataResponse {
     this.addonsSummary,
     this.statusLabel,
     this.deliveryModeLabel,
+    this.deliveryWindow,
+    this.pickupLocationId,
     this.validityEndDate,
     this.skipDaysUsed,
     this.skipDaysLimit,
@@ -260,6 +461,10 @@ class CurrentSubscriptionOverviewDataResponse {
     this.contract,
     this.pickupPreparation,
     this.deliverySlot,
+    this.deliveryAddress,
+    this.deliveryWindowSummary,
+    this.pickupLocation,
+    this.fulfillmentSummary,
   );
 
   factory CurrentSubscriptionOverviewDataResponse.fromJson(
@@ -268,6 +473,7 @@ class CurrentSubscriptionOverviewDataResponse {
 
   Map<String, dynamic> toJson() =>
       _$CurrentSubscriptionOverviewDataResponseToJson(this);
+
 }
 
 @JsonSerializable()

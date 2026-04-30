@@ -29,6 +29,7 @@ import 'package:basic_diet/data/response/premium_payment_response.dart';
 
 import 'package:basic_diet/data/response/pickup_prepare_response.dart';
 import 'package:basic_diet/data/response/pickup_status_response.dart';
+import 'package:basic_diet/data/response/fulfillment_status_response.dart';
 import 'package:basic_diet/data/response/cancel_subscription_response.dart';
 import 'package:basic_diet/data/request/cancel_subscription_request.dart';
 
@@ -190,6 +191,11 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   }
 
   @override
+  Future<FulfillmentStatusResponse> getDayFulfillmentStatus(String id, String date) {
+    return _appServiceClient.getDayFulfillmentStatus(id, date);
+  }
+
+  @override
   Future<MealPlannerMenuResponse> getMealPlannerMenu() {
     return _appServiceClient.getMealPlannerMenu();
   }
@@ -203,12 +209,38 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   }
 
   @override
+  Future<PremiumPaymentResponse> createUnifiedDayPayment(
+    String subscriptionId,
+    String date,
+    Map<String, dynamic> body,
+  ) {
+    return _appServiceClient.createUnifiedDayPayment(
+      subscriptionId,
+      date,
+      body,
+    );
+  }
+
+  @override
   Future<PremiumPaymentVerificationResponse> verifyPremiumPayment(
     String subscriptionId,
     String date,
     String paymentId,
   ) {
     return _appServiceClient.verifyPremiumPayment(
+      subscriptionId,
+      date,
+      paymentId,
+    );
+  }
+
+  @override
+  Future<PremiumPaymentVerificationResponse> verifyUnifiedDayPayment(
+    String subscriptionId,
+    String date,
+    String paymentId,
+  ) {
+    return _appServiceClient.verifyUnifiedDayPayment(
       subscriptionId,
       date,
       paymentId,

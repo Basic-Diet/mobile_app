@@ -192,6 +192,7 @@ Screen opens
     │
     ├─ User picks protein/carbs/addons ──► Local state only
     │
+     requiresPayment?
     └─ User taps Save
             │
             ▼
@@ -203,7 +204,7 @@ Screen opens
             ▼
         requiresPayment?
             │
-            ├─ No ──► POST confirm ──► GET day ──► Close screen ✓
+            ├─ No ──► POST confirm ──► GET day ──► Close screen ✓->show success ->nav back to time line and update it
             │
             ├─ premium_pending_payment
             │       └──► POST create-premium-payment

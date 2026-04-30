@@ -72,6 +72,7 @@ OverviewDeliverySlotResponse _$OverviewDeliverySlotResponseFromJson(
   json['slotId'] as String?,
   json['type'] as String?,
   json['window'] as String?,
+  json['label'] as String?,
 );
 
 Map<String, dynamic> _$OverviewDeliverySlotResponseToJson(
@@ -80,6 +81,122 @@ Map<String, dynamic> _$OverviewDeliverySlotResponseToJson(
   'slotId': instance.slotId,
   'type': instance.type,
   'window': instance.window,
+  'label': instance.label,
+};
+
+OverviewAddressSummaryResponse _$OverviewAddressSummaryResponseFromJson(
+  Map<String, dynamic> json,
+) => OverviewAddressSummaryResponse(
+  json['label'] as String?,
+  json['line1'] as String?,
+  json['line2'] as String?,
+  json['city'] as String?,
+  json['district'] as String?,
+  json['zoneName'] as String?,
+  json['formatted'] as String?,
+  json['street'] as String?,
+  json['building'] as String?,
+  json['apartment'] as String?,
+  json['notes'] as String?,
+);
+
+Map<String, dynamic> _$OverviewAddressSummaryResponseToJson(
+  OverviewAddressSummaryResponse instance,
+) => <String, dynamic>{
+  'label': instance.label,
+  'line1': instance.line1,
+  'line2': instance.line2,
+  'city': instance.city,
+  'district': instance.district,
+  'zoneName': instance.zoneName,
+  'formatted': instance.formatted,
+  'street': instance.street,
+  'building': instance.building,
+  'apartment': instance.apartment,
+  'notes': instance.notes,
+};
+
+OverviewPickupLocationSummaryResponse
+_$OverviewPickupLocationSummaryResponseFromJson(Map<String, dynamic> json) =>
+    OverviewPickupLocationSummaryResponse(
+      json['id'] as String?,
+      json['_id'] as String?,
+      json['name'] as String?,
+      OverviewPickupLocationSummaryResponse._readAddress(json, 'address')
+          as String?,
+      json['phone'] as String?,
+      json['city'] as String?,
+      json['district'] as String?,
+      json['workingHours'] as String?,
+      (json['latitude'] as num?)?.toDouble(),
+      (json['longitude'] as num?)?.toDouble(),
+      json['mapUrl'] as String?,
+    );
+
+Map<String, dynamic> _$OverviewPickupLocationSummaryResponseToJson(
+  OverviewPickupLocationSummaryResponse instance,
+) => <String, dynamic>{
+  'id': instance.id,
+  '_id': instance.rawId,
+  'name': instance.name,
+  'address': instance.address,
+  'phone': instance.phone,
+  'city': instance.city,
+  'district': instance.district,
+  'workingHours': instance.workingHours,
+  'latitude': instance.latitude,
+  'longitude': instance.longitude,
+  'mapUrl': instance.mapUrl,
+};
+
+OverviewDeliveryWindowSummaryResponse
+_$OverviewDeliveryWindowSummaryResponseFromJson(Map<String, dynamic> json) =>
+    OverviewDeliveryWindowSummaryResponse(
+      json['from'] as String?,
+      json['to'] as String?,
+      json['label'] as String?,
+    );
+
+Map<String, dynamic> _$OverviewDeliveryWindowSummaryResponseToJson(
+  OverviewDeliveryWindowSummaryResponse instance,
+) => <String, dynamic>{
+  'from': instance.from,
+  'to': instance.to,
+  'label': instance.label,
+};
+
+OverviewFulfillmentSummaryResponse _$OverviewFulfillmentSummaryResponseFromJson(
+  Map<String, dynamic> json,
+) => OverviewFulfillmentSummaryResponse(
+  json['mode'] as String?,
+  json['title'] as String?,
+  json['status'] as String?,
+  json['statusLabel'] as String?,
+  json['message'] as String?,
+  json['nextAction'] as String?,
+  json['isEditable'] as bool?,
+  json['isFulfillable'] as bool?,
+  json['planningReady'] as bool?,
+  json['fulfillmentReady'] as bool?,
+  json['lockedReason'] as String?,
+  json['lockedMessage'] as String?,
+);
+
+Map<String, dynamic> _$OverviewFulfillmentSummaryResponseToJson(
+  OverviewFulfillmentSummaryResponse instance,
+) => <String, dynamic>{
+  'mode': instance.mode,
+  'title': instance.title,
+  'status': instance.status,
+  'statusLabel': instance.statusLabel,
+  'message': instance.message,
+  'nextAction': instance.nextAction,
+  'isEditable': instance.isEditable,
+  'isFulfillable': instance.isFulfillable,
+  'planningReady': instance.planningReady,
+  'fulfillmentReady': instance.fulfillmentReady,
+  'lockedReason': instance.lockedReason,
+  'lockedMessage': instance.lockedMessage,
 };
 
 AddonSubscriptionResponse _$AddonSubscriptionResponseFromJson(
@@ -171,6 +288,8 @@ _$CurrentSubscriptionOverviewDataResponseFromJson(
       .toList(),
   json['statusLabel'] as String?,
   json['deliveryModeLabel'] as String?,
+  json['deliveryWindowLegacy'] as String?,
+  json['pickupLocationId'] as String?,
   json['validityEndDate'] as String?,
   (json['skipDaysUsed'] as num?)?.toInt(),
   (json['skipDaysLimit'] as num?)?.toInt(),
@@ -190,6 +309,27 @@ _$CurrentSubscriptionOverviewDataResponseFromJson(
       ? null
       : OverviewDeliverySlotResponse.fromJson(
         json['deliverySlot'] as Map<String, dynamic>,
+      ),
+  json['deliveryAddress'] == null
+      ? null
+      : OverviewAddressSummaryResponse.fromJson(
+        json['deliveryAddress'] as Map<String, dynamic>,
+      ),
+  readDeliveryWindowSummary(json, 'deliveryWindow') == null
+      ? null
+      : OverviewDeliveryWindowSummaryResponse.fromJson(
+        readDeliveryWindowSummary(json, 'deliveryWindow')
+            as Map<String, dynamic>,
+      ),
+  json['pickupLocation'] == null
+      ? null
+      : OverviewPickupLocationSummaryResponse.fromJson(
+        json['pickupLocation'] as Map<String, dynamic>,
+      ),
+  json['fulfillmentSummary'] == null
+      ? null
+      : OverviewFulfillmentSummaryResponse.fromJson(
+        json['fulfillmentSummary'] as Map<String, dynamic>,
       ),
 );
 
@@ -211,6 +351,8 @@ Map<String, dynamic> _$CurrentSubscriptionOverviewDataResponseToJson(
   'addonsSummary': instance.addonsSummary,
   'statusLabel': instance.statusLabel,
   'deliveryModeLabel': instance.deliveryModeLabel,
+  'deliveryWindowLegacy': instance.deliveryWindow,
+  'pickupLocationId': instance.pickupLocationId,
   'validityEndDate': instance.validityEndDate,
   'skipDaysUsed': instance.skipDaysUsed,
   'skipDaysLimit': instance.skipDaysLimit,
@@ -219,6 +361,10 @@ Map<String, dynamic> _$CurrentSubscriptionOverviewDataResponseToJson(
   'contract': instance.contract,
   'pickupPreparation': instance.pickupPreparation,
   'deliverySlot': instance.deliverySlot,
+  'deliveryAddress': instance.deliveryAddress,
+  'deliveryWindow': instance.deliveryWindowSummary,
+  'pickupLocation': instance.pickupLocation,
+  'fulfillmentSummary': instance.fulfillmentSummary,
 };
 
 CurrentSubscriptionOverviewResponse
