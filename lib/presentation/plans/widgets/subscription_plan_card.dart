@@ -180,7 +180,9 @@ class SubscriptionPlanCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            Strings.premiumMealsText.tr(),
+                            premium.name.isNotEmpty
+                                ? premium.name
+                                : Strings.premiumMealsText.tr(),
                             style: getRegularTextStyle(
                               color: ColorManager.textSecondary,
                               fontSize: FontSizeManager.s14.sp,
