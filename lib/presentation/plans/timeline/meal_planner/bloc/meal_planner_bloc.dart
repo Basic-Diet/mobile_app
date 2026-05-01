@@ -311,6 +311,9 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
       current.copyWith(
         selectedSlotsPerDay: updatedSlotsByDay,
         showSavedBanner: true,
+        lastAddedMealName:
+            current.menu.builderCatalog.premiumLargeSalad?.name ??
+            current.lastAddedMealName,
         premiumMealsPendingPayment: _calculatePendingPaymentCount(
           current,
           selectedSlotsPerDay: updatedSlotsByDay,

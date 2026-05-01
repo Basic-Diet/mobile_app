@@ -360,7 +360,11 @@ class _MealPlannerBody extends StatelessWidget {
     final isPremiumLargeSaladSelection =
         slot?.selectionType == 'premium_large_salad';
     final proteinLabel =
-        isSandwichSelection ? (sandwich?.name ?? '') : (protein?.name ?? '');
+        isPremiumLargeSaladSelection
+            ? _premiumLargeSaladName(state.menu)
+            : isSandwichSelection
+            ? (sandwich?.name ?? '')
+            : (protein?.name ?? '');
     final selectedProteinId =
         isSandwichSelection ? slot?.sandwichId : slot?.proteinId;
     final maxCarbItems =
@@ -526,6 +530,10 @@ class _MealPlannerBody extends StatelessWidget {
       if (sandwich.id == id) return sandwich;
     }
     return null;
+  }
+
+  String _premiumLargeSaladName(MealPlannerMenuModel menu) {
+    return menu.builderCatalog.premiumLargeSalad?.name ?? '';
   }
 
   Future<void> _openProteinPickerSheet({
