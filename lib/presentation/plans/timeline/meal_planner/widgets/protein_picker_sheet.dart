@@ -449,7 +449,7 @@ class _ProteinList extends StatelessWidget {
   List<BuilderProteinModel> _customBuilderProteins(BuilderCatalogModel catalog) {
     final proteinsById = <String, BuilderProteinModel>{};
 
-    for (final protein in catalog.allProteins) {
+    for (final protein in catalog.proteins) {
       proteinsById[protein.id] = protein;
     }
 
