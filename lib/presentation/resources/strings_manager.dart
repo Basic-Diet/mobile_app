@@ -155,6 +155,8 @@ class Strings {
 
   // Terminal delivery statuses
   static const String delivered = 'delivered';
+  static const String consumedWithoutPreparation =
+      'consumedWithoutPreparation';
   static const String deliveryCanceled = 'deliveryCanceled';
   static const String canceledAtBranch = 'canceledAtBranch';
   static const String noShow = 'noShow';

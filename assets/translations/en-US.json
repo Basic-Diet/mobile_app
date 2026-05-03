@@ -209,6 +209,7 @@
     "extensionDay": "Extension Day",
     "statusLegend": "Status Legend",
     "delivered": "Delivered",
+    "consumedWithoutPreparation": "Day counted",
     "deliveryCanceled": "Delivery Canceled",
     "canceledAtBranch": "Canceled at Branch",
     "noShow": "No Show",

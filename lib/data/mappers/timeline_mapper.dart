@@ -40,6 +40,11 @@ extension TimelineDayResponseMapper on TimelineDayResponse? {
       fulfillmentSummary: this?.fulfillmentSummary?.toDomain(),
       lockedReason: this?.lockedReason.orEmpty() ?? Constants.empty,
       lockedMessage: this?.lockedMessage.orEmpty() ?? Constants.empty,
+      isPast: this?.isPast ?? false,
+      autoSettled: this?.autoSettled ?? false,
+      settledAt: this?.settledAt.orEmpty() ?? Constants.empty,
+      settlementReason: this?.settlementReason.orEmpty() ?? Constants.empty,
+      consumedByPolicy: this?.consumedByPolicy ?? false,
       mealSlots:
           this?.mealSlots
               ?.map(

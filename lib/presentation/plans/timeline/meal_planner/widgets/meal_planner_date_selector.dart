@@ -31,11 +31,12 @@ class MealPlannerDateSelector extends StatelessWidget {
         itemCount: state.timelineDays.length,
         separatorBuilder: (_, __) => Gap(AppSize.s12.w),
         itemBuilder: (context, index) {
+          final day = state.timelineDays[index];
           return _DayCard(
-            day: state.timelineDays[index],
+            day: day,
             index: index,
             isSelected: index == state.selectedDayIndex,
-            isComplete: _isDayComplete(state, index),
+            isComplete: !day.isHistoricalOnly && _isDayComplete(state, index),
           );
         },
       ),
@@ -78,7 +79,7 @@ class _DayCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final isLocked = day.commercialState.toLowerCase() == 'confirmed';
     final _DayStyle style = _resolveDayStyle(
-      day.status,
+      day,
       isSelected,
       isComplete,
     );
@@ -159,7 +160,12 @@ class _DayCard extends StatelessWidget {
     );
   }
 
-  _DayStyle _resolveDayStyle(String status, bool isSelected, bool isComplete) {
+  _DayStyle _resolveDayStyle(
+    TimelineDayModel day,
+    bool isSelected,
+    bool isComplete,
+  ) {
+    final status = day.status;
     Color baseColor;
     Color baseBgColor;
     Color baseBorderColor;
@@ -196,6 +202,37 @@ class _DayCard extends StatelessWidget {
         baseBorderColor = ColorManager.brandAccent;
         statusText = Strings.extension.tr();
         break;
+      case 'fulfilled':
+      case 'delivered':
+        baseColor = ColorManager.stateSuccessEmphasis;
+        baseBgColor = ColorManager.stateSuccessSurface;
+        baseBorderColor = ColorManager.stateSuccess;
+        statusText = Strings.delivered.tr();
+        break;
+      case 'consumed_without_preparation':
+        baseColor = ColorManager.stateSuccessEmphasis;
+        baseBgColor = ColorManager.stateSuccessSurface;
+        baseBorderColor = ColorManager.stateSuccess;
+        statusText = Strings.consumedWithoutPreparation.tr();
+        break;
+      case 'delivery_canceled':
+        baseColor = ColorManager.stateError;
+        baseBgColor = ColorManager.stateError.withValues(alpha: 0.05);
+        baseBorderColor = ColorManager.stateError;
+        statusText = Strings.deliveryCanceled.tr();
+        break;
+      case 'canceled_at_branch':
+        baseColor = ColorManager.stateError;
+        baseBgColor = ColorManager.stateError.withValues(alpha: 0.05);
+        baseBorderColor = ColorManager.stateError;
+        statusText = Strings.canceledAtBranch.tr();
+        break;
+      case 'no_show':
+        baseColor = ColorManager.textSecondary;
+        baseBgColor = ColorManager.backgroundSubtle;
+        baseBorderColor = ColorManager.textSecondary;
+        statusText = Strings.noShow.tr();
+        break;
       case 'open':
       default:
         baseColor = ColorManager.textPrimary;
@@ -209,7 +246,7 @@ class _DayCard extends StatelessWidget {
     Color bgColor = baseBgColor;
     Color borderColor = baseBorderColor;
 
-    if (isComplete) {
+    if (isComplete && !day.isHistoricalOnly) {
       bgColor = ColorManager.brandPrimary;
       borderColor = ColorManager.transparent;
       textColor = ColorManager.textInverse;
