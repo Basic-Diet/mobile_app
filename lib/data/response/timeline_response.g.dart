@@ -115,6 +115,11 @@ TimelineDayResponse _$TimelineDayResponseFromJson(
           ),
   lockedReason: json['lockedReason'] as String?,
   lockedMessage: json['lockedMessage'] as String?,
+  isPast: json['isPast'] as bool?,
+  autoSettled: json['autoSettled'] as bool?,
+  settledAt: json['settledAt'] as String?,
+  settlementReason: json['settlementReason'] as String?,
+  consumedByPolicy: json['consumedByPolicy'] as bool?,
 );
 
 Map<String, dynamic> _$TimelineDayResponseToJson(
@@ -151,6 +156,11 @@ Map<String, dynamic> _$TimelineDayResponseToJson(
   'fulfillmentSummary': instance.fulfillmentSummary,
   'lockedReason': instance.lockedReason,
   'lockedMessage': instance.lockedMessage,
+  'isPast': instance.isPast,
+  'autoSettled': instance.autoSettled,
+  'settledAt': instance.settledAt,
+  'settlementReason': instance.settlementReason,
+  'consumedByPolicy': instance.consumedByPolicy,
 };
 
 TimelineDataResponse _$TimelineDataResponseFromJson(

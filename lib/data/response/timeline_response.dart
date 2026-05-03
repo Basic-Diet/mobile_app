@@ -164,6 +164,21 @@ class TimelineDayResponse {
   @JsonKey(name: 'lockedMessage')
   final String? lockedMessage;
 
+  @JsonKey(name: 'isPast')
+  final bool? isPast;
+
+  @JsonKey(name: 'autoSettled')
+  final bool? autoSettled;
+
+  @JsonKey(name: 'settledAt')
+  final String? settledAt;
+
+  @JsonKey(name: 'settlementReason')
+  final String? settlementReason;
+
+  @JsonKey(name: 'consumedByPolicy')
+  final bool? consumedByPolicy;
+
   const TimelineDayResponse({
     this.date,
     this.day,
@@ -196,6 +211,11 @@ class TimelineDayResponse {
     this.fulfillmentSummary,
     this.lockedReason,
     this.lockedMessage,
+    this.isPast,
+    this.autoSettled,
+    this.settledAt,
+    this.settlementReason,
+    this.consumedByPolicy,
   });
 
   factory TimelineDayResponse.fromJson(Map<String, dynamic> json) =>

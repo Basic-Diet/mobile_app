@@ -30,6 +30,16 @@ class TimelineMealSlot {
 }
 
 class TimelineDayModel {
+  static const Set<String> terminalStatuses = {
+    'fulfilled',
+    'consumed_without_preparation',
+    'no_show',
+    'skipped',
+    'frozen',
+    'delivery_canceled',
+    'canceled_at_branch',
+  };
+
   final String date;
   final String day;
   final String month;
@@ -61,6 +71,11 @@ class TimelineDayModel {
   final FulfillmentSummaryModel? fulfillmentSummary;
   final String lockedReason;
   final String lockedMessage;
+  final bool isPast;
+  final bool autoSettled;
+  final String settledAt;
+  final String settlementReason;
+  final bool consumedByPolicy;
 
   TimelineDayModel({
     required this.date,
@@ -94,7 +109,19 @@ class TimelineDayModel {
     this.fulfillmentSummary,
     this.lockedReason = '',
     this.lockedMessage = '',
+    this.isPast = false,
+    this.autoSettled = false,
+    this.settledAt = '',
+    this.settlementReason = '',
+    this.consumedByPolicy = false,
   });
+
+  String get normalizedStatus => status.toLowerCase();
+
+  bool get isTerminalStatus => terminalStatuses.contains(normalizedStatus);
+
+  bool get isHistoricalOnly =>
+      isTerminalStatus || autoSettled || consumedByPolicy;
 }
 
 class TimelineDataModel {

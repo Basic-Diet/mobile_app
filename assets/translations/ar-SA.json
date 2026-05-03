@@ -209,6 +209,7 @@
     "extensionDay": "يوم تمديد",
     "statusLegend": "دليل الحالات",
     "delivered": "تم التوصيل",
+    "consumedWithoutPreparation": "تم احتساب اليوم",
     "deliveryCanceled": "تم إلغاء التوصيل",
     "canceledAtBranch": "ملغى في الفرع",
     "noShow": "لم يُستلم",

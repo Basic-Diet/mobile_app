@@ -179,6 +179,7 @@ class TimeLineScreen extends StatelessWidget {
     List<AddonSubscriptionModel> addonSubscriptions,
     List<PremiumSummaryModel> premiumSummaries,
   ) {
+    final bool isReadOnly = _isReadOnlyDay(day);
     Color color;
     Color bgColor;
     Color? borderColor;
@@ -223,11 +224,19 @@ class TimeLineScreen extends StatelessWidget {
         extraTag = Strings.extensionDay.tr();
         break;
       case 'delivered':
+      case 'fulfilled':
         color = ColorManager.stateSuccessEmphasis;
         bgColor = ColorManager.stateSuccessSurface;
         borderColor = ColorManager.stateSuccess;
         icon = Icons.check_circle;
         statusText = Strings.delivered.tr();
+        break;
+      case 'consumed_without_preparation':
+        color = ColorManager.stateSuccessEmphasis;
+        bgColor = ColorManager.stateSuccessSurface;
+        borderColor = ColorManager.stateSuccess;
+        icon = Icons.event_available_outlined;
+        statusText = Strings.consumedWithoutPreparation.tr();
         break;
       case 'delivery_canceled':
         color = ColorManager.stateError;
@@ -258,8 +267,6 @@ class TimeLineScreen extends StatelessWidget {
         statusText = Strings.open.tr();
         break;
     }
-
-    final bool isReadOnly = day.commercialState.toLowerCase() == 'confirmed';
 
     return GestureDetector(
       onTap: () async {
@@ -446,6 +453,11 @@ class TimeLineScreen extends StatelessWidget {
                 ColorManager.stateSuccessEmphasis,
               ),
               _buildLegendItem(
+                Strings.consumedWithoutPreparation.tr(),
+                Icons.event_available_outlined,
+                ColorManager.stateSuccessEmphasis,
+              ),
+              _buildLegendItem(
                 Strings.deliveryCanceled.tr(),
                 Icons.local_shipping_outlined,
                 ColorManager.stateError,
@@ -482,5 +494,13 @@ class TimeLineScreen extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  bool _isReadOnlyDay(TimelineDayModel day) {
+    if (day.isHistoricalOnly) {
+      return true;
+    }
+
+    return day.commercialState.toLowerCase() == 'confirmed';
   }
 }

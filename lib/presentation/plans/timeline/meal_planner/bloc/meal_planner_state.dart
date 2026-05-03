@@ -378,6 +378,10 @@ final class MealPlannerLoaded extends MealPlannerState {
   int get maxMeals => selectedTimelineDay.requiredMeals;
 
   bool get isSelectedDayEditable {
+    if (selectedTimelineDay.isHistoricalOnly) {
+      return false;
+    }
+
     final detail = selectedDayDetail;
     final commercialState = detail?.commercialState ?? selectedTimelineDay.commercialState;
     final blockingReason = detail?.paymentRequirement?.blockingReason?.toUpperCase();
