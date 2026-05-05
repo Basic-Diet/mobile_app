@@ -78,6 +78,7 @@ extension TimelineDataResponseMapper on TimelineDataResponse? {
       addonSubscriptions:
           (this?.addonSubscriptions?.map((e) => e.toDomain()).toList() ?? [])
               .cast(),
+      mealBalance: this?.mealBalance?.toDomain(),
     );
   }
 }

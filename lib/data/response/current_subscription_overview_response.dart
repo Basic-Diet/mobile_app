@@ -3,6 +3,52 @@ import 'package:basic_diet/data/response/base_response/base_response.dart';
 
 part 'current_subscription_overview_response.g.dart';
 
+/// Response DTO for the additive mealBalance object introduced by the
+/// TOTAL_BALANCE_WITHIN_VALIDITY backend policy.
+/// All fields are nullable for backward compatibility with old payloads.
+@JsonSerializable()
+class MealBalanceResponse {
+  @JsonKey(name: 'totalMeals')
+  final int? totalMeals;
+
+  @JsonKey(name: 'remainingMeals')
+  final int? remainingMeals;
+
+  @JsonKey(name: 'consumedMeals')
+  final int? consumedMeals;
+
+  @JsonKey(name: 'canConsumeNow')
+  final bool? canConsumeNow;
+
+  @JsonKey(name: 'maxConsumableMealsNow')
+  final int? maxConsumableMealsNow;
+
+  @JsonKey(name: 'mealBalancePolicy')
+  final String? mealBalancePolicy;
+
+  @JsonKey(name: 'dailyMealLimitEnforced')
+  final bool? dailyMealLimitEnforced;
+
+  @JsonKey(name: 'dailyMealsDefault')
+  final int? dailyMealsDefault;
+
+  const MealBalanceResponse({
+    this.totalMeals,
+    this.remainingMeals,
+    this.consumedMeals,
+    this.canConsumeNow,
+    this.maxConsumableMealsNow,
+    this.mealBalancePolicy,
+    this.dailyMealLimitEnforced,
+    this.dailyMealsDefault,
+  });
+
+  factory MealBalanceResponse.fromJson(Map<String, dynamic> json) =>
+      _$MealBalanceResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$MealBalanceResponseToJson(this);
+}
+
 Object? readDeliveryWindowSummary(Map json, String key) {
   final value = json[key];
   if (value is Map<String, dynamic>) return value;
@@ -434,6 +480,8 @@ class CurrentSubscriptionOverviewDataResponse {
   OverviewPickupLocationSummaryResponse? pickupLocation;
   @JsonKey(name: "fulfillmentSummary")
   OverviewFulfillmentSummaryResponse? fulfillmentSummary;
+  @JsonKey(name: "mealBalance")
+  MealBalanceResponse? mealBalance;
 
   CurrentSubscriptionOverviewDataResponse(
     this.id,
@@ -464,8 +512,9 @@ class CurrentSubscriptionOverviewDataResponse {
     this.deliveryAddress,
     this.deliveryWindowSummary,
     this.pickupLocation,
-    this.fulfillmentSummary,
-  );
+    this.fulfillmentSummary, [
+    this.mealBalance,
+  ]);
 
   factory CurrentSubscriptionOverviewDataResponse.fromJson(
     Map<String, dynamic> json,

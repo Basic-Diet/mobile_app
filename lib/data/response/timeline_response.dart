@@ -241,13 +241,19 @@ class TimelineDataResponse {
   @JsonKey(name: 'addonSubscriptions')
   final List<AddonSubscriptionResponse>? addonSubscriptions;
 
+  /// Additive meal balance from the TOTAL_BALANCE_WITHIN_VALIDITY policy.
+  /// Nullable — not all payloads will include it.
+  @JsonKey(name: 'mealBalance')
+  final MealBalanceResponse? mealBalance;
+
   const TimelineDataResponse(
     this.subscriptionId,
     this.dailyMealsRequired,
     this.days,
     this.premiumMealsRemaining,
-    this.addonSubscriptions,
-  );
+    this.addonSubscriptions, [
+    this.mealBalance,
+  ]);
 
   factory TimelineDataResponse.fromJson(Map<String, dynamic> json) =>
       _$TimelineDataResponseFromJson(json);

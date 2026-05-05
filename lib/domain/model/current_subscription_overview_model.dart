@@ -1,3 +1,49 @@
+/// Represents the additive meal balance returned by the backend under
+/// the TOTAL_BALANCE_WITHIN_VALIDITY policy.
+///
+/// All fields are nullable so that older API payloads that omit this object
+/// do not cause a crash. Use the display helpers on
+/// [CurrentSubscriptionOverviewDataModel] to get safe, fallback-aware values.
+class MealBalanceModel {
+  /// Total meals purchased in the subscription.
+  final int? totalMeals;
+
+  /// Real backend balance — the single source of truth for remaining meals.
+  /// The frontend must NOT decrement this locally.
+  final int? remainingMeals;
+
+  /// Meals already consumed (totalMeals - remainingMeals, as reported by backend).
+  final int? consumedMeals;
+
+  /// Whether the customer may consume meals right now.
+  /// False when the subscription is inactive or outside the validity window.
+  final bool? canConsumeNow;
+
+  /// Maximum meals the customer may consume right now.
+  /// Use this as the display limit — NOT [dailyMealsDefault].
+  final int? maxConsumableMealsNow;
+
+  /// Current policy string. Expected value: "TOTAL_BALANCE_WITHIN_VALIDITY".
+  final String? mealBalancePolicy;
+
+  /// When false the daily meal count is NOT a hard limit — only a planning default.
+  final bool? dailyMealLimitEnforced;
+
+  /// Default/planning daily meal count. Display only — not a consumption gate.
+  final int? dailyMealsDefault;
+
+  const MealBalanceModel({
+    this.totalMeals,
+    this.remainingMeals,
+    this.consumedMeals,
+    this.canConsumeNow,
+    this.maxConsumableMealsNow,
+    this.mealBalancePolicy,
+    this.dailyMealLimitEnforced,
+    this.dailyMealsDefault,
+  });
+}
+
 class MetaModel {
   String testScenario;
   MetaModel(this.testScenario);
@@ -255,6 +301,11 @@ class CurrentSubscriptionOverviewDataModel {
   DeliveryWindowSummaryModel? deliveryWindowSummary;
   FulfillmentSummaryModel? fulfillmentSummary;
 
+  /// Additive meal balance from the TOTAL_BALANCE_WITHIN_VALIDITY policy.
+  /// Null when the backend payload predates the new policy — use display
+  /// helpers below for safe, fallback-aware access.
+  MealBalanceModel? mealBalance;
+
   CurrentSubscriptionOverviewDataModel(
     this.id,
     this.businessDate,
@@ -285,8 +336,47 @@ class CurrentSubscriptionOverviewDataModel {
     this.pickupLocation, [
     this.deliveryWindowSummary,
     this.fulfillmentSummary,
-    ]
-  );
+    this.mealBalance,
+  ]);
+
+  // ─── Display helpers (prefer mealBalance when present) ───────────────────
+
+  /// Remaining meals to display. Backend is the source of truth.
+  /// The app must NOT decrement this locally.
+  int get displayRemainingMeals =>
+      mealBalance?.remainingMeals ?? remainingMeals;
+
+  /// Total meals to display.
+  int get displayTotalMeals => mealBalance?.totalMeals ?? totalMeals;
+
+  /// Consumed meals to display.
+  int get displayConsumedMeals {
+    if (mealBalance?.consumedMeals != null) return mealBalance!.consumedMeals!;
+    final diff = totalMeals - remainingMeals;
+    return diff < 0 ? 0 : diff;
+  }
+
+  /// Maximum meals the customer may consume right now.
+  /// Falls back to remainingMeals when mealBalance is absent.
+  int get displayMaxConsumableMealsNow =>
+      mealBalance?.maxConsumableMealsNow ??
+      mealBalance?.remainingMeals ??
+      remainingMeals;
+
+  /// Whether the customer can consume meals right now.
+  /// Defaults to true for old payloads that lack canConsumeNow.
+  bool get displayCanConsumeNow => mealBalance?.canConsumeNow ?? true;
+
+  /// Whether the daily meal count is a hard limit.
+  /// For old payloads (no mealBalance) we treat it as enforced (safe default).
+  /// For new payloads, the backend explicitly sends false for the new policy.
+  bool get displayDailyMealLimitEnforced =>
+      mealBalance?.dailyMealLimitEnforced ?? true;
+
+  /// Daily meals default — for display/planning only, NOT a consumption gate
+  /// when [displayDailyMealLimitEnforced] is false.
+  int get displayDailyMealsDefault =>
+      mealBalance?.dailyMealsDefault ?? selectedMealsPerDay;
 }
 
 class CurrentSubscriptionOverviewModel {

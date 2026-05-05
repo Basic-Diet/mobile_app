@@ -375,6 +375,7 @@ void initMealPlannerModule() {
         premiumSummaries: params['premiumSummaries'] ?? const [],
         initialDayIndex: params['initialDayIndex'],
         premiumMealsRemaining: params['premiumMealsRemaining'],
+        mealBalance: params['mealBalance'],
         subscriptionId: params['subscriptionId'],
       ),
     );

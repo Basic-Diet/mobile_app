@@ -157,6 +157,22 @@ extension AddonSummaryResponseMapper on AddonSummaryResponse? {
   }
 }
 
+extension MealBalanceResponseMapper on MealBalanceResponse? {
+  MealBalanceModel? toDomain() {
+    if (this == null) return null;
+    return MealBalanceModel(
+      totalMeals: this?.totalMeals,
+      remainingMeals: this?.remainingMeals,
+      consumedMeals: this?.consumedMeals,
+      canConsumeNow: this?.canConsumeNow,
+      maxConsumableMealsNow: this?.maxConsumableMealsNow,
+      mealBalancePolicy: this?.mealBalancePolicy,
+      dailyMealLimitEnforced: this?.dailyMealLimitEnforced,
+      dailyMealsDefault: this?.dailyMealsDefault,
+    );
+  }
+}
+
 extension CurrentSubscriptionOverviewDataResponseMapper
     on CurrentSubscriptionOverviewDataResponse? {
   CurrentSubscriptionOverviewDataModel toDomain() {
@@ -199,6 +215,7 @@ extension CurrentSubscriptionOverviewDataResponseMapper
       this?.pickupLocation?.toDomain(),
       this?.deliveryWindowSummary?.toDomain(),
       this?.fulfillmentSummary?.toDomain(),
+      this?.mealBalance?.toDomain(),
     );
   }
 }

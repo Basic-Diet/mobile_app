@@ -135,6 +135,16 @@ class Strings {
       'subscriptionPoliciesAgreement';
   static const String subscriptionPoliciesAgreeContinue =
       'subscriptionPoliciesAgreeContinue';
+  static const String mealBalanceTotalMeals = 'mealBalanceTotalMeals';
+  static const String mealBalanceRemaining = 'mealBalanceRemaining';
+  static const String mealBalanceConsumed = 'mealBalanceConsumed';
+  static const String mealBalanceMaxNow = 'mealBalanceMaxNow';
+  static const String dailyMealsDefaultNote = 'dailyMealsDefaultNote';
+  static const String cannotConsumeNow = 'cannotConsumeNow';
+  static const String maxMealsReached = 'maxMealsReached';
+  static const String dailyLimitEnforced = 'dailyLimitEnforced';
+  static const String mealBalancePolicyNote = 'mealBalancePolicyNote';
+
 
   // Empty States
   static const String noSubscriptionTitle = 'noSubscriptionTitle';
@@ -558,6 +568,9 @@ class Strings {
   static const String currentEndDate = 'currentEndDate';
   static const String newEndDate = 'newEndDate';
   static const String cancel = 'cancel';
+  static const String reset = 'reset';
+  static const String remove = 'remove';
+
   static const String subscriptionFrozenSuccessfully =
       'subscriptionFrozenSuccessfully';
 
@@ -638,7 +651,7 @@ class Strings {
   static const String promoCode = 'promoCode';
   static const String enterPromoCode = 'enterPromoCode';
   static const String apply = 'apply';
-  static const String remove = 'remove';
+
   static const String applyingPromo = 'applyingPromo';
   static const String validatingPromoCode = 'validatingPromoCode';
   static const String promoApplied = 'promoApplied';

@@ -11,6 +11,8 @@ import 'package:gap/gap.dart';
 class MealPlannerProgressIndicator extends StatelessWidget {
   final int selectedMeals;
   final int totalMeals;
+  final int? availableMeals;
+  final int? dailyMealsDefault;
   final int premiumLeft;
   final int premiumPending;
   final double paymentAmount;
@@ -19,6 +21,8 @@ class MealPlannerProgressIndicator extends StatelessWidget {
     super.key,
     required this.selectedMeals,
     required this.totalMeals,
+    this.availableMeals,
+    this.dailyMealsDefault,
     required this.premiumLeft,
     required this.premiumPending,
     required this.paymentAmount,
@@ -55,28 +59,52 @@ class MealPlannerProgressIndicator extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "$selectedMeals ${Strings.of.tr()} $totalMeals ${Strings.meals.tr()} ${Strings.selected.tr()}",
-                          style: getRegularTextStyle(
+                          availableMeals != null
+                              ? "${Strings.selected.tr()}: $selectedMeals ${Strings.of.tr()} $availableMeals ${Strings.available.tr()} ${Strings.meals.tr()}"
+                              : "$selectedMeals ${Strings.of.tr()} $totalMeals ${Strings.meals.tr()} ${Strings.selected.tr()}",
+                          style: getBoldTextStyle(
                             color: ColorManager.textPrimary,
                             fontSize: FontSizeManager.s14.sp,
                           ),
                         ),
                         Gap(8.h),
                         Row(
-                          children: List.generate(totalMeals, (index) {
-                            final isFilled = index < selectedMeals;
-                            return Container(
-                              width: 20.w,
-                              height: 4.h,
-                              margin: EdgeInsets.only(right: 6.w),
-                              decoration: BoxDecoration(
-                                color: isFilled
-                                    ? activeColor
-                                    : ColorManager.backgroundSubtle,
-                                borderRadius: BorderRadius.circular(99.r),
-                              ),
-                            );
-                          }),
+                          children: List.generate(
+                            availableMeals ?? totalMeals,
+                            (index) {
+                              final isFilled = index < selectedMeals;
+
+                              // Only show dots up to a reasonable amount to avoid UI overflow
+                              if (index >= 10 && availableMeals != null && availableMeals! > 10) {
+                                if (index == 10) {
+                                  return Padding(
+                                    padding: EdgeInsets.only(right: 6.w),
+                                    child: Text(
+                                      "...",
+                                      style: getBoldTextStyle(
+                                        color: ColorManager.textSecondary,
+                                        fontSize: FontSizeManager.s12.sp,
+                                      ),
+                                    ),
+                                  );
+                                }
+                                return const SizedBox.shrink();
+                              }
+
+                              return Container(
+                                width: 20.w,
+                                height: 4.h,
+                                margin: EdgeInsets.only(right: 6.w),
+                                decoration: BoxDecoration(
+                                  color:
+                                      isFilled
+                                          ? activeColor
+                                          : ColorManager.backgroundSubtle,
+                                  borderRadius: BorderRadius.circular(99.r),
+                                ),
+                              );
+                            },
+                          ),
                         ),
                       ],
                     ),

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:basic_diet/app/dependency_injection.dart';
 import 'package:basic_diet/domain/model/current_subscription_overview_model.dart';
 import 'package:basic_diet/domain/model/meal_planner_menu_model.dart';
@@ -50,6 +51,7 @@ class MealPlannerScreen extends StatelessWidget {
   final int initialDayIndex;
   final int premiumMealsRemaining;
   final String subscriptionId;
+  final MealBalanceModel? mealBalance;
   final bool readOnly;
 
   const MealPlannerScreen({
@@ -60,6 +62,7 @@ class MealPlannerScreen extends StatelessWidget {
     required this.initialDayIndex,
     required this.premiumMealsRemaining,
     required this.subscriptionId,
+    this.mealBalance,
     this.readOnly = false,
   });
 
@@ -75,6 +78,7 @@ class MealPlannerScreen extends StatelessWidget {
             'premiumSummaries': premiumSummaries,
             'initialDayIndex': initialDayIndex,
             'premiumMealsRemaining': premiumMealsRemaining,
+            'mealBalance': mealBalance,
             'subscriptionId': subscriptionId,
           },
         )..add(const GetMealPlannerDataEvent());
@@ -298,14 +302,21 @@ class _MealPlannerBody extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: AppPadding.p16.w),
               sliver: SliverToBoxAdapter(
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     MealPlannerProgressIndicator(
                       selectedMeals: _selectedMealsCount(state),
-                      totalMeals: _totalMealsCount(state),
+                      totalMeals: state.maxMeals,
+                      availableMeals: state.displayMaxConsumableMealsNow,
+                      dailyMealsDefault: state.initialRequiredMeals,
                       premiumLeft: _premiumLeftForDay(state),
                       premiumPending: state.premiumMealsPendingPayment,
                       paymentAmount: _premiumPaymentAmount(state),
                     ),
+                    if (!state.dailyMealLimitEnforced && state.mealBalance != null) ...[
+                      Gap(AppSize.s8.h),
+                      _buildBalanceHint(state),
+                    ],
                     Gap(AppSize.s16.h),
                     DailyAddonSelectionCard(
                       state: state,
@@ -320,7 +331,7 @@ class _MealPlannerBody extends StatelessWidget {
               padding: EdgeInsets.only(
                 left: AppPadding.p16.w,
                 right: AppPadding.p16.w,
-                bottom: AppPadding.p24.h,
+                bottom: AppPadding.p12.h,
               ),
               sliver: SliverList.separated(
                 itemCount: state.maxMeals,
@@ -334,6 +345,70 @@ class _MealPlannerBody extends StatelessWidget {
                     ),
               ),
             ),
+            if (state.canAddMoreMeals)
+              SliverPadding(
+                padding: EdgeInsets.symmetric(horizontal: AppPadding.p16.w),
+                sliver: SliverToBoxAdapter(
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: AppSize.s24.h),
+                    child: OutlinedButton.icon(
+                      onPressed: () {
+                        context.read<MealPlannerBloc>().add(
+                          const AddMealSlotEvent(),
+                        );
+                      },
+                      icon: const Icon(Icons.add),
+                      label: Text(Strings.meal.tr()),
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: ColorManager.brandPrimary,
+                        side: const BorderSide(color: ColorManager.brandPrimary),
+                        padding: EdgeInsets.symmetric(vertical: 12.h),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(AppSize.s12.r),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            // Debug info and reason why adding is disabled
+            if (!state.canAddMoreMeals && !isSelectedDayReadOnly)
+              SliverPadding(
+                padding: EdgeInsets.symmetric(horizontal: AppPadding.p16.w),
+                sliver: SliverToBoxAdapter(
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: AppSize.s24.h),
+                    child: Center(
+                      child: Column(
+                        children: [
+                          Text(
+                            state.maxMeals >= state.displayMaxConsumableMealsNow
+                                ? (state.mealBalance != null
+                                    ? Strings.maxMealsReached.tr()
+                                    : Strings.dailyLimitEnforced.tr())
+                                : Strings.cannotConsumeNow.tr(),
+                            style: getRegularTextStyle(
+                              color: ColorManager.textSecondary,
+                              fontSize: FontSizeManager.s12.sp,
+                            ),
+                          ),
+                          if (kDebugMode) ...[
+                            Gap(4.h),
+                            Text(
+                              "DEBUG: ${state.canAddMoreMealsReason} (Balance: ${state.mealBalance?.remainingMeals}, Max: ${state.displayMaxConsumableMealsNow}, Slots: ${state.maxMeals})",
+                              style: getRegularTextStyle(
+                                color: ColorManager.brandAccent,
+                                fontSize: FontSizeManager.s10.sp,
+                              ),
+                            ),
+                          ],
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
           ],
         ),
         MealPlannerNotificationBanner(state: state),
@@ -388,6 +463,20 @@ class _MealPlannerBody extends StatelessWidget {
       showCarbField: !isSandwichSelection && !isPremiumLargeSaladSelection,
       maxCarbItems: maxCarbItems,
       maxCarbTotalGrams: maxCarbTotalGrams,
+      isRemovable: !isReadOnly && index >= state.initialRequiredMeals,
+      onRemove:
+          isReadOnly || index < state.initialRequiredMeals
+              ? null
+              : () => context.read<MealPlannerBloc>().add(
+                RemoveMealSlotEvent(index),
+              ),
+      onClear:
+          isReadOnly ||
+                  (!isSandwichSelection && protein == null && sandwich == null)
+              ? null
+              : () => context.read<MealPlannerBloc>().add(
+                SetMealSlotProteinEvent(slotIndex: index, proteinId: null),
+              ),
       onSelectProtein:
           isReadOnly
               ? null
@@ -438,13 +527,6 @@ class _MealPlannerBody extends StatelessWidget {
                   carbIndex: carbIndex,
                 ),
               ),
-      onClear:
-          isReadOnly ||
-                  (!isSandwichSelection && protein == null && sandwich == null)
-              ? null
-              : () => context.read<MealPlannerBloc>().add(
-                SetMealSlotProteinEvent(slotIndex: index, proteinId: null),
-              ),
     );
   }
 
@@ -469,12 +551,47 @@ class _MealPlannerBody extends StatelessWidget {
     }).length;
   }
 
-  int _totalMealsCount(MealPlannerLoaded state) {
-    final plannerMeta = state.selectedDayDetail?.plannerMeta;
-    if (plannerMeta != null && plannerMeta.requiredSlotCount > 0) {
-      return plannerMeta.requiredSlotCount;
-    }
-    return state.maxMeals;
+  Widget _buildBalanceHint(MealPlannerLoaded state) {
+    return Container(
+      padding: EdgeInsets.all(12.w),
+      decoration: BoxDecoration(
+        color: ColorManager.backgroundSubtle,
+        borderRadius: BorderRadius.circular(AppSize.s12.r),
+        border: Border.all(color: ColorManager.borderDefault),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(
+                Icons.info_outline,
+                color: ColorManager.brandPrimary,
+                size: 16.w,
+              ),
+              Gap(8.w),
+              Expanded(
+                child: Text(
+                  Strings.dailyMealsDefaultNote.tr(),
+                  style: getRegularTextStyle(
+                    color: ColorManager.textPrimary,
+                    fontSize: FontSizeManager.s12.sp,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Gap(4.h),
+          Text(
+            "${Strings.mealBalanceRemaining.tr()} ${state.mealBalance?.remainingMeals ?? 0} ${Strings.meals.tr()}",
+            style: getBoldTextStyle(
+              color: ColorManager.brandPrimary,
+              fontSize: FontSizeManager.s12.sp,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   int _premiumLeftForDay(MealPlannerLoaded state) {

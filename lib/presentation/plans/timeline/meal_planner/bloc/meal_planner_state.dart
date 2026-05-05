@@ -190,6 +190,7 @@ final class MealPlannerLoaded extends MealPlannerState {
   final String? paymentError;
   final String? activePaymentKind;
   final PendingAddonPrompt? pendingAddonPrompt;
+  final MealBalanceModel? mealBalance;
 
   const MealPlannerLoaded({
     required this.timelineDays,
@@ -204,6 +205,7 @@ final class MealPlannerLoaded extends MealPlannerState {
     required this.savedAddOnIdsByDay,
     required this.dayDetailsByIndex,
     required this.premiumMealsRemaining,
+    this.mealBalance,
     this.isSaving = false,
     this.isRefreshingDay = false,
     this.saveSuccess = false,
@@ -375,7 +377,51 @@ final class MealPlannerLoaded extends MealPlannerState {
     return Strings.sar.tr();
   }
 
-  int get maxMeals => selectedTimelineDay.requiredMeals;
+  int get maxMeals => selectedDaySlots.length;
+
+  List<MealPlannerSlotSelection> get selectedDaySlots =>
+      selectedSlotsPerDay[selectedDayIndex] ?? const [];
+
+  int get displayMaxConsumableMealsNow {
+    if (mealBalance?.maxConsumableMealsNow != null) {
+      return mealBalance!.maxConsumableMealsNow!;
+    }
+    // Fallback to initial required meals if mealBalance is missing
+    return initialRequiredMeals;
+  }
+
+  bool get canAddMoreMeals {
+    if (!isSelectedDayEditable) return false;
+    if (mealBalance != null) {
+      if (mealBalance?.canConsumeNow == false) return false;
+      if (mealBalance?.dailyMealLimitEnforced == true) return false;
+      // Also ensure we have remaining meals globally if available
+      if (mealBalance?.remainingMeals != null && mealBalance!.remainingMeals! <= 0) {
+        return false;
+      }
+    }
+
+    return maxMeals < displayMaxConsumableMealsNow;
+  }
+
+  String? get canAddMoreMealsReason {
+    if (!isSelectedDayEditable) return "DAY_NOT_EDITABLE";
+    if (mealBalance != null) {
+      if (mealBalance?.canConsumeNow == false) return "CANNOT_CONSUME_NOW";
+      if (mealBalance?.dailyMealLimitEnforced == true) return "DAILY_LIMIT_ENFORCED";
+      if (mealBalance?.remainingMeals != null && mealBalance!.remainingMeals! <= 0) {
+        return "NO_REMAINING_MEALS";
+      }
+    }
+    if (maxMeals >= displayMaxConsumableMealsNow) return "MAX_MEALS_REACHED";
+    return null;
+  }
+
+  bool get dailyMealLimitEnforced =>
+      mealBalance?.dailyMealLimitEnforced ?? true;
+
+  int get initialRequiredMeals => selectedTimelineDay.requiredMeals;
+
 
   bool get isSelectedDayEditable {
     if (selectedTimelineDay.isHistoricalOnly) {
@@ -451,6 +497,7 @@ final class MealPlannerLoaded extends MealPlannerState {
     paymentError,
     activePaymentKind,
     pendingAddonPrompt,
+    mealBalance,
   ];
 
   MealPlannerLoaded copyWith({
@@ -477,6 +524,7 @@ final class MealPlannerLoaded extends MealPlannerState {
     String? paymentError,
     String? activePaymentKind,
     PendingAddonPrompt? pendingAddonPrompt,
+    MealBalanceModel? mealBalance,
     bool clearPaymentUrl = false,
     bool clearPaymentId = false,
     bool clearPaymentError = false,
@@ -513,6 +561,7 @@ final class MealPlannerLoaded extends MealPlannerState {
           clearPendingAddonPrompt
               ? null
               : pendingAddonPrompt ?? this.pendingAddonPrompt,
+      mealBalance: mealBalance ?? this.mealBalance,
     );
   }
 

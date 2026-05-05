@@ -6,6 +6,31 @@ part of 'current_subscription_overview_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+MealBalanceResponse _$MealBalanceResponseFromJson(Map<String, dynamic> json) =>
+    MealBalanceResponse(
+      totalMeals: (json['totalMeals'] as num?)?.toInt(),
+      remainingMeals: (json['remainingMeals'] as num?)?.toInt(),
+      consumedMeals: (json['consumedMeals'] as num?)?.toInt(),
+      canConsumeNow: json['canConsumeNow'] as bool?,
+      maxConsumableMealsNow: (json['maxConsumableMealsNow'] as num?)?.toInt(),
+      mealBalancePolicy: json['mealBalancePolicy'] as String?,
+      dailyMealLimitEnforced: json['dailyMealLimitEnforced'] as bool?,
+      dailyMealsDefault: (json['dailyMealsDefault'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$MealBalanceResponseToJson(
+  MealBalanceResponse instance,
+) => <String, dynamic>{
+  'totalMeals': instance.totalMeals,
+  'remainingMeals': instance.remainingMeals,
+  'consumedMeals': instance.consumedMeals,
+  'canConsumeNow': instance.canConsumeNow,
+  'maxConsumableMealsNow': instance.maxConsumableMealsNow,
+  'mealBalancePolicy': instance.mealBalancePolicy,
+  'dailyMealLimitEnforced': instance.dailyMealLimitEnforced,
+  'dailyMealsDefault': instance.dailyMealsDefault,
+};
+
 MetaResponse _$MetaResponseFromJson(Map<String, dynamic> json) =>
     MetaResponse(json['testScenario'] as String?);
 
@@ -331,6 +356,11 @@ _$CurrentSubscriptionOverviewDataResponseFromJson(
       : OverviewFulfillmentSummaryResponse.fromJson(
         json['fulfillmentSummary'] as Map<String, dynamic>,
       ),
+  json['mealBalance'] == null
+      ? null
+      : MealBalanceResponse.fromJson(
+        json['mealBalance'] as Map<String, dynamic>,
+      ),
 );
 
 Map<String, dynamic> _$CurrentSubscriptionOverviewDataResponseToJson(
@@ -365,6 +395,7 @@ Map<String, dynamic> _$CurrentSubscriptionOverviewDataResponseToJson(
   'deliveryWindow': instance.deliveryWindowSummary,
   'pickupLocation': instance.pickupLocation,
   'fulfillmentSummary': instance.fulfillmentSummary,
+  'mealBalance': instance.mealBalance,
 };
 
 CurrentSubscriptionOverviewResponse

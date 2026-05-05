@@ -131,12 +131,17 @@ class TimelineDataModel {
   final List<TimelineDayModel> days;
   final List<AddonSubscriptionModel> addonSubscriptions;
 
+  /// Additive meal balance from the backend (TOTAL_BALANCE_WITHIN_VALIDITY).
+  /// Null when the backend payload predates the new policy.
+  final MealBalanceModel? mealBalance;
+
   TimelineDataModel({
     required this.subscriptionId,
     required this.dailyMealsRequired,
     required this.premiumMealsRemaining,
     required this.days,
     this.addonSubscriptions = const [],
+    this.mealBalance,
   });
 }
 
