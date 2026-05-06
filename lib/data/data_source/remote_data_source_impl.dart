@@ -33,6 +33,17 @@ import 'package:basic_diet/data/response/fulfillment_status_response.dart';
 import 'package:basic_diet/data/response/cancel_subscription_response.dart';
 import 'package:basic_diet/data/request/cancel_subscription_request.dart';
 
+import 'package:basic_diet/data/request/order_quote_request.dart';
+import 'package:basic_diet/data/request/create_order_request.dart';
+import 'package:basic_diet/data/request/verify_payment_request.dart';
+import 'package:basic_diet/data/response/order_menu_response.dart';
+import 'package:basic_diet/data/response/order_quote_response.dart';
+import 'package:basic_diet/data/response/create_order_response.dart';
+import 'package:basic_diet/data/response/verify_payment_response.dart';
+import 'package:basic_diet/data/response/order_detail_response.dart';
+import 'package:basic_diet/data/response/orders_list_response.dart';
+import 'package:basic_diet/data/response/cancel_order_response.dart';
+
 import '../response/bulk_selections_response.dart';
 
 class RemoteDataSourceImpl implements RemoteDataSource {
@@ -277,5 +288,44 @@ class RemoteDataSourceImpl implements RemoteDataSource {
     CancelSubscriptionRequest request,
   ) {
     return _appServiceClient.cancelSubscription(id, request);
+  }
+
+  @override
+  Future<OrderMenuResponse> getOrderMenu() {
+    return _appServiceClient.getOrderMenu();
+  }
+
+  @override
+  Future<OrderQuoteResponse> getOrderQuote(OrderQuoteRequest request) {
+    return _appServiceClient.getOrderQuote(request);
+  }
+
+  @override
+  Future<CreateOrderResponse> createOrder(CreateOrderRequest request) {
+    return _appServiceClient.createOrder(request);
+  }
+
+  @override
+  Future<VerifyPaymentResponse> verifyOrderPayment(
+    String orderId,
+    String paymentId,
+    VerifyPaymentRequest request,
+  ) {
+    return _appServiceClient.verifyOrderPayment(orderId, paymentId, request);
+  }
+
+  @override
+  Future<OrderDetailResponse> getOrderDetail(String orderId) {
+    return _appServiceClient.getOrderDetail(orderId);
+  }
+
+  @override
+  Future<OrdersListResponse> getOrders(int page, int limit) {
+    return _appServiceClient.getOrders(page, limit);
+  }
+
+  @override
+  Future<CancelOrderResponse> cancelOrder(String orderId) {
+    return _appServiceClient.cancelOrder(orderId);
   }
 }

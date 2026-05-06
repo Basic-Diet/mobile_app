@@ -29,6 +29,15 @@ import 'package:basic_diet/domain/model/pickup_prepare_model.dart';
 import 'package:basic_diet/domain/model/pickup_status_model.dart';
 import 'package:basic_diet/domain/model/fulfillment_status_model.dart';
 
+import 'package:basic_diet/domain/model/order_menu_model.dart';
+import 'package:basic_diet/domain/model/order_quote_model.dart';
+import 'package:basic_diet/domain/model/order_quote_request_model.dart';
+import 'package:basic_diet/domain/model/one_time_order_model.dart';
+import 'package:basic_diet/domain/model/verify_payment_model.dart';
+import 'package:basic_diet/domain/model/verify_payment_request_model.dart';
+import 'package:basic_diet/domain/model/create_order_request_model.dart';
+import 'package:basic_diet/domain/model/order_model.dart';
+
 import '../model/bulk_selections_model.dart';
 
 abstract class Repository {
@@ -139,4 +148,20 @@ abstract class Repository {
   Future<Either<Failure, CancelSubscriptionModel>> cancelSubscription(
     String subscriptionId,
   );
+
+  Future<Either<Failure, OrderMenuModel>> getOrderMenu();
+  Future<Either<Failure, OrderQuoteModel>> getOrderQuote(
+    OrderQuoteRequestModel request,
+  );
+  Future<Either<Failure, OneTimeOrderModel>> createOrder(
+    CreateOrderRequestModel request,
+  );
+  Future<Either<Failure, VerifyPaymentModel>> verifyOrderPayment(
+    String orderId,
+    String paymentId,
+    VerifyPaymentRequestModel request,
+  );
+  Future<Either<Failure, OrderModel>> getOrderDetail(String orderId);
+  Future<Either<Failure, OrdersListModel>> getOrders(int page, int limit);
+  Future<Either<Failure, OrderModel>> cancelOrder(String orderId);
 }

@@ -672,4 +672,31 @@ class Strings {
 
   // View Only
   static const String viewOnly = 'viewOnly';
+
+  // One-Time Order
+  static const String cart = 'cart';
+  static const String emptyCart = 'emptyCart';
+  static const String previewTotal = 'previewTotal';
+  static const String addToCart = 'addToCart';
+  static const String standardMeals = 'standardMeals';
+  static const String sandwiches = 'sandwiches';
+  static const String salad = 'salad';
+  static const String ingredients = 'ingredients';
+  static const String subtotal = 'subtotal';
+  static const String vatIncluded = 'vatIncluded';
+  static const String orderTracking = 'orderTracking';
+  static const String status = 'status';
+  static const String branch = 'branch';
+  static const String pickupWindow = 'pickupWindow';
+  static const String pendingPayment = 'pendingPayment';
+  static const String confirmed = 'confirmed';
+  static const String inPreparation = 'inPreparation';
+  static const String readyForPickup = 'readyForPickup';
+  static const String completed = 'completed';
+  static const String cancelled = 'cancelled';
+  static const String expired = 'expired';
+  static const String noOrdersYet = 'noOrdersYet';
+  static const String beingPrepared = 'beingPrepared';
+  static const String readyAtBranch = 'readyAtBranch';
+  static const String paymentStatus = 'paymentStatus';
 }

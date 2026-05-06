@@ -64,6 +64,25 @@ import 'package:basic_diet/data/mappers/cancel_subscription_mapper.dart';
 import 'package:basic_diet/domain/model/cancel_subscription_model.dart';
 import 'package:basic_diet/data/request/cancel_subscription_request.dart';
 
+import 'package:basic_diet/data/mappers/order_menu_mapper.dart';
+import 'package:basic_diet/domain/model/order_menu_model.dart';
+import 'package:basic_diet/data/mappers/order_quote_mapper.dart';
+import 'package:basic_diet/data/mappers/order_quote_request_mapper.dart';
+import 'package:basic_diet/domain/model/order_quote_model.dart';
+import 'package:basic_diet/domain/model/order_quote_request_model.dart';
+import 'package:basic_diet/data/mappers/create_order_mapper.dart';
+import 'package:basic_diet/data/mappers/create_order_request_mapper.dart';
+import 'package:basic_diet/domain/model/one_time_order_model.dart';
+import 'package:basic_diet/domain/model/create_order_request_model.dart';
+import 'package:basic_diet/data/mappers/verify_payment_mapper.dart';
+import 'package:basic_diet/data/mappers/verify_payment_request_mapper.dart';
+import 'package:basic_diet/domain/model/verify_payment_model.dart';
+import 'package:basic_diet/domain/model/verify_payment_request_model.dart';
+import 'package:basic_diet/data/mappers/order_detail_mapper.dart';
+import 'package:basic_diet/data/mappers/orders_list_mapper.dart';
+import 'package:basic_diet/data/mappers/cancel_order_mapper.dart';
+import 'package:basic_diet/domain/model/order_model.dart';
+
 class RepositoryImpl implements Repository {
   final RemoteDataSource _remoteDataSource;
   static const int _checkoutRetryCount = 5;
@@ -760,6 +779,119 @@ class RepositoryImpl implements Repository {
         subscriptionId,
         const CancelSubscriptionRequest(),
       );
+      if (_isSuccessfulResponse(response)) {
+        return Right(response.toDomain());
+      } else {
+        return Left(_mapFailureFromResponse(response));
+      }
+    } catch (error) {
+      return _handleError(error);
+    }
+  }
+
+  @override
+  Future<Either<Failure, OrderMenuModel>> getOrderMenu() async {
+    try {
+      final response = await _remoteDataSource.getOrderMenu();
+      if (_isSuccessfulResponse(response)) {
+        return Right(response.toDomain());
+      } else {
+        return Left(_mapFailureFromResponse(response));
+      }
+    } catch (error) {
+      return _handleError(error);
+    }
+  }
+
+  @override
+  Future<Either<Failure, OrderQuoteModel>> getOrderQuote(
+    OrderQuoteRequestModel request,
+  ) async {
+    try {
+      final response = await _remoteDataSource.getOrderQuote(request.toRequest());
+      if (_isSuccessfulResponse(response)) {
+        return Right(response.toDomain());
+      } else {
+        return Left(_mapFailureFromResponse(response));
+      }
+    } catch (error) {
+      return _handleError(error);
+    }
+  }
+
+  @override
+  Future<Either<Failure, OneTimeOrderModel>> createOrder(
+    CreateOrderRequestModel request,
+  ) async {
+    try {
+      final response = await _remoteDataSource.createOrder(request.toRequest());
+      if (_isSuccessfulResponse(response)) {
+        return Right(response.toDomain());
+      } else {
+        return Left(_mapFailureFromResponse(response));
+      }
+    } catch (error) {
+      return _handleError(error);
+    }
+  }
+
+  @override
+  Future<Either<Failure, VerifyPaymentModel>> verifyOrderPayment(
+    String orderId,
+    String paymentId,
+    VerifyPaymentRequestModel request,
+  ) async {
+    try {
+      final response = await _remoteDataSource.verifyOrderPayment(
+        orderId,
+        paymentId,
+        request.toRequest(),
+      );
+      if (_isSuccessfulResponse(response)) {
+        return Right(response.toDomain());
+      } else {
+        return Left(_mapFailureFromResponse(response));
+      }
+    } catch (error) {
+      return _handleError(error);
+    }
+  }
+
+  @override
+  Future<Either<Failure, OrderModel>> getOrderDetail(String orderId) async {
+    try {
+      final response = await _remoteDataSource.getOrderDetail(orderId);
+      if (_isSuccessfulResponse(response)) {
+        return Right(response.toDomain());
+      } else {
+        return Left(_mapFailureFromResponse(response));
+      }
+    } catch (error) {
+      return _handleError(error);
+    }
+  }
+
+  @override
+  Future<Either<Failure, OrdersListModel>> getOrders(
+    int page,
+    int limit,
+  ) async {
+    try {
+      final response = await _remoteDataSource.getOrders(page, limit);
+      if (_isSuccessfulResponse(response)) {
+        return Right(response.toDomain());
+      } else {
+        return Left(_mapFailureFromResponse(response));
+      }
+    } catch (error) {
+      return _handleError(error);
+    }
+  }
+
+  @override
+  Future<Either<Failure, OrderModel>> cancelOrder(String orderId) async {
+    try {
+      final response = await _remoteDataSource.cancelOrder(orderId);
       if (_isSuccessfulResponse(response)) {
         return Right(response.toDomain());
       } else {
