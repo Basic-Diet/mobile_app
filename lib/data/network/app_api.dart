@@ -30,6 +30,16 @@ import 'package:basic_diet/data/response/validation_response.dart';
 import 'package:basic_diet/data/response/bulk_selections_response.dart';
 import 'package:basic_diet/data/request/cancel_subscription_request.dart';
 import 'package:basic_diet/data/response/cancel_subscription_response.dart';
+import 'package:basic_diet/data/request/order_quote_request.dart';
+import 'package:basic_diet/data/request/create_order_request.dart';
+import 'package:basic_diet/data/request/verify_payment_request.dart';
+import 'package:basic_diet/data/response/order_menu_response.dart';
+import 'package:basic_diet/data/response/order_quote_response.dart';
+import 'package:basic_diet/data/response/create_order_response.dart';
+import 'package:basic_diet/data/response/verify_payment_response.dart';
+import 'package:basic_diet/data/response/order_detail_response.dart';
+import 'package:basic_diet/data/response/orders_list_response.dart';
+import 'package:basic_diet/data/response/cancel_order_response.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
 part 'app_api.g.dart';
@@ -172,13 +182,12 @@ abstract class AppServiceClient {
     @Body() Map<String, dynamic> body,
   );
 
-  @POST(
-    "/api/subscriptions/{id}/days/{date}/payments/{paymentId}/verify",
-  )
+  @POST("/api/subscriptions/{id}/days/{date}/payments/{paymentId}/verify")
   Future<PremiumPaymentVerificationResponse> verifyUnifiedDayPayment(
     @Path("id") String subscriptionId,
     @Path("date") String date,
     @Path("paymentId") String paymentId,
+    @Body() Map<String, dynamic> body,
   );
 
   @POST("/api/subscriptions/{id}/days/{date}/payments")
@@ -187,9 +196,7 @@ abstract class AppServiceClient {
     @Path("date") String date,
   );
 
-  @POST(
-    "/api/subscriptions/{id}/days/{date}/payments/{paymentId}/verify",
-  )
+  @POST("/api/subscriptions/{id}/days/{date}/payments/{paymentId}/verify")
   Future<PremiumPaymentVerificationResponse> verifyPremiumPayment(
     @Path("id") String subscriptionId,
     @Path("date") String date,
@@ -202,9 +209,7 @@ abstract class AppServiceClient {
     @Path("date") String date,
   );
 
-  @POST(
-    "/api/subscriptions/{id}/days/{date}/one-time-addons/payments/verify",
-  )
+  @POST("/api/subscriptions/{id}/days/{date}/one-time-addons/payments/verify")
   Future<PremiumPaymentVerificationResponse> verifyOneTimeAddonPayment(
     @Path("id") String subscriptionId,
     @Path("date") String date,
@@ -215,5 +220,42 @@ abstract class AppServiceClient {
   Future<CancelSubscriptionResponse> cancelSubscription(
     @Path("id") String id,
     @Body() CancelSubscriptionRequest request,
+  );
+
+  @GET("/api/orders/menu")
+  Future<OrderMenuResponse> getOrderMenu();
+
+  @POST("/api/orders/quote")
+  Future<OrderQuoteResponse> getOrderQuote(
+    @Body() OrderQuoteRequest request,
+  );
+
+  @POST("/api/orders")
+  Future<CreateOrderResponse> createOrder(
+    @Body() CreateOrderRequest request,
+    @Header("Idempotency-Key") String idempotencyKey,
+  );
+
+  @POST("/api/orders/{orderId}/payments/{paymentId}/verify")
+  Future<VerifyPaymentResponse> verifyOrderPayment(
+    @Path("orderId") String orderId,
+    @Path("paymentId") String paymentId,
+    @Body() VerifyPaymentRequest request,
+  );
+
+  @GET("/api/orders/{orderId}")
+  Future<OrderDetailResponse> getOrderDetail(
+    @Path("orderId") String orderId,
+  );
+
+  @GET("/api/orders")
+  Future<OrdersListResponse> getOrders(
+    @Query("page") int page,
+    @Query("limit") int limit,
+  );
+
+  @DELETE("/api/orders/{orderId}")
+  Future<CancelOrderResponse> cancelOrder(
+    @Path("orderId") String orderId,
   );
 }

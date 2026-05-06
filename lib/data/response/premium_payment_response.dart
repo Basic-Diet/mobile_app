@@ -106,7 +106,7 @@ class PremiumPaymentVerificationResponse {
 
 @JsonSerializable()
 class PremiumPaymentVerificationData {
-  @JsonKey(name: 'paymentStatus')
+  @JsonKey(name: 'paymentStatus', readValue: _readPaymentStatus)
   final String? paymentStatus;
 
   @JsonKey(name: 'message')
@@ -160,6 +160,20 @@ class PremiumPaymentVerificationData {
     this.premiumPendingPaymentCount,
     this.addonPendingPaymentCount,
   });
+
+  static Object? _readPaymentStatus(Map json, String key) {
+    final directStatus = json[key];
+    if (directStatus != null) {
+      return directStatus;
+    }
+
+    final payment = json['payment'];
+    if (payment is Map<String, dynamic>) {
+      return payment['status'];
+    }
+
+    return null;
+  }
 
   factory PremiumPaymentVerificationData.fromJson(Map<String, dynamic> json) =>
       _$PremiumPaymentVerificationDataFromJson(json);

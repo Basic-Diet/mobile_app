@@ -135,6 +135,15 @@ class Strings {
       'subscriptionPoliciesAgreement';
   static const String subscriptionPoliciesAgreeContinue =
       'subscriptionPoliciesAgreeContinue';
+  static const String mealBalanceTotalMeals = 'mealBalanceTotalMeals';
+  static const String mealBalanceRemaining = 'mealBalanceRemaining';
+  static const String mealBalanceConsumed = 'mealBalanceConsumed';
+  static const String mealBalanceMaxNow = 'mealBalanceMaxNow';
+  static const String dailyMealsDefaultNote = 'dailyMealsDefaultNote';
+  static const String cannotConsumeNow = 'cannotConsumeNow';
+  static const String maxMealsReached = 'maxMealsReached';
+  static const String dailyLimitEnforced = 'dailyLimitEnforced';
+  static const String mealBalancePolicyNote = 'mealBalancePolicyNote';
 
   // Empty States
   static const String noSubscriptionTitle = 'noSubscriptionTitle';
@@ -155,8 +164,7 @@ class Strings {
 
   // Terminal delivery statuses
   static const String delivered = 'delivered';
-  static const String consumedWithoutPreparation =
-      'consumedWithoutPreparation';
+  static const String consumedWithoutPreparation = 'consumedWithoutPreparation';
   static const String deliveryCanceled = 'deliveryCanceled';
   static const String canceledAtBranch = 'canceledAtBranch';
   static const String noShow = 'noShow';
@@ -312,6 +320,14 @@ class Strings {
   static const String subscriptionExpired = 'subscriptionExpired';
   static const String plannerUnconfirmed = 'plannerUnconfirmed';
   static const String paymentRequiredMessage = 'paymentRequiredMessage';
+  static const String paymentVerifiedMessage = 'paymentVerifiedMessage';
+  static const String paymentPendingVerificationMessage =
+      'paymentPendingVerificationMessage';
+  static const String paymentExpiredMessage = 'paymentExpiredMessage';
+  static const String paymentMismatchMessage = 'paymentMismatchMessage';
+  static const String paymentProviderErrorMessage =
+      'paymentProviderErrorMessage';
+  static const String paymentVerifyFailedMessage = 'paymentVerifyFailedMessage';
   static const String noShowTitle = 'noShowTitle';
   static const String noShowMessage = 'noShowMessage';
   static const String consumedWithoutPrepTitle = 'consumedWithoutPrepTitle';
@@ -558,6 +574,9 @@ class Strings {
   static const String currentEndDate = 'currentEndDate';
   static const String newEndDate = 'newEndDate';
   static const String cancel = 'cancel';
+  static const String reset = 'reset';
+  static const String remove = 'remove';
+
   static const String subscriptionFrozenSuccessfully =
       'subscriptionFrozenSuccessfully';
 
@@ -638,7 +657,7 @@ class Strings {
   static const String promoCode = 'promoCode';
   static const String enterPromoCode = 'enterPromoCode';
   static const String apply = 'apply';
-  static const String remove = 'remove';
+
   static const String applyingPromo = 'applyingPromo';
   static const String validatingPromoCode = 'validatingPromoCode';
   static const String promoApplied = 'promoApplied';
@@ -653,4 +672,52 @@ class Strings {
 
   // View Only
   static const String viewOnly = 'viewOnly';
+
+  // One-Time Order
+  static const String cart = 'cart';
+  static const String emptyCart = 'emptyCart';
+  static const String previewTotal = 'previewTotal';
+  static const String standardMeals = 'standardMeals';
+  static const String sandwiches = 'sandwiches';
+  static const String salad = 'salad';
+  static const String ingredients = 'ingredients';
+  static const String subtotal = 'subtotal';
+  static const String vatIncluded = 'vatIncluded';
+  static const String orderTracking = 'orderTracking';
+  static const String status = 'status';
+  static const String branch = 'branch';
+  static const String pickupWindow = 'pickupWindow';
+  static const String pendingPayment = 'pendingPayment';
+  static const String confirmed = 'confirmed';
+  static const String inPreparation = 'inPreparation';
+  static const String readyForPickup = 'readyForPickup';
+  static const String completed = 'completed';
+  static const String cancelled = 'cancelled';
+  static const String expired = 'expired';
+  static const String noOrdersYet = 'noOrdersYet';
+  static const String beingPrepared = 'beingPrepared';
+  static const String readyAtBranch = 'readyAtBranch';
+  static const String paymentStatus = 'paymentStatus';
+
+  // Dynamic Catalog
+  static const String categories = 'categories';
+  static const String options = 'options';
+  static const String selectOptions = 'selectOptions';
+  static const String weightGrams = 'weightGrams';
+  static const String per100g = 'per100g';
+  static const String fixedPrice = 'fixedPrice';
+  static const String required_ = 'required';
+  static const String minSelections = 'minSelections';
+  static const String maxSelections = 'maxSelections';
+  static const String extraWeight = 'extraWeight';
+  static const String addToCart = 'addToCart';
+  static const String expiresAt = 'expiresAt';
+
+  // One-Time Order Payment
+  static const String pendingPaymentRetry = 'pendingPaymentRetry';
+  static const String paymentProcessing = 'paymentProcessing';
+  static const String paymentExpired = 'paymentExpired';
+  static const String pickupCodeLabel = 'pickupCodeLabel';
+  static const String cancelUnpaidOrder = 'cancelUnpaidOrder';
+  static const String loadMore = 'loadMore';
 }

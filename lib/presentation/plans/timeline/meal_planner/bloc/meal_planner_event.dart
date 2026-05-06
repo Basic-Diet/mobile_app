@@ -123,6 +123,18 @@ final class HideBannerEvent extends MealPlannerEvent {
   const HideBannerEvent();
 }
 
+final class AddMealSlotEvent extends MealPlannerEvent {
+  const AddMealSlotEvent();
+}
+
+final class RemoveMealSlotEvent extends MealPlannerEvent {
+  final int index;
+  const RemoveMealSlotEvent(this.index);
+
+  @override
+  List<Object?> get props => [index];
+}
+
 final class VerifyUnifiedDayPaymentEvent extends MealPlannerEvent {
   final String paymentId;
 

@@ -10,6 +10,10 @@ import 'package:basic_diet/presentation/main/home/premium/premium_meals_screen.d
 import 'package:basic_diet/presentation/main/home/subscription-details/subscription_details_screen.dart';
 import 'package:basic_diet/presentation/main/home/subscription/subscription_screen.dart';
 import 'package:basic_diet/presentation/main/home/subscription/bloc/subscription_bloc.dart';
+import 'package:basic_diet/presentation/main/cart/cart_screen.dart';
+import 'package:basic_diet/presentation/main/cart/checkout_screen.dart';
+import 'package:basic_diet/presentation/main/cart/payment_webview_screen.dart';
+import 'package:basic_diet/presentation/main/cart/order_tracking_screen.dart';
 import 'package:basic_diet/presentation/onboarding/on_boarding_screen.dart';
 import 'package:basic_diet/presentation/register/register_screen.dart';
 import 'package:basic_diet/presentation/splash/splash_screen.dart';
@@ -69,6 +73,8 @@ class GoRouterConfig {
         path: MainScreen.mainRoute,
         pageBuilder: (BuildContext context, GoRouterState state) {
           initHomeModule();
+          initOrderMenuModule();
+          initOrdersModule();
           final initialIndex = state.extra is int
               ? state.extra as int
               : MainScreen.homeTabIndex;
@@ -141,6 +147,46 @@ class GoRouterConfig {
                     extras['quoteRequest'] as SubscriptionQuoteRequestModel,
               ),
             ),
+          );
+        },
+      ),
+      GoRoute(
+        path: CartScreen.routeName,
+        pageBuilder: (BuildContext context, GoRouterState state) {
+          return getCustomTransitionPage(
+            state: state,
+            child: const CartScreen(),
+          );
+        },
+      ),
+      GoRoute(
+        path: CheckoutScreen.routeName,
+        pageBuilder: (BuildContext context, GoRouterState state) {
+          initCheckoutModule();
+          return getCustomTransitionPage(
+            state: state,
+            child: const CheckoutScreen(),
+          );
+        },
+      ),
+      GoRoute(
+        path: PaymentWebViewScreen.routeName,
+        pageBuilder: (BuildContext context, GoRouterState state) {
+          final paymentUrl = state.extra as String;
+          return getCustomTransitionPage(
+            state: state,
+            child: PaymentWebViewScreen(paymentUrl: paymentUrl),
+          );
+        },
+      ),
+      GoRoute(
+        path: OrderTrackingScreen.routeName,
+        pageBuilder: (BuildContext context, GoRouterState state) {
+          initOrderTrackingModule();
+          final orderId = state.extra as String;
+          return getCustomTransitionPage(
+            state: state,
+            child: OrderTrackingScreen(orderId: orderId),
           );
         },
       ),

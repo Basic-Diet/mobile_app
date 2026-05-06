@@ -60,4 +60,22 @@ class PremiumPaymentVerificationModel {
     this.premiumPendingPaymentCount = 0,
     this.addonPendingPaymentCount = 0,
   });
+
+  String get resolvedPaymentStatus {
+    final directStatus = paymentStatus.trim().toLowerCase();
+    if (directStatus.isNotEmpty) {
+      return directStatus;
+    }
+
+    final nestedStatus = payment['status'];
+    if (nestedStatus is String) {
+      return nestedStatus.trim().toLowerCase();
+    }
+
+    return '';
+  }
+
+  bool get isVerificationSuccessful => isFinal && applied;
+
+  bool get isVerificationPending => !isFinal;
 }

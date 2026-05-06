@@ -40,31 +40,44 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
   @override
   void initState() {
     super.initState();
-    _controller = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setBackgroundColor(ColorManager.backgroundSurface)
-      ..setNavigationDelegate(
-        NavigationDelegate(
-          onProgress: (progress) {
-            if (!mounted) return;
-            setState(() => _progress = progress);
-          },
-          onNavigationRequest: (request) {
-            if (_matchesCallback(request.url, widget.successUrl)) {
-              _openSuccessScreen();
-              return NavigationDecision.prevent;
-            }
+    _controller =
+        WebViewController()
+          ..setJavaScriptMode(JavaScriptMode.unrestricted)
+          ..setBackgroundColor(ColorManager.backgroundSurface)
+          ..setNavigationDelegate(
+            NavigationDelegate(
+              onProgress: (progress) {
+                if (!mounted) return;
+                setState(() => _progress = progress);
+              },
+              onNavigationRequest: (request) {
+                if (_matchesCallback(request.url, widget.successUrl)) {
+                  final identifiers = _extractProviderIdentifiers(request.url);
+                  debugPrint(
+                    'PaymentWebViewScreen: success callback url=${request.url} '
+                    'providerPaymentId=${identifiers.providerPaymentId ?? 'unavailable'} '
+                    'providerInvoiceId=${identifiers.providerInvoiceId ?? 'unavailable'}',
+                  );
+                  _openSuccessScreen();
+                  return NavigationDecision.prevent;
+                }
 
-            if (_matchesCallback(request.url, widget.backUrl)) {
-              _closeWithCancelled();
-              return NavigationDecision.prevent;
-            }
+                if (_matchesCallback(request.url, widget.backUrl)) {
+                  final identifiers = _extractProviderIdentifiers(request.url);
+                  debugPrint(
+                    'PaymentWebViewScreen: cancel callback url=${request.url} '
+                    'providerPaymentId=${identifiers.providerPaymentId ?? 'unavailable'} '
+                    'providerInvoiceId=${identifiers.providerInvoiceId ?? 'unavailable'}',
+                  );
+                  _closeWithCancelled();
+                  return NavigationDecision.prevent;
+                }
 
-            return NavigationDecision.navigate;
-          },
-        ),
-      )
-      ..loadRequest(Uri.parse(widget.paymentUrl));
+                return NavigationDecision.navigate;
+              },
+            ),
+          )
+          ..loadRequest(Uri.parse(widget.paymentUrl));
   }
 
   void _closeWithCancelled() {
@@ -102,19 +115,47 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
     if (currentPath == callbackPath) return true;
 
     // Check if paths share the same ending (e.g., both end with /success or /cancel)
-    final currentSegments = currentPath
-        .split('/')
-        .where((s) => s.isNotEmpty)
-        .toList();
-    final callbackSegments = callbackPath
-        .split('/')
-        .where((s) => s.isNotEmpty)
-        .toList();
+    final currentSegments =
+        currentPath.split('/').where((s) => s.isNotEmpty).toList();
+    final callbackSegments =
+        callbackPath.split('/').where((s) => s.isNotEmpty).toList();
 
     if (currentSegments.isEmpty || callbackSegments.isEmpty) return false;
 
     // Match if last segment is the same (e.g., both 'success' or both 'cancel')
     return currentSegments.last == callbackSegments.last;
+  }
+
+  ({String? providerPaymentId, String? providerInvoiceId})
+  _extractProviderIdentifiers(String url) {
+    final uri = Uri.tryParse(url);
+    if (uri == null) {
+      return (providerPaymentId: null, providerInvoiceId: null);
+    }
+
+    String? findValue(List<String> keys) {
+      for (final key in keys) {
+        final value = uri.queryParameters[key];
+        if (value != null && value.trim().isNotEmpty) {
+          return value;
+        }
+      }
+      return null;
+    }
+
+    return (
+      providerPaymentId: findValue(const [
+        'providerPaymentId',
+        'paymentId',
+        'tap_id',
+        'tapPaymentId',
+      ]),
+      providerInvoiceId: findValue(const [
+        'providerInvoiceId',
+        'invoiceId',
+        'tap_invoice_id',
+      ]),
+    );
   }
 
   @override
@@ -147,14 +188,15 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
           ),
           bottom: PreferredSize(
             preferredSize: Size.fromHeight(3.h),
-            child: _progress < 100
-                ? LinearProgressIndicator(
-                    value: _progress / 100,
-                    backgroundColor: ColorManager.backgroundSubtle,
-                    color: ColorManager.brandPrimary,
-                    minHeight: 3.h,
-                  )
-                : SizedBox(height: 3.h),
+            child:
+                _progress < 100
+                    ? LinearProgressIndicator(
+                      value: _progress / 100,
+                      backgroundColor: ColorManager.backgroundSubtle,
+                      color: ColorManager.brandPrimary,
+                      minHeight: 3.h,
+                    )
+                    : SizedBox(height: 3.h),
           ),
         ),
         body: WebViewWidget(controller: _controller),

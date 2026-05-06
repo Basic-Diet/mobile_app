@@ -177,6 +177,11 @@ TimelineDataResponse _$TimelineDataResponseFromJson(
         (e) => AddonSubscriptionResponse.fromJson(e as Map<String, dynamic>),
       )
       .toList(),
+  json['mealBalance'] == null
+      ? null
+      : MealBalanceResponse.fromJson(
+        json['mealBalance'] as Map<String, dynamic>,
+      ),
 );
 
 Map<String, dynamic> _$TimelineDataResponseToJson(
@@ -187,6 +192,7 @@ Map<String, dynamic> _$TimelineDataResponseToJson(
   'days': instance.days,
   'premiumMealsRemaining': instance.premiumMealsRemaining,
   'addonSubscriptions': instance.addonSubscriptions,
+  'mealBalance': instance.mealBalance,
 };
 
 TimelineResponse _$TimelineResponseFromJson(Map<String, dynamic> json) =>

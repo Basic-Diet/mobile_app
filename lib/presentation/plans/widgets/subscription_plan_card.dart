@@ -18,7 +18,9 @@ class SubscriptionPlanCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final progressValue =
-        data.totalMeals > 0 ? (data.remainingMeals / data.totalMeals) : 0.0;
+        data.displayTotalMeals > 0
+            ? (data.displayRemainingMeals / data.displayTotalMeals)
+            : 0.0;
 
     return Container(
       decoration: BoxDecoration(
@@ -39,7 +41,15 @@ class SubscriptionPlanCard extends StatelessWidget {
         children: [
           _buildCardHeader(context),
           Gap(AppSize.s16.h),
-          _buildStatusBadge(),
+          Row(
+            children: [
+              _buildStatusBadge(),
+              if (!data.displayCanConsumeNow) ...[
+                Gap(AppSize.s8.w),
+                _buildCannotConsumeIndicator(),
+              ],
+            ],
+          ),
           Gap(AppSize.s24.h),
           _buildMealsProgress(progressValue),
           Gap(AppSize.s16.h),
@@ -49,6 +59,42 @@ class SubscriptionPlanCard extends StatelessWidget {
           if (data.premiumSummary.isNotEmpty) _buildPremiumSection(),
 
           _buildDeliveryInfo(),
+
+          if (data.mealBalance != null) ...[
+            Gap(AppSize.s16.h),
+            _buildBalancePolicyNote(),
+          ],
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCannotConsumeIndicator() {
+    return Container(
+      padding: const EdgeInsetsDirectional.symmetric(
+        horizontal: AppPadding.p12,
+        vertical: AppPadding.p6,
+      ),
+      decoration: BoxDecoration(
+        color: ColorManager.stateErrorSurface,
+        borderRadius: BorderRadius.circular(AppSize.s20.r),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            Icons.info_outline,
+            size: AppSize.s14.sp,
+            color: ColorManager.stateErrorEmphasis,
+          ),
+          Gap(AppSize.s4.w),
+          Text(
+            Strings.cannotConsumeNow.tr(),
+            style: getBoldTextStyle(
+              color: ColorManager.stateErrorEmphasis,
+              fontSize: FontSizeManager.s10.sp,
+            ),
+          ),
         ],
       ),
     );
@@ -119,14 +165,14 @@ class SubscriptionPlanCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              Strings.regularMealsRemaining.tr(),
+              Strings.mealBalanceRemaining.tr(),
               style: getRegularTextStyle(
                 color: ColorManager.textSecondary,
                 fontSize: FontSizeManager.s14.sp,
               ),
             ),
             Text(
-              '${data.remainingMeals} / ${data.totalMeals}',
+              '${data.displayRemainingMeals} / ${data.displayTotalMeals}',
               style: getBoldTextStyle(
                 color: ColorManager.textPrimary,
                 fontSize: FontSizeManager.s16.sp,
@@ -266,13 +312,54 @@ class SubscriptionPlanCard extends StatelessWidget {
         ),
         const SizedBox(width: AppSize.s4),
         Text(
-          '${data.selectedMealsPerDay} ${Strings.mealsDay.tr()}',
+          '${data.displayDailyMealsDefault} ${Strings.mealsDay.tr()}',
           style: getRegularTextStyle(
             color: ColorManager.textSecondary,
             fontSize: FontSizeManager.s14,
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildBalancePolicyNote() {
+    return Container(
+      padding: EdgeInsets.all(AppPadding.p12.w),
+      decoration: BoxDecoration(
+        color: ColorManager.backgroundSubtle,
+        borderRadius: BorderRadius.circular(AppSize.s12.r),
+        border: Border.all(color: ColorManager.borderDefault),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(
+                Icons.info_outline,
+                size: AppSize.s14.sp,
+                color: ColorManager.textSecondary,
+              ),
+              Gap(AppSize.s6.w),
+              Text(
+                Strings.mealBalancePolicyNote.tr(),
+                style: getBoldTextStyle(
+                  color: ColorManager.textPrimary,
+                  fontSize: FontSizeManager.s12.sp,
+                ),
+              ),
+            ],
+          ),
+          Gap(AppSize.s4.h),
+          Text(
+            Strings.dailyMealsDefaultNote.tr(),
+            style: getRegularTextStyle(
+              color: ColorManager.textSecondary,
+              fontSize: FontSizeManager.s10.sp,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

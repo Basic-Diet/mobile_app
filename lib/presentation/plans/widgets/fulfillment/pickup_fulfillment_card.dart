@@ -28,12 +28,19 @@ class PickupFulfillmentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final prep = overview.pickupPreparation;
+    final isTerminalPickupState =
+        _isCompletedPickup ||
+        _effectiveStatus == 'consumed_without_preparation' ||
+        _effectiveStatus == 'no_show' ||
+        _effectiveStatus == 'canceled_at_branch';
     final canPrepare =
-        pickupStatus?.canRequestPrepare ?? prep?.canRequestPrepare ?? false;
+        !isTerminalPickupState &&
+        (pickupStatus?.canRequestPrepare ?? prep?.canRequestPrepare ?? false);
     final showPlannerCta =
         !canPrepare &&
+        !isTerminalPickupState &&
         (prep?.showMealPlannerCta ?? false) &&
-        pickupStatus?.status != 'ready_for_pickup';
+        !_isReadyForPickup;
 
     return FulfillmentStatusCard(
       title:
@@ -116,8 +123,7 @@ class PickupFulfillmentCard extends StatelessWidget {
 
   Widget? _footerCode() {
     final code = fulfillmentStatus?.pickupCode ?? pickupStatus?.pickupCode;
-    final isReady = fulfillmentStatus?.status == 'ready_for_pickup' || 
-                    pickupStatus?.isReady == true;
+    final isReady = _isReadyForPickup && !_isCompletedPickup;
 
     if (code?.isNotEmpty == true && isReady) {
       return FulfillmentCodePanel(
@@ -129,7 +135,7 @@ class PickupFulfillmentCard extends StatelessWidget {
   }
 
   FulfillmentStatusTone _tone() {
-    final status = fulfillmentStatus?.status ?? pickupStatus?.status ?? '';
+    final status = _effectiveStatus;
     if (status == 'ready_for_pickup' || status == 'fulfilled') {
       return FulfillmentStatusTone.success;
     }
@@ -204,16 +210,16 @@ class PickupFulfillmentCard extends StatelessWidget {
           ? overview.pickupPreparation!.message
           : Strings.fulfillmentPickupReviewAction.tr();
     }
-    if (pickupStatus?.status == 'ready_for_pickup') {
+    if (_effectiveStatus == 'ready_for_pickup') {
       return Strings.fulfillmentPickupCodeAction.tr();
     }
-    if (pickupStatus?.status == 'fulfilled') {
+    if (_effectiveStatus == 'fulfilled') {
       return Strings.fulfillmentPickupCompletedAction.tr();
     }
-    if (pickupStatus?.status == 'consumed_without_preparation') {
+    if (_effectiveStatus == 'consumed_without_preparation') {
       return Strings.fulfillmentPickupConsumedWithoutPreparationMessage.tr();
     }
-    if (pickupStatus?.status == 'no_show') {
+    if (_effectiveStatus == 'no_show') {
       return Strings.fulfillmentPickupNoShowMessage.tr();
     }
     if (pickupStatus?.message.isNotEmpty == true) {
@@ -229,7 +235,7 @@ class PickupFulfillmentCard extends StatelessWidget {
   }
 
   List<FulfillmentProgressStep> _buildProgressSteps(BuildContext context) {
-    final status = fulfillmentStatus?.status ?? pickupStatus?.status ?? '';
+    final status = _effectiveStatus;
     final flowStatus = overview.pickupPreparation?.flowStatus ?? '';
 
     final selectionsDone =
@@ -294,6 +300,9 @@ class PickupFulfillmentCard extends StatelessWidget {
   }
 
   String _friendlyBlockedMessage() {
+    if (_isCompletedPickup) {
+      return '';
+    }
     if (pickupStatus?.requestBlockedMessage.isNotEmpty == true) {
       return pickupStatus!.requestBlockedMessage;
     }
@@ -327,4 +336,14 @@ class PickupFulfillmentCard extends StatelessWidget {
     }
     return hours;
   }
+
+  String get _effectiveStatus =>
+      fulfillmentStatus?.status ?? pickupStatus?.status ?? '';
+
+  bool get _isReadyForPickup =>
+      _effectiveStatus == 'ready_for_pickup' ||
+      (pickupStatus?.isReady == true && !_isCompletedPickup);
+
+  bool get _isCompletedPickup =>
+      _effectiveStatus == 'fulfilled' || pickupStatus?.isCompleted == true;
 }

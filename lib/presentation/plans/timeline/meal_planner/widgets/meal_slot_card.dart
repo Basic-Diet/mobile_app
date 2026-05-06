@@ -27,6 +27,8 @@ class MealSlotCard extends StatelessWidget {
   final void Function(int carbIndex, int grams)? onCarbGramsChanged;
   final void Function(int carbIndex)? onRemoveCarb;
   final VoidCallback? onClear;
+  final VoidCallback? onRemove;
+  final bool isRemovable;
   final bool showCarbField;
   final int maxCarbItems;
   final int maxCarbTotalGrams;
@@ -45,6 +47,8 @@ class MealSlotCard extends StatelessWidget {
     required this.onCarbGramsChanged,
     required this.onRemoveCarb,
     required this.onClear,
+    this.onRemove,
+    this.isRemovable = false,
     this.showCarbField = true,
     this.maxCarbItems = 2,
     this.maxCarbTotalGrams = 300,
@@ -86,6 +90,8 @@ class MealSlotCard extends StatelessWidget {
                 isComplete: isComplete,
                 isProteinPremium: isProteinPremium,
                 onClear: onClear,
+                onRemove: onRemove,
+                isRemovable: isRemovable,
                 hasProteinSelection: hasProteinSelection,
               ),
               Gap(AppSize.s16.h),
@@ -646,6 +652,8 @@ class _SlotHeader extends StatelessWidget {
   final bool isComplete;
   final bool isProteinPremium;
   final VoidCallback? onClear;
+  final VoidCallback? onRemove;
+  final bool isRemovable;
   final bool hasProteinSelection;
 
   const _SlotHeader({
@@ -653,6 +661,8 @@ class _SlotHeader extends StatelessWidget {
     required this.isComplete,
     required this.isProteinPremium,
     required this.onClear,
+    this.onRemove,
+    this.isRemovable = false,
     required this.hasProteinSelection,
   });
 
@@ -711,13 +721,28 @@ class _SlotHeader extends StatelessWidget {
           IconButton(
             onPressed: onClear,
             icon: Icon(
-              Icons.close,
+              Icons.restart_alt,
               size: 18.w,
               color: ColorManager.iconSecondary,
             ),
+            tooltip: Strings.reset.tr(),
             padding: EdgeInsets.zero,
             constraints: const BoxConstraints(),
           ),
+        if (isRemovable && onRemove != null) ...[
+          Gap(AppSize.s8.w),
+          IconButton(
+            onPressed: onRemove,
+            icon: Icon(
+              Icons.delete_outline,
+              size: 18.w,
+              color: ColorManager.stateError,
+            ),
+            tooltip: Strings.remove.tr(),
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(),
+          ),
+        ],
       ],
     );
   }

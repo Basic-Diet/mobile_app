@@ -52,6 +52,17 @@ import 'package:basic_diet/presentation/main/home/payment-success/payment_valida
 import 'package:basic_diet/presentation/plans/pickup_status/pickup_status_cubit.dart';
 import 'package:basic_diet/domain/usecase/get_day_fulfillment_status_usecase.dart';
 import 'package:basic_diet/presentation/plans/fulfillment_status/fulfillment_status_cubit.dart';
+import 'package:basic_diet/domain/usecase/get_order_menu_usecase.dart';
+import 'package:basic_diet/domain/usecase/get_order_quote_usecase.dart';
+import 'package:basic_diet/domain/usecase/create_order_usecase.dart';
+import 'package:basic_diet/domain/usecase/get_order_detail_usecase.dart';
+import 'package:basic_diet/domain/usecase/get_orders_usecase.dart';
+import 'package:basic_diet/domain/usecase/cancel_order_usecase.dart';
+import 'package:basic_diet/domain/usecase/verify_order_payment_usecase.dart';
+import 'package:basic_diet/presentation/main/menu/bloc/menu_bloc.dart';
+import 'package:basic_diet/presentation/main/cart/bloc/checkout_bloc.dart';
+import 'package:basic_diet/presentation/main/cart/bloc/order_tracking_bloc.dart';
+import 'package:basic_diet/presentation/main/orders/bloc/orders_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 final instance = GetIt.instance; // Singleton instance of GetIt
@@ -375,6 +386,7 @@ void initMealPlannerModule() {
         premiumSummaries: params['premiumSummaries'] ?? const [],
         initialDayIndex: params['initialDayIndex'],
         premiumMealsRemaining: params['premiumMealsRemaining'],
+        mealBalance: params['mealBalance'],
         subscriptionId: params['subscriptionId'],
       ),
     );
@@ -391,6 +403,96 @@ void initPaymentValidationModule() {
   if (!GetIt.I.isRegistered<PaymentValidationCubit>()) {
     instance.registerFactory<PaymentValidationCubit>(
       () => PaymentValidationCubit(instance<GetCheckoutDraftUseCase>()),
+    );
+  }
+}
+
+void initOrderMenuModule() {
+  if (!GetIt.I.isRegistered<GetOrderMenuUseCase>()) {
+    instance.registerFactory<GetOrderMenuUseCase>(
+      () => GetOrderMenuUseCase(instance<Repository>()),
+    );
+  }
+
+  if (!GetIt.I.isRegistered<MenuBloc>()) {
+    instance.registerFactory<MenuBloc>(
+      () => MenuBloc(instance<GetOrderMenuUseCase>()),
+    );
+  }
+}
+
+void initCheckoutModule() {
+  if (!GetIt.I.isRegistered<GetOrderQuoteUseCase>()) {
+    instance.registerFactory<GetOrderQuoteUseCase>(
+      () => GetOrderQuoteUseCase(instance<Repository>()),
+    );
+  }
+
+  if (!GetIt.I.isRegistered<CreateOrderUseCase>()) {
+    instance.registerFactory<CreateOrderUseCase>(
+      () => CreateOrderUseCase(instance<Repository>()),
+    );
+  }
+
+  if (!GetIt.I.isRegistered<VerifyOrderPaymentUseCase>()) {
+    instance.registerFactory<VerifyOrderPaymentUseCase>(
+      () => VerifyOrderPaymentUseCase(instance<Repository>()),
+    );
+  }
+
+  if (!GetIt.I.isRegistered<CheckoutBloc>()) {
+    instance.registerFactory<CheckoutBloc>(
+      () => CheckoutBloc(
+        instance<GetOrderQuoteUseCase>(),
+        instance<CreateOrderUseCase>(),
+        instance<VerifyOrderPaymentUseCase>(),
+      ),
+    );
+  }
+}
+
+void initOrderTrackingModule() {
+  if (!GetIt.I.isRegistered<GetOrderDetailUseCase>()) {
+    instance.registerFactory<GetOrderDetailUseCase>(
+      () => GetOrderDetailUseCase(instance<Repository>()),
+    );
+  }
+
+  if (!GetIt.I.isRegistered<VerifyOrderPaymentUseCase>()) {
+    instance.registerFactory<VerifyOrderPaymentUseCase>(
+      () => VerifyOrderPaymentUseCase(instance<Repository>()),
+    );
+  }
+
+  if (!GetIt.I.isRegistered<OrderTrackingBloc>()) {
+    instance.registerFactory<OrderTrackingBloc>(
+      () => OrderTrackingBloc(
+        instance<GetOrderDetailUseCase>(),
+        instance<VerifyOrderPaymentUseCase>(),
+      ),
+    );
+  }
+}
+
+void initOrdersModule() {
+  if (!GetIt.I.isRegistered<GetOrdersUseCase>()) {
+    instance.registerFactory<GetOrdersUseCase>(
+      () => GetOrdersUseCase(instance<Repository>()),
+    );
+  }
+
+  if (!GetIt.I.isRegistered<CancelOrderUseCase>()) {
+    instance.registerFactory<CancelOrderUseCase>(
+      () => CancelOrderUseCase(instance<Repository>()),
+    );
+  }
+
+  if (!GetIt.I.isRegistered<OrdersBloc>()) {
+    instance.registerFactory<OrdersBloc>(
+      () => OrdersBloc(
+        instance<GetOrdersUseCase>(),
+        instance<CancelOrderUseCase>(),
+      ),
     );
   }
 }
