@@ -145,7 +145,6 @@ class Strings {
   static const String dailyLimitEnforced = 'dailyLimitEnforced';
   static const String mealBalancePolicyNote = 'mealBalancePolicyNote';
 
-
   // Empty States
   static const String noSubscriptionTitle = 'noSubscriptionTitle';
   static const String noSubscriptionSubtitle = 'noSubscriptionSubtitle';
@@ -165,8 +164,7 @@ class Strings {
 
   // Terminal delivery statuses
   static const String delivered = 'delivered';
-  static const String consumedWithoutPreparation =
-      'consumedWithoutPreparation';
+  static const String consumedWithoutPreparation = 'consumedWithoutPreparation';
   static const String deliveryCanceled = 'deliveryCanceled';
   static const String canceledAtBranch = 'canceledAtBranch';
   static const String noShow = 'noShow';
@@ -322,6 +320,14 @@ class Strings {
   static const String subscriptionExpired = 'subscriptionExpired';
   static const String plannerUnconfirmed = 'plannerUnconfirmed';
   static const String paymentRequiredMessage = 'paymentRequiredMessage';
+  static const String paymentVerifiedMessage = 'paymentVerifiedMessage';
+  static const String paymentPendingVerificationMessage =
+      'paymentPendingVerificationMessage';
+  static const String paymentExpiredMessage = 'paymentExpiredMessage';
+  static const String paymentMismatchMessage = 'paymentMismatchMessage';
+  static const String paymentProviderErrorMessage =
+      'paymentProviderErrorMessage';
+  static const String paymentVerifyFailedMessage = 'paymentVerifyFailedMessage';
   static const String noShowTitle = 'noShowTitle';
   static const String noShowMessage = 'noShowMessage';
   static const String consumedWithoutPrepTitle = 'consumedWithoutPrepTitle';

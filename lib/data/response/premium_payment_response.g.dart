@@ -83,7 +83,9 @@ Map<String, dynamic> _$PremiumPaymentVerificationResponseToJson(
 PremiumPaymentVerificationData _$PremiumPaymentVerificationDataFromJson(
   Map<String, dynamic> json,
 ) => PremiumPaymentVerificationData(
-  paymentStatus: json['paymentStatus'] as String?,
+  paymentStatus:
+      PremiumPaymentVerificationData._readPaymentStatus(json, 'paymentStatus')
+          as String?,
   message: json['message'] as String?,
   applied: json['applied'] as bool?,
   isFinal: json['isFinal'] as bool?,

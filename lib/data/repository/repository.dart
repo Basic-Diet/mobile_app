@@ -626,7 +626,10 @@ class RepositoryImpl implements Repository {
     String date,
   ) async {
     try {
-      final response = await _remoteDataSource.getDayFulfillmentStatus(id, date);
+      final response = await _remoteDataSource.getDayFulfillmentStatus(
+        id,
+        date,
+      );
       if (_isSuccessfulResponse(response)) {
         return Right(response.data.toDomain());
       } else {
@@ -705,6 +708,7 @@ class RepositoryImpl implements Repository {
         subscriptionId,
         date,
         paymentId,
+        const <String, dynamic>{},
       );
       return Right(response.toDomain());
     } catch (error) {

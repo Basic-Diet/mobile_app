@@ -80,7 +80,10 @@ abstract class RemoteDataSource {
   Future<SubscriptionDayResponse> confirmDaySelection(String id, String date);
   Future<PickupPrepareResponse> preparePickup(String id, String date);
   Future<PickupStatusResponse> getPickupStatus(String id, String date);
-  Future<FulfillmentStatusResponse> getDayFulfillmentStatus(String id, String date);
+  Future<FulfillmentStatusResponse> getDayFulfillmentStatus(
+    String id,
+    String date,
+  );
   Future<MealPlannerMenuResponse> getMealPlannerMenu();
   Future<PremiumPaymentResponse> createPremiumPayment(
     String subscriptionId,
@@ -100,6 +103,7 @@ abstract class RemoteDataSource {
     String subscriptionId,
     String date,
     String paymentId,
+    Map<String, dynamic> body,
   );
   Future<PremiumPaymentResponse> createOneTimeAddonPayment(
     String subscriptionId,

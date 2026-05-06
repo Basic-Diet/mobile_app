@@ -119,7 +119,7 @@ class MealPlannerScreen extends StatelessWidget {
                     final successMessage =
                         state.activePaymentKind == null
                             ? null
-                            : Strings.paymentSuccessful.tr();
+                            : Strings.paymentVerifiedMessage.tr();
                     Navigator.pop(
                       context,
                       successMessage == null
@@ -153,6 +153,15 @@ class MealPlannerScreen extends StatelessWidget {
     String paymentUrl,
     String paymentId,
   ) async {
+    debugPrint(
+      'MealPlannerScreen: Opening unified day payment webview '
+      'subscriptionId=$subscriptionId '
+      'date=${context.read<MealPlannerBloc>().state is MealPlannerLoaded ? (context.read<MealPlannerBloc>().state as MealPlannerLoaded).selectedTimelineDay.date : ''} '
+      'paymentId=$paymentId '
+      'providerInvoiceId=unavailable '
+      'paymentUrl=$paymentUrl',
+    );
+
     final uri = Uri.tryParse(paymentUrl);
     if (uri == null || !uri.hasScheme) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -180,6 +189,11 @@ class MealPlannerScreen extends StatelessWidget {
 
     if (!context.mounted) return;
 
+    debugPrint(
+      'MealPlannerScreen: Webview finished for paymentId=$paymentId '
+      'result=$result',
+    );
+
     if (result == PaymentWebViewResult.cancelled) {
       ScaffoldMessenger.of(
         context,
@@ -188,7 +202,9 @@ class MealPlannerScreen extends StatelessWidget {
       return;
     }
 
-    context.read<MealPlannerBloc>().add(VerifyUnifiedDayPaymentEvent(paymentId));
+    context.read<MealPlannerBloc>().add(
+      VerifyUnifiedDayPaymentEvent(paymentId),
+    );
   }
 }
 
@@ -313,7 +329,8 @@ class _MealPlannerBody extends StatelessWidget {
                       premiumPending: state.premiumMealsPendingPayment,
                       paymentAmount: _premiumPaymentAmount(state),
                     ),
-                    if (!state.dailyMealLimitEnforced && state.mealBalance != null) ...[
+                    if (!state.dailyMealLimitEnforced &&
+                        state.mealBalance != null) ...[
                       Gap(AppSize.s8.h),
                       _buildBalanceHint(state),
                     ],
@@ -361,7 +378,9 @@ class _MealPlannerBody extends StatelessWidget {
                       label: Text(Strings.meal.tr()),
                       style: OutlinedButton.styleFrom(
                         foregroundColor: ColorManager.brandPrimary,
-                        side: const BorderSide(color: ColorManager.brandPrimary),
+                        side: const BorderSide(
+                          color: ColorManager.brandPrimary,
+                        ),
                         padding: EdgeInsets.symmetric(vertical: 12.h),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(AppSize.s12.r),
@@ -408,7 +427,6 @@ class _MealPlannerBody extends StatelessWidget {
                   ),
                 ),
               ),
-
           ],
         ),
         MealPlannerNotificationBanner(state: state),

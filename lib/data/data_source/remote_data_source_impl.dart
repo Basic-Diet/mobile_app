@@ -191,7 +191,10 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   }
 
   @override
-  Future<FulfillmentStatusResponse> getDayFulfillmentStatus(String id, String date) {
+  Future<FulfillmentStatusResponse> getDayFulfillmentStatus(
+    String id,
+    String date,
+  ) {
     return _appServiceClient.getDayFulfillmentStatus(id, date);
   }
 
@@ -239,11 +242,13 @@ class RemoteDataSourceImpl implements RemoteDataSource {
     String subscriptionId,
     String date,
     String paymentId,
+    Map<String, dynamic> body,
   ) {
     return _appServiceClient.verifyUnifiedDayPayment(
       subscriptionId,
       date,
       paymentId,
+      body,
     );
   }
 
@@ -261,11 +266,9 @@ class RemoteDataSourceImpl implements RemoteDataSource {
     String date,
     String paymentId,
   ) {
-    return _appServiceClient.verifyOneTimeAddonPayment(
-      subscriptionId,
-      date,
-      {'paymentId': paymentId},
-    );
+    return _appServiceClient.verifyOneTimeAddonPayment(subscriptionId, date, {
+      'paymentId': paymentId,
+    });
   }
 
   @override

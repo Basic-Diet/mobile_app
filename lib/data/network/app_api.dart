@@ -172,13 +172,12 @@ abstract class AppServiceClient {
     @Body() Map<String, dynamic> body,
   );
 
-  @POST(
-    "/api/subscriptions/{id}/days/{date}/payments/{paymentId}/verify",
-  )
+  @POST("/api/subscriptions/{id}/days/{date}/payments/{paymentId}/verify")
   Future<PremiumPaymentVerificationResponse> verifyUnifiedDayPayment(
     @Path("id") String subscriptionId,
     @Path("date") String date,
     @Path("paymentId") String paymentId,
+    @Body() Map<String, dynamic> body,
   );
 
   @POST("/api/subscriptions/{id}/days/{date}/payments")
@@ -187,9 +186,7 @@ abstract class AppServiceClient {
     @Path("date") String date,
   );
 
-  @POST(
-    "/api/subscriptions/{id}/days/{date}/payments/{paymentId}/verify",
-  )
+  @POST("/api/subscriptions/{id}/days/{date}/payments/{paymentId}/verify")
   Future<PremiumPaymentVerificationResponse> verifyPremiumPayment(
     @Path("id") String subscriptionId,
     @Path("date") String date,
@@ -202,9 +199,7 @@ abstract class AppServiceClient {
     @Path("date") String date,
   );
 
-  @POST(
-    "/api/subscriptions/{id}/days/{date}/one-time-addons/payments/verify",
-  )
+  @POST("/api/subscriptions/{id}/days/{date}/one-time-addons/payments/verify")
   Future<PremiumPaymentVerificationResponse> verifyOneTimeAddonPayment(
     @Path("id") String subscriptionId,
     @Path("date") String date,
