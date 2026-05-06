@@ -95,3 +95,12 @@ class SelectPickupWindowEvent extends CartEvent {
 class ClearCartEvent extends CartEvent {
   const ClearCartEvent();
 }
+
+class SetRestaurantHoursEvent extends CartEvent {
+  final Map<String, dynamic> restaurantHours;
+
+  const SetRestaurantHoursEvent(this.restaurantHours);
+
+  @override
+  List<Object?> get props => [restaurantHours];
+}

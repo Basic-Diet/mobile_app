@@ -10,6 +10,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     on<SelectBranchEvent>(_onSelectBranch);
     on<SelectPickupWindowEvent>(_onSelectPickupWindow);
     on<ClearCartEvent>(_onClearCart);
+    on<SetRestaurantHoursEvent>(_onSetRestaurantHours);
   }
 
   void _onAddItem(AddItemEvent event, Emitter<CartState> emit) {
@@ -72,6 +73,23 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   }
 
   void _onClearCart(ClearCartEvent event, Emitter<CartState> emit) {
-    emit(const CartLoaded(items: []));
+    if (state is CartLoaded) {
+      final current = state as CartLoaded;
+      emit(CartLoaded(
+        items: const [],
+        restaurantHours: current.restaurantHours,
+      ));
+    } else {
+      emit(const CartLoaded(items: []));
+    }
+  }
+
+  void _onSetRestaurantHours(
+    SetRestaurantHoursEvent event,
+    Emitter<CartState> emit,
+  ) {
+    if (state is! CartLoaded) return;
+    final current = state as CartLoaded;
+    emit(current.copyWith(restaurantHours: event.restaurantHours));
   }
 }

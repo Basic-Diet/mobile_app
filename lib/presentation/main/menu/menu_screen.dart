@@ -30,7 +30,16 @@ class MenuScreen extends StatelessWidget {
         bloc.add(const LoadMenuEvent());
         return bloc;
       },
-      child: const _MenuScreenContent(),
+      child: BlocListener<MenuBloc, MenuState>(
+        listener: (context, state) {
+          if (state is MenuSuccess) {
+            context.read<CartBloc>().add(
+              SetRestaurantHoursEvent(state.menu.restaurantHours),
+            );
+          }
+        },
+        child: const _MenuScreenContent(),
+      ),
     );
   }
 }

@@ -36,70 +36,300 @@ class CartScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: BlocBuilder<CartBloc, CartState>(
-        builder: (context, state) {
-          if (state is! CartLoaded) return const SizedBox.shrink();
+      body: SafeArea(
+        child: BlocBuilder<CartBloc, CartState>(
+          builder: (context, state) {
+            if (state is! CartLoaded) return const SizedBox.shrink();
 
-          if (state.items.isEmpty) {
-            return Center(
-              child: Text(
-                'emptyCart'.tr(),
-                style: getRegularTextStyle(color: ColorManager.textSecondary),
-              ),
-            );
-          }
-
-          return Column(
-            children: [
-              Expanded(
-                child: ListView.builder(
-                  padding: EdgeInsets.symmetric(horizontal: AppPadding.p16.w),
-                  itemCount: state.items.length,
-                  itemBuilder: (context, index) {
-                    final item = state.items[index];
-                    return _CartItemTile(item: item);
-                  },
+            if (state.items.isEmpty) {
+              return Center(
+                child: Text(
+                  'emptyCart'.tr(),
+                  style: getRegularTextStyle(color: ColorManager.textSecondary),
                 ),
-              ),
-              if (state.previewTotalHalala != null)
-                Padding(
-                  padding: EdgeInsets.all(AppPadding.p16.r),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              );
+            }
+
+            return Column(
+              children: [
+                Expanded(
+                  child: ListView(
+                    padding: EdgeInsets.symmetric(horizontal: AppPadding.p16.w),
                     children: [
-                      Text(
-                        'previewTotal'.tr(),
-                        style: getBoldTextStyle(
-                          color: ColorManager.textPrimary,
-                          fontSize: FontSizeManager.s16.sp,
+                      if (state.branchIds.isNotEmpty) ...[
+                        SizedBox(height: AppSize.s8.h),
+                        _BranchSelector(
+                          branches: state.branchIds,
+                          selectedBranch: state.selectedBranchId,
                         ),
-                      ),
-                      Text(
-                        '${(state.previewTotalHalala! / 100).toStringAsFixed(2)} ${Strings.sar.tr()}',
-                        style: getBoldTextStyle(
-                          color: ColorManager.brandPrimary,
-                          fontSize: FontSizeManager.s16.sp,
-                        ),
-                      ),
+                      ] else if (state.restaurantHours.isEmpty) ...[
+                        SizedBox(height: AppSize.s8.h),
+                        _TextBranchInput(),
+                      ],
+                      if (state.selectedBranchId != null &&
+                          state.selectedBranchId!.isNotEmpty) ...[
+                        SizedBox(height: AppSize.s12.h),
+                        if (state.availableWindows.isNotEmpty)
+                          _WindowSelector(
+                            windows: state.availableWindows,
+                            selectedWindow: state.selectedPickupWindow,
+                          )
+                        else
+                          _TextWindowInput(),
+                      ],
+                      SizedBox(height: AppSize.s16.h),
+                      ...state.items.map((item) => _CartItemTile(item: item)),
                     ],
                   ),
                 ),
-              Padding(
-                padding: EdgeInsets.all(AppPadding.p16.r),
-                child: SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: state.canCheckout
-                        ? () => context.push('/checkout')
-                        : null,
-                    child: Text(Strings.confirmAndPay.tr()),
+                if (state.previewTotalHalala != null)
+                  Padding(
+                    padding: EdgeInsets.all(AppPadding.p16.r),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'previewTotal'.tr(),
+                          style: getBoldTextStyle(
+                            color: ColorManager.textPrimary,
+                            fontSize: FontSizeManager.s16.sp,
+                          ),
+                        ),
+                        Text(
+                          '${(state.previewTotalHalala! / 100).toStringAsFixed(2)} ${Strings.sar.tr()}',
+                          style: getBoldTextStyle(
+                            color: ColorManager.brandPrimary,
+                            fontSize: FontSizeManager.s16.sp,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                Padding(
+                  padding: EdgeInsets.all(AppPadding.p16.r),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: state.canCheckout
+                          ? () => context.push('/checkout')
+                          : null,
+                      child: Text(Strings.confirmAndPay.tr()),
+                    ),
                   ),
                 ),
-              ),
-            ],
-          );
-        },
+              ],
+            );
+          },
+        ),
       ),
+    );
+  }
+}
+
+class _BranchSelector extends StatelessWidget {
+  final List<String> branches;
+  final String? selectedBranch;
+
+  const _BranchSelector({
+    required this.branches,
+    required this.selectedBranch,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'branch'.tr(),
+          style: getBoldTextStyle(
+            color: ColorManager.textPrimary,
+            fontSize: FontSizeManager.s14.sp,
+          ),
+        ),
+        SizedBox(height: AppSize.s8.h),
+        Wrap(
+          spacing: AppSize.s8.w,
+          runSpacing: AppSize.s8.h,
+          children: branches.map((branchId) {
+            final isSelected = selectedBranch == branchId;
+            return ChoiceChip(
+              label: Text(branchId),
+              selected: isSelected,
+              onSelected: (_) {
+                context.read<CartBloc>().add(SelectBranchEvent(branchId));
+              },
+            );
+          }).toList(),
+        ),
+      ],
+    );
+  }
+}
+
+class _TextBranchInput extends StatefulWidget {
+  @override
+  State<_TextBranchInput> createState() => _TextBranchInputState();
+}
+
+class _TextBranchInputState extends State<_TextBranchInput> {
+  static const String _defaultBranch = 'main';
+  late final TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    final state = context.read<CartBloc>().state;
+    final current =
+        state is CartLoaded && state.selectedBranchId?.isNotEmpty == true
+            ? state.selectedBranchId!
+            : _defaultBranch;
+    _controller = TextEditingController(text: current);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        context.read<CartBloc>().add(SelectBranchEvent(current));
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'branch'.tr(),
+          style: getBoldTextStyle(
+            color: ColorManager.textPrimary,
+            fontSize: FontSizeManager.s14.sp,
+          ),
+        ),
+        SizedBox(height: AppSize.s8.h),
+        TextField(
+          controller: _controller,
+          decoration: InputDecoration(
+            hintText: 'Enter branch ID',
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(AppSize.s8.r),
+            ),
+          ),
+          onChanged: (value) {
+            context.read<CartBloc>().add(SelectBranchEvent(value.trim()));
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class _WindowSelector extends StatelessWidget {
+  final List<String> windows;
+  final String? selectedWindow;
+
+  const _WindowSelector({
+    required this.windows,
+    required this.selectedWindow,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'pickupWindow'.tr(),
+          style: getBoldTextStyle(
+            color: ColorManager.textPrimary,
+            fontSize: FontSizeManager.s14.sp,
+          ),
+        ),
+        SizedBox(height: AppSize.s8.h),
+        Wrap(
+          spacing: AppSize.s8.w,
+          runSpacing: AppSize.s8.h,
+          children: windows.map((window) {
+            final isSelected = selectedWindow == window;
+            return ChoiceChip(
+              label: Text(window),
+              selected: isSelected,
+              onSelected: (_) {
+                context.read<CartBloc>().add(
+                  SelectPickupWindowEvent(window),
+                );
+              },
+            );
+          }).toList(),
+        ),
+      ],
+    );
+  }
+}
+
+class _TextWindowInput extends StatefulWidget {
+  @override
+  State<_TextWindowInput> createState() => _TextWindowInputState();
+}
+
+class _TextWindowInputState extends State<_TextWindowInput> {
+  static const String _defaultWindow = '18:00-20:00';
+  late final TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    final state = context.read<CartBloc>().state;
+    final current =
+        state is CartLoaded && state.selectedPickupWindow?.isNotEmpty == true
+            ? state.selectedPickupWindow!
+            : _defaultWindow;
+    _controller = TextEditingController(text: current);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        context.read<CartBloc>().add(SelectPickupWindowEvent(current));
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'pickupWindow'.tr(),
+          style: getBoldTextStyle(
+            color: ColorManager.textPrimary,
+            fontSize: FontSizeManager.s14.sp,
+          ),
+        ),
+        SizedBox(height: AppSize.s8.h),
+        TextField(
+          controller: _controller,
+          decoration: InputDecoration(
+            hintText: 'e.g. 18:00-20:00',
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(AppSize.s8.r),
+            ),
+          ),
+          onChanged: (value) {
+            context.read<CartBloc>().add(
+              SelectPickupWindowEvent(value.trim()),
+            );
+          },
+        ),
+      ],
     );
   }
 }
