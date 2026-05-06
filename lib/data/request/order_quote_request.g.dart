@@ -46,15 +46,40 @@ Map<String, dynamic> _$OrderQuotePickupRequestToJson(
 OrderQuoteItemRequest _$OrderQuoteItemRequestFromJson(
   Map<String, dynamic> json,
 ) => OrderQuoteItemRequest(
-  itemType: json['itemType'] as String,
+  productId: json['productId'] as String,
   qty: (json['qty'] as num).toInt(),
-  selections: json['selections'] as Map<String, dynamic>,
+  weightGrams: (json['weightGrams'] as num?)?.toInt(),
+  selectedOptions:
+      (json['selectedOptions'] as List<dynamic>?)
+          ?.map(
+            (e) => OrderQuoteSelectedOptionRequest.fromJson(
+              e as Map<String, dynamic>,
+            ),
+          )
+          .toList(),
 );
 
 Map<String, dynamic> _$OrderQuoteItemRequestToJson(
   OrderQuoteItemRequest instance,
 ) => <String, dynamic>{
-  'itemType': instance.itemType,
+  'productId': instance.productId,
   'qty': instance.qty,
-  'selections': instance.selections,
+  'weightGrams': instance.weightGrams,
+  'selectedOptions': instance.selectedOptions?.map((e) => e.toJson()).toList(),
+};
+
+OrderQuoteSelectedOptionRequest _$OrderQuoteSelectedOptionRequestFromJson(
+  Map<String, dynamic> json,
+) => OrderQuoteSelectedOptionRequest(
+  groupId: json['groupId'] as String,
+  optionId: json['optionId'] as String,
+  extraWeightGrams: (json['extraWeightGrams'] as num?)?.toInt(),
+);
+
+Map<String, dynamic> _$OrderQuoteSelectedOptionRequestToJson(
+  OrderQuoteSelectedOptionRequest instance,
+) => <String, dynamic>{
+  'groupId': instance.groupId,
+  'optionId': instance.optionId,
+  'extraWeightGrams': instance.extraWeightGrams,
 };

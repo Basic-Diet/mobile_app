@@ -5,7 +5,6 @@ import 'package:basic_diet/domain/model/order_quote_model.dart';
 extension OrderQuoteResponseMapper on OrderQuoteResponse? {
   OrderQuoteModel toDomain() {
     return OrderQuoteModel(
-      quoteId: this?.data?.quoteId,
       currency: this?.data?.currency ?? Constants.empty,
       items:
           this?.data?.items?.map((e) => e.toDomain()).toList() ?? const [],
@@ -20,7 +19,6 @@ extension OrderQuoteResponseMapper on OrderQuoteResponse? {
             vatIncluded: true,
           ),
       appliedPromo: this?.data?.appliedPromo.toDomain(),
-      expiresInSeconds: this?.data?.expiresInSeconds ?? Constants.zero,
     );
   }
 }
@@ -29,10 +27,27 @@ extension OrderQuoteItemDataResponseMapper on OrderQuoteItemDataResponse? {
   OrderQuoteItemModel toDomain() {
     return OrderQuoteItemModel(
       itemType: this?.itemType ?? Constants.empty,
+      productId: this?.productId ?? Constants.empty,
+      menuVersionId: this?.menuVersionId,
       qty: this?.qty ?? Constants.zero,
-      name: this?.name,
+      weightGrams: this?.weightGrams,
       unitPriceHalala: this?.unitPriceHalala,
-      totalPriceHalala: this?.totalPriceHalala,
+      lineTotalHalala: this?.lineTotalHalala,
+      name: this?.name,
+      productSnapshot: this?.productSnapshot,
+      selectedOptions:
+          this?.selectedOptions?.map((e) => e.toDomain()).toList(),
+      pricingSnapshot: this?.pricingSnapshot,
+    );
+  }
+}
+
+extension OrderQuoteSelectedOptionResponseMapper on OrderQuoteSelectedOptionResponse? {
+  OrderQuoteSelectedOptionModel toDomain() {
+    return OrderQuoteSelectedOptionModel(
+      groupId: this?.groupId ?? Constants.empty,
+      optionId: this?.optionId ?? Constants.empty,
+      extraWeightGrams: this?.extraWeightGrams,
     );
   }
 }

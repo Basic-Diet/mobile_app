@@ -27,8 +27,13 @@ class OrderModel {
 class OrderPickupModel {
   final String branchId;
   final String pickupWindow;
+  final String? pickupCode;
 
-  const OrderPickupModel({required this.branchId, required this.pickupWindow});
+  const OrderPickupModel({
+    required this.branchId,
+    required this.pickupWindow,
+    this.pickupCode,
+  });
 }
 
 class OrderPricingModel {
@@ -53,17 +58,35 @@ class OrderPricingModel {
 
 class OrderItemModel {
   final String itemType;
+  final String? productId;
   final int qty;
+  final int? weightGrams;
   final String? name;
   final int? unitPriceHalala;
   final int? totalPriceHalala;
+  final List<OrderItemSelectedOptionModel>? selectedOptions;
 
   const OrderItemModel({
     required this.itemType,
+    this.productId,
     required this.qty,
+    this.weightGrams,
     this.name,
     this.unitPriceHalala,
     this.totalPriceHalala,
+    this.selectedOptions,
+  });
+}
+
+class OrderItemSelectedOptionModel {
+  final String groupId;
+  final String optionId;
+  final int? extraWeightGrams;
+
+  const OrderItemSelectedOptionModel({
+    required this.groupId,
+    required this.optionId,
+    this.extraWeightGrams,
   });
 }
 

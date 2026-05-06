@@ -21,13 +21,27 @@ class OrderQuotePickupRequestModel {
 }
 
 class OrderQuoteItemRequestModel {
-  final String itemType;
+  final String productId;
   final int qty;
-  final Map<String, dynamic> selections;
+  final int? weightGrams;
+  final List<OrderQuoteSelectedOptionRequestModel>? selectedOptions;
 
   const OrderQuoteItemRequestModel({
-    required this.itemType,
+    required this.productId,
     required this.qty,
-    required this.selections,
+    this.weightGrams,
+    this.selectedOptions,
+  });
+}
+
+class OrderQuoteSelectedOptionRequestModel {
+  final String groupId;
+  final String optionId;
+  final int? extraWeightGrams;
+
+  const OrderQuoteSelectedOptionRequestModel({
+    required this.groupId,
+    required this.optionId,
+    this.extraWeightGrams,
   });
 }

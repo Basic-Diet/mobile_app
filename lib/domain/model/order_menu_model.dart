@@ -1,22 +1,144 @@
 class OrderMenuModel {
+  final String source;
+  final String fulfillmentMethod;
   final String currency;
+  final bool vatIncluded;
+  final int vatPercentage;
   final List<String> itemTypes;
+  final Map<String, dynamic> restaurantHours;
+
+  // Dynamic catalog
+  final List<OrderMenuCategoryModel> categories;
+
+  // Legacy fallback
   final OrderMenuStandardMealsModel? standardMeals;
   final List<OrderMenuSandwichModel> sandwiches;
   final OrderMenuSaladModel? salad;
   final OrderMenuAddonsModel? addons;
-  final Map<String, dynamic> restaurantHours;
+
+  bool get hasDynamicCatalog => categories.isNotEmpty;
 
   const OrderMenuModel({
+    required this.source,
+    required this.fulfillmentMethod,
     required this.currency,
+    required this.vatIncluded,
+    required this.vatPercentage,
     required this.itemTypes,
+    this.restaurantHours = const {},
+    this.categories = const [],
     this.standardMeals,
-    required this.sandwiches,
+    this.sandwiches = const [],
     this.salad,
     this.addons,
-    required this.restaurantHours,
   });
 }
+
+// ─── Dynamic Catalog ───
+
+class OrderMenuCategoryModel {
+  final String id;
+  final String key;
+  final String name;
+  final String? description;
+  final String? imageUrl;
+  final int sortOrder;
+  final List<OrderMenuProductModel> products;
+
+  const OrderMenuCategoryModel({
+    required this.id,
+    required this.key,
+    required this.name,
+    this.description,
+    this.imageUrl,
+    required this.sortOrder,
+    required this.products,
+  });
+}
+
+class OrderMenuProductModel {
+  final String id;
+  final String key;
+  final String categoryId;
+  final String name;
+  final String itemType;
+  final String pricingModel;
+  final int priceHalala;
+  final int baseUnitGrams;
+  final int defaultWeightGrams;
+  final int minWeightGrams;
+  final int maxWeightGrams;
+  final int weightStepGrams;
+  final int sortOrder;
+  final List<OrderMenuOptionGroupModel> optionGroups;
+
+  const OrderMenuProductModel({
+    required this.id,
+    required this.key,
+    required this.categoryId,
+    required this.name,
+    required this.itemType,
+    required this.pricingModel,
+    required this.priceHalala,
+    required this.baseUnitGrams,
+    required this.defaultWeightGrams,
+    required this.minWeightGrams,
+    required this.maxWeightGrams,
+    required this.weightStepGrams,
+    required this.sortOrder,
+    required this.optionGroups,
+  });
+}
+
+class OrderMenuOptionGroupModel {
+  final String id;
+  final String groupId;
+  final String key;
+  final String name;
+  final int minSelections;
+  final int maxSelections;
+  final bool isRequired;
+  final int sortOrder;
+  final List<OrderMenuOptionModel> options;
+
+  const OrderMenuOptionGroupModel({
+    required this.id,
+    required this.groupId,
+    required this.key,
+    required this.name,
+    required this.minSelections,
+    required this.maxSelections,
+    required this.isRequired,
+    required this.sortOrder,
+    required this.options,
+  });
+}
+
+class OrderMenuOptionModel {
+  final String id;
+  final String optionId;
+  final String groupId;
+  final String key;
+  final String name;
+  final int extraPriceHalala;
+  final int extraWeightUnitGrams;
+  final int extraWeightPriceHalala;
+  final int sortOrder;
+
+  const OrderMenuOptionModel({
+    required this.id,
+    required this.optionId,
+    required this.groupId,
+    required this.key,
+    required this.name,
+    required this.extraPriceHalala,
+    required this.extraWeightUnitGrams,
+    required this.extraWeightPriceHalala,
+    required this.sortOrder,
+  });
+}
+
+// ─── Legacy Fallback ───
 
 class OrderMenuStandardMealsModel {
   final List<OrderMenuProteinModel> proteins;

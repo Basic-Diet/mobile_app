@@ -82,29 +82,6 @@ class CartScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                if (state.previewTotalHalala != null)
-                  Padding(
-                    padding: EdgeInsets.all(AppPadding.p16.r),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'previewTotal'.tr(),
-                          style: getBoldTextStyle(
-                            color: ColorManager.textPrimary,
-                            fontSize: FontSizeManager.s16.sp,
-                          ),
-                        ),
-                        Text(
-                          '${(state.previewTotalHalala! / 100).toStringAsFixed(2)} ${Strings.sar.tr()}',
-                          style: getBoldTextStyle(
-                            color: ColorManager.brandPrimary,
-                            fontSize: FontSizeManager.s16.sp,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
                 Padding(
                   padding: EdgeInsets.all(AppPadding.p16.r),
                   child: SizedBox(
@@ -358,14 +335,24 @@ class _CartItemTile extends StatelessWidget {
                       fontSize: FontSizeManager.s14.sp,
                     ),
                   ),
-                  SizedBox(height: AppSize.s4.h),
-                  Text(
-                    item.itemType,
-                    style: getRegularTextStyle(
-                      color: ColorManager.textSecondary,
-                      fontSize: FontSizeManager.s12.sp,
+                  if (item.weightGrams != null)
+                    Text(
+                      '${item.weightGrams}g',
+                      style: getRegularTextStyle(
+                        color: ColorManager.textSecondary,
+                        fontSize: FontSizeManager.s12.sp,
+                      ),
                     ),
-                  ),
+                  if (item.selectedOptions.isNotEmpty)
+                    Text(
+                      item.selectedOptions.map((o) => o.optionId).join(', '),
+                      style: getRegularTextStyle(
+                        color: ColorManager.textSecondary,
+                        fontSize: FontSizeManager.s10.sp,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                 ],
               ),
             ),
@@ -375,7 +362,7 @@ class _CartItemTile extends StatelessWidget {
                   icon: const Icon(Icons.remove_circle_outline),
                   onPressed: () {
                     context.read<CartBloc>().add(
-                      UpdateQtyEvent(item.id, item.qty - 1),
+                      UpdateQtyEvent(item.compositeKey, item.qty - 1),
                     );
                   },
                 ),
@@ -390,7 +377,7 @@ class _CartItemTile extends StatelessWidget {
                   icon: const Icon(Icons.add_circle_outline),
                   onPressed: () {
                     context.read<CartBloc>().add(
-                      UpdateQtyEvent(item.id, item.qty + 1),
+                      UpdateQtyEvent(item.compositeKey, item.qty + 1),
                     );
                   },
                 ),
@@ -398,7 +385,7 @@ class _CartItemTile extends StatelessWidget {
                   icon: const Icon(Icons.delete_outline, color: Colors.red),
                   onPressed: () {
                     context.read<CartBloc>().add(
-                      RemoveItemEvent(item.id),
+                      RemoveItemEvent(item.compositeKey),
                     );
                   },
                 ),

@@ -54,23 +54,50 @@ class CreateOrderPickupRequest {
 
 @JsonSerializable(explicitToJson: true)
 class CreateOrderItemRequest {
-  @JsonKey(name: 'itemType')
-  final String itemType;
+  @JsonKey(name: 'productId')
+  final String productId;
 
   @JsonKey(name: 'qty')
   final int qty;
 
-  @JsonKey(name: 'selections')
-  final Map<String, dynamic> selections;
+  @JsonKey(name: 'weightGrams')
+  final int? weightGrams;
+
+  @JsonKey(name: 'selectedOptions')
+  final List<CreateOrderSelectedOptionRequest>? selectedOptions;
 
   const CreateOrderItemRequest({
-    required this.itemType,
+    required this.productId,
     required this.qty,
-    required this.selections,
+    this.weightGrams,
+    this.selectedOptions,
   });
 
   factory CreateOrderItemRequest.fromJson(Map<String, dynamic> json) =>
       _$CreateOrderItemRequestFromJson(json);
 
   Map<String, dynamic> toJson() => _$CreateOrderItemRequestToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class CreateOrderSelectedOptionRequest {
+  @JsonKey(name: 'groupId')
+  final String groupId;
+
+  @JsonKey(name: 'optionId')
+  final String optionId;
+
+  @JsonKey(name: 'extraWeightGrams')
+  final int? extraWeightGrams;
+
+  const CreateOrderSelectedOptionRequest({
+    required this.groupId,
+    required this.optionId,
+    this.extraWeightGrams,
+  });
+
+  factory CreateOrderSelectedOptionRequest.fromJson(Map<String, dynamic> json) =>
+      _$CreateOrderSelectedOptionRequestFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CreateOrderSelectedOptionRequestToJson(this);
 }

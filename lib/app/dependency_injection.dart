@@ -58,6 +58,7 @@ import 'package:basic_diet/domain/usecase/create_order_usecase.dart';
 import 'package:basic_diet/domain/usecase/get_order_detail_usecase.dart';
 import 'package:basic_diet/domain/usecase/get_orders_usecase.dart';
 import 'package:basic_diet/domain/usecase/cancel_order_usecase.dart';
+import 'package:basic_diet/domain/usecase/verify_order_payment_usecase.dart';
 import 'package:basic_diet/presentation/main/menu/bloc/menu_bloc.dart';
 import 'package:basic_diet/presentation/main/cart/bloc/checkout_bloc.dart';
 import 'package:basic_diet/presentation/main/cart/bloc/order_tracking_bloc.dart';
@@ -433,11 +434,18 @@ void initCheckoutModule() {
     );
   }
 
+  if (!GetIt.I.isRegistered<VerifyOrderPaymentUseCase>()) {
+    instance.registerFactory<VerifyOrderPaymentUseCase>(
+      () => VerifyOrderPaymentUseCase(instance<Repository>()),
+    );
+  }
+
   if (!GetIt.I.isRegistered<CheckoutBloc>()) {
     instance.registerFactory<CheckoutBloc>(
       () => CheckoutBloc(
         instance<GetOrderQuoteUseCase>(),
         instance<CreateOrderUseCase>(),
+        instance<VerifyOrderPaymentUseCase>(),
       ),
     );
   }
@@ -450,9 +458,18 @@ void initOrderTrackingModule() {
     );
   }
 
+  if (!GetIt.I.isRegistered<VerifyOrderPaymentUseCase>()) {
+    instance.registerFactory<VerifyOrderPaymentUseCase>(
+      () => VerifyOrderPaymentUseCase(instance<Repository>()),
+    );
+  }
+
   if (!GetIt.I.isRegistered<OrderTrackingBloc>()) {
     instance.registerFactory<OrderTrackingBloc>(
-      () => OrderTrackingBloc(instance<GetOrderDetailUseCase>()),
+      () => OrderTrackingBloc(
+        instance<GetOrderDetailUseCase>(),
+        instance<VerifyOrderPaymentUseCase>(),
+      ),
     );
   }
 }

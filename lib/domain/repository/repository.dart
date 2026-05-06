@@ -154,8 +154,9 @@ abstract class Repository {
     OrderQuoteRequestModel request,
   );
   Future<Either<Failure, OneTimeOrderModel>> createOrder(
-    CreateOrderRequestModel request,
-  );
+    CreateOrderRequestModel request, {
+    required String idempotencyKey,
+  });
   Future<Either<Failure, VerifyPaymentModel>> verifyOrderPayment(
     String orderId,
     String paymentId,

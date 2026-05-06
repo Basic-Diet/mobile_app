@@ -1,7 +1,10 @@
+import 'dart:developer' as developer;
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:basic_diet/app/dependency_injection.dart';
 import 'package:basic_diet/domain/model/create_order_request_model.dart';
 import 'package:basic_diet/domain/model/order_quote_request_model.dart';
+import 'package:basic_diet/domain/model/one_time_order_model.dart';
 import 'package:basic_diet/presentation/main/cart/bloc/cart_bloc.dart';
 import 'package:basic_diet/presentation/main/cart/bloc/cart_state.dart';
 import 'package:basic_diet/presentation/main/cart/bloc/checkout_bloc.dart';
@@ -16,6 +19,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:uuid/uuid.dart';
 
 class CheckoutScreen extends StatelessWidget {
   static const String routeName = '/checkout';
@@ -42,9 +46,12 @@ class _CheckoutScreenContent extends StatefulWidget {
 }
 
 class _CheckoutScreenContentState extends State<_CheckoutScreenContent> {
+  late String _idempotencyKey;
+
   @override
   void initState() {
     super.initState();
+    _idempotencyKey = const Uuid().v4();
     WidgetsBinding.instance.addPostFrameCallback((_) => _requestQuote());
   }
 
@@ -54,9 +61,16 @@ class _CheckoutScreenContentState extends State<_CheckoutScreenContent> {
 
     final items = cartState.items.map((item) {
       return OrderQuoteItemRequestModel(
-        itemType: item.itemType,
+        productId: item.productId,
         qty: item.qty,
-        selections: item.selections,
+        weightGrams: item.weightGrams,
+        selectedOptions: item.selectedOptions.map((o) {
+          return OrderQuoteSelectedOptionRequestModel(
+            groupId: o.groupId,
+            optionId: o.optionId,
+            extraWeightGrams: o.extraWeightGrams,
+          );
+        }).toList(),
       );
     }).toList();
 
@@ -83,9 +97,16 @@ class _CheckoutScreenContentState extends State<_CheckoutScreenContent> {
 
     final items = cartState.items.map((item) {
       return CreateOrderItemRequestModel(
-        itemType: item.itemType,
+        productId: item.productId,
         qty: item.qty,
-        selections: item.selections,
+        weightGrams: item.weightGrams,
+        selectedOptions: item.selectedOptions.map((o) {
+          return CreateOrderSelectedOptionRequestModel(
+            groupId: o.groupId,
+            optionId: o.optionId,
+            extraWeightGrams: o.extraWeightGrams,
+          );
+        }).toList(),
       );
     }).toList();
 
@@ -104,6 +125,22 @@ class _CheckoutScreenContentState extends State<_CheckoutScreenContent> {
           successUrl: 'basicdiet://orders/payment-success',
           backUrl: 'basicdiet://orders/payment-cancel',
         ),
+        idempotencyKey: _idempotencyKey,
+      ),
+    );
+  }
+
+  Future<void> _openPaymentWebView(String paymentUrl, OneTimeOrderModel order) async {
+    final result = await context.push<bool?>('/payment-webview', extra: paymentUrl);
+    developer.log('Payment WebView returned: $result', name: 'checkout');
+
+    if (!mounted) return;
+
+    context.read<CheckoutBloc>().add(
+      VerifyPaymentEvent(
+        orderId: order.orderId,
+        paymentId: order.paymentId,
+        providerInvoiceId: order.invoiceId,
       ),
     );
   }
@@ -129,8 +166,25 @@ class _CheckoutScreenContentState extends State<_CheckoutScreenContent> {
       ),
       body: BlocListener<CheckoutBloc, CheckoutState>(
         listener: (context, state) {
-          if (state is CheckoutLoaded && state.createStatus == OrderCreateStatus.success && state.order != null) {
-            context.push('/payment-webview', extra: state.order!.paymentUrl);
+          if (state is CheckoutLoaded &&
+              state.createStatus == OrderCreateStatus.success &&
+              state.order != null) {
+            _openPaymentWebView(state.order!.paymentUrl, state.order!);
+          }
+
+          if (state is CheckoutLoaded &&
+              state.verifyStatus == OrderVerifyStatus.success) {
+            final orderId = state.order?.orderId;
+            if (orderId != null) {
+              context.pushReplacement('/order-tracking', extra: orderId);
+            }
+          }
+
+          if (state is CheckoutLoaded &&
+              state.verifyStatus == OrderVerifyStatus.failure) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(state.verifyErrorMessage ?? Strings.defaultError.tr())),
+            );
           }
         },
         child: BlocBuilder<CheckoutBloc, CheckoutState>(
@@ -155,6 +209,7 @@ class _CheckoutScreenContentState extends State<_CheckoutScreenContent> {
               return _QuoteView(
                 quote: state.quote!,
                 createStatus: state.createStatus,
+                verifyStatus: state.verifyStatus,
                 onConfirm: _createOrder,
               );
             }
@@ -194,16 +249,22 @@ class _ErrorView extends StatelessWidget {
 class _QuoteView extends StatelessWidget {
   final dynamic quote;
   final OrderCreateStatus createStatus;
+  final OrderVerifyStatus verifyStatus;
   final VoidCallback onConfirm;
 
   const _QuoteView({
     required this.quote,
     required this.createStatus,
+    required this.verifyStatus,
     required this.onConfirm,
   });
 
   @override
   Widget build(BuildContext context) {
+    final isLoading = createStatus == OrderCreateStatus.loading ||
+        verifyStatus == OrderVerifyStatus.loading ||
+        verifyStatus == OrderVerifyStatus.processing;
+
     return Padding(
       padding: EdgeInsets.all(AppPadding.p16.r),
       child: Column(
@@ -224,11 +285,11 @@ class _QuoteView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '${item.name ?? item.itemType} x${item.qty}',
+                    '${item.name ?? item.productId} x${item.qty}',
                     style: getRegularTextStyle(color: ColorManager.textPrimary),
                   ),
                   Text(
-                    '${(item.totalPriceHalala ?? 0) / 100} ${quote.currency}',
+                    '${(item.lineTotalHalala ?? 0) / 100} ${quote.currency}',
                     style: getBoldTextStyle(color: ColorManager.textPrimary),
                   ),
                 ],
@@ -264,14 +325,25 @@ class _QuoteView extends StatelessWidget {
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: createStatus == OrderCreateStatus.loading
-                  ? null
-                  : onConfirm,
-              child: createStatus == OrderCreateStatus.loading
-                  ? const CircularProgressIndicator()
+              onPressed: isLoading ? null : onConfirm,
+              child: isLoading
+                  ? const SizedBox(
+                      width: 24,
+                      height: 24,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
                   : Text(Strings.payNow.tr()),
             ),
           ),
+          if (verifyStatus == OrderVerifyStatus.processing) ...[
+            SizedBox(height: AppSize.s16.h),
+            Center(
+              child: Text(
+                'paymentProcessing'.tr(),
+                style: getRegularTextStyle(color: ColorManager.textSecondary),
+              ),
+            ),
+          ],
         ],
       ),
     );

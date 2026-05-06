@@ -1,34 +1,54 @@
 class OrderQuoteModel {
-  final String? quoteId;
   final String currency;
   final List<OrderQuoteItemModel> items;
   final OrderQuotePricingModel pricing;
   final OrderQuoteAppliedPromoModel? appliedPromo;
-  final int expiresInSeconds;
 
   const OrderQuoteModel({
-    this.quoteId,
     required this.currency,
     required this.items,
     required this.pricing,
     this.appliedPromo,
-    required this.expiresInSeconds,
   });
 }
 
 class OrderQuoteItemModel {
   final String itemType;
+  final String productId;
+  final String? menuVersionId;
   final int qty;
-  final String? name;
+  final int? weightGrams;
   final int? unitPriceHalala;
-  final int? totalPriceHalala;
+  final int? lineTotalHalala;
+  final String? name;
+  final Map<String, dynamic>? productSnapshot;
+  final List<OrderQuoteSelectedOptionModel>? selectedOptions;
+  final Map<String, dynamic>? pricingSnapshot;
 
   const OrderQuoteItemModel({
     required this.itemType,
+    required this.productId,
+    this.menuVersionId,
     required this.qty,
-    this.name,
+    this.weightGrams,
     this.unitPriceHalala,
-    this.totalPriceHalala,
+    this.lineTotalHalala,
+    this.name,
+    this.productSnapshot,
+    this.selectedOptions,
+    this.pricingSnapshot,
+  });
+}
+
+class OrderQuoteSelectedOptionModel {
+  final String groupId;
+  final String optionId;
+  final int? extraWeightGrams;
+
+  const OrderQuoteSelectedOptionModel({
+    required this.groupId,
+    required this.optionId,
+    this.extraWeightGrams,
   });
 }
 

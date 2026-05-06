@@ -109,7 +109,7 @@ class _MenuScreenContent extends StatelessWidget {
             return _ErrorView(message: state.message);
           }
           if (state is MenuSuccess) {
-            return _MenuSections(menu: state.menu);
+            return _MenuContent(menu: state.menu);
           }
           return const SizedBox.shrink();
         },
@@ -143,10 +143,396 @@ class _ErrorView extends StatelessWidget {
   }
 }
 
-class _MenuSections extends StatelessWidget {
+// ═══════════════════════════════════════════════════════════════════════════════
+//  Router: dynamic catalog vs legacy fallback
+// ═══════════════════════════════════════════════════════════════════════════════
+
+class _MenuContent extends StatelessWidget {
   final OrderMenuModel menu;
 
-  const _MenuSections({required this.menu});
+  const _MenuContent({required this.menu});
+
+  @override
+  Widget build(BuildContext context) {
+    if (menu.hasDynamicCatalog) {
+      return _DynamicCatalogView(menu: menu);
+    }
+    return _LegacyMenuView(menu: menu);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+//  Dynamic Catalog (categories / products / optionGroups)
+// ═══════════════════════════════════════════════════════════════════════════════
+
+class _DynamicCatalogView extends StatelessWidget {
+  final OrderMenuModel menu;
+
+  const _DynamicCatalogView({required this.menu});
+
+  @override
+  Widget build(BuildContext context) {
+    final sortedCategories = [...menu.categories]
+      ..sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
+
+    return ListView.builder(
+      padding: EdgeInsets.symmetric(horizontal: AppPadding.p16.w),
+      itemCount: sortedCategories.length,
+      itemBuilder: (context, index) {
+        final category = sortedCategories[index];
+        return _CategorySection(category: category, currency: menu.currency);
+      },
+    );
+  }
+}
+
+class _CategorySection extends StatelessWidget {
+  final OrderMenuCategoryModel category;
+  final String currency;
+
+  const _CategorySection({required this.category, required this.currency});
+
+  @override
+  Widget build(BuildContext context) {
+    final sortedProducts = [...category.products]
+      ..sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: AppPadding.p12.h),
+          child: Text(
+            category.name,
+            style: getBoldTextStyle(
+              color: ColorManager.textPrimary,
+              fontSize: FontSizeManager.s16.sp,
+            ),
+          ),
+        ),
+        ...sortedProducts.map(
+          (product) => _DynamicProductCard(product: product, currency: currency),
+        ),
+      ],
+    );
+  }
+}
+
+class _DynamicProductCard extends StatefulWidget {
+  final OrderMenuProductModel product;
+  final String currency;
+
+  const _DynamicProductCard({required this.product, required this.currency});
+
+  @override
+  State<_DynamicProductCard> createState() => _DynamicProductCardState();
+}
+
+class _DynamicProductCardState extends State<_DynamicProductCard> {
+  int _qty = 1;
+  int? _weightGrams;
+  final Map<String, Set<String>> _selectedOptionIds = {};
+  final Map<String, int> _optionExtraWeight = {};
+
+  @override
+  void initState() {
+    super.initState();
+    _weightGrams = widget.product.defaultWeightGrams > 0
+        ? widget.product.defaultWeightGrams
+        : null;
+  }
+
+  bool get _canAddToCart {
+    if (_qty < 1) return false;
+    for (final group in widget.product.optionGroups) {
+      final selected = _selectedOptionIds[group.id] ?? <String>{};
+      if (group.isRequired && selected.isEmpty) return false;
+      if (selected.length < group.minSelections) return false;
+      if (selected.length > group.maxSelections) return false;
+    }
+    return true;
+  }
+
+  void _toggleOption(String groupId, String optionId) {
+    setState(() {
+      final set = _selectedOptionIds.putIfAbsent(groupId, () => <String>{});
+      final group = widget.product.optionGroups.firstWhere((g) => g.id == groupId);
+      if (set.contains(optionId)) {
+        set.remove(optionId);
+        _optionExtraWeight.remove(optionId);
+      } else {
+        if (group.maxSelections == 1) {
+          set.clear();
+        }
+        set.add(optionId);
+      }
+    });
+  }
+
+  void _addToCart(BuildContext context) {
+    final selectedOptions = <SelectedCartOption>[];
+    for (final group in widget.product.optionGroups) {
+      final ids = _selectedOptionIds[group.id] ?? <String>{};
+      for (final optionId in ids) {
+        final option = group.options.firstWhere((o) => o.optionId == optionId);
+        selectedOptions.add(
+          SelectedCartOption(
+            groupId: group.groupId,
+            optionId: option.optionId,
+            extraWeightGrams: option.extraWeightUnitGrams > 0
+                ? (_optionExtraWeight[optionId] ?? option.extraWeightUnitGrams)
+                : null,
+          ),
+        );
+      }
+    }
+
+    context.read<CartBloc>().add(
+      AddItemEvent(
+        CartItem(
+          productId: widget.product.id,
+          name: widget.product.name,
+          qty: _qty,
+          weightGrams: widget.product.pricingModel == 'per_100g' ? _weightGrams : null,
+          selectedOptions: selectedOptions,
+          unitPriceHalala: widget.product.priceHalala,
+        ),
+      ),
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('${widget.product.name} ${Strings.addToCart.tr()}')),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final product = widget.product;
+
+    return Card(
+      margin: EdgeInsets.only(bottom: AppPadding.p12.h),
+      child: Padding(
+        padding: EdgeInsets.all(AppPadding.p12.r),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              product.name,
+              style: getBoldTextStyle(
+                color: ColorManager.textPrimary,
+                fontSize: FontSizeManager.s14.sp,
+              ),
+            ),
+            SizedBox(height: AppSize.s4.h),
+            if (product.pricingModel == 'fixed')
+              Text(
+                '${(product.priceHalala / 100).toStringAsFixed(2)} ${widget.currency}',
+                style: getBoldTextStyle(
+                  color: ColorManager.brandPrimary,
+                  fontSize: FontSizeManager.s14.sp,
+                ),
+              ),
+            if (product.pricingModel == 'per_100g') ...[
+              SizedBox(height: AppSize.s8.h),
+              Row(
+                children: [
+                  Text(
+                    'weightGrams'.tr(),
+                    style: getRegularTextStyle(color: ColorManager.textSecondary),
+                  ),
+                  SizedBox(width: AppSize.s8.w),
+                  Expanded(
+                    child: Slider(
+                      value: (_weightGrams ?? product.defaultWeightGrams).toDouble(),
+                      min: product.minWeightGrams.toDouble(),
+                      max: product.maxWeightGrams > 0
+                          ? product.maxWeightGrams.toDouble()
+                          : 500,
+                      divisions: product.weightStepGrams > 0
+                          ? ((product.maxWeightGrams > 0 ? product.maxWeightGrams : 500) -
+                                  product.minWeightGrams) ~/
+                              product.weightStepGrams
+                          : null,
+                      label: '${_weightGrams ?? product.defaultWeightGrams}g',
+                      onChanged: (value) {
+                        setState(() {
+                          _weightGrams = value.round();
+                        });
+                      },
+                    ),
+                  ),
+                  Text(
+                    '${_weightGrams ?? product.defaultWeightGrams}g',
+                    style: getBoldTextStyle(color: ColorManager.textPrimary),
+                  ),
+                ],
+              ),
+            ],
+            ...product.optionGroups.map((group) {
+              return _OptionGroupSelector(
+                group: group,
+                selectedIds: _selectedOptionIds[group.id] ?? <String>{},
+                onToggle: (optionId) => _toggleOption(group.id, optionId),
+                extraWeightMap: _optionExtraWeight,
+                onExtraWeightChanged: (optionId, grams) {
+                  setState(() {
+                    _optionExtraWeight[optionId] = grams;
+                  });
+                },
+              );
+            }),
+            SizedBox(height: AppSize.s8.h),
+            Row(
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.remove_circle_outline),
+                  onPressed: _qty > 1
+                      ? () => setState(() => _qty--)
+                      : null,
+                ),
+                Text('$_qty', style: getBoldTextStyle(color: ColorManager.textPrimary)),
+                IconButton(
+                  icon: const Icon(Icons.add_circle_outline),
+                  onPressed: () => setState(() => _qty++),
+                ),
+                const Spacer(),
+                ElevatedButton(
+                  onPressed: _canAddToCart ? () => _addToCart(context) : null,
+                  child: Text(Strings.addToCart.tr()),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _OptionGroupSelector extends StatelessWidget {
+  final OrderMenuOptionGroupModel group;
+  final Set<String> selectedIds;
+  final ValueChanged<String> onToggle;
+  final Map<String, int> extraWeightMap;
+  final void Function(String optionId, int grams) onExtraWeightChanged;
+
+  const _OptionGroupSelector({
+    required this.group,
+    required this.selectedIds,
+    required this.onToggle,
+    required this.extraWeightMap,
+    required this.onExtraWeightChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final sortedOptions = [...group.options]
+      ..sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
+
+    return Padding(
+      padding: EdgeInsets.only(top: AppPadding.p8.h),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Text(
+                group.name,
+                style: getBoldTextStyle(
+                  color: ColorManager.textPrimary,
+                  fontSize: FontSizeManager.s12.sp,
+                ),
+              ),
+              if (group.isRequired) ...[
+                SizedBox(width: AppSize.s4.w),
+                Text(
+                  '(${Strings.required_.tr()})',
+                  style: getRegularTextStyle(
+                    color: Colors.red,
+                    fontSize: FontSizeManager.s10.sp,
+                  ),
+                ),
+              ],
+            ],
+          ),
+          SizedBox(height: AppSize.s4.h),
+          Wrap(
+            spacing: AppSize.s8.w,
+            runSpacing: AppSize.s4.h,
+            children: sortedOptions.map((option) {
+              final isSelected = selectedIds.contains(option.optionId);
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ChoiceChip(
+                    label: Text(
+                      option.name +
+                          (option.extraPriceHalala > 0
+                              ? ' +${(option.extraPriceHalala / 100).toStringAsFixed(2)}'
+                              : ''),
+                    ),
+                    selected: isSelected,
+                    onSelected: (_) => onToggle(option.optionId),
+                  ),
+                  if (isSelected && option.extraWeightUnitGrams > 0)
+                    Padding(
+                      padding: EdgeInsets.only(bottom: AppPadding.p4.h),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            'extraWeight'.tr(),
+                            style: getRegularTextStyle(
+                              color: ColorManager.textSecondary,
+                              fontSize: FontSizeManager.s10.sp,
+                            ),
+                          ),
+                          SizedBox(width: AppSize.s4.w),
+                          SizedBox(
+                            width: 60.w,
+                            child: TextField(
+                              keyboardType: TextInputType.number,
+                              textAlign: TextAlign.center,
+                              style: getRegularTextStyle(
+                                color: ColorManager.textPrimary,
+                                fontSize: FontSizeManager.s12.sp,
+                              ),
+                              decoration: InputDecoration(
+                                isDense: true,
+                                contentPadding: EdgeInsets.symmetric(
+                                  vertical: AppPadding.p4.h,
+                                ),
+                                hintText: '${option.extraWeightUnitGrams}g',
+                              ),
+                              onChanged: (value) {
+                                final grams = int.tryParse(value);
+                                if (grams != null && grams > 0) {
+                                  onExtraWeightChanged(option.optionId, grams);
+                                }
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                ],
+              );
+            }).toList(),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+//  Legacy Fallback (standardMeals / sandwiches / salad / addons)
+// ═══════════════════════════════════════════════════════════════════════════════
+
+class _LegacyMenuView extends StatelessWidget {
+  final OrderMenuModel menu;
+
+  const _LegacyMenuView({required this.menu});
 
   @override
   Widget build(BuildContext context) {
@@ -155,7 +541,7 @@ class _MenuSections extends StatelessWidget {
       children: [
         if (menu.standardMeals != null) ...[
           _SectionTitle(title: 'standardMeals'.tr()),
-          _StandardMealBuilderCard(
+          _LegacyStandardMealBuilderCard(
             standardMeals: menu.standardMeals!,
             currency: menu.currency,
           ),
@@ -163,17 +549,17 @@ class _MenuSections extends StatelessWidget {
         if (menu.sandwiches.isNotEmpty) ...[
           _SectionTitle(title: 'sandwiches'.tr()),
           ...menu.sandwiches.map(
-            (s) => _SandwichCard(sandwich: s, currency: menu.currency),
+            (s) => _LegacySandwichCard(sandwich: s, currency: menu.currency),
           ),
         ],
         if (menu.salad != null && menu.salad!.ingredients.isNotEmpty) ...[
           _SectionTitle(title: 'salad'.tr()),
-          _SaladBuilderCard(salad: menu.salad!, currency: menu.currency),
+          _LegacySaladBuilderCard(salad: menu.salad!, currency: menu.currency),
         ],
         if (menu.addons != null && menu.addons!.items.isNotEmpty) ...[
           _SectionTitle(title: 'addOns'.tr()),
           ...menu.addons!.items.map(
-            (a) => _AddonCard(addon: a, currency: menu.currency),
+            (a) => _LegacyAddonCard(addon: a, currency: menu.currency),
           ),
         ],
         SizedBox(height: AppSize.s32.h),
@@ -202,21 +588,22 @@ class _SectionTitle extends StatelessWidget {
   }
 }
 
-class _StandardMealBuilderCard extends StatefulWidget {
+class _LegacyStandardMealBuilderCard extends StatefulWidget {
   final OrderMenuStandardMealsModel standardMeals;
   final String currency;
 
-  const _StandardMealBuilderCard({
+  const _LegacyStandardMealBuilderCard({
     required this.standardMeals,
     required this.currency,
   });
 
   @override
-  State<_StandardMealBuilderCard> createState() =>
-      _StandardMealBuilderCardState();
+  State<_LegacyStandardMealBuilderCard> createState() =>
+      _LegacyStandardMealBuilderCardState();
 }
 
-class _StandardMealBuilderCardState extends State<_StandardMealBuilderCard> {
+class _LegacyStandardMealBuilderCardState
+    extends State<_LegacyStandardMealBuilderCard> {
   String? _selectedProteinId;
   final Set<String> _selectedCarbIds = {};
 
@@ -289,7 +676,7 @@ class _StandardMealBuilderCardState extends State<_StandardMealBuilderCard> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: _canAddToCart ? () => _addToCart(context) : null,
-                child: Text(Strings.addAndPay.tr()),
+                child: Text(Strings.addToCart.tr()),
               ),
             ),
           ],
@@ -315,25 +702,21 @@ class _StandardMealBuilderCardState extends State<_StandardMealBuilderCard> {
     context.read<CartBloc>().add(
       AddItemEvent(
         CartItem(
-          id: const Uuid().v4(),
-          itemType: 'standard_meal',
+          productId: protein.id,
           name: '${protein.name} + ${carbSelections.length} ${Strings.carbs.tr()}',
           qty: 1,
-          selections: {
-            'proteinId': _selectedProteinId,
-            'carbs': carbSelections,
-          },
+          selectedOptions: [],
         ),
       ),
     );
   }
 }
 
-class _SandwichCard extends StatelessWidget {
+class _LegacySandwichCard extends StatelessWidget {
   final OrderMenuSandwichModel sandwich;
   final String currency;
 
-  const _SandwichCard({required this.sandwich, required this.currency});
+  const _LegacySandwichCard({required this.sandwich, required this.currency});
 
   @override
   Widget build(BuildContext context) {
@@ -375,20 +758,16 @@ class _SandwichCard extends StatelessWidget {
                     context.read<CartBloc>().add(
                       AddItemEvent(
                         CartItem(
-                          id: const Uuid().v4(),
-                          itemType: 'sandwich',
+                          productId: sandwich.id,
                           name: sandwich.name,
                           qty: 1,
                           unitPriceHalala: sandwich.priceHalala,
-                          selections: {
-                            'sandwichId': sandwich.id,
-                            'addons': <String>[],
-                          },
+                          selectedOptions: const [],
                         ),
                       ),
                     );
                   },
-                  child: Text(Strings.addAndPay.tr()),
+                  child: Text(Strings.addToCart.tr()),
                 ),
               ],
             ),
@@ -399,11 +778,11 @@ class _SandwichCard extends StatelessWidget {
   }
 }
 
-class _SaladBuilderCard extends StatelessWidget {
+class _LegacySaladBuilderCard extends StatelessWidget {
   final OrderMenuSaladModel salad;
   final String currency;
 
-  const _SaladBuilderCard({required this.salad, required this.currency});
+  const _LegacySaladBuilderCard({required this.salad, required this.currency});
 
   @override
   Widget build(BuildContext context) {
@@ -432,27 +811,18 @@ class _SaladBuilderCard extends StatelessWidget {
             SizedBox(height: AppSize.s8.h),
             ElevatedButton(
               onPressed: () {
-                final ingredients = salad.ingredients.take(3).map((i) {
-                  return {'ingredientId': i.id, 'qty': 1};
-                }).toList();
                 context.read<CartBloc>().add(
                   AddItemEvent(
                     CartItem(
-                      id: const Uuid().v4(),
-                      itemType: 'salad',
+                      productId: 'salad_custom_${const Uuid().v4()}',
                       name: 'Custom Salad',
                       qty: 1,
-                      selections: {
-                        'ingredients': ingredients,
-                        'dressingId': salad.ingredients.isNotEmpty
-                            ? salad.ingredients.first.id
-                            : '',
-                      },
+                      selectedOptions: const [],
                     ),
                   ),
                 );
               },
-              child: Text(Strings.addAndPay.tr()),
+              child: Text(Strings.addToCart.tr()),
             ),
           ],
         ),
@@ -461,11 +831,11 @@ class _SaladBuilderCard extends StatelessWidget {
   }
 }
 
-class _AddonCard extends StatelessWidget {
+class _LegacyAddonCard extends StatelessWidget {
   final OrderMenuAddonItemModel addon;
   final String currency;
 
-  const _AddonCard({required this.addon, required this.currency});
+  const _LegacyAddonCard({required this.addon, required this.currency});
 
   @override
   Widget build(BuildContext context) {
@@ -511,12 +881,11 @@ class _AddonCard extends StatelessWidget {
                 context.read<CartBloc>().add(
                   AddItemEvent(
                     CartItem(
-                      id: const Uuid().v4(),
-                      itemType: 'addon_item',
+                      productId: addon.id,
                       name: addon.name,
                       qty: 1,
                       unitPriceHalala: addon.priceHalala,
-                      selections: {'addonItemId': addon.id},
+                      selectedOptions: const [],
                     ),
                   ),
                 );

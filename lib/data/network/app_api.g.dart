@@ -1066,10 +1066,14 @@ class _AppServiceClient implements AppServiceClient {
   }
 
   @override
-  Future<CreateOrderResponse> createOrder(CreateOrderRequest request) async {
+  Future<CreateOrderResponse> createOrder(
+    CreateOrderRequest request,
+    String idempotencyKey,
+  ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Idempotency-Key': idempotencyKey};
+    _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
     _data.addAll(request.toJson());
     final _options = _setStreamType<CreateOrderResponse>(

@@ -20,11 +20,29 @@ class GetOrderQuoteEvent extends CheckoutEvent {
 
 class CreateOrderEvent extends CheckoutEvent {
   final CreateOrderRequestModel request;
+  final String idempotencyKey;
 
-  const CreateOrderEvent(this.request);
+  const CreateOrderEvent(this.request, {required this.idempotencyKey});
 
   @override
-  List<Object?> get props => [request];
+  List<Object?> get props => [request, idempotencyKey];
+}
+
+class VerifyPaymentEvent extends CheckoutEvent {
+  final String orderId;
+  final String paymentId;
+  final String? providerPaymentId;
+  final String? providerInvoiceId;
+
+  const VerifyPaymentEvent({
+    required this.orderId,
+    required this.paymentId,
+    this.providerPaymentId,
+    this.providerInvoiceId,
+  });
+
+  @override
+  List<Object?> get props => [orderId, paymentId, providerPaymentId, providerInvoiceId];
 }
 
 class ResetCheckoutEvent extends CheckoutEvent {

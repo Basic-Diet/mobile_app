@@ -76,6 +76,7 @@ OrderDetailPickupResponse _$OrderDetailPickupResponseFromJson(
 ) => OrderDetailPickupResponse(
   branchId: json['branchId'] as String?,
   pickupWindow: json['pickupWindow'] as String?,
+  pickupCode: json['pickupCode'] as String?,
 );
 
 Map<String, dynamic> _$OrderDetailPickupResponseToJson(
@@ -83,6 +84,7 @@ Map<String, dynamic> _$OrderDetailPickupResponseToJson(
 ) => <String, dynamic>{
   'branchId': instance.branchId,
   'pickupWindow': instance.pickupWindow,
+  'pickupCode': instance.pickupCode,
 };
 
 OrderDetailPricingResponse _$OrderDetailPricingResponseFromJson(
@@ -113,18 +115,47 @@ OrderDetailItemResponse _$OrderDetailItemResponseFromJson(
   Map<String, dynamic> json,
 ) => OrderDetailItemResponse(
   itemType: json['itemType'] as String?,
+  productId: json['productId'] as String?,
   qty: (json['qty'] as num?)?.toInt(),
+  weightGrams: (json['weightGrams'] as num?)?.toInt(),
   name: json['name'] as String?,
   unitPriceHalala: (json['unitPriceHalala'] as num?)?.toInt(),
   totalPriceHalala: (json['totalPriceHalala'] as num?)?.toInt(),
+  selectedOptions:
+      (json['selectedOptions'] as List<dynamic>?)
+          ?.map(
+            (e) => OrderDetailSelectedOptionResponse.fromJson(
+              e as Map<String, dynamic>,
+            ),
+          )
+          .toList(),
 );
 
 Map<String, dynamic> _$OrderDetailItemResponseToJson(
   OrderDetailItemResponse instance,
 ) => <String, dynamic>{
   'itemType': instance.itemType,
+  'productId': instance.productId,
   'qty': instance.qty,
+  'weightGrams': instance.weightGrams,
   'name': instance.name,
   'unitPriceHalala': instance.unitPriceHalala,
   'totalPriceHalala': instance.totalPriceHalala,
+  'selectedOptions': instance.selectedOptions?.map((e) => e.toJson()).toList(),
+};
+
+OrderDetailSelectedOptionResponse _$OrderDetailSelectedOptionResponseFromJson(
+  Map<String, dynamic> json,
+) => OrderDetailSelectedOptionResponse(
+  groupId: json['groupId'] as String?,
+  optionId: json['optionId'] as String?,
+  extraWeightGrams: (json['extraWeightGrams'] as num?)?.toInt(),
+);
+
+Map<String, dynamic> _$OrderDetailSelectedOptionResponseToJson(
+  OrderDetailSelectedOptionResponse instance,
+) => <String, dynamic>{
+  'groupId': instance.groupId,
+  'optionId': instance.optionId,
+  'extraWeightGrams': instance.extraWeightGrams,
 };

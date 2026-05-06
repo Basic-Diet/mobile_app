@@ -233,6 +233,7 @@ abstract class AppServiceClient {
   @POST("/api/orders")
   Future<CreateOrderResponse> createOrder(
     @Body() CreateOrderRequest request,
+    @Header("Idempotency-Key") String idempotencyKey,
   );
 
   @POST("/api/orders/{orderId}/payments/{paymentId}/verify")

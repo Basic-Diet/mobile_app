@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:basic_diet/domain/model/order_quote_model.dart';
 import 'package:basic_diet/domain/model/one_time_order_model.dart';
+import 'package:basic_diet/domain/model/verify_payment_model.dart';
 
 abstract class CheckoutState extends Equatable {
   const CheckoutState();
@@ -17,6 +18,8 @@ enum OrderQuoteStatus { initial, loading, success, failure }
 
 enum OrderCreateStatus { initial, loading, success, failure }
 
+enum OrderVerifyStatus { initial, loading, success, failure, processing }
+
 class CheckoutLoaded extends CheckoutState {
   final OrderQuoteStatus quoteStatus;
   final OrderQuoteModel? quote;
@@ -26,6 +29,11 @@ class CheckoutLoaded extends CheckoutState {
   final OrderCreateStatus createStatus;
   final OneTimeOrderModel? order;
   final String? createErrorMessage;
+  final dynamic createErrorCode;
+
+  final OrderVerifyStatus verifyStatus;
+  final VerifyPaymentModel? verifyResult;
+  final String? verifyErrorMessage;
 
   const CheckoutLoaded({
     this.quoteStatus = OrderQuoteStatus.initial,
@@ -35,6 +43,10 @@ class CheckoutLoaded extends CheckoutState {
     this.createStatus = OrderCreateStatus.initial,
     this.order,
     this.createErrorMessage,
+    this.createErrorCode,
+    this.verifyStatus = OrderVerifyStatus.initial,
+    this.verifyResult,
+    this.verifyErrorMessage,
   });
 
   CheckoutLoaded copyWith({
@@ -45,6 +57,10 @@ class CheckoutLoaded extends CheckoutState {
     OrderCreateStatus? createStatus,
     Object? order = _noChange,
     Object? createErrorMessage = _noChange,
+    Object? createErrorCode = _noChange,
+    OrderVerifyStatus? verifyStatus,
+    Object? verifyResult = _noChange,
+    Object? verifyErrorMessage = _noChange,
   }) {
     return CheckoutLoaded(
       quoteStatus: quoteStatus ?? this.quoteStatus,
@@ -64,6 +80,16 @@ class CheckoutLoaded extends CheckoutState {
       createErrorMessage: identical(createErrorMessage, _noChange)
           ? this.createErrorMessage
           : createErrorMessage as String?,
+      createErrorCode: identical(createErrorCode, _noChange)
+          ? this.createErrorCode
+          : createErrorCode,
+      verifyStatus: verifyStatus ?? this.verifyStatus,
+      verifyResult: identical(verifyResult, _noChange)
+          ? this.verifyResult
+          : verifyResult as VerifyPaymentModel?,
+      verifyErrorMessage: identical(verifyErrorMessage, _noChange)
+          ? this.verifyErrorMessage
+          : verifyErrorMessage as String?,
     );
   }
 
@@ -76,6 +102,10 @@ class CheckoutLoaded extends CheckoutState {
     createStatus,
     order,
     createErrorMessage,
+    createErrorCode,
+    verifyStatus,
+    verifyResult,
+    verifyErrorMessage,
   ];
 }
 

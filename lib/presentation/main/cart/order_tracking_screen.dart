@@ -68,7 +68,14 @@ class _OrderTrackingContent extends StatelessWidget {
           ),
         ],
       ),
-      body: BlocBuilder<OrderTrackingBloc, OrderTrackingState>(
+      body: BlocConsumer<OrderTrackingBloc, OrderTrackingState>(
+        listener: (context, state) {
+          if (state is OrderTrackingVerifyFailure) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(state.message)),
+            );
+          }
+        },
         builder: (context, state) {
           if (state is OrderTrackingLoading) {
             return const Center(child: CircularProgressIndicator());
@@ -97,6 +104,7 @@ class _OrderStatusView extends StatelessWidget {
   const _OrderStatusView({required this.order});
 
   static const List<String> _statusFlow = [
+    'pending_payment',
     'confirmed',
     'in_preparation',
     'ready_for_pickup',
@@ -149,6 +157,14 @@ class _OrderStatusView extends StatelessWidget {
               fontSize: FontSizeManager.s14.sp,
             ),
           ),
+          if (order.expiresAt != null && order.status == 'pending_payment')
+            Text(
+              '${'expiresAt'.tr()}: ${order.expiresAt}',
+              style: getRegularTextStyle(
+                color: Colors.orange,
+                fontSize: FontSizeManager.s12.sp,
+              ),
+            ),
           if (order.pickup != null) ...[
             SizedBox(height: AppSize.s16.h),
             _InfoCard(
@@ -156,6 +172,14 @@ class _OrderStatusView extends StatelessWidget {
               children: [
                 Text('${'branch'.tr()}: ${order.pickup!.branchId}'),
                 Text('${'pickupWindow'.tr()}: ${order.pickup!.pickupWindow}'),
+                if (order.pickup!.pickupCode != null)
+                  Text(
+                    '${'pickupCode'.tr()}: ${order.pickup!.pickupCode}',
+                    style: getBoldTextStyle(
+                      color: ColorManager.brandPrimary,
+                      fontSize: FontSizeManager.s14.sp,
+                    ),
+                  ),
               ],
             ),
           ],

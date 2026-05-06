@@ -71,7 +71,13 @@ class _OrdersScreenContent extends StatelessWidget {
               state is OrderCancelLoading ||
               state is OrderCancelSuccess) {
             List<OrderModel> orders = [];
-            if (state is OrdersSuccess) orders = state.orders;
+            bool hasMore = false;
+            bool isLoadingMore = false;
+            if (state is OrdersSuccess) {
+              orders = state.orders;
+              hasMore = state.hasMore;
+              isLoadingMore = state.isLoadingMore;
+            }
             if (state is OrderCancelLoading) orders = state.orders;
             if (state is OrderCancelSuccess) orders = state.orders;
 
@@ -90,8 +96,24 @@ class _OrdersScreenContent extends StatelessWidget {
               },
               child: ListView.builder(
                 padding: EdgeInsets.symmetric(horizontal: AppPadding.p16.w),
-                itemCount: orders.length,
+                itemCount: orders.length + (hasMore || isLoadingMore ? 1 : 0),
                 itemBuilder: (context, index) {
+                  if (index == orders.length) {
+                    if (isLoadingMore) {
+                      return const Padding(
+                        padding: EdgeInsets.all(16),
+                        child: Center(child: CircularProgressIndicator()),
+                      );
+                    }
+                    if (hasMore) {
+                      context.read<OrdersBloc>().add(const LoadMoreOrdersEvent());
+                      return const Padding(
+                        padding: EdgeInsets.all(16),
+                        child: Center(child: CircularProgressIndicator()),
+                      );
+                    }
+                    return const SizedBox.shrink();
+                  }
                   final order = orders[index];
                   return _OrderListTile(order: order);
                 },
@@ -228,6 +250,14 @@ class _OrderListTile extends StatelessWidget {
                   fontSize: FontSizeManager.s12.sp,
                 ),
               ),
+              if (order.pricing != null)
+                Text(
+                  '${Strings.total.tr()}: ${(order.pricing!.totalHalala / 100).toStringAsFixed(2)} ${order.pricing!.currency}',
+                  style: getRegularTextStyle(
+                    color: ColorManager.textSecondary,
+                    fontSize: FontSizeManager.s12.sp,
+                  ),
+                ),
               if (order.createdAt != null)
                 Text(
                   order.createdAt!,

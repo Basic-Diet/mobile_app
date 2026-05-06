@@ -23,12 +23,29 @@ class OrderMenuResponse {
 
 @JsonSerializable(explicitToJson: true)
 class OrderMenuDataResponse {
+  @JsonKey(name: 'source')
+  final String? source;
+
+  @JsonKey(name: 'fulfillmentMethod')
+  final String? fulfillmentMethod;
+
   @JsonKey(name: 'currency')
   final String? currency;
+
+  @JsonKey(name: 'vatIncluded')
+  final bool? vatIncluded;
+
+  @JsonKey(name: 'vatPercentage')
+  final int? vatPercentage;
 
   @JsonKey(name: 'itemTypes')
   final List<String>? itemTypes;
 
+  // Dynamic catalog
+  @JsonKey(name: 'categories')
+  final List<OrderMenuCategoryResponse>? categories;
+
+  // Legacy fallback
   @JsonKey(name: 'standardMeals')
   final OrderMenuStandardMealsDataResponse? standardMeals;
 
@@ -45,8 +62,13 @@ class OrderMenuDataResponse {
   final Map<String, dynamic>? restaurantHours;
 
   OrderMenuDataResponse({
+    this.source,
+    this.fulfillmentMethod,
     this.currency,
+    this.vatIncluded,
+    this.vatPercentage,
     this.itemTypes,
+    this.categories,
     this.standardMeals,
     this.sandwiches,
     this.salad,
@@ -59,6 +81,226 @@ class OrderMenuDataResponse {
 
   Map<String, dynamic> toJson() => _$OrderMenuDataResponseToJson(this);
 }
+
+// ─── Dynamic Catalog ───
+
+@JsonSerializable(explicitToJson: true)
+class OrderMenuCategoryResponse {
+  @JsonKey(name: 'id')
+  final String? id;
+
+  @JsonKey(name: 'key')
+  final String? key;
+
+  @JsonKey(name: 'name')
+  final String? name;
+
+  @JsonKey(name: 'nameI18n')
+  final Map<String, dynamic>? nameI18n;
+
+  @JsonKey(name: 'description')
+  final String? description;
+
+  @JsonKey(name: 'imageUrl')
+  final String? imageUrl;
+
+  @JsonKey(name: 'sortOrder')
+  final int? sortOrder;
+
+  @JsonKey(name: 'products')
+  final List<OrderMenuProductResponse>? products;
+
+  OrderMenuCategoryResponse({
+    this.id,
+    this.key,
+    this.name,
+    this.nameI18n,
+    this.description,
+    this.imageUrl,
+    this.sortOrder,
+    this.products,
+  });
+
+  factory OrderMenuCategoryResponse.fromJson(Map<String, dynamic> json) =>
+      _$OrderMenuCategoryResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$OrderMenuCategoryResponseToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class OrderMenuProductResponse {
+  @JsonKey(name: 'id')
+  final String? id;
+
+  @JsonKey(name: 'key')
+  final String? key;
+
+  @JsonKey(name: 'categoryId')
+  final String? categoryId;
+
+  @JsonKey(name: 'name')
+  final String? name;
+
+  @JsonKey(name: 'nameI18n')
+  final Map<String, dynamic>? nameI18n;
+
+  @JsonKey(name: 'itemType')
+  final String? itemType;
+
+  @JsonKey(name: 'pricingModel')
+  final String? pricingModel;
+
+  @JsonKey(name: 'priceHalala')
+  final int? priceHalala;
+
+  @JsonKey(name: 'baseUnitGrams')
+  final int? baseUnitGrams;
+
+  @JsonKey(name: 'defaultWeightGrams')
+  final int? defaultWeightGrams;
+
+  @JsonKey(name: 'minWeightGrams')
+  final int? minWeightGrams;
+
+  @JsonKey(name: 'maxWeightGrams')
+  final int? maxWeightGrams;
+
+  @JsonKey(name: 'weightStepGrams')
+  final int? weightStepGrams;
+
+  @JsonKey(name: 'sortOrder')
+  final int? sortOrder;
+
+  @JsonKey(name: 'optionGroups')
+  final List<OrderMenuOptionGroupResponse>? optionGroups;
+
+  OrderMenuProductResponse({
+    this.id,
+    this.key,
+    this.categoryId,
+    this.name,
+    this.nameI18n,
+    this.itemType,
+    this.pricingModel,
+    this.priceHalala,
+    this.baseUnitGrams,
+    this.defaultWeightGrams,
+    this.minWeightGrams,
+    this.maxWeightGrams,
+    this.weightStepGrams,
+    this.sortOrder,
+    this.optionGroups,
+  });
+
+  factory OrderMenuProductResponse.fromJson(Map<String, dynamic> json) =>
+      _$OrderMenuProductResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$OrderMenuProductResponseToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class OrderMenuOptionGroupResponse {
+  @JsonKey(name: 'id')
+  final String? id;
+
+  @JsonKey(name: 'groupId')
+  final String? groupId;
+
+  @JsonKey(name: 'key')
+  final String? key;
+
+  @JsonKey(name: 'name')
+  final String? name;
+
+  @JsonKey(name: 'nameI18n')
+  final Map<String, dynamic>? nameI18n;
+
+  @JsonKey(name: 'minSelections')
+  final int? minSelections;
+
+  @JsonKey(name: 'maxSelections')
+  final int? maxSelections;
+
+  @JsonKey(name: 'isRequired')
+  final bool? isRequired;
+
+  @JsonKey(name: 'sortOrder')
+  final int? sortOrder;
+
+  @JsonKey(name: 'options')
+  final List<OrderMenuOptionResponse>? options;
+
+  OrderMenuOptionGroupResponse({
+    this.id,
+    this.groupId,
+    this.key,
+    this.name,
+    this.nameI18n,
+    this.minSelections,
+    this.maxSelections,
+    this.isRequired,
+    this.sortOrder,
+    this.options,
+  });
+
+  factory OrderMenuOptionGroupResponse.fromJson(Map<String, dynamic> json) =>
+      _$OrderMenuOptionGroupResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$OrderMenuOptionGroupResponseToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class OrderMenuOptionResponse {
+  @JsonKey(name: 'id')
+  final String? id;
+
+  @JsonKey(name: 'optionId')
+  final String? optionId;
+
+  @JsonKey(name: 'groupId')
+  final String? groupId;
+
+  @JsonKey(name: 'key')
+  final String? key;
+
+  @JsonKey(name: 'name')
+  final String? name;
+
+  @JsonKey(name: 'nameI18n')
+  final Map<String, dynamic>? nameI18n;
+
+  @JsonKey(name: 'extraPriceHalala')
+  final int? extraPriceHalala;
+
+  @JsonKey(name: 'extraWeightUnitGrams')
+  final int? extraWeightUnitGrams;
+
+  @JsonKey(name: 'extraWeightPriceHalala')
+  final int? extraWeightPriceHalala;
+
+  @JsonKey(name: 'sortOrder')
+  final int? sortOrder;
+
+  OrderMenuOptionResponse({
+    this.id,
+    this.optionId,
+    this.groupId,
+    this.key,
+    this.name,
+    this.nameI18n,
+    this.extraPriceHalala,
+    this.extraWeightUnitGrams,
+    this.extraWeightPriceHalala,
+    this.sortOrder,
+  });
+
+  factory OrderMenuOptionResponse.fromJson(Map<String, dynamic> json) =>
+      _$OrderMenuOptionResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$OrderMenuOptionResponseToJson(this);
+}
+
+// ─── Legacy Fallback ───
 
 @JsonSerializable(explicitToJson: true)
 class OrderMenuStandardMealsDataResponse {

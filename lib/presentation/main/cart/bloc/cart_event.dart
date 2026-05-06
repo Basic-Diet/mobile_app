@@ -1,42 +1,74 @@
 import 'package:equatable/equatable.dart';
 
-class CartItem extends Equatable {
-  final String id;
-  final String itemType;
-  final String name;
-  final int qty;
-  final Map<String, dynamic> selections;
-  final int? unitPriceHalala;
+class SelectedCartOption extends Equatable {
+  final String groupId;
+  final String optionId;
+  final int? extraWeightGrams;
 
-  const CartItem({
-    required this.id,
-    required this.itemType,
-    required this.name,
-    required this.qty,
-    required this.selections,
-    this.unitPriceHalala,
+  const SelectedCartOption({
+    required this.groupId,
+    required this.optionId,
+    this.extraWeightGrams,
   });
 
-  CartItem copyWith({
-    String? id,
-    String? itemType,
-    String? name,
-    int? qty,
-    Map<String, dynamic>? selections,
-    int? unitPriceHalala,
+  SelectedCartOption copyWith({
+    String? groupId,
+    String? optionId,
+    int? extraWeightGrams,
   }) {
-    return CartItem(
-      id: id ?? this.id,
-      itemType: itemType ?? this.itemType,
-      name: name ?? this.name,
-      qty: qty ?? this.qty,
-      selections: selections ?? this.selections,
-      unitPriceHalala: unitPriceHalala ?? this.unitPriceHalala,
+    return SelectedCartOption(
+      groupId: groupId ?? this.groupId,
+      optionId: optionId ?? this.optionId,
+      extraWeightGrams: extraWeightGrams ?? this.extraWeightGrams,
     );
   }
 
   @override
-  List<Object?> get props => [id, itemType, name, qty, selections, unitPriceHalala];
+  List<Object?> get props => [groupId, optionId, extraWeightGrams];
+}
+
+class CartItem extends Equatable {
+  final String productId;
+  final String name;
+  final int qty;
+  final int? weightGrams;
+  final List<SelectedCartOption> selectedOptions;
+  final int? unitPriceHalala;
+
+  const CartItem({
+    required this.productId,
+    required this.name,
+    required this.qty,
+    this.weightGrams,
+    this.selectedOptions = const [],
+    this.unitPriceHalala,
+  });
+
+  CartItem copyWith({
+    String? productId,
+    String? name,
+    int? qty,
+    int? weightGrams,
+    List<SelectedCartOption>? selectedOptions,
+    int? unitPriceHalala,
+  }) {
+    return CartItem(
+      productId: productId ?? this.productId,
+      name: name ?? this.name,
+      qty: qty ?? this.qty,
+      weightGrams: weightGrams ?? this.weightGrams,
+      selectedOptions: selectedOptions ?? this.selectedOptions,
+      unitPriceHalala: unitPriceHalala ?? this.unitPriceHalala,
+    );
+  }
+
+  String get compositeKey {
+    final optionKey = selectedOptions.map((o) => '${o.groupId}:${o.optionId}:${o.extraWeightGrams ?? 0}').join('|');
+    return '${productId}_${weightGrams ?? 0}_$optionKey';
+  }
+
+  @override
+  List<Object?> get props => [productId, name, qty, weightGrams, selectedOptions, unitPriceHalala];
 }
 
 abstract class CartEvent extends Equatable {
@@ -56,22 +88,22 @@ class AddItemEvent extends CartEvent {
 }
 
 class RemoveItemEvent extends CartEvent {
-  final String itemId;
+  final String compositeKey;
 
-  const RemoveItemEvent(this.itemId);
+  const RemoveItemEvent(this.compositeKey);
 
   @override
-  List<Object?> get props => [itemId];
+  List<Object?> get props => [compositeKey];
 }
 
 class UpdateQtyEvent extends CartEvent {
-  final String itemId;
+  final String compositeKey;
   final int qty;
 
-  const UpdateQtyEvent(this.itemId, this.qty);
+  const UpdateQtyEvent(this.compositeKey, this.qty);
 
   @override
-  List<Object?> get props => [itemId, qty];
+  List<Object?> get props => [compositeKey, qty];
 }
 
 class SelectBranchEvent extends CartEvent {

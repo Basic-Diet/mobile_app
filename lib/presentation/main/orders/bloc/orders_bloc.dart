@@ -14,6 +14,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
   ) : super(const OrdersInitial()) {
     on<LoadOrdersEvent>(_onLoadOrders);
     on<RefreshOrdersEvent>(_onRefreshOrders);
+    on<LoadMoreOrdersEvent>(_onLoadMoreOrders);
     on<CancelOrderEvent>(_onCancelOrder);
   }
 
@@ -31,6 +32,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
         OrdersSuccess(
           orders: ordersList.items,
           hasMore: ordersList.pagination.page < ordersList.pagination.pages,
+          currentPage: ordersList.pagination.page,
         ),
       ),
     );
@@ -55,9 +57,41 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
         OrdersSuccess(
           orders: ordersList.items,
           hasMore: ordersList.pagination.page < ordersList.pagination.pages,
+          currentPage: ordersList.pagination.page,
           isRefreshing: false,
         ),
       ),
+    );
+  }
+
+  Future<void> _onLoadMoreOrders(
+    LoadMoreOrdersEvent event,
+    Emitter<OrdersState> emit,
+  ) async {
+    if (state is! OrdersSuccess) return;
+    final current = state as OrdersSuccess;
+    if (!current.hasMore || current.isLoadingMore) return;
+
+    emit(current.copyWith(isLoadingMore: true));
+    final nextPage = current.currentPage + 1;
+    final result = await _getOrdersUseCase.execute(
+      GetOrdersInput(page: nextPage, limit: 20),
+    );
+    result.fold(
+      (failure) => emit(
+        current.copyWith(isLoadingMore: false),
+      ),
+      (ordersList) {
+        final allOrders = [...current.orders, ...ordersList.items];
+        emit(
+          OrdersSuccess(
+            orders: allOrders,
+            hasMore: ordersList.pagination.page < ordersList.pagination.pages,
+            currentPage: ordersList.pagination.page,
+            isLoadingMore: false,
+          ),
+        );
+      },
     );
   }
 

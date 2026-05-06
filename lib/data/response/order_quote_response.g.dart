@@ -28,7 +28,6 @@ Map<String, dynamic> _$OrderQuoteResponseToJson(OrderQuoteResponse instance) =>
 OrderQuoteDataResponse _$OrderQuoteDataResponseFromJson(
   Map<String, dynamic> json,
 ) => OrderQuoteDataResponse(
-  quoteId: json['quoteId'] as String?,
   currency: json['currency'] as String?,
   items:
       (json['items'] as List<dynamic>?)
@@ -49,38 +48,70 @@ OrderQuoteDataResponse _$OrderQuoteDataResponseFromJson(
           : OrderQuoteAppliedPromoResponse.fromJson(
             json['appliedPromo'] as Map<String, dynamic>,
           ),
-  expiresInSeconds: (json['expiresInSeconds'] as num?)?.toInt(),
 );
 
 Map<String, dynamic> _$OrderQuoteDataResponseToJson(
   OrderQuoteDataResponse instance,
 ) => <String, dynamic>{
-  'quoteId': instance.quoteId,
   'currency': instance.currency,
   'items': instance.items?.map((e) => e.toJson()).toList(),
   'pricing': instance.pricing?.toJson(),
   'appliedPromo': instance.appliedPromo?.toJson(),
-  'expiresInSeconds': instance.expiresInSeconds,
 };
 
 OrderQuoteItemDataResponse _$OrderQuoteItemDataResponseFromJson(
   Map<String, dynamic> json,
 ) => OrderQuoteItemDataResponse(
   itemType: json['itemType'] as String?,
+  productId: json['productId'] as String?,
+  menuVersionId: json['menuVersionId'] as String?,
   qty: (json['qty'] as num?)?.toInt(),
-  name: json['name'] as String?,
+  weightGrams: (json['weightGrams'] as num?)?.toInt(),
   unitPriceHalala: (json['unitPriceHalala'] as num?)?.toInt(),
-  totalPriceHalala: (json['totalPriceHalala'] as num?)?.toInt(),
+  lineTotalHalala: (json['lineTotalHalala'] as num?)?.toInt(),
+  name: json['name'] as String?,
+  productSnapshot: json['productSnapshot'] as Map<String, dynamic>?,
+  selectedOptions:
+      (json['selectedOptions'] as List<dynamic>?)
+          ?.map(
+            (e) => OrderQuoteSelectedOptionResponse.fromJson(
+              e as Map<String, dynamic>,
+            ),
+          )
+          .toList(),
+  pricingSnapshot: json['pricingSnapshot'] as Map<String, dynamic>?,
 );
 
 Map<String, dynamic> _$OrderQuoteItemDataResponseToJson(
   OrderQuoteItemDataResponse instance,
 ) => <String, dynamic>{
   'itemType': instance.itemType,
+  'productId': instance.productId,
+  'menuVersionId': instance.menuVersionId,
   'qty': instance.qty,
-  'name': instance.name,
+  'weightGrams': instance.weightGrams,
   'unitPriceHalala': instance.unitPriceHalala,
-  'totalPriceHalala': instance.totalPriceHalala,
+  'lineTotalHalala': instance.lineTotalHalala,
+  'name': instance.name,
+  'productSnapshot': instance.productSnapshot,
+  'selectedOptions': instance.selectedOptions?.map((e) => e.toJson()).toList(),
+  'pricingSnapshot': instance.pricingSnapshot,
+};
+
+OrderQuoteSelectedOptionResponse _$OrderQuoteSelectedOptionResponseFromJson(
+  Map<String, dynamic> json,
+) => OrderQuoteSelectedOptionResponse(
+  groupId: json['groupId'] as String?,
+  optionId: json['optionId'] as String?,
+  extraWeightGrams: (json['extraWeightGrams'] as num?)?.toInt(),
+);
+
+Map<String, dynamic> _$OrderQuoteSelectedOptionResponseToJson(
+  OrderQuoteSelectedOptionResponse instance,
+) => <String, dynamic>{
+  'groupId': instance.groupId,
+  'optionId': instance.optionId,
+  'extraWeightGrams': instance.extraWeightGrams,
 };
 
 OrderQuotePricingResponse _$OrderQuotePricingResponseFromJson(

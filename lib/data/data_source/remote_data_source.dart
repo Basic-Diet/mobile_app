@@ -132,7 +132,7 @@ abstract class RemoteDataSource {
 
   Future<OrderMenuResponse> getOrderMenu();
   Future<OrderQuoteResponse> getOrderQuote(OrderQuoteRequest request);
-  Future<CreateOrderResponse> createOrder(CreateOrderRequest request);
+  Future<CreateOrderResponse> createOrder(CreateOrderRequest request, String idempotencyKey);
   Future<VerifyPaymentResponse> verifyOrderPayment(
     String orderId,
     String paymentId,

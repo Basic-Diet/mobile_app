@@ -52,15 +52,40 @@ Map<String, dynamic> _$CreateOrderPickupRequestToJson(
 CreateOrderItemRequest _$CreateOrderItemRequestFromJson(
   Map<String, dynamic> json,
 ) => CreateOrderItemRequest(
-  itemType: json['itemType'] as String,
+  productId: json['productId'] as String,
   qty: (json['qty'] as num).toInt(),
-  selections: json['selections'] as Map<String, dynamic>,
+  weightGrams: (json['weightGrams'] as num?)?.toInt(),
+  selectedOptions:
+      (json['selectedOptions'] as List<dynamic>?)
+          ?.map(
+            (e) => CreateOrderSelectedOptionRequest.fromJson(
+              e as Map<String, dynamic>,
+            ),
+          )
+          .toList(),
 );
 
 Map<String, dynamic> _$CreateOrderItemRequestToJson(
   CreateOrderItemRequest instance,
 ) => <String, dynamic>{
-  'itemType': instance.itemType,
+  'productId': instance.productId,
   'qty': instance.qty,
-  'selections': instance.selections,
+  'weightGrams': instance.weightGrams,
+  'selectedOptions': instance.selectedOptions?.map((e) => e.toJson()).toList(),
+};
+
+CreateOrderSelectedOptionRequest _$CreateOrderSelectedOptionRequestFromJson(
+  Map<String, dynamic> json,
+) => CreateOrderSelectedOptionRequest(
+  groupId: json['groupId'] as String,
+  optionId: json['optionId'] as String,
+  extraWeightGrams: (json['extraWeightGrams'] as num?)?.toInt(),
+);
+
+Map<String, dynamic> _$CreateOrderSelectedOptionRequestToJson(
+  CreateOrderSelectedOptionRequest instance,
+) => <String, dynamic>{
+  'groupId': instance.groupId,
+  'optionId': instance.optionId,
+  'extraWeightGrams': instance.extraWeightGrams,
 };

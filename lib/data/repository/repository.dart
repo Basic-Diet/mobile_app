@@ -88,6 +88,9 @@ class RepositoryImpl implements Repository {
   static const int _checkoutRetryCount = 5;
   static const Duration _checkoutRetryDelay = Duration(seconds: 1);
   static const String _checkoutInProgressCode = 'CHECKOUT_IN_PROGRESS';
+  static const String _paymentProviderErrorCode = 'PAYMENT_PROVIDER_ERROR';
+  static const String _paymentInitErrorCode = 'PAYMENT_INIT_ERROR';
+  static const String _rateLimitCode = 'RATE_LIMIT';
 
   RepositoryImpl(this._remoteDataSource);
 
@@ -821,18 +824,57 @@ class RepositoryImpl implements Repository {
 
   @override
   Future<Either<Failure, OneTimeOrderModel>> createOrder(
-    CreateOrderRequestModel request,
-  ) async {
-    try {
-      final response = await _remoteDataSource.createOrder(request.toRequest());
-      if (_isSuccessfulResponse(response)) {
-        return Right(response.toDomain());
-      } else {
-        return Left(_mapFailureFromResponse(response));
+    CreateOrderRequestModel request, {
+    required String idempotencyKey,
+  }) async {
+    int retryAttempt = 0;
+    while (true) {
+      try {
+        developer.log(
+          'Sending one-time order create with idempotencyKey: $idempotencyKey',
+          name: 'one_time_order',
+        );
+        final response = await _remoteDataSource.createOrder(
+          request.toRequest(),
+          idempotencyKey,
+        );
+        if (_isSuccessfulResponse(response)) {
+          return Right(response.toDomain());
+        } else {
+          return Left(_mapFailureFromResponse(response));
+        }
+      } on DioException catch (error) {
+        final canRetry = _isRetryableCreateError(error) &&
+            retryAttempt < _checkoutRetryCount;
+        if (!canRetry) {
+          return _handleError(error);
+        }
+        retryAttempt++;
+        developer.log(
+          'One-time order create retrying with same idempotencyKey: $idempotencyKey (attempt $retryAttempt/$_checkoutRetryCount)',
+          name: 'one_time_order',
+        );
+        await Future<void>.delayed(_checkoutRetryDelay);
+      } catch (error) {
+        return _handleError(error);
       }
-    } catch (error) {
-      return _handleError(error);
     }
+  }
+
+  bool _isRetryableCreateError(DioException error) {
+    final data = error.response?.data;
+    if (error.response?.statusCode != 409 || data is! Map<String, dynamic>) {
+      return false;
+    }
+    final errorPayload = data['error'];
+    if (errorPayload is Map<String, dynamic>) {
+      final code = errorPayload['code'];
+      return code == _checkoutInProgressCode ||
+          code == _paymentProviderErrorCode ||
+          code == _paymentInitErrorCode ||
+          code == _rateLimitCode;
+    }
+    return false;
   }
 
   @override

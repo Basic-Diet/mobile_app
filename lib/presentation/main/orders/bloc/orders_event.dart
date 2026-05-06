@@ -21,6 +21,10 @@ class RefreshOrdersEvent extends OrdersEvent {
   const RefreshOrdersEvent();
 }
 
+class LoadMoreOrdersEvent extends OrdersEvent {
+  const LoadMoreOrdersEvent();
+}
+
 class CancelOrderEvent extends OrdersEvent {
   final String orderId;
 

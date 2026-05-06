@@ -23,9 +23,20 @@ extension OrderQuotePickupRequestModelMapper on OrderQuotePickupRequestModel {
 extension OrderQuoteItemRequestModelMapper on OrderQuoteItemRequestModel {
   OrderQuoteItemRequest toRequest() {
     return OrderQuoteItemRequest(
-      itemType: itemType,
+      productId: productId,
       qty: qty,
-      selections: selections,
+      weightGrams: weightGrams,
+      selectedOptions: selectedOptions?.map((e) => e.toRequest()).toList(),
+    );
+  }
+}
+
+extension OrderQuoteSelectedOptionRequestModelMapper on OrderQuoteSelectedOptionRequestModel {
+  OrderQuoteSelectedOptionRequest toRequest() {
+    return OrderQuoteSelectedOptionRequest(
+      groupId: groupId,
+      optionId: optionId,
+      extraWeightGrams: extraWeightGrams,
     );
   }
 }

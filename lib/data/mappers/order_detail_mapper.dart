@@ -26,6 +26,7 @@ extension OrderDetailPickupResponseMapper on OrderDetailPickupResponse? {
     return OrderPickupModel(
       branchId: this?.branchId ?? Constants.empty,
       pickupWindow: this?.pickupWindow ?? Constants.empty,
+      pickupCode: this?.pickupCode,
     );
   }
 }
@@ -49,10 +50,24 @@ extension OrderDetailItemResponseMapper on OrderDetailItemResponse? {
   OrderItemModel toDomain() {
     return OrderItemModel(
       itemType: this?.itemType ?? Constants.empty,
+      productId: this?.productId,
       qty: this?.qty ?? Constants.zero,
+      weightGrams: this?.weightGrams,
       name: this?.name,
       unitPriceHalala: this?.unitPriceHalala,
       totalPriceHalala: this?.totalPriceHalala,
+      selectedOptions:
+          this?.selectedOptions?.map((e) => e.toDomain()).toList(),
+    );
+  }
+}
+
+extension OrderDetailSelectedOptionResponseMapper on OrderDetailSelectedOptionResponse? {
+  OrderItemSelectedOptionModel toDomain() {
+    return OrderItemSelectedOptionModel(
+      groupId: this?.groupId ?? Constants.empty,
+      optionId: this?.optionId ?? Constants.empty,
+      extraWeightGrams: this?.extraWeightGrams,
     );
   }
 }

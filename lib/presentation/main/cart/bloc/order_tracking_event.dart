@@ -24,3 +24,13 @@ class RefreshOrderDetailEvent extends OrderTrackingEvent {
   @override
   List<Object?> get props => [orderId];
 }
+
+class VerifyOrderPaymentEvent extends OrderTrackingEvent {
+  final String orderId;
+  final String paymentId;
+
+  const VerifyOrderPaymentEvent(this.orderId, this.paymentId);
+
+  @override
+  List<Object?> get props => [orderId, paymentId];
+}

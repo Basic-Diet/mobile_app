@@ -301,8 +301,8 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   }
 
   @override
-  Future<CreateOrderResponse> createOrder(CreateOrderRequest request) {
-    return _appServiceClient.createOrder(request);
+  Future<CreateOrderResponse> createOrder(CreateOrderRequest request, String idempotencyKey) {
+    return _appServiceClient.createOrder(request, idempotencyKey);
   }
 
   @override

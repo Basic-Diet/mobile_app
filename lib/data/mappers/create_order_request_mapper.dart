@@ -25,9 +25,20 @@ extension CreateOrderPickupRequestModelMapper on CreateOrderPickupRequestModel {
 extension CreateOrderItemRequestModelMapper on CreateOrderItemRequestModel {
   CreateOrderItemRequest toRequest() {
     return CreateOrderItemRequest(
-      itemType: itemType,
+      productId: productId,
       qty: qty,
-      selections: selections,
+      weightGrams: weightGrams,
+      selectedOptions: selectedOptions?.map((e) => e.toRequest()).toList(),
+    );
+  }
+}
+
+extension CreateOrderSelectedOptionRequestModelMapper on CreateOrderSelectedOptionRequestModel {
+  CreateOrderSelectedOptionRequest toRequest() {
+    return CreateOrderSelectedOptionRequest(
+      groupId: groupId,
+      optionId: optionId,
+      extraWeightGrams: extraWeightGrams,
     );
   }
 }

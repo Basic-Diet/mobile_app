@@ -80,7 +80,10 @@ class OrderDetailPickupResponse {
   @JsonKey(name: 'pickupWindow')
   final String? pickupWindow;
 
-  OrderDetailPickupResponse({this.branchId, this.pickupWindow});
+  @JsonKey(name: 'pickupCode')
+  final String? pickupCode;
+
+  OrderDetailPickupResponse({this.branchId, this.pickupWindow, this.pickupCode});
 
   factory OrderDetailPickupResponse.fromJson(Map<String, dynamic> json) =>
       _$OrderDetailPickupResponseFromJson(json);
@@ -132,8 +135,14 @@ class OrderDetailItemResponse {
   @JsonKey(name: 'itemType')
   final String? itemType;
 
+  @JsonKey(name: 'productId')
+  final String? productId;
+
   @JsonKey(name: 'qty')
   final int? qty;
+
+  @JsonKey(name: 'weightGrams')
+  final int? weightGrams;
 
   @JsonKey(name: 'name')
   final String? name;
@@ -144,16 +153,45 @@ class OrderDetailItemResponse {
   @JsonKey(name: 'totalPriceHalala')
   final int? totalPriceHalala;
 
+  @JsonKey(name: 'selectedOptions')
+  final List<OrderDetailSelectedOptionResponse>? selectedOptions;
+
   OrderDetailItemResponse({
     this.itemType,
+    this.productId,
     this.qty,
+    this.weightGrams,
     this.name,
     this.unitPriceHalala,
     this.totalPriceHalala,
+    this.selectedOptions,
   });
 
   factory OrderDetailItemResponse.fromJson(Map<String, dynamic> json) =>
       _$OrderDetailItemResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$OrderDetailItemResponseToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class OrderDetailSelectedOptionResponse {
+  @JsonKey(name: 'groupId')
+  final String? groupId;
+
+  @JsonKey(name: 'optionId')
+  final String? optionId;
+
+  @JsonKey(name: 'extraWeightGrams')
+  final int? extraWeightGrams;
+
+  OrderDetailSelectedOptionResponse({
+    this.groupId,
+    this.optionId,
+    this.extraWeightGrams,
+  });
+
+  factory OrderDetailSelectedOptionResponse.fromJson(Map<String, dynamic> json) =>
+      _$OrderDetailSelectedOptionResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$OrderDetailSelectedOptionResponseToJson(this);
 }

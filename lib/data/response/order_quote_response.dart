@@ -23,9 +23,6 @@ class OrderQuoteResponse {
 
 @JsonSerializable(explicitToJson: true)
 class OrderQuoteDataResponse {
-  @JsonKey(name: 'quoteId')
-  final String? quoteId;
-
   @JsonKey(name: 'currency')
   final String? currency;
 
@@ -38,16 +35,11 @@ class OrderQuoteDataResponse {
   @JsonKey(name: 'appliedPromo')
   final OrderQuoteAppliedPromoResponse? appliedPromo;
 
-  @JsonKey(name: 'expiresInSeconds')
-  final int? expiresInSeconds;
-
   OrderQuoteDataResponse({
-    this.quoteId,
     this.currency,
     this.items,
     this.pricing,
     this.appliedPromo,
-    this.expiresInSeconds,
   });
 
   factory OrderQuoteDataResponse.fromJson(Map<String, dynamic> json) =>
@@ -61,30 +53,77 @@ class OrderQuoteItemDataResponse {
   @JsonKey(name: 'itemType')
   final String? itemType;
 
+  @JsonKey(name: 'productId')
+  final String? productId;
+
+  @JsonKey(name: 'menuVersionId')
+  final String? menuVersionId;
+
   @JsonKey(name: 'qty')
   final int? qty;
 
-  @JsonKey(name: 'name')
-  final String? name;
+  @JsonKey(name: 'weightGrams')
+  final int? weightGrams;
 
   @JsonKey(name: 'unitPriceHalala')
   final int? unitPriceHalala;
 
-  @JsonKey(name: 'totalPriceHalala')
-  final int? totalPriceHalala;
+  @JsonKey(name: 'lineTotalHalala')
+  final int? lineTotalHalala;
+
+  @JsonKey(name: 'name')
+  final String? name;
+
+  @JsonKey(name: 'productSnapshot')
+  final Map<String, dynamic>? productSnapshot;
+
+  @JsonKey(name: 'selectedOptions')
+  final List<OrderQuoteSelectedOptionResponse>? selectedOptions;
+
+  @JsonKey(name: 'pricingSnapshot')
+  final Map<String, dynamic>? pricingSnapshot;
 
   OrderQuoteItemDataResponse({
     this.itemType,
+    this.productId,
+    this.menuVersionId,
     this.qty,
-    this.name,
+    this.weightGrams,
     this.unitPriceHalala,
-    this.totalPriceHalala,
+    this.lineTotalHalala,
+    this.name,
+    this.productSnapshot,
+    this.selectedOptions,
+    this.pricingSnapshot,
   });
 
   factory OrderQuoteItemDataResponse.fromJson(Map<String, dynamic> json) =>
       _$OrderQuoteItemDataResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$OrderQuoteItemDataResponseToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class OrderQuoteSelectedOptionResponse {
+  @JsonKey(name: 'groupId')
+  final String? groupId;
+
+  @JsonKey(name: 'optionId')
+  final String? optionId;
+
+  @JsonKey(name: 'extraWeightGrams')
+  final int? extraWeightGrams;
+
+  OrderQuoteSelectedOptionResponse({
+    this.groupId,
+    this.optionId,
+    this.extraWeightGrams,
+  });
+
+  factory OrderQuoteSelectedOptionResponse.fromJson(Map<String, dynamic> json) =>
+      _$OrderQuoteSelectedOptionResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$OrderQuoteSelectedOptionResponseToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)

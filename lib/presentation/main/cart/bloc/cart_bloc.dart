@@ -17,7 +17,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     if (state is! CartLoaded) return;
     final current = state as CartLoaded;
     final existingIndex = current.items.indexWhere(
-      (item) => item.id == event.item.id,
+      (item) => item.compositeKey == event.item.compositeKey,
     );
 
     List<CartItem> newItems;
@@ -37,7 +37,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   void _onRemoveItem(RemoveItemEvent event, Emitter<CartState> emit) {
     if (state is! CartLoaded) return;
     final current = state as CartLoaded;
-    final newItems = current.items.where((i) => i.id != event.itemId).toList();
+    final newItems = current.items.where((i) => i.compositeKey != event.compositeKey).toList();
     emit(current.copyWith(items: newItems));
   }
 
@@ -45,11 +45,11 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     if (state is! CartLoaded) return;
     final current = state as CartLoaded;
     if (event.qty < 1) {
-      add(RemoveItemEvent(event.itemId));
+      add(RemoveItemEvent(event.compositeKey));
       return;
     }
     final newItems = current.items.map((item) {
-      if (item.id == event.itemId) {
+      if (item.compositeKey == event.compositeKey) {
         return item.copyWith(qty: event.qty);
       }
       return item;

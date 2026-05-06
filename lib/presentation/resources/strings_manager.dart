@@ -677,7 +677,6 @@ class Strings {
   static const String cart = 'cart';
   static const String emptyCart = 'emptyCart';
   static const String previewTotal = 'previewTotal';
-  static const String addToCart = 'addToCart';
   static const String standardMeals = 'standardMeals';
   static const String sandwiches = 'sandwiches';
   static const String salad = 'salad';
@@ -699,4 +698,26 @@ class Strings {
   static const String beingPrepared = 'beingPrepared';
   static const String readyAtBranch = 'readyAtBranch';
   static const String paymentStatus = 'paymentStatus';
+
+  // Dynamic Catalog
+  static const String categories = 'categories';
+  static const String options = 'options';
+  static const String selectOptions = 'selectOptions';
+  static const String weightGrams = 'weightGrams';
+  static const String per100g = 'per100g';
+  static const String fixedPrice = 'fixedPrice';
+  static const String required_ = 'required';
+  static const String minSelections = 'minSelections';
+  static const String maxSelections = 'maxSelections';
+  static const String extraWeight = 'extraWeight';
+  static const String addToCart = 'addToCart';
+  static const String expiresAt = 'expiresAt';
+
+  // One-Time Order Payment
+  static const String pendingPaymentRetry = 'pendingPaymentRetry';
+  static const String paymentProcessing = 'paymentProcessing';
+  static const String paymentExpired = 'paymentExpired';
+  static const String pickupCodeLabel = 'pickupCodeLabel';
+  static const String cancelUnpaidOrder = 'cancelUnpaidOrder';
+  static const String loadMore = 'loadMore';
 }

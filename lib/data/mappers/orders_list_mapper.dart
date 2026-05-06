@@ -27,12 +27,25 @@ extension OrdersListItemResponseMapper on OrdersListItemResponse? {
       paymentStatus: this?.paymentStatus ?? Constants.empty,
       fulfillmentMethod: this?.fulfillmentMethod ?? Constants.empty,
       pickup: null,
-      pricing: null,
+      pricing: _mapPricing(this?.pricing),
       items: const [],
       createdAt: this?.createdAt,
       expiresAt: null,
     );
   }
+}
+
+OrderPricingModel? _mapPricing(Map<String, dynamic>? pricing) {
+  if (pricing == null) return null;
+  return OrderPricingModel(
+    currency: pricing['currency'] as String? ?? Constants.empty,
+    totalHalala: pricing['totalHalala'] as int? ?? Constants.zero,
+    vatIncluded: pricing['vatIncluded'] as bool? ?? true,
+    subtotalHalala: pricing['subtotalHalala'] as int?,
+    deliveryFeeHalala: pricing['deliveryFeeHalala'] as int?,
+    discountHalala: pricing['discountHalala'] as int?,
+    vatHalala: pricing['vatHalala'] as int?,
+  );
 }
 
 extension OrdersListPaginationResponseMapper

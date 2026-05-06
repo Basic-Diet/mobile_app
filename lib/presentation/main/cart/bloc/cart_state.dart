@@ -27,14 +27,6 @@ class CartLoaded extends CartState {
 
   int get totalQty => items.fold(0, (sum, item) => sum + item.qty);
 
-  int? get previewTotalHalala {
-    if (items.isEmpty) return null;
-    return items.fold<int>(0, (sum, item) {
-      final price = item.unitPriceHalala ?? 0;
-      return sum + (price * item.qty);
-    });
-  }
-
   bool get canCheckout {
     return items.isNotEmpty &&
         selectedBranchId != null &&

@@ -20,27 +20,35 @@ class OrdersSuccess extends OrdersState {
   final List<OrderModel> orders;
   final bool hasMore;
   final bool isRefreshing;
+  final bool isLoadingMore;
+  final int currentPage;
 
   const OrdersSuccess({
     required this.orders,
     this.hasMore = false,
     this.isRefreshing = false,
+    this.isLoadingMore = false,
+    this.currentPage = 1,
   });
 
   OrdersSuccess copyWith({
     List<OrderModel>? orders,
     bool? hasMore,
     bool? isRefreshing,
+    bool? isLoadingMore,
+    int? currentPage,
   }) {
     return OrdersSuccess(
       orders: orders ?? this.orders,
       hasMore: hasMore ?? this.hasMore,
       isRefreshing: isRefreshing ?? this.isRefreshing,
+      isLoadingMore: isLoadingMore ?? this.isLoadingMore,
+      currentPage: currentPage ?? this.currentPage,
     );
   }
 
   @override
-  List<Object?> get props => [orders, hasMore, isRefreshing];
+  List<Object?> get props => [orders, hasMore, isRefreshing, isLoadingMore, currentPage];
 }
 
 class OrdersError extends OrdersState {
