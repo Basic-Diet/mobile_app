@@ -779,12 +779,7 @@ class _BuilderProductCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppSize.s26.r),
         child: Container(
           height: AppSize.s184.h,
-          padding: EdgeInsetsDirectional.fromSTEB(
-            AppPadding.p18.w,
-            AppPadding.p20.h,
-            AppPadding.p18.w,
-            AppPadding.p20.h,
-          ),
+
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(AppSize.s26.r),
             border: Border.all(
@@ -803,7 +798,7 @@ class _BuilderProductCard extends StatelessWidget {
             children: [
               if (imagePath != null)
                 PositionedDirectional(
-                  start: 0,
+                  end: 0,
                   top: 0,
                   bottom: 0,
                   child: ClipRRect(
@@ -826,10 +821,10 @@ class _BuilderProductCard extends StatelessWidget {
                     colors: [
                       Colors.white.withValues(alpha: 0.0),
                       Colors.white.withValues(alpha: 0.18),
-                      const Color(0xFFE8F5EE).withValues(alpha: 0.60),
-                      Colors.white.withValues(alpha: 0.90),
+                      const Color(0xFFE8F5EE).withValues(alpha: 0.8),
+                      Colors.white.withValues(alpha: 1),
                       Colors.white.withValues(alpha: 0.96),
-                      Colors.white.withValues(alpha: 0.99),
+                      Colors.white.withValues(alpha: 1),
                     ],
                     stops: const [0.0, 0.22, 0.58, 0.78, 0.96, 1.0],
                   ),
@@ -837,29 +832,16 @@ class _BuilderProductCard extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: EdgeInsetsDirectional.only(start: AppPadding.p18.w),
+                padding: EdgeInsetsDirectional.fromSTEB(
+                  AppPadding.p18.w,
+                  AppPadding.p20.h,
+                  AppPadding.p18.w,
+                  AppPadding.p20.h,
+                ),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
-                      padding: EdgeInsetsDirectional.symmetric(
-                        horizontal: AppPadding.p10.w,
-                        vertical: AppPadding.p3.h,
-                      ),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFEBF5F0),
-                        borderRadius: BorderRadius.circular(AppSize.s99.r),
-                      ),
-                      child: Text(
-                        Strings.byWeight.tr(),
-                        style: getBoldTextStyle(
-                          fontSize: FontSizeManager.s10_5.sp,
-                          color: ColorManager.stateSuccessEmphasis,
-                        ),
-                      ),
-                    ),
-                    Gap(AppSize.s8.h),
                     Text(
                       product.name,
                       textAlign: TextAlign.right,
@@ -870,7 +852,7 @@ class _BuilderProductCard extends StatelessWidget {
                     ),
                     Gap(AppSize.s5.h),
                     Text(
-                      _builderDescription(product.key),
+                      _builderDescriptionForKey(product.key, context),
                       textAlign: TextAlign.right,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
@@ -901,7 +883,7 @@ class _BuilderProductCard extends StatelessWidget {
                           ),
                           alignment: Alignment.center,
                           child: Text(
-                            Strings.openBuilder.tr(),
+                            Strings.startCustomization.tr(),
                             style: getBoldTextStyle(
                               fontSize: FontSizeManager.s12_5.sp,
                               color: ColorManager.backgroundSurface,
@@ -920,20 +902,6 @@ class _BuilderProductCard extends StatelessWidget {
     );
   }
 
-  String _builderDescription(String key) {
-    switch (key) {
-      case 'basic_salad':
-        return 'اختاري الورقيات والخضار والبروتين والصوص';
-      case 'basic_meal':
-        return 'اختاري الكارب والبروتين حسب مزاجك';
-      case 'fruit_salad':
-        return 'اختاري أنواع الفواكه حسب رغبتك';
-      case 'greek_yogurt':
-        return 'اختاري الفواكه والمكسرات المناسبة لك';
-      default:
-        return Strings.customOrderSubtitle.tr();
-    }
-  }
 }
 
 class _LightBuilderCard extends StatelessWidget {
@@ -957,8 +925,8 @@ class _LightBuilderCard extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(AppSize.s22.r),
-        child: Container(
-          constraints: BoxConstraints(minHeight: AppSize.s124.h),
+          child: Container(
+          constraints: BoxConstraints(minHeight: AppSize.s118.h),
           padding: EdgeInsetsDirectional.symmetric(
             horizontal: AppPadding.p16.w,
             vertical: AppPadding.p14.h,
@@ -995,13 +963,13 @@ class _LightBuilderCard extends StatelessWidget {
                       product.name,
                       textAlign: TextAlign.right,
                       style: getBoldTextStyle(
-                        fontSize: FontSizeManager.s18.sp,
+                        fontSize: FontSizeManager.s16.sp,
                         color: const Color(0xFF112B22),
                       ),
                     ),
                     Gap(AppSize.s3.h),
                     Text(
-                      Strings.priceDependsOnChoices.tr(),
+                      _builderDescriptionForKey(product.key, context),
                       textAlign: TextAlign.right,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
@@ -1015,7 +983,7 @@ class _LightBuilderCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
-                          width: AppSize.s84.w,
+                          width: AppSize.s96.w,
                           height: AppSize.s36.h,
                           decoration: BoxDecoration(
                             color: ColorManager.brandPrimary,
@@ -1023,7 +991,7 @@ class _LightBuilderCard extends StatelessWidget {
                           ),
                           alignment: Alignment.center,
                           child: Text(
-                            Strings.customize.tr(),
+                            Strings.startCustomization.tr(),
                             style: getBoldTextStyle(
                               fontSize: FontSizeManager.s12.sp,
                               color: ColorManager.backgroundSurface,
@@ -1031,9 +999,10 @@ class _LightBuilderCard extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          _formatHalala(product.priceHalala, currency),
+                          Strings.priceDependsOnChoices.tr(),
+                          textAlign: TextAlign.right,
                           style: getBoldTextStyle(
-                            fontSize: FontSizeManager.s14.sp,
+                            fontSize: FontSizeManager.s12_5.sp,
                             color: const Color(0xFF12382C),
                           ),
                         ),
@@ -1546,8 +1515,8 @@ class _MenuSectionHeader extends StatelessWidget {
         Text(
           title,
           textAlign: TextAlign.right,
-          style: getRegularTextStyle(
-            fontSize: FontSizeManager.s22.sp,
+          style: getBoldTextStyle(
+            fontSize: FontSizeManager.s20.sp,
             color: ColorManager.textPrimary,
           ),
         ),
@@ -1557,7 +1526,7 @@ class _MenuSectionHeader extends StatelessWidget {
             subtitle!,
             textAlign: TextAlign.right,
             style: getBoldTextStyle(
-              fontSize: FontSizeManager.s12.sp,
+              fontSize: FontSizeManager.s13.sp,
               color: ColorManager.textSecondary,
             ),
           ),
@@ -2187,4 +2156,19 @@ String _productDescription(OrderMenuProductModel product) {
   }
 
   return product.name;
+}
+
+String _builderDescriptionForKey(String key, BuildContext context) {
+  switch (key) {
+    case 'basic_salad':
+      return 'اختاري الورقيات والخضار والبروتين والصوص';
+    case 'basic_meal':
+      return 'اختاري الكارب والبروتين حسب مزاجك';
+    case 'fruit_salad':
+      return 'اختاري 9 أنواع فواكه حسب رغبتك';
+    case 'greek_yogurt':
+      return 'اختاري الفواكه والمكسرات المناسبة لك';
+    default:
+      return Strings.customOrderSubtitle.tr();
+  }
 }

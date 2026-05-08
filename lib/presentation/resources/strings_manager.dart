@@ -716,6 +716,7 @@ class Strings {
   static const String today = 'today';
   static const String yesterday = 'yesterday';
   static const String openBuilder = 'openBuilder';
+  static const String startCustomization = 'startCustomization';
   static const String standardMeals = 'standardMeals';
   static const String sandwiches = 'sandwiches';
   static const String salad = 'salad';
