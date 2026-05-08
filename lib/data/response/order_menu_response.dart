@@ -141,6 +141,9 @@ class OrderMenuProductResponse {
   @JsonKey(name: 'name')
   final String? name;
 
+  @JsonKey(name: 'description')
+  final String? description;
+
   @JsonKey(name: 'nameI18n')
   final Map<String, dynamic>? nameI18n;
 
@@ -185,6 +188,7 @@ class OrderMenuProductResponse {
     this.key,
     this.categoryId,
     this.name,
+    this.description,
     this.nameI18n,
     this.itemType,
     this.pricingModel,

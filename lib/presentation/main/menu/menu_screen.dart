@@ -1259,7 +1259,7 @@ class _GridProductCard extends StatelessWidget {
             color: ColorManager.backgroundSurface,
             borderRadius: BorderRadius.circular(AppSize.s24.r),
             border: Border.all(
-              color: ColorManager.border,
+              color: ColorManager.borderDefault,
               width: 1,
             ),
             boxShadow: [
