@@ -947,17 +947,9 @@ class _LightBuilderCard extends StatelessWidget {
           ),
           child: Row(
             children: [
-              _MenuMediaBox(
-                label: _initials(product.name),
-                imagePath: imagePath,
-                width: AppSize.s84.w,
-                height: AppSize.s84.w,
-                borderRadius: AppSize.s18.r,
-              ),
-              Gap(AppSize.s14.w),
               Expanded(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       product.name,
@@ -982,9 +974,22 @@ class _LightBuilderCard extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+                        Expanded(
+                          child: Text(
+                            Strings.priceDependsOnChoices.tr(),
+                            textAlign: TextAlign.right,
+                            style: getBoldTextStyle(
+                              fontSize: FontSizeManager.s12_5.sp,
+                              color: const Color(0xFF12382C),
+                            ),
+                          ),
+                        ),
                         Container(
                           width: AppSize.s96.w,
                           height: AppSize.s36.h,
+                          padding: EdgeInsetsDirectional.symmetric(
+                            horizontal: AppPadding.p16.w,
+                          ),
                           decoration: BoxDecoration(
                             color: ColorManager.brandPrimary,
                             borderRadius: BorderRadius.circular(AppSize.s15.r),
@@ -993,17 +998,9 @@ class _LightBuilderCard extends StatelessWidget {
                           child: Text(
                             Strings.startCustomization.tr(),
                             style: getBoldTextStyle(
-                              fontSize: FontSizeManager.s12.sp,
+                              fontSize: FontSizeManager.s10.sp,
                               color: ColorManager.backgroundSurface,
                             ),
-                          ),
-                        ),
-                        Text(
-                          Strings.priceDependsOnChoices.tr(),
-                          textAlign: TextAlign.right,
-                          style: getBoldTextStyle(
-                            fontSize: FontSizeManager.s12_5.sp,
-                            color: const Color(0xFF12382C),
                           ),
                         ),
                       ],
@@ -1011,6 +1008,15 @@ class _LightBuilderCard extends StatelessWidget {
                   ],
                 ),
               ),
+              Gap(AppSize.s14.w),
+              _MenuMediaBox(
+                label: _initials(product.name),
+                imagePath: imagePath,
+                width: AppSize.s84.w,
+                height: AppSize.s84.w,
+                borderRadius: AppSize.s18.r,
+              ),
+              Gap(AppSize.s14.w),
             ],
           ),
         ),
