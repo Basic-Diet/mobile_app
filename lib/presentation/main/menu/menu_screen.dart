@@ -475,13 +475,7 @@ class _CircleActionButton extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(AppSize.s14.r),
               border: Border.all(color: Colors.white.withValues(alpha: 0.78)),
-              boxShadow: [
-                BoxShadow(
-                  color: const Color(0xFF11382C).withValues(alpha: 0.06),
-                  blurRadius: 12,
-                  offset: const Offset(0, 4),
-                ),
-              ],
+
             ),
             child: InkWell(
               onTap: onTap,
@@ -545,13 +539,6 @@ class _PickupNoticeCard extends StatelessWidget {
           colors: [Color(0xFFE4F6EE), Color(0xFFFDFEFD)],
         ),
         border: Border.all(color: Colors.white.withValues(alpha: 0.78)),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFF11382C).withValues(alpha: 0.06),
-            blurRadius: 12,
-            offset: const Offset(0, 4),
-          ),
-        ],
       ),
       child: Text(
         Strings.pickupOnlyNotice.tr(),
@@ -579,13 +566,6 @@ class _SearchField extends StatelessWidget {
         color: Colors.white.withValues(alpha: 0.94),
         borderRadius: BorderRadius.circular(AppSize.s16.r),
         border: Border.all(color: Colors.white.withValues(alpha: 0.78)),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFF11382C).withValues(alpha: 0.08),
-            blurRadius: 18,
-            offset: const Offset(0, 6),
-          ),
-        ],
       ),
       child: TextField(
         controller: controller,
@@ -657,14 +637,6 @@ class _MenuChipsRow extends StatelessWidget {
                             ? const Color(0xFF0B241C)
                             : const Color(0xFFE1EAE4),
                   ),
-                  boxShadow: [
-                    if (!isSelected)
-                      BoxShadow(
-                        color: const Color(0xFF11382C).withValues(alpha: 0.04),
-                        blurRadius: 10,
-                        offset: const Offset(0, 3),
-                      ),
-                  ],
                 ),
                 child: Text(
                   chip.label,
@@ -785,13 +757,6 @@ class _BuilderProductCard extends StatelessWidget {
               color: Colors.white.withValues(alpha: 0.86),
               width: 1,
             ),
-            boxShadow: [
-              BoxShadow(
-                color: const Color(0xFF11382C).withValues(alpha: 0.11),
-                blurRadius: 34,
-                offset: const Offset(0, 16),
-              ),
-            ],
           ),
           child: Stack(
             children: [
@@ -947,13 +912,6 @@ class _LightBuilderCard extends StatelessWidget {
               color: Colors.white.withValues(alpha: 0.82),
               width: 1,
             ),
-            boxShadow: [
-              BoxShadow(
-                color: const Color(0xFF11382C).withValues(alpha: 0.07),
-                blurRadius: 24,
-                offset: const Offset(0, 11),
-              ),
-            ],
           ),
           child: Row(
             children: [
@@ -1135,13 +1093,6 @@ class _CompactProductCard extends StatelessWidget {
         color: Colors.white.withValues(alpha: 0.96),
         borderRadius: BorderRadius.circular(AppSize.s20.r),
         border: Border.all(color: Colors.white.withValues(alpha: 0.84)),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFF11382C).withValues(alpha: 0.08),
-            blurRadius: 24,
-            offset: const Offset(0, 10),
-          ),
-        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
@@ -1230,13 +1181,6 @@ class _ListProductCard extends StatelessWidget {
               color: Colors.white.withValues(alpha: 0.84),
               width: 1,
             ),
-            boxShadow: [
-              BoxShadow(
-                color: const Color(0xFF11382C).withValues(alpha: 0.08),
-                blurRadius: 26,
-                offset: const Offset(0, 12),
-              ),
-            ],
           ),
           child: Row(
             children: [
