@@ -752,6 +752,19 @@ class Strings {
   static const String extraWeight = 'extraWeight';
   static const String addToCart = 'addToCart';
   static const String expiresAt = 'expiresAt';
+  static const String builderChooseIngredients = 'builderChooseIngredients';
+  static const String builderSelectionGroupsNeeded =
+      'builderSelectionGroupsNeeded';
+  static const String builderReadyForCart = 'builderReadyForCart';
+  static const String builderChooseUpTo = 'builderChooseUpTo';
+  static const String builderChooseExact = 'builderChooseExact';
+  static const String builderChooseRange = 'builderChooseRange';
+  static const String builderCompletedGroupsCount =
+      'builderCompletedGroupsCount';
+  static const String builderRemainingBeforeAdd = 'builderRemainingBeforeAdd';
+  static const String builderSearchIn = 'builderSearchIn';
+  static const String builderQuantity = 'builderQuantity';
+  static const String builderSelectFromGroup = 'builderSelectFromGroup';
 
   // One-Time Order Payment
   static const String pendingPaymentRetry = 'pendingPaymentRetry';
