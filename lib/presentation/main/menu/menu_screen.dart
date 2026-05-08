@@ -2367,10 +2367,13 @@ class _OptionGroupCard extends StatelessWidget {
           children: [
             if (group.options.length > 8) ...[
               TextField(
+                key: ValueKey('builder-search-${group.groupId}'),
                 controller: searchController,
                 onChanged: onSearchChanged,
                 textAlign: TextAlign.right,
                 restorationId: null,
+                enableInteractiveSelection: true,
+                autocorrect: false,
                 decoration: InputDecoration(
                   hintText: Strings.builderSearchIn.tr(
                     namedArgs: {'group': group.name},
