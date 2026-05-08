@@ -1524,8 +1524,6 @@ class _BuilderScreenState extends State<_BuilderScreen> {
   final Map<String, Set<String>> _selectedOptionIds = {};
   final Map<String, int> _extraWeightByOptionId = {};
   final Set<String> _expandedGroupIds = {};
-  final Map<String, String> _groupSearchQueries = {};
-  final Map<String, TextEditingController> _groupSearchControllers = {};
 
   @override
   void initState() {
@@ -1546,14 +1544,6 @@ class _BuilderScreenState extends State<_BuilderScreen> {
         ].groupId,
       );
     }
-  }
-
-  @override
-  void dispose() {
-    for (final controller in _groupSearchControllers.values) {
-      controller.dispose();
-    }
-    super.dispose();
   }
 
   bool get _isValid {
@@ -1668,25 +1658,10 @@ class _BuilderScreenState extends State<_BuilderScreen> {
     );
   }
 
-  List<OrderMenuOptionModel> _visibleOptions(OrderMenuOptionGroupModel group) {
-    final query = (_groupSearchQueries[group.groupId] ?? '').trim().toLowerCase();
+  List<OrderMenuOptionModel> _sortedOptions(OrderMenuOptionGroupModel group) {
     final options = [...group.options]
       ..sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
-
-    if (query.isEmpty) {
-      return options;
-    }
-
-    return options
-        .where((option) => option.name.toLowerCase().contains(query))
-        .toList();
-  }
-
-  TextEditingController _searchControllerFor(String groupId) {
-    return _groupSearchControllers.putIfAbsent(
-      groupId,
-      () => TextEditingController(text: _groupSearchQueries[groupId] ?? ''),
-    );
+    return options;
   }
 
   void _toggleOption(OrderMenuOptionGroupModel group, String optionId) {
@@ -1753,6 +1728,242 @@ class _BuilderScreenState extends State<_BuilderScreen> {
         unitPriceHalala: _estimatedUnitPriceHalala,
       ),
     );
+  }
+
+  Future<void> _openGroupSearchPicker(OrderMenuOptionGroupModel group) async {
+    final controller = TextEditingController();
+    String query = '';
+
+    try {
+      await showModalBottomSheet<void>(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (sheetContext) {
+          return StatefulBuilder(
+            builder: (context, setSheetState) {
+              final visibleOptions =
+                  _sortedOptions(group)
+                      .where(
+                        (option) =>
+                            query.isEmpty ||
+                            option.name.toLowerCase().contains(
+                              query.trim().toLowerCase(),
+                            ),
+                      )
+                      .toList();
+
+              return SafeArea(
+                top: false,
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    bottom: MediaQuery.viewInsetsOf(context).bottom,
+                  ),
+                  child: Container(
+                    height: MediaQuery.sizeOf(context).height * 0.76,
+                    decoration: BoxDecoration(
+                      color: ColorManager.backgroundSurface,
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(AppSize.s28.r),
+                      ),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Center(
+                          child: Container(
+                            margin: EdgeInsetsDirectional.only(
+                              top: AppPadding.p12.h,
+                            ),
+                            width: AppSize.s48.w,
+                            height: AppSize.s5.h,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFD8E7DF),
+                              borderRadius: BorderRadius.circular(999.r),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                            AppPadding.p18.w,
+                            AppPadding.p16.h,
+                            AppPadding.p18.w,
+                            AppPadding.p12.h,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                group.name,
+                                textAlign: TextAlign.right,
+                                style: getBoldTextStyle(
+                                  fontSize: FontSizeManager.s18.sp,
+                                  color: const Color(0xFF112B22),
+                                ),
+                              ),
+                              Gap(AppSize.s4.h),
+                              Text(
+                                _groupRuleText(group),
+                                textAlign: TextAlign.right,
+                                style: getRegularTextStyle(
+                                  fontSize: FontSizeManager.s12.sp,
+                                  color: ColorManager.textSecondary,
+                                ),
+                              ),
+                              Gap(AppSize.s14.h),
+                              TextField(
+                                controller: controller,
+                                textAlign: TextAlign.right,
+                                autocorrect: false,
+                                decoration: InputDecoration(
+                                  hintText: Strings.builderSearchIn.tr(
+                                    namedArgs: {'group': group.name},
+                                  ),
+                                  hintStyle: getRegularTextStyle(
+                                    fontSize: FontSizeManager.s12.sp,
+                                    color: ColorManager.textMuted,
+                                  ),
+                                  prefixIcon: const Icon(Icons.search_rounded),
+                                  filled: true,
+                                  fillColor: const Color(0xFFF9FCFA),
+                                  contentPadding:
+                                      EdgeInsetsDirectional.symmetric(
+                                        horizontal: AppPadding.p13.w,
+                                        vertical: AppPadding.p12.h,
+                                      ),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(
+                                      AppSize.s15.r,
+                                    ),
+                                    borderSide: const BorderSide(
+                                      color: Color(0xFFE5E7EB),
+                                    ),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(
+                                      AppSize.s15.r,
+                                    ),
+                                    borderSide: const BorderSide(
+                                      color: Color(0xFFE5E7EB),
+                                    ),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(
+                                      AppSize.s15.r,
+                                    ),
+                                    borderSide: const BorderSide(
+                                      color: Color(0xFF10B981),
+                                    ),
+                                  ),
+                                ),
+                                onChanged: (value) {
+                                  setSheetState(() {
+                                    query = value;
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          child:
+                              visibleOptions.isEmpty
+                                  ? Center(
+                                    child: Text(
+                                      Strings.noProductsAvailable.tr(),
+                                      style: getRegularTextStyle(
+                                        fontSize: FontSizeManager.s13.sp,
+                                        color: ColorManager.textSecondary,
+                                      ),
+                                    ),
+                                  )
+                                  : ListView.separated(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                      AppPadding.p18.w,
+                                      0,
+                                      AppPadding.p18.w,
+                                      AppPadding.p18.h,
+                                    ),
+                                    itemCount: visibleOptions.length,
+                                    separatorBuilder:
+                                        (_, __) => Gap(AppSize.s10.h),
+                                    itemBuilder: (context, index) {
+                                      final option = visibleOptions[index];
+                                      final selectedIds =
+                                          _selectedOptionIds[group.groupId] ??
+                                          <String>{};
+                                      final isSelected = selectedIds.contains(
+                                        option.optionId,
+                                      );
+                                      final maxReached =
+                                          selectedIds.length >=
+                                              group.maxSelections &&
+                                          !isSelected;
+
+                                      return Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        children: [
+                                          _BuilderSearchOptionTile(
+                                            option: option,
+                                            currency: widget.currency,
+                                            isSelected: isSelected,
+                                            isDisabled: maxReached,
+                                            onTap: () {
+                                              _toggleOption(
+                                                group,
+                                                option.optionId,
+                                              );
+                                              setSheetState(() {});
+                                            },
+                                          ),
+                                          if (isSelected &&
+                                              option.extraWeightUnitGrams > 0)
+                                            Padding(
+                                              padding:
+                                                  EdgeInsetsDirectional.only(
+                                                    top: AppPadding.p8.h,
+                                                  ),
+                                              child: _InlineExtraWeightSelector(
+                                                value:
+                                                    _extraWeightByOptionId[option
+                                                        .optionId] ??
+                                                    option.extraWeightUnitGrams,
+                                                step:
+                                                    option.extraWeightUnitGrams,
+                                                onDecrease: () {
+                                                  _changeExtraWeight(
+                                                    option,
+                                                    -option.extraWeightUnitGrams,
+                                                  );
+                                                  setSheetState(() {});
+                                                },
+                                                onIncrease: () {
+                                                  _changeExtraWeight(
+                                                    option,
+                                                    option.extraWeightUnitGrams,
+                                                  );
+                                                  setSheetState(() {});
+                                                },
+                                              ),
+                                            ),
+                                        ],
+                                      );
+                                    },
+                                  ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
+          );
+        },
+      );
+    } finally {
+      controller.dispose();
+    }
   }
 
   @override
@@ -2059,11 +2270,10 @@ class _BuilderScreenState extends State<_BuilderScreen> {
                   child: _OptionGroupCard(
                     group: group,
                     currency: widget.currency,
-                    searchController: _searchControllerFor(group.groupId),
                     isExpanded: _expandedGroupIds.contains(group.groupId),
                     selectedIds: _selectedOptionIds[group.groupId] ?? <String>{},
                     extraWeightByOptionId: _extraWeightByOptionId,
-                    visibleOptions: _visibleOptions(group),
+                    visibleOptions: _sortedOptions(group),
                     ruleText: _groupRuleText(group),
                     isComplete: _isGroupComplete(group),
                     onExpandedChanged: (value) {
@@ -2075,11 +2285,7 @@ class _BuilderScreenState extends State<_BuilderScreen> {
                         }
                       });
                     },
-                    onSearchChanged: (value) {
-                      setState(() {
-                        _groupSearchQueries[group.groupId] = value;
-                      });
-                    },
+                    onOpenSearch: () => _openGroupSearchPicker(group),
                     onToggle: (optionId) => _toggleOption(group, optionId),
                     onExtraWeightChanged: _changeExtraWeight,
                   ),
@@ -2223,7 +2429,6 @@ class _WeightSelector extends StatelessWidget {
 class _OptionGroupCard extends StatelessWidget {
   final OrderMenuOptionGroupModel group;
   final String currency;
-  final TextEditingController searchController;
   final bool isExpanded;
   final Set<String> selectedIds;
   final Map<String, int> extraWeightByOptionId;
@@ -2231,7 +2436,7 @@ class _OptionGroupCard extends StatelessWidget {
   final String ruleText;
   final bool isComplete;
   final ValueChanged<bool> onExpandedChanged;
-  final ValueChanged<String> onSearchChanged;
+  final VoidCallback onOpenSearch;
   final ValueChanged<String> onToggle;
   final void Function(OrderMenuOptionModel option, int delta)
   onExtraWeightChanged;
@@ -2239,7 +2444,6 @@ class _OptionGroupCard extends StatelessWidget {
   const _OptionGroupCard({
     required this.group,
     required this.currency,
-    required this.searchController,
     required this.isExpanded,
     required this.selectedIds,
     required this.extraWeightByOptionId,
@@ -2247,7 +2451,7 @@ class _OptionGroupCard extends StatelessWidget {
     required this.ruleText,
     required this.isComplete,
     required this.onExpandedChanged,
-    required this.onSearchChanged,
+    required this.onOpenSearch,
     required this.onToggle,
     required this.onExtraWeightChanged,
   });
@@ -2366,39 +2570,40 @@ class _OptionGroupCard extends StatelessWidget {
           ),
           children: [
             if (group.options.length > 8) ...[
-              TextField(
-                key: ValueKey('builder-search-${group.groupId}'),
-                controller: searchController,
-                onChanged: onSearchChanged,
-                textAlign: TextAlign.right,
-                restorationId: null,
-                enableInteractiveSelection: true,
-                autocorrect: false,
-                decoration: InputDecoration(
-                  hintText: Strings.builderSearchIn.tr(
-                    namedArgs: {'group': group.name},
-                  ),
-                  hintStyle: getRegularTextStyle(
-                    fontSize: FontSizeManager.s12.sp,
-                    color: ColorManager.textMuted,
-                  ),
-                  filled: true,
-                  fillColor: const Color(0xFFF9FCFA),
-                  contentPadding: EdgeInsetsDirectional.symmetric(
+              InkWell(
+                onTap: onOpenSearch,
+                borderRadius: BorderRadius.circular(AppSize.s15.r),
+                child: Container(
+                  width: double.infinity,
+                  padding: EdgeInsetsDirectional.symmetric(
                     horizontal: AppPadding.p13.w,
                     vertical: AppPadding.p12.h,
                   ),
-                  border: OutlineInputBorder(
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF9FCFA),
                     borderRadius: BorderRadius.circular(AppSize.s15.r),
-                    borderSide: const BorderSide(color: Color(0xFFE5E7EB)),
+                    border: Border.all(color: const Color(0xFFE5E7EB)),
                   ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(AppSize.s15.r),
-                    borderSide: const BorderSide(color: Color(0xFFE5E7EB)),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(AppSize.s15.r),
-                    borderSide: const BorderSide(color: Color(0xFF10B981)),
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.search_rounded,
+                        color: Color(0xFF9CA3AF),
+                      ),
+                      Gap(AppSize.s10.w),
+                      Expanded(
+                        child: Text(
+                          Strings.builderSearchIn.tr(
+                            namedArgs: {'group': group.name},
+                          ),
+                          textAlign: TextAlign.right,
+                          style: getRegularTextStyle(
+                            fontSize: FontSizeManager.s12.sp,
+                            color: ColorManager.textMuted,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -2450,6 +2655,107 @@ class _OptionGroupCard extends StatelessWidget {
                   }).toList(),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class _BuilderSearchOptionTile extends StatelessWidget {
+  final OrderMenuOptionModel option;
+  final String currency;
+  final bool isSelected;
+  final bool isDisabled;
+  final VoidCallback onTap;
+
+  const _BuilderSearchOptionTile({
+    required this.option,
+    required this.currency,
+    required this.isSelected,
+    required this.isDisabled,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Opacity(
+      opacity: isDisabled ? 0.42 : 1,
+      child: Material(
+        color: ColorManager.backgroundSurface,
+        borderRadius: BorderRadius.circular(AppSize.s18.r),
+        child: InkWell(
+          onTap: isDisabled ? null : onTap,
+          borderRadius: BorderRadius.circular(AppSize.s18.r),
+          child: Container(
+            padding: EdgeInsetsDirectional.symmetric(
+              horizontal: AppPadding.p14.w,
+              vertical: AppPadding.p14.h,
+            ),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(AppSize.s18.r),
+              border: Border.all(
+                color:
+                    isSelected
+                        ? ColorManager.brandPrimary
+                        : const Color(0xFFE5E7EB),
+              ),
+              color:
+                  isSelected
+                      ? ColorManager.brandPrimaryTint.withValues(alpha: 0.45)
+                      : ColorManager.backgroundSurface,
+            ),
+            child: Row(
+              children: [
+                Container(
+                  width: AppSize.s28.w,
+                  height: AppSize.s28.h,
+                  decoration: BoxDecoration(
+                    color:
+                        isSelected
+                            ? ColorManager.brandPrimary
+                            : const Color(0xFFF4F7F5),
+                    shape: BoxShape.circle,
+                  ),
+                  alignment: Alignment.center,
+                  child: Icon(
+                    isSelected ? Icons.check_rounded : Icons.add_rounded,
+                    size: AppSize.s16.r,
+                    color:
+                        isSelected
+                            ? ColorManager.backgroundSurface
+                            : const Color(0xFF112B22),
+                  ),
+                ),
+                Gap(AppSize.s10.w),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        option.name,
+                        textAlign: TextAlign.right,
+                        style: getBoldTextStyle(
+                          fontSize: FontSizeManager.s14.sp,
+                          color: const Color(0xFF112B22),
+                        ),
+                      ),
+                      if (option.extraPriceHalala > 0) ...[
+                        Gap(AppSize.s4.h),
+                        Text(
+                          '+ ${_formatHalala(option.extraPriceHalala, currency)}',
+                          textAlign: TextAlign.right,
+                          style: getBoldTextStyle(
+                            fontSize: FontSizeManager.s11.sp,
+                            color: ColorManager.brandAccent,
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
