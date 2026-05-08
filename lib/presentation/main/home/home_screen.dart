@@ -641,6 +641,7 @@ class _RecommendationCardLarge extends StatelessWidget {
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
                       title,
@@ -661,7 +662,7 @@ class _RecommendationCardLarge extends StatelessWidget {
                         color: ColorManager.textSecondary,
                       ),
                     ),
-                    const Spacer(),
+                    Gap(AppSize.s16.h),
                     Row(
                       children: [
                         Expanded(
@@ -735,7 +736,6 @@ class _RecommendationCard extends StatelessWidget {
   final String imagePath;
   final String footerText;
   final String helperText;
-  final String? productKey;
   final String? sectionKey;
 
   const _RecommendationCard({
@@ -744,7 +744,6 @@ class _RecommendationCard extends StatelessWidget {
     required this.imagePath,
     required this.footerText,
     required this.helperText,
-    this.productKey,
     this.sectionKey,
   });
 
@@ -755,10 +754,6 @@ class _RecommendationCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(AppSize.s20.r),
       child: InkWell(
         onTap: () {
-          if (productKey != null) {
-            _openBuilderShortcut(context, productKey!);
-            return;
-          }
           if (sectionKey != null) {
             _openMenuSection(context, sectionKey!);
           }
@@ -783,13 +778,15 @@ class _RecommendationCard extends StatelessWidget {
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Expanded(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(AppSize.s18.r),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(AppSize.s18.r),
+                child: SizedBox(
+                  width: double.infinity,
+                  height: AppSize.s104.h,
                   child: Image.asset(
                     imagePath,
-                    width: double.infinity,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -814,7 +811,7 @@ class _RecommendationCard extends StatelessWidget {
                   color: ColorManager.textSecondary,
                 ),
               ),
-              const Spacer(),
+              Gap(AppSize.s12.h),
               Row(
                 children: [
                   if (helperText.isNotEmpty)
@@ -829,9 +826,8 @@ class _RecommendationCard extends StatelessWidget {
                           color: const Color(0xFF12382C),
                         ),
                       ),
-                    )
-                  else
-                    const Spacer(),
+                    ),
+                  if (helperText.isNotEmpty) Gap(AppSize.s8.w),
                   Container(
                     padding: EdgeInsetsDirectional.symmetric(
                       horizontal: AppPadding.p12.w,
