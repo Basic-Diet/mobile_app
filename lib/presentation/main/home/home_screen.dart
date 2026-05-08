@@ -176,13 +176,6 @@ class _SubscriptionHeroCard extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(AppSize.s24.r),
           color: const Color(0xFF0B2319),
-          boxShadow: [
-            BoxShadow(
-              color: const Color(0xFF09261E).withValues(alpha: 0.18),
-              blurRadius: 40,
-              offset: const Offset(0, 20),
-            ),
-          ],
           border: Border.all(
             color: Colors.white.withValues(alpha: 0.15),
             width: 1,
@@ -316,13 +309,6 @@ class _QuickOrderSection extends StatelessWidget {
             constraints: BoxConstraints(minHeight: AppSize.s188.h),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(AppSize.s24.r),
-              boxShadow: [
-                BoxShadow(
-                  color: const Color(0xFF11382C).withValues(alpha: 0.10),
-                  blurRadius: 20,
-                  offset: const Offset(0, 10),
-                ),
-              ],
               color: ColorManager.backgroundSurface,
             ),
             child: ClipRRect(
@@ -489,13 +475,6 @@ class _QuickShortcutCard extends StatelessWidget {
               color: Colors.white.withValues(alpha: 0.8),
               width: 1,
             ),
-            boxShadow: [
-              BoxShadow(
-                color: const Color(0xFF11382C).withValues(alpha: 0.04),
-                blurRadius: 8,
-                offset: const Offset(0, 3),
-              ),
-            ],
           ),
           child: Row(
             children: [
@@ -627,13 +606,7 @@ class _RecommendationCardLarge extends StatelessWidget {
               color: Colors.white.withValues(alpha: 0.86),
               width: 1,
             ),
-            boxShadow: [
-              BoxShadow(
-                color: const Color(0xFF11382C).withValues(alpha: 0.08),
-                blurRadius: 26,
-                offset: const Offset(0, 12),
-              ),
-            ],
+
           ),
           child: Row(
             children: [
@@ -749,7 +722,7 @@ class _RecommendationCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.white.withValues(alpha: 0.96),
+      color: Colors.white,
       borderRadius: BorderRadius.circular(AppSize.s20.r),
       child: InkWell(
         onTap: () {
@@ -767,13 +740,7 @@ class _RecommendationCard extends StatelessWidget {
               color: Colors.white.withValues(alpha: 0.86),
               width: 1,
             ),
-            boxShadow: [
-              BoxShadow(
-                color: const Color(0xFF11382C).withValues(alpha: 0.08),
-                blurRadius: 26,
-                offset: const Offset(0, 12),
-              ),
-            ],
+
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
@@ -928,7 +895,6 @@ class _BenefitCard extends StatelessWidget {
         vertical: AppPadding.p8.h,
       ),
       decoration: BoxDecoration(
-        color: const Color(0xFFF7FCF9),
         borderRadius: BorderRadius.circular(AppSize.s12.r),
       ),
       child: Column(
