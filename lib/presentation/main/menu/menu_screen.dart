@@ -1654,9 +1654,7 @@ class _BuilderScreenState extends State<_BuilderScreen> {
   Widget build(BuildContext context) {
     final product = widget.product;
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F3EB),
       appBar: AppBar(
-        backgroundColor: const Color(0xFFF7F3EB),
         elevation: 0,
         title: Text(
           product.name,
