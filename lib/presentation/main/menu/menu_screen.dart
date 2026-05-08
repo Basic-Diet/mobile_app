@@ -396,10 +396,8 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
     switch (key) {
       case 'cold_sandwiches':
         return _SectionLayout.compactScroll;
-      case 'sourdough':
-        return _SectionLayout.list;
       default:
-        return _SectionLayout.grid;
+        return _SectionLayout.list;
     }
   }
 }
@@ -411,6 +409,28 @@ class _MenuHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
+        const Spacer(),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Text(
+              Strings.menu.tr(),
+              style: getRegularTextStyle(
+                fontSize: FontSizeManager.s28.sp,
+                color: ColorManager.stateSuccessEmphasis,
+              ),
+            ),
+            Gap(AppSize.s4.h),
+            Text(
+              Strings.oneTimeOrdersSubtitle.tr(),
+              style: getRegularTextStyle(
+                fontSize: FontSizeManager.s14.sp,
+                color: ColorManager.textSecondary,
+              ),
+            ),
+          ],
+        ),
+        Gap(AppSize.s14.w),
         _CircleActionButton(
           icon: Icons.home_outlined,
           onTap: () {
@@ -427,27 +447,6 @@ class _MenuHeader extends StatelessWidget {
               onTap: () => context.push('/cart'),
             );
           },
-        ),
-        const Spacer(),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Text(
-              Strings.menu.tr(),
-              style: getBoldTextStyle(
-                fontSize: FontSizeManager.s24.sp,
-                color: ColorManager.stateSuccessEmphasis,
-              ),
-            ),
-            Gap(AppSize.s2.h),
-            Text(
-              Strings.oneTimeOrdersSubtitle.tr(),
-              style: getRegularTextStyle(
-                fontSize: FontSizeManager.s13.sp,
-                color: ColorManager.textSecondary,
-              ),
-            ),
-          ],
         ),
       ],
     );
@@ -471,35 +470,48 @@ class _CircleActionButton extends StatelessWidget {
       clipBehavior: Clip.none,
       children: [
         Material(
-          color: ColorManager.backgroundSurface,
-          borderRadius: BorderRadius.circular(AppSize.s18.r),
-          child: InkWell(
-            onTap: onTap,
-            borderRadius: BorderRadius.circular(AppSize.s18.r),
-            child: SizedBox(
-              width: AppSize.s52.w,
-              height: AppSize.s52.w,
-              child: Icon(
-                icon,
-                color: ColorManager.stateSuccessEmphasis,
-                size: AppSize.s24.w,
+          color: Colors.white.withValues(alpha: 0.9),
+          borderRadius: BorderRadius.circular(AppSize.s14.r),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(AppSize.s14.r),
+              border: Border.all(color: Colors.white.withValues(alpha: 0.78)),
+              boxShadow: [
+                BoxShadow(
+                  color: const Color(0xFF11382C).withValues(alpha: 0.06),
+                  blurRadius: 12,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: InkWell(
+              onTap: onTap,
+              borderRadius: BorderRadius.circular(AppSize.s14.r),
+              child: SizedBox(
+                width: AppSize.s42.w,
+                height: AppSize.s42.w,
+                child: Icon(
+                  icon,
+                  color: const Color(0xFF112B22),
+                  size: AppSize.s20.w,
+                ),
               ),
             ),
           ),
         ),
         if (badgeCount > 0)
           PositionedDirectional(
-            top: -2.h,
-            end: -2.w,
+            top: (-5).h,
+            end: (-5).w,
             child: Container(
-              constraints: BoxConstraints(minWidth: AppSize.s20.w),
+              constraints: BoxConstraints(minWidth: AppSize.s18.w),
+              height: AppSize.s18.w,
               padding: EdgeInsetsDirectional.symmetric(
-                horizontal: AppPadding.p6.w,
-                vertical: AppPadding.p2.h,
+                horizontal: AppPadding.p5.w,
               ),
-              decoration: const BoxDecoration(
-                color: ColorManager.brandAccent,
-                shape: BoxShape.circle,
+              decoration: BoxDecoration(
+                color: ColorManager.brandPrimary,
+                borderRadius: BorderRadius.circular(AppSize.s99.r),
               ),
               alignment: Alignment.center,
               child: Text(
@@ -524,32 +536,31 @@ class _PickupNoticeCard extends StatelessWidget {
     return Container(
       padding: EdgeInsetsDirectional.symmetric(
         horizontal: AppPadding.p14.w,
-        vertical: AppPadding.p14.h,
+        vertical: AppPadding.p13.h,
       ),
       decoration: BoxDecoration(
-        color: const Color(0xFFE4F7EE),
         borderRadius: BorderRadius.circular(AppSize.s16.r),
-        border: const BorderDirectional(
-          start: BorderSide(color: ColorManager.brandPrimary, width: 3),
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Color(0xFFE4F6EE), Color(0xFFFDFEFD)],
         ),
-      ),
-      child: Row(
-        children: [
-          const Icon(
-            Icons.storefront_outlined,
-            color: ColorManager.brandPrimary,
-          ),
-          Gap(AppSize.s10.w),
-          Expanded(
-            child: Text(
-              Strings.pickupOnlyNotice.tr(),
-              style: getBoldTextStyle(
-                fontSize: FontSizeManager.s13.sp,
-                color: ColorManager.stateSuccessEmphasis,
-              ),
-            ),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.78)),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFF11382C).withValues(alpha: 0.06),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
           ),
         ],
+      ),
+      child: Text(
+        Strings.pickupOnlyNotice.tr(),
+        textAlign: TextAlign.right,
+        style: getBoldTextStyle(
+          fontSize: FontSizeManager.s13.sp,
+          color: const Color(0xFF12382C),
+        ),
       ),
     );
   }
@@ -563,28 +574,42 @@ class _SearchField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      controller: controller,
-      onChanged: onChanged,
-      decoration: InputDecoration(
-        filled: true,
-        fillColor: ColorManager.backgroundSurface,
-        hintText: Strings.searchMenuPlaceholder.tr(),
-        hintStyle: getRegularTextStyle(
-          fontSize: FontSizeManager.s13.sp,
-          color: ColorManager.textMuted,
-        ),
-        prefixIcon: const Icon(
-          Icons.search_rounded,
-          color: ColorManager.textSecondary,
-        ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppSize.s18.r),
-          borderSide: BorderSide.none,
-        ),
-        contentPadding: EdgeInsetsDirectional.symmetric(
-          horizontal: AppPadding.p16.w,
-          vertical: AppPadding.p16.h,
+    return Container(
+      height: AppSize.s52.h,
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.94),
+        borderRadius: BorderRadius.circular(AppSize.s16.r),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.78)),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFF11382C).withValues(alpha: 0.08),
+            blurRadius: 18,
+            offset: const Offset(0, 6),
+          ),
+        ],
+      ),
+      child: TextField(
+        controller: controller,
+        onChanged: onChanged,
+        textAlign: TextAlign.right,
+        decoration: InputDecoration(
+          hintText: Strings.searchMenuPlaceholder.tr(),
+          hintStyle: getBoldTextStyle(
+            fontSize: FontSizeManager.s13.sp,
+            color: const Color(0xFFA1A1A6),
+          ),
+          prefixIcon: const Icon(
+            Icons.search_rounded,
+            color: Color(0xFFA1A1A6),
+          ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(AppSize.s16.r),
+            borderSide: BorderSide.none,
+          ),
+          contentPadding: EdgeInsetsDirectional.symmetric(
+            horizontal: AppPadding.p14.w,
+            vertical: AppPadding.p14.h,
+          ),
         ),
       ),
     );
@@ -605,29 +630,55 @@ class _MenuChipsRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: AppSize.s44.h,
+      height: AppSize.s38.h,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
           final chip = chips[index];
           final isSelected = chip.key == activeKey;
-          return ChoiceChip(
-            label: Text(chip.label),
-            selected: isSelected,
-            labelStyle: getBoldTextStyle(
-              fontSize: FontSizeManager.s13.sp,
-              color:
-                  isSelected
-                      ? ColorManager.backgroundSurface
-                      : ColorManager.textPrimary,
+          return Material(
+            color:
+                isSelected
+                    ? const Color(0xFF0B241C)
+                    : Colors.white.withValues(alpha: 0.84),
+            borderRadius: BorderRadius.circular(AppSize.s13.r),
+            child: InkWell(
+              onTap: () => onSelected(chip.key),
+              borderRadius: BorderRadius.circular(AppSize.s13.r),
+              child: Container(
+                padding: EdgeInsetsDirectional.symmetric(
+                  horizontal: AppPadding.p14.w,
+                ),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(AppSize.s13.r),
+                  border: Border.all(
+                    color:
+                        isSelected
+                            ? const Color(0xFF0B241C)
+                            : const Color(0xFFE1EAE4),
+                  ),
+                  boxShadow: [
+                    if (!isSelected)
+                      BoxShadow(
+                        color: const Color(0xFF11382C).withValues(alpha: 0.04),
+                        blurRadius: 10,
+                        offset: const Offset(0, 3),
+                      ),
+                  ],
+                ),
+                child: Text(
+                  chip.label,
+                  style: getBoldTextStyle(
+                    fontSize: FontSizeManager.s12.sp,
+                    color:
+                        isSelected
+                            ? ColorManager.backgroundSurface
+                            : ColorManager.textSecondary,
+                  ),
+                ),
+              ),
             ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(AppSize.s99.r),
-              side: BorderSide.none,
-            ),
-            backgroundColor: ColorManager.backgroundSurface,
-            selectedColor: ColorManager.stateSuccessEmphasis,
-            onSelected: (_) => onSelected(chip.key),
           );
         },
         separatorBuilder: (_, __) => Gap(AppSize.s8.w),
@@ -671,31 +722,20 @@ class _BuilderSection extends StatelessWidget {
             ),
           ),
         ),
-        Gap(AppSize.s12.h),
-        _MenuSectionHeader(title: Strings.lightChoices.tr()),
-        Gap(AppSize.s12.h),
-        if (lightProducts.isEmpty)
-          _EmptyStateCard(message: Strings.noLightChoicesAvailable.tr())
-        else
-          GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: AppSize.s12.w,
-              mainAxisSpacing: AppSize.s12.h,
-              mainAxisExtent: AppSize.s220.h,
-            ),
-            itemCount: lightProducts.length,
-            itemBuilder: (context, index) {
-              final product = lightProducts[index];
-              return _LightBuilderCard(
+        if (lightProducts.isNotEmpty) ...[
+          Gap(AppSize.s12.h),
+          ...lightProducts.map(
+            (product) => Padding(
+              padding: EdgeInsetsDirectional.only(bottom: AppPadding.p12.h),
+              child: _LightBuilderCard(
                 product: product,
                 imagePath: _imageForProduct(product.key),
+                currency: currency,
                 onTap: () => onOpenBuilder(product, currency),
-              );
-            },
+              ),
+            ),
           ),
+        ],
       ],
     );
   }
@@ -738,8 +778,13 @@ class _BuilderProductCard extends StatelessWidget {
         onTap: onTap,
         borderRadius: BorderRadius.circular(AppSize.s26.r),
         child: Container(
-          constraints: BoxConstraints(minHeight: AppSize.s14.h),
-          padding: EdgeInsetsDirectional.all(AppPadding.p20.r),
+          height: AppSize.s184.h,
+          padding: EdgeInsetsDirectional.fromSTEB(
+            AppPadding.p18.w,
+            AppPadding.p20.h,
+            AppPadding.p18.w,
+            AppPadding.p20.h,
+          ),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(AppSize.s26.r),
             border: Border.all(
@@ -768,7 +813,6 @@ class _BuilderProductCard extends StatelessWidget {
                     child: Image.asset(
                       imagePath!,
                       width: AppSize.s200.w,
-                      height: double.infinity,
                       fit: BoxFit.cover,
                       alignment: Alignment.centerLeft,
                     ),
@@ -820,7 +864,7 @@ class _BuilderProductCard extends StatelessWidget {
                       product.name,
                       textAlign: TextAlign.right,
                       style: getBoldTextStyle(
-                        fontSize: FontSizeManager.s20.sp,
+                        fontSize: FontSizeManager.s18.sp,
                         color: const Color(0xFF112B22),
                       ),
                     ),
@@ -849,17 +893,17 @@ class _BuilderProductCard extends StatelessWidget {
                         ),
                         Gap(AppSize.s10.h),
                         Container(
-                          width: AppSize.s118.w,
-                          height: AppSize.s40.h,
+                          width: AppSize.s122.w,
+                          height: AppSize.s42.h,
                           decoration: BoxDecoration(
-                            color: ColorManager.stateSuccessEmphasis,
-                            borderRadius: BorderRadius.circular(AppSize.s15.r),
+                            color: ColorManager.brandPrimary,
+                            borderRadius: BorderRadius.circular(AppSize.s16.r),
                           ),
                           alignment: Alignment.center,
                           child: Text(
                             Strings.openBuilder.tr(),
                             style: getBoldTextStyle(
-                              fontSize: FontSizeManager.s12.sp,
+                              fontSize: FontSizeManager.s12_5.sp,
                               color: ColorManager.backgroundSurface,
                             ),
                           ),
@@ -895,10 +939,12 @@ class _BuilderProductCard extends StatelessWidget {
 class _LightBuilderCard extends StatelessWidget {
   final OrderMenuProductModel product;
   final String? imagePath;
+  final String currency;
   final VoidCallback onTap;
 
   const _LightBuilderCard({
     required this.product,
+    required this.currency,
     required this.onTap,
     this.imagePath,
   });
@@ -965,21 +1011,33 @@ class _LightBuilderCard extends StatelessWidget {
                       ),
                     ),
                     Gap(AppSize.s12.h),
-                    Container(
-                      width: AppSize.s84.w,
-                      height: AppSize.s36.h,
-                      decoration: BoxDecoration(
-                        color: ColorManager.stateSuccessEmphasis,
-                        borderRadius: BorderRadius.circular(AppSize.s15.r),
-                      ),
-                      alignment: Alignment.center,
-                      child: Text(
-                        Strings.customize.tr(),
-                        style: getBoldTextStyle(
-                          fontSize: FontSizeManager.s12.sp,
-                          color: ColorManager.backgroundSurface,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          width: AppSize.s84.w,
+                          height: AppSize.s36.h,
+                          decoration: BoxDecoration(
+                            color: ColorManager.brandPrimary,
+                            borderRadius: BorderRadius.circular(AppSize.s15.r),
+                          ),
+                          alignment: Alignment.center,
+                          child: Text(
+                            Strings.customize.tr(),
+                            style: getBoldTextStyle(
+                              fontSize: FontSizeManager.s12.sp,
+                              color: ColorManager.backgroundSurface,
+                            ),
+                          ),
                         ),
-                      ),
+                        Text(
+                          _formatHalala(product.priceHalala, currency),
+                          style: getBoldTextStyle(
+                            fontSize: FontSizeManager.s14.sp,
+                            color: const Color(0xFF12382C),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -1050,22 +1108,22 @@ class _DynamicSection extends StatelessWidget {
                       )
                       .toList(),
             ),
-            _SectionLayout.grid => GridView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: AppSize.s12.w,
-                mainAxisSpacing: AppSize.s12.h,
-                mainAxisExtent: AppSize.s220.h,
-              ),
-              itemCount: products.length,
-              itemBuilder:
-                  (context, index) => _GridProductCard(
-                    product: products[index],
-                    currency: currency,
-                    onAdd: () => onAddDirectItem(products[index]),
-                  ),
+            _SectionLayout.grid => Column(
+              children:
+                  products
+                      .map(
+                        (product) => Padding(
+                          padding: EdgeInsetsDirectional.only(
+                            bottom: AppPadding.p12.h,
+                          ),
+                          child: _ListProductCard(
+                            product: product,
+                            currency: currency,
+                            onAdd: () => onAddDirectItem(product),
+                          ),
+                        ),
+                      )
+                      .toList(),
             ),
           },
       ],
@@ -1089,37 +1147,67 @@ class _CompactProductCard extends StatelessWidget {
     return Container(
       padding: EdgeInsetsDirectional.all(AppPadding.p12.r),
       decoration: BoxDecoration(
-        color: ColorManager.backgroundSurface,
-        borderRadius: BorderRadius.circular(AppSize.s24.r),
+        color: Colors.white.withValues(alpha: 0.96),
+        borderRadius: BorderRadius.circular(AppSize.s20.r),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.84)),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFF11382C).withValues(alpha: 0.08),
+            blurRadius: 24,
+            offset: const Offset(0, 10),
+          ),
+        ],
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           _MenuMediaBox(
             label: _initials(product.name),
-            size: AppSize.s84.w,
-            borderRadius: AppSize.s18.r,
+            width: AppSize.s66.w,
+            height: AppSize.s66.w,
+            borderRadius: AppSize.s16.r,
           ),
-          const Spacer(),
+          Gap(AppSize.s10.h),
           Text(
             product.name,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.right,
             style: getBoldTextStyle(
               fontSize: FontSizeManager.s14.sp,
-              color: ColorManager.textPrimary,
+              color: const Color(0xFF112B22),
             ),
           ),
+          Gap(AppSize.s3.h),
+          if ((product.description ?? '').isNotEmpty)
+            Text(
+              product.description!,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.right,
+              style: getBoldTextStyle(
+                fontSize: FontSizeManager.s11_5.sp,
+                color: ColorManager.textSecondary,
+              ),
+            ),
+          const Spacer(),
           Gap(AppSize.s4.h),
-          Text(
-            _formatHalala(product.priceHalala, currency),
-            style: getBoldTextStyle(
-              fontSize: FontSizeManager.s13.sp,
-              color: ColorManager.stateSuccessEmphasis,
-            ),
+          Row(
+            children: [
+              _SquareAddButton(onTap: onAdd),
+              Gap(AppSize.s8.w),
+              Expanded(
+                child: Text(
+                  _formatHalala(product.priceHalala, currency),
+                  textAlign: TextAlign.right,
+                  style: getBoldTextStyle(
+                    fontSize: FontSizeManager.s13.sp,
+                    color: const Color(0xFF12382C),
+                  ),
+                ),
+              ),
+            ],
           ),
-          Gap(AppSize.s10.h),
-          _AddButton(onTap: onAdd),
         ],
       ),
     );
@@ -1188,7 +1276,7 @@ class _ListProductCard extends StatelessWidget {
                     ),
                     Gap(AppSize.s3.h),
                     Text(
-                      product.description ?? '',
+                      _productDescription(product),
                       textAlign: TextAlign.right,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
@@ -1201,19 +1289,7 @@ class _ListProductCard extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
-                          width: AppSize.s40.w,
-                          height: AppSize.s40.w,
-                          decoration: BoxDecoration(
-                            color: ColorManager.stateSuccessEmphasis,
-                            borderRadius: BorderRadius.circular(AppSize.s15.r),
-                          ),
-                          child: const Icon(
-                            Icons.add,
-                            color: ColorManager.backgroundSurface,
-                            size: 22,
-                          ),
-                        ),
+                        _SquareAddButton(onTap: onAdd),
                         Text(
                           _formatHalala(product.priceHalala, currency),
                           style: getBoldTextStyle(
@@ -1234,130 +1310,26 @@ class _ListProductCard extends StatelessWidget {
   }
 }
 
-class _GridProductCard extends StatelessWidget {
-  final OrderMenuProductModel product;
-  final String currency;
-  final VoidCallback onAdd;
-
-  const _GridProductCard({
-    required this.product,
-    required this.currency,
-    required this.onAdd,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: ColorManager.backgroundSurface,
-      borderRadius: BorderRadius.circular(AppSize.s24.r),
-      child: InkWell(
-        onTap: onAdd,
-        borderRadius: BorderRadius.circular(AppSize.s24.r),
-        child: Container(
-          padding: EdgeInsetsDirectional.all(AppPadding.p12.r),
-          decoration: BoxDecoration(
-            color: ColorManager.backgroundSurface,
-            borderRadius: BorderRadius.circular(AppSize.s24.r),
-            border: Border.all(
-              color: ColorManager.borderDefault,
-              width: 1,
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: const Color(0xFF11382C).withValues(alpha: 0.06),
-                blurRadius: 12,
-                offset: const Offset(0, 4),
-              ),
-            ],
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _MenuMediaBox(
-                label: _initials(product.name),
-                size: double.infinity,
-                height: AppSize.s80.w,
-                borderRadius: AppSize.s18.r,
-                fontSize: FontSizeManager.s32.sp,
-              ),
-              Gap(AppSize.s10.h),
-              Text(
-                product.name,
-                style: getBoldTextStyle(
-                  fontSize: FontSizeManager.s16.sp,
-                  color: ColorManager.textPrimary,
-                ),
-              ),
-              Gap(AppSize.s6.h),
-              Row(
-                children: [
-                  Container(
-                    width: AppSize.s32.w,
-                    height: AppSize.s32.w,
-                    decoration: BoxDecoration(
-                      color: ColorManager.stateSuccessEmphasis,
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Icon(
-                      Icons.add,
-                      color: ColorManager.backgroundSurface,
-                      size: 20,
-                    ),
-                  ),
-                  Expanded(
-                    child: Text(
-                      _formatHalala(product.priceHalala, currency),
-                      textAlign: TextAlign.right,
-                      style: getBoldTextStyle(
-                        fontSize: FontSizeManager.s15.sp,
-                        color: ColorManager.textPrimary,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _AddButton extends StatelessWidget {
+class _SquareAddButton extends StatelessWidget {
   final VoidCallback onTap;
 
-  const _AddButton({required this.onTap});
+  const _SquareAddButton({required this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: ColorManager.brandPrimaryTint,
-      borderRadius: BorderRadius.circular(AppSize.s16.r),
+      color: ColorManager.brandPrimary,
+      borderRadius: BorderRadius.circular(AppSize.s15.r),
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(AppSize.s16.r),
-        child: Padding(
-          padding: EdgeInsetsDirectional.symmetric(
-            horizontal: AppPadding.p12.w,
-            vertical: AppPadding.p10.h,
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(
-                Icons.add_rounded,
-                color: ColorManager.stateSuccessEmphasis,
-              ),
-              Gap(AppSize.s4.w),
-              Text(
-                Strings.add.tr(),
-                style: getBoldTextStyle(
-                  fontSize: FontSizeManager.s13.sp,
-                  color: ColorManager.stateSuccessEmphasis,
-                ),
-              ),
-            ],
+        borderRadius: BorderRadius.circular(AppSize.s15.r),
+        child: SizedBox(
+          width: AppSize.s40.w,
+          height: AppSize.s40.w,
+          child: const Icon(
+            Icons.add,
+            color: ColorManager.backgroundSurface,
+            size: 22,
           ),
         ),
       ),
@@ -1506,43 +1478,37 @@ class _EmptyStateCard extends StatelessWidget {
 class _MenuMediaBox extends StatelessWidget {
   final String label;
   final String? imagePath;
-  final double? size;
-  final double? width;
-  final double? height;
+  final double width;
+  final double height;
   final double borderRadius;
-  final double? fontSize;
 
   const _MenuMediaBox({
     required this.label,
-    this.size,
-    this.width,
-    this.height,
+    required this.width,
+    required this.height,
     required this.borderRadius,
     this.imagePath,
-    this.fontSize,
   });
 
   @override
   Widget build(BuildContext context) {
     final image = imagePath;
-    final boxWidth = width ?? size;
-    final boxHeight = height ?? size;
-    
+
     if (image != null) {
       return ClipRRect(
         borderRadius: BorderRadius.circular(borderRadius),
         child: Image.asset(
           image,
-          width: boxWidth,
-          height: boxHeight,
+          width: width,
+          height: height,
           fit: BoxFit.cover,
         ),
       );
     }
 
     return Container(
-      width: boxWidth,
-      height: boxHeight,
+      width: width,
+      height: height,
       decoration: BoxDecoration(
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
@@ -1558,7 +1524,7 @@ class _MenuMediaBox extends StatelessWidget {
       child: Text(
         label,
         style: getBoldTextStyle(
-          fontSize: fontSize ?? FontSizeManager.s20.sp,
+          fontSize: FontSizeManager.s20.sp,
           color: ColorManager.stateSuccessEmphasis,
         ),
       ),
@@ -1575,12 +1541,13 @@ class _MenuSectionHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Text(
           title,
-          style: getBoldTextStyle(
-            fontSize: FontSizeManager.s20.sp,
+          textAlign: TextAlign.right,
+          style: getRegularTextStyle(
+            fontSize: FontSizeManager.s22.sp,
             color: ColorManager.textPrimary,
           ),
         ),
@@ -1588,8 +1555,9 @@ class _MenuSectionHeader extends StatelessWidget {
           Gap(AppSize.s4.h),
           Text(
             subtitle!,
-            style: getRegularTextStyle(
-              fontSize: FontSizeManager.s13.sp,
+            textAlign: TextAlign.right,
+            style: getBoldTextStyle(
+              fontSize: FontSizeManager.s12.sp,
               color: ColorManager.textSecondary,
             ),
           ),
@@ -2210,4 +2178,13 @@ String _initials(String value) {
     return words.first.characters.take(2).toString();
   }
   return words.take(2).map((word) => word.characters.first).join();
+}
+
+String _productDescription(OrderMenuProductModel product) {
+  final description = product.description?.trim();
+  if (description != null && description.isNotEmpty) {
+    return description;
+  }
+
+  return product.name;
 }
