@@ -1525,6 +1525,7 @@ class _BuilderScreenState extends State<_BuilderScreen> {
   final Map<String, int> _extraWeightByOptionId = {};
   final Set<String> _expandedGroupIds = {};
   final Map<String, String> _groupSearchQueries = {};
+  final Map<String, TextEditingController> _groupSearchControllers = {};
 
   @override
   void initState() {
@@ -1545,6 +1546,14 @@ class _BuilderScreenState extends State<_BuilderScreen> {
         ].groupId,
       );
     }
+  }
+
+  @override
+  void dispose() {
+    for (final controller in _groupSearchControllers.values) {
+      controller.dispose();
+    }
+    super.dispose();
   }
 
   bool get _isValid {
@@ -1671,6 +1680,13 @@ class _BuilderScreenState extends State<_BuilderScreen> {
     return options
         .where((option) => option.name.toLowerCase().contains(query))
         .toList();
+  }
+
+  TextEditingController _searchControllerFor(String groupId) {
+    return _groupSearchControllers.putIfAbsent(
+      groupId,
+      () => TextEditingController(text: _groupSearchQueries[groupId] ?? ''),
+    );
   }
 
   void _toggleOption(OrderMenuOptionGroupModel group, String optionId) {
@@ -2043,11 +2059,11 @@ class _BuilderScreenState extends State<_BuilderScreen> {
                   child: _OptionGroupCard(
                     group: group,
                     currency: widget.currency,
+                    searchController: _searchControllerFor(group.groupId),
                     isExpanded: _expandedGroupIds.contains(group.groupId),
                     selectedIds: _selectedOptionIds[group.groupId] ?? <String>{},
                     extraWeightByOptionId: _extraWeightByOptionId,
                     visibleOptions: _visibleOptions(group),
-                    searchQuery: _groupSearchQueries[group.groupId] ?? '',
                     ruleText: _groupRuleText(group),
                     isComplete: _isGroupComplete(group),
                     onExpandedChanged: (value) {
@@ -2207,11 +2223,11 @@ class _WeightSelector extends StatelessWidget {
 class _OptionGroupCard extends StatelessWidget {
   final OrderMenuOptionGroupModel group;
   final String currency;
+  final TextEditingController searchController;
   final bool isExpanded;
   final Set<String> selectedIds;
   final Map<String, int> extraWeightByOptionId;
   final List<OrderMenuOptionModel> visibleOptions;
-  final String searchQuery;
   final String ruleText;
   final bool isComplete;
   final ValueChanged<bool> onExpandedChanged;
@@ -2223,11 +2239,11 @@ class _OptionGroupCard extends StatelessWidget {
   const _OptionGroupCard({
     required this.group,
     required this.currency,
+    required this.searchController,
     required this.isExpanded,
     required this.selectedIds,
     required this.extraWeightByOptionId,
     required this.visibleOptions,
-    required this.searchQuery,
     required this.ruleText,
     required this.isComplete,
     required this.onExpandedChanged,
@@ -2350,10 +2366,11 @@ class _OptionGroupCard extends StatelessWidget {
           ),
           children: [
             if (group.options.length > 8) ...[
-              TextFormField(
-                initialValue: searchQuery,
+              TextField(
+                controller: searchController,
                 onChanged: onSearchChanged,
                 textAlign: TextAlign.right,
+                restorationId: null,
                 decoration: InputDecoration(
                   hintText: Strings.builderSearchIn.tr(
                     namedArgs: {'group': group.name},
