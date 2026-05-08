@@ -162,7 +162,6 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F3EB),
       body: SafeArea(
         child: BlocBuilder<MenuBloc, MenuState>(
           builder: (context, state) {
@@ -831,69 +830,80 @@ class _BuilderProductCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(AppSize.s26.r),
                 ),
               ),
-              Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(
-                  AppPadding.p18.w,
-                  AppPadding.p20.h,
-                  AppPadding.p18.w,
-                  AppPadding.p20.h,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      product.name,
-                      textAlign: TextAlign.right,
-                      style: getBoldTextStyle(
-                        fontSize: FontSizeManager.s18.sp,
-                        color: const Color(0xFF112B22),
+              Row(
+                children: [
+                  Expanded(
+                    flex: 3,
+                    child: Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(
+                        AppPadding.p18.w,
+                        AppPadding.p20.h,
+                        AppPadding.p18.w,
+                        AppPadding.p20.h,
                       ),
-                    ),
-                    Gap(AppSize.s5.h),
-                    Text(
-                      _builderDescriptionForKey(product.key, context),
-                      textAlign: TextAlign.right,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: getBoldTextStyle(
-                        fontSize: FontSizeManager.s13.sp,
-                        color: ColorManager.textSecondary,
-                      ),
-                    ),
-                    Gap(AppSize.s16.h),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          '${_formatHalala(product.priceHalala, currency)} / 100 جم',
-                          textAlign: TextAlign.right,
-                          style: getBoldTextStyle(
-                            fontSize: FontSizeManager.s13.sp,
-                            color: const Color(0xFF12382C),
-                          ),
-                        ),
-                        Gap(AppSize.s10.h),
-                        Container(
-                          width: AppSize.s122.w,
-                          height: AppSize.s42.h,
-                          decoration: BoxDecoration(
-                            color: ColorManager.brandPrimary,
-                            borderRadius: BorderRadius.circular(AppSize.s16.r),
-                          ),
-                          alignment: Alignment.center,
-                          child: Text(
-                            Strings.startCustomization.tr(),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            product.name,
+                            textAlign: TextAlign.right,
                             style: getBoldTextStyle(
-                              fontSize: FontSizeManager.s12_5.sp,
-                              color: ColorManager.backgroundSurface,
+                              fontSize: FontSizeManager.s18.sp,
+                              color: const Color(0xFF112B22),
                             ),
                           ),
-                        ),
-                      ],
+                          Gap(AppSize.s5.h),
+                          Text(
+                            _builderDescriptionForKey(product.key, context),
+                            textAlign: TextAlign.right,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: getBoldTextStyle(
+                              fontSize: FontSizeManager.s13.sp,
+                              color: ColorManager.textSecondary,
+                            ),
+                          ),
+                          Gap(AppSize.s16.h),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                '${_formatHalala(product.priceHalala, currency)} / 100 جم',
+                                textAlign: TextAlign.right,
+                                style: getBoldTextStyle(
+                                  fontSize: FontSizeManager.s13.sp,
+                                  color: const Color(0xFF12382C),
+                                ),
+                              ),
+                              Gap(AppSize.s10.h),
+                              Container(
+                                width: AppSize.s122.w,
+                                height: AppSize.s42.h,
+                                decoration: BoxDecoration(
+                                  color: ColorManager.brandPrimary,
+                                  borderRadius: BorderRadius.circular(AppSize.s16.r),
+                                ),
+                                alignment: Alignment.center,
+                                child: Text(
+                                  Strings.startCustomization.tr(),
+                                  style: getBoldTextStyle(
+                                    fontSize: FontSizeManager.s12_5.sp,
+                                    color: ColorManager.backgroundSurface,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  ],
-                ),
+                  ),
+                  Expanded(
+                      flex: 1,
+                      child: SizedBox(),
+                  ),
+                ],
               ),
             ],
           ),
