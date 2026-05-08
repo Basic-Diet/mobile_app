@@ -214,13 +214,13 @@ class _SubscriptionHeroCard extends StatelessWidget {
               ),
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(
-                  0,
+                  AppPadding.p20.w,
                   AppPadding.p25.h,
                   AppPadding.p20.w,
                   AppPadding.p20.h,
                 ),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Container(
@@ -353,13 +353,13 @@ class _QuickOrderSection extends StatelessWidget {
                   ),
                   Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(
-                      0,
+                      AppPadding.p18.w,
                       AppPadding.p10.h,
                       AppPadding.p18.w,
                       AppPadding.p10.h,
                     ),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
@@ -505,7 +505,7 @@ class _QuickShortcutCard extends StatelessWidget {
                   '$title · $subtitle',
                   textAlign: TextAlign.right,
                   style: getBoldTextStyle(
-                    fontSize: FontSizeManager.s10_5.sp,
+                    fontSize: FontSizeManager.s10.sp,
                     color: const Color(0xFF112B22),
                   ),
                   overflow: TextOverflow.ellipsis,
@@ -984,7 +984,7 @@ class _SectionHeader extends StatelessWidget {
       children: [
         Expanded(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 title,

@@ -22,7 +22,7 @@ class ImageAssets {
   static const String oneTimeFruitSalad = '$imagesPath/سلطة فواكه.png';
   static const String oneTimeGreekYogurt = '$imagesPath/زبادي يوناني.png';
   static const String oneTimeSourdough = '$imagesPath/ساندوتش ساوردو.png';
-  static const String oneTimeJuices = '$imagesPath/عصائر.png';
+  static const String oneTimeJuices = '$imagesPath/عصائر.png';
 }
 
 class IconAssets {
