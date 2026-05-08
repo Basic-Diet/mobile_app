@@ -135,6 +135,8 @@ OrderMenuProductResponse _$OrderMenuProductResponseFromJson(
   maxWeightGrams: (json['maxWeightGrams'] as num?)?.toInt(),
   weightStepGrams: (json['weightStepGrams'] as num?)?.toInt(),
   sortOrder: (json['sortOrder'] as num?)?.toInt(),
+  requiresBuilder: json['requiresBuilder'] as bool?,
+  canAddDirectly: json['canAddDirectly'] as bool?,
   optionGroups:
       (json['optionGroups'] as List<dynamic>?)
           ?.map(
@@ -162,6 +164,8 @@ Map<String, dynamic> _$OrderMenuProductResponseToJson(
   'maxWeightGrams': instance.maxWeightGrams,
   'weightStepGrams': instance.weightStepGrams,
   'sortOrder': instance.sortOrder,
+  'requiresBuilder': instance.requiresBuilder,
+  'canAddDirectly': instance.canAddDirectly,
   'optionGroups': instance.optionGroups?.map((e) => e.toJson()).toList(),
 };
 

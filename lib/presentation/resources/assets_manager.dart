@@ -13,6 +13,16 @@ class ImageAssets {
   static const String drinks = '$imagesPath/drinks.png';
   static const String subscription = '$imagesPath/subscription.png';
   static const String noSubscription = '$imagesPath/no_subscription.png';
+  static const String oneTimeSubscriptionHero =
+      '$imagesPath/subscription-hero.png';
+  static const String oneTimeCustomOrderHero =
+      '$imagesPath/ChatGPT Image 7 مايو 2026، 07_00_27 م.png';
+  static const String oneTimeBasicSalad = '$imagesPath/screenسلطة بسك.png';
+  static const String oneTimeBasicMeal = '$imagesPath/screenوجبة بسك.png';
+  static const String oneTimeFruitSalad = '$imagesPath/سلطة فواكه.png';
+  static const String oneTimeGreekYogurt = '$imagesPath/زبادي يوناني.png';
+  static const String oneTimeSourdough = '$imagesPath/ساندوتش ساوردو.png';
+  static const String oneTimeJuices = '$imagesPath/عصائر.png';
 }
 
 class IconAssets {

@@ -1,22 +1,26 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:basic_diet/app/dependency_injection.dart';
 import 'package:basic_diet/domain/model/order_menu_model.dart';
+import 'package:basic_diet/presentation/main/bloc/main_bloc.dart';
+import 'package:basic_diet/presentation/main/bloc/main_event.dart';
 import 'package:basic_diet/presentation/main/cart/bloc/cart_bloc.dart';
 import 'package:basic_diet/presentation/main/cart/bloc/cart_event.dart';
 import 'package:basic_diet/presentation/main/cart/bloc/cart_state.dart';
 import 'package:basic_diet/presentation/main/menu/bloc/menu_bloc.dart';
 import 'package:basic_diet/presentation/main/menu/bloc/menu_event.dart';
 import 'package:basic_diet/presentation/main/menu/bloc/menu_state.dart';
+import 'package:basic_diet/presentation/main/menu/menu_navigation_intent.dart';
+import 'package:basic_diet/presentation/resources/assets_manager.dart';
 import 'package:basic_diet/presentation/resources/color_manager.dart';
+import 'package:basic_diet/presentation/resources/font_manager.dart';
 import 'package:basic_diet/presentation/resources/strings_manager.dart';
 import 'package:basic_diet/presentation/resources/styles_manager.dart';
-import 'package:basic_diet/presentation/resources/font_manager.dart';
 import 'package:basic_diet/presentation/resources/values_manager.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
-import 'package:uuid/uuid.dart';
 
 class MenuScreen extends StatelessWidget {
   const MenuScreen({super.key});
@@ -44,363 +48,1241 @@ class MenuScreen extends StatelessWidget {
   }
 }
 
-class _MenuScreenContent extends StatelessWidget {
+class _MenuScreenContent extends StatefulWidget {
   const _MenuScreenContent();
+
+  @override
+  State<_MenuScreenContent> createState() => _MenuScreenContentState();
+}
+
+class _MenuScreenContentState extends State<_MenuScreenContent> {
+  final ScrollController _scrollController = ScrollController();
+  final TextEditingController _searchController = TextEditingController();
+  final Map<String, GlobalKey> _sectionKeys = {};
+  String _searchQuery = '';
+  String _activeChip = 'all';
+
+  @override
+  void initState() {
+    super.initState();
+    OneTimeMenuCoordinator.intent.addListener(_handleMenuIntent);
+  }
+
+  @override
+  void dispose() {
+    OneTimeMenuCoordinator.intent.removeListener(_handleMenuIntent);
+    _searchController.dispose();
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _handleMenuIntent() {
+    final menuState = context.read<MenuBloc>().state;
+    if (menuState is! MenuSuccess) {
+      return;
+    }
+
+    final intent = OneTimeMenuCoordinator.intent.value;
+    if (intent == null) {
+      return;
+    }
+
+    if (intent.sectionKey != null) {
+      _scrollToSection(intent.sectionKey!);
+    }
+
+    if (intent.productKey != null) {
+      final product = _findProductByKey(menuState.menu, intent.productKey!);
+      if (product != null) {
+        _openBuilder(product, menuState.menu.currency);
+      }
+    }
+
+    OneTimeMenuCoordinator.clear();
+  }
+
+  void _scrollToSection(String sectionKey) {
+    setState(() {
+      _activeChip = sectionKey == 'all' ? 'all' : sectionKey;
+    });
+
+    if (sectionKey == 'all') {
+      _scrollController.animateTo(
+        0,
+        duration: const Duration(milliseconds: 350),
+        curve: Curves.easeOutCubic,
+      );
+      return;
+    }
+
+    final targetContext = _sectionKeys[sectionKey]?.currentContext;
+    if (targetContext == null) {
+      return;
+    }
+
+    Scrollable.ensureVisible(
+      targetContext,
+      duration: const Duration(milliseconds: 350),
+      curve: Curves.easeOutCubic,
+      alignment: 0.06,
+    );
+  }
+
+  Future<void> _openBuilder(
+    OrderMenuProductModel product,
+    String currency,
+  ) async {
+    final cartItem = await Navigator.of(context).push<CartItem>(
+      MaterialPageRoute(
+        builder: (_) => _BuilderScreen(product: product, currency: currency),
+      ),
+    );
+
+    if (!mounted || cartItem == null) {
+      return;
+    }
+
+    context.read<CartBloc>().add(AddItemEvent(cartItem));
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(Strings.itemAddedToCart.tr())));
+  }
+
+  OrderMenuProductModel? _findProductByKey(OrderMenuModel menu, String key) {
+    for (final category in menu.categories) {
+      for (final product in category.products) {
+        if (product.key == key) {
+          return product;
+        }
+      }
+    }
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorManager.backgroundSurface,
-      appBar: AppBar(
-        backgroundColor: ColorManager.backgroundSurface,
-        elevation: 0,
-        title: Text(
-          Strings.menu.tr(),
-          style: getBoldTextStyle(
-            color: ColorManager.textPrimary,
-            fontSize: FontSizeManager.s18.sp,
-          ),
-        ),
-        actions: [
-          BlocBuilder<CartBloc, CartState>(
-            builder: (context, state) {
-              if (state is CartLoaded && state.totalQty > 0) {
-                return Stack(
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.shopping_cart_outlined),
-                      onPressed: () => context.push('/cart'),
-                    ),
-                    Positioned(
-                      right: 8.w,
-                      top: 8.h,
-                      child: Container(
-                        padding: EdgeInsets.all(4.r),
-                        decoration: const BoxDecoration(
-                          color: ColorManager.brandPrimary,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Text(
-                          '${state.totalQty}',
-                          style: getRegularTextStyle(
-                            color: ColorManager.backgroundSurface,
-                            fontSize: FontSizeManager.s10.sp,
+      backgroundColor: const Color(0xFFF7F3EB),
+      body: SafeArea(
+        child: BlocBuilder<MenuBloc, MenuState>(
+          builder: (context, state) {
+            if (state is MenuLoading) {
+              return const Center(
+                child: CircularProgressIndicator(
+                  color: ColorManager.brandPrimary,
+                ),
+              );
+            }
+
+            if (state is MenuError) {
+              return _MenuErrorView(message: state.message);
+            }
+
+            if (state is! MenuSuccess) {
+              return const SizedBox.shrink();
+            }
+
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (mounted && OneTimeMenuCoordinator.intent.value != null) {
+                _handleMenuIntent();
+              }
+            });
+
+            final menu = state.menu;
+            if (!menu.hasDynamicCatalog) {
+              return _MenuErrorView(message: Strings.noProductsAvailable.tr());
+            }
+
+            final builderData = _buildBuilderSections(menu);
+            final chips = _buildChips(menu);
+            final sections = _buildDirectSections(menu);
+
+            return Stack(
+              children: [
+                CustomScrollView(
+                  controller: _scrollController,
+                  physics: const BouncingScrollPhysics(),
+                  slivers: [
+                    SliverPadding(
+                      padding: EdgeInsetsDirectional.fromSTEB(
+                        AppPadding.p16.w,
+                        AppPadding.p16.h,
+                        AppPadding.p16.w,
+                        AppPadding.p120.h,
+                      ),
+                      sliver: SliverList(
+                        delegate: SliverChildListDelegate([
+                          const _MenuHeader(),
+                          Gap(AppSize.s18.h),
+                          const _PickupNoticeCard(),
+                          Gap(AppSize.s14.h),
+                          _SearchField(
+                            controller: _searchController,
+                            onChanged: (value) {
+                              setState(() {
+                                _searchQuery = value.trim().toLowerCase();
+                              });
+                            },
                           ),
-                        ),
+                          Gap(AppSize.s14.h),
+                          _MenuChipsRow(
+                            chips: chips,
+                            activeKey: _activeChip,
+                            onSelected: _scrollToSection,
+                          ),
+                          Gap(AppSize.s28.h),
+                          _SectionAnchor(
+                            anchorKey: _sectionKey('custom_order'),
+                            child: _BuilderSection(
+                              mainProducts: _filterProducts(builderData.main),
+                              lightProducts: _filterProducts(builderData.light),
+                              currency: menu.currency,
+                              onOpenBuilder: _openBuilder,
+                            ),
+                          ),
+                          for (final section in sections)
+                            _SectionAnchor(
+                              anchorKey: _sectionKey(section.key),
+                              child: Padding(
+                                padding: EdgeInsetsDirectional.only(
+                                  top: AppPadding.p28.h,
+                                ),
+                                child: _DynamicSection(
+                                  section: section,
+                                  currency: menu.currency,
+                                  products: _filterProducts(section.products),
+                                  onAddDirectItem: (product) {
+                                    context.read<CartBloc>().add(
+                                      AddItemEvent(
+                                        CartItem(
+                                          productId: product.id,
+                                          name: product.name,
+                                          qty: 1,
+                                          unitPriceHalala: product.priceHalala,
+                                        ),
+                                      ),
+                                    );
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          Strings.itemAddedToCart.tr(),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                        ]),
                       ),
                     ),
                   ],
-                );
-              }
-              return IconButton(
-                icon: const Icon(Icons.shopping_cart_outlined),
-                onPressed: () => context.push('/cart'),
-              );
-            },
-          ),
-        ],
-      ),
-      body: BlocBuilder<MenuBloc, MenuState>(
-        builder: (context, state) {
-          if (state is MenuLoading) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (state is MenuError) {
-            return _ErrorView(message: state.message);
-          }
-          if (state is MenuSuccess) {
-            return _MenuContent(menu: state.menu);
-          }
-          return const SizedBox.shrink();
-        },
-      ),
-    );
-  }
-}
-
-class _ErrorView extends StatelessWidget {
-  final String message;
-
-  const _ErrorView({required this.message});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(message, style: getRegularTextStyle(color: ColorManager.textPrimary)),
-          SizedBox(height: AppSize.s16.h),
-          ElevatedButton(
-            onPressed: () {
-              context.read<MenuBloc>().add(const RetryMenuEvent());
-            },
-            child: Text(Strings.tryAgain.tr()),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// ═══════════════════════════════════════════════════════════════════════════════
-//  Router: dynamic catalog vs legacy fallback
-// ═══════════════════════════════════════════════════════════════════════════════
-
-class _MenuContent extends StatelessWidget {
-  final OrderMenuModel menu;
-
-  const _MenuContent({required this.menu});
-
-  @override
-  Widget build(BuildContext context) {
-    if (menu.hasDynamicCatalog) {
-      return _DynamicCatalogView(menu: menu);
-    }
-    return _LegacyMenuView(menu: menu);
-  }
-}
-
-// ═══════════════════════════════════════════════════════════════════════════════
-//  Dynamic Catalog (categories / products / optionGroups)
-// ═══════════════════════════════════════════════════════════════════════════════
-
-class _DynamicCatalogView extends StatelessWidget {
-  final OrderMenuModel menu;
-
-  const _DynamicCatalogView({required this.menu});
-
-  @override
-  Widget build(BuildContext context) {
-    final sortedCategories = [...menu.categories]
-      ..sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
-
-    return ListView.builder(
-      padding: EdgeInsets.symmetric(horizontal: AppPadding.p16.w),
-      itemCount: sortedCategories.length,
-      itemBuilder: (context, index) {
-        final category = sortedCategories[index];
-        return _CategorySection(category: category, currency: menu.currency);
-      },
-    );
-  }
-}
-
-class _CategorySection extends StatelessWidget {
-  final OrderMenuCategoryModel category;
-  final String currency;
-
-  const _CategorySection({required this.category, required this.currency});
-
-  @override
-  Widget build(BuildContext context) {
-    final sortedProducts = [...category.products]
-      ..sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: EdgeInsets.symmetric(vertical: AppPadding.p12.h),
-          child: Text(
-            category.name,
-            style: getBoldTextStyle(
-              color: ColorManager.textPrimary,
-              fontSize: FontSizeManager.s16.sp,
-            ),
-          ),
+                ),
+                const _StickyCartBar(),
+              ],
+            );
+          },
         ),
-        ...sortedProducts.map(
-          (product) => _DynamicProductCard(product: product, currency: currency),
+      ),
+    );
+  }
+
+  GlobalKey _sectionKey(String key) {
+    return _sectionKeys.putIfAbsent(key, GlobalKey.new);
+  }
+
+  List<OrderMenuProductModel> _filterProducts(
+    List<OrderMenuProductModel> products,
+  ) {
+    if (_searchQuery.isEmpty) {
+      return products;
+    }
+
+    return products
+        .where(
+          (product) =>
+              product.name.toLowerCase().contains(_searchQuery) ||
+              product.key.toLowerCase().contains(_searchQuery),
+        )
+        .toList();
+  }
+
+  _BuilderProductsData _buildBuilderSections(OrderMenuModel menu) {
+    final allConfigurable =
+        menu.categories
+            .expand((category) => category.products)
+            .where((product) => product.resolvedRequiresBuilder)
+            .toList()
+          ..sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
+
+    final lightKeys = {'fruit_salad', 'greek_yogurt', 'green_salad'};
+    final main = <OrderMenuProductModel>[];
+    final light = <OrderMenuProductModel>[];
+
+    for (final product in allConfigurable) {
+      if (lightKeys.contains(product.key)) {
+        light.add(product);
+      } else {
+        main.add(product);
+      }
+    }
+
+    return _BuilderProductsData(main: main, light: light);
+  }
+
+  List<_MenuChipData> _buildChips(OrderMenuModel menu) {
+    final chips = <_MenuChipData>[
+      _MenuChipData(key: 'all', label: Strings.all.tr()),
+      _MenuChipData(key: 'custom_order', label: Strings.customOrder.tr()),
+    ];
+
+    final addedKeys = {'custom_order', 'light_options'};
+    for (final category
+        in menu.categories
+          ..sort((a, b) => a.sortOrder.compareTo(b.sortOrder))) {
+      if (addedKeys.contains(category.key)) {
+        continue;
+      }
+      chips.add(_MenuChipData(key: category.key, label: category.name));
+    }
+
+    return chips;
+  }
+
+  List<_MenuSectionData> _buildDirectSections(OrderMenuModel menu) {
+    final sections = <_MenuSectionData>[];
+
+    for (final category
+        in menu.categories
+          ..sort((a, b) => a.sortOrder.compareTo(b.sortOrder))) {
+      final directProducts =
+          category.products
+              .where((product) => product.resolvedCanAddDirectly)
+              .toList()
+            ..sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
+
+      if (directProducts.isEmpty) {
+        continue;
+      }
+
+      if (category.key == 'custom_order' || category.key == 'light_options') {
+        continue;
+      }
+
+      sections.add(
+        _MenuSectionData(
+          key: category.key,
+          title: category.name,
+          subtitle: _sectionSubtitle(category.key),
+          layout: _layoutFor(category.key),
+          products: directProducts,
+        ),
+      );
+    }
+
+    return sections;
+  }
+
+  String? _sectionSubtitle(String key) {
+    switch (key) {
+      case 'cold_sandwiches':
+        return 'اختيارات خفيفة وسريعة';
+      default:
+        return null;
+    }
+  }
+
+  _SectionLayout _layoutFor(String key) {
+    switch (key) {
+      case 'cold_sandwiches':
+        return _SectionLayout.compactScroll;
+      case 'sourdough':
+        return _SectionLayout.list;
+      default:
+        return _SectionLayout.grid;
+    }
+  }
+}
+
+class _MenuHeader extends StatelessWidget {
+  const _MenuHeader();
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        _CircleActionButton(
+          icon: Icons.home_outlined,
+          onTap: () {
+            context.read<MainBloc>().add(ChangeBottomNavIndexEvent(0));
+          },
+        ),
+        Gap(AppSize.s10.w),
+        BlocBuilder<CartBloc, CartState>(
+          builder: (context, state) {
+            final count = state is CartLoaded ? state.totalQty : 0;
+            return _CircleActionButton(
+              icon: Icons.shopping_cart_outlined,
+              badgeCount: count,
+              onTap: () => context.push('/cart'),
+            );
+          },
+        ),
+        const Spacer(),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Text(
+              Strings.menu.tr(),
+              style: getBoldTextStyle(
+                fontSize: FontSizeManager.s24.sp,
+                color: ColorManager.stateSuccessEmphasis,
+              ),
+            ),
+            Gap(AppSize.s2.h),
+            Text(
+              Strings.oneTimeOrdersSubtitle.tr(),
+              style: getRegularTextStyle(
+                fontSize: FontSizeManager.s13.sp,
+                color: ColorManager.textSecondary,
+              ),
+            ),
+          ],
         ),
       ],
     );
   }
 }
 
-class _DynamicProductCard extends StatefulWidget {
-  final OrderMenuProductModel product;
-  final String currency;
+class _CircleActionButton extends StatelessWidget {
+  final IconData icon;
+  final VoidCallback onTap;
+  final int badgeCount;
 
-  const _DynamicProductCard({required this.product, required this.currency});
-
-  @override
-  State<_DynamicProductCard> createState() => _DynamicProductCardState();
-}
-
-class _DynamicProductCardState extends State<_DynamicProductCard> {
-  int _qty = 1;
-  int? _weightGrams;
-  final Map<String, Set<String>> _selectedOptionIds = {};
-  final Map<String, int> _optionExtraWeight = {};
-
-  @override
-  void initState() {
-    super.initState();
-    _weightGrams = widget.product.defaultWeightGrams > 0
-        ? widget.product.defaultWeightGrams
-        : null;
-  }
-
-  bool get _canAddToCart {
-    if (_qty < 1) return false;
-    for (final group in widget.product.optionGroups) {
-      final selected = _selectedOptionIds[group.id] ?? <String>{};
-      if (group.isRequired && selected.isEmpty) return false;
-      if (selected.length < group.minSelections) return false;
-      if (selected.length > group.maxSelections) return false;
-    }
-    return true;
-  }
-
-  void _toggleOption(String groupId, String optionId) {
-    setState(() {
-      final set = _selectedOptionIds.putIfAbsent(groupId, () => <String>{});
-      final group = widget.product.optionGroups.firstWhere((g) => g.id == groupId);
-      if (set.contains(optionId)) {
-        set.remove(optionId);
-        _optionExtraWeight.remove(optionId);
-      } else {
-        if (group.maxSelections == 1) {
-          set.clear();
-        }
-        set.add(optionId);
-      }
-    });
-  }
-
-  void _addToCart(BuildContext context) {
-    final selectedOptions = <SelectedCartOption>[];
-    for (final group in widget.product.optionGroups) {
-      final ids = _selectedOptionIds[group.id] ?? <String>{};
-      for (final optionId in ids) {
-        final option = group.options.firstWhere((o) => o.optionId == optionId);
-        selectedOptions.add(
-          SelectedCartOption(
-            groupId: group.groupId,
-            optionId: option.optionId,
-            extraWeightGrams: option.extraWeightUnitGrams > 0
-                ? (_optionExtraWeight[optionId] ?? option.extraWeightUnitGrams)
-                : null,
-          ),
-        );
-      }
-    }
-
-    context.read<CartBloc>().add(
-      AddItemEvent(
-        CartItem(
-          productId: widget.product.id,
-          name: widget.product.name,
-          qty: _qty,
-          weightGrams: widget.product.pricingModel == 'per_100g' ? _weightGrams : null,
-          selectedOptions: selectedOptions,
-          unitPriceHalala: widget.product.priceHalala,
-        ),
-      ),
-    );
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('${widget.product.name} ${Strings.addToCart.tr()}')),
-    );
-  }
+  const _CircleActionButton({
+    required this.icon,
+    required this.onTap,
+    this.badgeCount = 0,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final product = widget.product;
-
-    return Card(
-      margin: EdgeInsets.only(bottom: AppPadding.p12.h),
-      child: Padding(
-        padding: EdgeInsets.all(AppPadding.p12.r),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              product.name,
-              style: getBoldTextStyle(
-                color: ColorManager.textPrimary,
-                fontSize: FontSizeManager.s14.sp,
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        Material(
+          color: ColorManager.backgroundSurface,
+          borderRadius: BorderRadius.circular(AppSize.s18.r),
+          child: InkWell(
+            onTap: onTap,
+            borderRadius: BorderRadius.circular(AppSize.s18.r),
+            child: SizedBox(
+              width: AppSize.s52.w,
+              height: AppSize.s52.w,
+              child: Icon(
+                icon,
+                color: ColorManager.stateSuccessEmphasis,
+                size: AppSize.s24.w,
               ),
             ),
-            SizedBox(height: AppSize.s4.h),
-            if (product.pricingModel == 'fixed')
-              Text(
-                '${(product.priceHalala / 100).toStringAsFixed(2)} ${widget.currency}',
+          ),
+        ),
+        if (badgeCount > 0)
+          PositionedDirectional(
+            top: -2.h,
+            end: -2.w,
+            child: Container(
+              constraints: BoxConstraints(minWidth: AppSize.s20.w),
+              padding: EdgeInsetsDirectional.symmetric(
+                horizontal: AppPadding.p6.w,
+                vertical: AppPadding.p2.h,
+              ),
+              decoration: const BoxDecoration(
+                color: ColorManager.brandAccent,
+                shape: BoxShape.circle,
+              ),
+              alignment: Alignment.center,
+              child: Text(
+                '$badgeCount',
                 style: getBoldTextStyle(
-                  color: ColorManager.brandPrimary,
-                  fontSize: FontSizeManager.s14.sp,
+                  fontSize: FontSizeManager.s10.sp,
+                  color: ColorManager.backgroundSurface,
                 ),
               ),
-            if (product.pricingModel == 'per_100g') ...[
-              SizedBox(height: AppSize.s8.h),
-              Row(
-                children: [
-                  Text(
-                    'weightGrams'.tr(),
-                    style: getRegularTextStyle(color: ColorManager.textSecondary),
-                  ),
-                  SizedBox(width: AppSize.s8.w),
-                  Expanded(
-                    child: Slider(
-                      value: (_weightGrams ?? product.defaultWeightGrams).toDouble(),
-                      min: product.minWeightGrams.toDouble(),
-                      max: product.maxWeightGrams > 0
-                          ? product.maxWeightGrams.toDouble()
-                          : 500,
-                      divisions: product.weightStepGrams > 0
-                          ? ((product.maxWeightGrams > 0 ? product.maxWeightGrams : 500) -
-                                  product.minWeightGrams) ~/
-                              product.weightStepGrams
-                          : null,
-                      label: '${_weightGrams ?? product.defaultWeightGrams}g',
-                      onChanged: (value) {
-                        setState(() {
-                          _weightGrams = value.round();
-                        });
-                      },
+            ),
+          ),
+      ],
+    );
+  }
+}
+
+class _PickupNoticeCard extends StatelessWidget {
+  const _PickupNoticeCard();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsetsDirectional.symmetric(
+        horizontal: AppPadding.p14.w,
+        vertical: AppPadding.p14.h,
+      ),
+      decoration: BoxDecoration(
+        color: const Color(0xFFE4F7EE),
+        borderRadius: BorderRadius.circular(AppSize.s16.r),
+        border: const BorderDirectional(
+          start: BorderSide(color: ColorManager.brandPrimary, width: 3),
+        ),
+      ),
+      child: Row(
+        children: [
+          const Icon(
+            Icons.storefront_outlined,
+            color: ColorManager.brandPrimary,
+          ),
+          Gap(AppSize.s10.w),
+          Expanded(
+            child: Text(
+              Strings.pickupOnlyNotice.tr(),
+              style: getBoldTextStyle(
+                fontSize: FontSizeManager.s13.sp,
+                color: ColorManager.stateSuccessEmphasis,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _SearchField extends StatelessWidget {
+  final TextEditingController controller;
+  final ValueChanged<String> onChanged;
+
+  const _SearchField({required this.controller, required this.onChanged});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      controller: controller,
+      onChanged: onChanged,
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: ColorManager.backgroundSurface,
+        hintText: Strings.searchMenuPlaceholder.tr(),
+        hintStyle: getRegularTextStyle(
+          fontSize: FontSizeManager.s13.sp,
+          color: ColorManager.textMuted,
+        ),
+        prefixIcon: const Icon(
+          Icons.search_rounded,
+          color: ColorManager.textSecondary,
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppSize.s18.r),
+          borderSide: BorderSide.none,
+        ),
+        contentPadding: EdgeInsetsDirectional.symmetric(
+          horizontal: AppPadding.p16.w,
+          vertical: AppPadding.p16.h,
+        ),
+      ),
+    );
+  }
+}
+
+class _MenuChipsRow extends StatelessWidget {
+  final List<_MenuChipData> chips;
+  final String activeKey;
+  final ValueChanged<String> onSelected;
+
+  const _MenuChipsRow({
+    required this.chips,
+    required this.activeKey,
+    required this.onSelected,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: AppSize.s44.h,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (context, index) {
+          final chip = chips[index];
+          final isSelected = chip.key == activeKey;
+          return ChoiceChip(
+            label: Text(chip.label),
+            selected: isSelected,
+            labelStyle: getBoldTextStyle(
+              fontSize: FontSizeManager.s13.sp,
+              color:
+                  isSelected
+                      ? ColorManager.backgroundSurface
+                      : ColorManager.textPrimary,
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(AppSize.s99.r),
+              side: BorderSide.none,
+            ),
+            backgroundColor: ColorManager.backgroundSurface,
+            selectedColor: ColorManager.stateSuccessEmphasis,
+            onSelected: (_) => onSelected(chip.key),
+          );
+        },
+        separatorBuilder: (_, __) => Gap(AppSize.s8.w),
+        itemCount: chips.length,
+      ),
+    );
+  }
+}
+
+class _BuilderSection extends StatelessWidget {
+  final List<OrderMenuProductModel> mainProducts;
+  final List<OrderMenuProductModel> lightProducts;
+  final String currency;
+  final Future<void> Function(OrderMenuProductModel, String) onOpenBuilder;
+
+  const _BuilderSection({
+    required this.mainProducts,
+    required this.lightProducts,
+    required this.currency,
+    required this.onOpenBuilder,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _MenuSectionHeader(
+          title: Strings.customOrder.tr(),
+          subtitle: Strings.chooseProductToCustomize.tr(),
+        ),
+        Gap(AppSize.s16.h),
+        ...mainProducts.map(
+          (product) => Padding(
+            padding: EdgeInsetsDirectional.only(bottom: AppPadding.p14.h),
+            child: _BuilderProductCard(
+              product: product,
+              imagePath: _imageForProduct(product.key),
+              currency: currency,
+              onTap: () => onOpenBuilder(product, currency),
+            ),
+          ),
+        ),
+        Gap(AppSize.s12.h),
+        _MenuSectionHeader(title: Strings.lightChoices.tr()),
+        Gap(AppSize.s12.h),
+        if (lightProducts.isEmpty)
+          _EmptyStateCard(message: Strings.noLightChoicesAvailable.tr())
+        else
+          GridView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: AppSize.s12.w,
+              mainAxisSpacing: AppSize.s12.h,
+              mainAxisExtent: AppSize.s220.h,
+            ),
+            itemCount: lightProducts.length,
+            itemBuilder: (context, index) {
+              final product = lightProducts[index];
+              return _LightBuilderCard(
+                product: product,
+                imagePath: _imageForProduct(product.key),
+                onTap: () => onOpenBuilder(product, currency),
+              );
+            },
+          ),
+      ],
+    );
+  }
+
+  String? _imageForProduct(String productKey) {
+    switch (productKey) {
+      case 'basic_salad':
+        return ImageAssets.oneTimeBasicSalad;
+      case 'basic_meal':
+        return ImageAssets.oneTimeBasicMeal;
+      case 'fruit_salad':
+        return ImageAssets.oneTimeFruitSalad;
+      case 'greek_yogurt':
+        return ImageAssets.oneTimeGreekYogurt;
+      default:
+        return null;
+    }
+  }
+}
+
+class _BuilderProductCard extends StatelessWidget {
+  final OrderMenuProductModel product;
+  final String currency;
+  final String? imagePath;
+  final VoidCallback onTap;
+
+  const _BuilderProductCard({
+    required this.product,
+    required this.currency,
+    required this.onTap,
+    this.imagePath,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: ColorManager.backgroundSurface,
+      borderRadius: BorderRadius.circular(AppSize.s28.r),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(AppSize.s28.r),
+        child: Padding(
+          padding: EdgeInsetsDirectional.all(AppPadding.p14.r),
+          child: Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      padding: EdgeInsetsDirectional.symmetric(
+                        horizontal: AppPadding.p10.w,
+                        vertical: AppPadding.p4.h,
+                      ),
+                      decoration: BoxDecoration(
+                        color: ColorManager.brandAccentSoft,
+                        borderRadius: BorderRadius.circular(AppSize.s99.r),
+                      ),
+                      child: Text(
+                        Strings.byWeight.tr(),
+                        style: getBoldTextStyle(
+                          fontSize: FontSizeManager.s11.sp,
+                          color: ColorManager.brandAccentPressed,
+                        ),
+                      ),
                     ),
-                  ),
-                  Text(
-                    '${_weightGrams ?? product.defaultWeightGrams}g',
-                    style: getBoldTextStyle(color: ColorManager.textPrimary),
-                  ),
-                ],
+                    Gap(AppSize.s10.h),
+                    Text(
+                      product.name,
+                      style: getBoldTextStyle(
+                        fontSize: FontSizeManager.s18.sp,
+                        color: ColorManager.textPrimary,
+                      ),
+                    ),
+                    Gap(AppSize.s6.h),
+                    Text(
+                      _builderDescription(product.key),
+                      style: getRegularTextStyle(
+                        fontSize: FontSizeManager.s13.sp,
+                        color: ColorManager.textSecondary,
+                      ),
+                    ),
+                    Gap(AppSize.s10.h),
+                    Text(
+                      '${_formatHalala(product.priceHalala, currency)} / 100 جم',
+                      style: getBoldTextStyle(
+                        fontSize: FontSizeManager.s14.sp,
+                        color: ColorManager.stateSuccessEmphasis,
+                      ),
+                    ),
+                    Gap(AppSize.s14.h),
+                    Text(
+                      Strings.openBuilder.tr(),
+                      style: getBoldTextStyle(
+                        fontSize: FontSizeManager.s13.sp,
+                        color: ColorManager.brandAccent,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Gap(AppSize.s12.w),
+              _MenuMediaBox(
+                label: _initials(product.name),
+                imagePath: imagePath,
+                size: AppSize.s120.w,
+                borderRadius: AppSize.s22.r,
               ),
             ],
-            ...product.optionGroups.map((group) {
-              return _OptionGroupSelector(
-                group: group,
-                selectedIds: _selectedOptionIds[group.id] ?? <String>{},
-                onToggle: (optionId) => _toggleOption(group.id, optionId),
-                extraWeightMap: _optionExtraWeight,
-                onExtraWeightChanged: (optionId, grams) {
-                  setState(() {
-                    _optionExtraWeight[optionId] = grams;
-                  });
-                },
-              );
-            }),
-            SizedBox(height: AppSize.s8.h),
-            Row(
+          ),
+        ),
+      ),
+    );
+  }
+
+  String _builderDescription(String key) {
+    switch (key) {
+      case 'basic_salad':
+        return 'اختاري الورقيات والخضار والبروتين والصوص';
+      case 'basic_meal':
+        return 'اختاري الكارب والبروتين حسب مزاجك';
+      case 'fruit_salad':
+        return 'اختاري أنواع الفواكه حسب رغبتك';
+      case 'greek_yogurt':
+        return 'اختاري الفواكه والمكسرات المناسبة لك';
+      default:
+        return Strings.customOrderSubtitle.tr();
+    }
+  }
+}
+
+class _LightBuilderCard extends StatelessWidget {
+  final OrderMenuProductModel product;
+  final String? imagePath;
+  final VoidCallback onTap;
+
+  const _LightBuilderCard({
+    required this.product,
+    required this.onTap,
+    this.imagePath,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: ColorManager.backgroundSurface,
+      borderRadius: BorderRadius.circular(AppSize.s24.r),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(AppSize.s24.r),
+        child: Padding(
+          padding: EdgeInsetsDirectional.all(AppPadding.p12.r),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: _MenuMediaBox(
+                  label: _initials(product.name),
+                  imagePath: imagePath,
+                  size: double.infinity,
+                  borderRadius: AppSize.s18.r,
+                ),
+              ),
+              Gap(AppSize.s12.h),
+              Text(
+                product.name,
+                style: getBoldTextStyle(
+                  fontSize: FontSizeManager.s14.sp,
+                  color: ColorManager.textPrimary,
+                ),
+              ),
+              Gap(AppSize.s4.h),
+              Text(
+                Strings.priceDependsOnChoices.tr(),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: getRegularTextStyle(
+                  fontSize: FontSizeManager.s12.sp,
+                  color: ColorManager.textSecondary,
+                ),
+              ),
+              Gap(AppSize.s8.h),
+              Text(
+                Strings.customize.tr(),
+                style: getBoldTextStyle(
+                  fontSize: FontSizeManager.s12.sp,
+                  color: ColorManager.stateSuccessEmphasis,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _DynamicSection extends StatelessWidget {
+  final _MenuSectionData section;
+  final String currency;
+  final List<OrderMenuProductModel> products;
+  final ValueChanged<OrderMenuProductModel> onAddDirectItem;
+
+  const _DynamicSection({
+    required this.section,
+    required this.currency,
+    required this.products,
+    required this.onAddDirectItem,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _MenuSectionHeader(title: section.title, subtitle: section.subtitle),
+        Gap(AppSize.s14.h),
+        if (products.isEmpty)
+          _EmptyStateCard(message: Strings.noProductsAvailable.tr())
+        else
+          switch (section.layout) {
+            _SectionLayout.compactScroll => SizedBox(
+              height: AppSize.s205.h,
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                itemCount: products.length,
+                separatorBuilder: (_, __) => Gap(AppSize.s12.w),
+                itemBuilder:
+                    (context, index) => SizedBox(
+                      width: AppSize.s170.w,
+                      child: _CompactProductCard(
+                        product: products[index],
+                        currency: currency,
+                        onAdd: () => onAddDirectItem(products[index]),
+                      ),
+                    ),
+              ),
+            ),
+            _SectionLayout.list => Column(
+              children:
+                  products
+                      .map(
+                        (product) => Padding(
+                          padding: EdgeInsetsDirectional.only(
+                            bottom: AppPadding.p12.h,
+                          ),
+                          child: _ListProductCard(
+                            product: product,
+                            currency: currency,
+                            onAdd: () => onAddDirectItem(product),
+                          ),
+                        ),
+                      )
+                      .toList(),
+            ),
+            _SectionLayout.grid => GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: AppSize.s12.w,
+                mainAxisSpacing: AppSize.s12.h,
+                mainAxisExtent: AppSize.s220.h,
+              ),
+              itemCount: products.length,
+              itemBuilder:
+                  (context, index) => _GridProductCard(
+                    product: products[index],
+                    currency: currency,
+                    onAdd: () => onAddDirectItem(products[index]),
+                  ),
+            ),
+          },
+      ],
+    );
+  }
+}
+
+class _CompactProductCard extends StatelessWidget {
+  final OrderMenuProductModel product;
+  final String currency;
+  final VoidCallback onAdd;
+
+  const _CompactProductCard({
+    required this.product,
+    required this.currency,
+    required this.onAdd,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsetsDirectional.all(AppPadding.p12.r),
+      decoration: BoxDecoration(
+        color: ColorManager.backgroundSurface,
+        borderRadius: BorderRadius.circular(AppSize.s24.r),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _MenuMediaBox(
+            label: _initials(product.name),
+            size: AppSize.s84.w,
+            borderRadius: AppSize.s18.r,
+          ),
+          const Spacer(),
+          Text(
+            product.name,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: getBoldTextStyle(
+              fontSize: FontSizeManager.s14.sp,
+              color: ColorManager.textPrimary,
+            ),
+          ),
+          Gap(AppSize.s4.h),
+          Text(
+            _formatHalala(product.priceHalala, currency),
+            style: getBoldTextStyle(
+              fontSize: FontSizeManager.s13.sp,
+              color: ColorManager.stateSuccessEmphasis,
+            ),
+          ),
+          Gap(AppSize.s10.h),
+          _AddButton(onTap: onAdd),
+        ],
+      ),
+    );
+  }
+}
+
+class _ListProductCard extends StatelessWidget {
+  final OrderMenuProductModel product;
+  final String currency;
+  final VoidCallback onAdd;
+
+  const _ListProductCard({
+    required this.product,
+    required this.currency,
+    required this.onAdd,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsetsDirectional.all(AppPadding.p12.r),
+      decoration: BoxDecoration(
+        color: ColorManager.backgroundSurface,
+        borderRadius: BorderRadius.circular(AppSize.s24.r),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                IconButton(
-                  icon: const Icon(Icons.remove_circle_outline),
-                  onPressed: _qty > 1
-                      ? () => setState(() => _qty--)
-                      : null,
+                Text(
+                  product.name,
+                  style: getBoldTextStyle(
+                    fontSize: FontSizeManager.s16.sp,
+                    color: ColorManager.textPrimary,
+                  ),
                 ),
-                Text('$_qty', style: getBoldTextStyle(color: ColorManager.textPrimary)),
-                IconButton(
-                  icon: const Icon(Icons.add_circle_outline),
-                  onPressed: () => setState(() => _qty++),
-                ),
-                const Spacer(),
-                ElevatedButton(
-                  onPressed: _canAddToCart ? () => _addToCart(context) : null,
-                  child: Text(Strings.addToCart.tr()),
+                Gap(AppSize.s6.h),
+                Text(
+                  _formatHalala(product.priceHalala, currency),
+                  style: getBoldTextStyle(
+                    fontSize: FontSizeManager.s14.sp,
+                    color: ColorManager.stateSuccessEmphasis,
+                  ),
                 ),
               ],
+            ),
+          ),
+          Gap(AppSize.s10.w),
+          _AddButton(onTap: onAdd),
+        ],
+      ),
+    );
+  }
+}
+
+class _GridProductCard extends StatelessWidget {
+  final OrderMenuProductModel product;
+  final String currency;
+  final VoidCallback onAdd;
+
+  const _GridProductCard({
+    required this.product,
+    required this.currency,
+    required this.onAdd,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsetsDirectional.all(AppPadding.p12.r),
+      decoration: BoxDecoration(
+        color: ColorManager.backgroundSurface,
+        borderRadius: BorderRadius.circular(AppSize.s24.r),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _MenuMediaBox(
+            label: _initials(product.name),
+            size: double.infinity,
+            borderRadius: AppSize.s18.r,
+          ),
+          Gap(AppSize.s10.h),
+          Text(
+            product.name,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: getBoldTextStyle(
+              fontSize: FontSizeManager.s14.sp,
+              color: ColorManager.textPrimary,
+            ),
+          ),
+          Gap(AppSize.s6.h),
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  _formatHalala(product.priceHalala, currency),
+                  style: getBoldTextStyle(
+                    fontSize: FontSizeManager.s13.sp,
+                    color: ColorManager.stateSuccessEmphasis,
+                  ),
+                ),
+              ),
+              _AddButton(onTap: onAdd),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _AddButton extends StatelessWidget {
+  final VoidCallback onTap;
+
+  const _AddButton({required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: ColorManager.brandPrimaryTint,
+      borderRadius: BorderRadius.circular(AppSize.s16.r),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(AppSize.s16.r),
+        child: Padding(
+          padding: EdgeInsetsDirectional.symmetric(
+            horizontal: AppPadding.p12.w,
+            vertical: AppPadding.p10.h,
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(
+                Icons.add_rounded,
+                color: ColorManager.stateSuccessEmphasis,
+              ),
+              Gap(AppSize.s4.w),
+              Text(
+                Strings.add.tr(),
+                style: getBoldTextStyle(
+                  fontSize: FontSizeManager.s13.sp,
+                  color: ColorManager.stateSuccessEmphasis,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _StickyCartBar extends StatelessWidget {
+  const _StickyCartBar();
+
+  @override
+  Widget build(BuildContext context) {
+    return PositionedDirectional(
+      start: AppPadding.p16.w,
+      end: AppPadding.p16.w,
+      bottom: AppPadding.p16.h,
+      child: BlocBuilder<CartBloc, CartState>(
+        builder: (context, state) {
+          if (state is! CartLoaded || state.items.isEmpty) {
+            return const SizedBox.shrink();
+          }
+
+          final previewTotal = state.items.fold<int>(
+            0,
+            (sum, item) => sum + ((item.unitPriceHalala ?? 0) * item.qty),
+          );
+
+          return Material(
+            color: ColorManager.stateSuccessEmphasis,
+            borderRadius: BorderRadius.circular(AppSize.s24.r),
+            child: InkWell(
+              onTap: () => context.push('/cart'),
+              borderRadius: BorderRadius.circular(AppSize.s24.r),
+              child: Padding(
+                padding: EdgeInsetsDirectional.symmetric(
+                  horizontal: AppPadding.p18.w,
+                  vertical: AppPadding.p16.h,
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      width: AppSize.s30.w,
+                      height: AppSize.s30.w,
+                      decoration: BoxDecoration(
+                        color: ColorManager.backgroundSurface.withValues(
+                          alpha: 0.18,
+                        ),
+                        borderRadius: BorderRadius.circular(AppSize.s12.r),
+                      ),
+                      alignment: Alignment.center,
+                      child: Text(
+                        '${state.totalQty}',
+                        style: getBoldTextStyle(
+                          fontSize: FontSizeManager.s13.sp,
+                          color: ColorManager.backgroundSurface,
+                        ),
+                      ),
+                    ),
+                    Gap(AppSize.s12.w),
+                    Expanded(
+                      child: Text(
+                        Strings.viewCart.tr(),
+                        style: getBoldTextStyle(
+                          fontSize: FontSizeManager.s15.sp,
+                          color: ColorManager.backgroundSurface,
+                        ),
+                      ),
+                    ),
+                    Text(
+                      _formatHalala(previewTotal, 'SAR'),
+                      style: getBoldTextStyle(
+                        fontSize: FontSizeManager.s15.sp,
+                        color: ColorManager.backgroundSurface,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class _MenuErrorView extends StatelessWidget {
+  final String message;
+
+  const _MenuErrorView({required this.message});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: EdgeInsetsDirectional.all(AppPadding.p24.r),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              message,
+              textAlign: TextAlign.center,
+              style: getRegularTextStyle(
+                fontSize: FontSizeManager.s14.sp,
+                color: ColorManager.textPrimary,
+              ),
+            ),
+            Gap(AppSize.s16.h),
+            ElevatedButton(
+              onPressed: () {
+                context.read<MenuBloc>().add(const RetryMenuEvent());
+              },
+              child: Text(Strings.tryAgain.tr()),
             ),
           ],
         ),
@@ -409,18 +1291,463 @@ class _DynamicProductCardState extends State<_DynamicProductCard> {
   }
 }
 
-class _OptionGroupSelector extends StatelessWidget {
+class _EmptyStateCard extends StatelessWidget {
+  final String message;
+
+  const _EmptyStateCard({required this.message});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsetsDirectional.all(AppPadding.p18.r),
+      decoration: BoxDecoration(
+        color: ColorManager.backgroundSurface,
+        borderRadius: BorderRadius.circular(AppSize.s20.r),
+      ),
+      child: Text(
+        message,
+        style: getRegularTextStyle(
+          fontSize: FontSizeManager.s13.sp,
+          color: ColorManager.textSecondary,
+        ),
+      ),
+    );
+  }
+}
+
+class _MenuMediaBox extends StatelessWidget {
+  final String label;
+  final String? imagePath;
+  final double size;
+  final double borderRadius;
+
+  const _MenuMediaBox({
+    required this.label,
+    required this.size,
+    required this.borderRadius,
+    this.imagePath,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final image = imagePath;
+    if (image != null) {
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(borderRadius),
+        child: Image.asset(image, width: size, height: size, fit: BoxFit.cover),
+      );
+    }
+
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        color: const Color(0xFFE9F5EF),
+        borderRadius: BorderRadius.circular(borderRadius),
+      ),
+      alignment: Alignment.center,
+      child: Text(
+        label,
+        style: getBoldTextStyle(
+          fontSize: FontSizeManager.s18.sp,
+          color: ColorManager.stateSuccessEmphasis,
+        ),
+      ),
+    );
+  }
+}
+
+class _MenuSectionHeader extends StatelessWidget {
+  final String title;
+  final String? subtitle;
+
+  const _MenuSectionHeader({required this.title, this.subtitle});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: getBoldTextStyle(
+            fontSize: FontSizeManager.s20.sp,
+            color: ColorManager.textPrimary,
+          ),
+        ),
+        if (subtitle != null) ...[
+          Gap(AppSize.s4.h),
+          Text(
+            subtitle!,
+            style: getRegularTextStyle(
+              fontSize: FontSizeManager.s13.sp,
+              color: ColorManager.textSecondary,
+            ),
+          ),
+        ],
+      ],
+    );
+  }
+}
+
+class _SectionAnchor extends StatelessWidget {
+  final GlobalKey anchorKey;
+  final Widget child;
+
+  const _SectionAnchor({required this.anchorKey, required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return KeyedSubtree(key: anchorKey, child: child);
+  }
+}
+
+class _BuilderScreen extends StatefulWidget {
+  final OrderMenuProductModel product;
+  final String currency;
+
+  const _BuilderScreen({required this.product, required this.currency});
+
+  @override
+  State<_BuilderScreen> createState() => _BuilderScreenState();
+}
+
+class _BuilderScreenState extends State<_BuilderScreen> {
+  late int _qty;
+  late int _weightGrams;
+  final Map<String, Set<String>> _selectedOptionIds = {};
+  final Map<String, int> _extraWeightByOptionId = {};
+
+  @override
+  void initState() {
+    super.initState();
+    _qty = 1;
+    _weightGrams =
+        widget.product.defaultWeightGrams > 0
+            ? widget.product.defaultWeightGrams
+            : widget.product.minWeightGrams;
+  }
+
+  bool get _isValid {
+    if (_qty < 1) {
+      return false;
+    }
+
+    for (final group in widget.product.optionGroups) {
+      final selected = _selectedOptionIds[group.groupId] ?? <String>{};
+      if (group.isRequired && selected.isEmpty) {
+        return false;
+      }
+      if (selected.length < group.minSelections) {
+        return false;
+      }
+      if (selected.length > group.maxSelections) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  int get _estimatedUnitPriceHalala {
+    int unitPrice =
+        widget.product.pricingModel == 'per_100g'
+            ? ((widget.product.priceHalala * _weightGrams) /
+                    (widget.product.baseUnitGrams == 0
+                        ? 100
+                        : widget.product.baseUnitGrams))
+                .round()
+            : widget.product.priceHalala;
+
+    for (final group in widget.product.optionGroups) {
+      final selected = _selectedOptionIds[group.groupId] ?? <String>{};
+      for (final optionId in selected) {
+        final option = group.options.firstWhere(
+          (element) => element.optionId == optionId,
+        );
+        unitPrice += option.extraPriceHalala;
+        if (option.extraWeightUnitGrams > 0 &&
+            option.extraWeightPriceHalala > 0) {
+          final selectedExtra =
+              _extraWeightByOptionId[optionId] ?? option.extraWeightUnitGrams;
+          final units = (selectedExtra / option.extraWeightUnitGrams).ceil();
+          unitPrice += units * option.extraWeightPriceHalala;
+        }
+      }
+    }
+
+    return unitPrice;
+  }
+
+  void _toggleOption(OrderMenuOptionGroupModel group, String optionId) {
+    setState(() {
+      final selected = _selectedOptionIds.putIfAbsent(
+        group.groupId,
+        () => <String>{},
+      );
+      if (selected.contains(optionId)) {
+        selected.remove(optionId);
+        _extraWeightByOptionId.remove(optionId);
+        return;
+      }
+
+      if (group.maxSelections == 1) {
+        selected.clear();
+      }
+
+      if (selected.length < group.maxSelections) {
+        selected.add(optionId);
+      }
+    });
+  }
+
+  void _changeExtraWeight(OrderMenuOptionModel option, int delta) {
+    setState(() {
+      final current =
+          _extraWeightByOptionId[option.optionId] ??
+          option.extraWeightUnitGrams;
+      final next = current + delta;
+      if (next >= option.extraWeightUnitGrams) {
+        _extraWeightByOptionId[option.optionId] = next;
+      }
+    });
+  }
+
+  void _submit() {
+    if (!_isValid) {
+      return;
+    }
+
+    final selectedOptions = <SelectedCartOption>[];
+    for (final group in widget.product.optionGroups) {
+      final selected = _selectedOptionIds[group.groupId] ?? <String>{};
+      for (final optionId in selected) {
+        selectedOptions.add(
+          SelectedCartOption(
+            groupId: group.groupId,
+            optionId: optionId,
+            extraWeightGrams: _extraWeightByOptionId[optionId],
+          ),
+        );
+      }
+    }
+
+    Navigator.of(context).pop(
+      CartItem(
+        productId: widget.product.id,
+        name: widget.product.name,
+        qty: _qty,
+        weightGrams:
+            widget.product.pricingModel == 'per_100g' ? _weightGrams : null,
+        selectedOptions: selectedOptions,
+        unitPriceHalala: _estimatedUnitPriceHalala,
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final product = widget.product;
+    return Scaffold(
+      backgroundColor: const Color(0xFFF7F3EB),
+      appBar: AppBar(
+        backgroundColor: const Color(0xFFF7F3EB),
+        elevation: 0,
+        title: Text(
+          product.name,
+          style: getBoldTextStyle(
+            fontSize: FontSizeManager.s18.sp,
+            color: ColorManager.textPrimary,
+          ),
+        ),
+      ),
+      bottomNavigationBar: SafeArea(
+        child: Padding(
+          padding: EdgeInsetsDirectional.fromSTEB(
+            AppPadding.p16.w,
+            AppPadding.p10.h,
+            AppPadding.p16.w,
+            AppPadding.p16.h,
+          ),
+          child: ElevatedButton(
+            onPressed: _isValid ? _submit : null,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: ColorManager.stateSuccessEmphasis,
+              foregroundColor: ColorManager.backgroundSurface,
+              padding: EdgeInsetsDirectional.symmetric(
+                vertical: AppPadding.p16.h,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(AppSize.s20.r),
+              ),
+            ),
+            child: Text(
+              '${Strings.addToCart.tr()} · ${_formatHalala(_estimatedUnitPriceHalala * _qty, widget.currency)}',
+              style: getBoldTextStyle(
+                fontSize: FontSizeManager.s15.sp,
+                color: ColorManager.backgroundSurface,
+              ),
+            ),
+          ),
+        ),
+      ),
+      body: SingleChildScrollView(
+        padding: EdgeInsetsDirectional.fromSTEB(
+          AppPadding.p16.w,
+          AppPadding.p8.h,
+          AppPadding.p16.w,
+          AppPadding.p24.h,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: EdgeInsetsDirectional.all(AppPadding.p18.r),
+              decoration: BoxDecoration(
+                color: ColorManager.backgroundSurface,
+                borderRadius: BorderRadius.circular(AppSize.s28.r),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    product.name,
+                    style: getBoldTextStyle(
+                      fontSize: FontSizeManager.s22.sp,
+                      color: ColorManager.textPrimary,
+                    ),
+                  ),
+                  Gap(AppSize.s8.h),
+                  Text(
+                    product.pricingModel == 'per_100g'
+                        ? '${_formatHalala(product.priceHalala, widget.currency)} / 100 جم'
+                        : _formatHalala(product.priceHalala, widget.currency),
+                    style: getBoldTextStyle(
+                      fontSize: FontSizeManager.s16.sp,
+                      color: ColorManager.stateSuccessEmphasis,
+                    ),
+                  ),
+                  if (product.pricingModel == 'per_100g') ...[
+                    Gap(AppSize.s18.h),
+                    _WeightSelector(
+                      value: _weightGrams,
+                      min: product.minWeightGrams,
+                      max:
+                          product.maxWeightGrams > 0
+                              ? product.maxWeightGrams
+                              : 600,
+                      step:
+                          product.weightStepGrams > 0
+                              ? product.weightStepGrams
+                              : 50,
+                      onChanged: (value) {
+                        setState(() {
+                          _weightGrams = value;
+                        });
+                      },
+                    ),
+                  ],
+                ],
+              ),
+            ),
+            for (final group in product.optionGroups)
+              Padding(
+                padding: EdgeInsetsDirectional.only(top: AppPadding.p16.h),
+                child: _OptionGroupCard(
+                  group: group,
+                  selectedIds: _selectedOptionIds[group.groupId] ?? <String>{},
+                  extraWeightByOptionId: _extraWeightByOptionId,
+                  onToggle: (optionId) => _toggleOption(group, optionId),
+                  onExtraWeightChanged: _changeExtraWeight,
+                ),
+              ),
+            Gap(AppSize.s16.h),
+            _QuantitySelector(
+              quantity: _qty,
+              onDecrease:
+                  _qty > 1
+                      ? () {
+                        setState(() {
+                          _qty--;
+                        });
+                      }
+                      : null,
+              onIncrease: () {
+                setState(() {
+                  _qty++;
+                });
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _WeightSelector extends StatelessWidget {
+  final int value;
+  final int min;
+  final int max;
+  final int step;
+  final ValueChanged<int> onChanged;
+
+  const _WeightSelector({
+    required this.value,
+    required this.min,
+    required this.max,
+    required this.step,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final divisions = ((max - min) / step).round();
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          Strings.weightGrams.tr(),
+          style: getBoldTextStyle(
+            fontSize: FontSizeManager.s14.sp,
+            color: ColorManager.textPrimary,
+          ),
+        ),
+        Gap(AppSize.s8.h),
+        Slider(
+          value: value.toDouble(),
+          min: min.toDouble(),
+          max: max.toDouble(),
+          divisions: divisions > 0 ? divisions : null,
+          activeColor: ColorManager.brandPrimary,
+          label: '$value جم',
+          onChanged: (newValue) => onChanged(newValue.round()),
+        ),
+        Text(
+          '$value جم',
+          style: getBoldTextStyle(
+            fontSize: FontSizeManager.s14.sp,
+            color: ColorManager.stateSuccessEmphasis,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _OptionGroupCard extends StatelessWidget {
   final OrderMenuOptionGroupModel group;
   final Set<String> selectedIds;
+  final Map<String, int> extraWeightByOptionId;
   final ValueChanged<String> onToggle;
-  final Map<String, int> extraWeightMap;
-  final void Function(String optionId, int grams) onExtraWeightChanged;
+  final void Function(OrderMenuOptionModel option, int delta)
+  onExtraWeightChanged;
 
-  const _OptionGroupSelector({
+  const _OptionGroupCard({
     required this.group,
     required this.selectedIds,
+    required this.extraWeightByOptionId,
     required this.onToggle,
-    required this.extraWeightMap,
     required this.onExtraWeightChanged,
   });
 
@@ -429,95 +1756,97 @@ class _OptionGroupSelector extends StatelessWidget {
     final sortedOptions = [...group.options]
       ..sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
 
-    return Padding(
-      padding: EdgeInsets.only(top: AppPadding.p8.h),
+    return Container(
+      padding: EdgeInsetsDirectional.all(AppPadding.p16.r),
+      decoration: BoxDecoration(
+        color: ColorManager.backgroundSurface,
+        borderRadius: BorderRadius.circular(AppSize.s24.r),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              Text(
-                group.name,
-                style: getBoldTextStyle(
-                  color: ColorManager.textPrimary,
-                  fontSize: FontSizeManager.s12.sp,
+              Expanded(
+                child: Text(
+                  group.name,
+                  style: getBoldTextStyle(
+                    fontSize: FontSizeManager.s16.sp,
+                    color: ColorManager.textPrimary,
+                  ),
                 ),
               ),
-              if (group.isRequired) ...[
-                SizedBox(width: AppSize.s4.w),
+              if (group.isRequired)
                 Text(
-                  '(${Strings.required_.tr()})',
-                  style: getRegularTextStyle(
-                    color: Colors.red,
-                    fontSize: FontSizeManager.s10.sp,
+                  Strings.required_.tr(),
+                  style: getBoldTextStyle(
+                    fontSize: FontSizeManager.s12.sp,
+                    color: ColorManager.stateError,
                   ),
                 ),
-              ],
             ],
           ),
-          SizedBox(height: AppSize.s4.h),
+          Gap(AppSize.s4.h),
+          Text(
+            'اختار ${group.minSelections} - ${group.maxSelections}',
+            style: getRegularTextStyle(
+              fontSize: FontSizeManager.s12.sp,
+              color: ColorManager.textSecondary,
+            ),
+          ),
+          Gap(AppSize.s12.h),
           Wrap(
             spacing: AppSize.s8.w,
-            runSpacing: AppSize.s4.h,
-            children: sortedOptions.map((option) {
-              final isSelected = selectedIds.contains(option.optionId);
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  ChoiceChip(
-                    label: Text(
-                      option.name +
-                          (option.extraPriceHalala > 0
-                              ? ' +${(option.extraPriceHalala / 100).toStringAsFixed(2)}'
-                              : ''),
-                    ),
-                    selected: isSelected,
-                    onSelected: (_) => onToggle(option.optionId),
-                  ),
-                  if (isSelected && option.extraWeightUnitGrams > 0)
-                    Padding(
-                      padding: EdgeInsets.only(bottom: AppPadding.p4.h),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            'extraWeight'.tr(),
-                            style: getRegularTextStyle(
-                              color: ColorManager.textSecondary,
-                              fontSize: FontSizeManager.s10.sp,
-                            ),
-                          ),
-                          SizedBox(width: AppSize.s4.w),
-                          SizedBox(
-                            width: 60.w,
-                            child: TextField(
-                              keyboardType: TextInputType.number,
-                              textAlign: TextAlign.center,
-                              style: getRegularTextStyle(
-                                color: ColorManager.textPrimary,
-                                fontSize: FontSizeManager.s12.sp,
-                              ),
-                              decoration: InputDecoration(
-                                isDense: true,
-                                contentPadding: EdgeInsets.symmetric(
-                                  vertical: AppPadding.p4.h,
-                                ),
-                                hintText: '${option.extraWeightUnitGrams}g',
-                              ),
-                              onChanged: (value) {
-                                final grams = int.tryParse(value);
-                                if (grams != null && grams > 0) {
-                                  onExtraWeightChanged(option.optionId, grams);
-                                }
-                              },
-                            ),
-                          ),
-                        ],
+            runSpacing: AppSize.s8.h,
+            children:
+                sortedOptions.map((option) {
+                  final isSelected = selectedIds.contains(option.optionId);
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      FilterChip(
+                        label: Text(
+                          option.extraPriceHalala > 0
+                              ? '${option.name} + ${_formatHalala(option.extraPriceHalala, 'SAR')}'
+                              : option.name,
+                        ),
+                        selected: isSelected,
+                        selectedColor: ColorManager.brandPrimaryTint,
+                        checkmarkColor: ColorManager.stateSuccessEmphasis,
+                        labelStyle: getBoldTextStyle(
+                          fontSize: FontSizeManager.s12.sp,
+                          color:
+                              isSelected
+                                  ? ColorManager.stateSuccessEmphasis
+                                  : ColorManager.textPrimary,
+                        ),
+                        onSelected: (_) => onToggle(option.optionId),
                       ),
-                    ),
-                ],
-              );
-            }).toList(),
+                      if (isSelected && option.extraWeightUnitGrams > 0)
+                        Padding(
+                          padding: EdgeInsetsDirectional.only(
+                            top: AppPadding.p8.h,
+                          ),
+                          child: _InlineExtraWeightSelector(
+                            value:
+                                extraWeightByOptionId[option.optionId] ??
+                                option.extraWeightUnitGrams,
+                            step: option.extraWeightUnitGrams,
+                            onDecrease:
+                                () => onExtraWeightChanged(
+                                  option,
+                                  -option.extraWeightUnitGrams,
+                                ),
+                            onIncrease:
+                                () => onExtraWeightChanged(
+                                  option,
+                                  option.extraWeightUnitGrams,
+                                ),
+                          ),
+                        ),
+                    ],
+                  );
+                }).toList(),
           ),
         ],
       ),
@@ -525,375 +1854,152 @@ class _OptionGroupSelector extends StatelessWidget {
   }
 }
 
-// ═══════════════════════════════════════════════════════════════════════════════
-//  Legacy Fallback (standardMeals / sandwiches / salad / addons)
-// ═══════════════════════════════════════════════════════════════════════════════
+class _InlineExtraWeightSelector extends StatelessWidget {
+  final int value;
+  final int step;
+  final VoidCallback onDecrease;
+  final VoidCallback onIncrease;
 
-class _LegacyMenuView extends StatelessWidget {
-  final OrderMenuModel menu;
-
-  const _LegacyMenuView({required this.menu});
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView(
-      padding: EdgeInsets.symmetric(horizontal: AppPadding.p16.w),
-      children: [
-        if (menu.standardMeals != null) ...[
-          _SectionTitle(title: 'standardMeals'.tr()),
-          _LegacyStandardMealBuilderCard(
-            standardMeals: menu.standardMeals!,
-            currency: menu.currency,
-          ),
-        ],
-        if (menu.sandwiches.isNotEmpty) ...[
-          _SectionTitle(title: 'sandwiches'.tr()),
-          ...menu.sandwiches.map(
-            (s) => _LegacySandwichCard(sandwich: s, currency: menu.currency),
-          ),
-        ],
-        if (menu.salad != null && menu.salad!.ingredients.isNotEmpty) ...[
-          _SectionTitle(title: 'salad'.tr()),
-          _LegacySaladBuilderCard(salad: menu.salad!, currency: menu.currency),
-        ],
-        if (menu.addons != null && menu.addons!.items.isNotEmpty) ...[
-          _SectionTitle(title: 'addOns'.tr()),
-          ...menu.addons!.items.map(
-            (a) => _LegacyAddonCard(addon: a, currency: menu.currency),
-          ),
-        ],
-        SizedBox(height: AppSize.s32.h),
-      ],
-    );
-  }
-}
-
-class _SectionTitle extends StatelessWidget {
-  final String title;
-
-  const _SectionTitle({required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: AppPadding.p12.h),
-      child: Text(
-        title,
-        style: getBoldTextStyle(
-          color: ColorManager.textPrimary,
-          fontSize: FontSizeManager.s16.sp,
-        ),
-      ),
-    );
-  }
-}
-
-class _LegacyStandardMealBuilderCard extends StatefulWidget {
-  final OrderMenuStandardMealsModel standardMeals;
-  final String currency;
-
-  const _LegacyStandardMealBuilderCard({
-    required this.standardMeals,
-    required this.currency,
+  const _InlineExtraWeightSelector({
+    required this.value,
+    required this.step,
+    required this.onDecrease,
+    required this.onIncrease,
   });
 
   @override
-  State<_LegacyStandardMealBuilderCard> createState() =>
-      _LegacyStandardMealBuilderCardState();
-}
-
-class _LegacyStandardMealBuilderCardState
-    extends State<_LegacyStandardMealBuilderCard> {
-  String? _selectedProteinId;
-  final Set<String> _selectedCarbIds = {};
-
-  @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: EdgeInsets.only(bottom: AppPadding.p12.h),
-      child: Padding(
-        padding: EdgeInsets.all(AppPadding.p12.r),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (widget.standardMeals.proteins.isNotEmpty) ...[
-              Text(
-                'protein'.tr(),
-                style: getBoldTextStyle(
-                  color: ColorManager.textPrimary,
-                  fontSize: FontSizeManager.s14.sp,
-                ),
-              ),
-              SizedBox(height: AppSize.s8.h),
-              Wrap(
-                spacing: AppSize.s8.w,
-                runSpacing: AppSize.s8.h,
-                children: widget.standardMeals.proteins.map((protein) {
-                  final isSelected = _selectedProteinId == protein.id;
-                  return ChoiceChip(
-                    label: Text(protein.name),
-                    selected: isSelected,
-                    onSelected: (_) {
-                      setState(() => _selectedProteinId = protein.id);
-                    },
-                  );
-                }).toList(),
-              ),
-              SizedBox(height: AppSize.s16.h),
-            ],
-            if (widget.standardMeals.carbs.isNotEmpty) ...[
-              Text(
-                'carb'.tr(),
-                style: getBoldTextStyle(
-                  color: ColorManager.textPrimary,
-                  fontSize: FontSizeManager.s14.sp,
-                ),
-              ),
-              SizedBox(height: AppSize.s8.h),
-              Wrap(
-                spacing: AppSize.s8.w,
-                runSpacing: AppSize.s8.h,
-                children: widget.standardMeals.carbs.map((carb) {
-                  final isSelected = _selectedCarbIds.contains(carb.id);
-                  return FilterChip(
-                    label: Text(carb.name),
-                    selected: isSelected,
-                    onSelected: (selected) {
-                      setState(() {
-                        if (selected) {
-                          _selectedCarbIds.add(carb.id);
-                        } else {
-                          _selectedCarbIds.remove(carb.id);
-                        }
-                      });
-                    },
-                  );
-                }).toList(),
-              ),
-              SizedBox(height: AppSize.s16.h),
-            ],
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: _canAddToCart ? () => _addToCart(context) : null,
-                child: Text(Strings.addToCart.tr()),
-              ),
-            ),
-          ],
-        ),
+    return Container(
+      padding: EdgeInsetsDirectional.symmetric(
+        horizontal: AppPadding.p10.w,
+        vertical: AppPadding.p8.h,
       ),
-    );
-  }
-
-  bool get _canAddToCart {
-    return _selectedProteinId != null && _selectedCarbIds.isNotEmpty;
-  }
-
-  void _addToCart(BuildContext context) {
-    final protein = widget.standardMeals.proteins.firstWhere(
-      (p) => p.id == _selectedProteinId,
-    );
-    final carbSelections = widget.standardMeals.carbs
-        .where((c) => _selectedCarbIds.contains(c.id))
-        .map((c) {
-      return {'carbId': c.id, 'grams': c.defaultGrams};
-    }).toList();
-
-    context.read<CartBloc>().add(
-      AddItemEvent(
-        CartItem(
-          productId: protein.id,
-          name: '${protein.name} + ${carbSelections.length} ${Strings.carbs.tr()}',
-          qty: 1,
-          selectedOptions: [],
-        ),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF6F9F7),
+        borderRadius: BorderRadius.circular(AppSize.s16.r),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          IconButton(
+            onPressed: value > step ? onDecrease : null,
+            icon: const Icon(Icons.remove_circle_outline),
+          ),
+          Text(
+            '$value جم',
+            style: getBoldTextStyle(
+              fontSize: FontSizeManager.s12.sp,
+              color: ColorManager.textPrimary,
+            ),
+          ),
+          IconButton(
+            onPressed: onIncrease,
+            icon: const Icon(Icons.add_circle_outline),
+          ),
+        ],
       ),
     );
   }
 }
 
-class _LegacySandwichCard extends StatelessWidget {
-  final OrderMenuSandwichModel sandwich;
-  final String currency;
+class _QuantitySelector extends StatelessWidget {
+  final int quantity;
+  final VoidCallback? onDecrease;
+  final VoidCallback onIncrease;
 
-  const _LegacySandwichCard({required this.sandwich, required this.currency});
+  const _QuantitySelector({
+    required this.quantity,
+    required this.onDecrease,
+    required this.onIncrease,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: EdgeInsets.only(bottom: AppPadding.p12.h),
-      child: Padding(
-        padding: EdgeInsets.all(AppPadding.p12.r),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              sandwich.name,
-              style: getBoldTextStyle(
-                color: ColorManager.textPrimary,
-                fontSize: FontSizeManager.s14.sp,
-              ),
+    return Container(
+      padding: EdgeInsetsDirectional.all(AppPadding.p16.r),
+      decoration: BoxDecoration(
+        color: ColorManager.backgroundSurface,
+        borderRadius: BorderRadius.circular(AppSize.s24.r),
+      ),
+      child: Row(
+        children: [
+          Text(
+            'الكمية',
+            style: getBoldTextStyle(
+              fontSize: FontSizeManager.s16.sp,
+              color: ColorManager.textPrimary,
             ),
-            SizedBox(height: AppSize.s4.h),
-            Text(
-              sandwich.description,
-              style: getRegularTextStyle(
-                color: ColorManager.textSecondary,
-                fontSize: FontSizeManager.s12.sp,
-              ),
+          ),
+          const Spacer(),
+          IconButton(
+            onPressed: onDecrease,
+            icon: const Icon(Icons.remove_circle_outline),
+          ),
+          Text(
+            '$quantity',
+            style: getBoldTextStyle(
+              fontSize: FontSizeManager.s16.sp,
+              color: ColorManager.textPrimary,
             ),
-            SizedBox(height: AppSize.s8.h),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  '${(sandwich.priceHalala / 100).toStringAsFixed(2)} $currency',
-                  style: getBoldTextStyle(
-                    color: ColorManager.brandPrimary,
-                    fontSize: FontSizeManager.s14.sp,
-                  ),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    context.read<CartBloc>().add(
-                      AddItemEvent(
-                        CartItem(
-                          productId: sandwich.id,
-                          name: sandwich.name,
-                          qty: 1,
-                          unitPriceHalala: sandwich.priceHalala,
-                          selectedOptions: const [],
-                        ),
-                      ),
-                    );
-                  },
-                  child: Text(Strings.addToCart.tr()),
-                ),
-              ],
-            ),
-          ],
-        ),
+          ),
+          IconButton(
+            onPressed: onIncrease,
+            icon: const Icon(Icons.add_circle_outline),
+          ),
+        ],
       ),
     );
   }
 }
 
-class _LegacySaladBuilderCard extends StatelessWidget {
-  final OrderMenuSaladModel salad;
-  final String currency;
+class _BuilderProductsData {
+  final List<OrderMenuProductModel> main;
+  final List<OrderMenuProductModel> light;
 
-  const _LegacySaladBuilderCard({required this.salad, required this.currency});
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      margin: EdgeInsets.only(bottom: AppPadding.p12.h),
-      child: Padding(
-        padding: EdgeInsets.all(AppPadding.p12.r),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'salad'.tr(),
-              style: getBoldTextStyle(
-                color: ColorManager.textPrimary,
-                fontSize: FontSizeManager.s14.sp,
-              ),
-            ),
-            SizedBox(height: AppSize.s8.h),
-            Text(
-              '${salad.ingredients.length} ${Strings.ingredients.tr()}',
-              style: getRegularTextStyle(
-                color: ColorManager.textSecondary,
-                fontSize: FontSizeManager.s12.sp,
-              ),
-            ),
-            SizedBox(height: AppSize.s8.h),
-            ElevatedButton(
-              onPressed: () {
-                context.read<CartBloc>().add(
-                  AddItemEvent(
-                    CartItem(
-                      productId: 'salad_custom_${const Uuid().v4()}',
-                      name: 'Custom Salad',
-                      qty: 1,
-                      selectedOptions: const [],
-                    ),
-                  ),
-                );
-              },
-              child: Text(Strings.addToCart.tr()),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  const _BuilderProductsData({required this.main, required this.light});
 }
 
-class _LegacyAddonCard extends StatelessWidget {
-  final OrderMenuAddonItemModel addon;
-  final String currency;
+class _MenuChipData {
+  final String key;
+  final String label;
 
-  const _LegacyAddonCard({required this.addon, required this.currency});
+  const _MenuChipData({required this.key, required this.label});
+}
 
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      margin: EdgeInsets.only(bottom: AppPadding.p12.h),
-      child: Padding(
-        padding: EdgeInsets.all(AppPadding.p12.r),
-        child: Row(
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    addon.name,
-                    style: getBoldTextStyle(
-                      color: ColorManager.textPrimary,
-                      fontSize: FontSizeManager.s14.sp,
-                    ),
-                  ),
-                  SizedBox(height: AppSize.s4.h),
-                  Text(
-                    addon.description,
-                    style: getRegularTextStyle(
-                      color: ColorManager.textSecondary,
-                      fontSize: FontSizeManager.s12.sp,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Text(
-              '${(addon.priceHalala / 100).toStringAsFixed(2)} $currency',
-              style: getBoldTextStyle(
-                color: ColorManager.brandPrimary,
-                fontSize: FontSizeManager.s14.sp,
-              ),
-            ),
-            SizedBox(width: AppSize.s8.w),
-            IconButton(
-              icon: const Icon(Icons.add_circle_outline),
-              onPressed: () {
-                context.read<CartBloc>().add(
-                  AddItemEvent(
-                    CartItem(
-                      productId: addon.id,
-                      name: addon.name,
-                      qty: 1,
-                      unitPriceHalala: addon.priceHalala,
-                      selectedOptions: const [],
-                    ),
-                  ),
-                );
-              },
-            ),
-          ],
-        ),
-      ),
-    );
+class _MenuSectionData {
+  final String key;
+  final String title;
+  final String? subtitle;
+  final _SectionLayout layout;
+  final List<OrderMenuProductModel> products;
+
+  const _MenuSectionData({
+    required this.key,
+    required this.title,
+    required this.layout,
+    required this.products,
+    this.subtitle,
+  });
+}
+
+enum _SectionLayout { compactScroll, list, grid }
+
+String _formatHalala(int halala, String currency) {
+  final value = halala / 100;
+  final display =
+      value % 1 == 0 ? value.toStringAsFixed(0) : value.toStringAsFixed(2);
+  return '$display $currency';
+}
+
+String _initials(String value) {
+  final cleaned = value.trim();
+  if (cleaned.isEmpty) {
+    return 'ب';
   }
+
+  final words = cleaned.split(' ').where((part) => part.isNotEmpty).toList();
+  if (words.length == 1) {
+    return words.first.characters.take(2).toString();
+  }
+  return words.take(2).map((word) => word.characters.first).join();
 }

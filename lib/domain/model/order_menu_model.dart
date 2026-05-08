@@ -70,7 +70,18 @@ class OrderMenuProductModel {
   final int maxWeightGrams;
   final int weightStepGrams;
   final int sortOrder;
+  final bool? requiresBuilder;
+  final bool? canAddDirectly;
   final List<OrderMenuOptionGroupModel> optionGroups;
+
+  bool get resolvedRequiresBuilder =>
+      requiresBuilder ?? optionGroups.isNotEmpty || pricingModel == 'per_100g';
+
+  bool get resolvedCanAddDirectly =>
+      canAddDirectly ??
+      (pricingModel == 'fixed' &&
+          optionGroups.isEmpty &&
+          !resolvedRequiresBuilder);
 
   const OrderMenuProductModel({
     required this.id,
@@ -86,6 +97,8 @@ class OrderMenuProductModel {
     required this.maxWeightGrams,
     required this.weightStepGrams,
     required this.sortOrder,
+    this.requiresBuilder,
+    this.canAddDirectly,
     required this.optionGroups,
   });
 }

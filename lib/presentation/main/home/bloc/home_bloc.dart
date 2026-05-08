@@ -10,8 +10,16 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<GetPopularPackagesEvent>((event, emit) async {
       emit(HomeLoadingState());
       (await _getPopularPackagesUseCase.execute(null)).fold(
-        (failure) => emit(HomeErrorState(failure.message)),
-        (data) => emit(HomePopularPackagesSuccessState(data)),
+        (failure) {
+          if (!isClosed) {
+            emit(HomeErrorState(failure.message));
+          }
+        },
+        (data) {
+          if (!isClosed) {
+            emit(HomePopularPackagesSuccessState(data));
+          }
+        },
       );
     });
   }
