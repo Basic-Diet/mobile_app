@@ -44,7 +44,6 @@ class _OrdersScreenContentState extends State<_OrdersScreenContent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F3EB),
       body: SafeArea(
         child: BlocConsumer<OrdersBloc, OrdersState>(
           listener: (context, state) {
@@ -326,17 +325,17 @@ class _OrderHistoryCard extends StatelessWidget {
   Color _statusColor(String status) {
     switch (status) {
       case 'pending_payment':
-        return const Color(0xFFCA6A18);
+        return const Color(0xFFFF7A05);
       case 'confirmed':
         return const Color(0xFF2563EB);
       case 'in_preparation':
         return const Color(0xFFB45309);
       case 'ready_for_pickup':
-        return const Color(0xFF047857);
+        return const Color(0xFF00DFA0);
       case 'fulfilled':
-        return const Color(0xFF16664A);
+        return const Color(0xFF00BC7C);
       case 'cancelled':
-        return const Color(0xFFB91C1C);
+        return const Color(0xFFFF0000);
       case 'expired':
         return ColorManager.textSecondary;
       default:
@@ -435,17 +434,13 @@ class _OrderHistoryCard extends StatelessWidget {
               SizedBox(height: AppSize.s12.h),
               Row(
                 children: [
-                  Expanded(
-                    child: _MetaPill(
-                      label:
-                          '${Strings.paymentStatus.tr()}: ${order.paymentStatus}',
-                    ),
+                  _MetaPill(
+                    label:
+                        '${Strings.paymentStatus.tr()}: ${order.paymentStatus}',
                   ),
                   if (order.pickup?.pickupWindow != null) ...[
                     SizedBox(width: AppSize.s8.w),
-                    Expanded(
-                      child: _MetaPill(label: order.pickup!.pickupWindow),
-                    ),
+                    _MetaPill(label: order.pickup!.pickupWindow),
                   ],
                 ],
               ),
