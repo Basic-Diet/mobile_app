@@ -51,6 +51,9 @@ class OrdersListItemResponse {
   @JsonKey(name: 'paymentStatus')
   final String? paymentStatus;
 
+  @JsonKey(name: 'paymentId')
+  final String? paymentId;
+
   @JsonKey(name: 'fulfillmentMethod')
   final String? fulfillmentMethod;
 
@@ -68,6 +71,7 @@ class OrdersListItemResponse {
     this.orderNumber,
     this.status,
     this.paymentStatus,
+    this.paymentId,
     this.fulfillmentMethod,
     this.pricing,
     this.items,

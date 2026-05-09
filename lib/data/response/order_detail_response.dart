@@ -59,6 +59,9 @@ class OrderDetailDataResponse {
   @JsonKey(name: 'paymentStatus')
   final String? paymentStatus;
 
+  @JsonKey(name: 'paymentId')
+  final String? paymentId;
+
   @JsonKey(name: 'fulfillmentMethod')
   final String? fulfillmentMethod;
 
@@ -82,6 +85,7 @@ class OrderDetailDataResponse {
     this.orderNumber,
     this.status,
     this.paymentStatus,
+    this.paymentId,
     this.fulfillmentMethod,
     this.pickup,
     this.pricing,

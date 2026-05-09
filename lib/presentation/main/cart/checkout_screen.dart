@@ -7,6 +7,7 @@ import 'package:basic_diet/domain/model/one_time_order_model.dart';
 import 'package:basic_diet/domain/model/order_quote_model.dart';
 import 'package:basic_diet/domain/model/order_quote_request_model.dart';
 import 'package:basic_diet/presentation/main/cart/bloc/cart_bloc.dart';
+import 'package:basic_diet/presentation/main/cart/bloc/cart_event.dart';
 import 'package:basic_diet/presentation/main/cart/bloc/cart_state.dart';
 import 'package:basic_diet/presentation/main/cart/bloc/checkout_bloc.dart';
 import 'package:basic_diet/presentation/main/cart/bloc/checkout_event.dart';
@@ -198,6 +199,7 @@ class _CheckoutScreenContentState extends State<_CheckoutScreenContent> {
               state.verifyStatus == OrderVerifyStatus.success) {
             final orderId = state.order?.orderId;
             if (orderId != null) {
+              context.read<CartBloc>().add(const ClearCartEvent());
               context.pushReplacement('/order-tracking', extra: orderId);
             }
           }

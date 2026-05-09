@@ -30,8 +30,8 @@ class OrderTrackingBloc
       (failure) => emit(OrderTrackingError(failure.message)),
       (order) {
         emit(OrderTrackingSuccess(order));
-        if (order.status == 'pending_payment') {
-          add(VerifyOrderPaymentEvent(order.id, order.paymentStatus));
+        if (order.status == 'pending_payment' && order.paymentId.isNotEmpty) {
+          add(VerifyOrderPaymentEvent(order.id, order.paymentId));
         }
       },
     );

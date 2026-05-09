@@ -33,6 +33,7 @@ OrderDetailDataResponse _$OrderDetailDataResponseFromJson(
   orderNumber: json['orderNumber'] as String?,
   status: json['status'] as String?,
   paymentStatus: json['paymentStatus'] as String?,
+  paymentId: json['paymentId'] as String?,
   fulfillmentMethod: json['fulfillmentMethod'] as String?,
   pickup:
       json['pickup'] == null
@@ -63,6 +64,7 @@ Map<String, dynamic> _$OrderDetailDataResponseToJson(
   'orderNumber': instance.orderNumber,
   'status': instance.status,
   'paymentStatus': instance.paymentStatus,
+  'paymentId': instance.paymentId,
   'fulfillmentMethod': instance.fulfillmentMethod,
   'pickup': instance.pickup?.toJson(),
   'pricing': instance.pricing?.toJson(),
