@@ -118,9 +118,11 @@ OrderDetailItemResponse _$OrderDetailItemResponseFromJson(
   productId: json['productId'] as String?,
   qty: (json['qty'] as num?)?.toInt(),
   weightGrams: (json['weightGrams'] as num?)?.toInt(),
-  name: json['name'] as String?,
+  name: _readOrderItemName(json, 'name') as String?,
   unitPriceHalala: (json['unitPriceHalala'] as num?)?.toInt(),
-  totalPriceHalala: (json['totalPriceHalala'] as num?)?.toInt(),
+  totalPriceHalala:
+      (_readOrderItemTotalPriceHalala(json, 'totalPriceHalala') as num?)
+          ?.toInt(),
   selectedOptions:
       (json['selectedOptions'] as List<dynamic>?)
           ?.map(

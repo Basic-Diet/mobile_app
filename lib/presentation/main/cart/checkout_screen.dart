@@ -189,6 +189,7 @@ class _CheckoutScreenContentState extends State<_CheckoutScreenContent> {
         listener: (context, state) {
           if (state is CheckoutLoaded &&
               state.createStatus == OrderCreateStatus.success &&
+              state.verifyStatus == OrderVerifyStatus.initial &&
               state.order != null) {
             _openPaymentWebView(state.order!.paymentUrl, state.order!);
           }

@@ -2,6 +2,30 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'order_detail_response.g.dart';
 
+Object? _readOrderItemName(Map<dynamic, dynamic> json, String key) {
+  final value = json[key];
+  if (value is String) {
+    return value;
+  }
+  if (value is Map) {
+    final arabicName = value['ar'];
+    if (arabicName is String && arabicName.isNotEmpty) {
+      return arabicName;
+    }
+
+    final englishName = value['en'];
+    if (englishName is String && englishName.isNotEmpty) {
+      return englishName;
+    }
+  }
+
+  return null;
+}
+
+Object? _readOrderItemTotalPriceHalala(Map<dynamic, dynamic> json, String key) {
+  return json[key] ?? json['lineTotalHalala'];
+}
+
 @JsonSerializable(explicitToJson: true)
 class OrderDetailResponse {
   @JsonKey(name: 'status')
@@ -144,13 +168,13 @@ class OrderDetailItemResponse {
   @JsonKey(name: 'weightGrams')
   final int? weightGrams;
 
-  @JsonKey(name: 'name')
+  @JsonKey(name: 'name', readValue: _readOrderItemName)
   final String? name;
 
   @JsonKey(name: 'unitPriceHalala')
   final int? unitPriceHalala;
 
-  @JsonKey(name: 'totalPriceHalala')
+  @JsonKey(name: 'totalPriceHalala', readValue: _readOrderItemTotalPriceHalala)
   final int? totalPriceHalala;
 
   @JsonKey(name: 'selectedOptions')
