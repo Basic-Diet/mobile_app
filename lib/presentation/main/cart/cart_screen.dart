@@ -175,6 +175,26 @@ class CartScreen extends StatelessWidget {
                             color: ColorManager.backgroundSurface,
                             borderRadius: BorderRadius.circular(AppSize.s20.r),
                             border: Border.all(
+                              color: ColorManager.textInverse,
+                              width: 1,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: const Color(0xFF11382C).withValues(alpha: 0.06),
+                                blurRadius: 12,
+                                offset: const Offset(0, 4),
+                              ),
+                            ],
+                          ),
+                          child: _PickupDetailsSection(state: state),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(bottom: AppPadding.p12.h),
+                          padding: EdgeInsetsDirectional.all(AppPadding.p16.r),
+                          decoration: BoxDecoration(
+                            color: ColorManager.backgroundSurface,
+                            borderRadius: BorderRadius.circular(AppSize.s20.r),
+                            border: Border.all(
                               color: ColorManager.whiteColor,
                               width: 1,
                             ),
@@ -405,6 +425,55 @@ class _SummaryRow extends StatelessWidget {
             fontSize: FontSizeManager.s14.sp,
           ),
         ),
+      ],
+    );
+  }
+}
+
+class _PickupDetailsSection extends StatelessWidget {
+  final CartLoaded state;
+
+  const _PickupDetailsSection({required this.state});
+
+  @override
+  Widget build(BuildContext context) {
+    final hasBranchChoices = state.branchIds.isNotEmpty;
+    final hasWindowChoices = state.availableWindows.isNotEmpty;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'pickupFromBranch'.tr(),
+          style: getBoldTextStyle(
+            color: ColorManager.textPrimary,
+            fontSize: FontSizeManager.s16.sp,
+          ),
+        ),
+        Gap(AppSize.s6.h),
+        Text(
+          Strings.selectBranchAndPickupWindow.tr(),
+          style: getRegularTextStyle(
+            color: ColorManager.textSecondary,
+            fontSize: FontSizeManager.s12.sp,
+          ),
+        ),
+        Gap(AppSize.s16.h),
+        if (hasBranchChoices)
+          _BranchSelector(
+            branches: state.branchIds,
+            selectedBranch: state.selectedBranchId,
+          )
+        else
+          _TextBranchInput(),
+        Gap(AppSize.s16.h),
+        if (hasWindowChoices)
+          _WindowSelector(
+            windows: state.availableWindows,
+            selectedWindow: state.selectedPickupWindow,
+          )
+        else
+          _TextWindowInput(),
       ],
     );
   }
