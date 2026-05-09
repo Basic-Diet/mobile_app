@@ -28,7 +28,7 @@ class CartScreen extends StatelessWidget {
       return;
     }
 
-    context.push('/checkout');
+    context.push('/checkout', extra: state);
   }
 
   @override

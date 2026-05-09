@@ -23,23 +23,23 @@ import 'package:uuid/uuid.dart';
 
 class CheckoutScreen extends StatelessWidget {
   static const String routeName = '/checkout';
+  final CartLoaded? cartState;
 
-  const CheckoutScreen({super.key});
+  const CheckoutScreen({super.key, this.cartState});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) {
-        initCheckoutModule();
-        return instance<CheckoutBloc>();
-      },
-      child: const _CheckoutScreenContent(),
+      create: (context) => instance<CheckoutBloc>(),
+      child: _CheckoutScreenContent(cartState: cartState),
     );
   }
 }
 
 class _CheckoutScreenContent extends StatefulWidget {
-  const _CheckoutScreenContent();
+  final CartLoaded? cartState;
+
+  const _CheckoutScreenContent({this.cartState});
 
   @override
   State<_CheckoutScreenContent> createState() => _CheckoutScreenContentState();
@@ -55,9 +55,23 @@ class _CheckoutScreenContentState extends State<_CheckoutScreenContent> {
     WidgetsBinding.instance.addPostFrameCallback((_) => _requestQuote());
   }
 
+  CartLoaded? get _cartState {
+    final passedCartState = widget.cartState;
+    if (passedCartState != null) {
+      return passedCartState;
+    }
+
+    final currentCartState = context.read<CartBloc>().state;
+    if (currentCartState is CartLoaded) {
+      return currentCartState;
+    }
+
+    return null;
+  }
+
   void _requestQuote() {
-    final cartState = context.read<CartBloc>().state;
-    if (cartState is! CartLoaded) return;
+    final cartState = _cartState;
+    if (cartState == null) return;
 
     final items = cartState.items.map((item) {
       return OrderQuoteItemRequestModel(
@@ -92,8 +106,8 @@ class _CheckoutScreenContentState extends State<_CheckoutScreenContent> {
   }
 
   void _createOrder() {
-    final cartState = context.read<CartBloc>().state;
-    if (cartState is! CartLoaded) return;
+    final cartState = _cartState;
+    if (cartState == null) return;
 
     final items = cartState.items.map((item) {
       return CreateOrderItemRequestModel(

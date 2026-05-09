@@ -69,7 +69,7 @@ OrderQuoteItemDataResponse _$OrderQuoteItemDataResponseFromJson(
   weightGrams: (json['weightGrams'] as num?)?.toInt(),
   unitPriceHalala: (json['unitPriceHalala'] as num?)?.toInt(),
   lineTotalHalala: (json['lineTotalHalala'] as num?)?.toInt(),
-  name: json['name'] as String?,
+  name: _readLocalizedText(json, 'name') as String?,
   productSnapshot: json['productSnapshot'] as Map<String, dynamic>?,
   selectedOptions:
       (json['selectedOptions'] as List<dynamic>?)
