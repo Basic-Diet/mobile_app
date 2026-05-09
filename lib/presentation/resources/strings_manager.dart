@@ -789,6 +789,26 @@ class Strings {
   static const String paymentProcessing = 'paymentProcessing';
   static const String paymentExpired = 'paymentExpired';
   static const String pickupCodeLabel = 'pickupCodeLabel';
+  static const String orderStatusTitle = 'orderStatusTitle';
+  static const String pickupCodeCardLabel = 'pickupCodeCardLabel';
+  static const String pickupCodeTrackingHint = 'pickupCodeTrackingHint';
+  static const String pickupOnlyTrackingNote = 'pickupOnlyTrackingNote';
+  static const String pendingPaymentTrackingDescription =
+      'pendingPaymentTrackingDescription';
+  static const String confirmedTrackingDescription =
+      'confirmedTrackingDescription';
+  static const String preparingTrackingDescription =
+      'preparingTrackingDescription';
+  static const String readyForPickupTrackingDescription =
+      'readyForPickupTrackingDescription';
+  static const String readyForPickupTrackingDescriptionWithWindow =
+      'readyForPickupTrackingDescriptionWithWindow';
+  static const String completedTrackingDescription =
+      'completedTrackingDescription';
+  static const String cancelledTrackingDescription =
+      'cancelledTrackingDescription';
+  static const String expiredTrackingDescription =
+      'expiredTrackingDescription';
   static const String cancelUnpaidOrder = 'cancelUnpaidOrder';
   static const String loadMore = 'loadMore';
 }

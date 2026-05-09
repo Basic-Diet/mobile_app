@@ -617,6 +617,18 @@
     "paymentProcessing": "جاري معالجة الدفع...",
     "paymentExpired": "انتهت صلاحية الدفع",
     "pickupCodeLabel": "كود الاستلام",
+    "orderStatusTitle": "حالة الطلب",
+    "pickupCodeCardLabel": "كود الاستلام من الكاونتر",
+    "pickupCodeTrackingHint": "اعرض هذا الكود عند الكاونتر لاستلام طلبك.",
+    "pickupOnlyTrackingNote": "هذا الطلب للاستلام من الفرع فقط. لا تظهر خرائط التوصيل أو تتبع المندوب هنا.",
+    "pendingPaymentTrackingDescription": "ننتظر تأكيد الدفع قبل إرسال الطلب إلى المطبخ.",
+    "confirmedTrackingDescription": "تم تأكيد الدفع والطلب بانتظار المطبخ.",
+    "preparingTrackingDescription": "المطبخ بدأ تجهيز الطلب.",
+    "readyForPickupTrackingDescription": "الطلب جاهز في {branch}.",
+    "readyForPickupTrackingDescriptionWithWindow": "الطلب جاهز في {branch} - {window}.",
+    "completedTrackingDescription": "تكتمل الحالة بعد استلام الطلب من الكاونتر.",
+    "cancelledTrackingDescription": "تم إلغاء هذا الطلب قبل الاستلام.",
+    "expiredTrackingDescription": "انتهت صلاحية هذا الطلب قبل اكتمال الاستلام.",
     "cancelUnpaidOrder": "إلغاء الطلب غير المدفوع",
     "loadMore": "تحميل المزيد"
 }

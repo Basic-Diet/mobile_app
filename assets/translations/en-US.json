@@ -617,6 +617,18 @@
     "paymentProcessing": "Payment is processing...",
     "paymentExpired": "Payment expired",
     "pickupCodeLabel": "Pickup Code",
+    "orderStatusTitle": "Order Status",
+    "pickupCodeCardLabel": "Pickup code from the counter",
+    "pickupCodeTrackingHint": "Show this code at the counter to collect your order.",
+    "pickupOnlyTrackingNote": "This order is for branch pickup only. Delivery maps and courier tracking are not shown.",
+    "pendingPaymentTrackingDescription": "We are waiting for the payment confirmation before sending the order to the kitchen.",
+    "confirmedTrackingDescription": "Payment is confirmed and the order is waiting for the kitchen.",
+    "preparingTrackingDescription": "The kitchen has started preparing the order.",
+    "readyForPickupTrackingDescription": "The order is ready at {branch}.",
+    "readyForPickupTrackingDescriptionWithWindow": "The order is ready at {branch} - {window}.",
+    "completedTrackingDescription": "The status is completed after collecting the order from the counter.",
+    "cancelledTrackingDescription": "This order was cancelled before pickup.",
+    "expiredTrackingDescription": "This order expired before the pickup was completed.",
     "cancelUnpaidOrder": "Cancel Unpaid Order",
     "loadMore": "Load more"
 }
