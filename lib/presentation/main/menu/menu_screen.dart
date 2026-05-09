@@ -277,7 +277,7 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
                     ),
                   ],
                 ),
-                const _StickyCartBar(),
+                _StickyCartBar(currency: menu.currency),
               ],
             );
           },
@@ -385,7 +385,7 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
   String? _sectionSubtitle(String key) {
     switch (key) {
       case 'cold_sandwiches':
-        return 'اختيارات خفيفة وسريعة';
+        return Strings.coldSandwichesSubtitle.tr();
       default:
         return null;
     }
@@ -834,7 +834,7 @@ class _BuilderProductCard extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               Text(
-                                '${_formatHalala(product.priceHalala, currency)} / 100 جم',
+                                '${_formatHalala(product.priceHalala, currency)} / ${Strings.grams.tr(args: ['100'])}',
                                 textAlign: TextAlign.right,
                                 style: getBoldTextStyle(
                                   fontSize: FontSizeManager.s13.sp,
@@ -978,7 +978,7 @@ class _LightBuilderCard extends StatelessWidget {
               ),
               Gap(AppSize.s14.w),
               _MenuMediaBox(
-                label: _initials(product.name),
+                label: _initials(product.name, context),
                 imagePath: imagePath,
                 width: AppSize.s84.w,
                 height: AppSize.s84.w,
@@ -1098,7 +1098,7 @@ class _CompactProductCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           _MenuMediaBox(
-            label: _initials(product.name),
+            label: _initials(product.name, context),
             width: AppSize.s66.w,
             height: AppSize.s66.w,
             borderRadius: AppSize.s16.r,
@@ -1185,7 +1185,7 @@ class _ListProductCard extends StatelessWidget {
           child: Row(
             children: [
               _MenuMediaBox(
-                label: _initials(product.name),
+                label: _initials(product.name, context),
                 width: AppSize.s76.w,
                 height: AppSize.s76.w,
                 borderRadius: AppSize.s18.r,
@@ -1267,7 +1267,9 @@ class _SquareAddButton extends StatelessWidget {
 }
 
 class _StickyCartBar extends StatelessWidget {
-  const _StickyCartBar();
+  final String currency;
+
+  const _StickyCartBar({required this.currency});
 
   @override
   Widget build(BuildContext context) {
@@ -1327,7 +1329,7 @@ class _StickyCartBar extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      _formatHalala(previewTotal, 'SAR'),
+                      _formatHalala(previewTotal, currency),
                       style: getBoldTextStyle(
                         fontSize: FontSizeManager.s16.sp,
                         color: ColorManager.backgroundSurface,
@@ -2167,7 +2169,7 @@ class _BuilderScreenState extends State<_BuilderScreen> {
                       ),
                       child: Text(
                         product.pricingModel == 'per_100g'
-                            ? '${_formatHalala(product.priceHalala, widget.currency)} / 100 g'
+                            ? '${_formatHalala(product.priceHalala, widget.currency)} / ${Strings.grams.tr(args: ['100'])}'
                             : _formatHalala(_estimatedUnitPriceHalala, widget.currency),
                         style: getBoldTextStyle(
                           fontSize: FontSizeManager.s11.sp,
@@ -2204,9 +2206,9 @@ class _BuilderScreenState extends State<_BuilderScreen> {
                           ),
                         ),
                         Gap(AppSize.s14.w),
-                        _BuilderHeroImage(
+                         _BuilderHeroImage(
                           imagePath: _builderImageForProduct(product.key),
-                          initials: _initials(product.name),
+                          initials: _initials(product.name, context),
                         ),
                       ],
                     ),
@@ -3166,10 +3168,10 @@ String _formatHalala(int halala, String currency) {
   return '$display $currency';
 }
 
-String _initials(String value) {
+String _initials(String value, BuildContext context) {
   final cleaned = value.trim();
   if (cleaned.isEmpty) {
-    return 'ب';
+    return context.locale.languageCode == 'ar' ? 'ب' : 'B';
   }
 
   final words = cleaned.split(' ').where((part) => part.isNotEmpty).toList();
@@ -3191,13 +3193,13 @@ String _productDescription(OrderMenuProductModel product) {
 String _builderDescriptionForKey(String key, BuildContext context) {
   switch (key) {
     case 'basic_salad':
-      return 'اختاري الورقيات والخضار والبروتين والصوص';
+      return Strings.builderBasicSaladDesc.tr();
     case 'basic_meal':
-      return 'اختاري الكارب والبروتين حسب مزاجك';
+      return Strings.builderBasicMealDesc.tr();
     case 'fruit_salad':
-      return 'اختاري 9 أنواع فواكه حسب رغبتك';
+      return Strings.builderFruitSaladDesc.tr();
     case 'greek_yogurt':
-      return 'اختاري الفواكه والمكسرات المناسبة لك';
+      return Strings.builderGreekYogurtDesc.tr();
     default:
       return Strings.customOrderSubtitle.tr();
   }

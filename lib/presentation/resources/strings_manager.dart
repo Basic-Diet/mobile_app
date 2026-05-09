@@ -722,6 +722,33 @@ class Strings {
   static const String byWeight = 'byWeight';
   static const String add = 'add';
   static const String viewCart = 'viewCart';
+  static const String pickupFromBranchOnlyTitle = 'pickupFromBranchOnlyTitle';
+  static const String deliveryNotAvailableForOrders =
+      'deliveryNotAvailableForOrders';
+  static const String pickupFee = 'pickupFee';
+  static const String tax = 'tax';
+  static const String finalPriceConfirmedBeforePayment =
+      'finalPriceConfirmedBeforePayment';
+  static const String proceedToPayment = 'proceedToPayment';
+  static const String enterBranchId = 'enterBranchId';
+  static const String pickupWindowExample = 'pickupWindowExample';
+  static const String grams = 'grams';
+  static const String basicSalad = 'basicSalad';
+  static const String basicMeal = 'basicMeal';
+  static const String fruitSalad = 'fruitSalad';
+  static const String fruitSaladDesc = 'fruitSaladDesc';
+  static const String greekYogurt = 'greekYogurt';
+  static const String greekYogurtDesc = 'greekYogurtDesc';
+  static const String sourdoughSandwich = 'sourdoughSandwich';
+  static const String sourdoughDesc = 'sourdoughDesc';
+  static const String juices = 'juices';
+  static const String juicesDesc = 'juicesDesc';
+  static const String offer = 'offer';
+  static const String coldSandwichesSubtitle = 'coldSandwichesSubtitle';
+  static const String builderBasicSaladDesc = 'builderBasicSaladDesc';
+  static const String builderBasicMealDesc = 'builderBasicMealDesc';
+  static const String builderFruitSaladDesc = 'builderFruitSaladDesc';
+  static const String builderGreekYogurtDesc = 'builderGreekYogurtDesc';
   static const String itemAddedToCart = 'itemAddedToCart';
   static const String currentOrders = 'currentOrders';
   static const String previousOrders = 'previousOrders';

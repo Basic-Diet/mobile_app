@@ -87,7 +87,7 @@ class _HomeHeader extends StatelessWidget {
           ),
           alignment: Alignment.center,
           child: Text(
-            'ب',
+            context.locale.languageCode == 'ar' ? 'ب' : 'B',
             style: getBoldTextStyle(
               fontSize: FontSizeManager.s20.sp,
               color: ColorManager.backgroundSurface,
@@ -316,8 +316,12 @@ class _QuickOrderSection extends StatelessWidget {
               child: Stack(
                 fit: StackFit.passthrough,
                 children: [
-                  const Image(
-                    image: AssetImage(ImageAssets.oneTimeCustomOrderHero),
+                  Image(
+                    image: AssetImage(
+                      context.locale.languageCode == 'ar'
+                          ? ImageAssets.oneTimeCustomOrderHero
+                          : ImageAssets.oneTimeCustomOrderHeroAr,
+                    ),
                     fit: BoxFit.cover,
                     alignment: Alignment.centerLeft,
                   ),
@@ -326,11 +330,17 @@ class _QuickOrderSection extends StatelessWidget {
                       gradient: LinearGradient(
                         begin: Alignment.centerLeft,
                         end: Alignment.centerRight,
-                        colors: [
+                        colors: context.locale.languageCode == 'ar'?[
                           Colors.white.withValues(alpha: 0.0),
                           Colors.white.withValues(alpha: 0.25),
                           Colors.white.withValues(alpha: 0.84),
                           Colors.white.withValues(alpha: 0.95),
+                        ]:[
+                          Colors.white.withValues(alpha: 0.95),
+                          Colors.white.withValues(alpha: 0.84),
+                          Colors.white.withValues(alpha: 0.25),
+
+                          Colors.white.withValues(alpha: 0.0),
                         ],
                         stops: const [0.0, 0.32, 0.68, 1.0],
                       ),
@@ -384,7 +394,7 @@ class _QuickOrderSection extends StatelessWidget {
                         ),
                         Gap(AppSize.s4.h),
                         Text(
-                          '${Strings.startsFrom.tr()} 19 ${Strings.sar.tr()} / 100 جم',
+                          '${Strings.startsFrom.tr()} 19 ${Strings.sar.tr()} / ${Strings.grams.tr(args: ['100'])}',
                           textAlign: TextAlign.right,
                           style: getBoldTextStyle(
                             fontSize: FontSizeManager.s12_5.sp,
@@ -424,16 +434,18 @@ class _QuickOrderSection extends StatelessWidget {
           children: [
             Expanded(
               child: _QuickShortcutCard(
-                title: 'سلطة بيسك',
-                subtitle: '29 ريال / 100 جم',
+                title: Strings.basicSalad.tr(),
+                subtitle:
+                    '29 ${Strings.sar.tr()} / ${Strings.grams.tr(args: ['100'])}',
                 productKey: 'basic_salad',
               ),
             ),
             Gap(AppSize.s8.w),
             Expanded(
               child: _QuickShortcutCard(
-                title: 'وجبة بيسك',
-                subtitle: '19 ريال / 100 جم',
+                title: Strings.basicMeal.tr(),
+                subtitle:
+                    '19 ${Strings.sar.tr()} / ${Strings.grams.tr(args: ['100'])}',
                 productKey: 'basic_meal',
               ),
             ),
@@ -529,18 +541,18 @@ class _RecommendedSection extends StatelessWidget {
         ),
         Gap(AppSize.s14.h),
         _RecommendationCardLarge(
-          title: 'سلطة فواكه',
-          description: 'اختاري 9 أنواع فواكه حسب رغبتك',
+          title: Strings.fruitSalad.tr(),
+          description: Strings.fruitSaladDesc.tr(),
           imagePath: ImageAssets.oneTimeFruitSalad,
-          helperText: 'السعر حسب الاختيارات',
+          helperText: Strings.priceDependsOnChoices.tr(),
           productKey: 'fruit_salad',
         ),
         Gap(AppSize.s12.h),
         _RecommendationCardLarge(
-          title: 'زبادي يوناني',
-          description: 'اختاري الفواكه والمكسرات المناسبة لك',
+          title: Strings.greekYogurt.tr(),
+          description: Strings.greekYogurtDesc.tr(),
           imagePath: ImageAssets.oneTimeGreekYogurt,
-          helperText: 'السعر حسب الاختيارات',
+          helperText: Strings.priceDependsOnChoices.tr(),
           productKey: 'greek_yogurt',
         ),
         Gap(AppSize.s12.h),
@@ -548,10 +560,10 @@ class _RecommendedSection extends StatelessWidget {
           children: [
             Expanded(
               child: _RecommendationCard(
-                title: 'ساندوتش ساوردو',
-                description: 'اختيارات ساوردو مميزة',
+                title: Strings.sourdoughSandwich.tr(),
+                description: Strings.sourdoughDesc.tr(),
                 imagePath: ImageAssets.oneTimeSourdough,
-                footerText: 'عرض',
+                footerText: Strings.offer.tr(),
                 helperText: '',
                 sectionKey: 'sourdough',
               ),
@@ -559,10 +571,10 @@ class _RecommendedSection extends StatelessWidget {
             Gap(AppSize.s12.w),
             Expanded(
               child: _RecommendationCard(
-                title: 'عصائر',
-                description: 'مشروبات منعشة وطازجة',
+                title: Strings.juices.tr(),
+                description: Strings.juicesDesc.tr(),
                 imagePath: ImageAssets.oneTimeJuices,
-                footerText: 'عرض',
+                footerText: Strings.offer.tr(),
                 helperText: '',
                 sectionKey: 'juices',
               ),
@@ -662,20 +674,20 @@ class _RecommendationCardLarge extends StatelessWidget {
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Text(
-                                '‹',
-                                style: getBoldTextStyle(
-                                  fontSize: FontSizeManager.s14.sp,
-                                  color: const Color(0xFF12382C),
+                                Text(
+                                  '‹',
+                                  style: getBoldTextStyle(
+                                    fontSize: FontSizeManager.s14.sp,
+                                    color: const Color(0xFF12382C),
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                'تخصيص',
-                                style: getBoldTextStyle(
-                                  fontSize: FontSizeManager.s11_5.sp,
-                                  color: const Color(0xFF12382C),
+                                Text(
+                                  Strings.customize.tr(),
+                                  style: getBoldTextStyle(
+                                    fontSize: FontSizeManager.s11_5.sp,
+                                    color: const Color(0xFF12382C),
+                                  ),
                                 ),
-                              ),
                             ],
                           ),
                         ),

@@ -74,7 +74,7 @@ class CartScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'السلة',
+              Strings.cart.tr(),
               style: getBoldTextStyle(
                 color: ColorManager.textPrimary,
                 fontSize: FontSizeManager.s22.sp,
@@ -82,7 +82,7 @@ class CartScreen extends StatelessWidget {
             ),
             Gap(AppSize.s3.h),
             Text(
-              'طلب بيكأب لمرة واحدة',
+              Strings.oneTimeOrdersSubtitle.tr(),
               style: getRegularTextStyle(
                 color: ColorManager.textSecondary,
                 fontSize: FontSizeManager.s12.sp,
@@ -148,7 +148,7 @@ class CartScreen extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      '🏪 الاستلام من الفرع فقط',
+                                      Strings.pickupFromBranchOnlyTitle.tr(),
                                       style: getBoldTextStyle(
                                         fontSize: FontSizeManager.s12.sp,
                                         color: const Color(0xFF12382C),
@@ -156,7 +156,7 @@ class CartScreen extends StatelessWidget {
                                     ),
                                     Gap(AppSize.s2.h),
                                     Text(
-                                      'لا تتوفر خدمة التوصيل في هذه الطلبات.',
+                                      Strings.deliveryNotAvailableForOrders.tr(),
                                       style: getBoldTextStyle(
                                         fontSize: FontSizeManager.s12.sp,
                                         color: const Color(0xFF12382C).withValues(alpha: 0.85),
@@ -232,18 +232,18 @@ class CartScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'ملخص الطلب',
+                                Strings.orderSummary.tr(),
                                 style: getBoldTextStyle(
                                   color: ColorManager.textPrimary,
                                   fontSize: FontSizeManager.s16.sp,
                                 ),
                               ),
                               Gap(AppSize.s12.h),
-                              _SummaryRow(label: 'المجموع', value: _formatPrice(subtotal)),
+                              _SummaryRow(label: Strings.subtotal.tr(), value: _formatPrice(subtotal)),
                               Gap(AppSize.s8.h),
-                              _SummaryRow(label: 'رسوم الاستلام', value: 'مجاناً'),
+                              _SummaryRow(label: Strings.pickupFee.tr(), value: Strings.free.tr()),
                               Gap(AppSize.s8.h),
-                              _SummaryRow(label: 'الضريبة', value: 'مشمولة في السعر'),
+                              _SummaryRow(label: Strings.tax.tr(), value: Strings.vatIncludedInPrice.tr()),
                               Gap(AppSize.s6.h),
                               Container(
                                 padding: EdgeInsetsDirectional.only(top: AppPadding.p12.h),
@@ -259,7 +259,7 @@ class CartScreen extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      'الإجمالي',
+                                      Strings.total.tr(),
                                       style: getBoldTextStyle(
                                         color: ColorManager.textPrimary,
                                         fontSize: FontSizeManager.s16.sp,
@@ -290,7 +290,7 @@ class CartScreen extends StatelessWidget {
                             ),
                           ),
                           child: Text(
-                            'السعر النهائي يتم تأكيده قبل الدفع حسب توفر المنتجات في الفرع.',
+                            Strings.finalPriceConfirmedBeforePayment.tr(),
                             textAlign: TextAlign.right,
                             style: getRegularTextStyle(
                               fontSize: FontSizeManager.s11_5.sp,
@@ -358,7 +358,7 @@ class CartScreen extends StatelessWidget {
                             ),
                             Expanded(
                               child: Text(
-                                'المتابعة للدفع',
+                                Strings.proceedToPayment.tr(),
                                 textAlign: TextAlign.center,
                                 style: getBoldTextStyle(
                                   fontSize: FontSizeManager.s15.sp,
@@ -393,7 +393,7 @@ class CartScreen extends StatelessWidget {
   String _formatPrice(int halala) {
     final value = halala / 100;
     final display = value % 1 == 0 ? value.toStringAsFixed(0) : value.toStringAsFixed(2);
-    return '$display ر.س';
+    return '$display ${Strings.sar.tr()}';
   }
 }
 
@@ -567,7 +567,7 @@ class _TextBranchInputState extends State<_TextBranchInput> {
         TextField(
           controller: _controller,
           decoration: InputDecoration(
-            hintText: 'Enter branch ID',
+            hintText: Strings.enterBranchId.tr(),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(AppSize.s8.r),
             ),
@@ -671,7 +671,7 @@ class _TextWindowInputState extends State<_TextWindowInput> {
         TextField(
           controller: _controller,
           decoration: InputDecoration(
-            hintText: 'e.g. 18:00-20:00',
+            hintText: Strings.pickupWindowExample.tr(),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(AppSize.s8.r),
             ),
@@ -696,7 +696,7 @@ class _CartItemTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final subtitle = <String>[];
     if (item.weightGrams != null) {
-      subtitle.add('${item.weightGrams} جم');
+      subtitle.add(Strings.grams.tr(args: [item.weightGrams.toString()]));
     }
     if (item.selectedOptions.isNotEmpty) {
       subtitle.addAll(item.selectedOptions.map((o) => o.optionId));
@@ -826,7 +826,7 @@ class _CartItemTile extends StatelessWidget {
   String _formatPrice(int halala) {
     final value = halala / 100;
     final display = value % 1 == 0 ? value.toStringAsFixed(0) : value.toStringAsFixed(2);
-    return '$display ر.س';
+    return '$display ${Strings.sar.tr()}';
   }
 }
 

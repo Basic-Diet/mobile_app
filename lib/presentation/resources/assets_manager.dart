@@ -17,6 +17,8 @@ class ImageAssets {
       '$imagesPath/subscription-hero.png';
   static const String oneTimeCustomOrderHero =
       '$imagesPath/ChatGPT Image 7 مايو 2026، 07_00_27 م.png';
+  static const String oneTimeCustomOrderHeroAr =
+      '$imagesPath/ChatGPT Image 7 مايو 2026، 06_46_44 م.png';
   static const String oneTimeBasicSalad = '$imagesPath/screenسلطة بسك.png';
   static const String oneTimeBasicMeal = '$imagesPath/screenوجبة بسك.png';
   static const String oneTimeFruitSalad = '$imagesPath/سلطة فواكه.png';
