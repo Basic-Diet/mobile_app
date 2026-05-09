@@ -12,8 +12,15 @@ class PaymentWebViewScreen extends StatefulWidget {
   static const String routeName = '/payment-webview';
 
   final String paymentUrl;
+  final String successUrl;
+  final String backUrl;
 
-  const PaymentWebViewScreen({super.key, required this.paymentUrl});
+  const PaymentWebViewScreen({
+    super.key,
+    required this.paymentUrl,
+    required this.successUrl,
+    required this.backUrl,
+  });
 
   @override
   State<PaymentWebViewScreen> createState() => _PaymentWebViewScreenState();
@@ -38,11 +45,11 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
           },
           onNavigationRequest: (request) {
             final url = request.url;
-            if (url.startsWith('basicdiet://orders/payment-success')) {
+            if (_matchesCallback(url, widget.successUrl)) {
               context.pop(true);
               return NavigationDecision.prevent;
             }
-            if (url.startsWith('basicdiet://orders/payment-cancel')) {
+            if (_matchesCallback(url, widget.backUrl)) {
               context.pop(false);
               return NavigationDecision.prevent;
             }
@@ -51,6 +58,33 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
         ),
       )
       ..loadRequest(Uri.parse(widget.paymentUrl));
+  }
+
+  bool _matchesCallback(String currentUrl, String callbackUrl) {
+    final current = Uri.tryParse(currentUrl);
+    final callback = Uri.tryParse(callbackUrl);
+
+    if (current == null || callback == null) {
+      return currentUrl == callbackUrl;
+    }
+
+    final currentPath = current.path.toLowerCase();
+    final callbackPath = callback.path.toLowerCase();
+
+    if (currentPath == callbackPath) {
+      return true;
+    }
+
+    final currentSegments =
+        currentPath.split('/').where((segment) => segment.isNotEmpty).toList();
+    final callbackSegments =
+        callbackPath.split('/').where((segment) => segment.isNotEmpty).toList();
+
+    if (currentSegments.isEmpty || callbackSegments.isEmpty) {
+      return false;
+    }
+
+    return currentSegments.last == callbackSegments.last;
   }
 
   @override

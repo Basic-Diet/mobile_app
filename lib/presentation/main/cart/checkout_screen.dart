@@ -47,6 +47,11 @@ class _CheckoutScreenContent extends StatefulWidget {
 }
 
 class _CheckoutScreenContentState extends State<_CheckoutScreenContent> {
+  static const String _paymentSuccessUrl =
+      'https://basicdiet145.onrender.com/payment-success';
+  static const String _paymentCancelUrl =
+      'https://basicdiet145.onrender.com/payment-cancel';
+
   late String _idempotencyKey;
 
   @override
@@ -141,8 +146,8 @@ class _CheckoutScreenContentState extends State<_CheckoutScreenContent> {
                 )
               : null,
           items: items,
-          successUrl: 'basicdiet://orders/payment-success',
-          backUrl: 'basicdiet://orders/payment-cancel',
+          successUrl: _paymentSuccessUrl,
+          backUrl: _paymentCancelUrl,
         ),
         idempotencyKey: _idempotencyKey,
       ),
@@ -153,7 +158,14 @@ class _CheckoutScreenContentState extends State<_CheckoutScreenContent> {
     String paymentUrl,
     OneTimeOrderModel order,
   ) async {
-    final result = await context.push<bool?>('/payment-webview', extra: paymentUrl);
+    final result = await context.push<bool?>(
+      '/payment-webview',
+      extra: {
+        'paymentUrl': paymentUrl,
+        'successUrl': _paymentSuccessUrl,
+        'backUrl': _paymentCancelUrl,
+      },
+    );
     developer.log('Payment WebView returned: $result', name: 'checkout');
 
     if (!mounted) {

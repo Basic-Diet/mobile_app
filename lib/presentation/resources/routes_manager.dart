@@ -173,10 +173,32 @@ class GoRouterConfig {
       GoRoute(
         path: PaymentWebViewScreen.routeName,
         pageBuilder: (BuildContext context, GoRouterState state) {
-          final paymentUrl = state.extra as String;
+          final extra = state.extra;
+          late final String paymentUrl;
+          late final String successUrl;
+          late final String backUrl;
+
+          if (extra is String) {
+            paymentUrl = extra;
+            successUrl = 'https://basicdiet145.onrender.com/payment-success';
+            backUrl = 'https://basicdiet145.onrender.com/payment-cancel';
+          } else if (extra is Map<String, dynamic>) {
+            paymentUrl = extra['paymentUrl'] as String;
+            successUrl = extra['successUrl'] as String;
+            backUrl = extra['backUrl'] as String;
+          } else {
+            throw ArgumentError(
+              'PaymentWebViewScreen expects either a payment url string or a map with payment callbacks.',
+            );
+          }
+
           return getCustomTransitionPage(
             state: state,
-            child: PaymentWebViewScreen(paymentUrl: paymentUrl),
+            child: PaymentWebViewScreen(
+              paymentUrl: paymentUrl,
+              successUrl: successUrl,
+              backUrl: backUrl,
+            ),
           );
         },
       ),
