@@ -510,6 +510,22 @@ class Strings {
   static const String deliveryNotes = 'deliveryNotes';
   static const String timeSlot = 'timeSlot';
   static const String orderSummary = 'orderSummary';
+  static const String checkoutTitle = 'checkoutTitle';
+  static const String checkoutSubtitle = 'checkoutSubtitle';
+  static const String securePaymentTitle = 'securePaymentTitle';
+  static const String securePaymentSubtitle = 'securePaymentSubtitle';
+  static const String oneTimeOrder = 'oneTimeOrder';
+  static const String paymentMethodCardApplePay =
+      'paymentMethodCardApplePay';
+  static const String vatIncludedInPrice = 'vatIncludedInPrice';
+  static const String paymentSummary = 'paymentSummary';
+  static const String paymentMethod = 'paymentMethod';
+  static const String orderType = 'orderType';
+  static const String reviewOrderBeforePayment = 'reviewOrderBeforePayment';
+  static const String openPaymentPage = 'openPaymentPage';
+  static const String paymentConfirmationNote = 'paymentConfirmationNote';
+  static const String itemsCount = 'itemsCount';
+  static const String productsCount = 'productsCount';
   static const String reviewYourOrder = 'reviewYourOrder';
   static const String confirmSubscriptionDetailsBelow =
       'confirmSubscriptionDetailsBelow';
