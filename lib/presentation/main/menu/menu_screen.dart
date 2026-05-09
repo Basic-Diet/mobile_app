@@ -1274,7 +1274,7 @@ class _StickyCartBar extends StatelessWidget {
     return PositionedDirectional(
       start: AppPadding.p16.w,
       end: AppPadding.p16.w,
-      bottom: AppPadding.p70.h,
+      bottom: AppPadding.p10.h,
       child: BlocBuilder<CartBloc, CartState>(
         builder: (context, state) {
           if (state is! CartLoaded || state.items.isEmpty) {
@@ -1287,7 +1287,7 @@ class _StickyCartBar extends StatelessWidget {
           );
 
           return Material(
-            color: ColorManager.stateSuccessEmphasis,
+            color: ColorManager.brandPrimary,
             borderRadius: BorderRadius.circular(AppSize.s99.r),
             child: InkWell(
               onTap: () => context.push('/cart'),
@@ -1296,7 +1296,7 @@ class _StickyCartBar extends StatelessWidget {
                 height: AppSize.s54.h,
                 padding: EdgeInsetsDirectional.only(
                   start: AppPadding.p20.w,
-                  end: AppPadding.p6.w,
+                  end: AppPadding.p20.w,
                 ),
                 child: Row(
                   children: [
