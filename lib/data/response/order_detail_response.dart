@@ -2,6 +2,10 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'order_detail_response.g.dart';
 
+Object? _readOrderIdentifier(Map<dynamic, dynamic> json, String key) {
+  return json[key] ?? json['orderId'];
+}
+
 Object? _readOrderItemName(Map<dynamic, dynamic> json, String key) {
   final value = json[key];
   if (value is String) {
@@ -47,7 +51,7 @@ class OrderDetailResponse {
 
 @JsonSerializable(explicitToJson: true)
 class OrderDetailDataResponse {
-  @JsonKey(name: 'id')
+  @JsonKey(name: 'id', readValue: _readOrderIdentifier)
   final String? id;
 
   @JsonKey(name: 'orderNumber')

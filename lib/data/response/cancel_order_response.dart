@@ -2,6 +2,10 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'cancel_order_response.g.dart';
 
+Object? _readOrderIdentifier(Map<dynamic, dynamic> json, String key) {
+  return json[key] ?? json['orderId'];
+}
+
 @JsonSerializable(explicitToJson: true)
 class CancelOrderResponse {
   @JsonKey(name: 'status')
@@ -23,7 +27,7 @@ class CancelOrderResponse {
 
 @JsonSerializable(explicitToJson: true)
 class CancelOrderDataResponse {
-  @JsonKey(name: 'id')
+  @JsonKey(name: 'id', readValue: _readOrderIdentifier)
   final String? id;
 
   @JsonKey(name: 'status')

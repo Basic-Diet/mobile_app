@@ -29,7 +29,7 @@ Map<String, dynamic> _$OrderDetailResponseToJson(
 OrderDetailDataResponse _$OrderDetailDataResponseFromJson(
   Map<String, dynamic> json,
 ) => OrderDetailDataResponse(
-  id: json['id'] as String?,
+  id: _readOrderIdentifier(json, 'id') as String?,
   orderNumber: json['orderNumber'] as String?,
   status: json['status'] as String?,
   paymentStatus: json['paymentStatus'] as String?,

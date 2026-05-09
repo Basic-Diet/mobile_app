@@ -1,774 +1,833 @@
-E/libEGL  ( 3302): called unimplemented OpenGL ES API
-I/flutter ( 3302): onChange -- CheckoutBloc, Change { currentState: CheckoutLoaded(OrderQuoteStatus.success, Instance of 'OrderQuoteModel', null, null, OrderCreateStatus.success, Instance of 'OneTimeOrderModel', null, null, OrderVerifyStatus.initial, null, null), nextState: CheckoutLoaded(OrderQuoteStatus.success, Instance of 'OrderQuoteModel', null, null, OrderCreateStatus.success, Instance of 'OneTimeOrderModel', null, null, OrderVerifyStatus.loading, null, null) }
-[checkout] Payment WebView returned: true
-W/WindowOnBackDispatcher( 3302): OnBackInvokedCallback is not enabled for the application.
-W/WindowOnBackDispatcher( 3302): Set 'android:enableOnBackInvokedCallback="true"' in the application manifest.
-I/flutter ( 3302):
-I/flutter ( 3302): ╔╣ Request ║ POST
-I/flutter ( 3302): ║  https://basicdiet145.onrender.com/api/orders/69ff414a9fb65d6e063e14f5/payments/69ff414a9fb65d6e063e14f7/verify
-I/flutter ( 3302): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter ( 3302): ╔ Headers
-I/flutter ( 3302): ╟ accept: application/json
-I/flutter ( 3302): ╟ content-type: application/json
-I/flutter ( 3302): ╟ authorization:
-I/flutter ( 3302): ║ Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWYyMzdmMjE5Mjg4ZGJjOWUxNjMxZG
-I/flutter ( 3302): ║ UiLCJyb2xlIjoiY2xpZW50IiwidG9rZW5UeXBlIjoiYXBwX2FjY2VzcyIsImlhdCI6MTc3NzQ5MDg2NSwiZXhwIjox
-I/flutter ( 3302): ║ NzgwMTY5MjY1fQ.wQdMvBRkWrYPGGrvx5HtsUbTO-B9NlayVB5uRMS4rVE
-I/flutter ( 3302): ╟ Accept-Language: ar
-I/flutter ( 3302): ╟ contentType: application/json
-I/flutter ( 3302): ╟ responseType: ResponseType.json
-I/flutter ( 3302): ╟ followRedirects: true
-I/flutter ( 3302): ╟ receiveTimeout: 16:40:00.000000
-I/flutter ( 3302): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter ( 3302): ╔ Body
-I/flutter ( 3302): ╟ providerPaymentId: null
-I/flutter ( 3302): ╟ providerInvoiceId: 8ce329b1-3470-47cd-ae86-42f8a15905b2
-I/flutter ( 3302): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter ( 3302): ║ {providerPaymentId: null, providerInvoiceId: 8ce329b1-3470-47cd-ae86-42f8a15905b2}
-E/libEGL  ( 3302): called unimplemented OpenGL ES API
-E/libEGL  ( 3302): called unimplemented OpenGL ES API
-I/flutter ( 3302):
-I/flutter ( 3302): ╔╣ Response ║ POST ║ Status: 200 OK  ║ Time: 1560 ms
-I/flutter ( 3302): ║  https://basicdiet145.onrender.com/api/orders/69ff414a9fb65d6e063e14f5/payments/69ff414a9fb65d6e063e14f7/verify
-I/flutter ( 3302): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter ( 3302): ╔ Headers
-I/flutter ( 3302): ╟ x-render-origin-server: [Render]
-I/flutter ( 3302): ╟ ratelimit-limit: [20]
-I/flutter ( 3302): ╟ x-dns-prefetch-control: [off]
-I/flutter ( 3302): ╟ date: [Sat, 09 May 2026 14:14:57 GMT]
-I/flutter ( 3302): ╟ transfer-encoding: [chunked]
-I/flutter ( 3302): ╟ content-encoding: [gzip]
-I/flutter ( 3302): ╟ origin-agent-cluster: [?1]
-I/flutter ( 3302): ╟ vary: [Origin, Accept-Encoding]
-I/flutter ( 3302): ╟ ratelimit-remaining: [18]
-I/flutter ( 3302): ╟ ratelimit-policy: [20;w=300]
-I/flutter ( 3302): ╟ server: [cloudflare]
-I/flutter ( 3302): ╟ cross-origin-resource-policy: [same-origin]
-I/flutter ( 3302): ╟ cf-ray: [9f91503b4ad4cd8f-MRS]
-I/flutter ( 3302): ╟ etag: [W/"1387-ZaKOLwb2rVZG/4IM1zBq+wXGJTs"]
-I/flutter ( 3302): ╟ x-frame-options: [SAMEORIGIN]
-I/flutter ( 3302): ╟ content-security-policy:
-I/flutter ( 3302): ║ [default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-
-I/flutter ( 3302): ║ ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr
-I/flutter ( 3302): ║ 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests]
-I/flutter ( 3302): ╟ connection: [keep-alive]
-I/flutter ( 3302): ╟ strict-transport-security: [max-age=15552000; includeSubDomains]
-I/flutter ( 3302): ╟ referrer-policy: [no-referrer]
-I/flutter ( 3302): ╟ cf-cache-status: [DYNAMIC]
-I/flutter ( 3302): ╟ x-permitted-cross-domain-policies: [none]
-I/flutter ( 3302): ╟ cross-origin-opener-policy: [same-origin]
-I/flutter ( 3302): ╟ content-type: [application/json; charset=utf-8]
-I/flutter ( 3302): ╟ x-xss-protection: [0]
-I/flutter ( 3302): ╟ rndr-id: [4e343870-d2ec-4ae8]
-I/flutter ( 3302): ╟ access-control-allow-credentials: [true]
-I/flutter ( 3302): ╟ alt-svc: [h3=":443"; ma=86400]
-I/flutter ( 3302): ╟ x-download-options: [noopen]
-I/flutter ( 3302): ╟ x-content-type-options: [nosniff]
-I/flutter ( 3302): ╟ ratelimit-reset: [272]
-I/flutter ( 3302): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter ( 3302): ╔ Body
-I/flutter ( 3302): ║
-I/flutter ( 3302): ║    {
-I/flutter ( 3302): ║         "status": true,
-I/flutter ( 3302): ║         "data": {
-I/flutter ( 3302): ║             "orderId": "69ff414a9fb65d6e063e14f5",
-I/flutter ( 3302): ║             "paymentId": "69ff414a9fb65d6e063e14f7",
-I/flutter ( 3302): ║             "orderStatus": "confirmed",
-I/flutter ( 3302): ║             "paymentStatus": "paid",
-I/flutter ( 3302): ║             "applied": true,
-I/flutter ( 3302): ║             "providerInvoiceStatus": "paid",
-I/flutter ( 3302): ║             "isFinal": true,
-I/flutter ( 3302): ║             "order": {
-I/flutter ( 3302): ║                 "pricing": {
-I/flutter ( 3302): ║                     "subtotalHalala": 8700,
-I/flutter ( 3302): ║                     "deliveryFeeHalala": 0,
-I/flutter ( 3302): ║                     "discountHalala": 0,
-I/flutter ( 3302): ║                     "totalHalala": 8700,
-I/flutter ( 3302): ║                     "vatPercentage": 15,
-I/flutter ( 3302): ║                     "vatHalala": 1135,
-I/flutter ( 3302): ║                     "vatIncluded": true,
-I/flutter ( 3302): ║                     "currency": "SAR",
-I/flutter ( 3302): ║                     "appliedPromo": null,
-I/flutter ( 3302): ║                     "unitPrice": 0,
-I/flutter ( 3302): ║                     "quantity": 0,
-I/flutter ( 3302): ║                     "subtotal": 8700,
-I/flutter ( 3302): ║                     "basePrice": 0,
-I/flutter ( 3302): ║                     "deliveryFee": 0,
-I/flutter ( 3302): ║                     "vatAmount": 1135,
-I/flutter ( 3302): ║                     "total": 8700,
-I/flutter ( 3302): ║                     "totalPrice": 8700
-I/flutter ( 3302): ║                }
-I/flutter ( 3302): ║                 "pickup": {
-I/flutter ( 3302): ║                     "branchId": "main",
-I/flutter ( 3302): ║                     "pickupWindow": "18:00-20:00",
-I/flutter ( 3302): ║                     "branchName": {ar: , en: },
-I/flutter ( 3302): ║                     "pickupCode": ""
-I/flutter ( 3302): ║                }
-I/flutter ( 3302): ║                 "delivery": {
-I/flutter ( 3302): ║                     "address": {label: , line1: , line2: , district: , city: , phone: , notes: },
-I/flutter ( 3302): ║                     "deliveryFeeHalala": 0,
-I/flutter ( 3302): ║                     "zoneName": {ar: , en: }
-I/flutter ( 3302): ║                }
-I/flutter ( 3302): ║                 "_id": "69ff414a9fb65d6e063e14f5",
-I/flutter ( 3302): ║                 "orderNumber": "ORD-063E14F4",
-I/flutter ( 3302): ║                 "userId": "69f237f219288dbc9e1631de",
-I/flutter ( 3302): ║                 "status": "confirmed",
-I/flutter ( 3302): ║                 "paymentStatus": "paid",
-I/flutter ( 3302): ║                 "fulfillmentMethod": "pickup",
-I/flutter ( 3302): ║                 "fulfillmentDate": "2026-05-09",
-I/flutter ( 3302): ║                 "requestedFulfillmentDate": "2026-05-09",
-I/flutter ( 3302): ║                 "fulfillmentDateAdjusted": false,
-I/flutter ( 3302): ║                 "deliveryMode": "pickup",
-I/flutter ( 3302): ║                 "deliveryDate": "2026-05-09",
-I/flutter ( 3302): ║                 "requestedDeliveryDate": "2026-05-09",
-I/flutter ( 3302): ║                 "deliveryDateAdjusted": false,
-I/flutter ( 3302): ║                 "items": [
-I/flutter ( 3302): ║                    {
-I/flutter ( 3302): ║                         "itemType": "basic_salad",
-I/flutter ( 3302): ║                         "catalogRef": {model: MenuProduct, id: 69fb649936d002eb74445f66},
-I/flutter ( 3302): ║                         "productId": "69fb649936d002eb74445f66",
-I/flutter ( 3302): ║                         "menuVersionId": "69fd36e711639cab331b2958",
-I/flutter ( 3302): ║                         "name": {ar: سلطة بيسك, en: Basic Salad},
-I/flutter ( 3302): ║                         "qty": 1,
-I/flutter ( 3302): ║                         "unitPriceHalala": 8700,
-I/flutter ( 3302): ║                         "lineTotalHalala": 8700,
-I/flutter ( 3302): ║                         "currency": "SAR",
-I/flutter ( 3302): ║                         "selections": {
-I/flutter ( 3302): ║                             "proteinName": {ar: , en: },
-I/flutter ( 3302): ║                             "carbs": []
-I/flutter ( 3302): ║                             "salad": {
-I/flutter ( 3302): ║                                 "ingredients": []
-I/flutter ( 3302): ║                            }
-I/flutter ( 3302): ║                             "selectedOptions": [
-I/flutter ( 3302): ║                                {
-I/flutter ( 3302): ║                                     "groupId": "69fb648936d002eb74445f42"
-I/flutter ( 3302): ║                                     "groupName": {ar: ورقيات, en: Leafy Greens},
-I/flutter ( 3302): ║                                     "optionId": "69fd36a236d002eb7445b5a3"
-I/flutter ( 3302): ║                                     "name": {ar: جرجير, en: Arugula},
-I/flutter ( 3302): ║                                     "qty": 1,
-I/flutter ( 3302): ║                                     "extraPriceHalala": 0,
-I/flutter ( 3302): ║                                     "extraWeightGrams": 0,
-I/flutter ( 3302): ║                                     "extraWeightUnitGrams": 0,
-I/flutter ( 3302): ║                                     "extraWeightPriceHalala": 0,
-I/flutter ( 3302): ║                                     "totalHalala": 0
-I/flutter ( 3302): ║                                },
-I/flutter ( 3302): ║                                {
-I/flutter ( 3302): ║                                     "groupId": "69fb648936d002eb74445f42"
-I/flutter ( 3302): ║                                     "groupName": {ar: ورقيات, en: Leafy Greens},
-I/flutter ( 3302): ║                                     "optionId": "69fd36a236d002eb7445b5a4"
-I/flutter ( 3302): ║                                     "name": {ar: ملفوف, en: Cabbage},
-I/flutter ( 3302): ║                                     "qty": 1,
-I/flutter ( 3302): ║                                     "extraPriceHalala": 0,
-I/flutter ( 3302): ║                                     "extraWeightGrams": 0,
-I/flutter ( 3302): ║                                     "extraWeightUnitGrams": 0,
-I/flutter ( 3302): ║                                     "extraWeightPriceHalala": 0,
-I/flutter ( 3302): ║                                     "totalHalala": 0
-I/flutter ( 3302): ║                                },
-I/flutter ( 3302): ║                                {
-I/flutter ( 3302): ║                                     "groupId": "69fb649036d002eb74445f51"
-I/flutter ( 3302): ║                                     "groupName": {ar: بروتينات, en: Proteins},
-I/flutter ( 3302): ║                                     "optionId": "69fd36aa36d002eb7445b5c3"
-I/flutter ( 3302): ║                                     "name": {ar: فاهيتا, en: Fajita},
-I/flutter ( 3302): ║                                     "qty": 1,
-I/flutter ( 3302): ║                                     "extraPriceHalala": 0,
-I/flutter ( 3302): ║                                     "extraWeightGrams": 0,
-I/flutter ( 3302): ║                                     "extraWeightUnitGrams": 50,
-I/flutter ( 3302): ║                                     "extraWeightPriceHalala": 500,
-I/flutter ( 3302): ║                                     "totalHalala": 0
-I/flutter ( 3302): ║                                },
-I/flutter ( 3302): ║                                {
-I/flutter ( 3302): ║                                     "groupId": "69fb649536d002eb74445f5a"
-I/flutter ( 3302): ║                                     "groupName": {ar: الصوصات, en: Sauces},
-I/flutter ( 3302): ║                                     "optionId": "69fd36b036d002eb7445b5e2"
-I/flutter ( 3302): ║                                     "name": {ar: سيزر, en: Caesar},
-I/flutter ( 3302): ║                                     "qty": 1,
-I/flutter ( 3302): ║                                     "extraPriceHalala": 0,
-I/flutter ( 3302): ║                                     "extraWeightGrams": 0,
-I/flutter ( 3302): ║                                     "extraWeightUnitGrams": 0,
-I/flutter ( 3302): ║                                     "extraWeightPriceHalala": 0,
-I/flutter ( 3302): ║                                     "totalHalala": 0
-I/flutter ( 3302): ║                                }
-I/flutter ( 3302): ║                             ]
-I/flutter ( 3302): ║                        }
-I/flutter ( 3302): ║                         "productSnapshot": {
-I/flutter ( 3302): ║                             "productId": "69fb649936d002eb74445f66",
-I/flutter ( 3302): ║                             "categoryId": "69fd36a036d002eb7445b59e",
-I/flutter ( 3302): ║                             "categoryName": {ar: اطلب على مزاجك, en: Custom Order},
-I/flutter ( 3302): ║                             "key": "basic_salad",
-I/flutter ( 3302): ║                             "name": {ar: سلطة بيسك, en: Basic Salad},
-I/flutter ( 3302): ║                             "itemType": "basic_salad",
-I/flutter ( 3302): ║                             "pricingModel": "per_100g",
-I/flutter ( 3302): ║                             "priceHalala": 2900,
-I/flutter ( 3302): ║                             "baseUnitGrams": 100,
-I/flutter ( 3302): ║                             "weightGrams": 300
-I/flutter ( 3302): ║                        }
-I/flutter ( 3302): ║                         "selectedOptions": [
-I/flutter ( 3302): ║                            {
-I/flutter ( 3302): ║                                 "groupId": "69fb648936d002eb74445f42",
-I/flutter ( 3302): ║                                 "groupName": {ar: ورقيات, en: Leafy Greens},
-I/flutter ( 3302): ║                                 "optionId": "69fd36a236d002eb7445b5a3",
-I/flutter ( 3302): ║                                 "name": {ar: جرجير, en: Arugula},
-I/flutter ( 3302): ║                                 "qty": 1,
-I/flutter ( 3302): ║                                 "extraPriceHalala": 0,
-I/flutter ( 3302): ║                                 "extraWeightGrams": 0,
-I/flutter ( 3302): ║                                 "extraWeightUnitGrams": 0,
-I/flutter ( 3302): ║                                 "extraWeightPriceHalala": 0,
-I/flutter ( 3302): ║                                 "totalHalala": 0
-I/flutter ( 3302): ║                            },
-I/flutter ( 3302): ║                            {
-I/flutter ( 3302): ║                                 "groupId": "69fb648936d002eb74445f42",
-I/flutter ( 3302): ║                                 "groupName": {ar: ورقيات, en: Leafy Greens},
-I/flutter ( 3302): ║                                 "optionId": "69fd36a236d002eb7445b5a4",
-I/flutter ( 3302): ║                                 "name": {ar: ملفوف, en: Cabbage},
-I/flutter ( 3302): ║                                 "qty": 1,
-I/flutter ( 3302): ║                                 "extraPriceHalala": 0,
-I/flutter ( 3302): ║                                 "extraWeightGrams": 0,
-I/flutter ( 3302): ║                                 "extraWeightUnitGrams": 0,
-I/flutter ( 3302): ║                                 "extraWeightPriceHalala": 0,
-I/flutter ( 3302): ║                                 "totalHalala": 0
-I/flutter ( 3302): ║                            },
-I/flutter ( 3302): ║                            {
-I/flutter ( 3302): ║                                 "groupId": "69fb649036d002eb74445f51",
-I/flutter ( 3302): ║                                 "groupName": {ar: بروتينات, en: Proteins},
-I/flutter ( 3302): ║                                 "optionId": "69fd36aa36d002eb7445b5c3",
-I/flutter ( 3302): ║                                 "name": {ar: فاهيتا, en: Fajita},
-I/flutter ( 3302): ║                                 "qty": 1,
-I/flutter ( 3302): ║                                 "extraPriceHalala": 0,
-I/flutter ( 3302): ║                                 "extraWeightGrams": 0,
-I/flutter ( 3302): ║                                 "extraWeightUnitGrams": 50,
-I/flutter ( 3302): ║                                 "extraWeightPriceHalala": 500,
-I/flutter ( 3302): ║                                 "totalHalala": 0
-I/flutter ( 3302): ║                            },
-I/flutter ( 3302): ║                            {
-I/flutter ( 3302): ║                                 "groupId": "69fb649536d002eb74445f5a",
-I/flutter ( 3302): ║                                 "groupName": {ar: الصوصات, en: Sauces},
-I/flutter ( 3302): ║                                 "optionId": "69fd36b036d002eb7445b5e2",
-I/flutter ( 3302): ║                                 "name": {ar: سيزر, en: Caesar},
-I/flutter ( 3302): ║                                 "qty": 1,
-I/flutter ( 3302): ║                                 "extraPriceHalala": 0,
-I/flutter ( 3302): ║                                 "extraWeightGrams": 0,
-I/flutter ( 3302): ║                                 "extraWeightUnitGrams": 0,
-I/flutter ( 3302): ║                                 "extraWeightPriceHalala": 0,
-I/flutter ( 3302): ║                                 "totalHalala": 0
-I/flutter ( 3302): ║                            }
-I/flutter ( 3302): ║                         ],
-I/flutter ( 3302): ║                         "pricingSnapshot": {
-I/flutter ( 3302): ║                             "basePriceHalala": 8700,
-I/flutter ( 3302): ║                             "optionsTotalHalala": 0,
-I/flutter ( 3302): ║                             "unitPriceHalala": 8700,
-I/flutter ( 3302): ║                             "lineTotalHalala": 8700,
-I/flutter ( 3302): ║                             "vatIncluded": true,
-I/flutter ( 3302): ║                             "currency": "SAR"
-I/flutter ( 3302): ║                        }
-I/flutter ( 3302): ║                         "quantity": 1,
-I/flutter ( 3302): ║                         "unitPrice": 8700
-I/flutter ( 3302): ║                    }
-I/flutter ( 3302): ║                 ],
-I/flutter ( 3302): ║                 "deliveryWindow": "",
-I/flutter ( 3302): ║                 "paymentUrl": "https://checkout.moyasar.com/invoices/8ce329b1-3470-47cd-ae86-42f8a15905b
-I/flutter ( 3302): ║                  2?lang=en"
-I/flutter ( 3302): ║                 "idempotencyKey": "870a89d2-ea2a-44f0-a396-4dea8bc94d7c",
-I/flutter ( 3302): ║                 "requestHash": "4b8287a1b4d3652d9914bf7f377744bce9266666d1087b87486ab992d3af972f"
-I/flutter ( 3302): ║                 "expiresAt": null,
-I/flutter ( 3302): ║                 "customSalads": []
-I/flutter ( 3302): ║                 "customMeals": []
-I/flutter ( 3302): ║                 "createdAt": "2026-05-09T14:14:34.562Z",
-I/flutter ( 3302): ║                 "updatedAt": "2026-05-09T14:14:57.283Z",
-I/flutter ( 3302): ║                 "__v": 1,
-I/flutter ( 3302): ║                 "paymentId": "69ff414a9fb65d6e063e14f7",
-I/flutter ( 3302): ║                 "providerInvoiceId": "8ce329b1-3470-47cd-ae86-42f8a15905b2",
-I/flutter ( 3302): ║                 "confirmedAt": "2026-05-09T14:14:57.215Z"
-I/flutter ( 3302): ║            }
-I/flutter ( 3302): ║        }
-I/flutter ( 3302): ║    }
-I/flutter ( 3302): ║
-I/flutter ( 3302): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter ( 3302): onChange -- CheckoutBloc, Change { currentState: CheckoutLoaded(OrderQuoteStatus.success, Instance of 'OrderQuoteModel', null, null, OrderCreateStatus.success, Instance of 'OneTimeOrderModel', null, null, OrderVerifyStatus.loading, null, null), nextState: CheckoutLoaded(OrderQuoteStatus.success, Instance of 'OrderQuoteModel', null, null, OrderCreateStatus.success, Instance of 'OneTimeOrderModel', null, null, OrderVerifyStatus.success, Instance of 'VerifyPaymentModel', null) }
-I/flutter ( 3302): onCreate -- OrderTrackingBloc
-I/flutter ( 3302): onChange -- OrderTrackingBloc, Change { currentState: OrderTrackingInitial(), nextState: OrderTrackingLoading() }
-W/WindowOnBackDispatcher( 3302): OnBackInvokedCallback is not enabled for the application.
-W/WindowOnBackDispatcher( 3302): Set 'android:enableOnBackInvokedCallback="true"' in the application manifest.
-I/flutter ( 3302):
-I/flutter ( 3302): ╔╣ Request ║ GET
-I/flutter ( 3302): ║  https://basicdiet145.onrender.com/api/orders/69ff414a9fb65d6e063e14f5
-I/flutter ( 3302): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter ( 3302): ╔ Headers
-I/flutter ( 3302): ╟ accept: application/json
-I/flutter ( 3302): ╟ content-type: application/json
-I/flutter ( 3302): ╟ authorization:
-I/flutter ( 3302): ║ Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWYyMzdmMjE5Mjg4ZGJjOWUxNjMxZG
-I/flutter ( 3302): ║ UiLCJyb2xlIjoiY2xpZW50IiwidG9rZW5UeXBlIjoiYXBwX2FjY2VzcyIsImlhdCI6MTc3NzQ5MDg2NSwiZXhwIjox
-I/flutter ( 3302): ║ NzgwMTY5MjY1fQ.wQdMvBRkWrYPGGrvx5HtsUbTO-B9NlayVB5uRMS4rVE
-I/flutter ( 3302): ╟ Accept-Language: ar
-I/flutter ( 3302): ╟ contentType: application/json
-I/flutter ( 3302): ╟ responseType: ResponseType.json
-I/flutter ( 3302): ╟ followRedirects: true
-I/flutter ( 3302): ╟ receiveTimeout: 16:40:00.000000
-I/flutter ( 3302): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter ( 3302): onClose -- CheckoutBloc
-I/flutter ( 3302):
-I/flutter ( 3302): ╔╣ Response ║ GET ║ Status: 200 OK  ║ Time: 415 ms
-I/flutter ( 3302): ║  https://basicdiet145.onrender.com/api/orders/69ff414a9fb65d6e063e14f5
-I/flutter ( 3302): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter ( 3302): ╔ Headers
-I/flutter ( 3302): ╟ x-dns-prefetch-control: [off]
-I/flutter ( 3302): ╟ x-render-origin-server: [Render]
-I/flutter ( 3302): ╟ date: [Sat, 09 May 2026 14:14:58 GMT]
-I/flutter ( 3302): ╟ transfer-encoding: [chunked]
-I/flutter ( 3302): ╟ origin-agent-cluster: [?1]
-I/flutter ( 3302): ╟ vary: [Origin, Accept-Encoding]
-I/flutter ( 3302): ╟ content-encoding: [gzip]
-I/flutter ( 3302): ╟ server: [cloudflare]
-I/flutter ( 3302): ╟ cross-origin-resource-policy: [same-origin]
-I/flutter ( 3302): ╟ cf-ray: [9f9150449e71cd8f-MRS]
-I/flutter ( 3302): ╟ etag: [W/"879-KViicuE/NDhtfeEBeBI7RuSTjNg"]
-I/flutter ( 3302): ╟ x-frame-options: [SAMEORIGIN]
-I/flutter ( 3302): ╟ content-security-policy:
-I/flutter ( 3302): ║ [default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-
-I/flutter ( 3302): ║ ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr
-I/flutter ( 3302): ║ 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests]
-I/flutter ( 3302): ╟ connection: [keep-alive]
-I/flutter ( 3302): ╟ strict-transport-security: [max-age=15552000; includeSubDomains]
-I/flutter ( 3302): ╟ referrer-policy: [no-referrer]
-I/flutter ( 3302): ╟ cf-cache-status: [DYNAMIC]
-I/flutter ( 3302): ╟ x-permitted-cross-domain-policies: [none]
-I/flutter ( 3302): ╟ cross-origin-opener-policy: [same-origin]
-I/flutter ( 3302): ╟ content-type: [application/json; charset=utf-8]
-I/flutter ( 3302): ╟ rndr-id: [ec73b56f-f2a3-4259]
-I/flutter ( 3302): ╟ x-xss-protection: [0]
-I/flutter ( 3302): ╟ access-control-allow-credentials: [true]
-I/flutter ( 3302): ╟ alt-svc: [h3=":443"; ma=86400]
-I/flutter ( 3302): ╟ x-download-options: [noopen]
-I/flutter ( 3302): ╟ x-content-type-options: [nosniff]
-I/flutter ( 3302): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter ( 3302): ╔ Body
-I/flutter ( 3302): ║
-I/flutter ( 3302): ║    {
-I/flutter ( 3302): ║         "status": true,
-I/flutter ( 3302): ║         "data": {
-I/flutter ( 3302): ║             "id": "69ff414a9fb65d6e063e14f5",
-I/flutter ( 3302): ║             "orderId": "69ff414a9fb65d6e063e14f5",
-I/flutter ( 3302): ║             "orderNumber": "ORD-063E14F4",
-I/flutter ( 3302): ║             "source": "one_time_order",
-I/flutter ( 3302): ║             "status": "confirmed",
-I/flutter ( 3302): ║             "paymentStatus": "paid",
-I/flutter ( 3302): ║             "expiresAt": null,
-I/flutter ( 3302): ║             "fulfillmentMethod": "pickup",
-I/flutter ( 3302): ║             "fulfillmentDate": "2026-05-09",
-I/flutter ( 3302): ║             "requestedFulfillmentDate": "2026-05-09",
-I/flutter ( 3302): ║             "items": [
-I/flutter ( 3302): ║                {
-I/flutter ( 3302): ║                     "itemType": "basic_salad",
-I/flutter ( 3302): ║                     "catalogRef": {model: MenuProduct, id: 69fb649936d002eb74445f66},
-I/flutter ( 3302): ║                     "name": {ar: سلطة بيسك, en: Basic Salad},
-I/flutter ( 3302): ║                     "qty": 1,
-I/flutter ( 3302): ║                     "unitPriceHalala": 8700,
-I/flutter ( 3302): ║                     "lineTotalHalala": 8700,
-I/flutter ( 3302): ║                     "currency": "SAR",
-I/flutter ( 3302): ║                     "selections": {
-I/flutter ( 3302): ║                         "salad": {
-I/flutter ( 3302): ║                             "ingredients": []
-I/flutter ( 3302): ║                        }
-I/flutter ( 3302): ║                         "proteinName": {ar: , en: },
-I/flutter ( 3302): ║                         "carbs": []
-I/flutter ( 3302): ║                         "selectedOptions": [
-I/flutter ( 3302): ║                            {
-I/flutter ( 3302): ║                                 "groupId": "69fb648936d002eb74445f42",
-I/flutter ( 3302): ║                                 "groupName": {ar: ورقيات, en: Leafy Greens},
-I/flutter ( 3302): ║                                 "optionId": "69fd36a236d002eb7445b5a3",
-I/flutter ( 3302): ║                                 "name": {ar: جرجير, en: Arugula},
-I/flutter ( 3302): ║                                 "qty": 1,
-I/flutter ( 3302): ║                                 "extraPriceHalala": 0,
-I/flutter ( 3302): ║                                 "extraWeightGrams": 0,
-I/flutter ( 3302): ║                                 "extraWeightUnitGrams": 0,
-I/flutter ( 3302): ║                                 "extraWeightPriceHalala": 0,
-I/flutter ( 3302): ║                                 "totalHalala": 0
-I/flutter ( 3302): ║                            },
-I/flutter ( 3302): ║                            {
-I/flutter ( 3302): ║                                 "groupId": "69fb648936d002eb74445f42",
-I/flutter ( 3302): ║                                 "groupName": {ar: ورقيات, en: Leafy Greens},
-I/flutter ( 3302): ║                                 "optionId": "69fd36a236d002eb7445b5a4",
-I/flutter ( 3302): ║                                 "name": {ar: ملفوف, en: Cabbage},
-I/flutter ( 3302): ║                                 "qty": 1,
-I/flutter ( 3302): ║                                 "extraPriceHalala": 0,
-I/flutter ( 3302): ║                                 "extraWeightGrams": 0,
-I/flutter ( 3302): ║                                 "extraWeightUnitGrams": 0,
-I/flutter ( 3302): ║                                 "extraWeightPriceHalala": 0,
-I/flutter ( 3302): ║                                 "totalHalala": 0
-I/flutter ( 3302): ║                            },
-I/flutter ( 3302): ║                            {
-I/flutter ( 3302): ║                                 "groupId": "69fb649036d002eb74445f51",
-I/flutter ( 3302): ║                                 "groupName": {ar: بروتينات, en: Proteins},
-I/flutter ( 3302): ║                                 "optionId": "69fd36aa36d002eb7445b5c3",
-I/flutter ( 3302): ║                                 "name": {ar: فاهيتا, en: Fajita},
-I/flutter ( 3302): ║                                 "qty": 1,
-I/flutter ( 3302): ║                                 "extraPriceHalala": 0,
-I/flutter ( 3302): ║                                 "extraWeightGrams": 0,
-I/flutter ( 3302): ║                                 "extraWeightUnitGrams": 50,
-I/flutter ( 3302): ║                                 "extraWeightPriceHalala": 500,
-I/flutter ( 3302): ║                                 "totalHalala": 0
-I/flutter ( 3302): ║                            },
-I/flutter ( 3302): ║                            {
-I/flutter ( 3302): ║                                 "groupId": "69fb649536d002eb74445f5a",
-I/flutter ( 3302): ║                                 "groupName": {ar: الصوصات, en: Sauces},
-I/flutter ( 3302): ║                                 "optionId": "69fd36b036d002eb7445b5e2",
-I/flutter ( 3302): ║                                 "name": {ar: سيزر, en: Caesar},
-I/flutter ( 3302): ║                                 "qty": 1,
-I/flutter ( 3302): ║                                 "extraPriceHalala": 0,
-I/flutter ( 3302): ║                                 "extraWeightGrams": 0,
-I/flutter ( 3302): ║                                 "extraWeightUnitGrams": 0,
-I/flutter ( 3302): ║                                 "extraWeightPriceHalala": 0,
-I/flutter ( 3302): ║                                 "totalHalala": 0
-I/flutter ( 3302): ║                            }
-I/flutter ( 3302): ║                         ]
-I/flutter ( 3302): ║                    }
-I/flutter ( 3302): ║                     "nutrition": {}
-I/flutter ( 3302): ║                }
-I/flutter ( 3302): ║             ],
-I/flutter ( 3302): ║             "pricing": {
-I/flutter ( 3302): ║                 "subtotalHalala": 8700,
-I/flutter ( 3302): ║                 "deliveryFeeHalala": 0,
-I/flutter ( 3302): ║                 "discountHalala": 0,
-I/flutter ( 3302): ║                 "totalHalala": 8700,
-I/flutter ( 3302): ║                 "vatPercentage": 15,
-I/flutter ( 3302): ║                 "vatHalala": 1135,
-I/flutter ( 3302): ║                 "vatIncluded": true,
-I/flutter ( 3302): ║                 "currency": "SAR"
-I/flutter ( 3302): ║            }
-I/flutter ( 3302): ║             "pickup": {
-I/flutter ( 3302): ║                 "branchId": "main",
-I/flutter ( 3302): ║                 "pickupWindow": "18:00-20:00",
-I/flutter ( 3302): ║                 "branchName": {ar: , en: },
-I/flutter ( 3302): ║                 "pickupCode": ""
-I/flutter ( 3302): ║            }
-I/flutter ( 3302): ║             "createdAt": "2026-05-09T14:14:34.562Z",
-I/flutter ( 3302): ║             "updatedAt": "2026-05-09T14:14:57.283Z"
-I/flutter ( 3302): ║        }
-I/flutter ( 3302): ║    }
-I/flutter ( 3302): ║
-I/flutter ( 3302): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter ( 3302): onChange -- OrderTrackingBloc, Change { currentState: OrderTrackingLoading(), nextState: OrderTrackingSuccess(Instance of 'OrderModel') }
-E/libEGL  ( 3302): called unimplemented OpenGL ES API
-I/flutter ( 3302): onChange -- OrderTrackingBloc, Change { currentState: OrderTrackingSuccess(Instance of 'OrderModel'), nextState: OrderTrackingLoading() }
-I/flutter ( 3302):
-I/flutter ( 3302): ╔╣ Request ║ GET
-I/flutter ( 3302): ║  https://basicdiet145.onrender.com/api/orders/69ff414a9fb65d6e063e14f5
-I/flutter ( 3302): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter ( 3302): ╔ Headers
-I/flutter ( 3302): ╟ accept: application/json
-I/flutter ( 3302): ╟ content-type: application/json
-I/flutter ( 3302): ╟ authorization:
-I/flutter ( 3302): ║ Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWYyMzdmMjE5Mjg4ZGJjOWUxNjMxZG
-I/flutter ( 3302): ║ UiLCJyb2xlIjoiY2xpZW50IiwidG9rZW5UeXBlIjoiYXBwX2FjY2VzcyIsImlhdCI6MTc3NzQ5MDg2NSwiZXhwIjox
-I/flutter ( 3302): ║ NzgwMTY5MjY1fQ.wQdMvBRkWrYPGGrvx5HtsUbTO-B9NlayVB5uRMS4rVE
-I/flutter ( 3302): ╟ Accept-Language: ar
-I/flutter ( 3302): ╟ contentType: application/json
-I/flutter ( 3302): ╟ responseType: ResponseType.json
-I/flutter ( 3302): ╟ followRedirects: true
-I/flutter ( 3302): ╟ receiveTimeout: 16:40:00.000000
-I/flutter ( 3302): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter ( 3302):
-I/flutter ( 3302): ╔╣ Response ║ GET ║ Status: 200 OK  ║ Time: 636 ms
-I/flutter ( 3302): ║  https://basicdiet145.onrender.com/api/orders/69ff414a9fb65d6e063e14f5
-I/flutter ( 3302): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter ( 3302): ╔ Headers
-I/flutter ( 3302): ╟ x-dns-prefetch-control: [off]
-I/flutter ( 3302): ╟ x-render-origin-server: [Render]
-I/flutter ( 3302): ╟ date: [Sat, 09 May 2026 14:16:16 GMT]
-I/flutter ( 3302): ╟ transfer-encoding: [chunked]
-I/flutter ( 3302): ╟ origin-agent-cluster: [?1]
-I/flutter ( 3302): ╟ vary: [Origin, Accept-Encoding]
-I/flutter ( 3302): ╟ content-encoding: [gzip]
-I/flutter ( 3302): ╟ server: [cloudflare]
-I/flutter ( 3302): ╟ cross-origin-resource-policy: [same-origin]
-I/flutter ( 3302): ╟ cf-ray: [9f91522ac9d978d0-MRS]
-I/flutter ( 3302): ╟ etag: [W/"8ab-eue99K6wZB3bSR5BY+qeUUNjyQU"]
-I/flutter ( 3302): ╟ x-frame-options: [SAMEORIGIN]
-I/flutter ( 3302): ╟ content-security-policy:
-I/flutter ( 3302): ║ [default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-
-I/flutter ( 3302): ║ ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr
-I/flutter ( 3302): ║ 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests]
-I/flutter ( 3302): ╟ connection: [keep-alive]
-I/flutter ( 3302): ╟ strict-transport-security: [max-age=15552000; includeSubDomains]
-I/flutter ( 3302): ╟ referrer-policy: [no-referrer]
-I/flutter ( 3302): ╟ cf-cache-status: [DYNAMIC]
-I/flutter ( 3302): ╟ x-permitted-cross-domain-policies: [none]
-I/flutter ( 3302): ╟ cross-origin-opener-policy: [same-origin]
-I/flutter ( 3302): ╟ content-type: [application/json; charset=utf-8]
-I/flutter ( 3302): ╟ rndr-id: [5f1bcca3-ccf7-42e7]
-I/flutter ( 3302): ╟ x-xss-protection: [0]
-I/flutter ( 3302): ╟ access-control-allow-credentials: [true]
-I/flutter ( 3302): ╟ alt-svc: [h3=":443"; ma=86400]
-I/flutter ( 3302): ╟ x-download-options: [noopen]
-I/flutter ( 3302): ╟ x-content-type-options: [nosniff]
-I/flutter ( 3302): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter ( 3302): ╔ Body
-I/flutter ( 3302): ║
-I/flutter ( 3302): ║    {
-I/flutter ( 3302): ║         "status": true,
-I/flutter ( 3302): ║         "data": {
-I/flutter ( 3302): ║             "id": "69ff414a9fb65d6e063e14f5",
-I/flutter ( 3302): ║             "orderId": "69ff414a9fb65d6e063e14f5",
-I/flutter ( 3302): ║             "orderNumber": "ORD-063E14F4",
-I/flutter ( 3302): ║             "source": "one_time_order",
-I/flutter ( 3302): ║             "status": "ready_for_pickup",
-I/flutter ( 3302): ║             "paymentStatus": "paid",
-I/flutter ( 3302): ║             "expiresAt": null,
-I/flutter ( 3302): ║             "fulfillmentMethod": "pickup",
-I/flutter ( 3302): ║             "fulfillmentDate": "2026-05-09",
-I/flutter ( 3302): ║             "requestedFulfillmentDate": "2026-05-09",
-I/flutter ( 3302): ║             "items": [
-I/flutter ( 3302): ║                {
-I/flutter ( 3302): ║                     "itemType": "basic_salad",
-I/flutter ( 3302): ║                     "catalogRef": {model: MenuProduct, id: 69fb649936d002eb74445f66},
-I/flutter ( 3302): ║                     "name": {ar: سلطة بيسك, en: Basic Salad},
-I/flutter ( 3302): ║                     "qty": 1,
-I/flutter ( 3302): ║                     "unitPriceHalala": 8700,
-I/flutter ( 3302): ║                     "lineTotalHalala": 8700,
-I/flutter ( 3302): ║                     "currency": "SAR",
-I/flutter ( 3302): ║                     "selections": {
-I/flutter ( 3302): ║                         "salad": {
-I/flutter ( 3302): ║                             "ingredients": []
-I/flutter ( 3302): ║                        }
-I/flutter ( 3302): ║                         "proteinName": {ar: , en: },
-I/flutter ( 3302): ║                         "carbs": []
-I/flutter ( 3302): ║                         "selectedOptions": [
-I/flutter ( 3302): ║                            {
-I/flutter ( 3302): ║                                 "groupId": "69fb648936d002eb74445f42",
-I/flutter ( 3302): ║                                 "groupName": {ar: ورقيات, en: Leafy Greens},
-I/flutter ( 3302): ║                                 "optionId": "69fd36a236d002eb7445b5a3",
-I/flutter ( 3302): ║                                 "name": {ar: جرجير, en: Arugula},
-I/flutter ( 3302): ║                                 "qty": 1,
-I/flutter ( 3302): ║                                 "extraPriceHalala": 0,
-I/flutter ( 3302): ║                                 "extraWeightGrams": 0,
-I/flutter ( 3302): ║                                 "extraWeightUnitGrams": 0,
-I/flutter ( 3302): ║                                 "extraWeightPriceHalala": 0,
-I/flutter ( 3302): ║                                 "totalHalala": 0
-I/flutter ( 3302): ║                            },
-I/flutter ( 3302): ║                            {
-I/flutter ( 3302): ║                                 "groupId": "69fb648936d002eb74445f42",
-I/flutter ( 3302): ║                                 "groupName": {ar: ورقيات, en: Leafy Greens},
-I/flutter ( 3302): ║                                 "optionId": "69fd36a236d002eb7445b5a4",
-I/flutter ( 3302): ║                                 "name": {ar: ملفوف, en: Cabbage},
-I/flutter ( 3302): ║                                 "qty": 1,
-I/flutter ( 3302): ║                                 "extraPriceHalala": 0,
-I/flutter ( 3302): ║                                 "extraWeightGrams": 0,
-I/flutter ( 3302): ║                                 "extraWeightUnitGrams": 0,
-I/flutter ( 3302): ║                                 "extraWeightPriceHalala": 0,
-I/flutter ( 3302): ║                                 "totalHalala": 0
-I/flutter ( 3302): ║                            },
-I/flutter ( 3302): ║                            {
-I/flutter ( 3302): ║                                 "groupId": "69fb649036d002eb74445f51",
-I/flutter ( 3302): ║                                 "groupName": {ar: بروتينات, en: Proteins},
-I/flutter ( 3302): ║                                 "optionId": "69fd36aa36d002eb7445b5c3",
-I/flutter ( 3302): ║                                 "name": {ar: فاهيتا, en: Fajita},
-I/flutter ( 3302): ║                                 "qty": 1,
-I/flutter ( 3302): ║                                 "extraPriceHalala": 0,
-I/flutter ( 3302): ║                                 "extraWeightGrams": 0,
-I/flutter ( 3302): ║                                 "extraWeightUnitGrams": 50,
-I/flutter ( 3302): ║                                 "extraWeightPriceHalala": 500,
-I/flutter ( 3302): ║                                 "totalHalala": 0
-I/flutter ( 3302): ║                            },
-I/flutter ( 3302): ║                            {
-I/flutter ( 3302): ║                                 "groupId": "69fb649536d002eb74445f5a",
-I/flutter ( 3302): ║                                 "groupName": {ar: الصوصات, en: Sauces},
-I/flutter ( 3302): ║                                 "optionId": "69fd36b036d002eb7445b5e2",
-I/flutter ( 3302): ║                                 "name": {ar: سيزر, en: Caesar},
-I/flutter ( 3302): ║                                 "qty": 1,
-I/flutter ( 3302): ║                                 "extraPriceHalala": 0,
-I/flutter ( 3302): ║                                 "extraWeightGrams": 0,
-I/flutter ( 3302): ║                                 "extraWeightUnitGrams": 0,
-I/flutter ( 3302): ║                                 "extraWeightPriceHalala": 0,
-I/flutter ( 3302): ║                                 "totalHalala": 0
-I/flutter ( 3302): ║                            }
-I/flutter ( 3302): ║                         ]
-I/flutter ( 3302): ║                    }
-I/flutter ( 3302): ║                     "nutrition": {}
-I/flutter ( 3302): ║                }
-I/flutter ( 3302): ║             ],
-I/flutter ( 3302): ║             "pricing": {
-I/flutter ( 3302): ║                 "subtotalHalala": 8700,
-I/flutter ( 3302): ║                 "deliveryFeeHalala": 0,
-I/flutter ( 3302): ║                 "discountHalala": 0,
-I/flutter ( 3302): ║                 "totalHalala": 8700,
-I/flutter ( 3302): ║                 "vatPercentage": 15,
-I/flutter ( 3302): ║                 "vatHalala": 1135,
-I/flutter ( 3302): ║                 "vatIncluded": true,
-I/flutter ( 3302): ║                 "currency": "SAR"
-I/flutter ( 3302): ║            }
-I/flutter ( 3302): ║             "pickup": {
-I/flutter ( 3302): ║                 "branchId": "main",
-I/flutter ( 3302): ║                 "pickupWindow": "18:00-20:00",
-I/flutter ( 3302): ║                 "branchName": {ar: , en: },
-I/flutter ( 3302): ║                 "pickupCode": "301062",
-I/flutter ( 3302): ║                 "readyAt": "2026-05-09T14:16:06.764Z"
-I/flutter ( 3302): ║            }
-I/flutter ( 3302): ║             "createdAt": "2026-05-09T14:14:34.562Z",
-I/flutter ( 3302): ║             "updatedAt": "2026-05-09T14:16:06.772Z"
-I/flutter ( 3302): ║        }
-I/flutter ( 3302): ║    }
-I/flutter ( 3302): ║
-I/flutter ( 3302): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter ( 3302): onChange -- OrderTrackingBloc, Change { currentState: OrderTrackingLoading(), nextState: OrderTrackingSuccess(Instance of 'OrderModel') }
-E/libEGL  ( 3302): called unimplemented OpenGL ES API
-I/flutter ( 3302): onChange -- OrderTrackingBloc, Change { currentState: OrderTrackingSuccess(Instance of 'OrderModel'), nextState: OrderTrackingLoading() }
-I/flutter ( 3302):
-I/flutter ( 3302): ╔╣ Request ║ GET
-I/flutter ( 3302): ║  https://basicdiet145.onrender.com/api/orders/69ff414a9fb65d6e063e14f5
-I/flutter ( 3302): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter ( 3302): ╔ Headers
-I/flutter ( 3302): ╟ accept: application/json
-I/flutter ( 3302): ╟ content-type: application/json
-I/flutter ( 3302): ╟ authorization:
-I/flutter ( 3302): ║ Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWYyMzdmMjE5Mjg4ZGJjOWUxNjMxZG
-I/flutter ( 3302): ║ UiLCJyb2xlIjoiY2xpZW50IiwidG9rZW5UeXBlIjoiYXBwX2FjY2VzcyIsImlhdCI6MTc3NzQ5MDg2NSwiZXhwIjox
-I/flutter ( 3302): ║ NzgwMTY5MjY1fQ.wQdMvBRkWrYPGGrvx5HtsUbTO-B9NlayVB5uRMS4rVE
-I/flutter ( 3302): ╟ Accept-Language: ar
-I/flutter ( 3302): ╟ contentType: application/json
-I/flutter ( 3302): ╟ responseType: ResponseType.json
-I/flutter ( 3302): ╟ followRedirects: true
-I/flutter ( 3302): ╟ receiveTimeout: 16:40:00.000000
-I/flutter ( 3302): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter ( 3302):
-I/flutter ( 3302): ╔╣ Response ║ GET ║ Status: 200 OK  ║ Time: 420 ms
-I/flutter ( 3302): ║  https://basicdiet145.onrender.com/api/orders/69ff414a9fb65d6e063e14f5
-I/flutter ( 3302): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter ( 3302): ╔ Headers
-I/flutter ( 3302): ╟ x-dns-prefetch-control: [off]
-I/flutter ( 3302): ╟ x-render-origin-server: [Render]
-I/flutter ( 3302): ╟ date: [Sat, 09 May 2026 14:16:18 GMT]
-I/flutter ( 3302): ╟ transfer-encoding: [chunked]
-I/flutter ( 3302): ╟ origin-agent-cluster: [?1]
-I/flutter ( 3302): ╟ vary: [Origin, Accept-Encoding]
-I/flutter ( 3302): ╟ content-encoding: [gzip]
-I/flutter ( 3302): ╟ server: [cloudflare]
-I/flutter ( 3302): ╟ cross-origin-resource-policy: [same-origin]
-I/flutter ( 3302): ╟ cf-ray: [9f9152372f2f78d0-MRS]
-I/flutter ( 3302): ╟ etag: [W/"8ab-eue99K6wZB3bSR5BY+qeUUNjyQU"]
-I/flutter ( 3302): ╟ x-frame-options: [SAMEORIGIN]
-I/flutter ( 3302): ╟ content-security-policy:
-I/flutter ( 3302): ║ [default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-
-I/flutter ( 3302): ║ ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr
-I/flutter ( 3302): ║ 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests]
-I/flutter ( 3302): ╟ connection: [keep-alive]
-I/flutter ( 3302): ╟ strict-transport-security: [max-age=15552000; includeSubDomains]
-I/flutter ( 3302): ╟ referrer-policy: [no-referrer]
-I/flutter ( 3302): ╟ cf-cache-status: [DYNAMIC]
-I/flutter ( 3302): ╟ x-permitted-cross-domain-policies: [none]
-I/flutter ( 3302): ╟ content-type: [application/json; charset=utf-8]
-I/flutter ( 3302): ╟ cross-origin-opener-policy: [same-origin]
-I/flutter ( 3302): ╟ rndr-id: [e185b0d1-2e6e-497a]
-I/flutter ( 3302): ╟ x-xss-protection: [0]
-I/flutter ( 3302): ╟ access-control-allow-credentials: [true]
-I/flutter ( 3302): ╟ alt-svc: [h3=":443"; ma=86400]
-I/flutter ( 3302): ╟ x-download-options: [noopen]
-I/flutter ( 3302): ╟ x-content-type-options: [nosniff]
-I/flutter ( 3302): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter ( 3302): ╔ Body
-I/flutter ( 3302): ║
-I/flutter ( 3302): ║    {
-I/flutter ( 3302): ║         "status": true,
-I/flutter ( 3302): ║         "data": {
-I/flutter ( 3302): ║             "id": "69ff414a9fb65d6e063e14f5",
-I/flutter ( 3302): ║             "orderId": "69ff414a9fb65d6e063e14f5",
-I/flutter ( 3302): ║             "orderNumber": "ORD-063E14F4",
-I/flutter ( 3302): ║             "source": "one_time_order",
-I/flutter ( 3302): ║             "status": "ready_for_pickup",
-I/flutter ( 3302): ║             "paymentStatus": "paid",
-I/flutter ( 3302): ║             "expiresAt": null,
-I/flutter ( 3302): ║             "fulfillmentMethod": "pickup",
-I/flutter ( 3302): ║             "fulfillmentDate": "2026-05-09",
-I/flutter ( 3302): ║             "requestedFulfillmentDate": "2026-05-09",
-I/flutter ( 3302): ║             "items": [
-I/flutter ( 3302): ║                {
-I/flutter ( 3302): ║                     "itemType": "basic_salad",
-I/flutter ( 3302): ║                     "catalogRef": {model: MenuProduct, id: 69fb649936d002eb74445f66},
-I/flutter ( 3302): ║                     "name": {ar: سلطة بيسك, en: Basic Salad},
-I/flutter ( 3302): ║                     "qty": 1,
-I/flutter ( 3302): ║                     "unitPriceHalala": 8700,
-I/flutter ( 3302): ║                     "lineTotalHalala": 8700,
-I/flutter ( 3302): ║                     "currency": "SAR",
-I/flutter ( 3302): ║                     "selections": {
-I/flutter ( 3302): ║                         "salad": {
-I/flutter ( 3302): ║                             "ingredients": []
-I/flutter ( 3302): ║                        }
-I/flutter ( 3302): ║                         "proteinName": {ar: , en: },
-I/flutter ( 3302): ║                         "carbs": []
-I/flutter ( 3302): ║                         "selectedOptions": [
-I/flutter ( 3302): ║                            {
-I/flutter ( 3302): ║                                 "groupId": "69fb648936d002eb74445f42",
-I/flutter ( 3302): ║                                 "groupName": {ar: ورقيات, en: Leafy Greens},
-I/flutter ( 3302): ║                                 "optionId": "69fd36a236d002eb7445b5a3",
-I/flutter ( 3302): ║                                 "name": {ar: جرجير, en: Arugula},
-I/flutter ( 3302): ║                                 "qty": 1,
-I/flutter ( 3302): ║                                 "extraPriceHalala": 0,
-I/flutter ( 3302): ║                                 "extraWeightGrams": 0,
-I/flutter ( 3302): ║                                 "extraWeightUnitGrams": 0,
-I/flutter ( 3302): ║                                 "extraWeightPriceHalala": 0,
-I/flutter ( 3302): ║                                 "totalHalala": 0
-I/flutter ( 3302): ║                            },
-I/flutter ( 3302): ║                            {
-I/flutter ( 3302): ║                                 "groupId": "69fb648936d002eb74445f42",
-I/flutter ( 3302): ║                                 "groupName": {ar: ورقيات, en: Leafy Greens},
-I/flutter ( 3302): ║                                 "optionId": "69fd36a236d002eb7445b5a4",
-I/flutter ( 3302): ║                                 "name": {ar: ملفوف, en: Cabbage},
-I/flutter ( 3302): ║                                 "qty": 1,
-I/flutter ( 3302): ║                                 "extraPriceHalala": 0,
-I/flutter ( 3302): ║                                 "extraWeightGrams": 0,
-I/flutter ( 3302): ║                                 "extraWeightUnitGrams": 0,
-I/flutter ( 3302): ║                                 "extraWeightPriceHalala": 0,
-I/flutter ( 3302): ║                                 "totalHalala": 0
-I/flutter ( 3302): ║                            },
-I/flutter ( 3302): ║                            {
-I/flutter ( 3302): ║                                 "groupId": "69fb649036d002eb74445f51",
-I/flutter ( 3302): ║                                 "groupName": {ar: بروتينات, en: Proteins},
-I/flutter ( 3302): ║                                 "optionId": "69fd36aa36d002eb7445b5c3",
-I/flutter ( 3302): ║                                 "name": {ar: فاهيتا, en: Fajita},
-I/flutter ( 3302): ║                                 "qty": 1,
-I/flutter ( 3302): ║                                 "extraPriceHalala": 0,
-I/flutter ( 3302): ║                                 "extraWeightGrams": 0,
-I/flutter ( 3302): ║                                 "extraWeightUnitGrams": 50,
-I/flutter ( 3302): ║                                 "extraWeightPriceHalala": 500,
-I/flutter ( 3302): ║                                 "totalHalala": 0
-I/flutter ( 3302): ║                            },
-I/flutter ( 3302): ║                            {
-I/flutter ( 3302): ║                                 "groupId": "69fb649536d002eb74445f5a",
-I/flutter ( 3302): ║                                 "groupName": {ar: الصوصات, en: Sauces},
-I/flutter ( 3302): ║                                 "optionId": "69fd36b036d002eb7445b5e2",
-I/flutter ( 3302): ║                                 "name": {ar: سيزر, en: Caesar},
-I/flutter ( 3302): ║                                 "qty": 1,
-I/flutter ( 3302): ║                                 "extraPriceHalala": 0,
-I/flutter ( 3302): ║                                 "extraWeightGrams": 0,
-I/flutter ( 3302): ║                                 "extraWeightUnitGrams": 0,
-I/flutter ( 3302): ║                                 "extraWeightPriceHalala": 0,
-I/flutter ( 3302): ║                                 "totalHalala": 0
-I/flutter ( 3302): ║                            }
-I/flutter ( 3302): ║                         ]
-I/flutter ( 3302): ║                    }
-I/flutter ( 3302): ║                     "nutrition": {}
-I/flutter ( 3302): ║                }
-I/flutter ( 3302): ║             ],
-I/flutter ( 3302): ║             "pricing": {
-I/flutter ( 3302): ║                 "subtotalHalala": 8700,
-I/flutter ( 3302): ║                 "deliveryFeeHalala": 0,
-I/flutter ( 3302): ║                 "discountHalala": 0,
-I/flutter ( 3302): ║                 "totalHalala": 8700,
-I/flutter ( 3302): ║                 "vatPercentage": 15,
-I/flutter ( 3302): ║                 "vatHalala": 1135,
-I/flutter ( 3302): ║                 "vatIncluded": true,
-I/flutter ( 3302): ║                 "currency": "SAR"
-I/flutter ( 3302): ║            }
-I/flutter ( 3302): ║             "pickup": {
-I/flutter ( 3302): ║                 "branchId": "main",
-I/flutter ( 3302): ║                 "pickupWindow": "18:00-20:00",
-I/flutter ( 3302): ║                 "branchName": {ar: , en: },
-I/flutter ( 3302): ║                 "pickupCode": "301062",
-I/flutter ( 3302): ║                 "readyAt": "2026-05-09T14:16:06.764Z"
-I/flutter ( 3302): ║            }
-I/flutter ( 3302): ║             "createdAt": "2026-05-09T14:14:34.562Z",
-I/flutter ( 3302): ║             "updatedAt": "2026-05-09T14:16:06.772Z"
-I/flutter ( 3302): ║        }
-I/flutter ( 3302): ║    }
-I/flutter ( 3302): ║
-I/flutter ( 3302): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter ( 3302): onChange -- OrderTrackingBloc, Change { currentState: OrderTrackingLoading(), nextState: OrderTrackingSuccess(Instance of 'OrderModel') }
+E/libEGL  ( 4091): called unimplemented OpenGL ES API
+I/flutter ( 4091): onClose -- OrderTrackingBloc
+E/libEGL  ( 4091): called unimplemented OpenGL ES API
+I/flutter ( 4091): onCreate -- OrderTrackingBloc
+I/flutter ( 4091): onChange -- OrderTrackingBloc, Change { currentState: OrderTrackingInitial(), nextState: OrderTrackingLoading() }
+W/WindowOnBackDispatcher( 4091): OnBackInvokedCallback is not enabled for the application.
+W/WindowOnBackDispatcher( 4091): Set 'android:enableOnBackInvokedCallback="true"' in the application manifest.
+I/flutter ( 4091):
+I/flutter ( 4091): ╔╣ Request ║ GET
+I/flutter ( 4091): ║  https://basicdiet145.onrender.com/api/orders/
+I/flutter ( 4091): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
+I/flutter ( 4091): ╔ Headers
+I/flutter ( 4091): ╟ accept: application/json
+I/flutter ( 4091): ╟ content-type: application/json
+I/flutter ( 4091): ╟ authorization:
+I/flutter ( 4091): ║ Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWYyMzdmMjE5Mjg4ZGJjOWUxNjMxZG
+I/flutter ( 4091): ║ UiLCJyb2xlIjoiY2xpZW50IiwidG9rZW5UeXBlIjoiYXBwX2FjY2VzcyIsImlhdCI6MTc3NzQ5MDg2NSwiZXhwIjox
+I/flutter ( 4091): ║ NzgwMTY5MjY1fQ.wQdMvBRkWrYPGGrvx5HtsUbTO-B9NlayVB5uRMS4rVE
+I/flutter ( 4091): ╟ Accept-Language: ar
+I/flutter ( 4091): ╟ contentType: application/json
+I/flutter ( 4091): ╟ responseType: ResponseType.json
+I/flutter ( 4091): ╟ followRedirects: true
+I/flutter ( 4091): ╟ receiveTimeout: 16:40:00.000000
+I/flutter ( 4091): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
+I/flutter ( 4091):
+I/flutter ( 4091): ╔╣ Response ║ GET ║ Status: 200 OK  ║ Time: 668 ms
+I/flutter ( 4091): ║  https://basicdiet145.onrender.com/api/orders/
+I/flutter ( 4091): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
+I/flutter ( 4091): ╔ Headers
+I/flutter ( 4091): ╟ x-dns-prefetch-control: [off]
+I/flutter ( 4091): ╟ x-render-origin-server: [Render]
+I/flutter ( 4091): ╟ date: [Sat, 09 May 2026 15:05:06 GMT]
+I/flutter ( 4091): ╟ transfer-encoding: [chunked]
+I/flutter ( 4091): ╟ origin-agent-cluster: [?1]
+I/flutter ( 4091): ╟ vary: [Origin, Accept-Encoding]
+I/flutter ( 4091): ╟ content-encoding: [gzip]
+I/flutter ( 4091): ╟ server: [cloudflare]
+I/flutter ( 4091): ╟ cross-origin-resource-policy: [same-origin]
+I/flutter ( 4091): ╟ cf-ray: [9f9199b61ef8bccd-MRS]
+I/flutter ( 4091): ╟ etag: [W/"d20-cIf0U3q8FSGVzGTqTf0EZgveLZQ"]
+I/flutter ( 4091): ╟ x-frame-options: [SAMEORIGIN]
+I/flutter ( 4091): ╟ content-security-policy:
+I/flutter ( 4091): ║ [default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-
+I/flutter ( 4091): ║ ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr
+I/flutter ( 4091): ║ 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests]
+I/flutter ( 4091): ╟ connection: [keep-alive]
+I/flutter ( 4091): ╟ strict-transport-security: [max-age=15552000; includeSubDomains]
+I/flutter ( 4091): ╟ referrer-policy: [no-referrer]
+I/flutter ( 4091): ╟ cf-cache-status: [DYNAMIC]
+I/flutter ( 4091): ╟ x-permitted-cross-domain-policies: [none]
+I/flutter ( 4091): ╟ content-type: [application/json; charset=utf-8]
+I/flutter ( 4091): ╟ cross-origin-opener-policy: [same-origin]
+I/flutter ( 4091): ╟ rndr-id: [289df4cc-a384-447c]
+I/flutter ( 4091): ╟ x-xss-protection: [0]
+I/flutter ( 4091): ╟ access-control-allow-credentials: [true]
+I/flutter ( 4091): ╟ alt-svc: [h3=":443"; ma=86400]
+I/flutter ( 4091): ╟ x-download-options: [noopen]
+I/flutter ( 4091): ╟ x-content-type-options: [nosniff]
+I/flutter ( 4091): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
+I/flutter ( 4091): ╔ Body
+I/flutter ( 4091): ║
+I/flutter ( 4091): ║    {
+I/flutter ( 4091): ║         "status": true,
+I/flutter ( 4091): ║         "data": {
+I/flutter ( 4091): ║             "items": [
+I/flutter ( 4091): ║                {
+I/flutter ( 4091): ║                     "orderId": "69ff4ce29fb65d6e063e193c",
+I/flutter ( 4091): ║                     "orderNumber": "ORD-063E193B",
+I/flutter ( 4091): ║                     "source": "one_time_order",
+I/flutter ( 4091): ║                     "status": "ready_for_pickup",
+I/flutter ( 4091): ║                     "paymentStatus": "paid",
+I/flutter ( 4091): ║                     "fulfillmentMethod": "pickup",
+I/flutter ( 4091): ║                     "fulfillmentDate": "2026-05-09",
+I/flutter ( 4091): ║                     "itemCount": 1,
+I/flutter ( 4091): ║                     "totalHalala": 2900,
+I/flutter ( 4091): ║                     "currency": "SAR",
+I/flutter ( 4091): ║                     "createdAt": "2026-05-09T15:04:02.933Z",
+I/flutter ( 4091): ║                     "updatedAt": "2026-05-09T15:04:39.866Z"
+I/flutter ( 4091): ║                },
+I/flutter ( 4091): ║                {
+I/flutter ( 4091): ║                     "orderId": "69ff47e09fb65d6e063e16fe",
+I/flutter ( 4091): ║                     "orderNumber": "ORD-063E16FD",
+I/flutter ( 4091): ║                     "source": "one_time_order",
+I/flutter ( 4091): ║                     "status": "fulfilled",
+I/flutter ( 4091): ║                     "paymentStatus": "paid",
+I/flutter ( 4091): ║                     "fulfillmentMethod": "pickup",
+I/flutter ( 4091): ║                     "fulfillmentDate": "2026-05-09",
+I/flutter ( 4091): ║                     "itemCount": 1,
+I/flutter ( 4091): ║                     "totalHalala": 3800,
+I/flutter ( 4091): ║                     "currency": "SAR",
+I/flutter ( 4091): ║                     "createdAt": "2026-05-09T14:42:40.462Z",
+I/flutter ( 4091): ║                     "updatedAt": "2026-05-09T14:44:07.668Z"
+I/flutter ( 4091): ║                },
+I/flutter ( 4091): ║                {
+I/flutter ( 4091): ║                     "orderId": "69ff46089fb65d6e063e1651",
+I/flutter ( 4091): ║                     "orderNumber": "ORD-063E1650",
+I/flutter ( 4091): ║                     "source": "one_time_order",
+I/flutter ( 4091): ║                     "status": "cancelled",
+I/flutter ( 4091): ║                     "paymentStatus": "paid",
+I/flutter ( 4091): ║                     "fulfillmentMethod": "pickup",
+I/flutter ( 4091): ║                     "fulfillmentDate": "2026-05-09",
+I/flutter ( 4091): ║                     "itemCount": 1,
+I/flutter ( 4091): ║                     "totalHalala": 5700,
+I/flutter ( 4091): ║                     "currency": "SAR",
+I/flutter ( 4091): ║                     "createdAt": "2026-05-09T14:34:48.831Z",
+I/flutter ( 4091): ║                     "updatedAt": "2026-05-09T14:36:30.980Z"
+I/flutter ( 4091): ║                },
+I/flutter ( 4091): ║                {
+I/flutter ( 4091): ║                     "orderId": "69ff414a9fb65d6e063e14f5",
+I/flutter ( 4091): ║                     "orderNumber": "ORD-063E14F4",
+I/flutter ( 4091): ║                     "source": "one_time_order",
+I/flutter ( 4091): ║                     "status": "cancelled",
+I/flutter ( 4091): ║                     "paymentStatus": "paid",
+I/flutter ( 4091): ║                     "fulfillmentMethod": "pickup",
+I/flutter ( 4091): ║                     "fulfillmentDate": "2026-05-09",
+I/flutter ( 4091): ║                     "itemCount": 1,
+I/flutter ( 4091): ║                     "totalHalala": 8700,
+I/flutter ( 4091): ║                     "currency": "SAR",
+I/flutter ( 4091): ║                     "createdAt": "2026-05-09T14:14:34.562Z",
+I/flutter ( 4091): ║                     "updatedAt": "2026-05-09T14:36:34.334Z"
+I/flutter ( 4091): ║                },
+I/flutter ( 4091): ║                {
+I/flutter ( 4091): ║                     "orderId": "69ff39fe9fb65d6e063e13e2",
+I/flutter ( 4091): ║                     "orderNumber": "ORD-063E13E1",
+I/flutter ( 4091): ║                     "source": "one_time_order",
+I/flutter ( 4091): ║                     "status": "fulfilled",
+I/flutter ( 4091): ║                     "paymentStatus": "paid",
+I/flutter ( 4091): ║                     "fulfillmentMethod": "pickup",
+I/flutter ( 4091): ║                     "fulfillmentDate": "2026-05-09",
+I/flutter ( 4091): ║                     "itemCount": 1,
+I/flutter ( 4091): ║                     "totalHalala": 2900,
+I/flutter ( 4091): ║                     "currency": "SAR",
+I/flutter ( 4091): ║                     "createdAt": "2026-05-09T13:43:26.439Z",
+I/flutter ( 4091): ║                     "updatedAt": "2026-05-09T14:31:34.444Z"
+I/flutter ( 4091): ║                },
+I/flutter ( 4091): ║                {
+I/flutter ( 4091): ║                     "orderId": "69ff2efadbe29e6a9d7ddf33",
+I/flutter ( 4091): ║                     "orderNumber": "ORD-9D7DDF32",
+I/flutter ( 4091): ║                     "source": "one_time_order",
+I/flutter ( 4091): ║                     "status": "cancelled",
+I/flutter ( 4091): ║                     "paymentStatus": "failed",
+I/flutter ( 4091): ║                     "fulfillmentMethod": "pickup",
+I/flutter ( 4091): ║                     "fulfillmentDate": "2026-05-09",
+I/flutter ( 4091): ║                     "itemCount": 1,
+I/flutter ( 4091): ║                     "totalHalala": 2900,
+I/flutter ( 4091): ║                     "currency": "SAR",
+I/flutter ( 4091): ║                     "createdAt": "2026-05-09T12:56:26.367Z",
+I/flutter ( 4091): ║                     "updatedAt": "2026-05-09T12:56:26.918Z"
+I/flutter ( 4091): ║                },
+I/flutter ( 4091): ║                {
+I/flutter ( 4091): ║                     "orderId": "69ff298dda2c28504e540e72",
+I/flutter ( 4091): ║                     "orderNumber": "ORD-4E540E71",
+I/flutter ( 4091): ║                     "source": "one_time_order",
+I/flutter ( 4091): ║                     "status": "cancelled",
+I/flutter ( 4091): ║                     "paymentStatus": "failed",
+I/flutter ( 4091): ║                     "fulfillmentMethod": "pickup",
+I/flutter ( 4091): ║                     "fulfillmentDate": "2026-05-09",
+I/flutter ( 4091): ║                     "itemCount": 1,
+I/flutter ( 4091): ║                     "totalHalala": 8700,
+I/flutter ( 4091): ║                     "currency": "SAR",
+I/flutter ( 4091): ║                     "createdAt": "2026-05-09T12:33:17.656Z",
+I/flutter ( 4091): ║                     "updatedAt": "2026-05-09T12:33:18.290Z"
+I/flutter ( 4091): ║                },
+I/flutter ( 4091): ║                {
+I/flutter ( 4091): ║                     "orderId": "69fcd77beba480b27320b5ae",
+I/flutter ( 4091): ║                     "orderNumber": "ORD-7320B5AD",
+I/flutter ( 4091): ║                     "source": "one_time_order",
+I/flutter ( 4091): ║                     "status": "fulfilled",
+I/flutter ( 4091): ║                     "paymentStatus": "paid",
+I/flutter ( 4091): ║                     "fulfillmentMethod": "pickup",
+I/flutter ( 4091): ║                     "fulfillmentDate": "2026-05-07",
+I/flutter ( 4091): ║                     "itemCount": 2,
+I/flutter ( 4091): ║                     "totalHalala": 400,
+I/flutter ( 4091): ║                     "currency": "SAR",
+I/flutter ( 4091): ║                     "createdAt": "2026-05-07T18:18:35.990Z",
+I/flutter ( 4091): ║                     "updatedAt": "2026-05-07T18:22:11.301Z"
+I/flutter ( 4091): ║                },
+I/flutter ( 4091): ║                {
+I/flutter ( 4091): ║                     "orderId": "69fbc83db683f54370983535",
+I/flutter ( 4091): ║                     "orderNumber": "ORD-70983534",
+I/flutter ( 4091): ║                     "source": "one_time_order",
+I/flutter ( 4091): ║                     "status": "fulfilled",
+I/flutter ( 4091): ║                     "paymentStatus": "paid",
+I/flutter ( 4091): ║                     "fulfillmentMethod": "pickup",
+I/flutter ( 4091): ║                     "fulfillmentDate": "2026-05-07",
+I/flutter ( 4091): ║                     "itemCount": 2,
+I/flutter ( 4091): ║                     "totalHalala": 400,
+I/flutter ( 4091): ║                     "currency": "SAR",
+I/flutter ( 4091): ║                     "createdAt": "2026-05-06T23:01:17.135Z",
+I/flutter ( 4091): ║                     "updatedAt": "2026-05-06T23:08:02.029Z"
+I/flutter ( 4091): ║                },
+I/flutter ( 4091): ║                {
+I/flutter ( 4091): ║                     "orderId": "69fbc802b683f54370983522",
+I/flutter ( 4091): ║                     "orderNumber": "ORD-70983521",
+I/flutter ( 4091): ║                     "source": "one_time_order",
+I/flutter ( 4091): ║                     "status": "cancelled",
+I/flutter ( 4091): ║                     "paymentStatus": "failed",
+I/flutter ( 4091): ║                     "fulfillmentMethod": "pickup",
+I/flutter ( 4091): ║                     "fulfillmentDate": "2026-05-07",
+I/flutter ( 4091): ║                     "itemCount": 2,
+I/flutter ( 4091): ║                     "totalHalala": 400,
+I/flutter ( 4091): ║                     "currency": "SAR",
+I/flutter ( 4091): ║                     "createdAt": "2026-05-06T23:00:18.125Z",
+I/flutter ( 4091): ║                     "updatedAt": "2026-05-06T23:00:19.000Z"
+I/flutter ( 4091): ║                }
+I/flutter ( 4091): ║             ],
+I/flutter ( 4091): ║             "pagination": {page: 1, limit: 10, total: 21, pages: 3}
+I/flutter ( 4091): ║        }
+I/flutter ( 4091): ║    }
+I/flutter ( 4091): ║
+I/flutter ( 4091): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
+I/flutter ( 4091): onChange -- OrderTrackingBloc, Change { currentState: OrderTrackingLoading(), nextState: OrderTrackingSuccess(Instance of 'OrderModel') }
+I/flutter ( 4091): onChange -- OrderTrackingBloc, Change { currentState: OrderTrackingSuccess(Instance of 'OrderModel'), nextState: OrderTrackingLoading() }
+I/flutter ( 4091):
+I/flutter ( 4091): ╔╣ Request ║ GET
+I/flutter ( 4091): ║  https://basicdiet145.onrender.com/api/orders/
+I/flutter ( 4091): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
+I/flutter ( 4091): ╔ Headers
+I/flutter ( 4091): ╟ accept: application/json
+I/flutter ( 4091): ╟ content-type: application/json
+I/flutter ( 4091): ╟ authorization:
+I/flutter ( 4091): ║ Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWYyMzdmMjE5Mjg4ZGJjOWUxNjMxZG
+I/flutter ( 4091): ║ UiLCJyb2xlIjoiY2xpZW50IiwidG9rZW5UeXBlIjoiYXBwX2FjY2VzcyIsImlhdCI6MTc3NzQ5MDg2NSwiZXhwIjox
+I/flutter ( 4091): ║ NzgwMTY5MjY1fQ.wQdMvBRkWrYPGGrvx5HtsUbTO-B9NlayVB5uRMS4rVE
+I/flutter ( 4091): ╟ Accept-Language: ar
+I/flutter ( 4091): ╟ contentType: application/json
+I/flutter ( 4091): ╟ responseType: ResponseType.json
+I/flutter ( 4091): ╟ followRedirects: true
+I/flutter ( 4091): ╟ receiveTimeout: 16:40:00.000000
+I/flutter ( 4091): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
+E/libEGL  ( 4091): called unimplemented OpenGL ES API
+I/flutter ( 4091):
+I/flutter ( 4091): ╔╣ Response ║ GET ║ Status: 200 OK  ║ Time: 574 ms
+I/flutter ( 4091): ║  https://basicdiet145.onrender.com/api/orders/
+I/flutter ( 4091): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
+I/flutter ( 4091): ╔ Headers
+I/flutter ( 4091): ╟ x-dns-prefetch-control: [off]
+I/flutter ( 4091): ╟ x-render-origin-server: [Render]
+I/flutter ( 4091): ╟ date: [Sat, 09 May 2026 15:05:16 GMT]
+I/flutter ( 4091): ╟ transfer-encoding: [chunked]
+I/flutter ( 4091): ╟ origin-agent-cluster: [?1]
+I/flutter ( 4091): ╟ vary: [Origin, Accept-Encoding]
+I/flutter ( 4091): ╟ content-encoding: [gzip]
+I/flutter ( 4091): ╟ server: [cloudflare]
+I/flutter ( 4091): ╟ cross-origin-resource-policy: [same-origin]
+I/flutter ( 4091): ╟ cf-ray: [9f9199f46c1be181-MRS]
+I/flutter ( 4091): ╟ etag: [W/"d20-cIf0U3q8FSGVzGTqTf0EZgveLZQ"]
+I/flutter ( 4091): ╟ x-frame-options: [SAMEORIGIN]
+I/flutter ( 4091): ╟ content-security-policy:
+I/flutter ( 4091): ║ [default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-
+I/flutter ( 4091): ║ ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr
+I/flutter ( 4091): ║ 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests]
+I/flutter ( 4091): ╟ connection: [keep-alive]
+I/flutter ( 4091): ╟ strict-transport-security: [max-age=15552000; includeSubDomains]
+I/flutter ( 4091): ╟ referrer-policy: [no-referrer]
+I/flutter ( 4091): ╟ cf-cache-status: [DYNAMIC]
+I/flutter ( 4091): ╟ x-permitted-cross-domain-policies: [none]
+I/flutter ( 4091): ╟ content-type: [application/json; charset=utf-8]
+I/flutter ( 4091): ╟ cross-origin-opener-policy: [same-origin]
+I/flutter ( 4091): ╟ rndr-id: [879b9624-8b5c-4c0f]
+I/flutter ( 4091): ╟ x-xss-protection: [0]
+I/flutter ( 4091): ╟ access-control-allow-credentials: [true]
+I/flutter ( 4091): ╟ alt-svc: [h3=":443"; ma=86400]
+I/flutter ( 4091): ╟ x-download-options: [noopen]
+I/flutter ( 4091): ╟ x-content-type-options: [nosniff]
+I/flutter ( 4091): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
+I/flutter ( 4091): ╔ Body
+I/flutter ( 4091): ║
+I/flutter ( 4091): ║    {
+I/flutter ( 4091): ║         "status": true,
+I/flutter ( 4091): ║         "data": {
+I/flutter ( 4091): ║             "items": [
+I/flutter ( 4091): ║                {
+I/flutter ( 4091): ║                     "orderId": "69ff4ce29fb65d6e063e193c",
+I/flutter ( 4091): ║                     "orderNumber": "ORD-063E193B",
+I/flutter ( 4091): ║                     "source": "one_time_order",
+I/flutter ( 4091): ║                     "status": "ready_for_pickup",
+I/flutter ( 4091): ║                     "paymentStatus": "paid",
+I/flutter ( 4091): ║                     "fulfillmentMethod": "pickup",
+I/flutter ( 4091): ║                     "fulfillmentDate": "2026-05-09",
+I/flutter ( 4091): ║                     "itemCount": 1,
+I/flutter ( 4091): ║                     "totalHalala": 2900,
+I/flutter ( 4091): ║                     "currency": "SAR",
+I/flutter ( 4091): ║                     "createdAt": "2026-05-09T15:04:02.933Z",
+I/flutter ( 4091): ║                     "updatedAt": "2026-05-09T15:04:39.866Z"
+I/flutter ( 4091): ║                },
+I/flutter ( 4091): ║                {
+I/flutter ( 4091): ║                     "orderId": "69ff47e09fb65d6e063e16fe",
+I/flutter ( 4091): ║                     "orderNumber": "ORD-063E16FD",
+I/flutter ( 4091): ║                     "source": "one_time_order",
+I/flutter ( 4091): ║                     "status": "fulfilled",
+I/flutter ( 4091): ║                     "paymentStatus": "paid",
+I/flutter ( 4091): ║                     "fulfillmentMethod": "pickup",
+I/flutter ( 4091): ║                     "fulfillmentDate": "2026-05-09",
+I/flutter ( 4091): ║                     "itemCount": 1,
+I/flutter ( 4091): ║                     "totalHalala": 3800,
+I/flutter ( 4091): ║                     "currency": "SAR",
+I/flutter ( 4091): ║                     "createdAt": "2026-05-09T14:42:40.462Z",
+I/flutter ( 4091): ║                     "updatedAt": "2026-05-09T14:44:07.668Z"
+I/flutter ( 4091): ║                },
+I/flutter ( 4091): ║                {
+I/flutter ( 4091): ║                     "orderId": "69ff46089fb65d6e063e1651",
+I/flutter ( 4091): ║                     "orderNumber": "ORD-063E1650",
+I/flutter ( 4091): ║                     "source": "one_time_order",
+I/flutter ( 4091): ║                     "status": "cancelled",
+I/flutter ( 4091): ║                     "paymentStatus": "paid",
+I/flutter ( 4091): ║                     "fulfillmentMethod": "pickup",
+I/flutter ( 4091): ║                     "fulfillmentDate": "2026-05-09",
+I/flutter ( 4091): ║                     "itemCount": 1,
+I/flutter ( 4091): ║                     "totalHalala": 5700,
+I/flutter ( 4091): ║                     "currency": "SAR",
+I/flutter ( 4091): ║                     "createdAt": "2026-05-09T14:34:48.831Z",
+I/flutter ( 4091): ║                     "updatedAt": "2026-05-09T14:36:30.980Z"
+I/flutter ( 4091): ║                },
+I/flutter ( 4091): ║                {
+I/flutter ( 4091): ║                     "orderId": "69ff414a9fb65d6e063e14f5",
+I/flutter ( 4091): ║                     "orderNumber": "ORD-063E14F4",
+I/flutter ( 4091): ║                     "source": "one_time_order",
+I/flutter ( 4091): ║                     "status": "cancelled",
+I/flutter ( 4091): ║                     "paymentStatus": "paid",
+I/flutter ( 4091): ║                     "fulfillmentMethod": "pickup",
+I/flutter ( 4091): ║                     "fulfillmentDate": "2026-05-09",
+I/flutter ( 4091): ║                     "itemCount": 1,
+I/flutter ( 4091): ║                     "totalHalala": 8700,
+I/flutter ( 4091): ║                     "currency": "SAR",
+I/flutter ( 4091): ║                     "createdAt": "2026-05-09T14:14:34.562Z",
+I/flutter ( 4091): ║                     "updatedAt": "2026-05-09T14:36:34.334Z"
+I/flutter ( 4091): ║                },
+I/flutter ( 4091): ║                {
+I/flutter ( 4091): ║                     "orderId": "69ff39fe9fb65d6e063e13e2",
+I/flutter ( 4091): ║                     "orderNumber": "ORD-063E13E1",
+I/flutter ( 4091): ║                     "source": "one_time_order",
+I/flutter ( 4091): ║                     "status": "fulfilled",
+I/flutter ( 4091): ║                     "paymentStatus": "paid",
+I/flutter ( 4091): ║                     "fulfillmentMethod": "pickup",
+I/flutter ( 4091): ║                     "fulfillmentDate": "2026-05-09",
+I/flutter ( 4091): ║                     "itemCount": 1,
+I/flutter ( 4091): ║                     "totalHalala": 2900,
+I/flutter ( 4091): ║                     "currency": "SAR",
+I/flutter ( 4091): ║                     "createdAt": "2026-05-09T13:43:26.439Z",
+I/flutter ( 4091): ║                     "updatedAt": "2026-05-09T14:31:34.444Z"
+I/flutter ( 4091): ║                },
+I/flutter ( 4091): ║                {
+I/flutter ( 4091): ║                     "orderId": "69ff2efadbe29e6a9d7ddf33",
+I/flutter ( 4091): ║                     "orderNumber": "ORD-9D7DDF32",
+I/flutter ( 4091): ║                     "source": "one_time_order",
+I/flutter ( 4091): ║                     "status": "cancelled",
+I/flutter ( 4091): ║                     "paymentStatus": "failed",
+I/flutter ( 4091): ║                     "fulfillmentMethod": "pickup",
+I/flutter ( 4091): ║                     "fulfillmentDate": "2026-05-09",
+I/flutter ( 4091): ║                     "itemCount": 1,
+I/flutter ( 4091): ║                     "totalHalala": 2900,
+I/flutter ( 4091): ║                     "currency": "SAR",
+I/flutter ( 4091): ║                     "createdAt": "2026-05-09T12:56:26.367Z",
+I/flutter ( 4091): ║                     "updatedAt": "2026-05-09T12:56:26.918Z"
+I/flutter ( 4091): ║                },
+I/flutter ( 4091): ║                {
+I/flutter ( 4091): ║                     "orderId": "69ff298dda2c28504e540e72",
+I/flutter ( 4091): ║                     "orderNumber": "ORD-4E540E71",
+I/flutter ( 4091): ║                     "source": "one_time_order",
+I/flutter ( 4091): ║                     "status": "cancelled",
+I/flutter ( 4091): ║                     "paymentStatus": "failed",
+I/flutter ( 4091): ║                     "fulfillmentMethod": "pickup",
+I/flutter ( 4091): ║                     "fulfillmentDate": "2026-05-09",
+I/flutter ( 4091): ║                     "itemCount": 1,
+I/flutter ( 4091): ║                     "totalHalala": 8700,
+I/flutter ( 4091): ║                     "currency": "SAR",
+I/flutter ( 4091): ║                     "createdAt": "2026-05-09T12:33:17.656Z",
+I/flutter ( 4091): ║                     "updatedAt": "2026-05-09T12:33:18.290Z"
+I/flutter ( 4091): ║                },
+I/flutter ( 4091): ║                {
+I/flutter ( 4091): ║                     "orderId": "69fcd77beba480b27320b5ae",
+I/flutter ( 4091): ║                     "orderNumber": "ORD-7320B5AD",
+I/flutter ( 4091): ║                     "source": "one_time_order",
+I/flutter ( 4091): ║                     "status": "fulfilled",
+I/flutter ( 4091): ║                     "paymentStatus": "paid",
+I/flutter ( 4091): ║                     "fulfillmentMethod": "pickup",
+I/flutter ( 4091): ║                     "fulfillmentDate": "2026-05-07",
+I/flutter ( 4091): ║                     "itemCount": 2,
+I/flutter ( 4091): ║                     "totalHalala": 400,
+I/flutter ( 4091): ║                     "currency": "SAR",
+I/flutter ( 4091): ║                     "createdAt": "2026-05-07T18:18:35.990Z",
+I/flutter ( 4091): ║                     "updatedAt": "2026-05-07T18:22:11.301Z"
+I/flutter ( 4091): ║                },
+I/flutter ( 4091): ║                {
+I/flutter ( 4091): ║                     "orderId": "69fbc83db683f54370983535",
+I/flutter ( 4091): ║                     "orderNumber": "ORD-70983534",
+I/flutter ( 4091): ║                     "source": "one_time_order",
+I/flutter ( 4091): ║                     "status": "fulfilled",
+I/flutter ( 4091): ║                     "paymentStatus": "paid",
+I/flutter ( 4091): ║                     "fulfillmentMethod": "pickup",
+I/flutter ( 4091): ║                     "fulfillmentDate": "2026-05-07",
+I/flutter ( 4091): ║                     "itemCount": 2,
+I/flutter ( 4091): ║                     "totalHalala": 400,
+I/flutter ( 4091): ║                     "currency": "SAR",
+I/flutter ( 4091): ║                     "createdAt": "2026-05-06T23:01:17.135Z",
+I/flutter ( 4091): ║                     "updatedAt": "2026-05-06T23:08:02.029Z"
+I/flutter ( 4091): ║                },
+I/flutter ( 4091): ║                {
+I/flutter ( 4091): ║                     "orderId": "69fbc802b683f54370983522",
+I/flutter ( 4091): ║                     "orderNumber": "ORD-70983521",
+I/flutter ( 4091): ║                     "source": "one_time_order",
+I/flutter ( 4091): ║                     "status": "cancelled",
+I/flutter ( 4091): ║                     "paymentStatus": "failed",
+I/flutter ( 4091): ║                     "fulfillmentMethod": "pickup",
+I/flutter ( 4091): ║                     "fulfillmentDate": "2026-05-07",
+I/flutter ( 4091): ║                     "itemCount": 2,
+I/flutter ( 4091): ║                     "totalHalala": 400,
+I/flutter ( 4091): ║                     "currency": "SAR",
+I/flutter ( 4091): ║                     "createdAt": "2026-05-06T23:00:18.125Z",
+I/flutter ( 4091): ║                     "updatedAt": "2026-05-06T23:00:19.000Z"
+I/flutter ( 4091): ║                }
+I/flutter ( 4091): ║             ],
+I/flutter ( 4091): ║             "pagination": {page: 1, limit: 10, total: 21, pages: 3}
+I/flutter ( 4091): ║        }
+I/flutter ( 4091): ║    }
+I/flutter ( 4091): ║
+I/flutter ( 4091): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
+I/flutter ( 4091): onChange -- OrderTrackingBloc, Change { currentState: OrderTrackingLoading(), nextState: OrderTrackingSuccess(Instance of 'OrderModel') }
+I/flutter ( 4091): onChange -- OrderTrackingBloc, Change { currentState: OrderTrackingSuccess(Instance of 'OrderModel'), nextState: OrderTrackingLoading() }
+I/flutter ( 4091):
+I/flutter ( 4091): ╔╣ Request ║ GET
+I/flutter ( 4091): ║  https://basicdiet145.onrender.com/api/orders/
+I/flutter ( 4091): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
+I/flutter ( 4091): ╔ Headers
+I/flutter ( 4091): ╟ accept: application/json
+I/flutter ( 4091): ╟ content-type: application/json
+I/flutter ( 4091): ╟ authorization:
+I/flutter ( 4091): ║ Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWYyMzdmMjE5Mjg4ZGJjOWUxNjMxZG
+I/flutter ( 4091): ║ UiLCJyb2xlIjoiY2xpZW50IiwidG9rZW5UeXBlIjoiYXBwX2FjY2VzcyIsImlhdCI6MTc3NzQ5MDg2NSwiZXhwIjox
+I/flutter ( 4091): ║ NzgwMTY5MjY1fQ.wQdMvBRkWrYPGGrvx5HtsUbTO-B9NlayVB5uRMS4rVE
+I/flutter ( 4091): ╟ Accept-Language: ar
+I/flutter ( 4091): ╟ contentType: application/json
+I/flutter ( 4091): ╟ responseType: ResponseType.json
+I/flutter ( 4091): ╟ followRedirects: true
+I/flutter ( 4091): ╟ receiveTimeout: 16:40:00.000000
+I/flutter ( 4091): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
+E/libEGL  ( 4091): called unimplemented OpenGL ES API
+I/flutter ( 4091):
+I/flutter ( 4091): ╔╣ Response ║ GET ║ Status: 200 OK  ║ Time: 641 ms
+I/flutter ( 4091): ║  https://basicdiet145.onrender.com/api/orders/
+I/flutter ( 4091): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
+I/flutter ( 4091): ╔ Headers
+I/flutter ( 4091): ╟ x-dns-prefetch-control: [off]
+I/flutter ( 4091): ╟ x-render-origin-server: [Render]
+I/flutter ( 4091): ╟ date: [Sat, 09 May 2026 15:05:26 GMT]
+I/flutter ( 4091): ╟ transfer-encoding: [chunked]
+I/flutter ( 4091): ╟ origin-agent-cluster: [?1]
+I/flutter ( 4091): ╟ vary: [Origin, Accept-Encoding]
+I/flutter ( 4091): ╟ content-encoding: [gzip]
+I/flutter ( 4091): ╟ server: [cloudflare]
+I/flutter ( 4091): ╟ cross-origin-resource-policy: [same-origin]
+I/flutter ( 4091): ╟ cf-ray: [9f919a32ff07cfa3-MRS]
+I/flutter ( 4091): ╟ etag: [W/"d20-cIf0U3q8FSGVzGTqTf0EZgveLZQ"]
+I/flutter ( 4091): ╟ x-frame-options: [SAMEORIGIN]
+I/flutter ( 4091): ╟ content-security-policy:
+I/flutter ( 4091): ║ [default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-
+I/flutter ( 4091): ║ ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr
+I/flutter ( 4091): ║ 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests]
+I/flutter ( 4091): ╟ connection: [keep-alive]
+I/flutter ( 4091): ╟ strict-transport-security: [max-age=15552000; includeSubDomains]
+I/flutter ( 4091): ╟ referrer-policy: [no-referrer]
+I/flutter ( 4091): ╟ cf-cache-status: [DYNAMIC]
+I/flutter ( 4091): ╟ x-permitted-cross-domain-policies: [none]
+I/flutter ( 4091): ╟ content-type: [application/json; charset=utf-8]
+I/flutter ( 4091): ╟ cross-origin-opener-policy: [same-origin]
+I/flutter ( 4091): ╟ rndr-id: [1afb38bb-2cc1-424e]
+I/flutter ( 4091): ╟ x-xss-protection: [0]
+I/flutter ( 4091): ╟ access-control-allow-credentials: [true]
+I/flutter ( 4091): ╟ alt-svc: [h3=":443"; ma=86400]
+I/flutter ( 4091): ╟ x-download-options: [noopen]
+I/flutter ( 4091): ╟ x-content-type-options: [nosniff]
+I/flutter ( 4091): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
+I/flutter ( 4091): ╔ Body
+I/flutter ( 4091): ║
+I/flutter ( 4091): ║    {
+I/flutter ( 4091): ║         "status": true,
+I/flutter ( 4091): ║         "data": {
+I/flutter ( 4091): ║             "items": [
+I/flutter ( 4091): ║                {
+I/flutter ( 4091): ║                     "orderId": "69ff4ce29fb65d6e063e193c",
+I/flutter ( 4091): ║                     "orderNumber": "ORD-063E193B",
+I/flutter ( 4091): ║                     "source": "one_time_order",
+I/flutter ( 4091): ║                     "status": "ready_for_pickup",
+I/flutter ( 4091): ║                     "paymentStatus": "paid",
+I/flutter ( 4091): ║                     "fulfillmentMethod": "pickup",
+I/flutter ( 4091): ║                     "fulfillmentDate": "2026-05-09",
+I/flutter ( 4091): ║                     "itemCount": 1,
+I/flutter ( 4091): ║                     "totalHalala": 2900,
+I/flutter ( 4091): ║                     "currency": "SAR",
+I/flutter ( 4091): ║                     "createdAt": "2026-05-09T15:04:02.933Z",
+I/flutter ( 4091): ║                     "updatedAt": "2026-05-09T15:04:39.866Z"
+I/flutter ( 4091): ║                },
+I/flutter ( 4091): ║                {
+I/flutter ( 4091): ║                     "orderId": "69ff47e09fb65d6e063e16fe",
+I/flutter ( 4091): ║                     "orderNumber": "ORD-063E16FD",
+I/flutter ( 4091): ║                     "source": "one_time_order",
+I/flutter ( 4091): ║                     "status": "fulfilled",
+I/flutter ( 4091): ║                     "paymentStatus": "paid",
+I/flutter ( 4091): ║                     "fulfillmentMethod": "pickup",
+I/flutter ( 4091): ║                     "fulfillmentDate": "2026-05-09",
+I/flutter ( 4091): ║                     "itemCount": 1,
+I/flutter ( 4091): ║                     "totalHalala": 3800,
+I/flutter ( 4091): ║                     "currency": "SAR",
+I/flutter ( 4091): ║                     "createdAt": "2026-05-09T14:42:40.462Z",
+I/flutter ( 4091): ║                     "updatedAt": "2026-05-09T14:44:07.668Z"
+I/flutter ( 4091): ║                },
+I/flutter ( 4091): ║                {
+I/flutter ( 4091): ║                     "orderId": "69ff46089fb65d6e063e1651",
+I/flutter ( 4091): ║                     "orderNumber": "ORD-063E1650",
+I/flutter ( 4091): ║                     "source": "one_time_order",
+I/flutter ( 4091): ║                     "status": "cancelled",
+I/flutter ( 4091): ║                     "paymentStatus": "paid",
+I/flutter ( 4091): ║                     "fulfillmentMethod": "pickup",
+I/flutter ( 4091): ║                     "fulfillmentDate": "2026-05-09",
+I/flutter ( 4091): ║                     "itemCount": 1,
+I/flutter ( 4091): ║                     "totalHalala": 5700,
+I/flutter ( 4091): ║                     "currency": "SAR",
+I/flutter ( 4091): ║                     "createdAt": "2026-05-09T14:34:48.831Z",
+I/flutter ( 4091): ║                     "updatedAt": "2026-05-09T14:36:30.980Z"
+I/flutter ( 4091): ║                },
+I/flutter ( 4091): ║                {
+I/flutter ( 4091): ║                     "orderId": "69ff414a9fb65d6e063e14f5",
+I/flutter ( 4091): ║                     "orderNumber": "ORD-063E14F4",
+I/flutter ( 4091): ║                     "source": "one_time_order",
+I/flutter ( 4091): ║                     "status": "cancelled",
+I/flutter ( 4091): ║                     "paymentStatus": "paid",
+I/flutter ( 4091): ║                     "fulfillmentMethod": "pickup",
+I/flutter ( 4091): ║                     "fulfillmentDate": "2026-05-09",
+I/flutter ( 4091): ║                     "itemCount": 1,
+I/flutter ( 4091): ║                     "totalHalala": 8700,
+I/flutter ( 4091): ║                     "currency": "SAR",
+I/flutter ( 4091): ║                     "createdAt": "2026-05-09T14:14:34.562Z",
+I/flutter ( 4091): ║                     "updatedAt": "2026-05-09T14:36:34.334Z"
+I/flutter ( 4091): ║                },
+I/flutter ( 4091): ║                {
+I/flutter ( 4091): ║                     "orderId": "69ff39fe9fb65d6e063e13e2",
+I/flutter ( 4091): ║                     "orderNumber": "ORD-063E13E1",
+I/flutter ( 4091): ║                     "source": "one_time_order",
+I/flutter ( 4091): ║                     "status": "fulfilled",
+I/flutter ( 4091): ║                     "paymentStatus": "paid",
+I/flutter ( 4091): ║                     "fulfillmentMethod": "pickup",
+I/flutter ( 4091): ║                     "fulfillmentDate": "2026-05-09",
+I/flutter ( 4091): ║                     "itemCount": 1,
+I/flutter ( 4091): ║                     "totalHalala": 2900,
+I/flutter ( 4091): ║                     "currency": "SAR",
+I/flutter ( 4091): ║                     "createdAt": "2026-05-09T13:43:26.439Z",
+I/flutter ( 4091): ║                     "updatedAt": "2026-05-09T14:31:34.444Z"
+I/flutter ( 4091): ║                },
+I/flutter ( 4091): ║                {
+I/flutter ( 4091): ║                     "orderId": "69ff2efadbe29e6a9d7ddf33",
+I/flutter ( 4091): ║                     "orderNumber": "ORD-9D7DDF32",
+I/flutter ( 4091): ║                     "source": "one_time_order",
+I/flutter ( 4091): ║                     "status": "cancelled",
+I/flutter ( 4091): ║                     "paymentStatus": "failed",
+I/flutter ( 4091): ║                     "fulfillmentMethod": "pickup",
+I/flutter ( 4091): ║                     "fulfillmentDate": "2026-05-09",
+I/flutter ( 4091): ║                     "itemCount": 1,
+I/flutter ( 4091): ║                     "totalHalala": 2900,
+I/flutter ( 4091): ║                     "currency": "SAR",
+I/flutter ( 4091): ║                     "createdAt": "2026-05-09T12:56:26.367Z",
+I/flutter ( 4091): ║                     "updatedAt": "2026-05-09T12:56:26.918Z"
+I/flutter ( 4091): ║                },
+I/flutter ( 4091): ║                {
+I/flutter ( 4091): ║                     "orderId": "69ff298dda2c28504e540e72",
+I/flutter ( 4091): ║                     "orderNumber": "ORD-4E540E71",
+I/flutter ( 4091): ║                     "source": "one_time_order",
+I/flutter ( 4091): ║                     "status": "cancelled",
+I/flutter ( 4091): ║                     "paymentStatus": "failed",
+I/flutter ( 4091): ║                     "fulfillmentMethod": "pickup",
+I/flutter ( 4091): ║                     "fulfillmentDate": "2026-05-09",
+I/flutter ( 4091): ║                     "itemCount": 1,
+I/flutter ( 4091): ║                     "totalHalala": 8700,
+I/flutter ( 4091): ║                     "currency": "SAR",
+I/flutter ( 4091): ║                     "createdAt": "2026-05-09T12:33:17.656Z",
+I/flutter ( 4091): ║                     "updatedAt": "2026-05-09T12:33:18.290Z"
+I/flutter ( 4091): ║                },
+I/flutter ( 4091): ║                {
+I/flutter ( 4091): ║                     "orderId": "69fcd77beba480b27320b5ae",
+I/flutter ( 4091): ║                     "orderNumber": "ORD-7320B5AD",
+I/flutter ( 4091): ║                     "source": "one_time_order",
+I/flutter ( 4091): ║                     "status": "fulfilled",
+I/flutter ( 4091): ║                     "paymentStatus": "paid",
+I/flutter ( 4091): ║                     "fulfillmentMethod": "pickup",
+I/flutter ( 4091): ║                     "fulfillmentDate": "2026-05-07",
+I/flutter ( 4091): ║                     "itemCount": 2,
+I/flutter ( 4091): ║                     "totalHalala": 400,
+I/flutter ( 4091): ║                     "currency": "SAR",
+I/flutter ( 4091): ║                     "createdAt": "2026-05-07T18:18:35.990Z",
+I/flutter ( 4091): ║                     "updatedAt": "2026-05-07T18:22:11.301Z"
+I/flutter ( 4091): ║                },
+I/flutter ( 4091): ║                {
+I/flutter ( 4091): ║                     "orderId": "69fbc83db683f54370983535",
+I/flutter ( 4091): ║                     "orderNumber": "ORD-70983534",
+I/flutter ( 4091): ║                     "source": "one_time_order",
+I/flutter ( 4091): ║                     "status": "fulfilled",
+I/flutter ( 4091): ║                     "paymentStatus": "paid",
+I/flutter ( 4091): ║                     "fulfillmentMethod": "pickup",
+I/flutter ( 4091): ║                     "fulfillmentDate": "2026-05-07",
+I/flutter ( 4091): ║                     "itemCount": 2,
+I/flutter ( 4091): ║                     "totalHalala": 400,
+I/flutter ( 4091): ║                     "currency": "SAR",
+I/flutter ( 4091): ║                     "createdAt": "2026-05-06T23:01:17.135Z",
+I/flutter ( 4091): ║                     "updatedAt": "2026-05-06T23:08:02.029Z"
+I/flutter ( 4091): ║                },
+I/flutter ( 4091): ║                {
+I/flutter ( 4091): ║                     "orderId": "69fbc802b683f54370983522",
+I/flutter ( 4091): ║                     "orderNumber": "ORD-70983521",
+I/flutter ( 4091): ║                     "source": "one_time_order",
+I/flutter ( 4091): ║                     "status": "cancelled",
+I/flutter ( 4091): ║                     "paymentStatus": "failed",
+I/flutter ( 4091): ║                     "fulfillmentMethod": "pickup",
+I/flutter ( 4091): ║                     "fulfillmentDate": "2026-05-07",
+I/flutter ( 4091): ║                     "itemCount": 2,
+I/flutter ( 4091): ║                     "totalHalala": 400,
+I/flutter ( 4091): ║                     "currency": "SAR",
+I/flutter ( 4091): ║                     "createdAt": "2026-05-06T23:00:18.125Z",
+I/flutter ( 4091): ║                     "updatedAt": "2026-05-06T23:00:19.000Z"
+I/flutter ( 4091): ║                }
+I/flutter ( 4091): ║             ],
+I/flutter ( 4091): ║             "pagination": {page: 1, limit: 10, total: 21, pages: 3}
+I/flutter ( 4091): ║        }
+I/flutter ( 4091): ║    }
+I/flutter ( 4091): ║
+I/flutter ( 4091): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
+I/flutter ( 4091): onChange -- OrderTrackingBloc, Change { currentState: OrderTrackingLoading(), nextState: OrderTrackingSuccess(Instance of 'OrderModel') }
+I/flutter ( 4091): onChange -- OrderTrackingBloc, Change { currentState: OrderTrackingSuccess(Instance of 'OrderModel'), nextState: OrderTrackingLoading() }
+I/flutter ( 4091):
+I/flutter ( 4091): ╔╣ Request ║ GET
+I/flutter ( 4091): ║  https://basicdiet145.onrender.com/api/orders/
+I/flutter ( 4091): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
+I/flutter ( 4091): ╔ Headers
+I/flutter ( 4091): ╟ accept: application/json
+I/flutter ( 4091): ╟ content-type: application/json
+I/flutter ( 4091): ╟ authorization:
+I/flutter ( 4091): ║ Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWYyMzdmMjE5Mjg4ZGJjOWUxNjMxZG
+I/flutter ( 4091): ║ UiLCJyb2xlIjoiY2xpZW50IiwidG9rZW5UeXBlIjoiYXBwX2FjY2VzcyIsImlhdCI6MTc3NzQ5MDg2NSwiZXhwIjox
+I/flutter ( 4091): ║ NzgwMTY5MjY1fQ.wQdMvBRkWrYPGGrvx5HtsUbTO-B9NlayVB5uRMS4rVE
+I/flutter ( 4091): ╟ Accept-Language: ar
+I/flutter ( 4091): ╟ contentType: application/json
+I/flutter ( 4091): ╟ responseType: ResponseType.json
+I/flutter ( 4091): ╟ followRedirects: true
+I/flutter ( 4091): ╟ receiveTimeout: 16:40:00.000000
+I/flutter ( 4091): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
+E/libEGL  ( 4091): called unimplemented OpenGL ES API
+I/flutter ( 4091):
+I/flutter ( 4091): ╔╣ Response ║ GET ║ Status: 200 OK  ║ Time: 584 ms
+I/flutter ( 4091): ║  https://basicdiet145.onrender.com/api/orders/
+I/flutter ( 4091): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
+I/flutter ( 4091): ╔ Headers
+I/flutter ( 4091): ╟ x-dns-prefetch-control: [off]
+I/flutter ( 4091): ╟ x-render-origin-server: [Render]
+I/flutter ( 4091): ╟ date: [Sat, 09 May 2026 15:05:36 GMT]
+I/flutter ( 4091): ╟ transfer-encoding: [chunked]
+I/flutter ( 4091): ╟ origin-agent-cluster: [?1]
+I/flutter ( 4091): ╟ vary: [Origin, Accept-Encoding]
+I/flutter ( 4091): ╟ content-encoding: [gzip]
+I/flutter ( 4091): ╟ server: [cloudflare]
+I/flutter ( 4091): ╟ cross-origin-resource-policy: [same-origin]
+I/flutter ( 4091): ╟ cf-ray: [9f919a715d7de175-MRS]
+I/flutter ( 4091): ╟ etag: [W/"d20-cIf0U3q8FSGVzGTqTf0EZgveLZQ"]
+I/flutter ( 4091): ╟ x-frame-options: [SAMEORIGIN]
+I/flutter ( 4091): ╟ content-security-policy:
+I/flutter ( 4091): ║ [default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-
+I/flutter ( 4091): ║ ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr
+I/flutter ( 4091): ║ 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests]
+I/flutter ( 4091): ╟ connection: [keep-alive]
+I/flutter ( 4091): ╟ strict-transport-security: [max-age=15552000; includeSubDomains]
+I/flutter ( 4091): ╟ referrer-policy: [no-referrer]
+I/flutter ( 4091): ╟ cf-cache-status: [DYNAMIC]
+I/flutter ( 4091): ╟ x-permitted-cross-domain-policies: [none]
+I/flutter ( 4091): ╟ content-type: [application/json; charset=utf-8]
+I/flutter ( 4091): ╟ cross-origin-opener-policy: [same-origin]
+I/flutter ( 4091): ╟ rndr-id: [5b62c4ef-778e-412b]
+I/flutter ( 4091): ╟ x-xss-protection: [0]
+I/flutter ( 4091): ╟ access-control-allow-credentials: [true]
+I/flutter ( 4091): ╟ alt-svc: [h3=":443"; ma=86400]
+I/flutter ( 4091): ╟ x-download-options: [noopen]
+I/flutter ( 4091): ╟ x-content-type-options: [nosniff]
+I/flutter ( 4091): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
+I/flutter ( 4091): ╔ Body
+I/flutter ( 4091): ║
+I/flutter ( 4091): ║    {
+I/flutter ( 4091): ║         "status": true,
+I/flutter ( 4091): ║         "data": {
+I/flutter ( 4091): ║             "items": [
+I/flutter ( 4091): ║                {
+I/flutter ( 4091): ║                     "orderId": "69ff4ce29fb65d6e063e193c",
+I/flutter ( 4091): ║                     "orderNumber": "ORD-063E193B",
+I/flutter ( 4091): ║                     "source": "one_time_order",
+I/flutter ( 4091): ║                     "status": "ready_for_pickup",
+I/flutter ( 4091): ║                     "paymentStatus": "paid",
+I/flutter ( 4091): ║                     "fulfillmentMethod": "pickup",
+I/flutter ( 4091): ║                     "fulfillmentDate": "2026-05-09",
+I/flutter ( 4091): ║                     "itemCount": 1,
+I/flutter ( 4091): ║                     "totalHalala": 2900,
+I/flutter ( 4091): ║                     "currency": "SAR",
+I/flutter ( 4091): ║                     "createdAt": "2026-05-09T15:04:02.933Z",
+I/flutter ( 4091): ║                     "updatedAt": "2026-05-09T15:04:39.866Z"
+I/flutter ( 4091): ║                },
+I/flutter ( 4091): ║                {
+I/flutter ( 4091): ║                     "orderId": "69ff47e09fb65d6e063e16fe",
+I/flutter ( 4091): ║                     "orderNumber": "ORD-063E16FD",
+I/flutter ( 4091): ║                     "source": "one_time_order",
+I/flutter ( 4091): ║                     "status": "fulfilled",
+I/flutter ( 4091): ║                     "paymentStatus": "paid",
+I/flutter ( 4091): ║                     "fulfillmentMethod": "pickup",
+I/flutter ( 4091): ║                     "fulfillmentDate": "2026-05-09",
+I/flutter ( 4091): ║                     "itemCount": 1,
+I/flutter ( 4091): ║                     "totalHalala": 3800,
+I/flutter ( 4091): ║                     "currency": "SAR",
+I/flutter ( 4091): ║                     "createdAt": "2026-05-09T14:42:40.462Z",
+I/flutter ( 4091): ║                     "updatedAt": "2026-05-09T14:44:07.668Z"
+I/flutter ( 4091): ║                },
+I/flutter ( 4091): ║                {
+I/flutter ( 4091): ║                     "orderId": "69ff46089fb65d6e063e1651",
+I/flutter ( 4091): ║                     "orderNumber": "ORD-063E1650",
+I/flutter ( 4091): ║                     "source": "one_time_order",
+I/flutter ( 4091): ║                     "status": "cancelled",
+I/flutter ( 4091): ║                     "paymentStatus": "paid",
+I/flutter ( 4091): ║                     "fulfillmentMethod": "pickup",
+I/flutter ( 4091): ║                     "fulfillmentDate": "2026-05-09",
+I/flutter ( 4091): ║                     "itemCount": 1,
+I/flutter ( 4091): ║                     "totalHalala": 5700,
+I/flutter ( 4091): ║                     "currency": "SAR",
+I/flutter ( 4091): ║                     "createdAt": "2026-05-09T14:34:48.831Z",
+I/flutter ( 4091): ║                     "updatedAt": "2026-05-09T14:36:30.980Z"
+I/flutter ( 4091): ║                },
+I/flutter ( 4091): ║                {
+I/flutter ( 4091): ║                     "orderId": "69ff414a9fb65d6e063e14f5",
+I/flutter ( 4091): ║                     "orderNumber": "ORD-063E14F4",
+I/flutter ( 4091): ║                     "source": "one_time_order",
+I/flutter ( 4091): ║                     "status": "cancelled",
+I/flutter ( 4091): ║                     "paymentStatus": "paid",
+I/flutter ( 4091): ║                     "fulfillmentMethod": "pickup",
+I/flutter ( 4091): ║                     "fulfillmentDate": "2026-05-09",
+I/flutter ( 4091): ║                     "itemCount": 1,
+I/flutter ( 4091): ║                     "totalHalala": 8700,
+I/flutter ( 4091): ║                     "currency": "SAR",
+I/flutter ( 4091): ║                     "createdAt": "2026-05-09T14:14:34.562Z",
+I/flutter ( 4091): ║                     "updatedAt": "2026-05-09T14:36:34.334Z"
+I/flutter ( 4091): ║                },
+I/flutter ( 4091): ║                {
+I/flutter ( 4091): ║                     "orderId": "69ff39fe9fb65d6e063e13e2",
+I/flutter ( 4091): ║                     "orderNumber": "ORD-063E13E1",
+I/flutter ( 4091): ║                     "source": "one_time_order",
+I/flutter ( 4091): ║                     "status": "fulfilled",
+I/flutter ( 4091): ║                     "paymentStatus": "paid",
+I/flutter ( 4091): ║                     "fulfillmentMethod": "pickup",
+I/flutter ( 4091): ║                     "fulfillmentDate": "2026-05-09",
+I/flutter ( 4091): ║                     "itemCount": 1,
+I/flutter ( 4091): ║                     "totalHalala": 2900,
+I/flutter ( 4091): ║                     "currency": "SAR",
+I/flutter ( 4091): ║                     "createdAt": "2026-05-09T13:43:26.439Z",
+I/flutter ( 4091): ║                     "updatedAt": "2026-05-09T14:31:34.444Z"
+I/flutter ( 4091): ║                },
+I/flutter ( 4091): ║                {
+I/flutter ( 4091): ║                     "orderId": "69ff2efadbe29e6a9d7ddf33",
+I/flutter ( 4091): ║                     "orderNumber": "ORD-9D7DDF32",
+I/flutter ( 4091): ║                     "source": "one_time_order",
+I/flutter ( 4091): ║                     "status": "cancelled",
+I/flutter ( 4091): ║                     "paymentStatus": "failed",
+I/flutter ( 4091): ║                     "fulfillmentMethod": "pickup",
+I/flutter ( 4091): ║                     "fulfillmentDate": "2026-05-09",
+I/flutter ( 4091): ║                     "itemCount": 1,
+I/flutter ( 4091): ║                     "totalHalala": 2900,
+I/flutter ( 4091): ║                     "currency": "SAR",
+I/flutter ( 4091): ║                     "createdAt": "2026-05-09T12:56:26.367Z",
+I/flutter ( 4091): ║                     "updatedAt": "2026-05-09T12:56:26.918Z"
+I/flutter ( 4091): ║                },
+I/flutter ( 4091): ║                {
+I/flutter ( 4091): ║                     "orderId": "69ff298dda2c28504e540e72",
+I/flutter ( 4091): ║                     "orderNumber": "ORD-4E540E71",
+I/flutter ( 4091): ║                     "source": "one_time_order",
+I/flutter ( 4091): ║                     "status": "cancelled",
+I/flutter ( 4091): ║                     "paymentStatus": "failed",
+I/flutter ( 4091): ║                     "fulfillmentMethod": "pickup",
+I/flutter ( 4091): ║                     "fulfillmentDate": "2026-05-09",
+I/flutter ( 4091): ║                     "itemCount": 1,
+I/flutter ( 4091): ║                     "totalHalala": 8700,
+I/flutter ( 4091): ║                     "currency": "SAR",
+I/flutter ( 4091): ║                     "createdAt": "2026-05-09T12:33:17.656Z",
+I/flutter ( 4091): ║                     "updatedAt": "2026-05-09T12:33:18.290Z"
+I/flutter ( 4091): ║                },
+I/flutter ( 4091): ║                {
+I/flutter ( 4091): ║                     "orderId": "69fcd77beba480b27320b5ae",
+I/flutter ( 4091): ║                     "orderNumber": "ORD-7320B5AD",
+I/flutter ( 4091): ║                     "source": "one_time_order",
+I/flutter ( 4091): ║                     "status": "fulfilled",
+I/flutter ( 4091): ║                     "paymentStatus": "paid",
+I/flutter ( 4091): ║                     "fulfillmentMethod": "pickup",
+I/flutter ( 4091): ║                     "fulfillmentDate": "2026-05-07",
+I/flutter ( 4091): ║                     "itemCount": 2,
+I/flutter ( 4091): ║                     "totalHalala": 400,
+I/flutter ( 4091): ║                     "currency": "SAR",
+I/flutter ( 4091): ║                     "createdAt": "2026-05-07T18:18:35.990Z",
+I/flutter ( 4091): ║                     "updatedAt": "2026-05-07T18:22:11.301Z"
+I/flutter ( 4091): ║                },
+I/flutter ( 4091): ║                {
+I/flutter ( 4091): ║                     "orderId": "69fbc83db683f54370983535",
+I/flutter ( 4091): ║                     "orderNumber": "ORD-70983534",
+I/flutter ( 4091): ║                     "source": "one_time_order",
+I/flutter ( 4091): ║                     "status": "fulfilled",
+I/flutter ( 4091): ║                     "paymentStatus": "paid",
+I/flutter ( 4091): ║                     "fulfillmentMethod": "pickup",
+I/flutter ( 4091): ║                     "fulfillmentDate": "2026-05-07",
+I/flutter ( 4091): ║                     "itemCount": 2,
+I/flutter ( 4091): ║                     "totalHalala": 400,
+I/flutter ( 4091): ║                     "currency": "SAR",
+I/flutter ( 4091): ║                     "createdAt": "2026-05-06T23:01:17.135Z",
+I/flutter ( 4091): ║                     "updatedAt": "2026-05-06T23:08:02.029Z"
+I/flutter ( 4091): ║                },
+I/flutter ( 4091): ║                {
+I/flutter ( 4091): ║                     "orderId": "69fbc802b683f54370983522",
+I/flutter ( 4091): ║                     "orderNumber": "ORD-70983521",
+I/flutter ( 4091): ║                     "source": "one_time_order",
+I/flutter ( 4091): ║                     "status": "cancelled",
+I/flutter ( 4091): ║                     "paymentStatus": "failed",
+I/flutter ( 4091): ║                     "fulfillmentMethod": "pickup",
+I/flutter ( 4091): ║                     "fulfillmentDate": "2026-05-07",
+I/flutter ( 4091): ║                     "itemCount": 2,
+I/flutter ( 4091): ║                     "totalHalala": 400,
+I/flutter ( 4091): ║                     "currency": "SAR",
+I/flutter ( 4091): ║                     "createdAt": "2026-05-06T23:00:18.125Z",
+I/flutter ( 4091): ║                     "updatedAt": "2026-05-06T23:00:19.000Z"
+I/flutter ( 4091): ║                }
+I/flutter ( 4091): ║             ],
+I/flutter ( 4091): ║             "pagination": {page: 1, limit: 10, total: 21, pages: 3}
+I/flutter ( 4091): ║        }
+I/flutter ( 4091): ║    }
+I/flutter ( 4091): ║
+I/flutter ( 4091): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
+I/flutter ( 4091): onChange -- OrderTrackingBloc, Change { currentState: OrderTrackingLoading(), nextState: OrderTrackingSuccess(Instance of 'OrderModel') }
