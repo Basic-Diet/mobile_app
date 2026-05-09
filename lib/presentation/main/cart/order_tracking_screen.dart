@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:basic_diet/app/dependency_injection.dart';
 import 'package:basic_diet/domain/model/order_model.dart';
 import 'package:basic_diet/presentation/main/cart/bloc/order_tracking_bloc.dart';
@@ -35,10 +37,56 @@ class OrderTrackingScreen extends StatelessWidget {
   }
 }
 
-class _OrderTrackingContent extends StatelessWidget {
+class _OrderTrackingContent extends StatefulWidget {
   final String orderId;
 
   const _OrderTrackingContent({required this.orderId});
+
+  @override
+  State<_OrderTrackingContent> createState() => _OrderTrackingContentState();
+}
+
+class _OrderTrackingContentState extends State<_OrderTrackingContent> {
+  Timer? _pollingTimer;
+
+  @override
+  void initState() {
+    super.initState();
+    _startPolling();
+  }
+
+  @override
+  void dispose() {
+    _pollingTimer?.cancel();
+    super.dispose();
+  }
+
+  void _startPolling() {
+    _pollingTimer?.cancel();
+    _pollingTimer = Timer.periodic(const Duration(seconds: 10), (_) {
+      if (!mounted) {
+        return;
+      }
+
+      final state = context.read<OrderTrackingBloc>().state;
+      final order = _OrderTrackingViewData.fromState(state)?.order;
+
+      if (order == null || _isTerminalStatus(order.status)) {
+        _pollingTimer?.cancel();
+        return;
+      }
+
+      context.read<OrderTrackingBloc>().add(
+        RefreshOrderDetailEvent(widget.orderId),
+      );
+    });
+  }
+
+  bool _isTerminalStatus(String status) {
+    return status == 'fulfilled' ||
+        status == 'cancelled' ||
+        status == 'expired';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +113,7 @@ class _OrderTrackingContent extends StatelessWidget {
             if (state is OrderTrackingError) {
               return _TrackingErrorView(
                 message: state.message,
-                orderId: orderId,
+                orderId: widget.orderId,
               );
             }
 
