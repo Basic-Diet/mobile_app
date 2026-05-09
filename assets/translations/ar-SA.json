@@ -562,6 +562,7 @@
     "status": "الحالة",
     "branch": "الفرع",
     "pickupWindow": "فترة الاستلام",
+    "selectBranchAndPickupWindow": "يرجى اختيار الفرع وفترة الاستلام قبل المتابعة.",
     "pendingPayment": "في انتظار الدفع",
     "confirmed": "تم التأكيد",
     "inPreparation": "قيد التحضير",

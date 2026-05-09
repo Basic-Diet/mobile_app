@@ -562,6 +562,7 @@
     "status": "Status",
     "branch": "Branch",
     "pickupWindow": "Pickup Window",
+    "selectBranchAndPickupWindow": "Please choose a branch and pickup window before continuing.",
     "pendingPayment": "Pending Payment",
     "confirmed": "Confirmed",
     "inPreparation": "In Preparation",

@@ -727,6 +727,8 @@ class Strings {
   static const String status = 'status';
   static const String branch = 'branch';
   static const String pickupWindow = 'pickupWindow';
+  static const String selectBranchAndPickupWindow =
+      'selectBranchAndPickupWindow';
   static const String pendingPayment = 'pendingPayment';
   static const String confirmed = 'confirmed';
   static const String inPreparation = 'inPreparation';

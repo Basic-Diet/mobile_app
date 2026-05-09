@@ -18,6 +18,19 @@ class CartScreen extends StatelessWidget {
 
   const CartScreen({super.key});
 
+  void _handleCheckoutTap(BuildContext context, CartLoaded state) {
+    if (!state.canCheckout) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(Strings.selectBranchAndPickupWindow.tr()),
+        ),
+      );
+      return;
+    }
+
+    context.push('/checkout');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -113,7 +126,7 @@ class CartScreen extends StatelessWidget {
                               end: Alignment.bottomRight,
                               colors: [
                                 Color(0xFFE4F6EE),
-                                Color(0xFFFFFFFFFF),
+                                Color(0xFFFFFFFF),
                               ],
                             ),
                             borderRadius: BorderRadius.circular(AppSize.s16.r),
@@ -279,64 +292,72 @@ class CartScreen extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: const Color(0xFFF7F3EB),
                   ),
-                  child: GestureDetector(
-                    onTap: state.canCheckout ? () => context.push('/checkout') : null,
-                    child: Container(
-                      height: AppSize.s54.h,
-                      padding: EdgeInsetsDirectional.only(
-                        start: AppPadding.p20.w,
-                        end: AppPadding.p6.w,
-                      ),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFFF8500),
-                        borderRadius: BorderRadius.circular(AppSize.s99.r),
-                        boxShadow: [
-                          BoxShadow(
-                            color: const Color(0xFFFF8500).withValues(alpha: 0.3),
-                            blurRadius: 12,
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
-                      ),
-                      child: Row(
-                        children: [
-                          Container(
-                            width: AppSize.s42.w,
-                            height: AppSize.s42.w,
-                            decoration: BoxDecoration(
-                              color: Colors.white.withValues(alpha: 0.2),
-                              shape: BoxShape.circle,
-                            ),
-                            alignment: Alignment.center,
-                            child: Text(
-                              '${state.totalQty}',
-                              style: getBoldTextStyle(
-                                fontSize: FontSizeManager.s13.sp,
-                                color: ColorManager.backgroundSurface,
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(AppSize.s99.r),
+                      onTap: () => _handleCheckoutTap(context, state),
+                      child: Ink(
+                        height: AppSize.s54.h,
+                        padding: EdgeInsetsDirectional.only(
+                          start: AppPadding.p20.w,
+                          end: AppPadding.p6.w,
+                        ),
+                        decoration: BoxDecoration(
+                          color: state.canCheckout
+                              ? const Color(0xFFFF8500)
+                              : const Color(0xFFFF8500).withValues(alpha: 0.55),
+                          borderRadius: BorderRadius.circular(AppSize.s99.r),
+                          boxShadow: state.canCheckout
+                              ? [
+                                  BoxShadow(
+                                    color: const Color(0xFFFF8500).withValues(alpha: 0.3),
+                                    blurRadius: 12,
+                                    offset: const Offset(0, 4),
+                                  ),
+                                ]
+                              : null,
+                        ),
+                        child: Row(
+                          children: [
+                            Container(
+                              width: AppSize.s42.w,
+                              height: AppSize.s42.w,
+                              decoration: BoxDecoration(
+                                color: Colors.white.withValues(alpha: 0.2),
+                                shape: BoxShape.circle,
+                              ),
+                              alignment: Alignment.center,
+                              child: Text(
+                                '${state.totalQty}',
+                                style: getBoldTextStyle(
+                                  fontSize: FontSizeManager.s13.sp,
+                                  color: ColorManager.backgroundSurface,
+                                ),
                               ),
                             ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              'المتابعة للدفع',
-                              textAlign: TextAlign.center,
-                              style: getBoldTextStyle(
-                                fontSize: FontSizeManager.s15.sp,
-                                color: ColorManager.backgroundSurface,
+                            Expanded(
+                              child: Text(
+                                'المتابعة للدفع',
+                                textAlign: TextAlign.center,
+                                style: getBoldTextStyle(
+                                  fontSize: FontSizeManager.s15.sp,
+                                  color: ColorManager.backgroundSurface,
+                                ),
                               ),
                             ),
-                          ),
-                          Padding(
-                            padding: EdgeInsetsDirectional.only(end: AppPadding.p8.w),
-                            child: Text(
-                              _formatPrice(subtotal),
-                              style: getBoldTextStyle(
-                                fontSize: FontSizeManager.s16.sp,
-                                color: ColorManager.backgroundSurface,
+                            Padding(
+                              padding: EdgeInsetsDirectional.only(end: AppPadding.p8.w),
+                              child: Text(
+                                _formatPrice(subtotal),
+                                style: getBoldTextStyle(
+                                  fontSize: FontSizeManager.s16.sp,
+                                  color: ColorManager.backgroundSurface,
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),

@@ -10,6 +10,7 @@ import 'package:basic_diet/presentation/main/home/premium/premium_meals_screen.d
 import 'package:basic_diet/presentation/main/home/subscription-details/subscription_details_screen.dart';
 import 'package:basic_diet/presentation/main/home/subscription/subscription_screen.dart';
 import 'package:basic_diet/presentation/main/home/subscription/bloc/subscription_bloc.dart';
+import 'package:basic_diet/presentation/main/cart/bloc/cart_bloc.dart';
 import 'package:basic_diet/presentation/main/cart/cart_screen.dart';
 import 'package:basic_diet/presentation/main/cart/checkout_screen.dart';
 import 'package:basic_diet/presentation/main/cart/payment_webview_screen.dart';
@@ -165,7 +166,10 @@ class GoRouterConfig {
           initCheckoutModule();
           return getCustomTransitionPage(
             state: state,
-            child: const CheckoutScreen(),
+            child: BlocProvider.value(
+              value: context.read<CartBloc>(),
+              child: const CheckoutScreen(),
+            ),
           );
         },
       ),
