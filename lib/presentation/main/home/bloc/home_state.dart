@@ -15,3 +15,7 @@ class HomeErrorState extends HomeState {
   final String message;
   HomeErrorState(this.message);
 }
+
+class HomeNavigateToSubscriptionState extends HomeState {}
+
+class HomeNavigateToPlansState extends HomeState {}

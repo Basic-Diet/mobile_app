@@ -1,9 +1,13 @@
+import 'package:basic_diet/app/dependency_injection.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:basic_diet/presentation/resources/assets_manager.dart';
 import 'package:basic_diet/presentation/resources/color_manager.dart';
+import 'package:basic_diet/presentation/resources/font_manager.dart';
 import 'package:basic_diet/presentation/resources/strings_manager.dart';
+import 'package:basic_diet/presentation/resources/styles_manager.dart';
 import 'package:basic_diet/presentation/resources/values_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -11,6 +15,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'bloc/main_bloc.dart';
 import 'bloc/main_event.dart';
 import 'bloc/main_state.dart';
+import 'home/bloc/home_bloc.dart';
 import 'home/home_screen.dart';
 import 'menu/menu_screen.dart';
 import 'orders/orders_screen.dart';
@@ -43,30 +48,91 @@ class _MainScreenContent extends StatefulWidget {
 }
 
 class _MainScreenContentState extends State<_MainScreenContent> {
+  static const Duration _exitConfirmationWindow = Duration(seconds: 2);
+
   late final List<Widget> _pages = [
-    const HomeScreen(),
+    BlocProvider(
+      create: (_) => instance<HomeBloc>(),
+      child: const HomeScreen(),
+    ),
     const MenuScreen(),
     const PlansScreen(),
     const OrdersScreen(),
     const ProfileScreen(),
   ];
+  DateTime? _lastBackPressedAt;
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<MainBloc, MainState>(
       builder: (context, state) {
-        return Scaffold(
-          backgroundColor: ColorManager.backgroundSurface,
-          body: _pages[state.currentIndex],
-          bottomNavigationBar: BottomNavBar(
-            currentIndex: state.currentIndex,
-            onTap: (index) {
-              context.read<MainBloc>().add(ChangeBottomNavIndexEvent(index));
-            },
+        return PopScope(
+          canPop: false,
+          onPopInvokedWithResult: (didPop, result) {
+            if (didPop) return;
+            _handleBackPress(state.currentIndex);
+          },
+          child: Scaffold(
+            backgroundColor: ColorManager.backgroundSurface,
+            body: _pages[state.currentIndex],
+            bottomNavigationBar: BottomNavBar(
+              currentIndex: state.currentIndex,
+              onTap: (index) {
+                context.read<MainBloc>().add(ChangeBottomNavIndexEvent(index));
+              },
+            ),
           ),
         );
       },
     );
+  }
+
+  void _handleBackPress(int currentIndex) {
+    if (currentIndex != MainScreen.homeTabIndex) {
+      context.read<MainBloc>().add(
+        ChangeBottomNavIndexEvent(MainScreen.homeTabIndex),
+      );
+      return;
+    }
+
+    final now = DateTime.now();
+    final shouldExit =
+        _lastBackPressedAt != null &&
+        now.difference(_lastBackPressedAt!) <= _exitConfirmationWindow;
+
+    if (shouldExit) {
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      SystemNavigator.pop();
+      return;
+    }
+
+    _lastBackPressedAt = now;
+
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(
+          content: Text(
+            Strings.pressBackAgainToExit.tr(),
+            style: getRegularTextStyle(
+              color: ColorManager.textInverse,
+              fontSize: FontSizeManager.s14.sp,
+            ),
+          ),
+          behavior: SnackBarBehavior.floating,
+          margin: EdgeInsetsDirectional.fromSTEB(
+            AppPadding.p16.w,
+            AppPadding.p16.h,
+            AppPadding.p16.w,
+            AppPadding.p16.h,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppSize.s14.r),
+          ),
+          backgroundColor: ColorManager.backgroundOverlayStrong,
+          duration: _exitConfirmationWindow,
+        ),
+      );
   }
 }
 
