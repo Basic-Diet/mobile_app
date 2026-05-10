@@ -167,9 +167,20 @@ void initHomeModule() {
     instance.registerFactory<GetPopularPackagesUseCase>(
       () => GetPopularPackagesUseCase(instance<Repository>()),
     );
+  }
 
+  if (!GetIt.I.isRegistered<GetCurrentSubscriptionOverviewUseCase>()) {
+    instance.registerFactory<GetCurrentSubscriptionOverviewUseCase>(
+      () => GetCurrentSubscriptionOverviewUseCase(instance<Repository>()),
+    );
+  }
+
+  if (!GetIt.I.isRegistered<HomeBloc>()) {
     instance.registerFactory<HomeBloc>(
-      () => HomeBloc(instance<GetPopularPackagesUseCase>()),
+      () => HomeBloc(
+        instance<GetPopularPackagesUseCase>(),
+        instance<GetCurrentSubscriptionOverviewUseCase>(),
+      ),
     );
   }
 }

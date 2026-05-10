@@ -1,7 +1,11 @@
+import 'package:basic_diet/presentation/main/home/bloc/home_bloc.dart';
+import 'package:basic_diet/presentation/main/home/bloc/home_event.dart';
+import 'package:basic_diet/presentation/main/home/bloc/home_state.dart';
 import 'package:basic_diet/presentation/main/bloc/main_bloc.dart';
 import 'package:basic_diet/presentation/main/bloc/main_event.dart';
 import 'package:basic_diet/presentation/main/main_screen.dart';
 import 'package:basic_diet/presentation/main/menu/menu_navigation_intent.dart';
+import 'package:basic_diet/presentation/main/home/subscription/subscription_screen.dart';
 import 'package:basic_diet/presentation/resources/assets_manager.dart';
 import 'package:basic_diet/presentation/resources/color_manager.dart';
 import 'package:basic_diet/presentation/resources/font_manager.dart';
@@ -20,28 +24,39 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: EdgeInsetsDirectional.fromSTEB(
-            AppPadding.p16.w,
-            AppPadding.p16.h,
-            AppPadding.p16.w,
-            AppPadding.p36.h,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const _HomeHeader(),
-              Gap(AppSize.s18.h),
-              const _SubscriptionHeroCard(),
-              Gap(AppSize.s24.h),
-              const _QuickOrderSection(),
-              Gap(AppSize.s24.h),
-              const _RecommendedSection(),
-              Gap(AppSize.s24.h),
-              const _BenefitsSection(),
-            ],
+    return BlocListener<HomeBloc, HomeState>(
+      listener: (context, state) {
+        if (state is HomeNavigateToSubscriptionState) {
+          context.push(SubscriptionScreen.subscriptionRoute);
+        } else if (state is HomeNavigateToPlansState) {
+          context.read<MainBloc>().add(
+            ChangeBottomNavIndexEvent(MainScreen.plansTabIndex),
+          );
+        }
+      },
+      child: Scaffold(
+        body: SafeArea(
+          child: SingleChildScrollView(
+            padding: EdgeInsetsDirectional.fromSTEB(
+              AppPadding.p16.w,
+              AppPadding.p16.h,
+              AppPadding.p16.w,
+              AppPadding.p36.h,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const _HomeHeader(),
+                Gap(AppSize.s18.h),
+                const _SubscriptionHeroCard(),
+                Gap(AppSize.s24.h),
+                const _QuickOrderSection(),
+                Gap(AppSize.s24.h),
+                const _RecommendedSection(),
+                Gap(AppSize.s24.h),
+                const _BenefitsSection(),
+              ],
+            ),
           ),
         ),
       ),
@@ -166,11 +181,7 @@ class _SubscriptionHeroCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        context.read<MainBloc>().add(
-          ChangeBottomNavIndexEvent(MainScreen.plansTabIndex),
-        );
-      },
+      onTap: () => context.read<HomeBloc>().add(ViewPlansRequestedEvent()),
       child: Container(
         constraints: BoxConstraints(minHeight: AppSize.s210.h),
         decoration: BoxDecoration(
@@ -274,6 +285,7 @@ class _SubscriptionHeroCard extends StatelessWidget {
                       ),
                       child: Text(
                         Strings.viewPlans.tr(),
+                        textAlign: TextAlign.center,
                         style: getBoldTextStyle(
                           fontSize: FontSizeManager.s13.sp,
                           color: const Color(0xFF112B22),

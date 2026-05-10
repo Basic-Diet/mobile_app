@@ -1,3 +1,4 @@
+import 'package:basic_diet/app/dependency_injection.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:basic_diet/presentation/resources/assets_manager.dart';
 import 'package:basic_diet/presentation/resources/color_manager.dart';
@@ -11,6 +12,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'bloc/main_bloc.dart';
 import 'bloc/main_event.dart';
 import 'bloc/main_state.dart';
+import 'home/bloc/home_bloc.dart';
 import 'home/home_screen.dart';
 import 'menu/menu_screen.dart';
 import 'orders/orders_screen.dart';
@@ -44,7 +46,7 @@ class _MainScreenContent extends StatefulWidget {
 
 class _MainScreenContentState extends State<_MainScreenContent> {
   late final List<Widget> _pages = [
-    const HomeScreen(),
+    BlocProvider(create: (_) => instance<HomeBloc>(), child: const HomeScreen()),
     const MenuScreen(),
     const PlansScreen(),
     const OrdersScreen(),
