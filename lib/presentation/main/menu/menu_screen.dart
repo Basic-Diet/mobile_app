@@ -806,24 +806,6 @@ class _BuilderProductCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
-                        padding: EdgeInsetsDirectional.symmetric(
-                          horizontal: AppPadding.p10.w,
-                          vertical: AppPadding.p3.h,
-                        ),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFEBF5F0),
-                          borderRadius: BorderRadius.circular(AppSize.s99.r),
-                        ),
-                        child: Text(
-                          Strings.pickupOnly.tr(),
-                          style: getBoldTextStyle(
-                            fontSize: FontSizeManager.s11.sp,
-                            color: ColorManager.stateSuccessEmphasis,
-                          ),
-                        ),
-                      ),
-                      Gap(AppSize.s8.h),
                       Text(
                         product.name,
                         textAlign: TextAlign.right,
@@ -836,38 +818,35 @@ class _BuilderProductCard extends StatelessWidget {
                       Text(
                         _builderDescriptionForKey(product.key, context),
                         textAlign: TextAlign.right,
-                        maxLines: 2,
+                        maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: getBoldTextStyle(
-                          fontSize: FontSizeManager.s12_5.sp,
+                          fontSize: FontSizeManager.s13.sp,
                           color: ColorManager.textSecondary,
                         ),
                       ),
-                      Gap(AppSize.s6.h),
+                      Gap(AppSize.s16.h),
                       Text(
                         '${_formatHalala(product.priceHalala, currency)} / ${Strings.grams.tr(args: ['100'])}',
                         textAlign: TextAlign.right,
                         style: getBoldTextStyle(
-                          fontSize: FontSizeManager.s12_5.sp,
+                          fontSize: FontSizeManager.s13.sp,
                           color: const Color(0xFF12382C),
                         ),
                       ),
-                      Gap(AppSize.s8.h),
+                      Gap(AppSize.s10.h),
                       Container(
-                        height: AppSize.s45.h,
-                        width: AppSize.s134.w,
-                        padding: EdgeInsetsDirectional.symmetric(
-                          horizontal: AppPadding.p16.w,
-                        ),
+                        width: AppSize.s122.w,
+                        height: AppSize.s42.h,
                         decoration: BoxDecoration(
-                          color: const Color(0xFFFF8500),
+                          color: ColorManager.brandPrimary,
                           borderRadius: BorderRadius.circular(AppSize.s16.r),
                         ),
                         alignment: Alignment.center,
                         child: Text(
-                          Strings.chooseType.tr(),
+                          Strings.startCustomization.tr(),
                           style: getBoldTextStyle(
-                            fontSize: FontSizeManager.s13_5.sp,
+                            fontSize: FontSizeManager.s12_5.sp,
                             color: ColorManager.backgroundSurface,
                           ),
                         ),
