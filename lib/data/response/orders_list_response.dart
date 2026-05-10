@@ -2,6 +2,10 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'orders_list_response.g.dart';
 
+Object? _readOrderIdentifier(Map<dynamic, dynamic> json, String key) {
+  return json[key] ?? json['orderId'];
+}
+
 @JsonSerializable(explicitToJson: true)
 class OrdersListResponse {
   @JsonKey(name: 'status')
@@ -39,7 +43,7 @@ class OrdersListDataResponse {
 
 @JsonSerializable(explicitToJson: true)
 class OrdersListItemResponse {
-  @JsonKey(name: 'id')
+  @JsonKey(name: 'id', readValue: _readOrderIdentifier)
   final String? id;
 
   @JsonKey(name: 'orderNumber')
@@ -50,6 +54,9 @@ class OrdersListItemResponse {
 
   @JsonKey(name: 'paymentStatus')
   final String? paymentStatus;
+
+  @JsonKey(name: 'paymentId')
+  final String? paymentId;
 
   @JsonKey(name: 'fulfillmentMethod')
   final String? fulfillmentMethod;
@@ -68,6 +75,7 @@ class OrdersListItemResponse {
     this.orderNumber,
     this.status,
     this.paymentStatus,
+    this.paymentId,
     this.fulfillmentMethod,
     this.pricing,
     this.items,

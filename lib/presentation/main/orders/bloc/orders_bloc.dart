@@ -8,10 +8,8 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
   final GetOrdersUseCase _getOrdersUseCase;
   final CancelOrderUseCase _cancelOrderUseCase;
 
-  OrdersBloc(
-    this._getOrdersUseCase,
-    this._cancelOrderUseCase,
-  ) : super(const OrdersInitial()) {
+  OrdersBloc(this._getOrdersUseCase, this._cancelOrderUseCase)
+    : super(const OrdersInitial()) {
     on<LoadOrdersEvent>(_onLoadOrders);
     on<RefreshOrdersEvent>(_onRefreshOrders);
     on<LoadMoreOrdersEvent>(_onLoadMoreOrders);
@@ -27,14 +25,22 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       GetOrdersInput(page: event.page, limit: event.limit),
     );
     result.fold(
-      (failure) => emit(OrdersError(failure.message)),
-      (ordersList) => emit(
-        OrdersSuccess(
-          orders: ordersList.items,
-          hasMore: ordersList.pagination.page < ordersList.pagination.pages,
-          currentPage: ordersList.pagination.page,
-        ),
-      ),
+      (failure) {
+        if (!isClosed) {
+          emit(OrdersError(failure.message));
+        }
+      },
+      (ordersList) {
+        if (!isClosed) {
+          emit(
+            OrdersSuccess(
+              orders: ordersList.items,
+              hasMore: ordersList.pagination.page < ordersList.pagination.pages,
+              currentPage: ordersList.pagination.page,
+            ),
+          );
+        }
+      },
     );
   }
 
@@ -52,15 +58,23 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       const GetOrdersInput(page: 1, limit: 20),
     );
     result.fold(
-      (failure) => emit(OrdersError(failure.message)),
-      (ordersList) => emit(
-        OrdersSuccess(
-          orders: ordersList.items,
-          hasMore: ordersList.pagination.page < ordersList.pagination.pages,
-          currentPage: ordersList.pagination.page,
-          isRefreshing: false,
-        ),
-      ),
+      (failure) {
+        if (!isClosed) {
+          emit(OrdersError(failure.message));
+        }
+      },
+      (ordersList) {
+        if (!isClosed) {
+          emit(
+            OrdersSuccess(
+              orders: ordersList.items,
+              hasMore: ordersList.pagination.page < ordersList.pagination.pages,
+              currentPage: ordersList.pagination.page,
+              isRefreshing: false,
+            ),
+          );
+        }
+      },
     );
   }
 
@@ -78,19 +92,23 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       GetOrdersInput(page: nextPage, limit: 20),
     );
     result.fold(
-      (failure) => emit(
-        current.copyWith(isLoadingMore: false),
-      ),
+      (failure) {
+        if (!isClosed) {
+          emit(current.copyWith(isLoadingMore: false));
+        }
+      },
       (ordersList) {
         final allOrders = [...current.orders, ...ordersList.items];
-        emit(
-          OrdersSuccess(
-            orders: allOrders,
-            hasMore: ordersList.pagination.page < ordersList.pagination.pages,
-            currentPage: ordersList.pagination.page,
-            isLoadingMore: false,
-          ),
-        );
+        if (!isClosed) {
+          emit(
+            OrdersSuccess(
+              orders: allOrders,
+              hasMore: ordersList.pagination.page < ordersList.pagination.pages,
+              currentPage: ordersList.pagination.page,
+              isLoadingMore: false,
+            ),
+          );
+        }
       },
     );
   }
@@ -104,15 +122,22 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
     emit(OrderCancelLoading(current.orders));
     final result = await _cancelOrderUseCase.execute(event.orderId);
     result.fold(
-      (failure) => emit(OrdersError(failure.message)),
+      (failure) {
+        if (!isClosed) {
+          emit(OrdersError(failure.message));
+        }
+      },
       (cancelledOrder) {
-        final updatedOrders = current.orders.map((order) {
-          if (order.id == cancelledOrder.id) {
-            return cancelledOrder;
-          }
-          return order;
-        }).toList();
-        emit(OrderCancelSuccess(updatedOrders, cancelledOrder.id));
+        final updatedOrders =
+            current.orders.map((order) {
+              if (order.id == cancelledOrder.id) {
+                return cancelledOrder;
+              }
+              return order;
+            }).toList();
+        if (!isClosed) {
+          emit(OrderCancelSuccess(updatedOrders, cancelledOrder.id));
+        }
       },
     );
   }

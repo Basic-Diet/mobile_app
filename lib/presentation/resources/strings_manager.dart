@@ -510,6 +510,22 @@ class Strings {
   static const String deliveryNotes = 'deliveryNotes';
   static const String timeSlot = 'timeSlot';
   static const String orderSummary = 'orderSummary';
+  static const String checkoutTitle = 'checkoutTitle';
+  static const String checkoutSubtitle = 'checkoutSubtitle';
+  static const String securePaymentTitle = 'securePaymentTitle';
+  static const String securePaymentSubtitle = 'securePaymentSubtitle';
+  static const String oneTimeOrder = 'oneTimeOrder';
+  static const String paymentMethodCardApplePay =
+      'paymentMethodCardApplePay';
+  static const String vatIncludedInPrice = 'vatIncludedInPrice';
+  static const String paymentSummary = 'paymentSummary';
+  static const String paymentMethod = 'paymentMethod';
+  static const String orderType = 'orderType';
+  static const String reviewOrderBeforePayment = 'reviewOrderBeforePayment';
+  static const String openPaymentPage = 'openPaymentPage';
+  static const String paymentConfirmationNote = 'paymentConfirmationNote';
+  static const String itemsCount = 'itemsCount';
+  static const String productsCount = 'productsCount';
   static const String reviewYourOrder = 'reviewYourOrder';
   static const String confirmSubscriptionDetailsBelow =
       'confirmSubscriptionDetailsBelow';
@@ -677,6 +693,73 @@ class Strings {
   static const String cart = 'cart';
   static const String emptyCart = 'emptyCart';
   static const String previewTotal = 'previewTotal';
+  static const String oneTimeOrdersSubtitle = 'oneTimeOrdersSubtitle';
+  static const String subscriptionsOfferBadge = 'subscriptionsOfferBadge';
+  static const String subscriptionHeroTitle = 'subscriptionHeroTitle';
+  static const String subscriptionHeroSubtitle = 'subscriptionHeroSubtitle';
+  static const String quickOrderToday = 'quickOrderToday';
+  static const String quickOrderSubtitle = 'quickOrderSubtitle';
+  static const String pickupOnly = 'pickupOnly';
+  static const String pickupOnlyNotice = 'pickupOnlyNotice';
+  static const String customOrderTitle = 'customOrderTitle';
+  static const String customOrderSubtitle = 'customOrderSubtitle';
+  static const String startsFrom = 'startsFrom';
+  static const String viewMenu = 'viewMenu';
+  static const String recommendedForYou = 'recommendedForYou';
+  static const String customize = 'customize';
+  static const String priceDependsOnChoices = 'priceDependsOnChoices';
+  static const String basicDietBenefits = 'basicDietBenefits';
+  static const String freshIngredients = 'freshIngredients';
+  static const String readyForPickupFast = 'readyForPickupFast';
+  static const String flexiblePlans = 'flexiblePlans';
+  static const String searchMenuPlaceholder = 'searchMenuPlaceholder';
+  static const String all = 'all';
+  static const String customOrder = 'customOrder';
+  static const String lightChoices = 'lightChoices';
+  static const String chooseProductToCustomize = 'chooseProductToCustomize';
+  static const String noLightChoicesAvailable = 'noLightChoicesAvailable';
+  static const String noProductsAvailable = 'noProductsAvailable';
+  static const String byWeight = 'byWeight';
+  static const String add = 'add';
+  static const String viewCart = 'viewCart';
+  static const String pickupFromBranchOnlyTitle = 'pickupFromBranchOnlyTitle';
+  static const String deliveryNotAvailableForOrders =
+      'deliveryNotAvailableForOrders';
+  static const String pickupFee = 'pickupFee';
+  static const String tax = 'tax';
+  static const String finalPriceConfirmedBeforePayment =
+      'finalPriceConfirmedBeforePayment';
+  static const String proceedToPayment = 'proceedToPayment';
+  static const String enterBranchId = 'enterBranchId';
+  static const String pickupWindowExample = 'pickupWindowExample';
+  static const String grams = 'grams';
+  static const String basicSalad = 'basicSalad';
+  static const String basicMeal = 'basicMeal';
+  static const String fruitSalad = 'fruitSalad';
+  static const String fruitSaladDesc = 'fruitSaladDesc';
+  static const String greekYogurt = 'greekYogurt';
+  static const String greekYogurtDesc = 'greekYogurtDesc';
+  static const String sourdoughSandwich = 'sourdoughSandwich';
+  static const String sourdoughDesc = 'sourdoughDesc';
+  static const String juices = 'juices';
+  static const String juicesDesc = 'juicesDesc';
+  static const String offer = 'offer';
+  static const String coldSandwichesSubtitle = 'coldSandwichesSubtitle';
+  static const String builderBasicSaladDesc = 'builderBasicSaladDesc';
+  static const String builderBasicMealDesc = 'builderBasicMealDesc';
+  static const String builderFruitSaladDesc = 'builderFruitSaladDesc';
+  static const String builderGreekYogurtDesc = 'builderGreekYogurtDesc';
+  static const String itemAddedToCart = 'itemAddedToCart';
+  static const String currentOrders = 'currentOrders';
+  static const String previousOrders = 'previousOrders';
+  static const String activeOrdersHint = 'activeOrdersHint';
+  static const String previousOrdersHint = 'previousOrdersHint';
+  static const String noCurrentOrders = 'noCurrentOrders';
+  static const String noPreviousOrders = 'noPreviousOrders';
+  static const String today = 'today';
+  static const String yesterday = 'yesterday';
+  static const String openBuilder = 'openBuilder';
+  static const String startCustomization = 'startCustomization';
   static const String standardMeals = 'standardMeals';
   static const String sandwiches = 'sandwiches';
   static const String salad = 'salad';
@@ -687,6 +770,8 @@ class Strings {
   static const String status = 'status';
   static const String branch = 'branch';
   static const String pickupWindow = 'pickupWindow';
+  static const String selectBranchAndPickupWindow =
+      'selectBranchAndPickupWindow';
   static const String pendingPayment = 'pendingPayment';
   static const String confirmed = 'confirmed';
   static const String inPreparation = 'inPreparation';
@@ -712,12 +797,45 @@ class Strings {
   static const String extraWeight = 'extraWeight';
   static const String addToCart = 'addToCart';
   static const String expiresAt = 'expiresAt';
+  static const String builderChooseIngredients = 'builderChooseIngredients';
+  static const String builderSelectionGroupsNeeded =
+      'builderSelectionGroupsNeeded';
+  static const String builderReadyForCart = 'builderReadyForCart';
+  static const String builderChooseUpTo = 'builderChooseUpTo';
+  static const String builderChooseExact = 'builderChooseExact';
+  static const String builderChooseRange = 'builderChooseRange';
+  static const String builderCompletedGroupsCount =
+      'builderCompletedGroupsCount';
+  static const String builderRemainingBeforeAdd = 'builderRemainingBeforeAdd';
+  static const String builderSearchIn = 'builderSearchIn';
+  static const String builderQuantity = 'builderQuantity';
+  static const String builderSelectFromGroup = 'builderSelectFromGroup';
 
   // One-Time Order Payment
   static const String pendingPaymentRetry = 'pendingPaymentRetry';
   static const String paymentProcessing = 'paymentProcessing';
   static const String paymentExpired = 'paymentExpired';
   static const String pickupCodeLabel = 'pickupCodeLabel';
+  static const String orderStatusTitle = 'orderStatusTitle';
+  static const String pickupCodeCardLabel = 'pickupCodeCardLabel';
+  static const String pickupCodeTrackingHint = 'pickupCodeTrackingHint';
+  static const String pickupOnlyTrackingNote = 'pickupOnlyTrackingNote';
+  static const String pendingPaymentTrackingDescription =
+      'pendingPaymentTrackingDescription';
+  static const String confirmedTrackingDescription =
+      'confirmedTrackingDescription';
+  static const String preparingTrackingDescription =
+      'preparingTrackingDescription';
+  static const String readyForPickupTrackingDescription =
+      'readyForPickupTrackingDescription';
+  static const String readyForPickupTrackingDescriptionWithWindow =
+      'readyForPickupTrackingDescriptionWithWindow';
+  static const String completedTrackingDescription =
+      'completedTrackingDescription';
+  static const String cancelledTrackingDescription =
+      'cancelledTrackingDescription';
+  static const String expiredTrackingDescription =
+      'expiredTrackingDescription';
   static const String cancelUnpaidOrder = 'cancelUnpaidOrder';
   static const String loadMore = 'loadMore';
 }

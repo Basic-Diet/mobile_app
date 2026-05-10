@@ -52,10 +52,11 @@ Map<String, dynamic> _$OrdersListDataResponseToJson(
 OrdersListItemResponse _$OrdersListItemResponseFromJson(
   Map<String, dynamic> json,
 ) => OrdersListItemResponse(
-  id: json['id'] as String?,
+  id: _readOrderIdentifier(json, 'id') as String?,
   orderNumber: json['orderNumber'] as String?,
   status: json['status'] as String?,
   paymentStatus: json['paymentStatus'] as String?,
+  paymentId: json['paymentId'] as String?,
   fulfillmentMethod: json['fulfillmentMethod'] as String?,
   pricing: json['pricing'] as Map<String, dynamic>?,
   items: json['items'] as List<dynamic>?,
@@ -69,6 +70,7 @@ Map<String, dynamic> _$OrdersListItemResponseToJson(
   'orderNumber': instance.orderNumber,
   'status': instance.status,
   'paymentStatus': instance.paymentStatus,
+  'paymentId': instance.paymentId,
   'fulfillmentMethod': instance.fulfillmentMethod,
   'pricing': instance.pricing,
   'items': instance.items,

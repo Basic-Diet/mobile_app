@@ -71,7 +71,7 @@ class OrderQuoteItemDataResponse {
   @JsonKey(name: 'lineTotalHalala')
   final int? lineTotalHalala;
 
-  @JsonKey(name: 'name')
+  @JsonKey(name: 'name', readValue: _readLocalizedText)
   final String? name;
 
   @JsonKey(name: 'productSnapshot')
@@ -101,6 +101,35 @@ class OrderQuoteItemDataResponse {
       _$OrderQuoteItemDataResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$OrderQuoteItemDataResponseToJson(this);
+}
+
+String? _readLocalizedText(Map json, String key) {
+  final value = json[key];
+
+  if (value is String) {
+    return value;
+  }
+
+  if (value is Map) {
+    final localizedMap = value.cast<String, dynamic>();
+    final arabic = localizedMap['ar'];
+    if (arabic is String && arabic.trim().isNotEmpty) {
+      return arabic;
+    }
+
+    final english = localizedMap['en'];
+    if (english is String && english.trim().isNotEmpty) {
+      return english;
+    }
+
+    for (final localizedValue in localizedMap.values) {
+      if (localizedValue is String && localizedValue.trim().isNotEmpty) {
+        return localizedValue;
+      }
+    }
+  }
+
+  return null;
 }
 
 @JsonSerializable(explicitToJson: true)

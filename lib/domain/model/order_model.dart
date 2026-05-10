@@ -3,6 +3,7 @@ class OrderModel {
   final String orderNumber;
   final String status;
   final String paymentStatus;
+  final String paymentId;
   final String fulfillmentMethod;
   final OrderPickupModel? pickup;
   final OrderPricingModel? pricing;
@@ -15,6 +16,7 @@ class OrderModel {
     required this.orderNumber,
     required this.status,
     required this.paymentStatus,
+    this.paymentId = '',
     required this.fulfillmentMethod,
     this.pickup,
     this.pricing,

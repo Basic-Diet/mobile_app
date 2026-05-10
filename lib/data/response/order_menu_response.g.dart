@@ -125,6 +125,7 @@ OrderMenuProductResponse _$OrderMenuProductResponseFromJson(
   key: json['key'] as String?,
   categoryId: json['categoryId'] as String?,
   name: json['name'] as String?,
+  description: json['description'] as String?,
   nameI18n: json['nameI18n'] as Map<String, dynamic>?,
   itemType: json['itemType'] as String?,
   pricingModel: json['pricingModel'] as String?,
@@ -135,6 +136,8 @@ OrderMenuProductResponse _$OrderMenuProductResponseFromJson(
   maxWeightGrams: (json['maxWeightGrams'] as num?)?.toInt(),
   weightStepGrams: (json['weightStepGrams'] as num?)?.toInt(),
   sortOrder: (json['sortOrder'] as num?)?.toInt(),
+  requiresBuilder: json['requiresBuilder'] as bool?,
+  canAddDirectly: json['canAddDirectly'] as bool?,
   optionGroups:
       (json['optionGroups'] as List<dynamic>?)
           ?.map(
@@ -152,6 +155,7 @@ Map<String, dynamic> _$OrderMenuProductResponseToJson(
   'key': instance.key,
   'categoryId': instance.categoryId,
   'name': instance.name,
+  'description': instance.description,
   'nameI18n': instance.nameI18n,
   'itemType': instance.itemType,
   'pricingModel': instance.pricingModel,
@@ -162,6 +166,8 @@ Map<String, dynamic> _$OrderMenuProductResponseToJson(
   'maxWeightGrams': instance.maxWeightGrams,
   'weightStepGrams': instance.weightStepGrams,
   'sortOrder': instance.sortOrder,
+  'requiresBuilder': instance.requiresBuilder,
+  'canAddDirectly': instance.canAddDirectly,
   'optionGroups': instance.optionGroups?.map((e) => e.toJson()).toList(),
 };
 

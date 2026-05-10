@@ -29,7 +29,7 @@ Map<String, dynamic> _$CancelOrderResponseToJson(
 CancelOrderDataResponse _$CancelOrderDataResponseFromJson(
   Map<String, dynamic> json,
 ) => CancelOrderDataResponse(
-  id: json['id'] as String?,
+  id: _readOrderIdentifier(json, 'id') as String?,
   status: json['status'] as String?,
   paymentStatus: json['paymentStatus'] as String?,
 );

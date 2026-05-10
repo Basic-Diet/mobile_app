@@ -25,6 +25,7 @@ extension OrdersListItemResponseMapper on OrdersListItemResponse? {
       orderNumber: this?.orderNumber ?? Constants.empty,
       status: this?.status ?? Constants.empty,
       paymentStatus: this?.paymentStatus ?? Constants.empty,
+      paymentId: this?.paymentId ?? Constants.empty,
       fulfillmentMethod: this?.fulfillmentMethod ?? Constants.empty,
       pickup: null,
       pricing: _mapPricing(this?.pricing),

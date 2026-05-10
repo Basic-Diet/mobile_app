@@ -141,6 +141,9 @@ class OrderMenuProductResponse {
   @JsonKey(name: 'name')
   final String? name;
 
+  @JsonKey(name: 'description')
+  final String? description;
+
   @JsonKey(name: 'nameI18n')
   final Map<String, dynamic>? nameI18n;
 
@@ -171,6 +174,12 @@ class OrderMenuProductResponse {
   @JsonKey(name: 'sortOrder')
   final int? sortOrder;
 
+  @JsonKey(name: 'requiresBuilder')
+  final bool? requiresBuilder;
+
+  @JsonKey(name: 'canAddDirectly')
+  final bool? canAddDirectly;
+
   @JsonKey(name: 'optionGroups')
   final List<OrderMenuOptionGroupResponse>? optionGroups;
 
@@ -179,6 +188,7 @@ class OrderMenuProductResponse {
     this.key,
     this.categoryId,
     this.name,
+    this.description,
     this.nameI18n,
     this.itemType,
     this.pricingModel,
@@ -189,6 +199,8 @@ class OrderMenuProductResponse {
     this.maxWeightGrams,
     this.weightStepGrams,
     this.sortOrder,
+    this.requiresBuilder,
+    this.canAddDirectly,
     this.optionGroups,
   });
 
@@ -310,15 +322,11 @@ class OrderMenuStandardMealsDataResponse {
   @JsonKey(name: 'carbs')
   final List<OrderMenuCarbResponse>? carbs;
 
-  OrderMenuStandardMealsDataResponse({
-    this.proteins,
-    this.carbs,
-  });
+  OrderMenuStandardMealsDataResponse({this.proteins, this.carbs});
 
   factory OrderMenuStandardMealsDataResponse.fromJson(
     Map<String, dynamic> json,
-  ) =>
-      _$OrderMenuStandardMealsDataResponseFromJson(json);
+  ) => _$OrderMenuStandardMealsDataResponseFromJson(json);
 
   Map<String, dynamic> toJson() =>
       _$OrderMenuStandardMealsDataResponseToJson(this);

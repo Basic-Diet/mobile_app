@@ -9,6 +9,7 @@ extension OrderDetailResponseMapper on OrderDetailResponse? {
       orderNumber: this?.data?.orderNumber ?? Constants.empty,
       status: this?.data?.status ?? Constants.empty,
       paymentStatus: this?.data?.paymentStatus ?? Constants.empty,
+      paymentId: this?.data?.paymentId ?? Constants.empty,
       fulfillmentMethod: this?.data?.fulfillmentMethod ?? Constants.empty,
       pickup: this?.data?.pickup.toDomain(),
       pricing: this?.data?.pricing.toDomain(),

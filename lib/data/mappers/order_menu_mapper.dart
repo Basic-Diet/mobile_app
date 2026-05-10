@@ -34,8 +34,7 @@ extension OrderMenuCategoryResponseMapper on OrderMenuCategoryResponse? {
       description: this?.description,
       imageUrl: this?.imageUrl,
       sortOrder: this?.sortOrder ?? Constants.zero,
-      products:
-          this?.products?.map((e) => e.toDomain()).toList() ?? const [],
+      products: this?.products?.map((e) => e.toDomain()).toList() ?? const [],
     );
   }
 }
@@ -47,6 +46,7 @@ extension OrderMenuProductResponseMapper on OrderMenuProductResponse? {
       key: this?.key ?? Constants.empty,
       categoryId: this?.categoryId ?? Constants.empty,
       name: this?.name ?? Constants.empty,
+      description: this?.description,
       itemType: this?.itemType ?? Constants.empty,
       pricingModel: this?.pricingModel ?? 'fixed',
       priceHalala: this?.priceHalala ?? Constants.zero,
@@ -56,6 +56,8 @@ extension OrderMenuProductResponseMapper on OrderMenuProductResponse? {
       maxWeightGrams: this?.maxWeightGrams ?? Constants.zero,
       weightStepGrams: this?.weightStepGrams ?? Constants.zero,
       sortOrder: this?.sortOrder ?? Constants.zero,
+      requiresBuilder: this?.requiresBuilder,
+      canAddDirectly: this?.canAddDirectly,
       optionGroups:
           this?.optionGroups?.map((e) => e.toDomain()).toList() ?? const [],
     );
@@ -73,8 +75,7 @@ extension OrderMenuOptionGroupResponseMapper on OrderMenuOptionGroupResponse? {
       maxSelections: this?.maxSelections ?? 1,
       isRequired: this?.isRequired ?? false,
       sortOrder: this?.sortOrder ?? Constants.zero,
-      options:
-          this?.options?.map((e) => e.toDomain()).toList() ?? const [],
+      options: this?.options?.map((e) => e.toDomain()).toList() ?? const [],
     );
   }
 }
@@ -102,8 +103,7 @@ extension OrderMenuStandardMealsDataResponseMapper
   OrderMenuStandardMealsModel? toDomain() {
     if (this == null) return null;
     return OrderMenuStandardMealsModel(
-      proteins:
-          this?.proteins?.map((e) => e.toDomain()).toList() ?? const [],
+      proteins: this?.proteins?.map((e) => e.toDomain()).toList() ?? const [],
       carbs: this?.carbs?.map((e) => e.toDomain()).toList() ?? const [],
     );
   }
@@ -137,8 +137,7 @@ extension OrderMenuSandwichResponseMapper on OrderMenuSandwichResponse? {
       imageUrl: this?.imageUrl ?? Constants.empty,
       priceHalala: this?.priceHalala ?? Constants.zero,
       availableAddons:
-          this?.availableAddons?.map((e) => e.toDomain()).toList() ??
-          const [],
+          this?.availableAddons?.map((e) => e.toDomain()).toList() ?? const [],
     );
   }
 }

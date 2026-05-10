@@ -2,6 +2,34 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'order_detail_response.g.dart';
 
+Object? _readOrderIdentifier(Map<dynamic, dynamic> json, String key) {
+  return json[key] ?? json['orderId'];
+}
+
+Object? _readOrderItemName(Map<dynamic, dynamic> json, String key) {
+  final value = json[key];
+  if (value is String) {
+    return value;
+  }
+  if (value is Map) {
+    final arabicName = value['ar'];
+    if (arabicName is String && arabicName.isNotEmpty) {
+      return arabicName;
+    }
+
+    final englishName = value['en'];
+    if (englishName is String && englishName.isNotEmpty) {
+      return englishName;
+    }
+  }
+
+  return null;
+}
+
+Object? _readOrderItemTotalPriceHalala(Map<dynamic, dynamic> json, String key) {
+  return json[key] ?? json['lineTotalHalala'];
+}
+
 @JsonSerializable(explicitToJson: true)
 class OrderDetailResponse {
   @JsonKey(name: 'status')
@@ -23,7 +51,7 @@ class OrderDetailResponse {
 
 @JsonSerializable(explicitToJson: true)
 class OrderDetailDataResponse {
-  @JsonKey(name: 'id')
+  @JsonKey(name: 'id', readValue: _readOrderIdentifier)
   final String? id;
 
   @JsonKey(name: 'orderNumber')
@@ -34,6 +62,9 @@ class OrderDetailDataResponse {
 
   @JsonKey(name: 'paymentStatus')
   final String? paymentStatus;
+
+  @JsonKey(name: 'paymentId')
+  final String? paymentId;
 
   @JsonKey(name: 'fulfillmentMethod')
   final String? fulfillmentMethod;
@@ -58,6 +89,7 @@ class OrderDetailDataResponse {
     this.orderNumber,
     this.status,
     this.paymentStatus,
+    this.paymentId,
     this.fulfillmentMethod,
     this.pickup,
     this.pricing,
@@ -144,13 +176,13 @@ class OrderDetailItemResponse {
   @JsonKey(name: 'weightGrams')
   final int? weightGrams;
 
-  @JsonKey(name: 'name')
+  @JsonKey(name: 'name', readValue: _readOrderItemName)
   final String? name;
 
   @JsonKey(name: 'unitPriceHalala')
   final int? unitPriceHalala;
 
-  @JsonKey(name: 'totalPriceHalala')
+  @JsonKey(name: 'totalPriceHalala', readValue: _readOrderItemTotalPriceHalala)
   final int? totalPriceHalala;
 
   @JsonKey(name: 'selectedOptions')

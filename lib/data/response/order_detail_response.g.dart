@@ -29,10 +29,11 @@ Map<String, dynamic> _$OrderDetailResponseToJson(
 OrderDetailDataResponse _$OrderDetailDataResponseFromJson(
   Map<String, dynamic> json,
 ) => OrderDetailDataResponse(
-  id: json['id'] as String?,
+  id: _readOrderIdentifier(json, 'id') as String?,
   orderNumber: json['orderNumber'] as String?,
   status: json['status'] as String?,
   paymentStatus: json['paymentStatus'] as String?,
+  paymentId: json['paymentId'] as String?,
   fulfillmentMethod: json['fulfillmentMethod'] as String?,
   pickup:
       json['pickup'] == null
@@ -63,6 +64,7 @@ Map<String, dynamic> _$OrderDetailDataResponseToJson(
   'orderNumber': instance.orderNumber,
   'status': instance.status,
   'paymentStatus': instance.paymentStatus,
+  'paymentId': instance.paymentId,
   'fulfillmentMethod': instance.fulfillmentMethod,
   'pickup': instance.pickup?.toJson(),
   'pricing': instance.pricing?.toJson(),
@@ -118,9 +120,11 @@ OrderDetailItemResponse _$OrderDetailItemResponseFromJson(
   productId: json['productId'] as String?,
   qty: (json['qty'] as num?)?.toInt(),
   weightGrams: (json['weightGrams'] as num?)?.toInt(),
-  name: json['name'] as String?,
+  name: _readOrderItemName(json, 'name') as String?,
   unitPriceHalala: (json['unitPriceHalala'] as num?)?.toInt(),
-  totalPriceHalala: (json['totalPriceHalala'] as num?)?.toInt(),
+  totalPriceHalala:
+      (_readOrderItemTotalPriceHalala(json, 'totalPriceHalala') as num?)
+          ?.toInt(),
   selectedOptions:
       (json['selectedOptions'] as List<dynamic>?)
           ?.map(

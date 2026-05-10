@@ -61,6 +61,7 @@ class OrderMenuProductModel {
   final String key;
   final String categoryId;
   final String name;
+  final String? description;
   final String itemType;
   final String pricingModel;
   final int priceHalala;
@@ -70,13 +71,25 @@ class OrderMenuProductModel {
   final int maxWeightGrams;
   final int weightStepGrams;
   final int sortOrder;
+  final bool? requiresBuilder;
+  final bool? canAddDirectly;
   final List<OrderMenuOptionGroupModel> optionGroups;
+
+  bool get resolvedRequiresBuilder =>
+      requiresBuilder ?? optionGroups.isNotEmpty || pricingModel == 'per_100g';
+
+  bool get resolvedCanAddDirectly =>
+      canAddDirectly ??
+      (pricingModel == 'fixed' &&
+          optionGroups.isEmpty &&
+          !resolvedRequiresBuilder);
 
   const OrderMenuProductModel({
     required this.id,
     required this.key,
     required this.categoryId,
     required this.name,
+    this.description,
     required this.itemType,
     required this.pricingModel,
     required this.priceHalala,
@@ -86,6 +99,8 @@ class OrderMenuProductModel {
     required this.maxWeightGrams,
     required this.weightStepGrams,
     required this.sortOrder,
+    this.requiresBuilder,
+    this.canAddDirectly,
     required this.optionGroups,
   });
 }

@@ -1,13 +1,7 @@
-import 'package:basic_diet/app/dependency_injection.dart';
-import 'package:basic_diet/domain/model/popular_packages_model.dart';
-import 'package:basic_diet/presentation/main/home/bloc/home_bloc.dart';
-import 'package:basic_diet/presentation/main/home/bloc/home_event.dart';
-import 'package:basic_diet/presentation/main/home/bloc/home_state.dart';
-import 'package:basic_diet/presentation/main/home/widgets/category_item.dart';
-import 'package:basic_diet/presentation/main/home/widgets/header_icon_button.dart';
-import 'package:basic_diet/presentation/main/home/widgets/package_card.dart';
-import 'package:basic_diet/presentation/main/home/widgets/section_header.dart';
-import 'package:basic_diet/presentation/main/home/widgets/subscribe_card.dart';
+import 'package:basic_diet/presentation/main/bloc/main_bloc.dart';
+import 'package:basic_diet/presentation/main/bloc/main_event.dart';
+import 'package:basic_diet/presentation/main/main_screen.dart';
+import 'package:basic_diet/presentation/main/menu/menu_navigation_intent.dart';
 import 'package:basic_diet/presentation/resources/assets_manager.dart';
 import 'package:basic_diet/presentation/resources/color_manager.dart';
 import 'package:basic_diet/presentation/resources/font_manager.dart';
@@ -19,39 +13,41 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => instance<HomeBloc>()..add(GetPopularPackagesEvent()),
-      child: Scaffold(
-        backgroundColor: ColorManager.backgroundSurface,
-        body: SafeArea(
-          child: SingleChildScrollView(
-            padding: EdgeInsetsDirectional.all(AppPadding.p20.w),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const _HomeHeader(),
-                Gap(AppSize.s30.h),
-                const _CardsRow(),
-                Gap(AppSize.s30.h),
-                const _QuickBrowseSection(),
-                Gap(AppSize.s30.h),
-                const _PopularPackagesSection(),
-              ],
-            ),
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: EdgeInsetsDirectional.fromSTEB(
+            AppPadding.p16.w,
+            AppPadding.p16.h,
+            AppPadding.p16.w,
+            AppPadding.p36.h,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const _HomeHeader(),
+              Gap(AppSize.s18.h),
+              const _SubscriptionHeroCard(),
+              Gap(AppSize.s24.h),
+              const _QuickOrderSection(),
+              Gap(AppSize.s24.h),
+              const _RecommendedSection(),
+              Gap(AppSize.s24.h),
+              const _BenefitsSection(),
+            ],
           ),
         ),
       ),
     );
   }
 }
-
-// ─── widgets/_HomeHeader ─────────────────────────────────────────────────────
 
 class _HomeHeader extends StatelessWidget {
   const _HomeHeader();
@@ -60,258 +56,963 @@ class _HomeHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              Strings.goodMorning.tr(),
-              style: getBoldTextStyle(
-                fontSize: FontSizeManager.s24,
-                color: ColorManager.textPrimary,
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                Strings.welcome.tr(),
+                style: getBoldTextStyle(
+                  fontSize: FontSizeManager.s24.sp,
+                  color: ColorManager.textPrimary,
+                ),
               ),
-            ),
-            Gap(AppSize.s4.h),
-            Text(
-              Strings.eatHealthy.tr(),
-              style: getRegularTextStyle(
-                fontSize: FontSizeManager.s14,
-                color: ColorManager.textSecondary,
+              Gap(AppSize.s4.h),
+              Text(
+                Strings.eatHealthy.tr(),
+                style: getRegularTextStyle(
+                  fontSize: FontSizeManager.s14.sp,
+                  color: ColorManager.textSecondary,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-        const Spacer(),
-        HeaderIconButton(icon: IconAssets.notification),
-        Gap(AppSize.s12.w),
-        const _CartButton(),
+        Container(
+          width: AppSize.s48.w,
+          height: AppSize.s48.w,
+          decoration: BoxDecoration(
+            color: ColorManager.stateSuccessEmphasis,
+            borderRadius: BorderRadius.circular(AppSize.s18.r),
+          ),
+          alignment: Alignment.center,
+          child: Text(
+            context.locale.languageCode == 'ar' ? 'ب' : 'B',
+            style: getBoldTextStyle(
+              fontSize: FontSizeManager.s20.sp,
+              color: ColorManager.backgroundSurface,
+            ),
+          ),
+        ),
+        Gap(AppSize.s10.w),
+        _HeaderButton(
+          icon: Icons.notifications_none_rounded,
+          hasIndicator: true,
+          onTap: () {},
+        ),
+        Gap(AppSize.s10.w),
+        _HeaderButton(
+          icon: Icons.shopping_cart_outlined,
+          onTap: () => context.push('/cart'),
+        ),
       ],
     );
   }
 }
 
-class _CartButton extends StatelessWidget {
-  const _CartButton();
+class _HeaderButton extends StatelessWidget {
+  final IconData icon;
+  final VoidCallback onTap;
+  final bool hasIndicator;
+
+  const _HeaderButton({
+    required this.icon,
+    required this.onTap,
+    this.hasIndicator = false,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsetsDirectional.all(AppPadding.p8.w),
-      decoration: BoxDecoration(
-        color: ColorManager.stateSuccessEmphasis,
-        borderRadius: BorderRadius.circular(AppSize.s16.r),
-      ),
-      child: const Icon(
-        Icons.shopping_cart_outlined,
-        color: ColorManager.backgroundSurface,
-        size: AppSize.s24,
-      ),
-    );
-  }
-}
-
-// ─── widgets/_CardsRow ───────────────────────────────────────────────────────
-
-class _CardsRow extends StatelessWidget {
-  const _CardsRow();
-
-  @override
-  Widget build(BuildContext context) {
-    return IntrinsicHeight(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          const Expanded(child: SubscribeCard()),
-          Gap(AppSize.s16.w),
-          const Expanded(child: _ImageCard()),
-        ],
-      ),
-    );
-  }
-}
-
-class _ImageCard extends StatelessWidget {
-  const _ImageCard();
-
-  @override
-  Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(AppSize.s16.r),
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          const Image(image: AssetImage(ImageAssets.salad), fit: BoxFit.cover),
-          DecoratedBox(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.centerLeft,
-                end: Alignment.centerRight,
-                colors: [
-                  ColorManager.textPrimary.withValues(alpha: 0.8),
-                  ColorManager.textPrimary.withValues(alpha: 0.4),
-                  ColorManager.textPrimary.withValues(alpha: 0.0),
-                ],
-                stops: const [0.0, 0.6, 1.0],
+    return Stack(
+      children: [
+        Material(
+          color: ColorManager.backgroundSurface,
+          borderRadius: BorderRadius.circular(AppSize.s18.r),
+          child: InkWell(
+            onTap: onTap,
+            borderRadius: BorderRadius.circular(AppSize.s18.r),
+            child: SizedBox(
+              width: AppSize.s48.w,
+              height: AppSize.s48.w,
+              child: Icon(
+                icon,
+                color: ColorManager.stateSuccessEmphasis,
+                size: AppSize.s24.w,
               ),
             ),
           ),
-          Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(
-              AppPadding.p20.w,
-              AppPadding.p40.h,
-              AppPadding.p16.w,
-              AppPadding.p20.h,
+        ),
+        if (hasIndicator)
+          PositionedDirectional(
+            top: AppSize.s10.h,
+            end: AppSize.s11.w,
+            child: Container(
+              width: AppSize.s8.w,
+              height: AppSize.s8.w,
+              decoration: const BoxDecoration(
+                color: ColorManager.brandAccent,
+                shape: BoxShape.circle,
+              ),
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  Strings.buildMeal.tr(),
-                  style: getBoldTextStyle(
-                    fontSize: FontSizeManager.s24.sp,
-                    color: ColorManager.backgroundSurface,
-                  ).copyWith(height: 1.05),
+          ),
+      ],
+    );
+  }
+}
+
+class _SubscriptionHeroCard extends StatelessWidget {
+  const _SubscriptionHeroCard();
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        context.read<MainBloc>().add(
+          ChangeBottomNavIndexEvent(MainScreen.plansTabIndex),
+        );
+      },
+      child: Container(
+        constraints: BoxConstraints(minHeight: AppSize.s210.h),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(AppSize.s24.r),
+          color: const Color(0xFF0B2319),
+          border: Border.all(
+            color: Colors.white.withValues(alpha: 0.15),
+            width: 1,
+          ),
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(AppSize.s24.r),
+          child: Stack(
+            fit: StackFit.passthrough,
+            children: [
+               Image(
+                image: AssetImage(
+                    context.locale.languageCode == 'ar'?
+                    ImageAssets.oneTimeSubscriptionHero:
+                    ImageAssets.oneTimeSubscriptionHeroRtl
                 ),
-                Gap(AppSize.s12.h),
-                Text(
-                  Strings.nutritionControl.tr(),
-                  style: getRegularTextStyle(
-                    fontSize: FontSizeManager.s14.sp,
-                    color: ColorManager.backgroundSurface.withValues(
-                      alpha: 0.78,
-                    ),
-                  ).copyWith(height: 1.25),
+                fit: BoxFit.cover,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                    colors: [
+                      Colors.black.withValues(alpha: 0.08),
+                      const Color(0xFF002D1E).withValues(alpha: 0.55),
+                      const Color(0xFF002319).withValues(alpha: 0.82),
+                    ],
+                    stops: const [0.0, 0.45, 1.0],
+                  ),
                 ),
-                const Spacer(),
-                Row(
+              ),
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(
+                  AppPadding.p20.w,
+                  AppPadding.p25.h,
+                  AppPadding.p20.w,
+                  AppPadding.p20.h,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
-                      Strings.explore.tr(),
-                      style: getBoldTextStyle(
-                        fontSize: FontSizeManager.s16.sp,
-                        color: ColorManager.brandAccent,
-                      ).copyWith(letterSpacing: 1.2),
+                    Container(
+                      padding: EdgeInsetsDirectional.symmetric(
+                        horizontal: AppPadding.p12.w,
+                        vertical: AppPadding.p4.h,
+                      ),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFFF8500).withValues(alpha: 0.95),
+                        borderRadius: BorderRadius.circular(AppSize.s99.r),
+                      ),
+                      child: Text(
+                        Strings.subscriptionsOfferBadge.tr(),
+                        style: getBoldTextStyle(
+                          fontSize: FontSizeManager.s11.sp,
+                          color: ColorManager.backgroundSurface,
+                          letterSpacing: 0.2,
+                        ),
+                      ),
                     ),
-                    Gap(AppSize.s4.w),
-                    Icon(
-                      Icons.arrow_forward_rounded,
-                      color: ColorManager.brandAccent,
-                      size: AppSize.s20.w,
+                    Gap(AppSize.s8.h),
+                    Text(
+                      Strings.subscriptionHeroTitle.tr(),
+                      textAlign: TextAlign.right,
+                      style: getBoldTextStyle(
+                        fontSize: FontSizeManager.s21.sp,
+                        color: ColorManager.backgroundSurface,
+                      ).copyWith(height: 1.25),
+                    ),
+                    Gap(AppSize.s2.h),
+                    Text(
+                      Strings.subscriptionHeroSubtitle.tr(),
+                      textAlign: TextAlign.right,
+                      style: getBoldTextStyle(
+                        fontSize: FontSizeManager.s13.sp,
+                        color: Colors.white.withValues(alpha: 0.92),
+                      ),
+                    ),
+                    Gap(AppSize.s12.h),
+                    Container(
+                      padding: EdgeInsetsDirectional.symmetric(
+                        horizontal: AppPadding.p24.w,
+                        vertical: AppPadding.p8.h,
+                      ),
+                      decoration: BoxDecoration(
+                        color: ColorManager.backgroundSurface,
+                        borderRadius: BorderRadius.circular(AppSize.s99.r),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.3),
+                            blurRadius: 25,
+                            offset: const Offset(0, 10),
+                          ),
+                        ],
+                      ),
+                      child: Text(
+                        Strings.viewPlans.tr(),
+                        style: getBoldTextStyle(
+                          fontSize: FontSizeManager.s13.sp,
+                          color: const Color(0xFF112B22),
+                        ),
+                      ),
                     ),
                   ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
 }
 
-// ─── widgets/_QuickBrowseSection ─────────────────────────────────────────────
-
-// Define categories as data, not hard-coded widgets
-class _CategoryData {
-  const _CategoryData({required this.title, required this.imagePath});
-  final String title;
-  final String imagePath;
-}
-
-class _QuickBrowseSection extends StatelessWidget {
-  const _QuickBrowseSection();
-
-  static const _categories = [
-    _CategoryData(title: Strings.readyMeals, imagePath: ImageAssets.soup),
-    _CategoryData(title: Strings.snacks, imagePath: ImageAssets.snacks),
-    _CategoryData(title: Strings.desserts, imagePath: ImageAssets.desserts),
-    _CategoryData(title: Strings.drinks, imagePath: ImageAssets.drinks),
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SectionHeader(title: Strings.quickBrowse.tr()),
-        Gap(AppSize.s20.h),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: _categories
-              .map(
-                (c) =>
-                    CategoryItem(title: c.title.tr(), imagePath: c.imagePath),
-              )
-              .toList(),
-        ),
-      ],
-    );
-  }
-}
-
-// ─── widgets/_PopularPackagesSection ─────────────────────────────────────────
-
-class _PopularPackagesSection extends StatelessWidget {
-  const _PopularPackagesSection();
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<HomeBloc, HomeState>(
-      builder: (context, state) => switch (state) {
-        HomePopularPackagesSuccessState() => _PackageList(
-          state.popularPackages.packages,
-        ),
-        HomeLoadingState() => const _LoadingIndicator(),
-        HomeErrorState() => _ErrorMessage(state.message),
-        _ => const SizedBox.shrink(),
-      },
-    );
-  }
-}
-
-class _LoadingIndicator extends StatelessWidget {
-  const _LoadingIndicator();
-
-  @override
-  Widget build(BuildContext context) => const Center(
-    child: CircularProgressIndicator(color: ColorManager.brandPrimary),
-  );
-}
-
-class _ErrorMessage extends StatelessWidget {
-  const _ErrorMessage(this.message);
-
-  final String message;
-
-  @override
-  Widget build(BuildContext context) => Center(
-    child: Text(
-      message,
-      style: getRegularTextStyle(
-        color: ColorManager.stateError,
-        fontSize: FontSizeManager.s14.sp,
-      ),
-    ),
-  );
-}
-
-class _PackageList extends StatelessWidget {
-  const _PackageList(this.packages);
-
-  final List<PopularPackageModel> packages;
+class _QuickOrderSection extends StatelessWidget {
+  const _QuickOrderSection();
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SectionHeader(title: Strings.popularPackages.tr()),
-        Gap(AppSize.s20.h),
-        ...packages.map(
-          (package) => Padding(
-            padding: EdgeInsetsDirectional.only(bottom: AppSize.s16.h),
-            child: PackageCard(package: package),
+        _SectionHeader(
+          title: Strings.quickOrderToday.tr(),
+          subtitle: Strings.quickOrderSubtitle.tr(),
+          action: Strings.viewMenu.tr(),
+          onTap: () => _openMenuSection(context, 'custom_order'),
+          stacked: true,
+        ),
+        Gap(AppSize.s14.h),
+        GestureDetector(
+          onTap: () => _openMenuSection(context, 'custom_order'),
+          child: Container(
+            constraints: BoxConstraints(minHeight: AppSize.s188.h),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(AppSize.s24.r),
+              color: ColorManager.backgroundSurface,
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(AppSize.s24.r),
+              child: Stack(
+                fit: StackFit.passthrough,
+                children: [
+                  Image(
+                    image: AssetImage(
+                      context.locale.languageCode == 'ar'
+                          ? ImageAssets.oneTimeCustomOrderHero
+                          : ImageAssets.oneTimeCustomOrderHeroAr,
+                    ),
+                    fit: BoxFit.cover,
+                    alignment: Alignment.centerLeft,
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                        colors: context.locale.languageCode == 'ar'?[
+                          Colors.white.withValues(alpha: 0.0),
+                          Colors.white.withValues(alpha: 0.25),
+                          Colors.white.withValues(alpha: 0.84),
+                          Colors.white.withValues(alpha: 0.95),
+                        ]:[
+                          Colors.white.withValues(alpha: 0.95),
+                          Colors.white.withValues(alpha: 0.84),
+                          Colors.white.withValues(alpha: 0.25),
+
+                          Colors.white.withValues(alpha: 0.0),
+                        ],
+                        stops: const [0.0, 0.32, 0.68, 1.0],
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(
+                      AppPadding.p18.w,
+                      AppPadding.p10.h,
+                      AppPadding.p18.w,
+                      AppPadding.p10.h,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          padding: EdgeInsetsDirectional.symmetric(
+                            horizontal: AppPadding.p10.w,
+                            vertical: AppPadding.p3.h,
+                          ),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFEBF5F0),
+                            borderRadius: BorderRadius.circular(AppSize.s99.r),
+                          ),
+                          child: Text(
+                            Strings.pickupOnly.tr(),
+                            style: getBoldTextStyle(
+                              fontSize: FontSizeManager.s11.sp,
+                              color: ColorManager.stateSuccessEmphasis,
+                            ),
+                          ),
+                        ),
+                        Gap(AppSize.s6.h),
+                        Text(
+                          Strings.customOrderTitle.tr(),
+                          textAlign: TextAlign.right,
+                          style: getBoldTextStyle(
+                            fontSize: FontSizeManager.s16_5.sp,
+                            color: const Color(0xFF112B22),
+                          ),
+                        ),
+                        Gap(AppSize.s2.h),
+                        Text(
+                          Strings.customOrderSubtitle.tr(),
+                          textAlign: TextAlign.right,
+                          style: getBoldTextStyle(
+                            fontSize: FontSizeManager.s11.sp,
+                            color: ColorManager.textSecondary,
+                          ),
+                        ),
+                        Gap(AppSize.s4.h),
+                        Text(
+                          '${Strings.startsFrom.tr()} 19 ${Strings.sar.tr()} / ${Strings.grams.tr(args: ['100'])}',
+                          textAlign: TextAlign.right,
+                          style: getBoldTextStyle(
+                            fontSize: FontSizeManager.s12_5.sp,
+                            color: const Color(0xFF12382C),
+                          ),
+                        ),
+                        Gap(AppSize.s4.h),
+                        Container(
+                          height: AppSize.s45.h,
+                          width: AppSize.s134.w,
+                          padding: EdgeInsetsDirectional.symmetric(
+                            horizontal: AppPadding.p16.w,
+                          ),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFFF8500),
+                            borderRadius: BorderRadius.circular(AppSize.s16.r),
+                          ),
+                          alignment: Alignment.center,
+                          child: Text(
+                            Strings.chooseType.tr(),
+                            style: getBoldTextStyle(
+                              fontSize: FontSizeManager.s13_5.sp,
+                              color: ColorManager.backgroundSurface,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        Gap(AppSize.s9.h),
+        Row(
+          children: [
+            Expanded(
+              child: _QuickShortcutCard(
+                title: Strings.basicSalad.tr(),
+                subtitle:
+                    '29 ${Strings.sar.tr()} / ${Strings.grams.tr(args: ['100'])}',
+                productKey: 'basic_salad',
+              ),
+            ),
+            Gap(AppSize.s8.w),
+            Expanded(
+              child: _QuickShortcutCard(
+                title: Strings.basicMeal.tr(),
+                subtitle:
+                    '19 ${Strings.sar.tr()} / ${Strings.grams.tr(args: ['100'])}',
+                productKey: 'basic_meal',
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class _QuickShortcutCard extends StatelessWidget {
+  final String title;
+  final String subtitle;
+  final String productKey;
+
+  const _QuickShortcutCard({
+    required this.title,
+    required this.subtitle,
+    required this.productKey,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.white.withValues(alpha: 0.88),
+      borderRadius: BorderRadius.circular(AppSize.s14.r),
+      child: InkWell(
+        onTap: () => _openBuilderShortcut(context, productKey),
+        borderRadius: BorderRadius.circular(AppSize.s14.r),
+        child: Container(
+          constraints: BoxConstraints(minHeight: AppSize.s44.h),
+          padding: EdgeInsetsDirectional.symmetric(
+            horizontal: AppPadding.p11.w,
+            vertical: AppPadding.p8.h,
+          ),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(AppSize.s14.r),
+            border: Border.all(
+              color: Colors.white.withValues(alpha: 0.8),
+              width: 1,
+            ),
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                child: Text(
+                  '$title · $subtitle',
+                  textAlign: TextAlign.right,
+                  style: getBoldTextStyle(
+                    fontSize: FontSizeManager.s10.sp,
+                    color: const Color(0xFF112B22),
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              Gap(AppSize.s6.w),
+              Container(
+                width: AppSize.s18.w,
+                height: AppSize.s18.w,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFEBF5F0),
+                  shape: BoxShape.circle,
+                ),
+                alignment: Alignment.center,
+                child: Text(
+                  '‹',
+                  style: getBoldTextStyle(
+                    fontSize: FontSizeManager.s14.sp,
+                    color: const Color(0xFF12382C),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _RecommendedSection extends StatelessWidget {
+  const _RecommendedSection();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _SectionHeader(
+          title: Strings.recommendedForYou.tr(),
+          action: Strings.viewMenu.tr(),
+          onTap: () => _openMenuSection(context, 'custom_order'),
+        ),
+        Gap(AppSize.s14.h),
+        _RecommendationCardLarge(
+          title: Strings.fruitSalad.tr(),
+          description: Strings.fruitSaladDesc.tr(),
+          imagePath: ImageAssets.oneTimeFruitSalad,
+          helperText: Strings.priceDependsOnChoices.tr(),
+          productKey: 'fruit_salad',
+        ),
+        Gap(AppSize.s12.h),
+        _RecommendationCardLarge(
+          title: Strings.greekYogurt.tr(),
+          description: Strings.greekYogurtDesc.tr(),
+          imagePath: ImageAssets.oneTimeGreekYogurt,
+          helperText: Strings.priceDependsOnChoices.tr(),
+          productKey: 'greek_yogurt',
+        ),
+        Gap(AppSize.s12.h),
+        Row(
+          children: [
+            Expanded(
+              child: _RecommendationCard(
+                title: Strings.sourdoughSandwich.tr(),
+                description: Strings.sourdoughDesc.tr(),
+                imagePath: ImageAssets.oneTimeSourdough,
+                footerText: Strings.offer.tr(),
+                helperText: '',
+                sectionKey: 'sourdough',
+              ),
+            ),
+            Gap(AppSize.s12.w),
+            Expanded(
+              child: _RecommendationCard(
+                title: Strings.juices.tr(),
+                description: Strings.juicesDesc.tr(),
+                imagePath: ImageAssets.oneTimeJuices,
+                footerText: Strings.offer.tr(),
+                helperText: '',
+                sectionKey: 'juices',
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class _RecommendationCardLarge extends StatelessWidget {
+  final String title;
+  final String description;
+  final String imagePath;
+  final String helperText;
+  final String productKey;
+
+  const _RecommendationCardLarge({
+    required this.title,
+    required this.description,
+    required this.imagePath,
+    required this.helperText,
+    required this.productKey,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.white.withValues(alpha: 0.96),
+      borderRadius: BorderRadius.circular(AppSize.s20.r),
+      child: InkWell(
+        onTap: () => _openBuilderShortcut(context, productKey),
+        borderRadius: BorderRadius.circular(AppSize.s20.r),
+        child: Container(
+          constraints: BoxConstraints(minHeight: AppSize.s126.h),
+          padding: EdgeInsetsDirectional.all(AppPadding.p13.r),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(AppSize.s20.r),
+            border: Border.all(
+              color: Colors.white.withValues(alpha: 0.86),
+              width: 1,
+            ),
+
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      title,
+                      textAlign: TextAlign.right,
+                      style: getBoldTextStyle(
+                        fontSize: FontSizeManager.s19.sp,
+                        color: const Color(0xFF112B22),
+                      ),
+                    ),
+                    Gap(AppSize.s3.h),
+                    Text(
+                      description,
+                      textAlign: TextAlign.right,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: getBoldTextStyle(
+                        fontSize: FontSizeManager.s13.sp,
+                        color: ColorManager.textSecondary,
+                      ),
+                    ),
+                    Gap(AppSize.s16.h),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            helperText,
+                            textAlign: TextAlign.right,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: getBoldTextStyle(
+                              fontSize: FontSizeManager.s12.sp,
+                              color: const Color(0xFF12382C),
+                            ),
+                          ),
+                        ),
+                        Gap(AppSize.s8.w),
+                        Container(
+                          padding: EdgeInsetsDirectional.symmetric(
+                            horizontal: AppPadding.p12.w,
+                            vertical: AppPadding.p6.h,
+                          ),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFEBF5F0),
+                            borderRadius: BorderRadius.circular(AppSize.s99.r),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                                Text(
+                                  '‹',
+                                  style: getBoldTextStyle(
+                                    fontSize: FontSizeManager.s14.sp,
+                                    color: const Color(0xFF12382C),
+                                  ),
+                                ),
+                                Text(
+                                  Strings.customize.tr(),
+                                  style: getBoldTextStyle(
+                                    fontSize: FontSizeManager.s11_5.sp,
+                                    color: const Color(0xFF12382C),
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              Gap(AppSize.s14.w),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(AppSize.s20.r),
+                child: Image.asset(
+                  imagePath,
+                  width: AppSize.s104.w,
+                  height: AppSize.s104.w,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _RecommendationCard extends StatelessWidget {
+  final String title;
+  final String description;
+  final String imagePath;
+  final String footerText;
+  final String helperText;
+  final String? sectionKey;
+
+  const _RecommendationCard({
+    required this.title,
+    required this.description,
+    required this.imagePath,
+    required this.footerText,
+    required this.helperText,
+    this.sectionKey,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(AppSize.s20.r),
+      child: InkWell(
+        onTap: () {
+          if (sectionKey != null) {
+            _openMenuSection(context, sectionKey!);
+          }
+        },
+        borderRadius: BorderRadius.circular(AppSize.s20.r),
+        child: Container(
+          constraints: BoxConstraints(minHeight: AppSize.s188.h),
+          padding: EdgeInsetsDirectional.all(AppPadding.p11.r),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(AppSize.s20.r),
+            border: Border.all(
+              color: Colors.white.withValues(alpha: 0.86),
+              width: 1,
+            ),
+
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(AppSize.s18.r),
+                child: SizedBox(
+                  width: double.infinity,
+                  height: AppSize.s104.h,
+                  child: Image.asset(
+                    imagePath,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              Gap(AppSize.s9.h),
+              Text(
+                title,
+                textAlign: TextAlign.right,
+                style: getBoldTextStyle(
+                  fontSize: FontSizeManager.s18.sp,
+                  color: const Color(0xFF112B22),
+                ),
+              ),
+              Gap(AppSize.s3.h),
+              Text(
+                description,
+                textAlign: TextAlign.right,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: getBoldTextStyle(
+                  fontSize: FontSizeManager.s12_5.sp,
+                  color: ColorManager.textSecondary,
+                ),
+              ),
+              Gap(AppSize.s12.h),
+              Row(
+                children: [
+                  if (helperText.isNotEmpty)
+                    Expanded(
+                      child: Text(
+                        helperText,
+                        textAlign: TextAlign.right,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: getBoldTextStyle(
+                          fontSize: FontSizeManager.s12.sp,
+                          color: const Color(0xFF12382C),
+                        ),
+                      ),
+                    ),
+                  if (helperText.isNotEmpty) Gap(AppSize.s8.w),
+                  Container(
+                    padding: EdgeInsetsDirectional.symmetric(
+                      horizontal: AppPadding.p12.w,
+                      vertical: AppPadding.p6.h,
+                    ),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFEBF5F0),
+                      borderRadius: BorderRadius.circular(AppSize.s99.r),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          '‹',
+                          style: getBoldTextStyle(
+                            fontSize: FontSizeManager.s14.sp,
+                            color: const Color(0xFF12382C),
+                          ),
+                        ),
+                        Text(
+                          footerText,
+                          style: getBoldTextStyle(
+                            fontSize: FontSizeManager.s11_5.sp,
+                            color: const Color(0xFF12382C),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _BenefitsSection extends StatelessWidget {
+  const _BenefitsSection();
+
+  @override
+  Widget build(BuildContext context) {
+    final benefits = [
+      (Icons.eco_outlined, Strings.freshIngredients.tr()),
+      (Icons.access_time_rounded, Strings.readyForPickupFast.tr()),
+      (Icons.swap_horiz_rounded, Strings.flexiblePlans.tr()),
+    ];
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _SectionHeader(title: Strings.basicDietBenefits.tr()),
+        Gap(AppSize.s14.h),
+        Container(
+          padding: EdgeInsetsDirectional.all(AppPadding.p8.r),
+          decoration: BoxDecoration(
+            color: Colors.white.withValues(alpha: 0.9),
+            borderRadius: BorderRadius.circular(AppSize.s16.r),
+            boxShadow: [
+              BoxShadow(
+                color: const Color(0xFF16664A).withValues(alpha: 0.05),
+                blurRadius: 12,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: Row(
+            children:
+                benefits
+                    .map(
+                      (benefit) => Expanded(
+                        child: _BenefitCard(
+                          icon: benefit.$1,
+                          title: benefit.$2,
+                        ),
+                      ),
+                    )
+                    .toList(),
           ),
         ),
       ],
     );
   }
+}
+
+class _BenefitCard extends StatelessWidget {
+  final IconData icon;
+  final String title;
+
+  const _BenefitCard({required this.icon, required this.title});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsetsDirectional.symmetric(
+        horizontal: AppPadding.p6.w,
+        vertical: AppPadding.p8.h,
+      ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(AppSize.s12.r),
+      ),
+      child: Column(
+        children: [
+          Container(
+            width: AppSize.s24.w,
+            height: AppSize.s24.w,
+            decoration: BoxDecoration(
+              color: const Color(0xFFEBF5F0),
+              borderRadius: BorderRadius.circular(AppSize.s11.r),
+            ),
+            child: Icon(
+              icon,
+              color: const Color(0xFF12382C),
+              size: AppSize.s15.w,
+            ),
+          ),
+          Gap(AppSize.s6.h),
+          Text(
+            title,
+            textAlign: TextAlign.center,
+            style: getBoldTextStyle(
+              fontSize: FontSizeManager.s11.sp,
+              color: const Color(0xFF112B22),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _SectionHeader extends StatelessWidget {
+  final String title;
+  final String? subtitle;
+  final String? action;
+  final VoidCallback? onTap;
+  final bool stacked;
+
+  const _SectionHeader({
+    required this.title,
+    this.subtitle,
+    this.action,
+    this.onTap,
+    this.stacked = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: stacked ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                textAlign: TextAlign.right,
+                style: getBoldTextStyle(
+                  fontSize: FontSizeManager.s22.sp,
+                  color: ColorManager.textPrimary,
+                ),
+              ),
+              if (subtitle != null) ...[
+                Gap(AppSize.s5.h),
+                Text(
+                  subtitle!,
+                  textAlign: TextAlign.right,
+                  style: getBoldTextStyle(
+                    fontSize: FontSizeManager.s12.sp,
+                    color: ColorManager.textSecondary,
+                  ),
+                ),
+              ],
+            ],
+          ),
+        ),
+        if (action != null && onTap != null) ...[
+          Gap(AppSize.s12.w),
+          GestureDetector(
+            onTap: onTap,
+            child: Text(
+              action!,
+              style: getBoldTextStyle(
+                fontSize: FontSizeManager.s12.sp,
+                color: ColorManager.stateSuccessEmphasis,
+              ),
+            ),
+          ),
+        ],
+      ],
+    );
+  }
+}
+
+void _openMenuSection(BuildContext context, String sectionKey) {
+  OneTimeMenuCoordinator.openSection(sectionKey);
+  context.read<MainBloc>().add(ChangeBottomNavIndexEvent(1));
+}
+
+void _openBuilderShortcut(BuildContext context, String productKey) {
+  OneTimeMenuCoordinator.openProduct(productKey);
+  context.read<MainBloc>().add(ChangeBottomNavIndexEvent(1));
 }

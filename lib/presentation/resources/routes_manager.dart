@@ -10,6 +10,7 @@ import 'package:basic_diet/presentation/main/home/premium/premium_meals_screen.d
 import 'package:basic_diet/presentation/main/home/subscription-details/subscription_details_screen.dart';
 import 'package:basic_diet/presentation/main/home/subscription/subscription_screen.dart';
 import 'package:basic_diet/presentation/main/home/subscription/bloc/subscription_bloc.dart';
+import 'package:basic_diet/presentation/main/cart/bloc/cart_state.dart';
 import 'package:basic_diet/presentation/main/cart/cart_screen.dart';
 import 'package:basic_diet/presentation/main/cart/checkout_screen.dart';
 import 'package:basic_diet/presentation/main/cart/payment_webview_screen.dart';
@@ -165,17 +166,39 @@ class GoRouterConfig {
           initCheckoutModule();
           return getCustomTransitionPage(
             state: state,
-            child: const CheckoutScreen(),
+            child: CheckoutScreen(cartState: state.extra as CartLoaded?),
           );
         },
       ),
       GoRoute(
         path: PaymentWebViewScreen.routeName,
         pageBuilder: (BuildContext context, GoRouterState state) {
-          final paymentUrl = state.extra as String;
+          final extra = state.extra;
+          late final String paymentUrl;
+          late final String successUrl;
+          late final String backUrl;
+
+          if (extra is String) {
+            paymentUrl = extra;
+            successUrl = 'https://basicdiet145.onrender.com/payment-success';
+            backUrl = 'https://basicdiet145.onrender.com/payment-cancel';
+          } else if (extra is Map<String, dynamic>) {
+            paymentUrl = extra['paymentUrl'] as String;
+            successUrl = extra['successUrl'] as String;
+            backUrl = extra['backUrl'] as String;
+          } else {
+            throw ArgumentError(
+              'PaymentWebViewScreen expects either a payment url string or a map with payment callbacks.',
+            );
+          }
+
           return getCustomTransitionPage(
             state: state,
-            child: PaymentWebViewScreen(paymentUrl: paymentUrl),
+            child: PaymentWebViewScreen(
+              paymentUrl: paymentUrl,
+              successUrl: successUrl,
+              backUrl: backUrl,
+            ),
           );
         },
       ),

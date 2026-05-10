@@ -11,15 +11,20 @@ class MenuBloc extends Bloc<MenuEvent, MenuState> {
     on<RetryMenuEvent>(_onLoadMenu);
   }
 
-  Future<void> _onLoadMenu(
-    MenuEvent event,
-    Emitter<MenuState> emit,
-  ) async {
+  Future<void> _onLoadMenu(MenuEvent event, Emitter<MenuState> emit) async {
     emit(const MenuLoading());
     final result = await _getOrderMenuUseCase.execute(null);
     result.fold(
-      (failure) => emit(MenuError(failure.message)),
-      (menu) => emit(MenuSuccess(menu)),
+      (failure) {
+        if (!isClosed) {
+          emit(MenuError(failure.message));
+        }
+      },
+      (menu) {
+        if (!isClosed) {
+          emit(MenuSuccess(menu));
+        }
+      },
     );
   }
 }
