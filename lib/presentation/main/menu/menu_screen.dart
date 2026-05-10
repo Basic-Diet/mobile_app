@@ -687,7 +687,7 @@ class _BuilderSection extends StatelessWidget {
             padding: EdgeInsetsDirectional.only(bottom: AppPadding.p14.h),
             child: _BuilderProductCard(
               product: product,
-              imagePath: _imageForProduct(product.key),
+              imagePath: _imageForProduct(product.key, context),
               currency: currency,
               onTap: () => onOpenBuilder(product, currency),
             ),
@@ -700,7 +700,7 @@ class _BuilderSection extends StatelessWidget {
               padding: EdgeInsetsDirectional.only(bottom: AppPadding.p12.h),
               child: _LightBuilderCard(
                 product: product,
-                imagePath: _imageForProduct(product.key),
+                imagePath: _imageForProduct(product.key, context),
                 currency: currency,
                 onTap: () => onOpenBuilder(product, currency),
               ),
@@ -711,12 +711,14 @@ class _BuilderSection extends StatelessWidget {
     );
   }
 
-  String? _imageForProduct(String productKey) {
+  String? _imageForProduct(String productKey, BuildContext context) {
     switch (productKey) {
       case 'basic_salad':
-        return ImageAssets.oneTimeBasicSalad;
+        return context.locale.languageCode == 'ar'
+            ?ImageAssets.oneTimeBasicSalad:ImageAssets.oneTimeBasicRtlSalad;
       case 'basic_meal':
-        return ImageAssets.oneTimeBasicMeal;
+        return context.locale.languageCode == 'ar'?
+        ImageAssets.oneTimeBasicMeal:ImageAssets.oneTimeBasicRtlMeal;
       case 'fruit_salad':
         return ImageAssets.oneTimeFruitSalad;
       case 'greek_yogurt':
@@ -2207,10 +2209,9 @@ class _BuilderScreenState extends State<_BuilderScreen> {
                         ),
                         Gap(AppSize.s14.w),
                          _BuilderHeroImage(
-                          imagePath: _builderImageForProduct(product.key),
+                          imagePath: _builderImageForProduct(product.key, context),
                           initials: _initials(product.name, context),
-                        ),
-                      ],
+                         ),                      ],
                     ),
                     if (product.pricingModel == 'per_100g') ...[
                       Gap(AppSize.s12.h),
@@ -3112,12 +3113,14 @@ class _BuilderHeroPill extends StatelessWidget {
   }
 }
 
-String? _builderImageForProduct(String productKey) {
+String? _builderImageForProduct(String productKey, BuildContext context) {
   switch (productKey) {
     case 'basic_salad':
-      return ImageAssets.oneTimeBasicSalad;
+      return context.locale.languageCode == 'ar'
+          ?ImageAssets.oneTimeBasicSalad:ImageAssets.oneTimeBasicRtlSalad;
     case 'basic_meal':
-      return ImageAssets.oneTimeBasicMeal;
+      return context.locale.languageCode == 'ar'
+          ?ImageAssets.oneTimeBasicMeal:ImageAssets.oneTimeBasicRtlMeal;
     case 'fruit_salad':
       return ImageAssets.oneTimeFruitSalad;
     case 'greek_yogurt':

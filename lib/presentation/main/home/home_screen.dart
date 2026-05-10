@@ -186,8 +186,12 @@ class _SubscriptionHeroCard extends StatelessWidget {
           child: Stack(
             fit: StackFit.passthrough,
             children: [
-              const Image(
-                image: AssetImage(ImageAssets.oneTimeSubscriptionHero),
+               Image(
+                image: AssetImage(
+                    context.locale.languageCode == 'ar'?
+                    ImageAssets.oneTimeSubscriptionHero:
+                    ImageAssets.oneTimeSubscriptionHeroRtl
+                ),
                 fit: BoxFit.cover,
               ),
               Container(
