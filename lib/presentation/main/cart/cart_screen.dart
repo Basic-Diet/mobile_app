@@ -679,7 +679,11 @@ class _CartItemTile extends StatelessWidget {
       subtitle.add(Strings.grams.tr(args: [item.weightGrams.toString()]));
     }
     if (item.selectedOptions.isNotEmpty) {
-      subtitle.addAll(item.selectedOptions.map((o) => o.optionId));
+      subtitle.addAll(
+        item.selectedOptions.map(
+          (option) => option.optionName.isNotEmpty ? option.optionName : option.optionId,
+        ),
+      );
     }
 
     return Container(

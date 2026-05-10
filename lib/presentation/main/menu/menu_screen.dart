@@ -1693,10 +1693,14 @@ class _BuilderScreenState extends State<_BuilderScreen> {
     for (final group in widget.product.optionGroups) {
       final selected = _selectedOptionIds[group.groupId] ?? <String>{};
       for (final optionId in selected) {
+        final option = group.options.firstWhere(
+          (element) => element.optionId == optionId,
+        );
         selectedOptions.add(
           SelectedCartOption(
             groupId: group.groupId,
             optionId: optionId,
+            optionName: option.name,
             extraWeightGrams: _extraWeightByOptionId[optionId],
           ),
         );
