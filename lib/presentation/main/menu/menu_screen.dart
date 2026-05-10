@@ -1721,239 +1721,31 @@ class _BuilderScreenState extends State<_BuilderScreen> {
   }
 
   Future<void> _openGroupSearchPicker(OrderMenuOptionGroupModel group) async {
-    final controller = TextEditingController();
-    String query = '';
-
-    try {
-      await showModalBottomSheet<void>(
-        context: context,
-        isScrollControlled: true,
-        backgroundColor: Colors.transparent,
-        builder: (sheetContext) {
-          return StatefulBuilder(
-            builder: (context, setSheetState) {
-              final visibleOptions =
-              _sortedOptions(group)
-                  .where(
-                    (option) =>
-                query.isEmpty ||
-                    option.name.toLowerCase().contains(
-                      query.trim().toLowerCase(),
-                    ),
-              )
-                  .toList();
-
-              return SafeArea(
-                top: false,
-                child: Padding(
-                  padding: EdgeInsets.only(
-                    bottom: MediaQuery.viewInsetsOf(context).bottom,
-                  ),
-                  child: Container(
-                    height: MediaQuery.sizeOf(context).height * 0.76,
-                    decoration: BoxDecoration(
-                      color: ColorManager.backgroundSurface,
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(AppSize.s28.r),
-                      ),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Center(
-                          child: Container(
-                            margin: EdgeInsetsDirectional.only(
-                              top: AppPadding.p12.h,
-                            ),
-                            width: AppSize.s48.w,
-                            height: AppSize.s5.h,
-                            decoration: BoxDecoration(
-                              color: const Color(0xFFD8E7DF),
-                              borderRadius: BorderRadius.circular(999.r),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                            AppPadding.p18.w,
-                            AppPadding.p16.h,
-                            AppPadding.p18.w,
-                            AppPadding.p12.h,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Text(
-                                group.name,
-                                textAlign: TextAlign.right,
-                                style: getBoldTextStyle(
-                                  fontSize: FontSizeManager.s18.sp,
-                                  color: const Color(0xFF112B22),
-                                ),
-                              ),
-                              Gap(AppSize.s4.h),
-                              Text(
-                                _groupRuleText(group),
-                                textAlign: TextAlign.right,
-                                style: getRegularTextStyle(
-                                  fontSize: FontSizeManager.s12.sp,
-                                  color: ColorManager.textSecondary,
-                                ),
-                              ),
-                              Gap(AppSize.s14.h),
-                              TextField(
-                                controller: controller,
-                                textAlign: TextAlign.right,
-                                autocorrect: false,
-                                decoration: InputDecoration(
-                                  hintText: Strings.builderSearchIn.tr(
-                                    namedArgs: {'group': group.name},
-                                  ),
-                                  hintStyle: getRegularTextStyle(
-                                    fontSize: FontSizeManager.s12.sp,
-                                    color: ColorManager.textMuted,
-                                  ),
-                                  prefixIcon: const Icon(Icons.search_rounded),
-                                  filled: true,
-                                  fillColor: const Color(0xFFF9FCFA),
-                                  contentPadding:
-                                  EdgeInsetsDirectional.symmetric(
-                                    horizontal: AppPadding.p13.w,
-                                    vertical: AppPadding.p12.h,
-                                  ),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(
-                                      AppSize.s15.r,
-                                    ),
-                                    borderSide: const BorderSide(
-                                      color: Color(0xFFE5E7EB),
-                                    ),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(
-                                      AppSize.s15.r,
-                                    ),
-                                    borderSide: const BorderSide(
-                                      color: Color(0xFFE5E7EB),
-                                    ),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(
-                                      AppSize.s15.r,
-                                    ),
-                                    borderSide: const BorderSide(
-                                      color: Color(0xFF10B981),
-                                    ),
-                                  ),
-                                ),
-                                onChanged: (value) {
-                                  setSheetState(() {
-                                    query = value;
-                                  });
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                        Expanded(
-                          child:
-                          visibleOptions.isEmpty
-                              ? Center(
-                            child: Text(
-                              Strings.noProductsAvailable.tr(),
-                              style: getRegularTextStyle(
-                                fontSize: FontSizeManager.s13.sp,
-                                color: ColorManager.textSecondary,
-                              ),
-                            ),
-                          )
-                              : ListView.separated(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                              AppPadding.p18.w,
-                              0,
-                              AppPadding.p18.w,
-                              AppPadding.p18.h,
-                            ),
-                            itemCount: visibleOptions.length,
-                            separatorBuilder:
-                                (_, __) => Gap(AppSize.s10.h),
-                            itemBuilder: (context, index) {
-                              final option = visibleOptions[index];
-                              final selectedIds =
-                                  _selectedOptionIds[group.groupId] ??
-                                      <String>{};
-                              final isSelected = selectedIds.contains(
-                                option.optionId,
-                              );
-                              final maxReached =
-                                  selectedIds.length >=
-                                      group.maxSelections &&
-                                      !isSelected;
-
-                              return Column(
-                                crossAxisAlignment:
-                                CrossAxisAlignment.end,
-                                children: [
-                                  _BuilderSearchOptionTile(
-                                    option: option,
-                                    currency: widget.currency,
-                                    isSelected: isSelected,
-                                    isDisabled: maxReached,
-                                    onTap: () {
-                                      _toggleOption(
-                                        group,
-                                        option.optionId,
-                                      );
-                                      setSheetState(() {});
-                                    },
-                                  ),
-                                  if (isSelected &&
-                                      option.extraWeightUnitGrams > 0)
-                                    Padding(
-                                      padding:
-                                      EdgeInsetsDirectional.only(
-                                        top: AppPadding.p8.h,
-                                      ),
-                                      child: _InlineExtraWeightSelector(
-                                        value:
-                                        _extraWeightByOptionId[option
-                                            .optionId] ??
-                                            option.extraWeightUnitGrams,
-                                        step:
-                                        option.extraWeightUnitGrams,
-                                        onDecrease: () {
-                                          _changeExtraWeight(
-                                            option,
-                                            -option.extraWeightUnitGrams,
-                                          );
-                                          setSheetState(() {});
-                                        },
-                                        onIncrease: () {
-                                          _changeExtraWeight(
-                                            option,
-                                            option.extraWeightUnitGrams,
-                                          );
-                                          setSheetState(() {});
-                                        },
-                                      ),
-                                    ),
-                                ],
-                              );
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              );
-            },
-          );
-        },
-      );
-    } finally {
-      controller.dispose();
-    }
+    await showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (sheetContext) {
+        return _GroupSearchPickerSheet(
+          group: group,
+          currency: widget.currency,
+          options: _sortedOptions(group),
+          groupRuleText: _groupRuleText(group),
+          getSelectedIds: () => _selectedOptionIds[group.groupId] ?? <String>{},
+          getExtraWeight:
+              (option) =>
+                  _extraWeightByOptionId[option.optionId] ??
+                  option.extraWeightUnitGrams,
+          onToggleOption: (optionId) => _toggleOption(group, optionId),
+          onDecreaseExtraWeight:
+              (option) =>
+                  _changeExtraWeight(option, -option.extraWeightUnitGrams),
+          onIncreaseExtraWeight:
+              (option) =>
+                  _changeExtraWeight(option, option.extraWeightUnitGrams),
+        );
+      },
+    );
   }
 
   @override
@@ -2644,6 +2436,247 @@ class _OptionGroupCard extends StatelessWidget {
               }).toList(),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class _GroupSearchPickerSheet extends StatefulWidget {
+  const _GroupSearchPickerSheet({
+    required this.group,
+    required this.currency,
+    required this.options,
+    required this.groupRuleText,
+    required this.getSelectedIds,
+    required this.getExtraWeight,
+    required this.onToggleOption,
+    required this.onDecreaseExtraWeight,
+    required this.onIncreaseExtraWeight,
+  });
+
+  final OrderMenuOptionGroupModel group;
+  final String currency;
+  final List<OrderMenuOptionModel> options;
+  final String groupRuleText;
+  final Set<String> Function() getSelectedIds;
+  final int Function(OrderMenuOptionModel option) getExtraWeight;
+  final void Function(String optionId) onToggleOption;
+  final void Function(OrderMenuOptionModel option) onDecreaseExtraWeight;
+  final void Function(OrderMenuOptionModel option) onIncreaseExtraWeight;
+
+  @override
+  State<_GroupSearchPickerSheet> createState() => _GroupSearchPickerSheetState();
+}
+
+class _GroupSearchPickerSheetState extends State<_GroupSearchPickerSheet> {
+  final TextEditingController _controller = TextEditingController();
+  String _query = '';
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final visibleOptions =
+        widget.options
+            .where(
+              (option) =>
+                  _query.isEmpty ||
+                  option.name.toLowerCase().contains(_query.trim().toLowerCase()),
+            )
+            .toList();
+
+    return SafeArea(
+      top: false,
+      child: Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.viewInsetsOf(context).bottom,
+        ),
+        child: Container(
+          height: MediaQuery.sizeOf(context).height * 0.76,
+          decoration: BoxDecoration(
+            color: ColorManager.backgroundSurface,
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(AppSize.s28.r),
+            ),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Center(
+                child: Container(
+                  margin: EdgeInsetsDirectional.only(
+                    top: AppPadding.p12.h,
+                  ),
+                  width: AppSize.s48.w,
+                  height: AppSize.s5.h,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFD8E7DF),
+                    borderRadius: BorderRadius.circular(999.r),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(
+                  AppPadding.p18.w,
+                  AppPadding.p16.h,
+                  AppPadding.p18.w,
+                  AppPadding.p12.h,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      widget.group.name,
+                      textAlign: TextAlign.right,
+                      style: getBoldTextStyle(
+                        fontSize: FontSizeManager.s18.sp,
+                        color: const Color(0xFF112B22),
+                      ),
+                    ),
+                    Gap(AppSize.s4.h),
+                    Text(
+                      widget.groupRuleText,
+                      textAlign: TextAlign.right,
+                      style: getRegularTextStyle(
+                        fontSize: FontSizeManager.s12.sp,
+                        color: ColorManager.textSecondary,
+                      ),
+                    ),
+                    Gap(AppSize.s14.h),
+                    TextField(
+                      controller: _controller,
+                      textAlign: TextAlign.right,
+                      autocorrect: false,
+                      decoration: InputDecoration(
+                        hintText: Strings.builderSearchIn.tr(
+                          namedArgs: {'group': widget.group.name},
+                        ),
+                        hintStyle: getRegularTextStyle(
+                          fontSize: FontSizeManager.s12.sp,
+                          color: ColorManager.textMuted,
+                        ),
+                        prefixIcon: const Icon(Icons.search_rounded),
+                        filled: true,
+                        fillColor: const Color(0xFFF9FCFA),
+                        contentPadding: EdgeInsetsDirectional.symmetric(
+                          horizontal: AppPadding.p13.w,
+                          vertical: AppPadding.p12.h,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(
+                            AppSize.s15.r,
+                          ),
+                          borderSide: const BorderSide(
+                            color: Color(0xFFE5E7EB),
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(
+                            AppSize.s15.r,
+                          ),
+                          borderSide: const BorderSide(
+                            color: Color(0xFFE5E7EB),
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(
+                            AppSize.s15.r,
+                          ),
+                          borderSide: const BorderSide(
+                            color: Color(0xFF10B981),
+                          ),
+                        ),
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          _query = value;
+                        });
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child:
+                    visibleOptions.isEmpty
+                        ? Center(
+                          child: Text(
+                            Strings.noProductsAvailable.tr(),
+                            style: getRegularTextStyle(
+                              fontSize: FontSizeManager.s13.sp,
+                              color: ColorManager.textSecondary,
+                            ),
+                          ),
+                        )
+                        : ListView.separated(
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                            AppPadding.p18.w,
+                            0,
+                            AppPadding.p18.w,
+                            AppPadding.p18.h,
+                          ),
+                          itemCount: visibleOptions.length,
+                          separatorBuilder: (_, __) => Gap(AppSize.s10.h),
+                          itemBuilder: (context, index) {
+                            final option = visibleOptions[index];
+                            final selectedIds = widget.getSelectedIds();
+                            final isSelected = selectedIds.contains(option.optionId);
+                            final maxReached =
+                                selectedIds.length >= widget.group.maxSelections &&
+                                !isSelected;
+
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                _BuilderSearchOptionTile(
+                                  option: option,
+                                  currency: widget.currency,
+                                  isSelected: isSelected,
+                                  isDisabled: maxReached,
+                                  onTap: () {
+                                    widget.onToggleOption(option.optionId);
+                                    if (!mounted) {
+                                      return;
+                                    }
+                                    setState(() {});
+                                  },
+                                ),
+                                if (isSelected && option.extraWeightUnitGrams > 0)
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.only(
+                                      top: AppPadding.p8.h,
+                                    ),
+                                    child: _InlineExtraWeightSelector(
+                                      value: widget.getExtraWeight(option),
+                                      step: option.extraWeightUnitGrams,
+                                      onDecrease: () {
+                                        widget.onDecreaseExtraWeight(option);
+                                        if (!mounted) {
+                                          return;
+                                        }
+                                        setState(() {});
+                                      },
+                                      onIncrease: () {
+                                        widget.onIncreaseExtraWeight(option);
+                                        if (!mounted) {
+                                          return;
+                                        }
+                                        setState(() {});
+                                      },
+                                    ),
+                                  ),
+                              ],
+                            );
+                          },
+                        ),
+              ),
+            ],
+          ),
         ),
       ),
     );
