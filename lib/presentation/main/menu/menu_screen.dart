@@ -744,6 +744,8 @@ class _BuilderProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isArabic = context.locale.languageCode == 'ar';
+
     return Material(
       color: ColorManager.backgroundSurface,
       borderRadius: BorderRadius.circular(AppSize.s26.r),
@@ -751,8 +753,7 @@ class _BuilderProductCard extends StatelessWidget {
         onTap: onTap,
         borderRadius: BorderRadius.circular(AppSize.s26.r),
         child: Container(
-          height: AppSize.s184.h,
-
+          constraints: BoxConstraints(minHeight: AppSize.s188.h),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(AppSize.s26.r),
             border: Border.all(
@@ -760,119 +761,122 @@ class _BuilderProductCard extends StatelessWidget {
               width: 1,
             ),
           ),
-          child: Stack(
-            children: [
-              if (imagePath != null)
-                PositionedDirectional(
-                  end: 0,
-                  top: 0,
-                  bottom: 0,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.horizontal(
-                      left: Radius.circular(AppSize.s26.r),
-                    ),
-                    child: Image.asset(
-                      imagePath!,
-                      width: AppSize.s200.w,
-                      fit: BoxFit.cover,
-                      alignment: Alignment.centerLeft,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(AppSize.s26.r),
+            child: Stack(
+              fit: StackFit.passthrough,
+              children: [
+                if (imagePath != null)
+                  Image.asset(
+                    imagePath!,
+                    fit: BoxFit.cover,
+                    alignment: Alignment.centerLeft,
+                  ),
+                Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                      colors:
+                          isArabic
+                              ? [
+                                Colors.white.withValues(alpha: 0.0),
+                                Colors.white.withValues(alpha: 0.25),
+                                Colors.white.withValues(alpha: 0.84),
+                                Colors.white.withValues(alpha: 0.95),
+                              ]
+                              : [
+                                Colors.white.withValues(alpha: 0.95),
+                                Colors.white.withValues(alpha: 0.84),
+                                Colors.white.withValues(alpha: 0.25),
+                                Colors.white.withValues(alpha: 0.0),
+                              ],
+                      stops: const [0.0, 0.32, 0.68, 1.0],
                     ),
                   ),
                 ),
-              Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
-                    colors: [
-                      Colors.white.withValues(alpha: 0.0),
-                      Colors.white.withValues(alpha: 0.18),
-                      const Color(0xFFE8F5EE).withValues(alpha: 0.8),
-                      Colors.white.withValues(alpha: 1),
-                      Colors.white.withValues(alpha: 0.96),
-                      Colors.white.withValues(alpha: 1),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(
+                    AppPadding.p18.w,
+                    AppPadding.p16.h,
+                    AppPadding.p18.w,
+                    AppPadding.p16.h,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        padding: EdgeInsetsDirectional.symmetric(
+                          horizontal: AppPadding.p10.w,
+                          vertical: AppPadding.p3.h,
+                        ),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFEBF5F0),
+                          borderRadius: BorderRadius.circular(AppSize.s99.r),
+                        ),
+                        child: Text(
+                          Strings.pickupOnly.tr(),
+                          style: getBoldTextStyle(
+                            fontSize: FontSizeManager.s11.sp,
+                            color: ColorManager.stateSuccessEmphasis,
+                          ),
+                        ),
+                      ),
+                      Gap(AppSize.s8.h),
+                      Text(
+                        product.name,
+                        textAlign: TextAlign.right,
+                        style: getBoldTextStyle(
+                          fontSize: FontSizeManager.s18.sp,
+                          color: const Color(0xFF112B22),
+                        ),
+                      ),
+                      Gap(AppSize.s4.h),
+                      Text(
+                        _builderDescriptionForKey(product.key, context),
+                        textAlign: TextAlign.right,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: getBoldTextStyle(
+                          fontSize: FontSizeManager.s12_5.sp,
+                          color: ColorManager.textSecondary,
+                        ),
+                      ),
+                      Gap(AppSize.s6.h),
+                      Text(
+                        '${_formatHalala(product.priceHalala, currency)} / ${Strings.grams.tr(args: ['100'])}',
+                        textAlign: TextAlign.right,
+                        style: getBoldTextStyle(
+                          fontSize: FontSizeManager.s12_5.sp,
+                          color: const Color(0xFF12382C),
+                        ),
+                      ),
+                      Gap(AppSize.s8.h),
+                      Container(
+                        height: AppSize.s45.h,
+                        width: AppSize.s134.w,
+                        padding: EdgeInsetsDirectional.symmetric(
+                          horizontal: AppPadding.p16.w,
+                        ),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFFF8500),
+                          borderRadius: BorderRadius.circular(AppSize.s16.r),
+                        ),
+                        alignment: Alignment.center,
+                        child: Text(
+                          Strings.chooseType.tr(),
+                          style: getBoldTextStyle(
+                            fontSize: FontSizeManager.s13_5.sp,
+                            color: ColorManager.backgroundSurface,
+                          ),
+                        ),
+                      ),
                     ],
-                    stops: const [0.0, 0.22, 0.58, 0.78, 0.96, 1.0],
                   ),
-                  borderRadius: BorderRadius.circular(AppSize.s26.r),
                 ),
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    flex: 3,
-                    child: Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(
-                        AppPadding.p18.w,
-                        AppPadding.p20.h,
-                        AppPadding.p18.w,
-                        AppPadding.p20.h,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            product.name,
-                            textAlign: TextAlign.right,
-                            style: getBoldTextStyle(
-                              fontSize: FontSizeManager.s18.sp,
-                              color: const Color(0xFF112B22),
-                            ),
-                          ),
-                          Gap(AppSize.s5.h),
-                          Text(
-                            _builderDescriptionForKey(product.key, context),
-                            textAlign: TextAlign.right,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: getBoldTextStyle(
-                              fontSize: FontSizeManager.s13.sp,
-                              color: ColorManager.textSecondary,
-                            ),
-                          ),
-                          Gap(AppSize.s16.h),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Text(
-                                '${_formatHalala(product.priceHalala, currency)} / ${Strings.grams.tr(args: ['100'])}',
-                                textAlign: TextAlign.right,
-                                style: getBoldTextStyle(
-                                  fontSize: FontSizeManager.s13.sp,
-                                  color: const Color(0xFF12382C),
-                                ),
-                              ),
-                              Gap(AppSize.s10.h),
-                              Container(
-                                width: AppSize.s122.w,
-                                height: AppSize.s42.h,
-                                decoration: BoxDecoration(
-                                  color: ColorManager.brandPrimary,
-                                  borderRadius: BorderRadius.circular(AppSize.s16.r),
-                                ),
-                                alignment: Alignment.center,
-                                child: Text(
-                                  Strings.startCustomization.tr(),
-                                  style: getBoldTextStyle(
-                                    fontSize: FontSizeManager.s12_5.sp,
-                                    color: ColorManager.backgroundSurface,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                      flex: 1,
-                      child: SizedBox(),
-                  ),
-                ],
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -3117,10 +3121,12 @@ String? _builderImageForProduct(String productKey, BuildContext context) {
   switch (productKey) {
     case 'basic_salad':
       return context.locale.languageCode == 'ar'
-          ?ImageAssets.oneTimeBasicSalad:ImageAssets.oneTimeBasicRtlSalad;
+          ? ImageAssets.oneTimeBasicRtlSalad
+          : ImageAssets.oneTimeBasicSalad;
     case 'basic_meal':
       return context.locale.languageCode == 'ar'
-          ?ImageAssets.oneTimeBasicMeal:ImageAssets.oneTimeBasicRtlMeal;
+          ? ImageAssets.oneTimeBasicRtlMeal
+          : ImageAssets.oneTimeBasicMeal;
     case 'fruit_salad':
       return ImageAssets.oneTimeFruitSalad;
     case 'greek_yogurt':
