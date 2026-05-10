@@ -175,26 +175,6 @@ class CartScreen extends StatelessWidget {
                             color: ColorManager.backgroundSurface,
                             borderRadius: BorderRadius.circular(AppSize.s20.r),
                             border: Border.all(
-                              color: ColorManager.textInverse,
-                              width: 1,
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: const Color(0xFF11382C).withValues(alpha: 0.06),
-                                blurRadius: 12,
-                                offset: const Offset(0, 4),
-                              ),
-                            ],
-                          ),
-                          child: _PickupDetailsSection(state: state),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(bottom: AppPadding.p12.h),
-                          padding: EdgeInsetsDirectional.all(AppPadding.p16.r),
-                          decoration: BoxDecoration(
-                            color: ColorManager.backgroundSurface,
-                            borderRadius: BorderRadius.circular(AppSize.s20.r),
-                            border: Border.all(
                               color: ColorManager.whiteColor,
                               width: 1,
                             ),
