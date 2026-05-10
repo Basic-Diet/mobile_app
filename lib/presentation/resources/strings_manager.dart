@@ -49,6 +49,7 @@ class Strings {
   // Common
   static const String loading = 'loading';
   static const String resendCode = 'resendCode';
+  static const String pressBackAgainToExit = 'pressBackAgainToExit';
   static const String day = 'day';
   static const String days = 'days';
   static const String meal = 'meal';
@@ -515,8 +516,7 @@ class Strings {
   static const String securePaymentTitle = 'securePaymentTitle';
   static const String securePaymentSubtitle = 'securePaymentSubtitle';
   static const String oneTimeOrder = 'oneTimeOrder';
-  static const String paymentMethodCardApplePay =
-      'paymentMethodCardApplePay';
+  static const String paymentMethodCardApplePay = 'paymentMethodCardApplePay';
   static const String vatIncludedInPrice = 'vatIncludedInPrice';
   static const String paymentSummary = 'paymentSummary';
   static const String paymentMethod = 'paymentMethod';
@@ -834,8 +834,7 @@ class Strings {
       'completedTrackingDescription';
   static const String cancelledTrackingDescription =
       'cancelledTrackingDescription';
-  static const String expiredTrackingDescription =
-      'expiredTrackingDescription';
+  static const String expiredTrackingDescription = 'expiredTrackingDescription';
   static const String cancelUnpaidOrder = 'cancelUnpaidOrder';
   static const String loadMore = 'loadMore';
 }
