@@ -3,28 +3,32 @@ import 'package:equatable/equatable.dart';
 class SelectedCartOption extends Equatable {
   final String groupId;
   final String optionId;
+  final String optionName;
   final int? extraWeightGrams;
 
   const SelectedCartOption({
     required this.groupId,
     required this.optionId,
+    required this.optionName,
     this.extraWeightGrams,
   });
 
   SelectedCartOption copyWith({
     String? groupId,
     String? optionId,
+    String? optionName,
     int? extraWeightGrams,
   }) {
     return SelectedCartOption(
       groupId: groupId ?? this.groupId,
       optionId: optionId ?? this.optionId,
+      optionName: optionName ?? this.optionName,
       extraWeightGrams: extraWeightGrams ?? this.extraWeightGrams,
     );
   }
 
   @override
-  List<Object?> get props => [groupId, optionId, extraWeightGrams];
+  List<Object?> get props => [groupId, optionId, optionName, extraWeightGrams];
 }
 
 class CartItem extends Equatable {

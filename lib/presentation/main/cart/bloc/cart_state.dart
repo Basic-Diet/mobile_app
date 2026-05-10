@@ -13,6 +13,9 @@ class CartInitial extends CartState {
 }
 
 class CartLoaded extends CartState {
+  static const String defaultBranchId = 'main';
+  static const String defaultPickupWindow = '18:00-20:00';
+
   final List<CartItem> items;
   final String? selectedBranchId;
   final String? selectedPickupWindow;
@@ -27,12 +30,37 @@ class CartLoaded extends CartState {
 
   int get totalQty => items.fold(0, (sum, item) => sum + item.qty);
 
+  String? get resolvedBranchId {
+    if (selectedBranchId != null && selectedBranchId!.isNotEmpty) {
+      return selectedBranchId;
+    }
+
+    if (branchIds.isNotEmpty) {
+      return branchIds.first;
+    }
+
+    return defaultBranchId;
+  }
+
+  String? get resolvedPickupWindow {
+    if (selectedPickupWindow != null && selectedPickupWindow!.isNotEmpty) {
+      return selectedPickupWindow;
+    }
+
+    final windows = availableWindowsForBranch(resolvedBranchId);
+    if (windows.isNotEmpty) {
+      return windows.first;
+    }
+
+    return defaultPickupWindow;
+  }
+
   bool get canCheckout {
     return items.isNotEmpty &&
-        selectedBranchId != null &&
-        selectedBranchId!.isNotEmpty &&
-        selectedPickupWindow != null &&
-        selectedPickupWindow!.isNotEmpty;
+        resolvedBranchId != null &&
+        resolvedBranchId!.isNotEmpty &&
+        resolvedPickupWindow != null &&
+        resolvedPickupWindow!.isNotEmpty;
   }
 
   List<String> get branchIds {
@@ -41,8 +69,12 @@ class CartLoaded extends CartState {
   }
 
   List<String> get availableWindows {
-    if (selectedBranchId == null || selectedBranchId!.isEmpty) return const [];
-    final branchData = restaurantHours[selectedBranchId];
+    return availableWindowsForBranch(resolvedBranchId);
+  }
+
+  List<String> availableWindowsForBranch(String? branchId) {
+    if (branchId == null || branchId.isEmpty) return const [];
+    final branchData = restaurantHours[branchId];
     if (branchData is Map<String, dynamic>) {
       final windows = branchData['windows'] ?? branchData['pickupWindows'];
       if (windows is List) {

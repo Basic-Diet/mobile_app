@@ -101,11 +101,11 @@ class _CheckoutScreenContentState extends State<_CheckoutScreenContent> {
       GetOrderQuoteEvent(
         OrderQuoteRequestModel(
           fulfillmentMethod: 'pickup',
-          pickup: cartState.selectedBranchId != null &&
-                  cartState.selectedPickupWindow != null
+          pickup: cartState.resolvedBranchId != null &&
+                  cartState.resolvedPickupWindow != null
               ? OrderQuotePickupRequestModel(
-                  branchId: cartState.selectedBranchId!,
-                  pickupWindow: cartState.selectedPickupWindow!,
+                  branchId: cartState.resolvedBranchId!,
+                  pickupWindow: cartState.resolvedPickupWindow!,
                 )
               : null,
           items: items,
@@ -139,11 +139,11 @@ class _CheckoutScreenContentState extends State<_CheckoutScreenContent> {
       CreateOrderEvent(
         CreateOrderRequestModel(
           fulfillmentMethod: 'pickup',
-          pickup: cartState.selectedBranchId != null &&
-                  cartState.selectedPickupWindow != null
+          pickup: cartState.resolvedBranchId != null &&
+                  cartState.resolvedPickupWindow != null
               ? CreateOrderPickupRequestModel(
-                  branchId: cartState.selectedBranchId!,
-                  pickupWindow: cartState.selectedPickupWindow!,
+                  branchId: cartState.resolvedBranchId!,
+                  pickupWindow: cartState.resolvedPickupWindow!,
                 )
               : null,
           items: items,
