@@ -930,7 +930,7 @@ class _LightBuilderCard extends StatelessWidget {
                         Expanded(
                           child: Text(
                             Strings.priceDependsOnChoices.tr(),
-                            textAlign: TextAlign.right,
+                            textAlign: TextAlign.start,
                             style: getBoldTextStyle(
                               fontSize: FontSizeManager.s12_5.sp,
                               color: const Color(0xFF12382C),
@@ -950,6 +950,7 @@ class _LightBuilderCard extends StatelessWidget {
                           alignment: Alignment.center,
                           child: Text(
                             Strings.startCustomization.tr(),
+                            textAlign: TextAlign.center,
                             style: getBoldTextStyle(
                               fontSize: FontSizeManager.s10.sp,
                               color: ColorManager.backgroundSurface,
@@ -1457,11 +1458,11 @@ class _MenuSectionHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           title,
-          textAlign: TextAlign.right,
+          textAlign: TextAlign.start,
           style: getBoldTextStyle(
             fontSize: FontSizeManager.s20.sp,
             color: ColorManager.textPrimary,
@@ -1471,7 +1472,7 @@ class _MenuSectionHeader extends StatelessWidget {
           Gap(AppSize.s4.h),
           Text(
             subtitle!,
-            textAlign: TextAlign.right,
+            textAlign: TextAlign.start,
             style: getBoldTextStyle(
               fontSize: FontSizeManager.s13.sp,
               color: ColorManager.textSecondary,
