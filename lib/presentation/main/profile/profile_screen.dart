@@ -1,68 +1,563 @@
+import 'dart:ui' as ui;
+
 import 'package:easy_localization/easy_localization.dart';
+import 'package:basic_diet/app/dependency_injection.dart';
 import 'package:basic_diet/app/functions.dart';
+import 'package:basic_diet/domain/model/current_subscription_overview_model.dart';
+import 'package:basic_diet/presentation/login/login_screen.dart';
+import 'package:basic_diet/presentation/main/bloc/main_bloc.dart';
+import 'package:basic_diet/presentation/main/bloc/main_event.dart';
+import 'package:basic_diet/presentation/main/main_screen.dart';
+import 'package:basic_diet/presentation/main/profile/bloc/profile_bloc.dart';
+import 'package:basic_diet/presentation/main/profile/bloc/profile_event.dart';
+import 'package:basic_diet/presentation/main/profile/bloc/profile_state.dart';
 import 'package:basic_diet/presentation/resources/color_manager.dart';
 import 'package:basic_diet/presentation/resources/font_manager.dart';
 import 'package:basic_diet/presentation/resources/strings_manager.dart';
 import 'package:basic_diet/presentation/resources/styles_manager.dart';
 import 'package:basic_diet/presentation/resources/values_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) {
+        return instance<ProfileBloc>()..add(const ProfileOverviewRequested());
+      },
+      child: const _ProfileView(),
+    );
+  }
+}
+
+class _ProfileView extends StatelessWidget {
+  const _ProfileView();
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorManager.backgroundSurface,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(AppPadding.p20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                Strings.language.tr(),
-                style: getBoldTextStyle(
-                  color: ColorManager.textPrimary,
-                  fontSize: FontSizeManager.s18,
+      backgroundColor: ColorManager.backgroundApp,
+      body: BlocListener<ProfileBloc, ProfileState>(
+        listenWhen:
+            (previous, current) =>
+                previous.isSignedOut != current.isSignedOut ||
+                previous.errorMessage != current.errorMessage,
+        listener: (context, state) {
+          if (state.isSignedOut) {
+            context.go(LoginScreen.loginRoute);
+            return;
+          }
+
+          if (state.status == ProfileStatus.failure &&
+              state.errorMessage.isNotEmpty) {
+            ScaffoldMessenger.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(
+                SnackBar(
+                  content: Text(
+                    state.errorMessage,
+                    style: getRegularTextStyle(
+                      color: ColorManager.textInverse,
+                      fontSize: FontSizeManager.s12.sp,
+                    ),
+                  ),
+                  backgroundColor: ColorManager.stateError,
                 ),
-              ),
-              const SizedBox(height: AppSize.s18),
-              InkWell(
-                onTap: () => changeLanguage(context),
-                child: Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppPadding.p18,
-                    vertical: AppPadding.p24,
+              );
+          }
+        },
+        child: SafeArea(
+          child: BlocBuilder<ProfileBloc, ProfileState>(
+            builder: (context, state) {
+              if (state.status == ProfileStatus.loading &&
+                  state.overview == null) {
+                return const Center(
+                  child: CircularProgressIndicator(
+                    color: ColorManager.brandPrimary,
                   ),
-                  decoration: BoxDecoration(
-                    color: ColorManager.backgroundSubtle.withValues(alpha: 0.5),
-                    borderRadius: BorderRadius.circular(AppSize.s24),
+                );
+              }
+
+              return RefreshIndicator(
+                color: ColorManager.brandPrimary,
+                onRefresh: () async {
+                  context.read<ProfileBloc>().add(
+                    const ProfileOverviewRequested(),
+                  );
+                },
+                child: ListView(
+                  physics: const AlwaysScrollableScrollPhysics(
+                    parent: BouncingScrollPhysics(),
                   ),
-                  child: Row(
-                    children: [
-                      Text(
-                        Strings.english.tr(),
-                        style: getRegularTextStyle(
-                          color: ColorManager.textSecondary,
-                          fontSize: FontSizeManager.s18,
-                        ),
-                      ),
-                      const Spacer(),
-                      const Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        color: ColorManager.textMuted,
-                        size: AppSize.s16,
-                      ),
-                    ],
+                  padding: EdgeInsetsDirectional.fromSTEB(
+                    AppPadding.p10.w,
+                    AppPadding.p4.h,
+                    AppPadding.p10.w,
+                    AppPadding.p20.h,
                   ),
+                  children: [
+                    _UserCard(overview: state.overview),
+                    Gap(AppSize.s12.h),
+                    _SubscriptionCard(overview: state.overview),
+                    Gap(AppSize.s12.h),
+                    const _ProfileMenuCard(),
+                    Gap(AppSize.s12.h),
+                    _LogoutButton(
+                      onTap: () {
+                        context.read<ProfileBloc>().add(
+                          const ProfileLogoutRequested(),
+                        );
+                      },
+                    ),
+                  ],
                 ),
-              ),
-            ],
+              );
+            },
           ),
         ),
       ),
+    );
+  }
+}
+
+class _UserCard extends StatelessWidget {
+  final CurrentSubscriptionOverviewDataModel? overview;
+
+  const _UserCard({required this.overview});
+
+  @override
+  Widget build(BuildContext context) {
+    final user = overview?.profileUser;
+    final name =
+        user?.name.trim().isNotEmpty == true
+            ? user!.name.trim()
+            : Strings.guestName.tr();
+    final phone = user?.phone.trim() ?? '';
+    final initial = name.characters.first.toUpperCase();
+
+    return _ProfileCard(
+      height: AppSize.s76.h,
+      padding: EdgeInsetsDirectional.fromSTEB(
+        AppPadding.p20.w,
+        AppPadding.p12.h,
+        AppPadding.p14.w,
+        AppPadding.p12.h,
+      ),
+      child: Directionality(
+        textDirection: ui.TextDirection.ltr,
+        child: Row(
+          children: [
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    name,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.end,
+                    style: getRegularTextStyle(
+                      color: ColorManager.textPrimary,
+                      fontSize: FontSizeManager.s13.sp,
+                    ),
+                  ),
+                  Gap(AppSize.s6.h),
+                  Text(
+                    phone,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.end,
+                    style: getRegularTextStyle(
+                      color: ColorManager.textSecondary,
+                      fontSize: FontSizeManager.s11.sp,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Gap(AppSize.s12.w),
+            Container(
+              width: AppSize.s44.w,
+              height: AppSize.s44.w,
+              decoration: const BoxDecoration(
+                color: ColorManager.brandPrimaryTint,
+                shape: BoxShape.circle,
+              ),
+              alignment: Alignment.center,
+              child: Text(
+                initial,
+                style: getRegularTextStyle(
+                  color: ColorManager.stateSuccessEmphasis,
+                  fontSize: FontSizeManager.s16.sp,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _SubscriptionCard extends StatelessWidget {
+  final CurrentSubscriptionOverviewDataModel? overview;
+
+  const _SubscriptionCard({required this.overview});
+
+  @override
+  Widget build(BuildContext context) {
+    final remaining = overview?.displayRemainingMeals ?? 0;
+    final total = overview?.displayTotalMeals ?? 0;
+    final progress = total == 0 ? 0.0 : (remaining / total).clamp(0.0, 1.0);
+    final statusLabel =
+        overview?.statusLabel.trim().isNotEmpty == true
+            ? overview!.statusLabel
+            : Strings.active.tr();
+
+    return _ProfileCard(
+      padding: EdgeInsetsDirectional.fromSTEB(
+        AppPadding.p18.w,
+        AppPadding.p16.h,
+        AppPadding.p18.w,
+        AppPadding.p12.h,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Text(
+            Strings.currentSubscription.tr(),
+            style: getRegularTextStyle(
+              color: ColorManager.textPrimary,
+              fontSize: FontSizeManager.s14.sp,
+            ),
+          ),
+          Gap(AppSize.s12.h),
+          Directionality(
+            textDirection: ui.TextDirection.ltr,
+            child: Row(
+              children: [
+                _StatusChip(label: statusLabel),
+                const Spacer(),
+                Text(
+                  '$remaining ${Strings.meals.tr()}',
+                  style: getRegularTextStyle(
+                    color: ColorManager.textPrimary,
+                    fontSize: FontSizeManager.s11.sp,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Gap(AppSize.s12.h),
+          Align(
+            alignment: AlignmentDirectional.centerEnd,
+            child: Text(
+              Strings.profileMealsRemaining.tr(args: ['$remaining', '$total']),
+              style: getRegularTextStyle(
+                color: ColorManager.textSecondary,
+                fontSize: FontSizeManager.s11.sp,
+              ),
+            ),
+          ),
+          Gap(AppSize.s8.h),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(AppSize.s8.r),
+            child: LinearProgressIndicator(
+              minHeight: AppSize.s6.h,
+              value: progress,
+              color: ColorManager.brandPrimary,
+              backgroundColor: ColorManager.backgroundSubtle,
+            ),
+          ),
+          Gap(AppSize.s12.h),
+          InkWell(
+            borderRadius: BorderRadius.circular(AppSize.s8.r),
+            onTap: () {
+              context.read<MainBloc>().add(
+                const ChangeBottomNavIndexEvent(MainScreen.plansTabIndex),
+              );
+            },
+            child: Container(
+              height: AppSize.s40.h,
+              padding: EdgeInsetsDirectional.symmetric(
+                horizontal: AppPadding.p12.w,
+              ),
+              decoration: BoxDecoration(
+                color: ColorManager.backgroundSubtle.withValues(alpha: 0.65),
+                borderRadius: BorderRadius.circular(AppSize.s8.r),
+              ),
+              child: Directionality(
+                textDirection: ui.TextDirection.ltr,
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.chevron_left_rounded,
+                      color: ColorManager.textPrimary,
+                      size: AppSize.s20.r,
+                    ),
+                    const Spacer(),
+                    Text(
+                      Strings.viewSubscription.tr(),
+                      style: getRegularTextStyle(
+                        color: ColorManager.textPrimary,
+                        fontSize: FontSizeManager.s12.sp,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ProfileMenuCard extends StatelessWidget {
+  const _ProfileMenuCard();
+
+  @override
+  Widget build(BuildContext context) {
+    final isArabic = context.locale.languageCode == 'ar';
+
+    return _ProfileCard(
+      padding: EdgeInsetsDirectional.fromSTEB(
+        AppPadding.p18.w,
+        AppPadding.p16.h,
+        AppPadding.p18.w,
+        AppPadding.p10.h,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Text(
+            Strings.menu.tr(),
+            style: getRegularTextStyle(
+              color: ColorManager.textPrimary,
+              fontSize: FontSizeManager.s14.sp,
+            ),
+          ),
+          Gap(AppSize.s12.h),
+          _MenuRow(
+            title: Strings.myOrders.tr(),
+            value: '10',
+            icon: Icons.receipt_long_outlined,
+            onTap: () {
+              context.read<MainBloc>().add(const ChangeBottomNavIndexEvent(3));
+            },
+          ),
+          _MenuRow(
+            title: Strings.myAddresses.tr(),
+            value: '0',
+            icon: Icons.location_on_outlined,
+          ),
+          _MenuRow(
+            title: Strings.language.tr(),
+            value: isArabic ? Strings.arabic.tr() : Strings.english.tr(),
+            icon: Icons.language_rounded,
+            onTap: () => changeLanguage(context),
+          ),
+          _MenuRow(
+            title: Strings.support.tr(),
+            value: Strings.unavailableNow.tr(),
+            icon: Icons.headset_mic_outlined,
+            enabled: false,
+          ),
+          _MenuRow(
+            title: Strings.termsPrivacy.tr(),
+            icon: Icons.description_outlined,
+            showDivider: false,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _MenuRow extends StatelessWidget {
+  final String title;
+  final String value;
+  final IconData icon;
+  final VoidCallback? onTap;
+  final bool enabled;
+  final bool showDivider;
+
+  const _MenuRow({
+    required this.title,
+    this.value = '',
+    required this.icon,
+    this.onTap,
+    this.enabled = true,
+    this.showDivider = true,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final contentColor =
+        enabled ? ColorManager.textPrimary : ColorManager.textMuted;
+    final valueColor =
+        enabled ? ColorManager.textSecondary : ColorManager.textMuted;
+
+    return InkWell(
+      onTap: enabled ? onTap : null,
+      child: Column(
+        children: [
+          SizedBox(
+            height: AppSize.s38.h,
+            child: Directionality(
+              textDirection: ui.TextDirection.ltr,
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.chevron_left_rounded,
+                    color: valueColor,
+                    size: AppSize.s18.r,
+                  ),
+                  if (value.isNotEmpty) ...[
+                    Gap(AppSize.s10.w),
+                    Text(
+                      value,
+                      style: getRegularTextStyle(
+                        color: valueColor,
+                        fontSize: FontSizeManager.s11.sp,
+                      ),
+                    ),
+                  ],
+                  const Spacer(),
+                  Expanded(
+                    child: Text(
+                      title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.end,
+                      style: getRegularTextStyle(
+                        color: contentColor,
+                        fontSize: FontSizeManager.s12.sp,
+                      ),
+                    ),
+                  ),
+                  Gap(AppSize.s10.w),
+                  Icon(icon, color: valueColor, size: AppSize.s16.r),
+                ],
+              ),
+            ),
+          ),
+          if (showDivider)
+            Divider(
+              color: ColorManager.borderSubtle,
+              height: AppSize.s1.h,
+              thickness: AppSize.s1.h,
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+class _StatusChip extends StatelessWidget {
+  final String label;
+
+  const _StatusChip({required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsetsDirectional.symmetric(
+        horizontal: AppPadding.p12.w,
+        vertical: AppPadding.p4.h,
+      ),
+      decoration: BoxDecoration(
+        color: ColorManager.brandPrimaryTint,
+        borderRadius: BorderRadius.circular(AppSize.s16.r),
+      ),
+      child: Text(
+        label,
+        style: getRegularTextStyle(
+          color: ColorManager.stateSuccessEmphasis,
+          fontSize: FontSizeManager.s10.sp,
+        ),
+      ),
+    );
+  }
+}
+
+class _LogoutButton extends StatelessWidget {
+  final VoidCallback onTap;
+
+  const _LogoutButton({required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(AppSize.s12.r),
+      onTap: onTap,
+      child: Container(
+        height: AppSize.s36.h,
+        decoration: BoxDecoration(
+          color: ColorManager.stateErrorSurface,
+          borderRadius: BorderRadius.circular(AppSize.s12.r),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.logout_rounded,
+              color: ColorManager.stateError,
+              size: AppSize.s16.r,
+            ),
+            Gap(AppSize.s8.w),
+            Text(
+              Strings.logout.tr(),
+              style: getRegularTextStyle(
+                color: ColorManager.stateError,
+                fontSize: FontSizeManager.s12.sp,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _ProfileCard extends StatelessWidget {
+  final Widget child;
+  final EdgeInsetsGeometry padding;
+  final double? height;
+
+  const _ProfileCard({
+    required this.child,
+    this.padding = EdgeInsets.zero,
+    this.height,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: height,
+      width: double.infinity,
+      padding: padding,
+      decoration: BoxDecoration(
+        color: ColorManager.backgroundSurface,
+        borderRadius: BorderRadius.circular(AppSize.s18.r),
+        border: Border.all(color: ColorManager.borderDefault),
+        boxShadow: [
+          BoxShadow(
+            color: ColorManager.textPrimary.withValues(alpha: 0.06),
+            blurRadius: AppSize.s10.r,
+            offset: Offset(0, AppSize.s2.h),
+          ),
+        ],
+      ),
+      child: child,
     );
   }
 }

@@ -16,9 +16,11 @@ class GetDayFulfillmentStatusUseCase
   Future<Either<Failure, FulfillmentStatusModel>> execute(
     GetDayFulfillmentStatusUseCaseInput input,
   ) async {
+    final normalizedDate =
+        input.date.contains('T') ? input.date.split('T')[0] : input.date;
     return await _repository.getDayFulfillmentStatus(
       input.subscriptionId,
-      input.date,
+      normalizedDate,
     );
   }
 }

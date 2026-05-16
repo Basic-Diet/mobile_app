@@ -1,3 +1,6 @@
+import 'package:basic_diet/domain/model/subscription_pickup_request_model.dart';
+import 'package:basic_diet/domain/model/pickup_status_model.dart';
+
 /// Represents the additive meal balance returned by the backend under
 /// the TOTAL_BALANCE_WITHIN_VALIDITY policy.
 ///
@@ -62,6 +65,11 @@ class PickupPreparationModel {
   String reason;
   String buttonLabel;
   String message;
+  String mode;
+  bool canCreatePickupRequest;
+  int? availableMealBalance;
+  int? activePickupRequestCount;
+  SubscriptionPickupRequestModel? latestPickupRequest;
   bool canRequestPrepare;
   bool canBePrepared;
   bool planningReady;
@@ -73,12 +81,18 @@ class PickupPreparationModel {
   String businessDate;
   bool pickupRequested;
   bool pickupPrepared;
+  RestaurantHoursModel? restaurantHours;
 
   PickupPreparationModel(
     this.flowStatus,
     this.reason,
     this.buttonLabel,
     this.message,
+    this.mode,
+    this.canCreatePickupRequest,
+    this.availableMealBalance,
+    this.activePickupRequestCount,
+    this.latestPickupRequest,
     this.canRequestPrepare,
     this.canBePrepared,
     this.planningReady,
@@ -89,8 +103,18 @@ class PickupPreparationModel {
     this.messageEn,
     this.businessDate,
     this.pickupRequested,
-    this.pickupPrepared,
-  );
+    this.pickupPrepared, [
+    this.restaurantHours,
+  ]);
+
+  bool get isMultiRequest => mode == 'multi_request';
+
+  bool get canCreateAvailableMultiRequest =>
+      isMultiRequest &&
+      canCreatePickupRequest &&
+      restaurantHours?.isOpenNow != false &&
+      flowStatus == 'available' &&
+      (availableMealBalance ?? 0) > 0;
 }
 
 class DeliverySlotModel {
@@ -131,17 +155,18 @@ class AddressSummaryModel {
 
   String get summary {
     if (formatted.trim().isNotEmpty) return formatted;
-    final parts = <String>[
-      label,
-      line1,
-      line2,
-      district,
-      city,
-      zoneName,
-      street,
-      building,
-      apartment,
-    ].where((value) => value.trim().isNotEmpty).toList();
+    final parts =
+        <String>[
+          label,
+          line1,
+          line2,
+          district,
+          city,
+          zoneName,
+          street,
+          building,
+          apartment,
+        ].where((value) => value.trim().isNotEmpty).toList();
 
     return parts.join(' - ');
   }
@@ -173,9 +198,13 @@ class PickupLocationSummaryModel {
   });
 
   String get summary {
-    final parts = <String>[name, address, district, city]
-        .where((value) => value.trim().isNotEmpty)
-        .toList();
+    final parts =
+        <String>[
+          name,
+          address,
+          district,
+          city,
+        ].where((value) => value.trim().isNotEmpty).toList();
     return parts.join(' - ');
   }
 }
@@ -220,6 +249,13 @@ class FulfillmentSummaryModel {
     this.lockedReason = '',
     this.lockedMessage = '',
   });
+}
+
+class OverviewProfileUserModel {
+  final String name;
+  final String phone;
+
+  const OverviewProfileUserModel({this.name = '', this.phone = ''});
 }
 
 class AddonSubscriptionModel {
@@ -300,6 +336,7 @@ class CurrentSubscriptionOverviewDataModel {
   PickupLocationSummaryModel? pickupLocation;
   DeliveryWindowSummaryModel? deliveryWindowSummary;
   FulfillmentSummaryModel? fulfillmentSummary;
+  OverviewProfileUserModel? profileUser;
 
   /// Additive meal balance from the TOTAL_BALANCE_WITHIN_VALIDITY policy.
   /// Null when the backend payload predates the new policy — use display
@@ -337,6 +374,7 @@ class CurrentSubscriptionOverviewDataModel {
     this.deliveryWindowSummary,
     this.fulfillmentSummary,
     this.mealBalance,
+    this.profileUser,
   ]);
 
   // ─── Display helpers (prefer mealBalance when present) ───────────────────

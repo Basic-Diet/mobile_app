@@ -7,6 +7,9 @@ import 'package:basic_diet/data/repository/repository.dart';
 import 'package:basic_diet/domain/repository/repository.dart';
 import 'package:basic_diet/domain/usecase/login_usecase.dart';
 import 'package:basic_diet/domain/usecase/prepare_pickup_usecase.dart';
+import 'package:basic_diet/domain/usecase/create_pickup_request_usecase.dart';
+import 'package:basic_diet/domain/usecase/get_pickup_requests_usecase.dart';
+import 'package:basic_diet/domain/usecase/get_pickup_request_status_usecase.dart';
 import 'package:basic_diet/domain/usecase/verify_otp_usecase.dart';
 import 'package:basic_diet/domain/usecase/checkout_subscription_usecase.dart';
 import 'package:basic_diet/domain/usecase/get_plans_usecase.dart';
@@ -63,6 +66,7 @@ import 'package:basic_diet/presentation/main/menu/bloc/menu_bloc.dart';
 import 'package:basic_diet/presentation/main/cart/bloc/checkout_bloc.dart';
 import 'package:basic_diet/presentation/main/cart/bloc/order_tracking_bloc.dart';
 import 'package:basic_diet/presentation/main/orders/bloc/orders_bloc.dart';
+import 'package:basic_diet/presentation/main/profile/bloc/profile_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 final instance = GetIt.instance; // Singleton instance of GetIt
@@ -185,6 +189,23 @@ void initHomeModule() {
   }
 }
 
+void initProfileModule() {
+  if (!GetIt.I.isRegistered<GetCurrentSubscriptionOverviewUseCase>()) {
+    instance.registerFactory<GetCurrentSubscriptionOverviewUseCase>(
+      () => GetCurrentSubscriptionOverviewUseCase(instance<Repository>()),
+    );
+  }
+
+  if (!GetIt.I.isRegistered<ProfileBloc>()) {
+    instance.registerFactory<ProfileBloc>(
+      () => ProfileBloc(
+        instance<GetCurrentSubscriptionOverviewUseCase>(),
+        instance<AppPreferences>(),
+      ),
+    );
+  }
+}
+
 void initPremiumMealsModule() {
   if (!GetIt.I.isRegistered<GetPremiumMealsUseCase>()) {
     instance.registerFactory<GetPremiumMealsUseCase>(
@@ -241,6 +262,18 @@ void initPlansModule() {
     );
   }
 
+  if (!GetIt.I.isRegistered<CreatePickupRequestUseCase>()) {
+    instance.registerFactory<CreatePickupRequestUseCase>(
+      () => CreatePickupRequestUseCase(instance<Repository>()),
+    );
+  }
+
+  if (!GetIt.I.isRegistered<GetPickupRequestsUseCase>()) {
+    instance.registerFactory<GetPickupRequestsUseCase>(
+      () => GetPickupRequestsUseCase(instance<Repository>()),
+    );
+  }
+
   if (!GetIt.I.isRegistered<GetDayFulfillmentStatusUseCase>()) {
     instance.registerFactory<GetDayFulfillmentStatusUseCase>(
       () => GetDayFulfillmentStatusUseCase(instance<Repository>()),
@@ -259,6 +292,8 @@ void initPlansModule() {
         instance<GetCurrentSubscriptionOverviewUseCase>(),
         instance<GetTimelineUseCase>(),
         instance<PreparePickupUseCase>(),
+        instance<CreatePickupRequestUseCase>(),
+        instance<GetPickupRequestsUseCase>(),
       ),
     );
   }
@@ -271,9 +306,32 @@ void initPickupStatusModule() {
     );
   }
 
+  if (!GetIt.I.isRegistered<GetPickupRequestStatusUseCase>()) {
+    instance.registerFactory<GetPickupRequestStatusUseCase>(
+      () => GetPickupRequestStatusUseCase(instance<Repository>()),
+    );
+  }
+
   if (!GetIt.I.isRegistered<PickupStatusCubit>()) {
     instance.registerFactory<PickupStatusCubit>(
-      () => PickupStatusCubit(instance<GetPickupStatusUseCase>()),
+      () => PickupStatusCubit(
+        instance<GetPickupStatusUseCase>(),
+        instance<GetPickupRequestStatusUseCase>(),
+      ),
+    );
+  }
+}
+
+void initFulfillmentStatusModule() {
+  if (!GetIt.I.isRegistered<GetDayFulfillmentStatusUseCase>()) {
+    instance.registerFactory<GetDayFulfillmentStatusUseCase>(
+      () => GetDayFulfillmentStatusUseCase(instance<Repository>()),
+    );
+  }
+
+  if (!GetIt.I.isRegistered<FulfillmentStatusCubit>()) {
+    instance.registerFactory<FulfillmentStatusCubit>(
+      () => FulfillmentStatusCubit(instance<GetDayFulfillmentStatusUseCase>()),
     );
   }
 }

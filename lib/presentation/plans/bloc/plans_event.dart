@@ -31,3 +31,18 @@ class PreparePickupEvent extends PlansEvent {
   @override
   List<Object> get props => [subscriptionId, businessDate];
 }
+
+class CreatePickupRequestEvent extends PlansEvent {
+  final String subscriptionId;
+  final String date;
+  final int mealCount;
+
+  const CreatePickupRequestEvent({
+    required this.subscriptionId,
+    required this.date,
+    required this.mealCount,
+  });
+
+  @override
+  List<Object> get props => [subscriptionId, date, mealCount];
+}

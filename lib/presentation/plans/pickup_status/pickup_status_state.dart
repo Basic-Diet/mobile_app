@@ -30,3 +30,21 @@ class PickupStatusError extends PickupStatusState {
   @override
   List<Object?> get props => [message];
 }
+
+class PickupRequestStatusLoaded extends PickupStatusState {
+  final SubscriptionPickupRequestModel data;
+
+  const PickupRequestStatusLoaded(this.data);
+
+  @override
+  List<Object?> get props => [data];
+}
+
+class PickupRequestStatusError extends PickupStatusState {
+  final String message;
+
+  const PickupRequestStatusError(this.message);
+
+  @override
+  List<Object?> get props => [message];
+}

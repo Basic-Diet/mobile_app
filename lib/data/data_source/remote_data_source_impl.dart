@@ -30,6 +30,8 @@ import 'package:basic_diet/data/response/premium_payment_response.dart';
 import 'package:basic_diet/data/response/pickup_prepare_response.dart';
 import 'package:basic_diet/data/response/pickup_status_response.dart';
 import 'package:basic_diet/data/response/fulfillment_status_response.dart';
+import 'package:basic_diet/data/request/pickup_request_request.dart';
+import 'package:basic_diet/data/response/subscription_pickup_request_response.dart';
 import 'package:basic_diet/data/response/cancel_subscription_response.dart';
 import 'package:basic_diet/data/request/cancel_subscription_request.dart';
 
@@ -202,6 +204,31 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   }
 
   @override
+  Future<SubscriptionPickupRequestApiResponse> createPickupRequest(
+    String id,
+    PickupRequestRequest request,
+  ) {
+    return _appServiceClient.createPickupRequest(id, request);
+  }
+
+  @override
+  Future<SubscriptionPickupRequestListApiResponse> getPickupRequests(
+    String id, {
+    String? date,
+    String status = 'active',
+  }) {
+    return _appServiceClient.getPickupRequests(id, date, status);
+  }
+
+  @override
+  Future<SubscriptionPickupRequestApiResponse> getPickupRequestStatus(
+    String id,
+    String requestId,
+  ) {
+    return _appServiceClient.getPickupRequestStatus(id, requestId);
+  }
+
+  @override
   Future<FulfillmentStatusResponse> getDayFulfillmentStatus(
     String id,
     String date,
@@ -301,7 +328,10 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   }
 
   @override
-  Future<CreateOrderResponse> createOrder(CreateOrderRequest request, String idempotencyKey) {
+  Future<CreateOrderResponse> createOrder(
+    CreateOrderRequest request,
+    String idempotencyKey,
+  ) {
     return _appServiceClient.createOrder(request, idempotencyKey);
   }
 

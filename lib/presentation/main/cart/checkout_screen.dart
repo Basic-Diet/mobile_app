@@ -82,32 +82,35 @@ class _CheckoutScreenContentState extends State<_CheckoutScreenContent> {
       return;
     }
 
-    final items = cartState.items.map((item) {
-      return OrderQuoteItemRequestModel(
-        productId: item.productId,
-        qty: item.qty,
-        weightGrams: item.weightGrams,
-        selectedOptions: item.selectedOptions.map((option) {
-          return OrderQuoteSelectedOptionRequestModel(
-            groupId: option.groupId,
-            optionId: option.optionId,
-            extraWeightGrams: option.extraWeightGrams,
+    final items =
+        cartState.items.map((item) {
+          return OrderQuoteItemRequestModel(
+            productId: item.productId,
+            qty: item.qty,
+            weightGrams: item.weightGrams,
+            selectedOptions:
+                item.selectedOptions.map((option) {
+                  return OrderQuoteSelectedOptionRequestModel(
+                    groupId: option.groupId,
+                    optionId: option.optionId,
+                    extraWeightGrams: option.extraWeightGrams,
+                  );
+                }).toList(),
           );
-        }).toList(),
-      );
-    }).toList();
+        }).toList();
 
     context.read<CheckoutBloc>().add(
       GetOrderQuoteEvent(
         OrderQuoteRequestModel(
           fulfillmentMethod: 'pickup',
-          pickup: cartState.resolvedBranchId != null &&
-                  cartState.resolvedPickupWindow != null
-              ? OrderQuotePickupRequestModel(
-                  branchId: cartState.resolvedBranchId!,
-                  pickupWindow: cartState.resolvedPickupWindow!,
-                )
-              : null,
+          pickup:
+              cartState.resolvedBranchId != null &&
+                      cartState.resolvedPickupWindow != null
+                  ? OrderQuotePickupRequestModel(
+                    branchId: cartState.resolvedBranchId!,
+                    pickupWindow: cartState.resolvedPickupWindow!,
+                  )
+                  : null,
           items: items,
         ),
       ),
@@ -119,33 +122,42 @@ class _CheckoutScreenContentState extends State<_CheckoutScreenContent> {
     if (cartState == null) {
       return;
     }
-
-    final items = cartState.items.map((item) {
-      return CreateOrderItemRequestModel(
-        productId: item.productId,
-        qty: item.qty,
-        weightGrams: item.weightGrams,
-        selectedOptions: item.selectedOptions.map((option) {
-          return CreateOrderSelectedOptionRequestModel(
-            groupId: option.groupId,
-            optionId: option.optionId,
-            extraWeightGrams: option.extraWeightGrams,
-          );
-        }).toList(),
+    if (cartState.isSelectedRestaurantClosed) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(Strings.restaurantClosedOrderMessage.tr())),
       );
-    }).toList();
+      return;
+    }
+
+    final items =
+        cartState.items.map((item) {
+          return CreateOrderItemRequestModel(
+            productId: item.productId,
+            qty: item.qty,
+            weightGrams: item.weightGrams,
+            selectedOptions:
+                item.selectedOptions.map((option) {
+                  return CreateOrderSelectedOptionRequestModel(
+                    groupId: option.groupId,
+                    optionId: option.optionId,
+                    extraWeightGrams: option.extraWeightGrams,
+                  );
+                }).toList(),
+          );
+        }).toList();
 
     context.read<CheckoutBloc>().add(
       CreateOrderEvent(
         CreateOrderRequestModel(
           fulfillmentMethod: 'pickup',
-          pickup: cartState.resolvedBranchId != null &&
-                  cartState.resolvedPickupWindow != null
-              ? CreateOrderPickupRequestModel(
-                  branchId: cartState.resolvedBranchId!,
-                  pickupWindow: cartState.resolvedPickupWindow!,
-                )
-              : null,
+          pickup:
+              cartState.resolvedBranchId != null &&
+                      cartState.resolvedPickupWindow != null
+                  ? CreateOrderPickupRequestModel(
+                    branchId: cartState.resolvedBranchId!,
+                    pickupWindow: cartState.resolvedPickupWindow!,
+                  )
+                  : null,
           items: items,
           successUrl: _paymentSuccessUrl,
           backUrl: _paymentCancelUrl,
@@ -226,7 +238,10 @@ class _CheckoutScreenContentState extends State<_CheckoutScreenContent> {
             if (state is CheckoutLoaded &&
                 state.quoteStatus == OrderQuoteStatus.failure) {
               return _ErrorView(
-                message: state.quoteErrorMessage ?? Strings.defaultError.tr(),
+                message: checkoutErrorMessage(
+                  state.quoteErrorCode,
+                  state.quoteErrorMessage,
+                ),
                 onRetry: _requestQuote,
               );
             }
@@ -239,7 +254,10 @@ class _CheckoutScreenContentState extends State<_CheckoutScreenContent> {
                 quote: state.quote!,
                 createStatus: state.createStatus,
                 verifyStatus: state.verifyStatus,
-                createErrorMessage: state.createErrorMessage,
+                createErrorMessage: checkoutErrorMessage(
+                  state.createErrorCode,
+                  state.createErrorMessage,
+                ),
                 verifyErrorMessage: state.verifyErrorMessage,
                 onConfirm: _createOrder,
               );
@@ -257,10 +275,7 @@ class _ErrorView extends StatelessWidget {
   final String message;
   final VoidCallback onRetry;
 
-  const _ErrorView({
-    required this.message,
-    required this.onRetry,
-  });
+  const _ErrorView({required this.message, required this.onRetry});
 
   @override
   Widget build(BuildContext context) {
@@ -311,14 +326,18 @@ class _CheckoutView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isLoading = createStatus == OrderCreateStatus.loading ||
+    final isLoading =
+        createStatus == OrderCreateStatus.loading ||
         verifyStatus == OrderVerifyStatus.loading ||
         verifyStatus == OrderVerifyStatus.processing;
     final totalQty =
-        cartState?.totalQty ?? quote.items.fold<int>(0, (sum, item) => sum + item.qty);
+        cartState?.totalQty ??
+        quote.items.fold<int>(0, (sum, item) => sum + item.qty);
     final branchName = _resolveBranchName(cartState);
     final pickupWindow = _formatPickupWindow(cartState?.selectedPickupWindow);
     final total = _formatPrice(quote.pricing.totalHalala, quote.currency);
+    final isRestaurantClosed = cartState?.isSelectedRestaurantClosed == true;
+    final workingHours = cartState?.selectedWorkingHoursSummary ?? '';
 
     return SafeArea(
       child: Column(
@@ -330,9 +349,7 @@ class _CheckoutView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(height: AppSize.s12.h),
-                  _CheckoutHeader(
-                    onBack: () => context.pop(),
-                  ),
+                  _CheckoutHeader(onBack: () => context.pop()),
                   SizedBox(height: AppSize.s18.h),
                   const _TrustCard(),
                   SizedBox(height: AppSize.s12.h),
@@ -346,11 +363,18 @@ class _CheckoutView extends StatelessWidget {
                     branchName: branchName,
                     pickupWindow: pickupWindow,
                   ),
+                  if (isRestaurantClosed) ...[
+                    SizedBox(height: AppSize.s12.h),
+                    _ErrorBanner(
+                      message:
+                          workingHours.isEmpty
+                              ? Strings.restaurantClosedOrderMessage.tr()
+                              : '${Strings.restaurantClosedOrderMessage.tr()}\n'
+                                  '${Strings.workingHoursValue.tr(args: [workingHours])}',
+                    ),
+                  ],
                   SizedBox(height: AppSize.s12.h),
-                  _PaymentSummaryCard(
-                    quote: quote,
-                    total: total,
-                  ),
+                  _PaymentSummaryCard(quote: quote, total: total),
                   SizedBox(height: AppSize.s12.h),
                   _MutedNote(text: Strings.paymentConfirmationNote.tr()),
                   if (createStatus == OrderCreateStatus.failure) ...[
@@ -367,7 +391,8 @@ class _CheckoutView extends StatelessWidget {
                     SizedBox(height: AppSize.s12.h),
                     _ErrorBanner(
                       message:
-                          verifyErrorMessage ?? Strings.paymentVerifyFailedMessage.tr(),
+                          verifyErrorMessage ??
+                          Strings.paymentVerifyFailedMessage.tr(),
                     ),
                   ],
                   SizedBox(height: AppSize.s24.h),
@@ -378,6 +403,7 @@ class _CheckoutView extends StatelessWidget {
           _StickyPaymentBar(
             total: total,
             isLoading: isLoading,
+            isEnabled: !isRestaurantClosed,
             onTap: onConfirm,
           ),
         ],
@@ -393,7 +419,8 @@ class _CheckoutView extends StatelessWidget {
 
     final branchData = currentCartState?.restaurantHours[selectedBranchId];
     if (branchData is Map<String, dynamic>) {
-      final possibleName = branchData['name'] ??
+      final possibleName =
+          branchData['name'] ??
           branchData['branchName'] ??
           branchData['label'] ??
           branchData['title'];
@@ -503,10 +530,7 @@ class _TrustCard extends StatelessWidget {
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [
-            Color(0xFFE4F6EE),
-            Color(0xFFFFFFFF),
-          ],
+          colors: [Color(0xFFE4F6EE), Color(0xFFFFFFFF)],
         ),
         borderRadius: BorderRadius.circular(AppSize.s16.r),
         border: Border.all(
@@ -578,9 +602,10 @@ class _MiniSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final productsLabel = totalQty == 1
-        ? '1 ${Strings.productsCount.tr()}'
-        : Strings.itemsCount.tr(args: [totalQty.toString()]);
+    final productsLabel =
+        totalQty == 1
+            ? '1 ${Strings.productsCount.tr()}'
+            : Strings.itemsCount.tr(args: [totalQty.toString()]);
 
     return Container(
       width: double.infinity,
@@ -628,10 +653,7 @@ class _PickupCard extends StatelessWidget {
   final String branchName;
   final String pickupWindow;
 
-  const _PickupCard({
-    required this.branchName,
-    required this.pickupWindow,
-  });
+  const _PickupCard({required this.branchName, required this.pickupWindow});
 
   @override
   Widget build(BuildContext context) {
@@ -689,10 +711,7 @@ class _PaymentSummaryCard extends StatelessWidget {
   final OrderQuoteModel quote;
   final String total;
 
-  const _PaymentSummaryCard({
-    required this.quote,
-    required this.total,
-  });
+  const _PaymentSummaryCard({required this.quote, required this.total});
 
   @override
   Widget build(BuildContext context) {
@@ -829,11 +848,13 @@ class _ErrorBanner extends StatelessWidget {
 class _StickyPaymentBar extends StatelessWidget {
   final String total;
   final bool isLoading;
+  final bool isEnabled;
   final VoidCallback onTap;
 
   const _StickyPaymentBar({
     required this.total,
     required this.isLoading,
+    this.isEnabled = true,
     required this.onTap,
   });
 
@@ -860,7 +881,7 @@ class _StickyPaymentBar extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           borderRadius: BorderRadius.circular(AppSize.s99.r),
-          onTap: isLoading ? null : onTap,
+          onTap: isLoading || !isEnabled ? null : onTap,
           child: Ink(
             height: AppSize.s54.h,
             padding: EdgeInsetsDirectional.only(
@@ -868,7 +889,10 @@ class _StickyPaymentBar extends StatelessWidget {
               end: AppPadding.p18.w,
             ),
             decoration: BoxDecoration(
-              color: const Color(0xFFFF8500),
+              color:
+                  isEnabled
+                      ? const Color(0xFFFF8500)
+                      : ColorManager.stateDisabled,
               borderRadius: BorderRadius.circular(AppSize.s99.r),
               boxShadow: [
                 BoxShadow(
@@ -883,14 +907,15 @@ class _StickyPaymentBar extends StatelessWidget {
                 SizedBox(
                   width: AppSize.s20.w,
                   height: AppSize.s20.w,
-                  child: isLoading
-                      ? CircularProgressIndicator(
-                          strokeWidth: AppSize.s2.w,
-                          valueColor: const AlwaysStoppedAnimation<Color>(
-                            ColorManager.textInverse,
-                          ),
-                        )
-                      : null,
+                  child:
+                      isLoading
+                          ? CircularProgressIndicator(
+                            strokeWidth: AppSize.s2.w,
+                            valueColor: const AlwaysStoppedAnimation<Color>(
+                              ColorManager.textInverse,
+                            ),
+                          )
+                          : null,
                 ),
                 Expanded(
                   child: Text(
@@ -916,6 +941,24 @@ class _StickyPaymentBar extends StatelessWidget {
       ),
     );
   }
+}
+
+String checkoutErrorMessage(dynamic code, String? fallback) {
+  final messageKey = checkoutErrorMessageKey(code, fallback);
+  if (messageKey != null) return messageKey.tr();
+
+  return fallback ?? Strings.defaultError.tr();
+}
+
+String? checkoutErrorMessageKey(dynamic code, String? fallback) {
+  final normalizedCode = code?.toString().toUpperCase();
+  final normalizedFallback = fallback?.toUpperCase();
+  if (normalizedCode == 'RESTAURANT_CLOSED' ||
+      normalizedFallback == 'RESTAURANT_CLOSED') {
+    return Strings.restaurantClosedOrderMessage;
+  }
+
+  return null;
 }
 
 class _SurfaceCard extends StatelessWidget {
@@ -968,20 +1011,22 @@ class _SummaryRow extends StatelessWidget {
       children: [
         Text(
           label,
-          style: isEmphasized
-              ? getBoldTextStyle(
-                  color: ColorManager.textPrimary,
-                  fontSize: FontSizeManager.s16.sp,
-                )
-              : getRegularTextStyle(
-                  color: ColorManager.textSecondary,
-                  fontSize: FontSizeManager.s13.sp,
-                ),
+          style:
+              isEmphasized
+                  ? getBoldTextStyle(
+                    color: ColorManager.textPrimary,
+                    fontSize: FontSizeManager.s16.sp,
+                  )
+                  : getRegularTextStyle(
+                    color: ColorManager.textSecondary,
+                    fontSize: FontSizeManager.s13.sp,
+                  ),
         ),
         Text(
           value,
           style: getBoldTextStyle(
-            color: valueColor ??
+            color:
+                valueColor ??
                 (isEmphasized
                     ? ColorManager.stateSuccessEmphasis
                     : ColorManager.textPrimary),

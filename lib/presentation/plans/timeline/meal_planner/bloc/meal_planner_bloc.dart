@@ -495,6 +495,31 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
     }
 
     final day = baseState.timelineDays[dayIndex];
+
+    // A day is truly locked when it carries an explicit lockedReason,
+    // its fulfillmentSummary marks it as non-editable, or it is a
+    // terminal/historical day.  planningReady=false alone (e.g.
+    // PLANNING_INCOMPLETE) does NOT mean the day is locked — the user
+    // must open it and choose a meal.
+    final bool hasDayLockReason = day.lockedReason.isNotEmpty;
+    final bool hasFulfillmentLock =
+        (day.fulfillmentSummary?.lockedReason.isNotEmpty ?? false) ||
+        (day.fulfillmentSummary != null &&
+            !day.fulfillmentSummary!.isEditable);
+
+    if (hasDayLockReason || hasFulfillmentLock || day.isHistoricalOnly) {
+      if (!emit.isDone) {
+        emit(
+          baseState.copyWith(
+            selectedDayIndex: dayIndex,
+            isRefreshingDay: false,
+            paymentError: Strings.dayUnavailableForPlanning.tr(),
+          ),
+        );
+      }
+      return;
+    }
+
     final result = await _getSubscriptionDayUseCase.execute(
       GetSubscriptionDayUseCaseInput(subscriptionId, day.date),
     );
@@ -1436,6 +1461,13 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
 
   String _formatFailure(Failure failure) {
     final code = failure.code?.toString();
+    if (code == '404' ||
+        code == 'NOT_FOUND' ||
+        failure.message.toUpperCase().contains('NOT_FOUND') ||
+        failure.message.toUpperCase().contains('NOT FOUND')) {
+      return Strings.dayUnavailableForPlanning.tr();
+    }
+
     if (code != null && code.isNotEmpty) {
       return failure.message.isNotEmpty ? '$code: ${failure.message}' : code;
     }

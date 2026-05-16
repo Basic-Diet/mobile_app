@@ -424,22 +424,42 @@ final class MealPlannerLoaded extends MealPlannerState {
 
 
   bool get isSelectedDayEditable {
-    if (selectedTimelineDay.isHistoricalOnly) {
+    final timelineDay = selectedTimelineDay;
+    if (timelineDay.isHistoricalOnly) {
       return false;
     }
 
     final detail = selectedDayDetail;
-    final commercialState = detail?.commercialState ?? selectedTimelineDay.commercialState;
-    final blockingReason = detail?.paymentRequirement?.blockingReason?.toUpperCase();
+
+    // 1. Check fulfillment lock
+    final fulfillment = detail?.fulfillmentSummary ?? timelineDay.fulfillmentSummary;
+    if (fulfillment != null && !fulfillment.isEditable) {
+      return false;
+    }
+
+    // 2. Check commercial state & locked reasons
+    final commercialState =
+        detail?.commercialState ?? timelineDay.commercialState;
+    if (commercialState.toLowerCase() == 'confirmed') {
+      return false;
+    }
+
+    if (timelineDay.lockedReason.isNotEmpty) {
+      return false;
+    }
+
+    // 3. Check payment/planning blocking reasons
+    // We allow PLANNING_INCOMPLETE because the user needs to enter the planner to finish it.
+    final blockingReason = detail?.paymentRequirement?.blockingReason?.toUpperCase() ??
+        timelineDay.paymentRequirement?.blockingReason?.toUpperCase();
+
     if (blockingReason == 'DAY_LOCKED_BEFORE_DELIVERY' ||
         blockingReason == 'DELIVERY_TIME_UNAVAILABLE' ||
         blockingReason == 'LOCKED' ||
         blockingReason == 'DAY_ALREADY_CONFIRMED') {
       return false;
     }
-    if (commercialState.toLowerCase() == 'confirmed') {
-      return false;
-    }
+
     return true;
   }
 

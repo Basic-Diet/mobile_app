@@ -45,6 +45,16 @@ class Strings {
   static const String plans = 'plans';
   static const String orders = 'orders';
   static const String profile = 'profile';
+  static const String currentSubscription = 'currentSubscription';
+  static const String viewSubscription = 'viewSubscription';
+  static const String profileMealsRemaining = 'profileMealsRemaining';
+  static const String myOrders = 'myOrders';
+  static const String myAddresses = 'myAddresses';
+  static const String support = 'support';
+  static const String unavailableNow = 'unavailableNow';
+  static const String termsPrivacy = 'termsPrivacy';
+  static const String logout = 'logout';
+  static const String guestName = 'guestName';
 
   // Common
   static const String loading = 'loading';
@@ -218,6 +228,9 @@ class Strings {
   static const String unableToResolvePickupDay = 'unableToResolvePickupDay';
   static const String validationFailed = 'validationFailed';
   static const String daySelectionChangedReview = 'daySelectionChangedReview';
+  static const String dayUnavailableForPlanning = 'dayUnavailableForPlanning';
+  static const String needsPlanning = 'needsPlanning';
+  static const String chooseYourMeal = 'chooseYourMeal';
 
   // Days
   static const String monday = 'monday';
@@ -307,6 +320,10 @@ class Strings {
   static const String preparing = 'preparing';
   static const String restaurantClosed = 'restaurantClosed';
   static const String restaurantClosedMessage = 'restaurantClosedMessage';
+  static const String restaurantClosedOrderMessage =
+      'restaurantClosedOrderMessage';
+  static const String orderDuringWorkingHours = 'orderDuringWorkingHours';
+  static const String workingHoursValue = 'workingHoursValue';
   static const String openHours = 'openHours';
   static const String daySkipped = 'daySkipped';
   static const String dayFrozen = 'dayFrozen';
@@ -837,4 +854,60 @@ class Strings {
   static const String expiredTrackingDescription = 'expiredTrackingDescription';
   static const String cancelUnpaidOrder = 'cancelUnpaidOrder';
   static const String loadMore = 'loadMore';
+
+  // Pickup multi-request
+  static const String pickupRequestTitle = 'pickupRequestTitle';
+  static const String pickupRequestSubtitle = 'pickupRequestSubtitle';
+  static const String pickupRequestMealCount = 'pickupRequestMealCount';
+  static const String pickupRequestSelectMealCount =
+      'pickupRequestSelectMealCount';
+  static const String pickupRequestActiveTitle = 'pickupRequestActiveTitle';
+  static const String pickupRequestContinue = 'pickupRequestContinue';
+  static const String pickupRequestCreatedAt = 'pickupRequestCreatedAt';
+  static const String pickupRequestMeals = 'pickupRequestMeals';
+  static const String pickupRequestRefresh = 'pickupRequestRefresh';
+  static const String pickupRequestCopyCode = 'pickupRequestCopyCode';
+  static const String pickupRequestCopied = 'pickupRequestCopied';
+  static const String pickupRequestReadyMessage = 'pickupRequestReadyMessage';
+  static const String pickupRequestLockedMessage = 'pickupRequestLockedMessage';
+  static const String pickupRequestPreparingMessage =
+      'pickupRequestPreparingMessage';
+  static const String pickupRequestFulfilledMessage =
+      'pickupRequestFulfilledMessage';
+  static const String pickupRequestNoShowMessage = 'pickupRequestNoShowMessage';
+  static const String pickupRequestCanceledMessage =
+      'pickupRequestCanceledMessage';
+  static const String pickupRequestNoMealsMessage =
+      'pickupRequestNoMealsMessage';
+  static const String pickupRequestReadyToPrepareMessage =
+      'pickupRequestReadyToPrepareMessage';
+  static const String pickupRequestWaitingKitchen =
+      'pickupRequestWaitingKitchen';
+  static const String pickupRequestKitchenPreparing =
+      'pickupRequestKitchenPreparing';
+  static const String pickupRequestReady = 'pickupRequestReady';
+  static const String pickupRequestFulfilled = 'pickupRequestFulfilled';
+  static const String pickupRequestNoShow = 'pickupRequestNoShow';
+  static const String pickupRequestCanceled = 'pickupRequestCanceled';
+  static const String pickupErrorInsufficientCredits =
+      'pickupErrorInsufficientCredits';
+  static const String pickupErrorInvalidMealCount =
+      'pickupErrorInvalidMealCount';
+  static const String pickupErrorInvalidDate = 'pickupErrorInvalidDate';
+  static const String pickupErrorInvalidDeliveryMode =
+      'pickupErrorInvalidDeliveryMode';
+  static const String pickupErrorPlanningIncomplete =
+      'pickupErrorPlanningIncomplete';
+  static const String pickupErrorPlannerUnconfirmed =
+      'pickupErrorPlannerUnconfirmed';
+  static const String pickupErrorPaymentRequired = 'pickupErrorPaymentRequired';
+  static const String pickupErrorSubInactive = 'pickupErrorSubInactive';
+  static const String pickupErrorDaySkipped = 'pickupErrorDaySkipped';
+  static const String pickupErrorInvalidEntityId = 'pickupErrorInvalidEntityId';
+  static const String pickupErrorInvalidPickupCode =
+      'pickupErrorInvalidPickupCode';
+  static const String pickupErrorPickupCodeMismatch =
+      'pickupErrorPickupCodeMismatch';
+  static const String pickupErrorInvalidTransition =
+      'pickupErrorInvalidTransition';
 }

@@ -30,6 +30,8 @@ import 'package:basic_diet/data/request/cancel_subscription_request.dart';
 import 'package:basic_diet/data/response/pickup_prepare_response.dart';
 import 'package:basic_diet/data/response/pickup_status_response.dart';
 import 'package:basic_diet/data/response/fulfillment_status_response.dart';
+import 'package:basic_diet/data/request/pickup_request_request.dart';
+import 'package:basic_diet/data/response/subscription_pickup_request_response.dart';
 
 import 'package:basic_diet/data/request/order_quote_request.dart';
 import 'package:basic_diet/data/request/create_order_request.dart';
@@ -91,6 +93,19 @@ abstract class RemoteDataSource {
   Future<SubscriptionDayResponse> confirmDaySelection(String id, String date);
   Future<PickupPrepareResponse> preparePickup(String id, String date);
   Future<PickupStatusResponse> getPickupStatus(String id, String date);
+  Future<SubscriptionPickupRequestApiResponse> createPickupRequest(
+    String id,
+    PickupRequestRequest request,
+  );
+  Future<SubscriptionPickupRequestListApiResponse> getPickupRequests(
+    String id, {
+    String? date,
+    String status = 'active',
+  });
+  Future<SubscriptionPickupRequestApiResponse> getPickupRequestStatus(
+    String id,
+    String requestId,
+  );
   Future<FulfillmentStatusResponse> getDayFulfillmentStatus(
     String id,
     String date,
@@ -132,7 +147,10 @@ abstract class RemoteDataSource {
 
   Future<OrderMenuResponse> getOrderMenu();
   Future<OrderQuoteResponse> getOrderQuote(OrderQuoteRequest request);
-  Future<CreateOrderResponse> createOrder(CreateOrderRequest request, String idempotencyKey);
+  Future<CreateOrderResponse> createOrder(
+    CreateOrderRequest request,
+    String idempotencyKey,
+  );
   Future<VerifyPaymentResponse> verifyOrderPayment(
     String orderId,
     String paymentId,

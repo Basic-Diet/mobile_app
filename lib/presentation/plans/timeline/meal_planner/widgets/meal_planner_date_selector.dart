@@ -21,7 +21,7 @@ class MealPlannerDateSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 100.h,
+      height: 120.h,
       child: ListView.separated(
         padding: EdgeInsets.symmetric(
           horizontal: AppPadding.p16.w,
@@ -92,46 +92,62 @@ class _DayCard extends StatelessWidget {
         clipBehavior: Clip.none,
         children: [
           Container(
-            width: 70.w,
-            height: 90.h,
+            width: 80.w,
+            height: 108.h,
             decoration: BoxDecoration(
               color: style.bgColor,
               borderRadius: BorderRadius.circular(AppSize.s16.r),
               border: Border.all(color: style.borderColor, width: 2),
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  day.day,
-                  style: getRegularTextStyle(
-                    color: style.textColor,
-                    fontSize: FontSizeManager.s12.sp,
-                  ),
-                ),
-                Text(
-                  "${day.month} ${day.dayNumber}",
-                  style: getBoldTextStyle(
-                    color: style.textColor,
-                    fontSize: FontSizeManager.s14.sp,
-                  ),
-                ),
-                Gap(AppSize.s8.h),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 2.h),
-                  decoration: BoxDecoration(
-                    color: style.pillBgColor,
-                    borderRadius: BorderRadius.circular(12.r),
-                  ),
-                  child: Text(
-                    style.statusText,
-                    style: getRegularTextStyle(
-                      color: ColorManager.textInverse,
-                      fontSize: FontSizeManager.s10.sp,
+            child: Padding(
+              padding: EdgeInsets.all(AppPadding.p4.w),
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      day.day,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: getRegularTextStyle(
+                        color: style.textColor,
+                        fontSize: FontSizeManager.s12.sp,
+                      ),
                     ),
-                  ),
+                    Text(
+                      "${day.month} ${day.dayNumber}",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: getBoldTextStyle(
+                        color: style.textColor,
+                        fontSize: FontSizeManager.s14.sp,
+                      ),
+                    ),
+                    Gap(AppSize.s4.h),
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: AppPadding.p6.w,
+                        vertical: AppPadding.p2.h,
+                      ),
+                      decoration: BoxDecoration(
+                        color: style.pillBgColor,
+                        borderRadius: BorderRadius.circular(AppSize.s12.r),
+                      ),
+                      child: Text(
+                        style.statusText,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: getRegularTextStyle(
+                          color: ColorManager.textInverse,
+                          fontSize: FontSizeManager.s10.sp,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
           if (isComplete)
@@ -235,10 +251,30 @@ class _DayCard extends StatelessWidget {
         break;
       case 'open':
       default:
-        baseColor = ColorManager.textPrimary;
-        baseBgColor = ColorManager.backgroundSurface;
-        baseBorderColor = ColorManager.borderDefault;
-        statusText = Strings.open.tr();
+        // A day is considered "Not Available" only if it has a hard lock reason
+        // or its fulfillment summary explicitly marks it as non-editable.
+        // planningReady=false (PLANNING_INCOMPLETE) should NOT prevent selection.
+        final bool isActuallyEditable =
+            (day.fulfillmentSummary?.isEditable ?? true) &&
+                day.lockedReason.isEmpty;
+
+        if (!isActuallyEditable && !day.isHistoricalOnly) {
+          baseColor = ColorManager.textMuted;
+          baseBgColor = ColorManager.backgroundSubtle;
+          baseBorderColor = ColorManager.transparent;
+          statusText = Strings.notAvailable.tr();
+        } else if (!day.planningReady && !day.isHistoricalOnly) {
+          // If it's editable but not planned, show "Choose your meal"
+          baseColor = ColorManager.textPrimary;
+          baseBgColor = ColorManager.backgroundSurface;
+          baseBorderColor = ColorManager.borderDefault;
+          statusText = Strings.chooseYourMeal.tr();
+        } else {
+          baseColor = ColorManager.textPrimary;
+          baseBgColor = ColorManager.backgroundSurface;
+          baseBorderColor = ColorManager.borderDefault;
+          statusText = Strings.open.tr();
+        }
         break;
     }
 

@@ -1,6 +1,8 @@
 import 'package:basic_diet/app/constants.dart';
 import 'package:basic_diet/app/extensions.dart';
 import 'package:basic_diet/data/response/current_subscription_overview_response.dart';
+import 'package:basic_diet/data/mappers/pickup_status_mapper.dart';
+import 'package:basic_diet/data/mappers/subscription_pickup_request_mapper.dart';
 import 'package:basic_diet/domain/model/current_subscription_overview_model.dart';
 
 extension MetaResponseMapper on MetaResponse? {
@@ -26,6 +28,11 @@ extension PickupPreparationResponseMapper on PickupPreparationResponse? {
       this?.reason.orEmpty() ?? Constants.empty,
       this?.buttonLabel.orEmpty() ?? Constants.empty,
       this?.message.orEmpty() ?? Constants.empty,
+      this?.mode.orEmpty() ?? Constants.empty,
+      this?.canCreatePickupRequest ?? false,
+      this?.availableMealBalance,
+      this?.activePickupRequestCount,
+      this?.latestPickupRequest?.toDomain(),
       this?.canRequestPrepare ?? false,
       this?.canBePrepared ?? false,
       this?.planningReady ?? false,
@@ -37,6 +44,7 @@ extension PickupPreparationResponseMapper on PickupPreparationResponse? {
       this?.businessDate.orEmpty() ?? Constants.empty,
       this?.pickupRequested ?? false,
       this?.pickupPrepared ?? false,
+      this?.restaurantHours?.toDomain(),
     );
   }
 }
@@ -52,7 +60,8 @@ extension OverviewDeliverySlotResponseMapper on OverviewDeliverySlotResponse? {
   }
 }
 
-extension OverviewAddressSummaryResponseMapper on OverviewAddressSummaryResponse? {
+extension OverviewAddressSummaryResponseMapper
+    on OverviewAddressSummaryResponse? {
   AddressSummaryModel toDomain() {
     return AddressSummaryModel(
       label: this?.label.orEmpty() ?? Constants.empty,
@@ -74,9 +83,10 @@ extension OverviewPickupLocationSummaryResponseMapper
     on OverviewPickupLocationSummaryResponse? {
   PickupLocationSummaryModel toDomain() {
     return PickupLocationSummaryModel(
-      id: this?.id.orEmpty().isNotEmpty == true
-          ? this!.id!.orEmpty()
-          : this?.rawId.orEmpty() ?? Constants.empty,
+      id:
+          this?.id.orEmpty().isNotEmpty == true
+              ? this!.id!.orEmpty()
+              : this?.rawId.orEmpty() ?? Constants.empty,
       name: this?.name.orEmpty() ?? Constants.empty,
       address: this?.address.orEmpty() ?? Constants.empty,
       phone: this?.phone.orEmpty() ?? Constants.empty,
@@ -157,6 +167,15 @@ extension AddonSummaryResponseMapper on AddonSummaryResponse? {
   }
 }
 
+extension OverviewProfileUserResponseMapper on OverviewProfileUserResponse? {
+  OverviewProfileUserModel toDomain() {
+    return OverviewProfileUserModel(
+      name: this?.name.orEmpty() ?? Constants.empty,
+      phone: this?.phone.orEmpty() ?? Constants.empty,
+    );
+  }
+}
+
 extension MealBalanceResponseMapper on MealBalanceResponse? {
   MealBalanceModel? toDomain() {
     if (this == null) return null;
@@ -216,6 +235,7 @@ extension CurrentSubscriptionOverviewDataResponseMapper
       this?.deliveryWindowSummary?.toDomain(),
       this?.fulfillmentSummary?.toDomain(),
       this?.mealBalance?.toDomain(),
+      this?.profileUser?.toDomain(),
     );
   }
 }

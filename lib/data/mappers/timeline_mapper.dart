@@ -45,12 +45,15 @@ extension TimelineDayResponseMapper on TimelineDayResponse? {
       settledAt: this?.settledAt.orEmpty() ?? Constants.empty,
       settlementReason: this?.settlementReason.orEmpty() ?? Constants.empty,
       consumedByPolicy: this?.consumedByPolicy ?? false,
+      plannerMeta: this?.plannerMeta?.toDomain(),
+      planning: this?.planning?.toDomain(),
       mealSlots:
           this?.mealSlots
               ?.map(
                 (s) => TimelineMealSlot(
                   slotIndex: s.slotIndex ?? 0,
                   slotKey: s.slotKey,
+                  status: s.status ?? '',
                   selectionType: s.selectionType,
                   proteinId: s.proteinId,
                   carbs: s.carbs.map((carb) => carb.toDomain()).toList(),

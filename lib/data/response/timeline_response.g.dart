@@ -11,6 +11,7 @@ TimelineMealSlotResponse _$TimelineMealSlotResponseFromJson(
 ) => TimelineMealSlotResponse(
   slotIndex: (json['slotIndex'] as num?)?.toInt(),
   slotKey: json['slotKey'] as String?,
+  status: json['status'] as String?,
   selectionType: json['selectionType'] as String?,
   proteinId: json['proteinId'] as String?,
   carbs:
@@ -33,6 +34,7 @@ Map<String, dynamic> _$TimelineMealSlotResponseToJson(
 ) => <String, dynamic>{
   'slotIndex': instance.slotIndex,
   'slotKey': instance.slotKey,
+  'status': instance.status,
   'selectionType': instance.selectionType,
   'proteinId': instance.proteinId,
   'carbs': instance.carbs,
@@ -82,6 +84,16 @@ TimelineDayResponse _$TimelineDayResponseFromJson(
             (e) => TimelineMealSlotResponse.fromJson(e as Map<String, dynamic>),
           )
           .toList(),
+  planning:
+      json['planning'] == null
+          ? null
+          : PlanningResponse.fromJson(json['planning'] as Map<String, dynamic>),
+  plannerMeta:
+      json['plannerMeta'] == null
+          ? null
+          : PlannerMetaResponse.fromJson(
+            json['plannerMeta'] as Map<String, dynamic>,
+          ),
   paymentRequirement:
       json['paymentRequirement'] == null
           ? null
@@ -149,6 +161,8 @@ Map<String, dynamic> _$TimelineDayResponseToJson(
   'premiumSelections': instance.premiumSelections,
   'selectedMealIds': instance.selectedMealIds,
   'mealSlots': instance.mealSlots,
+  'planning': instance.planning,
+  'plannerMeta': instance.plannerMeta,
   'paymentRequirement': instance.paymentRequirement,
   'deliveryAddress': instance.deliveryAddress,
   'deliveryWindow': instance.deliveryWindow,

@@ -55,6 +55,9 @@ import 'package:basic_diet/domain/model/pickup_prepare_model.dart';
 
 import 'package:basic_diet/data/mappers/pickup_status_mapper.dart';
 import 'package:basic_diet/domain/model/pickup_status_model.dart';
+import 'package:basic_diet/data/request/pickup_request_request.dart';
+import 'package:basic_diet/data/mappers/subscription_pickup_request_mapper.dart';
+import 'package:basic_diet/domain/model/subscription_pickup_request_model.dart';
 import 'package:basic_diet/data/mappers/fulfillment_status_mapper.dart';
 import 'package:basic_diet/domain/model/fulfillment_status_model.dart';
 
@@ -643,6 +646,75 @@ class RepositoryImpl implements Repository {
   }
 
   @override
+  Future<Either<Failure, SubscriptionPickupRequestModel>> createPickupRequest({
+    required String subscriptionId,
+    required String date,
+    required int mealCount,
+    String? idempotencyKey,
+  }) async {
+    try {
+      final response = await _remoteDataSource.createPickupRequest(
+        subscriptionId,
+        PickupRequestRequest(
+          date: date,
+          mealCount: mealCount,
+          idempotencyKey: idempotencyKey,
+        ),
+      );
+      if (_isSuccessfulResponse(response)) {
+        return Right(response.toDomain());
+      } else {
+        return Left(_mapFailureFromResponse(response));
+      }
+    } catch (error) {
+      return _handleError(error);
+    }
+  }
+
+  @override
+  Future<Either<Failure, SubscriptionPickupRequestsModel>> getPickupRequests({
+    required String subscriptionId,
+    String? date,
+    String status = 'active',
+  }) async {
+    try {
+      final response = await _remoteDataSource.getPickupRequests(
+        subscriptionId,
+        date: date,
+        status: status,
+      );
+      if (_isSuccessfulResponse(response)) {
+        return Right(response.toDomain());
+      } else {
+        return Left(_mapFailureFromResponse(response));
+      }
+    } catch (error) {
+      return _handleError(error);
+    }
+  }
+
+  @override
+  Future<Either<Failure, SubscriptionPickupRequestModel>>
+  getPickupRequestStatus({
+    required String subscriptionId,
+    required String requestId,
+  }) async {
+    try {
+      final response = await _remoteDataSource.getPickupRequestStatus(
+        subscriptionId,
+        requestId,
+      );
+      if (_isSuccessfulResponse(response)) {
+        return Right(response.toDomain());
+      } else {
+        return Left(_mapFailureFromResponse(response));
+      }
+    } catch (error) {
+      return _handleError(error);
+    }
+  }
+
+  @override
   Future<Either<Failure, FulfillmentStatusModel>> getDayFulfillmentStatus(
     String id,
     String date,
@@ -811,7 +883,9 @@ class RepositoryImpl implements Repository {
     OrderQuoteRequestModel request,
   ) async {
     try {
-      final response = await _remoteDataSource.getOrderQuote(request.toRequest());
+      final response = await _remoteDataSource.getOrderQuote(
+        request.toRequest(),
+      );
       if (_isSuccessfulResponse(response)) {
         return Right(response.toDomain());
       } else {
@@ -844,7 +918,8 @@ class RepositoryImpl implements Repository {
           return Left(_mapFailureFromResponse(response));
         }
       } on DioException catch (error) {
-        final canRetry = _isRetryableCreateError(error) &&
+        final canRetry =
+            _isRetryableCreateError(error) &&
             retryAttempt < _checkoutRetryCount;
         if (!canRetry) {
           return _handleError(error);

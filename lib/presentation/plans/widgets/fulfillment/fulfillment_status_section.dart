@@ -5,6 +5,7 @@ import 'package:basic_diet/presentation/plans/bloc/plans_bloc.dart';
 import 'package:basic_diet/presentation/plans/bloc/plans_event.dart';
 import 'package:basic_diet/presentation/plans/pickup_status/pickup_status_cubit.dart';
 import 'package:basic_diet/presentation/plans/widgets/fulfillment/delivery_fulfillment_card.dart';
+import 'package:basic_diet/presentation/plans/widgets/fulfillment/multi_request_pickup_section.dart';
 import 'package:basic_diet/presentation/plans/widgets/fulfillment/pickup_fulfillment_card.dart';
 import 'package:basic_diet/presentation/plans/fulfillment_status/fulfillment_status_cubit.dart';
 import 'package:basic_diet/presentation/plans/fulfillment_status/fulfillment_status_state.dart';
@@ -27,11 +28,21 @@ class FulfillmentStatusSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (data.deliveryMode == 'pickup') {
+      if (data.pickupPreparation?.isMultiRequest == true) {
+        return MultiRequestPickupSection(
+          data: data,
+          fulfillmentDay: fulfillmentDay,
+        );
+      }
+
       final businessDate = _pickupBusinessDate;
       if (businessDate.isNotEmpty) {
-        context.read<FulfillmentStatusCubit>().startPolling(data.id, businessDate);
+        context.read<FulfillmentStatusCubit>().startPolling(
+          data.id,
+          businessDate,
+        );
       }
-      
+
       if (businessDate.isEmpty) {
         return Column(
           children: [
@@ -45,7 +56,7 @@ class FulfillmentStatusSection extends StatelessWidget {
                   onOpenPlanner: () => _openPlanner(context),
                   onPrepare: () => _preparePickup(context, businessDate),
                 );
-              }
+              },
             ),
           ],
         );
@@ -57,14 +68,20 @@ class FulfillmentStatusSection extends StatelessWidget {
           BlocProvider(
             create: (_) {
               initPickupStatusModule();
-              return instance<PickupStatusCubit>()..startPolling(data.id, businessDate);
+              return instance<PickupStatusCubit>()
+                ..startPolling(data.id, businessDate);
             },
             child: BlocBuilder<PickupStatusCubit, PickupStatusState>(
               builder: (_, pickupState) {
-                return BlocBuilder<FulfillmentStatusCubit, FulfillmentStatusState>(
+                return BlocBuilder<
+                  FulfillmentStatusCubit,
+                  FulfillmentStatusState
+                >(
                   builder: (context, pollingState) {
                     final pickupStatus =
-                        pickupState is PickupStatusLoaded ? pickupState.data : null;
+                        pickupState is PickupStatusLoaded
+                            ? pickupState.data
+                            : null;
 
                     return PickupFulfillmentCard(
                       overview: data,
@@ -73,7 +90,7 @@ class FulfillmentStatusSection extends StatelessWidget {
                       onOpenPlanner: () => _openPlanner(context),
                       onPrepare: () => _preparePickup(context, businessDate),
                     );
-                  }
+                  },
                 );
               },
             ),
@@ -85,9 +102,12 @@ class FulfillmentStatusSection extends StatelessWidget {
     if (data.deliveryMode == 'delivery') {
       final businessDate = fulfillmentDay?.date ?? data.businessDate;
       if (businessDate.isNotEmpty) {
-        context.read<FulfillmentStatusCubit>().startPolling(data.id, businessDate);
+        context.read<FulfillmentStatusCubit>().startPolling(
+          data.id,
+          businessDate,
+        );
       }
-      
+
       return Column(
         children: [
           Gap(AppSize.s16.h),
@@ -99,7 +119,7 @@ class FulfillmentStatusSection extends StatelessWidget {
                 fulfillmentStatus: pollingState.data,
                 onOpenPlanner: () => _openPlanner(context),
               );
-            }
+            },
           ),
         ],
       );

@@ -4,6 +4,7 @@ import 'package:basic_diet/domain/model/subscription_day_model.dart';
 class TimelineMealSlot {
   final int slotIndex;
   final String? slotKey;
+  final String status;
   final String? selectionType;
   final String? proteinId;
   final List<MealSlotCarbModel> carbs;
@@ -16,6 +17,7 @@ class TimelineMealSlot {
   const TimelineMealSlot({
     required this.slotIndex,
     this.slotKey,
+    this.status = '',
     this.selectionType,
     this.proteinId,
     this.carbs = const [],
@@ -76,6 +78,8 @@ class TimelineDayModel {
   final String settledAt;
   final String settlementReason;
   final bool consumedByPolicy;
+  final PlannerMetaModel? plannerMeta;
+  final PlanningModel? planning;
 
   TimelineDayModel({
     required this.date,
@@ -114,6 +118,8 @@ class TimelineDayModel {
     this.settledAt = '',
     this.settlementReason = '',
     this.consumedByPolicy = false,
+    this.plannerMeta,
+    this.planning,
   });
 
   String get normalizedStatus => status.toLowerCase();
