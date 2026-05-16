@@ -363,7 +363,7 @@ class _ProfileMenuCard extends StatelessWidget {
             title: Strings.language.tr(),
             value: isArabic ? Strings.arabic.tr() : Strings.english.tr(),
             icon: Icons.language_rounded,
-            onTap: () => changeLanguage(context),
+            onTap: () => _showLanguageSelector(context),
           ),
           _MenuRow(
             title: Strings.support.tr(),
@@ -558,6 +558,141 @@ class _ProfileCard extends StatelessWidget {
         ],
       ),
       child: child,
+    );
+  }
+}
+
+void _showLanguageSelector(BuildContext context) {
+  showModalBottomSheet<void>(
+    context: context,
+    backgroundColor: ColorManager.backgroundSurface,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(AppSize.s18.r)),
+    ),
+    builder: (_) => const _LanguageSelectorSheet(),
+  );
+}
+
+class _LanguageSelectorSheet extends StatelessWidget {
+  const _LanguageSelectorSheet();
+
+  @override
+  Widget build(BuildContext context) {
+    final isArabic = context.locale.languageCode == 'ar';
+
+    return SafeArea(
+      child: Padding(
+        padding: EdgeInsetsDirectional.fromSTEB(
+          AppPadding.p20.w,
+          AppPadding.p16.h,
+          AppPadding.p20.w,
+          AppPadding.p12.h,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Text(
+              Strings.chooseLanguage.tr(),
+              style: getRegularTextStyle(
+                color: ColorManager.textPrimary,
+                fontSize: FontSizeManager.s16.sp,
+              ),
+            ),
+            Gap(AppSize.s4.h),
+            Text(
+              Strings.selectYourLanguage.tr(),
+              style: getRegularTextStyle(
+                color: ColorManager.textSecondary,
+                fontSize: FontSizeManager.s12.sp,
+              ),
+            ),
+            Gap(AppSize.s16.h),
+            _LanguageOptionTile(
+              label: Strings.english.tr(),
+              languageCode: 'en',
+              isSelected: !isArabic,
+            ),
+            Gap(AppSize.s8.h),
+            _LanguageOptionTile(
+              label: Strings.arabic.tr(),
+              languageCode: 'ar',
+              isSelected: isArabic,
+            ),
+            Gap(AppSize.s8.h),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _LanguageOptionTile extends StatelessWidget {
+  final String label;
+  final String languageCode;
+  final bool isSelected;
+
+  const _LanguageOptionTile({
+    required this.label,
+    required this.languageCode,
+    required this.isSelected,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(AppSize.s12.r),
+      onTap: () {
+        Navigator.pop(context);
+        if (!isSelected) {
+          changeLanguageTo(context, languageCode);
+        }
+      },
+      child: Container(
+        height: AppSize.s48.h,
+        padding: EdgeInsetsDirectional.symmetric(horizontal: AppPadding.p16.w),
+        decoration: BoxDecoration(
+          color:
+              isSelected
+                  ? ColorManager.brandPrimaryTint
+                  : ColorManager.backgroundSubtle.withValues(alpha: 0.5),
+          borderRadius: BorderRadius.circular(AppSize.s12.r),
+          border:
+              isSelected
+                  ? Border.all(color: ColorManager.brandPrimary)
+                  : Border.all(color: ColorManager.borderSubtle),
+        ),
+        child: Directionality(
+          textDirection: ui.TextDirection.ltr,
+          child: Row(
+            children: [
+              if (isSelected)
+                Icon(
+                  Icons.check_circle_rounded,
+                  color: ColorManager.brandPrimary,
+                  size: AppSize.s20.r,
+                )
+              else
+                Icon(
+                  Icons.circle_outlined,
+                  color: ColorManager.borderSubtle,
+                  size: AppSize.s20.r,
+                ),
+              const Spacer(),
+              Text(
+                label,
+                style: getRegularTextStyle(
+                  color:
+                      isSelected
+                          ? ColorManager.brandPrimary
+                          : ColorManager.textPrimary,
+                  fontSize: FontSizeManager.s13.sp,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
