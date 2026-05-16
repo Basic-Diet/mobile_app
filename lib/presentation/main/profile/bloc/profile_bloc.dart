@@ -1,16 +1,15 @@
 import 'package:basic_diet/app/app_pref.dart';
-import 'package:basic_diet/domain/usecase/get_current_subscription_overview_usecase.dart';
+import 'package:basic_diet/domain/usecase/get_client_profile_usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'profile_event.dart';
 import 'profile_state.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
-  final GetCurrentSubscriptionOverviewUseCase
-  _getCurrentSubscriptionOverviewUseCase;
+  final GetClientProfileUseCase _getClientProfileUseCase;
   final AppPreferences _appPreferences;
 
-  ProfileBloc(this._getCurrentSubscriptionOverviewUseCase, this._appPreferences)
+  ProfileBloc(this._getClientProfileUseCase, this._appPreferences)
     : super(const ProfileState()) {
     on<ProfileOverviewRequested>(_onProfileOverviewRequested);
     on<ProfileLogoutRequested>(_onProfileLogoutRequested);
@@ -22,7 +21,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ) async {
     emit(state.copyWith(status: ProfileStatus.loading));
 
-    final result = await _getCurrentSubscriptionOverviewUseCase.execute(null);
+    final result = await _getClientProfileUseCase.execute(null);
 
     result.fold(
       (failure) {
@@ -31,7 +30,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
             state.copyWith(
               status: ProfileStatus.failure,
               errorMessage: failure.message,
-              clearOverview: true,
+              clearProfile: true,
             ),
           );
         }
@@ -41,7 +40,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           emit(
             state.copyWith(
               status: ProfileStatus.success,
-              overview: data.data,
+              profile: data.data,
               errorMessage: '',
             ),
           );

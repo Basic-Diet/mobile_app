@@ -60,6 +60,8 @@ import 'package:basic_diet/data/mappers/subscription_pickup_request_mapper.dart'
 import 'package:basic_diet/domain/model/subscription_pickup_request_model.dart';
 import 'package:basic_diet/data/mappers/fulfillment_status_mapper.dart';
 import 'package:basic_diet/domain/model/fulfillment_status_model.dart';
+import 'package:basic_diet/data/mappers/client_profile_mapper.dart';
+import 'package:basic_diet/domain/model/client_profile_model.dart';
 
 import 'package:basic_diet/data/mappers/premium_payment_mapper.dart';
 import 'package:basic_diet/domain/model/premium_payment_model.dart';
@@ -270,6 +272,22 @@ class RepositoryImpl implements Repository {
   Future<Either<Failure, AuthenticationModel>> getCurrentUser() async {
     try {
       final response = await _remoteDataSource.getCurrentUser();
+      if (_isSuccessfulResponse(response)) {
+        return Right(response.toDomain());
+      } else {
+        return Left(
+          Failure(ApiInternalStatus.failure, ResponseMessage.defaultError),
+        );
+      }
+    } catch (error) {
+      return _handleError(error);
+    }
+  }
+
+  @override
+  Future<Either<Failure, ClientProfileModel>> getClientProfile() async {
+    try {
+      final response = await _remoteDataSource.getClientProfile();
       if (_isSuccessfulResponse(response)) {
         return Right(response.toDomain());
       } else {

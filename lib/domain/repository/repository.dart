@@ -29,6 +29,7 @@ import 'package:basic_diet/domain/model/pickup_prepare_model.dart';
 import 'package:basic_diet/domain/model/pickup_status_model.dart';
 import 'package:basic_diet/domain/model/subscription_pickup_request_model.dart';
 import 'package:basic_diet/domain/model/fulfillment_status_model.dart';
+import 'package:basic_diet/domain/model/client_profile_model.dart';
 
 import 'package:basic_diet/domain/model/order_menu_model.dart';
 import 'package:basic_diet/domain/model/order_quote_model.dart';
@@ -54,6 +55,7 @@ abstract class Repository {
   );
   Future<Either<Failure, AuthenticationModel>> refreshToken(String refreshToken);
   Future<Either<Failure, AuthenticationModel>> getCurrentUser();
+  Future<Either<Failure, ClientProfileModel>> getClientProfile();
   Future<Either<Failure, PlansModel>> getPlans();
   Future<Either<Failure, PopularPackagesModel>> getPopularPackages();
   Future<Either<Failure, PremiumMealsModel>> getPremiumMeals();

@@ -1,4 +1,5 @@
 import 'package:basic_diet/data/response/fulfillment_status_response.dart';
+import 'package:basic_diet/data/response/client_profile_response.dart';
 import 'package:basic_diet/data/request/pickup_request_request.dart';
 import 'package:basic_diet/data/response/subscription_pickup_request_response.dart';
 import 'package:basic_diet/data/response/subscription_menu_response.dart';
@@ -68,6 +69,9 @@ abstract class AppServiceClient {
 
   @GET("/api/auth/me")
   Future<AuthenticationResponse> getCurrentUser();
+
+  @GET("/api/client/profile")
+  Future<ClientProfileResponse> getClientProfile();
 
   @GET("/api/plans")
   Future<PlansResponse> getPlans();

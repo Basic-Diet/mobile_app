@@ -7,6 +7,7 @@ import 'package:basic_diet/data/repository/repository.dart';
 import 'package:basic_diet/domain/repository/repository.dart';
 import 'package:basic_diet/domain/usecase/login_usecase.dart';
 import 'package:basic_diet/domain/usecase/get_current_user_usecase.dart';
+import 'package:basic_diet/domain/usecase/get_client_profile_usecase.dart';
 import 'package:basic_diet/domain/usecase/prepare_pickup_usecase.dart';
 import 'package:basic_diet/domain/usecase/create_pickup_request_usecase.dart';
 import 'package:basic_diet/domain/usecase/get_pickup_requests_usecase.dart';
@@ -200,16 +201,16 @@ void initHomeModule() {
 }
 
 void initProfileModule() {
-  if (!GetIt.I.isRegistered<GetCurrentSubscriptionOverviewUseCase>()) {
-    instance.registerFactory<GetCurrentSubscriptionOverviewUseCase>(
-      () => GetCurrentSubscriptionOverviewUseCase(instance<Repository>()),
+  if (!GetIt.I.isRegistered<GetClientProfileUseCase>()) {
+    instance.registerFactory<GetClientProfileUseCase>(
+      () => GetClientProfileUseCase(instance<Repository>()),
     );
   }
 
   if (!GetIt.I.isRegistered<ProfileBloc>()) {
     instance.registerFactory<ProfileBloc>(
       () => ProfileBloc(
-        instance<GetCurrentSubscriptionOverviewUseCase>(),
+        instance<GetClientProfileUseCase>(),
         instance<AppPreferences>(),
       ),
     );

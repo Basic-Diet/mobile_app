@@ -30,6 +30,7 @@ import 'package:basic_diet/data/response/premium_payment_response.dart';
 import 'package:basic_diet/data/response/pickup_prepare_response.dart';
 import 'package:basic_diet/data/response/pickup_status_response.dart';
 import 'package:basic_diet/data/response/fulfillment_status_response.dart';
+import 'package:basic_diet/data/response/client_profile_response.dart';
 import 'package:basic_diet/data/request/pickup_request_request.dart';
 import 'package:basic_diet/data/response/subscription_pickup_request_response.dart';
 import 'package:basic_diet/data/response/cancel_subscription_response.dart';
@@ -98,6 +99,11 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   @override
   Future<AuthenticationResponse> getCurrentUser() {
     return _appServiceClient.getCurrentUser();
+  }
+
+  @override
+  Future<ClientProfileResponse> getClientProfile() {
+    return _appServiceClient.getClientProfile();
   }
 
   @override

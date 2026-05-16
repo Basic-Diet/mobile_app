@@ -3,7 +3,7 @@ import 'dart:ui' as ui;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:basic_diet/app/dependency_injection.dart';
 import 'package:basic_diet/app/functions.dart';
-import 'package:basic_diet/domain/model/current_subscription_overview_model.dart';
+import 'package:basic_diet/domain/model/client_profile_model.dart';
 import 'package:basic_diet/presentation/login/login_screen.dart';
 import 'package:basic_diet/presentation/main/bloc/main_bloc.dart';
 import 'package:basic_diet/presentation/main/bloc/main_event.dart';
@@ -76,7 +76,7 @@ class _ProfileView extends StatelessWidget {
           child: BlocBuilder<ProfileBloc, ProfileState>(
             builder: (context, state) {
               if (state.status == ProfileStatus.loading &&
-                  state.overview == null) {
+                  state.profile == null) {
                 return const Center(
                   child: CircularProgressIndicator(
                     color: ColorManager.brandPrimary,
@@ -102,11 +102,11 @@ class _ProfileView extends StatelessWidget {
                     AppPadding.p20.h,
                   ),
                   children: [
-                    _UserCard(overview: state.overview),
+                    _UserCard(profile: state.profile),
                     Gap(AppSize.s12.h),
-                    _SubscriptionCard(overview: state.overview),
+                    _SubscriptionCard(profile: state.profile),
                     Gap(AppSize.s12.h),
-                    const _ProfileMenuCard(),
+                    _ProfileMenuCard(profile: state.profile),
                     Gap(AppSize.s12.h),
                     _LogoutButton(
                       onTap: () {
@@ -127,18 +127,19 @@ class _ProfileView extends StatelessWidget {
 }
 
 class _UserCard extends StatelessWidget {
-  final CurrentSubscriptionOverviewDataModel? overview;
+  final ClientProfileDataModel? profile;
 
-  const _UserCard({required this.overview});
+  const _UserCard({required this.profile});
 
   @override
   Widget build(BuildContext context) {
-    final user = overview?.profileUser;
+    final user = profile?.user;
     final name =
-        user?.name.trim().isNotEmpty == true
-            ? user!.name.trim()
+        user?.displayName.trim().isNotEmpty == true
+            ? user!.displayName.trim()
             : Strings.guestName.tr();
     final phone = user?.phone.trim() ?? '';
+    final email = user?.email.trim() ?? '';
     final initial = name.characters.first.toUpperCase();
 
     return _ProfileCard(
@@ -179,6 +180,19 @@ class _UserCard extends StatelessWidget {
                       fontSize: FontSizeManager.s11.sp,
                     ),
                   ),
+                  if (email.isNotEmpty) ...[
+                    Gap(AppSize.s4.h),
+                    Text(
+                      email,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.end,
+                      style: getRegularTextStyle(
+                        color: ColorManager.textSecondary,
+                        fontSize: FontSizeManager.s11.sp,
+                      ),
+                    ),
+                  ],
                 ],
               ),
             ),
@@ -207,19 +221,24 @@ class _UserCard extends StatelessWidget {
 }
 
 class _SubscriptionCard extends StatelessWidget {
-  final CurrentSubscriptionOverviewDataModel? overview;
+  final ClientProfileDataModel? profile;
 
-  const _SubscriptionCard({required this.overview});
+  const _SubscriptionCard({required this.profile});
 
   @override
   Widget build(BuildContext context) {
-    final remaining = overview?.displayRemainingMeals ?? 0;
-    final total = overview?.displayTotalMeals ?? 0;
+    final summary = profile?.subscriptionSummary;
+    final remaining = summary?.remainingMeals ?? 0;
+    final total = summary?.totalMeals ?? 0;
     final progress = total == 0 ? 0.0 : (remaining / total).clamp(0.0, 1.0);
     final statusLabel =
-        overview?.statusLabel.trim().isNotEmpty == true
-            ? overview!.statusLabel
-            : Strings.active.tr();
+        summary?.statusLabelAr.trim().isNotEmpty == true
+            ? summary!.statusLabelAr
+            : (summary?.hasActiveSubscription == true
+                ? Strings.active.tr()
+                : Strings.unavailableNow.tr());
+    final planName = summary?.planName.trim() ?? '';
+    final hasPlanName = planName.isNotEmpty;
 
     return _ProfileCard(
       padding: EdgeInsetsDirectional.fromSTEB(
@@ -238,6 +257,17 @@ class _SubscriptionCard extends StatelessWidget {
               fontSize: FontSizeManager.s14.sp,
             ),
           ),
+          if (hasPlanName) ...[
+            Gap(AppSize.s6.h),
+            Text(
+              planName,
+              textAlign: TextAlign.end,
+              style: getRegularTextStyle(
+                color: ColorManager.textSecondary,
+                fontSize: FontSizeManager.s12.sp,
+              ),
+            ),
+          ],
           Gap(AppSize.s12.h),
           Directionality(
             textDirection: ui.TextDirection.ltr,
@@ -322,11 +352,22 @@ class _SubscriptionCard extends StatelessWidget {
 }
 
 class _ProfileMenuCard extends StatelessWidget {
-  const _ProfileMenuCard();
+  final ClientProfileDataModel? profile;
+
+  const _ProfileMenuCard({required this.profile});
 
   @override
   Widget build(BuildContext context) {
-    final isArabic = context.locale.languageCode == 'ar';
+    final menu = profile?.profileMenu;
+    final languageValue =
+        menu?.language.current.trim().isNotEmpty == true
+            ? menu!.language.current
+            : (context.locale.languageCode == 'ar'
+                ? Strings.arabic.tr()
+                : Strings.english.tr());
+    final supportValue = _supportValue(menu?.support);
+    final supportEnabled = menu?.support.hasContact ?? false;
+    final legalEnabled = menu?.legal.hasLinks ?? false;
 
     return _ProfileCard(
       padding: EdgeInsetsDirectional.fromSTEB(
@@ -347,39 +388,68 @@ class _ProfileMenuCard extends StatelessWidget {
           ),
           Gap(AppSize.s12.h),
           _MenuRow(
-            title: Strings.myOrders.tr(),
-            value: '10',
+            title: _labelOrFallback(menu?.orders.labelAr, Strings.myOrders.tr()),
+            value: '${menu?.orders.count ?? 0}',
             icon: Icons.receipt_long_outlined,
             onTap: () {
               context.read<MainBloc>().add(const ChangeBottomNavIndexEvent(3));
             },
           ),
           _MenuRow(
-            title: Strings.myAddresses.tr(),
-            value: '0',
+            title: _labelOrFallback(
+              menu?.addresses.labelAr,
+              Strings.myAddresses.tr(),
+            ),
+            value: '${menu?.addresses.count ?? 0}',
             icon: Icons.location_on_outlined,
           ),
           _MenuRow(
-            title: Strings.language.tr(),
-            value: isArabic ? Strings.arabic.tr() : Strings.english.tr(),
+            title: _labelOrFallback(menu?.language.labelAr, Strings.language.tr()),
+            value: languageValue,
             icon: Icons.language_rounded,
             onTap: () => _showLanguageSelector(context),
           ),
           _MenuRow(
-            title: Strings.support.tr(),
-            value: Strings.unavailableNow.tr(),
+            title: _labelOrFallback(menu?.support.labelAr, Strings.support.tr()),
+            value: supportValue,
             icon: Icons.headset_mic_outlined,
-            enabled: false,
+            enabled: supportEnabled,
           ),
           _MenuRow(
-            title: Strings.termsPrivacy.tr(),
+            title: _labelOrFallback(menu?.legal.labelAr, Strings.termsPrivacy.tr()),
             icon: Icons.description_outlined,
+            enabled: legalEnabled,
             showDivider: false,
           ),
         ],
       ),
     );
   }
+}
+
+String _labelOrFallback(String? value, String fallback) {
+  final label = value?.trim() ?? '';
+  return label.isNotEmpty ? label : fallback;
+}
+
+String _supportValue(ClientProfileSupportItemModel? support) {
+  if (support == null || !support.hasContact) {
+    return Strings.unavailableNow.tr();
+  }
+
+  if (support.phone.trim().isNotEmpty) {
+    return support.phone;
+  }
+
+  if (support.whatsapp.trim().isNotEmpty) {
+    return support.whatsapp;
+  }
+
+  if (support.email.trim().isNotEmpty) {
+    return support.email;
+  }
+
+  return Strings.unavailableNow.tr();
 }
 
 class _MenuRow extends StatelessWidget {

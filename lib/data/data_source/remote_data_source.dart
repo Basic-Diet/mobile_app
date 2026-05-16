@@ -30,6 +30,7 @@ import 'package:basic_diet/data/request/cancel_subscription_request.dart';
 import 'package:basic_diet/data/response/pickup_prepare_response.dart';
 import 'package:basic_diet/data/response/pickup_status_response.dart';
 import 'package:basic_diet/data/response/fulfillment_status_response.dart';
+import 'package:basic_diet/data/response/client_profile_response.dart';
 import 'package:basic_diet/data/request/pickup_request_request.dart';
 import 'package:basic_diet/data/response/subscription_pickup_request_response.dart';
 
@@ -63,6 +64,7 @@ abstract class RemoteDataSource {
   );
   Future<AuthenticationResponse> refreshToken(String refreshToken);
   Future<AuthenticationResponse> getCurrentUser();
+  Future<ClientProfileResponse> getClientProfile();
   Future<PlansResponse> getPlans();
   Future<PopularPackagesResponse> getPopularPackages();
   Future<PremiumMealsResponse> getPremiumMeals();
