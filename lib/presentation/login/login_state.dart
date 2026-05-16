@@ -10,25 +10,54 @@ import 'package:equatable/equatable.dart';
 abstract class LoginState extends Equatable {
   final String phone;
   final String? phoneError;
+  final String password;
+  final String? passwordError;
 
-  const LoginState({this.phone = '', this.phoneError});
+  const LoginState({
+    this.phone = '',
+    this.phoneError,
+    this.password = '',
+    this.passwordError,
+  });
 
-  LoginState copyWith({String? phone, String? phoneError});
+  LoginState copyWith({
+    String? phone,
+    String? phoneError,
+    String? password,
+    String? passwordError,
+  });
 
   @override
-  List<Object?> get props => [phone, phoneError ?? ''];
+  List<Object?> get props => [
+    phone,
+    phoneError ?? '',
+    password,
+    passwordError ?? '',
+  ];
 }
 
 // Meaning: The screen just opened.
 // UI Reaction: Show the empty form. No spinners, no error messages.
 class LoginFormInitialState extends LoginState {
-  const LoginFormInitialState({super.phone = '', super.phoneError});
+  const LoginFormInitialState({
+    super.phone = '',
+    super.phoneError,
+    super.password = '',
+    super.passwordError,
+  });
 
   @override
-  LoginState copyWith({String? phone, String? phoneError}) {
+  LoginState copyWith({
+    String? phone,
+    String? phoneError,
+    String? password,
+    String? passwordError,
+  }) {
     return LoginFormInitialState(
       phone: phone ?? this.phone,
       phoneError: phoneError,
+      password: password ?? this.password,
+      passwordError: passwordError,
     );
   }
 }
@@ -38,13 +67,25 @@ class LoginFormInitialState extends LoginState {
 //   Disable the Login button so the user doesn't click it twice.
 //   Show a CircularProgressIndicator (spinner).
 class LoginLoadingState extends LoginState {
-  const LoginLoadingState({super.phone = '', super.phoneError});
+  const LoginLoadingState({
+    super.phone = '',
+    super.phoneError,
+    super.password = '',
+    super.passwordError,
+  });
 
   @override
-  LoginState copyWith({String? phone, String? phoneError}) {
+  LoginState copyWith({
+    String? phone,
+    String? phoneError,
+    String? password,
+    String? passwordError,
+  }) {
     return LoginLoadingState(
       phone: phone ?? this.phone,
       phoneError: phoneError,
+      password: password ?? this.password,
+      passwordError: passwordError,
     );
   }
 }
@@ -52,13 +93,25 @@ class LoginLoadingState extends LoginState {
 // Meaning: The server returned a 200 OK. The user is authenticated.
 // UI Reaction: Navigate away from this screen (e.g., Navigator.pushReplacementNamed('/home')).
 class LoginSuccessState extends LoginState {
-  const LoginSuccessState({super.phone = '', super.phoneError});
+  const LoginSuccessState({
+    super.phone = '',
+    super.phoneError,
+    super.password = '',
+    super.passwordError,
+  });
 
   @override
-  LoginState copyWith({String? phone, String? phoneError}) {
+  LoginState copyWith({
+    String? phone,
+    String? phoneError,
+    String? password,
+    String? passwordError,
+  }) {
     return LoginSuccessState(
       phone: phone ?? this.phone,
       phoneError: phoneError,
+      password: password ?? this.password,
+      passwordError: passwordError,
     );
   }
 }
@@ -67,19 +120,38 @@ class LoginSuccessState extends LoginState {
 // UI Reaction: Show a Snackbar or a global error message telling the user what went wrong (e.g., "Connection Timeout").
 class LoginErrorState extends LoginState {
   final String message;
-  const LoginErrorState(this.message, {super.phone = '', super.phoneError});
+  const LoginErrorState(
+    this.message, {
+    super.phone = '',
+    super.phoneError,
+    super.password = '',
+    super.passwordError,
+  });
 
   @override
-  LoginState copyWith({String? phone, String? phoneError}) {
+  LoginState copyWith({
+    String? phone,
+    String? phoneError,
+    String? password,
+    String? passwordError,
+  }) {
     return LoginErrorState(
       message,
       phone: phone ?? this.phone,
       phoneError: phoneError,
+      password: password ?? this.password,
+      passwordError: passwordError,
     );
   }
 
   @override
-  List<Object?> get props => [phone, phoneError ?? '', message];
+  List<Object?> get props => [
+    phone,
+    phoneError ?? '',
+    password,
+    passwordError ?? '',
+    message,
+  ];
 }
 
 /*

@@ -7,7 +7,7 @@ import 'package:equatable/equatable.dart';
 // Equatable: It extends Equatable so that the BLoC can compare two events.
 // If the user clicks the "Login" button twice with the exact same data, Equatable helps the BLoC avoid unnecessary processing
 // if it's already handling that exact request.
-abstract class LoginEvent extends Equatable {
+sealed class LoginEvent extends Equatable {
   const LoginEvent();
 
   @override
@@ -23,6 +23,14 @@ class LoginPhoneChanged extends LoginEvent {
 
   @override
   List<Object?> get props => [phone];
+}
+
+class LoginPasswordChanged extends LoginEvent {
+  final String password;
+  const LoginPasswordChanged(this.password);
+
+  @override
+  List<Object?> get props => [password];
 }
 
 // Trigger: This event is fired when the user clicks the "Login" button.

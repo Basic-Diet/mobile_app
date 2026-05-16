@@ -16,6 +16,9 @@ class Strings {
   static const String email = 'email';
   static const String phone = 'phone';
   static const String phoneHint = 'phoneHint';
+  static const String password = 'password';
+  static const String passwordHint = 'passwordHint';
+  static const String login = 'login';
   static const String welcomeBack = 'welcomeBack';
   static const String signInSubtitle = 'signInSubtitle';
   static const String sendOtp = 'sendOtp';

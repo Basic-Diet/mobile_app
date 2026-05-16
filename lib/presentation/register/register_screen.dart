@@ -24,10 +24,7 @@ class RegisterScreen extends StatelessWidget {
   static const String registerRoute = "/register";
   RegisterScreen({super.key});
 
-  late final TextEditingController _fullNameController =
-      TextEditingController();
   late final TextEditingController _phoneController = TextEditingController();
-  late final TextEditingController _emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -97,34 +94,6 @@ class RegisterScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Full Name
-        Text(
-          Strings.fullName.tr(),
-          style: getRegularTextStyle(
-            color: ColorManager.textPrimary,
-            fontSize: FontSizeManager.s16.sp,
-          ),
-        ),
-        Gap(AppSize.s8.h),
-        BlocBuilder<RegisterBloc, RegisterState>(
-          buildWhen: (previous, current) =>
-              previous.fullNameError != current.fullNameError,
-          builder: (context, state) {
-            return AppTextField.normal(
-              hintText: Strings.fullNameHint.tr(),
-              controller: _fullNameController,
-              errorText: state.fullNameError,
-              onChanged: (fullName) {
-                context.read<RegisterBloc>().add(
-                  RegisterFullNameChanged(fullName),
-                );
-              },
-            );
-          },
-        ),
-        Gap(AppSize.s16.h),
-
-        // Phone Number
         Text(
           Strings.phone.tr(),
           style: getRegularTextStyle(
@@ -146,42 +115,12 @@ class RegisterScreen extends StatelessWidget {
             );
           },
         ),
-        Gap(AppSize.s16.h),
-
-        // Email Address
-        Text(
-          Strings.emailOptional.tr(),
-          style: getRegularTextStyle(
-            color: ColorManager.textPrimary,
-            fontSize: FontSizeManager.s16.sp,
-          ),
-        ),
-        Gap(AppSize.s8.h),
-        BlocBuilder<RegisterBloc, RegisterState>(
-          buildWhen: (previous, current) =>
-              previous.emailError != current.emailError,
-          builder: (context, state) {
-            return AppTextField.email(
-              controller: _emailController,
-              errorText: state.emailError,
-              onChanged: (email) {
-                context.read<RegisterBloc>().add(RegisterEmailChanged(email));
-              },
-            );
-          },
-        ),
         Gap(AppSize.s24.h),
 
-        // Create Account Button
         BlocBuilder<RegisterBloc, RegisterState>(
           builder: (context, state) {
             final isLoading = state is RegisterLoadingState;
-            final isEnabled =
-                state.fullNameError == null &&
-                state.fullName.isNotEmpty &&
-                state.phoneError == null &&
-                state.phone.isNotEmpty &&
-                state.emailError == null;
+            final isEnabled = state.phoneError == null && state.phone.isNotEmpty;
 
             return ButtonWidget(
               text: isLoading

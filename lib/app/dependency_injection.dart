@@ -6,11 +6,13 @@ import 'package:basic_diet/data/network/dio_factory.dart';
 import 'package:basic_diet/data/repository/repository.dart';
 import 'package:basic_diet/domain/repository/repository.dart';
 import 'package:basic_diet/domain/usecase/login_usecase.dart';
+import 'package:basic_diet/domain/usecase/get_current_user_usecase.dart';
 import 'package:basic_diet/domain/usecase/prepare_pickup_usecase.dart';
 import 'package:basic_diet/domain/usecase/create_pickup_request_usecase.dart';
 import 'package:basic_diet/domain/usecase/get_pickup_requests_usecase.dart';
 import 'package:basic_diet/domain/usecase/get_pickup_request_status_usecase.dart';
 import 'package:basic_diet/domain/usecase/verify_otp_usecase.dart';
+import 'package:basic_diet/domain/usecase/refresh_token_usecase.dart';
 import 'package:basic_diet/domain/usecase/checkout_subscription_usecase.dart';
 import 'package:basic_diet/domain/usecase/get_plans_usecase.dart';
 import 'package:basic_diet/domain/usecase/get_delivery_options_usecase.dart';
@@ -100,6 +102,14 @@ Future<void> initAppModule() async {
   instance.registerLazySingleton<Repository>(
     () => RepositoryImpl(instance<RemoteDataSource>()),
   );
+
+  instance.registerLazySingleton<GetCurrentUserUseCase>(
+    () => GetCurrentUserUseCase(instance<Repository>()),
+  );
+
+  instance.registerLazySingleton<RefreshTokenUseCase>(
+    () => RefreshTokenUseCase(instance<Repository>()),
+  );
 }
 
 // This function has all the dependencies that are used in the login module.
@@ -110,7 +120,7 @@ void initLoginModule() {
     );
 
     instance.registerFactory<LoginBloc>(
-      () => LoginBloc(instance<LoginUseCase>()),
+      () => LoginBloc(instance<LoginUseCase>(), instance<AppPreferences>()),
     );
   }
 }

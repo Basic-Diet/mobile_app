@@ -54,22 +54,50 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   RemoteDataSourceImpl(this._appServiceClient);
 
   @override
-  Future<BaseResponse> login(String phone) async {
-    return await _appServiceClient.login(phone);
-  }
-
-  @override
-  Future<AuthenticationResponse> verifyOtp(String phone, String otp) async {
-    return _appServiceClient.verifyOtp(phone, otp);
-  }
-
-  @override
-  Future<BaseResponse> register(
-    String fullName,
+  Future<AuthenticationResponse> login(
     String phone,
-    String? email,
+    String password,
+    String? deviceId,
+    String? deviceName,
   ) async {
-    return await _appServiceClient.register(fullName, phone, email);
+    return await _appServiceClient.login({
+      'phoneE164': phone,
+      'password': password,
+      if (deviceId != null) 'deviceId': deviceId,
+      if (deviceName != null) 'deviceName': deviceName,
+    });
+  }
+
+  @override
+  Future<BaseResponse> requestRegistrationOtp(String phone) async {
+    return await _appServiceClient.requestRegistrationOtp({'phoneE164': phone});
+  }
+
+  @override
+  Future<AuthenticationResponse> verifyRegistrationOtp(
+    String phone,
+    String otp,
+    String password,
+    String? deviceId,
+    String? deviceName,
+  ) async {
+    return await _appServiceClient.verifyRegistrationOtp({
+      'phoneE164': phone,
+      'otp': otp,
+      'password': password,
+      if (deviceId != null) 'deviceId': deviceId,
+      if (deviceName != null) 'deviceName': deviceName,
+    });
+  }
+
+  @override
+  Future<AuthenticationResponse> refreshToken(String refreshToken) {
+    return _appServiceClient.refreshToken({'refreshToken': refreshToken});
+  }
+
+  @override
+  Future<AuthenticationResponse> getCurrentUser() {
+    return _appServiceClient.getCurrentUser();
   }
 
   @override

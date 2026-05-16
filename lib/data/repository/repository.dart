@@ -98,6 +98,9 @@ class RepositoryImpl implements Repository {
   RepositoryImpl(this._remoteDataSource);
 
   bool _isSuccessfulResponse(dynamic response) {
+    if (response.ok is bool) {
+      return response.ok == true;
+    }
     if (response.status is bool) {
       return response.status == true;
     }
@@ -187,27 +190,28 @@ class RepositoryImpl implements Repository {
   }
 
   @override
-  Future<Either<Failure, BaseModel>> login(String phone) async {
-    try {
-      final response = await _remoteDataSource.login(phone);
-      if (_isSuccessfulResponse(response)) {
-        return Right(response.toDomain());
-      } else {
-        return Left(_mapFailureFromResponse(response));
-      }
-    } catch (error) {
-      return _handleError(error);
-    }
-  }
-
-  @override
-  Future<Either<Failure, BaseModel>> register(
-    String fullName,
+  Future<Either<Failure, AuthenticationModel>> login(
     String phone,
-    String? email,
+    String password,
   ) async {
     try {
-      final response = await _remoteDataSource.register(fullName, phone, email);
+      final response = await _remoteDataSource.login(phone, password, null, null);
+      if (_isSuccessfulResponse(response)) {
+        return Right(response.toDomain());
+      } else {
+        return Left(
+          Failure(ApiInternalStatus.failure, ResponseMessage.defaultError),
+        );
+      }
+    } catch (error) {
+      return _handleError(error);
+    }
+  }
+
+  @override
+  Future<Either<Failure, BaseModel>> requestRegistrationOtp(String phone) async {
+    try {
+      final response = await _remoteDataSource.requestRegistrationOtp(phone);
       if (_isSuccessfulResponse(response)) {
         return Right(response.toDomain());
       } else {
@@ -219,12 +223,53 @@ class RepositoryImpl implements Repository {
   }
 
   @override
-  Future<Either<Failure, AuthenticationModel>> verifyOtp(
+  Future<Either<Failure, AuthenticationModel>> verifyRegistrationOtp(
     String phone,
     String otp,
+    String password,
   ) async {
     try {
-      final response = await _remoteDataSource.verifyOtp(phone, otp);
+      final response = await _remoteDataSource.verifyRegistrationOtp(
+        phone,
+        otp,
+        password,
+        null,
+        null,
+      );
+      if (_isSuccessfulResponse(response)) {
+        return Right(response.toDomain());
+      } else {
+        return Left(
+          Failure(ApiInternalStatus.failure, ResponseMessage.defaultError),
+        );
+      }
+    } catch (error) {
+      return _handleError(error);
+    }
+  }
+
+  @override
+  Future<Either<Failure, AuthenticationModel>> refreshToken(
+    String refreshToken,
+  ) async {
+    try {
+      final response = await _remoteDataSource.refreshToken(refreshToken);
+      if (_isSuccessfulResponse(response)) {
+        return Right(response.toDomain());
+      } else {
+        return Left(
+          Failure(ApiInternalStatus.failure, ResponseMessage.defaultError),
+        );
+      }
+    } catch (error) {
+      return _handleError(error);
+    }
+  }
+
+  @override
+  Future<Either<Failure, AuthenticationModel>> getCurrentUser() async {
+    try {
+      final response = await _remoteDataSource.getCurrentUser();
       if (_isSuccessfulResponse(response)) {
         return Right(response.toDomain());
       } else {

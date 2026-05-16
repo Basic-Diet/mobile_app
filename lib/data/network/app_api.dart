@@ -50,21 +50,24 @@ part 'app_api.g.dart';
 abstract class AppServiceClient {
   factory AppServiceClient(Dio dio, {String? baseUrl}) = _AppServiceClient;
 
-  @POST("/api/app/login")
-  Future<BaseResponse> login(@Field("phoneE164") String phone);
+  @POST("/api/auth/login")
+  Future<AuthenticationResponse> login(@Body() Map<String, dynamic> body);
 
-  @POST("/api/auth/otp/verify")
-  Future<AuthenticationResponse> verifyOtp(
-    @Field("phoneE164") String phone,
-    @Field("otp") String otp,
+  @POST("/api/auth/register/request-otp")
+  Future<BaseResponse> requestRegistrationOtp(
+    @Body() Map<String, dynamic> body,
   );
 
-  @POST("/api/app/register")
-  Future<BaseResponse> register(
-    @Field("fullName") String fullName,
-    @Field("phoneE164") String phone,
-    @Field("email") String? email,
+  @POST("/api/auth/register/verify")
+  Future<AuthenticationResponse> verifyRegistrationOtp(
+    @Body() Map<String, dynamic> body,
   );
+
+  @POST("/api/auth/refresh")
+  Future<AuthenticationResponse> refreshToken(@Body() Map<String, dynamic> body);
+
+  @GET("/api/auth/me")
+  Future<AuthenticationResponse> getCurrentUser();
 
   @GET("/api/plans")
   Future<PlansResponse> getPlans();

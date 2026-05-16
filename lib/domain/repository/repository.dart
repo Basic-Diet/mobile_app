@@ -42,16 +42,18 @@ import 'package:basic_diet/domain/model/order_model.dart';
 import '../model/bulk_selections_model.dart';
 
 abstract class Repository {
-  Future<Either<Failure, BaseModel>> login(String phone);
-  Future<Either<Failure, AuthenticationModel>> verifyOtp(
+  Future<Either<Failure, AuthenticationModel>> login(
+    String phone,
+    String password,
+  );
+  Future<Either<Failure, BaseModel>> requestRegistrationOtp(String phone);
+  Future<Either<Failure, AuthenticationModel>> verifyRegistrationOtp(
     String phone,
     String otp,
+    String password,
   );
-  Future<Either<Failure, BaseModel>> register(
-    String fullName,
-    String phone,
-    String? email,
-  );
+  Future<Either<Failure, AuthenticationModel>> refreshToken(String refreshToken);
+  Future<Either<Failure, AuthenticationModel>> getCurrentUser();
   Future<Either<Failure, PlansModel>> getPlans();
   Future<Either<Failure, PopularPackagesModel>> getPopularPackages();
   Future<Either<Failure, PremiumMealsModel>> getPremiumMeals();
