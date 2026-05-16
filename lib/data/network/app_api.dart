@@ -1,4 +1,7 @@
 import 'package:basic_diet/data/response/fulfillment_status_response.dart';
+import 'package:basic_diet/data/response/client_profile_response.dart';
+import 'package:basic_diet/data/request/pickup_request_request.dart';
+import 'package:basic_diet/data/response/subscription_pickup_request_response.dart';
 import 'package:basic_diet/data/response/subscription_menu_response.dart';
 import 'package:basic_diet/data/response/addons_response.dart';
 import 'package:basic_diet/data/request/bulk_selections_request.dart';
@@ -48,21 +51,27 @@ part 'app_api.g.dart';
 abstract class AppServiceClient {
   factory AppServiceClient(Dio dio, {String? baseUrl}) = _AppServiceClient;
 
-  @POST("/api/app/login")
-  Future<BaseResponse> login(@Field("phoneE164") String phone);
+  @POST("/api/auth/login")
+  Future<AuthenticationResponse> login(@Body() Map<String, dynamic> body);
 
-  @POST("/api/auth/otp/verify")
-  Future<AuthenticationResponse> verifyOtp(
-    @Field("phoneE164") String phone,
-    @Field("otp") String otp,
+  @POST("/api/auth/register/request-otp")
+  Future<BaseResponse> requestRegistrationOtp(
+    @Body() Map<String, dynamic> body,
   );
 
-  @POST("/api/app/register")
-  Future<BaseResponse> register(
-    @Field("fullName") String fullName,
-    @Field("phoneE164") String phone,
-    @Field("email") String? email,
+  @POST("/api/auth/register/verify")
+  Future<AuthenticationResponse> verifyRegistrationOtp(
+    @Body() Map<String, dynamic> body,
   );
+
+  @POST("/api/auth/refresh")
+  Future<AuthenticationResponse> refreshToken(@Body() Map<String, dynamic> body);
+
+  @GET("/api/auth/me")
+  Future<AuthenticationResponse> getCurrentUser();
+
+  @GET("/api/client/profile")
+  Future<ClientProfileResponse> getClientProfile();
 
   @GET("/api/plans")
   Future<PlansResponse> getPlans();
@@ -166,6 +175,25 @@ abstract class AppServiceClient {
     @Path("date") String date,
   );
 
+  @POST("/api/subscriptions/{id}/pickup-requests")
+  Future<SubscriptionPickupRequestApiResponse> createPickupRequest(
+    @Path("id") String id,
+    @Body() PickupRequestRequest request,
+  );
+
+  @GET("/api/subscriptions/{id}/pickup-requests")
+  Future<SubscriptionPickupRequestListApiResponse> getPickupRequests(
+    @Path("id") String id,
+    @Query("date") String? date,
+    @Query("status") String status,
+  );
+
+  @GET("/api/subscriptions/{id}/pickup-requests/{requestId}/status")
+  Future<SubscriptionPickupRequestApiResponse> getPickupRequestStatus(
+    @Path("id") String id,
+    @Path("requestId") String requestId,
+  );
+
   @GET("/api/subscriptions/{id}/days/{date}/fulfillment/status")
   Future<FulfillmentStatusResponse> getDayFulfillmentStatus(
     @Path("id") String id,
@@ -226,9 +254,7 @@ abstract class AppServiceClient {
   Future<OrderMenuResponse> getOrderMenu();
 
   @POST("/api/orders/quote")
-  Future<OrderQuoteResponse> getOrderQuote(
-    @Body() OrderQuoteRequest request,
-  );
+  Future<OrderQuoteResponse> getOrderQuote(@Body() OrderQuoteRequest request);
 
   @POST("/api/orders")
   Future<CreateOrderResponse> createOrder(
@@ -244,9 +270,7 @@ abstract class AppServiceClient {
   );
 
   @GET("/api/orders/{orderId}")
-  Future<OrderDetailResponse> getOrderDetail(
-    @Path("orderId") String orderId,
-  );
+  Future<OrderDetailResponse> getOrderDetail(@Path("orderId") String orderId);
 
   @GET("/api/orders")
   Future<OrdersListResponse> getOrders(
@@ -255,7 +279,5 @@ abstract class AppServiceClient {
   );
 
   @DELETE("/api/orders/{orderId}")
-  Future<CancelOrderResponse> cancelOrder(
-    @Path("orderId") String orderId,
-  );
+  Future<CancelOrderResponse> cancelOrder(@Path("orderId") String orderId);
 }

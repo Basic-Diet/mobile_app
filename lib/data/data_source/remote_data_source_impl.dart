@@ -30,6 +30,9 @@ import 'package:basic_diet/data/response/premium_payment_response.dart';
 import 'package:basic_diet/data/response/pickup_prepare_response.dart';
 import 'package:basic_diet/data/response/pickup_status_response.dart';
 import 'package:basic_diet/data/response/fulfillment_status_response.dart';
+import 'package:basic_diet/data/response/client_profile_response.dart';
+import 'package:basic_diet/data/request/pickup_request_request.dart';
+import 'package:basic_diet/data/response/subscription_pickup_request_response.dart';
 import 'package:basic_diet/data/response/cancel_subscription_response.dart';
 import 'package:basic_diet/data/request/cancel_subscription_request.dart';
 
@@ -52,22 +55,55 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   RemoteDataSourceImpl(this._appServiceClient);
 
   @override
-  Future<BaseResponse> login(String phone) async {
-    return await _appServiceClient.login(phone);
-  }
-
-  @override
-  Future<AuthenticationResponse> verifyOtp(String phone, String otp) async {
-    return _appServiceClient.verifyOtp(phone, otp);
-  }
-
-  @override
-  Future<BaseResponse> register(
-    String fullName,
+  Future<AuthenticationResponse> login(
     String phone,
-    String? email,
+    String password,
+    String? deviceId,
+    String? deviceName,
   ) async {
-    return await _appServiceClient.register(fullName, phone, email);
+    return await _appServiceClient.login({
+      'phoneE164': phone,
+      'password': password,
+      if (deviceId != null) 'deviceId': deviceId,
+      if (deviceName != null) 'deviceName': deviceName,
+    });
+  }
+
+  @override
+  Future<BaseResponse> requestRegistrationOtp(String phone) async {
+    return await _appServiceClient.requestRegistrationOtp({'phoneE164': phone});
+  }
+
+  @override
+  Future<AuthenticationResponse> verifyRegistrationOtp(
+    String phone,
+    String otp,
+    String password,
+    String? deviceId,
+    String? deviceName,
+  ) async {
+    return await _appServiceClient.verifyRegistrationOtp({
+      'phoneE164': phone,
+      'otp': otp,
+      'password': password,
+      if (deviceId != null) 'deviceId': deviceId,
+      if (deviceName != null) 'deviceName': deviceName,
+    });
+  }
+
+  @override
+  Future<AuthenticationResponse> refreshToken(String refreshToken) {
+    return _appServiceClient.refreshToken({'refreshToken': refreshToken});
+  }
+
+  @override
+  Future<AuthenticationResponse> getCurrentUser() {
+    return _appServiceClient.getCurrentUser();
+  }
+
+  @override
+  Future<ClientProfileResponse> getClientProfile() {
+    return _appServiceClient.getClientProfile();
   }
 
   @override
@@ -202,6 +238,31 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   }
 
   @override
+  Future<SubscriptionPickupRequestApiResponse> createPickupRequest(
+    String id,
+    PickupRequestRequest request,
+  ) {
+    return _appServiceClient.createPickupRequest(id, request);
+  }
+
+  @override
+  Future<SubscriptionPickupRequestListApiResponse> getPickupRequests(
+    String id, {
+    String? date,
+    String status = 'active',
+  }) {
+    return _appServiceClient.getPickupRequests(id, date, status);
+  }
+
+  @override
+  Future<SubscriptionPickupRequestApiResponse> getPickupRequestStatus(
+    String id,
+    String requestId,
+  ) {
+    return _appServiceClient.getPickupRequestStatus(id, requestId);
+  }
+
+  @override
   Future<FulfillmentStatusResponse> getDayFulfillmentStatus(
     String id,
     String date,
@@ -301,7 +362,10 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   }
 
   @override
-  Future<CreateOrderResponse> createOrder(CreateOrderRequest request, String idempotencyKey) {
+  Future<CreateOrderResponse> createOrder(
+    CreateOrderRequest request,
+    String idempotencyKey,
+  ) {
     return _appServiceClient.createOrder(request, idempotencyKey);
   }
 

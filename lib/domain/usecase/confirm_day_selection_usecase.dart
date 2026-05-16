@@ -21,9 +21,11 @@ class ConfirmDaySelectionUseCase
   Future<Either<Failure, SubscriptionDayModel>> execute(
     ConfirmDaySelectionUseCaseInput input,
   ) async {
+    final normalizedDate =
+        input.date.contains('T') ? input.date.split('T')[0] : input.date;
     return await _repository.confirmDaySelection(
       input.subscriptionId,
-      input.date,
+      normalizedDate,
     );
   }
 }

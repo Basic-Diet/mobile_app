@@ -1,3 +1,5 @@
+import 'dart:ui' as ui;
+
 import 'package:basic_diet/app/dependency_injection.dart';
 import 'package:basic_diet/domain/model/order_menu_model.dart';
 import 'package:basic_diet/presentation/main/bloc/main_bloc.dart';
@@ -824,12 +826,15 @@ class _BuilderProductCard extends StatelessWidget {
                         ),
                       ),
                       Gap(AppSize.s16.h),
-                      Text(
-                        '${_formatHalala(product.priceHalala, currency)} / ${Strings.grams.tr(args: ['100'])}',
-                        textAlign: TextAlign.right,
-                        style: getBoldTextStyle(
-                          fontSize: FontSizeManager.s13.sp,
-                          color: const Color(0xFF12382C),
+                      Directionality(
+                        textDirection: ui.TextDirection.ltr,
+                        child: Text(
+                          '${_formatHalala(product.priceHalala, currency)} / ${Strings.grams.tr(args: ['100'])}',
+                          textAlign: TextAlign.right,
+                          style: getBoldTextStyle(
+                            fontSize: FontSizeManager.s13.sp,
+                            color: const Color(0xFF12382C),
+                          ),
                         ),
                       ),
                       Gap(AppSize.s10.h),
@@ -1947,13 +1952,17 @@ class _BuilderScreenState extends State<_BuilderScreen> {
                         color: const Color(0xFFF3F7F4),
                         borderRadius: BorderRadius.circular(12.r),
                       ),
-                      child: Text(
-                        product.pricingModel == 'per_100g'
-                            ? '${_formatHalala(product.priceHalala, widget.currency)} / ${Strings.grams.tr(args: ['100'])}'
-                            : _formatHalala(_estimatedUnitPriceHalala, widget.currency),
-                        style: getBoldTextStyle(
-                          fontSize: FontSizeManager.s11.sp,
-                          color: const Color(0xFF12382C),
+                      child: Directionality(
+                        textDirection: ui.TextDirection.ltr,
+                        child: Text(
+                          product.pricingModel == 'per_100g'
+                              ? '${_formatHalala(product.priceHalala, widget.currency)} / ${Strings.grams.tr(args: ['100'])}'
+                              : _formatHalala(_estimatedUnitPriceHalala, widget.currency),
+                          textAlign: TextAlign.end,
+                          style: getBoldTextStyle(
+                            fontSize: FontSizeManager.s11.sp,
+                            color: const Color(0xFF12382C),
+                          ),
                         ),
                       ),
                     ),

@@ -13,6 +13,9 @@ class TimelineMealSlotResponse {
   @JsonKey(name: 'slotKey')
   final String? slotKey;
 
+  @JsonKey(name: 'status')
+  final String? status;
+
   @JsonKey(name: 'selectionType')
   final String? selectionType;
 
@@ -40,6 +43,7 @@ class TimelineMealSlotResponse {
   const TimelineMealSlotResponse({
     this.slotIndex,
     this.slotKey,
+    this.status,
     this.selectionType,
     this.proteinId,
     this.carbs = const [],
@@ -143,6 +147,12 @@ class TimelineDayResponse {
   @JsonKey(name: 'mealSlots')
   final List<TimelineMealSlotResponse>? mealSlots;
 
+  @JsonKey(name: 'planning')
+  final PlanningResponse? planning;
+
+  @JsonKey(name: 'plannerMeta')
+  final PlannerMetaResponse? plannerMeta;
+
   @JsonKey(name: 'paymentRequirement')
   final PaymentRequirementResponse? paymentRequirement;
 
@@ -204,6 +214,8 @@ class TimelineDayResponse {
     this.premiumSelections,
     this.selectedMealIds,
     this.mealSlots,
+    this.planning,
+    this.plannerMeta,
     this.paymentRequirement,
     this.deliveryAddress,
     this.deliveryWindow,

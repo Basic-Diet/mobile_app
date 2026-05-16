@@ -58,6 +58,15 @@ PickupPreparationResponse _$PickupPreparationResponseFromJson(
   json['reason'] as String?,
   json['buttonLabel'] as String?,
   json['message'] as String?,
+  json['mode'] as String?,
+  json['canCreatePickupRequest'] as bool?,
+  (json['availableMealBalance'] as num?)?.toInt(),
+  (json['activePickupRequestCount'] as num?)?.toInt(),
+  json['latestPickupRequest'] == null
+      ? null
+      : SubscriptionPickupRequestResponse.fromJson(
+        json['latestPickupRequest'] as Map<String, dynamic>,
+      ),
   json['canRequestPrepare'] as bool?,
   json['canBePrepared'] as bool?,
   json['planningReady'] as bool?,
@@ -69,6 +78,11 @@ PickupPreparationResponse _$PickupPreparationResponseFromJson(
   json['businessDate'] as String?,
   json['pickupRequested'] as bool?,
   json['pickupPrepared'] as bool?,
+  json['restaurantHours'] == null
+      ? null
+      : RestaurantHoursResponse.fromJson(
+        json['restaurantHours'] as Map<String, dynamic>,
+      ),
 );
 
 Map<String, dynamic> _$PickupPreparationResponseToJson(
@@ -78,6 +92,11 @@ Map<String, dynamic> _$PickupPreparationResponseToJson(
   'reason': instance.reason,
   'buttonLabel': instance.buttonLabel,
   'message': instance.message,
+  'mode': instance.mode,
+  'canCreatePickupRequest': instance.canCreatePickupRequest,
+  'availableMealBalance': instance.availableMealBalance,
+  'activePickupRequestCount': instance.activePickupRequestCount,
+  'latestPickupRequest': instance.latestPickupRequest,
   'canRequestPrepare': instance.canRequestPrepare,
   'canBePrepared': instance.canBePrepared,
   'planningReady': instance.planningReady,
@@ -89,6 +108,7 @@ Map<String, dynamic> _$PickupPreparationResponseToJson(
   'businessDate': instance.businessDate,
   'pickupRequested': instance.pickupRequested,
   'pickupPrepared': instance.pickupPrepared,
+  'restaurantHours': instance.restaurantHours,
 };
 
 OverviewDeliverySlotResponse _$OverviewDeliverySlotResponseFromJson(
@@ -361,6 +381,11 @@ _$CurrentSubscriptionOverviewDataResponseFromJson(
       : MealBalanceResponse.fromJson(
         json['mealBalance'] as Map<String, dynamic>,
       ),
+  readProfileUser(json, 'profileUser') == null
+      ? null
+      : OverviewProfileUserResponse.fromJson(
+        readProfileUser(json, 'profileUser') as Map<String, dynamic>,
+      ),
 );
 
 Map<String, dynamic> _$CurrentSubscriptionOverviewDataResponseToJson(
@@ -396,6 +421,7 @@ Map<String, dynamic> _$CurrentSubscriptionOverviewDataResponseToJson(
   'pickupLocation': instance.pickupLocation,
   'fulfillmentSummary': instance.fulfillmentSummary,
   'mealBalance': instance.mealBalance,
+  'profileUser': instance.profileUser,
 };
 
 CurrentSubscriptionOverviewResponse
@@ -407,13 +433,19 @@ _$CurrentSubscriptionOverviewResponseFromJson(Map<String, dynamic> json) =>
               json['data'] as Map<String, dynamic>,
             ),
       )
+      ..ok = json['ok'] as bool?
       ..status = json['status']
-      ..message = json['message'] as String?;
+      ..message = json['message'] as String?
+      ..phoneE164 = json['phoneE164'] as String?
+      ..cooldownSeconds = (json['cooldownSeconds'] as num?)?.toInt();
 
 Map<String, dynamic> _$CurrentSubscriptionOverviewResponseToJson(
   CurrentSubscriptionOverviewResponse instance,
 ) => <String, dynamic>{
+  'ok': instance.ok,
   'status': instance.status,
   'message': instance.message,
+  'phoneE164': instance.phoneE164,
+  'cooldownSeconds': instance.cooldownSeconds,
   'data': instance.data,
 };

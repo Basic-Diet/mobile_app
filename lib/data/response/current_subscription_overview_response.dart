@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:basic_diet/data/response/base_response/base_response.dart';
+import 'package:basic_diet/data/response/pickup_status_response.dart';
+import 'package:basic_diet/data/response/subscription_pickup_request_response.dart';
 
 part 'current_subscription_overview_response.g.dart';
 
@@ -97,6 +99,16 @@ class PickupPreparationResponse {
   String? buttonLabel;
   @JsonKey(name: "message")
   String? message;
+  @JsonKey(name: "mode")
+  String? mode;
+  @JsonKey(name: "canCreatePickupRequest")
+  bool? canCreatePickupRequest;
+  @JsonKey(name: "availableMealBalance")
+  int? availableMealBalance;
+  @JsonKey(name: "activePickupRequestCount")
+  int? activePickupRequestCount;
+  @JsonKey(name: "latestPickupRequest")
+  SubscriptionPickupRequestResponse? latestPickupRequest;
   @JsonKey(name: "canRequestPrepare")
   bool? canRequestPrepare;
   @JsonKey(name: "canBePrepared")
@@ -119,12 +131,19 @@ class PickupPreparationResponse {
   bool? pickupRequested;
   @JsonKey(name: "pickupPrepared")
   bool? pickupPrepared;
+  @JsonKey(name: "restaurantHours")
+  RestaurantHoursResponse? restaurantHours;
 
   PickupPreparationResponse(
     this.flowStatus,
     this.reason,
     this.buttonLabel,
     this.message,
+    this.mode,
+    this.canCreatePickupRequest,
+    this.availableMealBalance,
+    this.activePickupRequestCount,
+    this.latestPickupRequest,
     this.canRequestPrepare,
     this.canBePrepared,
     this.planningReady,
@@ -135,8 +154,9 @@ class PickupPreparationResponse {
     this.messageEn,
     this.businessDate,
     this.pickupRequested,
-    this.pickupPrepared,
-  );
+    this.pickupPrepared, [
+    this.restaurantHours,
+  ]);
 
   factory PickupPreparationResponse.fromJson(Map<String, dynamic> json) =>
       _$PickupPreparationResponseFromJson(json);
@@ -154,7 +174,12 @@ class OverviewDeliverySlotResponse {
   @JsonKey(name: "label")
   String? label;
 
-  OverviewDeliverySlotResponse(this.slotId, this.type, this.window, [this.label]);
+  OverviewDeliverySlotResponse(
+    this.slotId,
+    this.type,
+    this.window, [
+    this.label,
+  ]);
 
   factory OverviewDeliverySlotResponse.fromJson(Map<String, dynamic> json) =>
       _$OverviewDeliverySlotResponseFromJson(json);
@@ -420,6 +445,73 @@ class AddonSummaryResponse {
   Map<String, dynamic> toJson() => _$AddonSummaryResponseToJson(this);
 }
 
+class OverviewProfileUserResponse {
+  String? name;
+  String? phone;
+
+  OverviewProfileUserResponse({this.name, this.phone});
+
+  factory OverviewProfileUserResponse.fromJson(Map<String, dynamic> json) {
+    final name =
+        _readString(json, 'fullName') ??
+        _readString(json, 'name') ??
+        _readString(json, 'customerName') ??
+        _readString(json, 'displayName');
+    final phone =
+        _readString(json, 'phoneE164') ??
+        _readString(json, 'phone') ??
+        _readString(json, 'mobile') ??
+        _readString(json, 'phoneNumber');
+    return OverviewProfileUserResponse(name: name, phone: phone);
+  }
+
+  Map<String, dynamic> toJson() => {'name': name, 'phone': phone};
+}
+
+String? _readString(Map<dynamic, dynamic> json, String key) {
+  final value = json[key];
+  if (value is String && value.trim().isNotEmpty) return value;
+  return null;
+}
+
+Object? readProfileUser(Map json, String key) {
+  const nestedKeys = [
+    'profileUser',
+    'user',
+    'customer',
+    'customerInfo',
+    'userInfo',
+    'userProfile',
+    'subscriber',
+    'member',
+  ];
+
+  for (final nestedKey in nestedKeys) {
+    final value = json[nestedKey];
+    if (value is Map<String, dynamic>) return value;
+    if (value is Map) return Map<String, dynamic>.from(value);
+  }
+
+  final direct = <String, dynamic>{};
+  for (final directKey in [
+    'fullName',
+    'name',
+    'customerName',
+    'displayName',
+    'phoneE164',
+    'phone',
+    'mobile',
+    'phoneNumber',
+  ]) {
+    final value = json[directKey];
+    if (value is String && value.trim().isNotEmpty) {
+      direct[directKey] = value;
+    }
+  }
+
+  return direct.isEmpty ? null : direct;
+}
+
 @JsonSerializable()
 class CurrentSubscriptionOverviewDataResponse {
   @JsonKey(name: "_id")
@@ -482,6 +574,8 @@ class CurrentSubscriptionOverviewDataResponse {
   OverviewFulfillmentSummaryResponse? fulfillmentSummary;
   @JsonKey(name: "mealBalance")
   MealBalanceResponse? mealBalance;
+  @JsonKey(name: "profileUser", readValue: readProfileUser)
+  OverviewProfileUserResponse? profileUser;
 
   CurrentSubscriptionOverviewDataResponse(
     this.id,
@@ -514,6 +608,7 @@ class CurrentSubscriptionOverviewDataResponse {
     this.pickupLocation,
     this.fulfillmentSummary, [
     this.mealBalance,
+    this.profileUser,
   ]);
 
   factory CurrentSubscriptionOverviewDataResponse.fromJson(
@@ -522,7 +617,6 @@ class CurrentSubscriptionOverviewDataResponse {
 
   Map<String, dynamic> toJson() =>
       _$CurrentSubscriptionOverviewDataResponseToJson(this);
-
 }
 
 @JsonSerializable()

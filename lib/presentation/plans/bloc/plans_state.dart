@@ -1,4 +1,5 @@
 import 'package:basic_diet/domain/model/current_subscription_overview_model.dart';
+import 'package:basic_diet/domain/model/subscription_pickup_request_model.dart';
 import 'package:basic_diet/domain/model/timeline_model.dart';
 import 'package:equatable/equatable.dart';
 
@@ -68,6 +69,23 @@ class PreparePickupLoading extends PlansState {
 
 class PreparePickupSuccess extends PlansState {
   const PreparePickupSuccess({super.data, super.fulfillmentDay});
+}
+
+class CreatePickupRequestLoading extends PlansState {
+  const CreatePickupRequestLoading({super.data, super.fulfillmentDay});
+}
+
+class CreatePickupRequestSuccess extends PlansState {
+  final SubscriptionPickupRequestModel pickupRequest;
+
+  const CreatePickupRequestSuccess({
+    required this.pickupRequest,
+    super.data,
+    super.fulfillmentDay,
+  });
+
+  @override
+  List<Object?> get props => [pickupRequest, data, fulfillmentDay];
 }
 
 class PlansError extends PlansState {

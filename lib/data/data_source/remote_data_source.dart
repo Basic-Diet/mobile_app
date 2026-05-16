@@ -30,6 +30,9 @@ import 'package:basic_diet/data/request/cancel_subscription_request.dart';
 import 'package:basic_diet/data/response/pickup_prepare_response.dart';
 import 'package:basic_diet/data/response/pickup_status_response.dart';
 import 'package:basic_diet/data/response/fulfillment_status_response.dart';
+import 'package:basic_diet/data/response/client_profile_response.dart';
+import 'package:basic_diet/data/request/pickup_request_request.dart';
+import 'package:basic_diet/data/response/subscription_pickup_request_response.dart';
 
 import 'package:basic_diet/data/request/order_quote_request.dart';
 import 'package:basic_diet/data/request/create_order_request.dart';
@@ -45,9 +48,23 @@ import 'package:basic_diet/data/response/cancel_order_response.dart';
 import '../response/bulk_selections_response.dart';
 
 abstract class RemoteDataSource {
-  Future<BaseResponse> login(String phone);
-  Future<AuthenticationResponse> verifyOtp(String phone, String otp);
-  Future<BaseResponse> register(String fullName, String phone, String? email);
+  Future<AuthenticationResponse> login(
+    String phone,
+    String password,
+    String? deviceId,
+    String? deviceName,
+  );
+  Future<BaseResponse> requestRegistrationOtp(String phone);
+  Future<AuthenticationResponse> verifyRegistrationOtp(
+    String phone,
+    String otp,
+    String password,
+    String? deviceId,
+    String? deviceName,
+  );
+  Future<AuthenticationResponse> refreshToken(String refreshToken);
+  Future<AuthenticationResponse> getCurrentUser();
+  Future<ClientProfileResponse> getClientProfile();
   Future<PlansResponse> getPlans();
   Future<PopularPackagesResponse> getPopularPackages();
   Future<PremiumMealsResponse> getPremiumMeals();
@@ -91,6 +108,19 @@ abstract class RemoteDataSource {
   Future<SubscriptionDayResponse> confirmDaySelection(String id, String date);
   Future<PickupPrepareResponse> preparePickup(String id, String date);
   Future<PickupStatusResponse> getPickupStatus(String id, String date);
+  Future<SubscriptionPickupRequestApiResponse> createPickupRequest(
+    String id,
+    PickupRequestRequest request,
+  );
+  Future<SubscriptionPickupRequestListApiResponse> getPickupRequests(
+    String id, {
+    String? date,
+    String status = 'active',
+  });
+  Future<SubscriptionPickupRequestApiResponse> getPickupRequestStatus(
+    String id,
+    String requestId,
+  );
   Future<FulfillmentStatusResponse> getDayFulfillmentStatus(
     String id,
     String date,
@@ -132,7 +162,10 @@ abstract class RemoteDataSource {
 
   Future<OrderMenuResponse> getOrderMenu();
   Future<OrderQuoteResponse> getOrderQuote(OrderQuoteRequest request);
-  Future<CreateOrderResponse> createOrder(CreateOrderRequest request, String idempotencyKey);
+  Future<CreateOrderResponse> createOrder(
+    CreateOrderRequest request,
+    String idempotencyKey,
+  );
   Future<VerifyPaymentResponse> verifyOrderPayment(
     String orderId,
     String paymentId,

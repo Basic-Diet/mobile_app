@@ -14,13 +14,18 @@ class VerifyOtpUseCase
   Future<Either<Failure, AuthenticationModel>> execute(
     VerifyOtpUseCaseInput input,
   ) async {
-    return await _repository.verifyOtp(input.phone, input.otp);
+    return await _repository.verifyRegistrationOtp(
+      input.phone,
+      input.otp,
+      input.password,
+    );
   }
 }
 
 class VerifyOtpUseCaseInput {
-  String phone;
-  String otp;
+  final String phone;
+  final String otp;
+  final String password;
 
-  VerifyOtpUseCaseInput(this.phone, this.otp);
+  const VerifyOtpUseCaseInput(this.phone, this.otp, this.password);
 }

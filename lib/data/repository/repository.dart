@@ -55,8 +55,13 @@ import 'package:basic_diet/domain/model/pickup_prepare_model.dart';
 
 import 'package:basic_diet/data/mappers/pickup_status_mapper.dart';
 import 'package:basic_diet/domain/model/pickup_status_model.dart';
+import 'package:basic_diet/data/request/pickup_request_request.dart';
+import 'package:basic_diet/data/mappers/subscription_pickup_request_mapper.dart';
+import 'package:basic_diet/domain/model/subscription_pickup_request_model.dart';
 import 'package:basic_diet/data/mappers/fulfillment_status_mapper.dart';
 import 'package:basic_diet/domain/model/fulfillment_status_model.dart';
+import 'package:basic_diet/data/mappers/client_profile_mapper.dart';
+import 'package:basic_diet/domain/model/client_profile_model.dart';
 
 import 'package:basic_diet/data/mappers/premium_payment_mapper.dart';
 import 'package:basic_diet/domain/model/premium_payment_model.dart';
@@ -95,6 +100,9 @@ class RepositoryImpl implements Repository {
   RepositoryImpl(this._remoteDataSource);
 
   bool _isSuccessfulResponse(dynamic response) {
+    if (response.ok is bool) {
+      return response.ok == true;
+    }
     if (response.status is bool) {
       return response.status == true;
     }
@@ -184,27 +192,28 @@ class RepositoryImpl implements Repository {
   }
 
   @override
-  Future<Either<Failure, BaseModel>> login(String phone) async {
-    try {
-      final response = await _remoteDataSource.login(phone);
-      if (_isSuccessfulResponse(response)) {
-        return Right(response.toDomain());
-      } else {
-        return Left(_mapFailureFromResponse(response));
-      }
-    } catch (error) {
-      return _handleError(error);
-    }
-  }
-
-  @override
-  Future<Either<Failure, BaseModel>> register(
-    String fullName,
+  Future<Either<Failure, AuthenticationModel>> login(
     String phone,
-    String? email,
+    String password,
   ) async {
     try {
-      final response = await _remoteDataSource.register(fullName, phone, email);
+      final response = await _remoteDataSource.login(phone, password, null, null);
+      if (_isSuccessfulResponse(response)) {
+        return Right(response.toDomain());
+      } else {
+        return Left(
+          Failure(ApiInternalStatus.failure, ResponseMessage.defaultError),
+        );
+      }
+    } catch (error) {
+      return _handleError(error);
+    }
+  }
+
+  @override
+  Future<Either<Failure, BaseModel>> requestRegistrationOtp(String phone) async {
+    try {
+      final response = await _remoteDataSource.requestRegistrationOtp(phone);
       if (_isSuccessfulResponse(response)) {
         return Right(response.toDomain());
       } else {
@@ -216,12 +225,69 @@ class RepositoryImpl implements Repository {
   }
 
   @override
-  Future<Either<Failure, AuthenticationModel>> verifyOtp(
+  Future<Either<Failure, AuthenticationModel>> verifyRegistrationOtp(
     String phone,
     String otp,
+    String password,
   ) async {
     try {
-      final response = await _remoteDataSource.verifyOtp(phone, otp);
+      final response = await _remoteDataSource.verifyRegistrationOtp(
+        phone,
+        otp,
+        password,
+        null,
+        null,
+      );
+      if (_isSuccessfulResponse(response)) {
+        return Right(response.toDomain());
+      } else {
+        return Left(
+          Failure(ApiInternalStatus.failure, ResponseMessage.defaultError),
+        );
+      }
+    } catch (error) {
+      return _handleError(error);
+    }
+  }
+
+  @override
+  Future<Either<Failure, AuthenticationModel>> refreshToken(
+    String refreshToken,
+  ) async {
+    try {
+      final response = await _remoteDataSource.refreshToken(refreshToken);
+      if (_isSuccessfulResponse(response)) {
+        return Right(response.toDomain());
+      } else {
+        return Left(
+          Failure(ApiInternalStatus.failure, ResponseMessage.defaultError),
+        );
+      }
+    } catch (error) {
+      return _handleError(error);
+    }
+  }
+
+  @override
+  Future<Either<Failure, AuthenticationModel>> getCurrentUser() async {
+    try {
+      final response = await _remoteDataSource.getCurrentUser();
+      if (_isSuccessfulResponse(response)) {
+        return Right(response.toDomain());
+      } else {
+        return Left(
+          Failure(ApiInternalStatus.failure, ResponseMessage.defaultError),
+        );
+      }
+    } catch (error) {
+      return _handleError(error);
+    }
+  }
+
+  @override
+  Future<Either<Failure, ClientProfileModel>> getClientProfile() async {
+    try {
+      final response = await _remoteDataSource.getClientProfile();
       if (_isSuccessfulResponse(response)) {
         return Right(response.toDomain());
       } else {
@@ -643,6 +709,75 @@ class RepositoryImpl implements Repository {
   }
 
   @override
+  Future<Either<Failure, SubscriptionPickupRequestModel>> createPickupRequest({
+    required String subscriptionId,
+    required String date,
+    required int mealCount,
+    String? idempotencyKey,
+  }) async {
+    try {
+      final response = await _remoteDataSource.createPickupRequest(
+        subscriptionId,
+        PickupRequestRequest(
+          date: date,
+          mealCount: mealCount,
+          idempotencyKey: idempotencyKey,
+        ),
+      );
+      if (_isSuccessfulResponse(response)) {
+        return Right(response.toDomain());
+      } else {
+        return Left(_mapFailureFromResponse(response));
+      }
+    } catch (error) {
+      return _handleError(error);
+    }
+  }
+
+  @override
+  Future<Either<Failure, SubscriptionPickupRequestsModel>> getPickupRequests({
+    required String subscriptionId,
+    String? date,
+    String status = 'active',
+  }) async {
+    try {
+      final response = await _remoteDataSource.getPickupRequests(
+        subscriptionId,
+        date: date,
+        status: status,
+      );
+      if (_isSuccessfulResponse(response)) {
+        return Right(response.toDomain());
+      } else {
+        return Left(_mapFailureFromResponse(response));
+      }
+    } catch (error) {
+      return _handleError(error);
+    }
+  }
+
+  @override
+  Future<Either<Failure, SubscriptionPickupRequestModel>>
+  getPickupRequestStatus({
+    required String subscriptionId,
+    required String requestId,
+  }) async {
+    try {
+      final response = await _remoteDataSource.getPickupRequestStatus(
+        subscriptionId,
+        requestId,
+      );
+      if (_isSuccessfulResponse(response)) {
+        return Right(response.toDomain());
+      } else {
+        return Left(_mapFailureFromResponse(response));
+      }
+    } catch (error) {
+      return _handleError(error);
+    }
+  }
+
+  @override
   Future<Either<Failure, FulfillmentStatusModel>> getDayFulfillmentStatus(
     String id,
     String date,
@@ -811,7 +946,9 @@ class RepositoryImpl implements Repository {
     OrderQuoteRequestModel request,
   ) async {
     try {
-      final response = await _remoteDataSource.getOrderQuote(request.toRequest());
+      final response = await _remoteDataSource.getOrderQuote(
+        request.toRequest(),
+      );
       if (_isSuccessfulResponse(response)) {
         return Right(response.toDomain());
       } else {
@@ -844,7 +981,8 @@ class RepositoryImpl implements Repository {
           return Left(_mapFailureFromResponse(response));
         }
       } on DioException catch (error) {
-        final canRetry = _isRetryableCreateError(error) &&
+        final canRetry =
+            _isRetryableCreateError(error) &&
             retryAttempt < _checkoutRetryCount;
         if (!canRetry) {
           return _handleError(error);

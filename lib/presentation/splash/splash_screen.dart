@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:basic_diet/app/app_pref.dart';
 import 'package:basic_diet/app/dependency_injection.dart';
+import 'package:basic_diet/domain/usecase/get_current_user_usecase.dart';
+import 'package:basic_diet/domain/usecase/refresh_token_usecase.dart';
 import 'package:basic_diet/presentation/language_selection/language_selection_screen.dart';
 import 'package:basic_diet/presentation/login/login_screen.dart';
 import 'package:basic_diet/presentation/main/main_screen.dart';
@@ -22,6 +24,10 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   Timer? _timer;
   final AppPreferences _appPreferences = instance<AppPreferences>();
+  final GetCurrentUserUseCase _getCurrentUserUseCase =
+      instance<GetCurrentUserUseCase>();
+  final RefreshTokenUseCase _refreshTokenUseCase =
+      instance<RefreshTokenUseCase>();
 
   @override
   void initState() {
@@ -35,7 +41,8 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void _goNext() async {
     bool isLanguageSelected = await _appPreferences.isLanguageSelected();
-    bool isUserLoggedIn = await _appPreferences.isUserLoggedIn("login");
+    final hasSessionTokens = await _appPreferences.hasSessionTokens();
+    final isSessionValid = hasSessionTokens ? await _hasValidSession() : false;
     bool isOnboardingScreenViewed = await _appPreferences
         .isOnboardingScreenViewed();
 
@@ -43,7 +50,7 @@ class _SplashScreenState extends State<SplashScreen> {
       if (!isLanguageSelected) {
         // First time user - show language selection
         context.go(LanguageSelectionScreen.languageSelectionRoute);
-      } else if (isUserLoggedIn) {
+      } else if (isSessionValid) {
         context.go(MainScreen.mainRoute);
       } else if (isOnboardingScreenViewed) {
         context.go(LoginScreen.loginRoute);
@@ -51,6 +58,42 @@ class _SplashScreenState extends State<SplashScreen> {
         context.go(OnboardingScreen.routeName);
       }
     }
+  }
+
+  Future<bool> _hasValidSession() async {
+    final currentUserResult = await _getCurrentUserUseCase.execute(null);
+
+    return currentUserResult.fold((failure) async {
+      if (failure.code == 'TOKEN_EXPIRED') {
+        return _refreshSession();
+      }
+
+      await _appPreferences.clearSession();
+      return false;
+    }, (_) async => true);
+  }
+
+  Future<bool> _refreshSession() async {
+    final refreshToken = await _appPreferences.getRefreshToken();
+    if (refreshToken.isEmpty) {
+      await _appPreferences.clearSession();
+      return false;
+    }
+
+    final refreshResult = await _refreshTokenUseCase.execute(refreshToken);
+    return refreshResult.fold((_) async {
+      await _appPreferences.clearSession();
+      return false;
+    }, (data) async {
+      await _appPreferences.saveSession(
+        accessToken: data.accessToken,
+        refreshToken: data.refreshToken,
+        expiresIn: data.expiresIn,
+      );
+
+      final retryResult = await _getCurrentUserUseCase.execute(null);
+      return retryResult.fold((_) async => false, (_) async => true);
+    });
   }
 
   @override

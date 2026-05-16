@@ -1,4 +1,5 @@
 import 'package:basic_diet/app/toast_handeller.dart';
+import 'package:basic_diet/app/app_pref.dart';
 import 'package:basic_diet/domain/usecase/login_usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'login_event.dart';
@@ -14,15 +15,18 @@ import 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final LoginUseCase _loginUseCase;
+  final AppPreferences _appPreferences;
 
   // 1. Constructor & Initial State
   // We pass the initial state to the superclass.
   // We start with LoginFormInitialState because the screen should initially show an empty form.
-  LoginBloc(this._loginUseCase) : super(const LoginFormInitialState()) {
+  LoginBloc(this._loginUseCase, this._appPreferences)
+    : super(const LoginFormInitialState()) {
     // 2. Event Handlers (The "Recipes")
     // We register "Listeners" for each event.
     // "When you see LoginPhoneChanged, run this function..."
     on<LoginPhoneChanged>(_onPhoneChanged);
+    on<LoginPasswordChanged>(_onPasswordChanged);
     // "When you see LoginSubmitted, run this function..."
     on<LoginSubmitted>(_onSubmitted);
   }
@@ -36,28 +40,62 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     emit(state.copyWith(phone: event.phone, phoneError: error));
   }
 
+  void _onPasswordChanged(
+    LoginPasswordChanged event,
+    Emitter<LoginState> emit,
+  ) {
+    final error = _validatePassword(event.password);
+    emit(state.copyWith(password: event.password, passwordError: error));
+  }
+
   Future<void> _onSubmitted(
     LoginSubmitted event,
     Emitter<LoginState> emit,
   ) async {
-    final error = _validatePhone(state.phone);
-    if (error != null) {
-      emit(state.copyWith(phoneError: error));
+    final phoneError = _validatePhone(state.phone);
+    final passwordError = _validatePassword(state.password);
+    if (phoneError != null || passwordError != null) {
+      emit(state.copyWith(phoneError: phoneError, passwordError: passwordError));
       return;
     }
 
-    emit(LoginLoadingState(phone: state.phone));
+    emit(LoginLoadingState(phone: state.phone, password: state.password));
 
-    final result = await _loginUseCase.execute(state.phone);
+    final result = await _loginUseCase.execute(
+      LoginUseCaseInput(state.phone, state.password),
+    );
 
-    result.fold(
-      (failure) {
-        emit(LoginErrorState(failure.message, phone: state.phone));
+    await result.fold(
+      (failure) async {
+        emit(
+          LoginErrorState(
+            failure.message,
+            phone: state.phone,
+            password: state.password,
+          ),
+        );
         showToast(message: failure.message, state: ToastStates.error);
       },
-      (data) {
-        emit(LoginSuccessState(phone: state.phone));
-        showToast(message: data.message, state: ToastStates.success);
+      (data) async {
+        if (data.accessToken.isEmpty || data.refreshToken.isEmpty) {
+          emit(
+            LoginErrorState(
+              "Token not found",
+              phone: state.phone,
+              password: state.password,
+            ),
+          );
+          showToast(message: "Token not found", state: ToastStates.error);
+          return;
+        }
+
+        await _appPreferences.saveSession(
+          accessToken: data.accessToken,
+          refreshToken: data.refreshToken,
+          expiresIn: data.expiresIn,
+        );
+        emit(LoginSuccessState(phone: state.phone, password: state.password));
+        showToast(message: "Login successful", state: ToastStates.success);
       },
     );
   }
@@ -65,6 +103,12 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   String? _validatePhone(String phone) {
     if (phone.isEmpty) return "Phone is required";
     if (phone.length < 9) return "Phone is too short";
+    return null;
+  }
+
+  String? _validatePassword(String password) {
+    if (password.isEmpty) return "Password is required";
+    if (password.length < 8) return "Password is too short";
     return null;
   }
 }

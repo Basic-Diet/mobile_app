@@ -22,9 +22,13 @@ class GetSubscriptionDayUseCase
   Future<Either<Failure, SubscriptionDayModel>> execute(
     GetSubscriptionDayUseCaseInput input,
   ) async {
+    // Normalize date to YYYY-MM-DD to avoid backend NOT_FOUND if full ISO string is passed
+    final normalizedDate =
+        input.date.contains('T') ? input.date.split('T')[0] : input.date;
+
     return await _repository.getSubscriptionDay(
       input.subscriptionId,
-      input.date,
+      normalizedDate,
     );
   }
 }

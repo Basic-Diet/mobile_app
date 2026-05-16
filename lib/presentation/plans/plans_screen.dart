@@ -53,8 +53,10 @@ class _PlansScreenState extends State<PlansScreen> with WidgetsBindingObserver {
     return MultiBlocProvider(
       providers: [
         BlocProvider<PlansBloc>(
-          create: (context) => instance<PlansBloc>()
-            ..add(FetchCurrentSubscriptionOverviewEvent()),
+          create:
+              (context) =>
+                  instance<PlansBloc>()
+                    ..add(FetchCurrentSubscriptionOverviewEvent()),
         ),
         BlocProvider<FulfillmentStatusCubit>.value(
           value: _fulfillmentStatusCubit,
@@ -89,6 +91,12 @@ class _PlansScreenState extends State<PlansScreen> with WidgetsBindingObserver {
   }
 
   void _onStateChanged(BuildContext context, PlansState state) {
+    if (state is PlansError && state.data != null) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(state.message)));
+    }
+
     if (state is NavigateToMealPlannerState) {
       initMealPlannerModule();
       Navigator.push(
@@ -145,7 +153,9 @@ class _PlansScreenState extends State<PlansScreen> with WidgetsBindingObserver {
             Gap(AppSize.s24.h),
           ],
         ),
-        if (state is OpenPlannerLoading || state is PreparePickupLoading)
+        if (state is OpenPlannerLoading ||
+            state is PreparePickupLoading ||
+            state is CreatePickupRequestLoading)
           Positioned.fill(
             child: Container(
               color: ColorManager.backgroundSurface.withValues(alpha: 0.5),

@@ -57,6 +57,7 @@ class CartLoaded extends CartState {
 
   bool get canCheckout {
     return items.isNotEmpty &&
+        !isSelectedRestaurantClosed &&
         resolvedBranchId != null &&
         resolvedBranchId!.isNotEmpty &&
         resolvedPickupWindow != null &&
@@ -84,6 +85,47 @@ class CartLoaded extends CartState {
     return const [];
   }
 
+  bool get isSelectedRestaurantClosed {
+    final branchData = _branchData(resolvedBranchId);
+    if (branchData == null) return false;
+
+    final isOpenNow = branchData['isOpenNow'];
+    if (isOpenNow is bool) return !isOpenNow;
+
+    return _isRestaurantClosedReason(branchData['reason']) ||
+        _isRestaurantClosedReason(branchData['blockingReason']) ||
+        _isRestaurantClosedReason(branchData['lockedReason']);
+  }
+
+  String get selectedWorkingHoursSummary {
+    final branchData = _branchData(resolvedBranchId);
+    if (branchData == null) return '';
+
+    final openTime = branchData['openTime'];
+    final closeTime = branchData['closeTime'];
+    if (openTime is String &&
+        openTime.trim().isNotEmpty &&
+        closeTime is String &&
+        closeTime.trim().isNotEmpty) {
+      return _formatRestaurantHours('${openTime.trim()} - ${closeTime.trim()}');
+    }
+
+    final workingHours = branchData['workingHours'] ?? branchData['hours'];
+    if (workingHours is String && workingHours.trim().isNotEmpty) {
+      return _formatRestaurantHours(workingHours);
+    }
+
+    return '';
+  }
+
+  Map<String, dynamic>? _branchData(String? branchId) {
+    if (branchId == null || branchId.isEmpty) return null;
+    final branchData = restaurantHours[branchId];
+    if (branchData is Map<String, dynamic>) return branchData;
+    if (restaurantHours.containsKey('isOpenNow')) return restaurantHours;
+    return null;
+  }
+
   CartLoaded copyWith({
     List<CartItem>? items,
     String? selectedBranchId,
@@ -105,4 +147,33 @@ class CartLoaded extends CartState {
     selectedPickupWindow,
     restaurantHours,
   ];
+}
+
+bool _isRestaurantClosedReason(dynamic value) {
+  return value is String && value.toUpperCase() == 'RESTAURANT_CLOSED';
+}
+
+String _formatRestaurantHours(String value) {
+  final trimmed = value.trim();
+  final parts = trimmed.split(RegExp(r'\s*[-–]\s*'));
+  if (parts.length != 2) return trimmed;
+
+  return '${_formatRestaurantTime(parts.first)} - '
+      '${_formatRestaurantTime(parts.last)}';
+}
+
+String _formatRestaurantTime(String value) {
+  final trimmed = value.trim();
+  if (trimmed.contains('ص') || trimmed.contains('م')) return trimmed;
+
+  final match = RegExp(r'^(\d{1,2}):(\d{2})').firstMatch(trimmed);
+  if (match == null) return trimmed;
+
+  final hour24 = int.tryParse(match.group(1) ?? '');
+  if (hour24 == null) return trimmed;
+
+  final minute = match.group(2) ?? '00';
+  final hour12 = hour24 % 12 == 0 ? 12 : hour24 % 12;
+  final period = hour24 < 12 ? 'ص' : 'م';
+  return '${hour12.toString().padLeft(2, '0')}:$minute $period';
 }

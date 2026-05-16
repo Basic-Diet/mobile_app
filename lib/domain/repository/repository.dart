@@ -27,7 +27,9 @@ import 'package:basic_diet/domain/model/cancel_subscription_model.dart';
 
 import 'package:basic_diet/domain/model/pickup_prepare_model.dart';
 import 'package:basic_diet/domain/model/pickup_status_model.dart';
+import 'package:basic_diet/domain/model/subscription_pickup_request_model.dart';
 import 'package:basic_diet/domain/model/fulfillment_status_model.dart';
+import 'package:basic_diet/domain/model/client_profile_model.dart';
 
 import 'package:basic_diet/domain/model/order_menu_model.dart';
 import 'package:basic_diet/domain/model/order_quote_model.dart';
@@ -41,16 +43,19 @@ import 'package:basic_diet/domain/model/order_model.dart';
 import '../model/bulk_selections_model.dart';
 
 abstract class Repository {
-  Future<Either<Failure, BaseModel>> login(String phone);
-  Future<Either<Failure, AuthenticationModel>> verifyOtp(
+  Future<Either<Failure, AuthenticationModel>> login(
+    String phone,
+    String password,
+  );
+  Future<Either<Failure, BaseModel>> requestRegistrationOtp(String phone);
+  Future<Either<Failure, AuthenticationModel>> verifyRegistrationOtp(
     String phone,
     String otp,
+    String password,
   );
-  Future<Either<Failure, BaseModel>> register(
-    String fullName,
-    String phone,
-    String? email,
-  );
+  Future<Either<Failure, AuthenticationModel>> refreshToken(String refreshToken);
+  Future<Either<Failure, AuthenticationModel>> getCurrentUser();
+  Future<Either<Failure, ClientProfileModel>> getClientProfile();
   Future<Either<Failure, PlansModel>> getPlans();
   Future<Either<Failure, PopularPackagesModel>> getPopularPackages();
   Future<Either<Failure, PremiumMealsModel>> getPremiumMeals();
@@ -111,6 +116,22 @@ abstract class Repository {
     String id,
     String date,
   );
+  Future<Either<Failure, SubscriptionPickupRequestModel>> createPickupRequest({
+    required String subscriptionId,
+    required String date,
+    required int mealCount,
+    String? idempotencyKey,
+  });
+  Future<Either<Failure, SubscriptionPickupRequestsModel>> getPickupRequests({
+    required String subscriptionId,
+    String? date,
+    String status = 'active',
+  });
+  Future<Either<Failure, SubscriptionPickupRequestModel>>
+  getPickupRequestStatus({
+    required String subscriptionId,
+    required String requestId,
+  });
   Future<Either<Failure, FulfillmentStatusModel>> getDayFulfillmentStatus(
     String id,
     String date,
@@ -130,11 +151,7 @@ abstract class Repository {
     String plannerRevisionHash = '',
   });
   Future<Either<Failure, PremiumPaymentVerificationModel>>
-  verifyUnifiedDayPayment(
-    String subscriptionId,
-    String date,
-    String paymentId,
-  );
+  verifyUnifiedDayPayment(String subscriptionId, String date, String paymentId);
   Future<Either<Failure, PremiumPaymentModel>> createOneTimeAddonPayment(
     String subscriptionId,
     String date,

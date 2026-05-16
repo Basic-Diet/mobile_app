@@ -20,6 +20,7 @@ class SubscriptionDayModel {
   final String lockedReason;
   final String lockedMessage;
   final MealBalanceModel? mealBalance;
+  final PlanningModel? planning;
 
   SubscriptionDayModel({
     required this.date,
@@ -40,6 +41,7 @@ class SubscriptionDayModel {
     this.lockedReason = '',
     this.lockedMessage = '',
     this.mealBalance,
+    this.planning,
   });
 
 }
@@ -156,6 +158,26 @@ class PlannerMetaModel {
     required this.premiumTotalHalala,
     required this.isDraftValid,
     required this.isConfirmable,
+  });
+}
+
+class PlanningModel {
+  final String? version;
+  final String? state;
+  final int requiredMealCount;
+  final int selectedTotalMealCount;
+  final bool isExactCountSatisfied;
+  final String? confirmedAt;
+  final String? confirmedByRole;
+
+  PlanningModel({
+    this.version,
+    this.state,
+    this.requiredMealCount = 0,
+    this.selectedTotalMealCount = 0,
+    this.isExactCountSatisfied = false,
+    this.confirmedAt,
+    this.confirmedByRole,
   });
 }
 

@@ -4,6 +4,8 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../presentation/resources/language_manager.dart';
 
 const String pressKeyLanguage = "PRESS_KEY_LANGUAGE";
+const String accessTokenKey = "accessToken";
+const String refreshTokenKey = "refreshToken";
 
 class AppPreferences {
   final FlutterSecureStorage _secureStorage;
@@ -54,31 +56,54 @@ class AppPreferences {
   }
 
   Future<bool> isUserLoggedIn(String key) async {
-    final token = await _secureStorage.read(key: key);
-    if (token == null || token.isEmpty) {
-      return false;
-    }
-
-    // Check if token has expired
-    final expiryTimestamp = await getTokenExpiry();
-    if (expiryTimestamp.isNotEmpty) {
-      final expiryTime = int.tryParse(expiryTimestamp);
-      if (expiryTime != null) {
-        final currentTime = DateTime.now().millisecondsSinceEpoch;
-
-        // If token is expired, remove it from cache
-        if (currentTime >= expiryTime) {
-          await logOut(); // Clear all cached data including token
-          return false;
-        }
-      }
-    }
-
-    return true;
+    return hasSessionTokens();
   }
 
   Future<void> logOut() async {
     await _secureStorage.deleteAll();
+  }
+
+  Future<void> saveSession({
+    required String accessToken,
+    required String refreshToken,
+    int? expiresIn,
+  }) async {
+    await _secureStorage.write(key: accessTokenKey, value: accessToken);
+    await _secureStorage.write(key: refreshTokenKey, value: refreshToken);
+    await _secureStorage.write(key: "login", value: accessToken);
+
+    if (expiresIn != null && expiresIn > 0) {
+      final expiresAt = DateTime.now()
+          .add(Duration(seconds: expiresIn))
+          .millisecondsSinceEpoch
+          .toString();
+      await setTokenExpiry(expiresAt);
+    }
+  }
+
+  Future<String> getAccessToken() async {
+    final accessToken = await _secureStorage.read(key: accessTokenKey);
+    if (accessToken != null && accessToken.isNotEmpty) {
+      return accessToken;
+    }
+    return await _secureStorage.read(key: "login") ?? "";
+  }
+
+  Future<String> getRefreshToken() async {
+    return await _secureStorage.read(key: refreshTokenKey) ?? "";
+  }
+
+  Future<bool> hasSessionTokens() async {
+    final accessToken = await getAccessToken();
+    final refreshToken = await getRefreshToken();
+    return accessToken.isNotEmpty && refreshToken.isNotEmpty;
+  }
+
+  Future<void> clearSession() async {
+    await _secureStorage.delete(key: accessTokenKey);
+    await _secureStorage.delete(key: refreshTokenKey);
+    await _secureStorage.delete(key: "login");
+    await _secureStorage.delete(key: 'expiresAt');
   }
 
   // Store the token expiration timestamp (milliseconds since epoch)

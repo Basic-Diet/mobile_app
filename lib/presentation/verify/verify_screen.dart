@@ -5,6 +5,8 @@ import 'package:basic_diet/presentation/resources/color_manager.dart';
 import 'package:basic_diet/presentation/resources/font_manager.dart';
 import 'package:basic_diet/presentation/resources/strings_manager.dart';
 import 'package:basic_diet/presentation/resources/styles_manager.dart';
+import 'package:basic_diet/presentation/widgets/button_widget.dart';
+import 'package:basic_diet/presentation/widgets/custom_text_field_style.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:basic_diet/presentation/resources/values_manager.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +23,10 @@ class VerifyScreen extends StatelessWidget {
   static const String verifyRoute = "/verify";
   final String? phoneNumber;
 
-  const VerifyScreen({super.key, this.phoneNumber});
+  VerifyScreen({super.key, this.phoneNumber});
+
+  late final TextEditingController _passwordController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -52,10 +57,14 @@ class VerifyScreen extends StatelessWidget {
                     Gap(AppSize.s40.h),
                     _buildHeader(),
                     Gap(AppSize.s40.h),
+                    _buildPasswordForm(innerContext),
+                    Gap(AppSize.s24.h),
                     _buildOtpForm(innerContext),
                     Gap(AppSize.s24.h),
                     _buildResendCode(innerContext),
-                    Gap(AppSize.s40.h),
+                    Gap(AppSize.s24.h),
+                    _buildVerifyButton(innerContext),
+                    Gap(AppSize.s24.h),
                     BlocBuilder<VerifyBloc, VerifyState>(
                       builder: (context, state) {
                         if (state is VerifyLoadingState) {
@@ -73,6 +82,37 @@ class VerifyScreen extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildPasswordForm(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          Strings.password.tr(),
+          style: getRegularTextStyle(
+            color: ColorManager.textPrimary,
+            fontSize: FontSizeManager.s16.sp,
+          ),
+        ),
+        Gap(AppSize.s8.h),
+        BlocBuilder<VerifyBloc, VerifyState>(
+          buildWhen: (previous, current) =>
+              previous.passwordError != current.passwordError,
+          builder: (context, state) {
+            return AppTextField.password(
+              controller: _passwordController,
+              errorText: state.passwordError,
+              onChanged: (password) {
+                context.read<VerifyBloc>().add(
+                  VerifyPasswordChanged(password),
+                );
+              },
+            );
+          },
+        ),
+      ],
     );
   }
 
@@ -141,7 +181,6 @@ class VerifyScreen extends StatelessWidget {
           },
           onCompleted: (code) {
             context.read<VerifyBloc>().add(VerifyCodeChanged(code));
-            context.read<VerifyBloc>().add(VerifySubmitted(phoneNumber ?? ""));
           },
           keyboardType: TextInputType.number,
           autofocus: true,
@@ -194,30 +233,33 @@ class VerifyScreen extends StatelessWidget {
     );
   }
 
-  // Widget _buildVerifyButton() {
-  //   return BlocBuilder<VerifyBloc, VerifyState>(
-  //     builder: (context, state) {
-  //       final isLoading = state is VerifyLoadingState; // check if loading
-  //       final isEnabled =
-  //           state.otpError == null &&
-  //           state.otpCode.length ==
-  //               4; // check if text field is valid and filled
+  Widget _buildVerifyButton(BuildContext context) {
+    return BlocBuilder<VerifyBloc, VerifyState>(
+      builder: (context, state) {
+        final isLoading = state is VerifyLoadingState;
+        final isEnabled =
+            state.otpError == null &&
+            state.otpCode.length == 6 &&
+            state.passwordError == null &&
+            state.password.isNotEmpty;
 
-  //       return ButtonWidget(
-  //         text: isLoading ? Strings.loading : Strings.verifyAndContinue,
-  //         textColor: ColorManager.backgroundSurface,
-  //         color: isEnabled
-  //             ? ColorManager.stateSuccessEmphasis
-  //             : ColorManager.stateSuccessEmphasis.withValues(alpha: 0.5),
-  //         width: double.infinity,
-  //         radius: AppSize.s12.r,
-  //         onTap: isEnabled
-  //             ? () => context.read<VerifyBloc>().add(const VerifySubmitted())
-  //             : null,
-  //       );
-  //     },
-  //   );
-  // }
+        return ButtonWidget(
+          text: isLoading ? Strings.loading.tr() : Strings.verifyContinue.tr(),
+          textColor: ColorManager.backgroundSurface,
+          color: isEnabled
+              ? ColorManager.stateSuccessEmphasis
+              : ColorManager.stateSuccessEmphasis.withValues(alpha: 0.5),
+          width: double.infinity,
+          radius: AppSize.s12.r,
+          onTap: isEnabled
+              ? () => context.read<VerifyBloc>().add(
+                  VerifySubmitted(phoneNumber ?? ""),
+                )
+              : null,
+        );
+      },
+    );
+  }
 
   Widget _buildSecurityInfo() {
     return Container(

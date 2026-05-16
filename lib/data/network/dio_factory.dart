@@ -37,17 +37,16 @@ class DioFactory {
           await _addLanguageHeader(options);
           handler.next(options);
         },
-        // onError: (DioException error, ErrorInterceptorHandler handler) async {
-        //   if (_isUnauthorizedError(error)) {
-        //     if (_isSessionExpired(error)) {
-        //       await _handleUnauthorizedError(error, handler);
-        //     } else {
-        //       handler.next(error);
-        //     }
-        //   } else {
-        //     handler.next(error);
-        //   }
-        // },
+        onError: (DioException error, ErrorInterceptorHandler handler) async {
+          if (_shouldRefresh(error)) {
+            final response = await _refreshAndRetry(dioInstance, error);
+            if (response != null) {
+              handler.resolve(response);
+              return;
+            }
+          }
+          handler.next(error);
+        },
       ),
     );
 
@@ -68,7 +67,7 @@ class DioFactory {
 
   Future<void> _addAuthorizationHeaderIfLoggedIn(RequestOptions options) async {
     try {
-      final accessToken = await _appPreferences.getUserToken("login");
+      final accessToken = await _appPreferences.getAccessToken();
 
       if (_isUserLoggedIn(accessToken)) {
         options.headers[authorization] = "Bearer $accessToken";
@@ -82,6 +81,66 @@ class DioFactory {
   }
 
   bool _isUserLoggedIn(String token) => token.isNotEmpty;
+
+  bool _shouldRefresh(DioException error) {
+    if (error.requestOptions.path == '/api/auth/refresh') {
+      return false;
+    }
+
+    final data = error.response?.data;
+    final code = data is Map<String, dynamic>
+        ? (data['error'] is Map<String, dynamic>
+              ? data['error']['code']
+              : data['code'])
+        : null;
+
+    return error.response?.statusCode == 401 && code == 'TOKEN_EXPIRED';
+  }
+
+  Future<Response<dynamic>?> _refreshAndRetry(
+    Dio dioInstance,
+    DioException error,
+  ) async {
+    final refreshToken = await _appPreferences.getRefreshToken();
+    if (refreshToken.isEmpty) {
+      await _appPreferences.clearSession();
+      return null;
+    }
+
+    try {
+      final response = await dioInstance.post<Map<String, dynamic>>(
+        '/api/auth/refresh',
+        data: {'refreshToken': refreshToken},
+        options: Options(headers: {authorization: null}),
+      );
+
+      final data = response.data;
+      final accessToken = data?['accessToken'] as String?;
+      final newRefreshToken = data?['refreshToken'] as String?;
+      final expiresIn = data?['expiresIn'] as int?;
+
+      if (accessToken == null ||
+          accessToken.isEmpty ||
+          newRefreshToken == null ||
+          newRefreshToken.isEmpty) {
+        await _appPreferences.clearSession();
+        return null;
+      }
+
+      await _appPreferences.saveSession(
+        accessToken: accessToken,
+        refreshToken: newRefreshToken,
+        expiresIn: expiresIn,
+      );
+
+      final requestOptions = error.requestOptions;
+      requestOptions.headers[authorization] = 'Bearer $accessToken';
+      return dioInstance.fetch<dynamic>(requestOptions);
+    } catch (_) {
+      await _appPreferences.clearSession();
+      return null;
+    }
+  }
 
   Future<void> _addLanguageHeader(RequestOptions options) async {
     final selectedLanguage = await _appPreferences.getAppLanguage();

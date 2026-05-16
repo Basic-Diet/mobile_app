@@ -14,7 +14,9 @@ class PreparePickupUseCase
   Future<Either<Failure, PickupPrepareModel>> execute(
     PreparePickupUseCaseInput input,
   ) async {
-    return await _repository.preparePickup(input.id, input.date);
+    final normalizedDate =
+        input.date.contains('T') ? input.date.split('T')[0] : input.date;
+    return await _repository.preparePickup(input.id, normalizedDate);
   }
 }
 

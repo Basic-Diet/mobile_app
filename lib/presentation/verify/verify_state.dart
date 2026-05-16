@@ -3,12 +3,16 @@ import 'package:equatable/equatable.dart';
 abstract class VerifyState extends Equatable {
   final String otpCode;
   final String? otpError;
+  final String password;
+  final String? passwordError;
   final int timerDuration;
   final bool canResend;
 
   const VerifyState({
     this.otpCode = '',
     this.otpError,
+    this.password = '',
+    this.passwordError,
     this.timerDuration = 59,
     this.canResend = false,
   });
@@ -16,6 +20,8 @@ abstract class VerifyState extends Equatable {
   VerifyState copyWith({
     String? otpCode,
     String? otpError,
+    String? password,
+    String? passwordError,
     int? timerDuration,
     bool? canResend,
   });
@@ -24,6 +30,8 @@ abstract class VerifyState extends Equatable {
   List<Object?> get props => [
     otpCode,
     otpError ?? '',
+    password,
+    passwordError ?? '',
     timerDuration,
     canResend,
   ];
@@ -33,6 +41,8 @@ class VerifyInitialState extends VerifyState {
   const VerifyInitialState({
     super.otpCode = '',
     super.otpError,
+    super.password = '',
+    super.passwordError,
     super.timerDuration = 59,
     super.canResend = false,
   });
@@ -41,12 +51,16 @@ class VerifyInitialState extends VerifyState {
   VerifyState copyWith({
     String? otpCode,
     String? otpError,
+    String? password,
+    String? passwordError,
     int? timerDuration,
     bool? canResend,
   }) {
     return VerifyInitialState(
       otpCode: otpCode ?? this.otpCode,
       otpError: otpError,
+      password: password ?? this.password,
+      passwordError: passwordError,
       timerDuration: timerDuration ?? this.timerDuration,
       canResend: canResend ?? this.canResend,
     );
@@ -57,6 +71,8 @@ class VerifyLoadingState extends VerifyState {
   const VerifyLoadingState({
     super.otpCode = '',
     super.otpError,
+    super.password = '',
+    super.passwordError,
     super.timerDuration = 59,
     super.canResend = false,
   });
@@ -65,12 +81,16 @@ class VerifyLoadingState extends VerifyState {
   VerifyState copyWith({
     String? otpCode,
     String? otpError,
+    String? password,
+    String? passwordError,
     int? timerDuration,
     bool? canResend,
   }) {
     return VerifyLoadingState(
       otpCode: otpCode ?? this.otpCode,
       otpError: otpError,
+      password: password ?? this.password,
+      passwordError: passwordError,
       timerDuration: timerDuration ?? this.timerDuration,
       canResend: canResend ?? this.canResend,
     );
@@ -81,6 +101,8 @@ class VerifySuccessState extends VerifyState {
   const VerifySuccessState({
     super.otpCode = '',
     super.otpError,
+    super.password = '',
+    super.passwordError,
     super.timerDuration = 59,
     super.canResend = false,
   });
@@ -89,12 +111,16 @@ class VerifySuccessState extends VerifyState {
   VerifyState copyWith({
     String? otpCode,
     String? otpError,
+    String? password,
+    String? passwordError,
     int? timerDuration,
     bool? canResend,
   }) {
     return VerifySuccessState(
       otpCode: otpCode ?? this.otpCode,
       otpError: otpError,
+      password: password ?? this.password,
+      passwordError: passwordError,
       timerDuration: timerDuration ?? this.timerDuration,
       canResend: canResend ?? this.canResend,
     );
@@ -107,6 +133,8 @@ class VerifyErrorState extends VerifyState {
     this.message, {
     super.otpCode = '',
     super.otpError,
+    super.password = '',
+    super.passwordError,
     super.timerDuration = 59,
     super.canResend = false,
   });
@@ -115,6 +143,8 @@ class VerifyErrorState extends VerifyState {
   VerifyState copyWith({
     String? otpCode,
     String? otpError,
+    String? password,
+    String? passwordError,
     int? timerDuration,
     bool? canResend,
   }) {
@@ -122,6 +152,8 @@ class VerifyErrorState extends VerifyState {
       message,
       otpCode: otpCode ?? this.otpCode,
       otpError: otpError,
+      password: password ?? this.password,
+      passwordError: passwordError,
       timerDuration: timerDuration ?? this.timerDuration,
       canResend: canResend ?? this.canResend,
     );
@@ -131,6 +163,8 @@ class VerifyErrorState extends VerifyState {
   List<Object?> get props => [
     otpCode,
     otpError ?? '',
+    password,
+    passwordError ?? '',
     timerDuration,
     canResend,
     message,

@@ -30,6 +30,7 @@ extension SubscriptionDayResponseMapper on SubscriptionDayResponse {
       lockedReason: data?.lockedReason ?? '',
       lockedMessage: data?.lockedMessage ?? '',
       mealBalance: data?.mealBalance?.toDomain(),
+      planning: data?.planning?.toDomain(),
     );
 
   }
@@ -47,6 +48,18 @@ extension PlanningResponseMapper on PlanningResponse {
       premiumTotalHalala: 0,
       isDraftValid: isExactCountSatisfied,
       isConfirmable: isExactCountSatisfied,
+    );
+  }
+
+  PlanningModel toDomain() {
+    return PlanningModel(
+      version: version,
+      state: state,
+      requiredMealCount: requiredMealCount,
+      selectedTotalMealCount: selectedTotalMealCount,
+      isExactCountSatisfied: isExactCountSatisfied,
+      confirmedAt: confirmedAt,
+      confirmedByRole: confirmedByRole,
     );
   }
 }
