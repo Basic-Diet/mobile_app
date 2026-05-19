@@ -1,5 +1,6 @@
 import 'package:basic_diet/app/dependency_injection.dart';
 import 'package:basic_diet/presentation/register/register_screen.dart';
+import 'package:basic_diet/presentation/forgot_password/forgot_password_screen.dart';
 import 'package:basic_diet/presentation/main/main_screen.dart';
 import 'package:basic_diet/presentation/resources/color_manager.dart';
 import 'package:basic_diet/presentation/resources/font_manager.dart';
@@ -140,7 +141,17 @@ class LoginScreen extends StatelessWidget {
             );
           },
         ),
-        Gap(AppSize.s24.h),
+        Gap(AppSize.s8.h),
+        Align(
+          alignment: AlignmentDirectional.centerEnd,
+          child: TextButtonWidget(
+            Strings.forgotPassword.tr(),
+            ColorManager.stateSuccessEmphasis,
+            FontSizeManager.s12,
+            () => context.push(ForgotPasswordScreen.routeName),
+          ),
+        ),
+        Gap(AppSize.s16.h),
         BlocBuilder<LoginBloc, LoginState>(
           builder: (context, state) {
             final isLoading = state is LoginLoadingState;

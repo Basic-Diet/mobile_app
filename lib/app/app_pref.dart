@@ -60,7 +60,11 @@ class AppPreferences {
   }
 
   Future<void> logOut() async {
-    await _secureStorage.deleteAll();
+    // Only delete auth-related keys; preserve language/onboarding prefs
+    await _secureStorage.delete(key: accessTokenKey);
+    await _secureStorage.delete(key: refreshTokenKey);
+    await _secureStorage.delete(key: "login");
+    await _secureStorage.delete(key: 'expiresAt');
   }
 
   Future<void> saveSession({

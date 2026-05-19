@@ -1,6 +1,7 @@
 import 'package:basic_diet/app/constants.dart';
 import 'package:basic_diet/data/response/orders_list_response.dart';
 import 'package:basic_diet/domain/model/order_model.dart';
+import 'package:basic_diet/domain/model/order_status.dart';
 
 extension OrdersListResponseMapper on OrdersListResponse? {
   OrdersListModel toDomain() {
@@ -20,11 +21,14 @@ extension OrdersListResponseMapper on OrdersListResponse? {
 
 extension OrdersListItemResponseMapper on OrdersListItemResponse? {
   OrderModel toDomain() {
+    final rawStatus = this?.status;
+    final paymentStatus = this?.paymentStatus ?? Constants.empty;
+
     return OrderModel(
       id: this?.id ?? Constants.empty,
       orderNumber: this?.orderNumber ?? Constants.empty,
-      status: this?.status ?? Constants.empty,
-      paymentStatus: this?.paymentStatus ?? Constants.empty,
+      status: _resolveStatus(rawStatus, paymentStatus),
+      paymentStatus: paymentStatus,
       paymentId: this?.paymentId ?? Constants.empty,
       fulfillmentMethod: this?.fulfillmentMethod ?? Constants.empty,
       pickup: null,
@@ -32,6 +36,14 @@ extension OrdersListItemResponseMapper on OrdersListItemResponse? {
       items: const [],
       createdAt: this?.createdAt,
       expiresAt: null,
+      allowedActions: _toStringList(this?.allowedActions),
+      cancelledBy: _normalizeCancelledBy(
+        this?.cancelledBy ?? this?.canceledBy,
+      ),
+      cancellationReason:
+          this?.cancellationReason ?? this?.cancellationNote,
+      cancellationSource: this?.cancellationNote,
+      cancelledAt: this?.cancelledAt ?? this?.canceledAt,
     );
   }
 }
@@ -59,4 +71,27 @@ extension OrdersListPaginationResponseMapper
       pages: this?.pages ?? Constants.zero,
     );
   }
+}
+
+OrderStatus _resolveStatus(String? rawStatus, String paymentStatus) {
+  final normalized = OrderStatus.normalize(rawStatus);
+  if (normalized == null) {
+    if (paymentStatus.toLowerCase() == 'unpaid') {
+      return OrderStatus.pendingPayment;
+    }
+    return OrderStatus.confirmed;
+  }
+  return OrderStatus.fromString(normalized);
+}
+
+String? _normalizeCancelledBy(String? raw) {
+  if (raw == null || raw.isEmpty) return null;
+  final v = raw.trim().toLowerCase();
+  if (v == 'branch') return 'restaurant';
+  return v;
+}
+
+List<String> _toStringList(List<dynamic>? raw) {
+  if (raw == null) return const [];
+  return raw.whereType<String>().toList();
 }

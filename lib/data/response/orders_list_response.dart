@@ -70,6 +70,27 @@ class OrdersListItemResponse {
   @JsonKey(name: 'createdAt')
   final String? createdAt;
 
+  @JsonKey(name: 'allowedActions')
+  final List<dynamic>? allowedActions;
+
+  @JsonKey(name: 'cancelledBy')
+  final String? cancelledBy;
+
+  @JsonKey(name: 'canceledBy')
+  final String? canceledBy;
+
+  @JsonKey(name: 'cancellationReason')
+  final String? cancellationReason;
+
+  @JsonKey(name: 'cancellationNote')
+  final String? cancellationNote;
+
+  @JsonKey(name: 'cancelledAt')
+  final String? cancelledAt;
+
+  @JsonKey(name: 'canceledAt')
+  final String? canceledAt;
+
   OrdersListItemResponse({
     this.id,
     this.orderNumber,
@@ -80,6 +101,13 @@ class OrdersListItemResponse {
     this.pricing,
     this.items,
     this.createdAt,
+    this.allowedActions,
+    this.cancelledBy,
+    this.canceledBy,
+    this.cancellationReason,
+    this.cancellationNote,
+    this.cancelledAt,
+    this.canceledAt,
   });
 
   factory OrdersListItemResponse.fromJson(Map<String, dynamic> json) =>

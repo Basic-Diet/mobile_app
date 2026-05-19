@@ -1,7 +1,7 @@
-import 'dart:async';
-
 import 'package:basic_diet/app/dependency_injection.dart';
 import 'package:basic_diet/domain/model/order_model.dart';
+import 'package:basic_diet/domain/model/order_status.dart';
+import 'package:basic_diet/domain/model/order_timeline_model.dart';
 import 'package:basic_diet/presentation/main/cart/bloc/order_tracking_bloc.dart';
 import 'package:basic_diet/presentation/main/cart/bloc/order_tracking_event.dart';
 import 'package:basic_diet/presentation/main/cart/bloc/order_tracking_state.dart';
@@ -30,6 +30,7 @@ class OrderTrackingScreen extends StatelessWidget {
         initOrderTrackingModule();
         final bloc = instance<OrderTrackingBloc>();
         bloc.add(LoadOrderDetailEvent(orderId));
+        bloc.add(const StartPollingEvent());
         return bloc;
       },
       child: _OrderTrackingContent(orderId: orderId),
@@ -47,45 +48,10 @@ class _OrderTrackingContent extends StatefulWidget {
 }
 
 class _OrderTrackingContentState extends State<_OrderTrackingContent> {
-  Timer? _pollingTimer;
-
-  @override
-  void initState() {
-    super.initState();
-    _startPolling();
-  }
-
   @override
   void dispose() {
-    _pollingTimer?.cancel();
+    context.read<OrderTrackingBloc>().add(const StopPollingEvent());
     super.dispose();
-  }
-
-  void _startPolling() {
-    _pollingTimer?.cancel();
-    _pollingTimer = Timer.periodic(const Duration(seconds: 10), (_) {
-      if (!mounted) {
-        return;
-      }
-
-      final state = context.read<OrderTrackingBloc>().state;
-      final order = _OrderTrackingViewData.fromState(state)?.order;
-
-      if (order == null || _isTerminalStatus(order.status)) {
-        _pollingTimer?.cancel();
-        return;
-      }
-
-      context.read<OrderTrackingBloc>().add(
-        RefreshOrderDetailEvent(widget.orderId),
-      );
-    });
-  }
-
-  bool _isTerminalStatus(String status) {
-    return status == 'fulfilled' ||
-        status == 'cancelled' ||
-        status == 'expired';
   }
 
   @override
@@ -142,35 +108,44 @@ class _OrderTrackingContentState extends State<_OrderTrackingContent> {
 
 class _OrderTrackingViewData {
   final OrderModel order;
+  final OrderTimelineModel? timeline;
   final String? inlineMessage;
   final bool showProcessingNotice;
 
   const _OrderTrackingViewData({
     required this.order,
+    this.timeline,
     this.inlineMessage,
     this.showProcessingNotice = false,
   });
 
   static _OrderTrackingViewData? fromState(OrderTrackingState state) {
-    if (state is OrderTrackingSuccess) {
-      return _OrderTrackingViewData(order: state.order);
+    final order = state.orderOrNull;
+    if (order == null) return null;
+
+    final timeline = state.timeline;
+
+    if (state is OrderTrackingSuccess || state is OrderTrackingRefreshing) {
+      return _OrderTrackingViewData(order: order, timeline: timeline);
     }
     if (state is OrderTrackingVerifying) {
       return _OrderTrackingViewData(
-        order: state.order,
+        order: order,
+        timeline: timeline,
         inlineMessage: Strings.paymentProcessing.tr(),
         showProcessingNotice: true,
       );
     }
     if (state is OrderTrackingVerifyProcessing) {
       return _OrderTrackingViewData(
-        order: state.order,
+        order: order,
+        timeline: timeline,
         inlineMessage: Strings.paymentProcessing.tr(),
         showProcessingNotice: true,
       );
     }
     if (state is OrderTrackingVerifyFailure) {
-      return _OrderTrackingViewData(order: state.order);
+      return _OrderTrackingViewData(order: order, timeline: timeline);
     }
 
     return null;
@@ -185,7 +160,7 @@ class _OrderTrackingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final order = data.order;
-    final steps = _TrackingStepData.buildSteps(order, context);
+    final timeline = data.timeline;
 
     return SingleChildScrollView(
       padding: EdgeInsetsDirectional.fromSTEB(
@@ -203,22 +178,19 @@ class _OrderTrackingView extends StatelessWidget {
             _PickupCodeCard(order: order),
             SizedBox(height: AppSize.s12.h),
           ],
+          if (order.status == OrderStatus.cancelled) ...[
+            _CancellationCard(order: order),
+            SizedBox(height: AppSize.s12.h),
+          ],
           if (data.showProcessingNotice && data.inlineMessage != null) ...[
             _MutedNote(message: data.inlineMessage!),
             SizedBox(height: AppSize.s12.h),
           ],
           _TrackingCard(
             title: Strings.orderStatusTitle.tr(),
-            child: Column(
-              children: [
-                for (var i = 0; i < steps.length; i++)
-                  _StatusStepTile(
-                    step: steps[i],
-                    stepNumber: i + 1,
-                    isLast: i == steps.length - 1,
-                  ),
-              ],
-            ),
+            child: timeline != null && timeline.timeline.isNotEmpty
+                ? _BackendTimeline(timeline: timeline)
+                : _FallbackTimeline(order: order),
           ),
           SizedBox(height: AppSize.s12.h),
           _MutedNote(message: Strings.pickupOnlyTrackingNote.tr()),
@@ -228,7 +200,246 @@ class _OrderTrackingView extends StatelessWidget {
   }
 
   bool _shouldShowPickupCodeCard(OrderModel order) {
-    return order.fulfillmentMethod == 'pickup' || order.pickup != null;
+    return order.isPickup || order.pickup != null;
+  }
+}
+
+class _BackendTimeline extends StatelessWidget {
+  final OrderTimelineModel timeline;
+
+  const _BackendTimeline({required this.timeline});
+
+  @override
+  Widget build(BuildContext context) {
+    final visibleItems = timeline.timeline.where((i) => !i.isHidden).toList();
+
+    return Column(
+      children: [
+        for (var i = 0; i < visibleItems.length; i++)
+          _TimelineStepTile(
+            item: visibleItems[i],
+            isLast: i == visibleItems.length - 1,
+            stepNumber: i + 1,
+          ),
+      ],
+    );
+  }
+}
+
+class _FallbackTimeline extends StatelessWidget {
+  final OrderModel order;
+
+  const _FallbackTimeline({required this.order});
+
+  @override
+  Widget build(BuildContext context) {
+    final steps = _TrackingStepData.buildSteps(order, context);
+
+    return Column(
+      children: [
+        for (var i = 0; i < steps.length; i++)
+          _StatusStepTile(
+            step: steps[i],
+            stepNumber: i + 1,
+            isLast: i == steps.length - 1,
+          ),
+      ],
+    );
+  }
+}
+
+class _TimelineStepTile extends StatelessWidget {
+  final OrderTimelineItemModel item;
+  final bool isLast;
+  final int stepNumber;
+
+  const _TimelineStepTile({
+    required this.item,
+    required this.isLast,
+    required this.stepNumber,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final isDone = item.isCompleted;
+    final isCurrent = item.isActive;
+    final isCancelled = item.isCancelled;
+
+    final dotColor = isDone || isCurrent || isCancelled
+        ? (isCancelled ? ColorManager.stateError : ColorManager.brandPrimary)
+        : ColorManager.backgroundSubtle;
+    final textColor = isCurrent
+        ? ColorManager.stateSuccessEmphasis
+        : ColorManager.textPrimary;
+    final lineColor = isDone
+        ? ColorManager.brandPrimary
+        : ColorManager.borderDefault;
+
+    final label = context.locale.languageCode.startsWith('ar')
+        ? item.labelAr
+        : item.labelEn;
+
+    return IntrinsicHeight(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Column(
+            children: [
+              Container(
+                width: AppSize.s30.w,
+                height: AppSize.s30.h,
+                decoration: BoxDecoration(
+                  color: dotColor,
+                  shape: BoxShape.circle,
+                ),
+                alignment: Alignment.center,
+                child: isDone
+                    ? Icon(
+                        Icons.check_rounded,
+                        size: AppSize.s18.r,
+                        color: ColorManager.textInverse,
+                      )
+                    : Text(
+                        '$stepNumber',
+                        style: getBoldTextStyle(
+                          color: isCurrent || isCancelled
+                              ? ColorManager.textInverse
+                              : ColorManager.textSecondary,
+                          fontSize: FontSizeManager.s13.sp,
+                        ),
+                      ),
+              ),
+              if (!isLast)
+                Expanded(
+                  child: Container(
+                    width: AppSize.s2.w,
+                    margin: EdgeInsets.symmetric(vertical: AppMargin.m4.h),
+                    color: lineColor,
+                  ),
+                ),
+            ],
+          ),
+          SizedBox(width: AppSize.s12.w),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.only(top: AppPadding.p2.h),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    label,
+                    style: getBoldTextStyle(
+                      color: textColor,
+                      fontSize: FontSizeManager.s16.sp,
+                    ),
+                  ),
+                  if (item.time != null && item.time!.isNotEmpty) ...[
+                    SizedBox(height: AppSize.s4.h),
+                    Text(
+                      _formatTime(item.time!),
+                      style: getRegularTextStyle(
+                        color: ColorManager.textSecondary,
+                        fontSize: FontSizeManager.s12.sp,
+                      ),
+                    ),
+                  ],
+                  if (!isLast) SizedBox(height: AppSize.s16.h),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  String _formatTime(String raw) {
+    final parsed = DateTime.tryParse(raw);
+    if (parsed == null) return raw;
+    return DateFormat('d MMM, hh:mm a').format(parsed.toLocal());
+  }
+}
+
+class _CancellationCard extends StatelessWidget {
+  final OrderModel order;
+
+  const _CancellationCard({required this.order});
+
+  @override
+  Widget build(BuildContext context) {
+    final message = _cancellationMessage(order);
+
+    return Container(
+      padding: EdgeInsetsDirectional.fromSTEB(
+        AppPadding.p16.w,
+        AppPadding.p14.h,
+        AppPadding.p16.w,
+        AppPadding.p14.h,
+      ),
+      decoration: BoxDecoration(
+        color: ColorManager.stateErrorSurface,
+        borderRadius: BorderRadius.circular(AppSize.s20.r),
+        border: Border.all(color: ColorManager.stateErrorBorder),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(
+                Icons.cancel_rounded,
+                color: ColorManager.stateError,
+                size: AppSize.s20.r,
+              ),
+              SizedBox(width: AppSize.s8.w),
+              Text(
+                Strings.cancelled.tr(),
+                style: getBoldTextStyle(
+                  color: ColorManager.stateError,
+                  fontSize: FontSizeManager.s14.sp,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: AppSize.s8.h),
+          Text(
+            message,
+            style: getRegularTextStyle(
+              color: ColorManager.textPrimary,
+              fontSize: FontSizeManager.s13.sp,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  String _cancellationMessage(OrderModel order) {
+    final reason = order.cancellationReason;
+    final by = order.cancelledBy;
+
+    if (by == 'customer') {
+      return Strings.cancelledByCustomer.tr();
+    }
+    if (by == 'restaurant') {
+      if (reason == 'restaurant_rejected') {
+        return Strings.cancelledByRestaurantRejected.tr();
+      }
+      return Strings.cancelledByRestaurant.tr();
+    }
+    if (by == 'admin') {
+      return Strings.cancelledByAdmin.tr();
+    }
+    if (by == 'system') {
+      if (reason == 'payment_failed') {
+        return Strings.cancelledPaymentFailed.tr();
+      }
+      if (reason == 'payment_expired') {
+        return Strings.expired.tr();
+      }
+      return Strings.cancelledBySystem.tr();
+    }
+    return Strings.cancelledTrackingDescription.tr();
   }
 }
 
@@ -448,7 +659,7 @@ class _TrackingStepData {
       ),
     ];
 
-    if (status == 'pending_payment') {
+    if (status == OrderStatus.pendingPayment) {
       return [
         _TrackingStepData(
           title: Strings.pendingPayment.tr(),
@@ -465,13 +676,13 @@ class _TrackingStepData {
       ];
     }
 
-    if (status == 'cancelled' || status == 'expired') {
+    if (status == OrderStatus.cancelled || status == OrderStatus.expired) {
       return [
         _TrackingStepData(
-          title: status == 'cancelled'
+          title: status == OrderStatus.cancelled
               ? Strings.cancelled.tr()
               : Strings.expired.tr(),
-          description: status == 'cancelled'
+          description: status == OrderStatus.cancelled
               ? Strings.cancelledTrackingDescription.tr()
               : Strings.expiredTrackingDescription.tr(),
           visualState: _TrackingStepVisualState.current,
@@ -498,15 +709,15 @@ class _TrackingStepData {
     return '${Strings.branch.tr()} $branchId';
   }
 
-  static int _statusIndex(String status) {
+  static int _statusIndex(OrderStatus status) {
     switch (status) {
-      case 'confirmed':
+      case OrderStatus.confirmed:
         return 0;
-      case 'in_preparation':
+      case OrderStatus.inPreparation:
         return 1;
-      case 'ready_for_pickup':
+      case OrderStatus.readyForPickup:
         return 2;
-      case 'fulfilled':
+      case OrderStatus.fulfilled:
         return 3;
       default:
         return -1;
@@ -516,9 +727,9 @@ class _TrackingStepData {
   static _TrackingStepVisualState _visualStateForStepIndex(
     int currentIndex,
     int stepIndex,
-    String status,
+    OrderStatus status,
   ) {
-    if (status == 'fulfilled') {
+    if (status == OrderStatus.fulfilled) {
       return _TrackingStepVisualState.done;
     }
     if (currentIndex > stepIndex) {

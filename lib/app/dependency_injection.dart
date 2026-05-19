@@ -9,14 +9,19 @@ import 'package:basic_diet/domain/usecase/login_usecase.dart';
 import 'package:basic_diet/domain/usecase/get_client_profile_usecase.dart';
 import 'package:basic_diet/domain/usecase/get_current_user_usecase.dart';
 import 'package:basic_diet/domain/usecase/refresh_token_usecase.dart';
+import 'package:basic_diet/domain/usecase/logout_usecase.dart';
 import 'package:basic_diet/domain/usecase/prepare_pickup_usecase.dart';
 import 'package:basic_diet/domain/usecase/verify_otp_usecase.dart';
+import 'package:basic_diet/domain/usecase/request_password_reset_otp_usecase.dart';
+import 'package:basic_diet/domain/usecase/reset_password_usecase.dart';
 import 'package:basic_diet/domain/usecase/checkout_subscription_usecase.dart';
 import 'package:basic_diet/domain/usecase/get_plans_usecase.dart';
 import 'package:basic_diet/domain/usecase/get_delivery_options_usecase.dart';
 import 'package:basic_diet/domain/usecase/get_subscription_quote_usecase.dart';
 import 'package:basic_diet/presentation/login/login_bloc.dart';
 import 'package:basic_diet/presentation/verify/verify_bloc.dart';
+import 'package:basic_diet/presentation/forgot_password/bloc/forgot_password_bloc.dart';
+import 'package:basic_diet/presentation/reset_password/bloc/reset_password_bloc.dart';
 import 'package:basic_diet/presentation/main/home/subscription/bloc/subscription_bloc.dart';
 import 'package:basic_diet/domain/usecase/register_usecase.dart';
 import 'package:basic_diet/domain/usecase/get_popular_packages_usecase.dart';
@@ -62,6 +67,7 @@ import 'package:basic_diet/domain/usecase/get_order_detail_usecase.dart';
 import 'package:basic_diet/domain/usecase/get_orders_usecase.dart';
 import 'package:basic_diet/domain/usecase/cancel_order_usecase.dart';
 import 'package:basic_diet/domain/usecase/verify_order_payment_usecase.dart';
+import 'package:basic_diet/domain/usecase/get_order_timeline_usecase.dart';
 import 'package:basic_diet/presentation/main/menu/bloc/menu_bloc.dart';
 import 'package:basic_diet/presentation/main/cart/bloc/checkout_bloc.dart';
 import 'package:basic_diet/presentation/main/cart/bloc/order_tracking_bloc.dart';
@@ -148,6 +154,33 @@ void initVerifyModule() {
   }
 }
 
+void initForgotPasswordModule() {
+  if (!GetIt.I.isRegistered<RequestPasswordResetOtpUseCase>()) {
+    instance.registerFactory<RequestPasswordResetOtpUseCase>(
+      () => RequestPasswordResetOtpUseCase(instance<Repository>()),
+    );
+
+    instance.registerFactory<ForgotPasswordBloc>(
+      () => ForgotPasswordBloc(instance<RequestPasswordResetOtpUseCase>()),
+    );
+  }
+}
+
+void initResetPasswordModule() {
+  if (!GetIt.I.isRegistered<ResetPasswordUseCase>()) {
+    instance.registerFactory<ResetPasswordUseCase>(
+      () => ResetPasswordUseCase(instance<Repository>()),
+    );
+
+    instance.registerFactoryParam<ResetPasswordBloc, String, void>(
+      (phone, _) => ResetPasswordBloc(
+        instance<ResetPasswordUseCase>(),
+        phone: phone,
+      ),
+    );
+  }
+}
+
 void initSubscriptionModule() {
   if (!GetIt.I.isRegistered<GetPlansUseCase>()) {
     instance.registerFactory<GetPlansUseCase>(
@@ -204,10 +237,17 @@ void initProfileModule() {
     );
   }
 
+  if (!GetIt.I.isRegistered<LogoutUseCase>()) {
+    instance.registerFactory<LogoutUseCase>(
+      () => LogoutUseCase(instance<Repository>()),
+    );
+  }
+
   if (!GetIt.I.isRegistered<ProfileBloc>()) {
     instance.registerFactory<ProfileBloc>(
       () => ProfileBloc(
         instance<GetClientProfileUseCase>(),
+        instance<LogoutUseCase>(),
         instance<AppPreferences>(),
       ),
     );
@@ -504,11 +544,18 @@ void initOrderTrackingModule() {
     );
   }
 
+  if (!GetIt.I.isRegistered<GetOrderTimelineUseCase>()) {
+    instance.registerFactory<GetOrderTimelineUseCase>(
+      () => GetOrderTimelineUseCase(instance<Repository>()),
+    );
+  }
+
   if (!GetIt.I.isRegistered<OrderTrackingBloc>()) {
     instance.registerFactory<OrderTrackingBloc>(
       () => OrderTrackingBloc(
         instance<GetOrderDetailUseCase>(),
         instance<VerifyOrderPaymentUseCase>(),
+        instance<GetOrderTimelineUseCase>(),
       ),
     );
   }

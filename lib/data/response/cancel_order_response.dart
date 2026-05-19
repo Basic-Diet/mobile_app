@@ -36,7 +36,39 @@ class CancelOrderDataResponse {
   @JsonKey(name: 'paymentStatus')
   final String? paymentStatus;
 
-  CancelOrderDataResponse({this.id, this.status, this.paymentStatus});
+  @JsonKey(name: 'allowedActions')
+  final List<dynamic>? allowedActions;
+
+  @JsonKey(name: 'cancelledBy')
+  final String? cancelledBy;
+
+  @JsonKey(name: 'canceledBy')
+  final String? canceledBy;
+
+  @JsonKey(name: 'cancellationReason')
+  final String? cancellationReason;
+
+  @JsonKey(name: 'cancellationNote')
+  final String? cancellationNote;
+
+  @JsonKey(name: 'cancelledAt')
+  final String? cancelledAt;
+
+  @JsonKey(name: 'canceledAt')
+  final String? canceledAt;
+
+  CancelOrderDataResponse({
+    this.id,
+    this.status,
+    this.paymentStatus,
+    this.allowedActions,
+    this.cancelledBy,
+    this.canceledBy,
+    this.cancellationReason,
+    this.cancellationNote,
+    this.cancelledAt,
+    this.canceledAt,
+  });
 
   factory CancelOrderDataResponse.fromJson(Map<String, dynamic> json) =>
       _$CancelOrderDataResponseFromJson(json);

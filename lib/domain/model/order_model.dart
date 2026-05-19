@@ -1,7 +1,9 @@
+import 'package:basic_diet/domain/model/order_status.dart';
+
 class OrderModel {
   final String id;
   final String orderNumber;
-  final String status;
+  final OrderStatus status;
   final String paymentStatus;
   final String paymentId;
   final String fulfillmentMethod;
@@ -10,6 +12,15 @@ class OrderModel {
   final List<OrderItemModel> items;
   final String? createdAt;
   final String? expiresAt;
+  final String? updatedAt;
+
+  // Lifecycle-mandated fields
+  final List<String> allowedActions;
+  final String? cancelledBy;
+  final String? cancellationReason;
+  final String? cancellationSource;
+  final String? cancelledAt;
+  final String? timelineEndpoint;
 
   const OrderModel({
     required this.id,
@@ -23,7 +34,22 @@ class OrderModel {
     required this.items,
     this.createdAt,
     this.expiresAt,
+    this.updatedAt,
+    this.allowedActions = const [],
+    this.cancelledBy,
+    this.cancellationReason,
+    this.cancellationSource,
+    this.cancelledAt,
+    this.timelineEndpoint,
   });
+
+  /// Defensive: if fulfillmentMethod is null/unrecognized, treat as pickup
+  bool get isPickup {
+    final method = fulfillmentMethod.trim().toLowerCase();
+    return method.isEmpty || method == 'pickup';
+  }
+
+  bool get canCancel => allowedActions.contains('cancel');
 }
 
 class OrderPickupModel {

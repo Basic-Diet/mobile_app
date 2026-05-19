@@ -44,6 +44,7 @@ import 'package:basic_diet/data/response/verify_payment_response.dart';
 import 'package:basic_diet/data/response/order_detail_response.dart';
 import 'package:basic_diet/data/response/orders_list_response.dart';
 import 'package:basic_diet/data/response/cancel_order_response.dart';
+import 'package:basic_diet/data/response/order_timeline_response.dart';
 
 import '../response/bulk_selections_response.dart';
 
@@ -92,6 +93,25 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   @override
   Future<AuthenticationResponse> refreshToken(String refreshToken) {
     return _appServiceClient.refreshToken({'refreshToken': refreshToken});
+  }
+
+  @override
+  Future<BaseResponse> logout(String refreshToken) {
+    return _appServiceClient.logout({'refreshToken': refreshToken});
+  }
+
+  @override
+  Future<BaseResponse> requestPasswordResetOtp(String phone) {
+    return _appServiceClient.requestPasswordResetOtp({'phoneE164': phone});
+  }
+
+  @override
+  Future<BaseResponse> resetPassword(String phone, String otp, String newPassword) {
+    return _appServiceClient.resetPassword({
+      'phoneE164': phone,
+      'otp': otp,
+      'newPassword': newPassword,
+    });
   }
 
   @override
@@ -364,5 +384,10 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   @override
   Future<CancelOrderResponse> cancelOrder(String orderId) {
     return _appServiceClient.cancelOrder(orderId);
+  }
+
+  @override
+  Future<OrderTimelineResponse> getOrderTimeline(String orderId) {
+    return _appServiceClient.getOrderTimeline(orderId);
   }
 }

@@ -32,6 +32,13 @@ CancelOrderDataResponse _$CancelOrderDataResponseFromJson(
   id: _readOrderIdentifier(json, 'id') as String?,
   status: json['status'] as String?,
   paymentStatus: json['paymentStatus'] as String?,
+  allowedActions: json['allowedActions'] as List<dynamic>?,
+  cancelledBy: json['cancelledBy'] as String?,
+  canceledBy: json['canceledBy'] as String?,
+  cancellationReason: json['cancellationReason'] as String?,
+  cancellationNote: json['cancellationNote'] as String?,
+  cancelledAt: json['cancelledAt'] as String?,
+  canceledAt: json['canceledAt'] as String?,
 );
 
 Map<String, dynamic> _$CancelOrderDataResponseToJson(
@@ -40,4 +47,11 @@ Map<String, dynamic> _$CancelOrderDataResponseToJson(
   'id': instance.id,
   'status': instance.status,
   'paymentStatus': instance.paymentStatus,
+  'allowedActions': instance.allowedActions,
+  'cancelledBy': instance.cancelledBy,
+  'canceledBy': instance.canceledBy,
+  'cancellationReason': instance.cancellationReason,
+  'cancellationNote': instance.cancellationNote,
+  'cancelledAt': instance.cancelledAt,
+  'canceledAt': instance.canceledAt,
 };

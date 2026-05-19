@@ -41,6 +41,7 @@ import 'package:basic_diet/data/response/verify_payment_response.dart';
 import 'package:basic_diet/data/response/order_detail_response.dart';
 import 'package:basic_diet/data/response/orders_list_response.dart';
 import 'package:basic_diet/data/response/cancel_order_response.dart';
+import 'package:basic_diet/data/response/order_timeline_response.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
 part 'app_api.g.dart';
@@ -66,6 +67,12 @@ abstract class AppServiceClient {
   Future<AuthenticationResponse> refreshToken(
     @Body() Map<String, dynamic> body,
   );
+
+  @POST("/api/auth/password/forgot")
+  Future<BaseResponse> requestPasswordResetOtp(@Body() Map<String, dynamic> body);
+
+  @POST("/api/auth/password/reset")
+  Future<BaseResponse> resetPassword(@Body() Map<String, dynamic> body);
 
   @GET("/api/auth/me")
   Future<AuthenticationResponse> getCurrentUser();
@@ -259,6 +266,12 @@ abstract class AppServiceClient {
     @Query("limit") int limit,
   );
 
+  @GET("/api/orders/{orderId}/timeline")
+  Future<OrderTimelineResponse> getOrderTimeline(@Path("orderId") String orderId);
+
   @DELETE("/api/orders/{orderId}")
   Future<CancelOrderResponse> cancelOrder(@Path("orderId") String orderId);
+
+  @POST("/api/auth/logout")
+  Future<BaseResponse> logout(@Body() Map<String, dynamic> body);
 }

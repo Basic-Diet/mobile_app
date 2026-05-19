@@ -55,6 +55,15 @@ OrderDetailDataResponse _$OrderDetailDataResponseFromJson(
           .toList(),
   createdAt: json['createdAt'] as String?,
   expiresAt: json['expiresAt'] as String?,
+  updatedAt: json['updatedAt'] as String?,
+  allowedActions: json['allowedActions'] as List<dynamic>?,
+  cancelledBy: json['cancelledBy'] as String?,
+  canceledBy: json['canceledBy'] as String?,
+  cancellationReason: json['cancellationReason'] as String?,
+  cancellationNote: json['cancellationNote'] as String?,
+  cancelledAt: json['cancelledAt'] as String?,
+  canceledAt: json['canceledAt'] as String?,
+  timelineEndpoint: json['timeline_endpoint'] as String?,
 );
 
 Map<String, dynamic> _$OrderDetailDataResponseToJson(
@@ -71,6 +80,15 @@ Map<String, dynamic> _$OrderDetailDataResponseToJson(
   'items': instance.items?.map((e) => e.toJson()).toList(),
   'createdAt': instance.createdAt,
   'expiresAt': instance.expiresAt,
+  'updatedAt': instance.updatedAt,
+  'allowedActions': instance.allowedActions,
+  'cancelledBy': instance.cancelledBy,
+  'canceledBy': instance.canceledBy,
+  'cancellationReason': instance.cancellationReason,
+  'cancellationNote': instance.cancellationNote,
+  'cancelledAt': instance.cancelledAt,
+  'canceledAt': instance.canceledAt,
+  'timeline_endpoint': instance.timelineEndpoint,
 };
 
 OrderDetailPickupResponse _$OrderDetailPickupResponseFromJson(

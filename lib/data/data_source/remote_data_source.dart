@@ -42,6 +42,7 @@ import 'package:basic_diet/data/response/verify_payment_response.dart';
 import 'package:basic_diet/data/response/order_detail_response.dart';
 import 'package:basic_diet/data/response/orders_list_response.dart';
 import 'package:basic_diet/data/response/cancel_order_response.dart';
+import 'package:basic_diet/data/response/order_timeline_response.dart';
 
 import '../response/bulk_selections_response.dart';
 
@@ -61,6 +62,9 @@ abstract class RemoteDataSource {
     String? deviceName,
   );
   Future<AuthenticationResponse> refreshToken(String refreshToken);
+  Future<BaseResponse> logout(String refreshToken);
+  Future<BaseResponse> requestPasswordResetOtp(String phone);
+  Future<BaseResponse> resetPassword(String phone, String otp, String newPassword);
   Future<AuthenticationResponse> getCurrentUser();
   Future<ClientProfileResponse> getClientProfile();
   Future<PlansResponse> getPlans();
@@ -159,4 +163,5 @@ abstract class RemoteDataSource {
   Future<OrderDetailResponse> getOrderDetail(String orderId);
   Future<OrdersListResponse> getOrders(int page, int limit);
   Future<CancelOrderResponse> cancelOrder(String orderId);
+  Future<OrderTimelineResponse> getOrderTimeline(String orderId);
 }

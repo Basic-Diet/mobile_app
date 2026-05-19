@@ -83,8 +83,10 @@ import 'package:basic_diet/domain/model/verify_payment_request_model.dart';
 import 'package:basic_diet/data/mappers/order_detail_mapper.dart';
 import 'package:basic_diet/data/mappers/orders_list_mapper.dart';
 import 'package:basic_diet/data/mappers/cancel_order_mapper.dart';
+import 'package:basic_diet/data/mappers/order_timeline_mapper.dart';
 import 'package:basic_diet/data/response/base_response/base_response.dart';
 import 'package:basic_diet/domain/model/order_model.dart';
+import 'package:basic_diet/domain/model/order_timeline_model.dart';
 
 class RepositoryImpl implements Repository {
   final RemoteDataSource _remoteDataSource;
@@ -334,6 +336,58 @@ class RepositoryImpl implements Repository {
         return Left(
           Failure(ApiInternalStatus.failure, ResponseMessage.defaultError),
         );
+      }
+    } catch (error) {
+      return _handleError(error);
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> logout(String refreshToken) async {
+    try {
+      final response = await _remoteDataSource.logout(refreshToken);
+      if (_isSuccessfulResponse(response)) {
+        return const Right(null);
+      } else {
+        return Left(_mapFailureFromResponse(response));
+      }
+    } catch (error) {
+      return _handleError(error);
+    }
+  }
+
+  @override
+  Future<Either<Failure, BaseModel>> requestPasswordResetOtp(
+    String phone,
+  ) async {
+    try {
+      final response = await _remoteDataSource.requestPasswordResetOtp(phone);
+      if (_isSuccessfulResponse(response)) {
+        return Right(response.toDomain());
+      } else {
+        return Left(_mapFailureFromResponse(response));
+      }
+    } catch (error) {
+      return _handleError(error);
+    }
+  }
+
+  @override
+  Future<Either<Failure, BaseModel>> resetPassword(
+    String phone,
+    String otp,
+    String newPassword,
+  ) async {
+    try {
+      final response = await _remoteDataSource.resetPassword(
+        phone,
+        otp,
+        newPassword,
+      );
+      if (_isSuccessfulResponse(response)) {
+        return Right(response.toDomain());
+      } else {
+        return Left(_mapFailureFromResponse(response));
       }
     } catch (error) {
       return _handleError(error);
@@ -1075,6 +1129,22 @@ class RepositoryImpl implements Repository {
   Future<Either<Failure, OrderModel>> cancelOrder(String orderId) async {
     try {
       final response = await _remoteDataSource.cancelOrder(orderId);
+      if (_isSuccessfulResponse(response)) {
+        return Right(response.toDomain());
+      } else {
+        return Left(_mapFailureFromResponse(response));
+      }
+    } catch (error) {
+      return _handleError(error);
+    }
+  }
+
+  @override
+  Future<Either<Failure, OrderTimelineModel>> getOrderTimeline(
+    String orderId,
+  ) async {
+    try {
+      final response = await _remoteDataSource.getOrderTimeline(orderId);
       if (_isSuccessfulResponse(response)) {
         return Right(response.toDomain());
       } else {

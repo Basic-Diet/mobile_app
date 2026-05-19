@@ -34,3 +34,20 @@ class VerifyOrderPaymentEvent extends OrderTrackingEvent {
   @override
   List<Object?> get props => [orderId, paymentId];
 }
+
+class FetchOrderTimelineEvent extends OrderTrackingEvent {
+  final String orderId;
+
+  const FetchOrderTimelineEvent(this.orderId);
+
+  @override
+  List<Object?> get props => [orderId];
+}
+
+class StartPollingEvent extends OrderTrackingEvent {
+  const StartPollingEvent();
+}
+
+class StopPollingEvent extends OrderTrackingEvent {
+  const StopPollingEvent();
+}

@@ -1,5 +1,6 @@
 import 'package:basic_diet/app/dependency_injection.dart';
 import 'package:basic_diet/domain/model/order_model.dart';
+import 'package:basic_diet/domain/model/order_status.dart';
 import 'package:basic_diet/presentation/main/orders/bloc/orders_bloc.dart';
 import 'package:basic_diet/presentation/main/orders/bloc/orders_event.dart';
 import 'package:basic_diet/presentation/main/orders/bloc/orders_state.dart';
@@ -69,14 +70,12 @@ class _OrdersScreenContentState extends State<_OrdersScreenContent> {
               return const SizedBox.shrink();
             }
 
-            final currentOrders =
-                data.orders
-                    .where((order) => !_isFinalStatus(order.status))
-                    .toList();
-            final previousOrders =
-                data.orders
-                    .where((order) => _isFinalStatus(order.status))
-                    .toList();
+            final currentOrders = data.orders
+                .where((order) => !order.status.isFinal)
+                .toList();
+            final previousOrders = data.orders
+                .where((order) => order.status.isFinal)
+                .toList();
 
             final visibleOrders =
                 _activeTab == _OrdersTab.current
@@ -301,44 +300,44 @@ class _OrderHistoryCard extends StatelessWidget {
 
   const _OrderHistoryCard({required this.order, required this.isCancelling});
 
-  String _statusLabel(String status) {
+  String _statusLabel(OrderStatus status) {
     switch (status) {
-      case 'pending_payment':
+      case OrderStatus.pendingPayment:
         return Strings.pendingPayment.tr();
-      case 'confirmed':
+      case OrderStatus.confirmed:
         return Strings.confirmed.tr();
-      case 'in_preparation':
+      case OrderStatus.inPreparation:
         return Strings.beingPrepared.tr();
-      case 'ready_for_pickup':
+      case OrderStatus.readyForPickup:
         return Strings.readyAtBranch.tr();
-      case 'fulfilled':
+      case OrderStatus.fulfilled:
         return Strings.completed.tr();
-      case 'cancelled':
+      case OrderStatus.cancelled:
         return Strings.cancelled.tr();
-      case 'expired':
+      case OrderStatus.expired:
         return Strings.expired.tr();
-      default:
-        return status;
+      case OrderStatus.unknown:
+        return status.value;
     }
   }
 
-  Color _statusColor(String status) {
+  Color _statusColor(OrderStatus status) {
     switch (status) {
-      case 'pending_payment':
-        return const Color(0xFFFF7A05);
-      case 'confirmed':
-        return const Color(0xFF2563EB);
-      case 'in_preparation':
-        return const Color(0xFFB45309);
-      case 'ready_for_pickup':
-        return const Color(0xFF00DFA0);
-      case 'fulfilled':
-        return const Color(0xFF00BC7C);
-      case 'cancelled':
-        return const Color(0xFFFF0000);
-      case 'expired':
+      case OrderStatus.pendingPayment:
+        return ColorManager.stateWarning;
+      case OrderStatus.confirmed:
+        return ColorManager.bluePrimary;
+      case OrderStatus.inPreparation:
+        return ColorManager.brandAccent;
+      case OrderStatus.readyForPickup:
+        return ColorManager.stateSuccess;
+      case OrderStatus.fulfilled:
+        return ColorManager.stateSuccessEmphasis;
+      case OrderStatus.cancelled:
+        return ColorManager.stateError;
+      case OrderStatus.expired:
         return ColorManager.textSecondary;
-      default:
+      case OrderStatus.unknown:
         return ColorManager.textSecondary;
     }
   }
@@ -346,7 +345,7 @@ class _OrderHistoryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final statusColor = _statusColor(order.status);
-    final canCancel = order.status == 'pending_payment';
+    final canCancel = order.canCancel;
     final pricingText =
         order.pricing == null
             ? null
@@ -396,6 +395,19 @@ class _OrderHistoryCard extends StatelessWidget {
                               fontSize: FontSizeManager.s12.sp,
                               color: ColorManager.stateSuccessEmphasis,
                             ),
+                          ),
+                        ],
+                        if (order.status == OrderStatus.cancelled &&
+                            order.cancellationReason != null) ...[
+                          SizedBox(height: AppSize.s6.h),
+                          Text(
+                            _cancellationSnippet(order),
+                            style: getRegularTextStyle(
+                              fontSize: FontSizeManager.s11.sp,
+                              color: ColorManager.stateError,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ],
                       ],
@@ -489,6 +501,15 @@ class _OrderHistoryCard extends StatelessWidget {
     }
     return pieces.join(' · ');
   }
+
+  String _cancellationSnippet(OrderModel order) {
+    final by = order.cancelledBy;
+    if (by == 'customer') return Strings.cancelledByCustomer.tr();
+    if (by == 'restaurant') return Strings.cancelledByRestaurant.tr();
+    if (by == 'admin') return Strings.cancelledByAdmin.tr();
+    if (by == 'system') return Strings.cancelledBySystem.tr();
+    return Strings.cancelled.tr();
+  }
 }
 
 class _OrderAvatar extends StatelessWidget {
@@ -500,10 +521,10 @@ class _OrderAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final emoji = switch (order.status) {
-      'ready_for_pickup' => '🥗',
-      'fulfilled' => '🥙',
-      'cancelled' => '✕',
-      'expired' => '⏳',
+      OrderStatus.readyForPickup => '🥗',
+      OrderStatus.fulfilled => '🥙',
+      OrderStatus.cancelled => '✕',
+      OrderStatus.expired => '⏳',
       _ => '🍽️',
     };
 
@@ -533,7 +554,7 @@ class _MetaPill extends StatelessWidget {
         vertical: AppPadding.p8.h,
       ),
       decoration: BoxDecoration(
-        color: const Color(0xFFF3F4F6),
+        color: ColorManager.backgroundSubtle,
         borderRadius: BorderRadius.circular(AppSize.s16.r),
       ),
       child: Text(
@@ -651,9 +672,6 @@ class _OrdersViewData {
 }
 
 enum _OrdersTab { current, previous }
-
-bool _isFinalStatus(String status) =>
-    status == 'fulfilled' || status == 'cancelled' || status == 'expired';
 
 String _formatMoney(int halala, String currency) {
   final value = halala / 100;

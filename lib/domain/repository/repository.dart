@@ -38,6 +38,7 @@ import 'package:basic_diet/domain/model/verify_payment_model.dart';
 import 'package:basic_diet/domain/model/verify_payment_request_model.dart';
 import 'package:basic_diet/domain/model/create_order_request_model.dart';
 import 'package:basic_diet/domain/model/order_model.dart';
+import 'package:basic_diet/domain/model/order_timeline_model.dart';
 
 import '../model/bulk_selections_model.dart';
 
@@ -54,6 +55,13 @@ abstract class Repository {
   );
   Future<Either<Failure, AuthenticationModel>> refreshToken(
     String refreshToken,
+  );
+  Future<Either<Failure, void>> logout(String refreshToken);
+  Future<Either<Failure, BaseModel>> requestPasswordResetOtp(String phone);
+  Future<Either<Failure, BaseModel>> resetPassword(
+    String phone,
+    String otp,
+    String newPassword,
   );
   Future<Either<Failure, AuthenticationModel>> getCurrentUser();
   Future<Either<Failure, ClientProfileModel>> getClientProfile();
@@ -167,4 +175,5 @@ abstract class Repository {
   Future<Either<Failure, OrderModel>> getOrderDetail(String orderId);
   Future<Either<Failure, OrdersListModel>> getOrders(int page, int limit);
   Future<Either<Failure, OrderModel>> cancelOrder(String orderId);
+  Future<Either<Failure, OrderTimelineModel>> getOrderTimeline(String orderId);
 }

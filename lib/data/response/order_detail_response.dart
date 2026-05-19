@@ -84,6 +84,34 @@ class OrderDetailDataResponse {
   @JsonKey(name: 'expiresAt')
   final String? expiresAt;
 
+  @JsonKey(name: 'updatedAt')
+  final String? updatedAt;
+
+  @JsonKey(name: 'allowedActions')
+  final List<dynamic>? allowedActions;
+
+  // Cancellation metadata (camelCase from backend)
+  @JsonKey(name: 'cancelledBy')
+  final String? cancelledBy;
+
+  @JsonKey(name: 'canceledBy')
+  final String? canceledBy;
+
+  @JsonKey(name: 'cancellationReason')
+  final String? cancellationReason;
+
+  @JsonKey(name: 'cancellationNote')
+  final String? cancellationNote;
+
+  @JsonKey(name: 'cancelledAt')
+  final String? cancelledAt;
+
+  @JsonKey(name: 'canceledAt')
+  final String? canceledAt;
+
+  @JsonKey(name: 'timeline_endpoint')
+  final String? timelineEndpoint;
+
   OrderDetailDataResponse({
     this.id,
     this.orderNumber,
@@ -96,6 +124,15 @@ class OrderDetailDataResponse {
     this.items,
     this.createdAt,
     this.expiresAt,
+    this.updatedAt,
+    this.allowedActions,
+    this.cancelledBy,
+    this.canceledBy,
+    this.cancellationReason,
+    this.cancellationNote,
+    this.cancelledAt,
+    this.canceledAt,
+    this.timelineEndpoint,
   });
 
   factory OrderDetailDataResponse.fromJson(Map<String, dynamic> json) =>

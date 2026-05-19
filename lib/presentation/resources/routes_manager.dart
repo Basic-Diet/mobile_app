@@ -19,6 +19,8 @@ import 'package:basic_diet/presentation/onboarding/on_boarding_screen.dart';
 import 'package:basic_diet/presentation/register/register_screen.dart';
 import 'package:basic_diet/presentation/splash/splash_screen.dart';
 import 'package:basic_diet/presentation/verify/verify_screen.dart';
+import 'package:basic_diet/presentation/forgot_password/forgot_password_screen.dart';
+import 'package:basic_diet/presentation/reset_password/reset_password_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -73,6 +75,27 @@ class GoRouterConfig {
           return getCustomTransitionPage(
             state: state,
             child: VerifyScreen(phoneNumber: state.extra as String?),
+          );
+        },
+      ),
+      GoRoute(
+        path: ForgotPasswordScreen.routeName,
+        pageBuilder: (BuildContext context, GoRouterState state) {
+          initForgotPasswordModule();
+          return getCustomTransitionPage(
+            state: state,
+            child: const ForgotPasswordScreen(),
+          );
+        },
+      ),
+      GoRoute(
+        path: ResetPasswordScreen.routeName,
+        pageBuilder: (BuildContext context, GoRouterState state) {
+          initResetPasswordModule();
+          final phone = state.extra as String? ?? '';
+          return getCustomTransitionPage(
+            state: state,
+            child: ResetPasswordScreen(phone: phone),
           );
         },
       ),

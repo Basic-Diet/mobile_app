@@ -18,6 +18,7 @@ class Strings {
   static const String phoneHint = 'phoneHint';
   static const String password = 'password';
   static const String passwordHint = 'passwordHint';
+  static const String newPassword = 'newPassword';
   static const String login = 'login';
   static const String welcomeBack = 'welcomeBack';
   static const String signInSubtitle = 'signInSubtitle';
@@ -41,6 +42,15 @@ class Strings {
   static const String secureInfo = 'secureInfo';
   static const String verifyYourPhone = 'verifyYourPhone';
   static const String otpSentSubtitle = 'otpSentSubtitle';
+  static const String forgotPassword = 'forgotPassword';
+  static const String forgotPasswordTitle = 'forgotPasswordTitle';
+  static const String forgotPasswordSubtitle = 'forgotPasswordSubtitle';
+  static const String backToLogin = 'backToLogin';
+  static const String resetPassword = 'resetPassword';
+  static const String resetPasswordTitle = 'resetPasswordTitle';
+  static const String resetPasswordSubtitle = 'resetPasswordSubtitle';
+  static const String passwordResetSuccess = 'passwordResetSuccess';
+  static const String otpCode = 'otpCode';
 
   // Navigation
   static const String home = 'home';
@@ -850,4 +860,13 @@ class Strings {
   static const String expiredTrackingDescription = 'expiredTrackingDescription';
   static const String cancelUnpaidOrder = 'cancelUnpaidOrder';
   static const String loadMore = 'loadMore';
+
+  // Cancellation metadata messages
+  static const String cancelledByCustomer = 'cancelledByCustomer';
+  static const String cancelledByRestaurant = 'cancelledByRestaurant';
+  static const String cancelledByRestaurantRejected = 'cancelledByRestaurantRejected';
+  static const String cancelledByAdmin = 'cancelledByAdmin';
+  static const String cancelledBySystem = 'cancelledBySystem';
+  static const String cancelledPaymentFailed = 'cancelledPaymentFailed';
+  static const String orderStateChanged = 'orderStateChanged';
 }
