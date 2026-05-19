@@ -693,5 +693,26 @@
     "cancelledByAdmin": "Cancelled by admin",
     "cancelledBySystem": "Cancelled by system",
     "cancelledPaymentFailed": "Payment failed, order cancelled",
-    "orderStateChanged": "Order status updated, please try again"
+    "orderStateChanged": "Order status updated, please try again",
+
+    "fulfillmentDeliveryTitle": "Delivery",
+    "fulfillmentDeliveryDetailsTitle": "Delivery Details",
+    "fulfillmentWindowLabel": "Delivery Window",
+    "fulfillmentLockedLabel": "Locked",
+    "fulfillmentLockedYes": "Yes",
+    "fulfillmentLockedNo": "No",
+    "fulfillmentAddressMissing": "No delivery address set",
+    "fulfillmentWindowMissing": "No delivery window set",
+    "fulfillmentDeliverySubtitle": "Your meal will be delivered to your address.",
+    "fulfillmentDeliveryFallbackMessage": "Your delivery details will be confirmed soon.",
+    "fulfillmentDeliveryLockedMessage": "Your order is locked for delivery preparation.",
+    "fulfillmentDeliveryTimeUnavailableMessage": "The selected delivery time is no longer available.",
+    "fulfillmentDeliveryScheduledAction": "Your delivery is scheduled. We'll notify you when it's on the way.",
+    "fulfillmentDeliveryOutForDeliveryAction": "Your order is on the way. Please be available to receive it.",
+    "fulfillmentDeliveredAction": "Your order has been delivered. Enjoy your meal!",
+    "fulfillmentCanceledAction": "Your delivery was canceled. Please contact support if you need help.",
+    "fulfillmentDeliveryStepConfirmed": "Confirmed",
+    "fulfillmentDeliveryStepPreparing": "Preparing",
+    "fulfillmentDeliveryStepOnTheWay": "On the Way",
+    "fulfillmentDeliveryStepDelivered": "Delivered"
 }

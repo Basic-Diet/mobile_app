@@ -693,5 +693,26 @@
     "cancelledByAdmin": "تم الإلغاء بواسطة الإدارة",
     "cancelledBySystem": "تم الإلغاء بواسطة النظام",
     "cancelledPaymentFailed": "فشل الدفع، تم إلغاء الطلب",
-    "orderStateChanged": "تم تحديث حالة الطلب، حاول مرة أخرى"
+    "orderStateChanged": "تم تحديث حالة الطلب، حاول مرة أخرى",
+
+    "fulfillmentDeliveryTitle": "التوصيل",
+    "fulfillmentDeliveryDetailsTitle": "تفاصيل التوصيل",
+    "fulfillmentWindowLabel": "نافذة التوصيل",
+    "fulfillmentLockedLabel": "مقفل",
+    "fulfillmentLockedYes": "نعم",
+    "fulfillmentLockedNo": "لا",
+    "fulfillmentAddressMissing": "لم يتم تحديد عنوان التوصيل",
+    "fulfillmentWindowMissing": "لم يتم تحديد نافذة التوصيل",
+    "fulfillmentDeliverySubtitle": "سيتم توصيل وجبتك إلى عنوانك.",
+    "fulfillmentDeliveryFallbackMessage": "سيتم تأكيد تفاصيل التوصيل قريبًا.",
+    "fulfillmentDeliveryLockedMessage": "تم قفل طلبك لتجهيز التوصيل.",
+    "fulfillmentDeliveryTimeUnavailableMessage": "وقت التوصيل المحدد لم يعد متاحًا.",
+    "fulfillmentDeliveryScheduledAction": "تم جدولة توصيلك. سنخبرك عندما يكون في الطريق.",
+    "fulfillmentDeliveryOutForDeliveryAction": "طلبك في الطريق إليك. يرجى التواجد لاستلامه.",
+    "fulfillmentDeliveredAction": "تم توصيل طلبك. بالهناء والشفاء!",
+    "fulfillmentCanceledAction": "تم إلغاء توصيلك. تواصل مع الدعم إذا احتجت مساعدة.",
+    "fulfillmentDeliveryStepConfirmed": "تم التأكيد",
+    "fulfillmentDeliveryStepPreparing": "جاري التحضير",
+    "fulfillmentDeliveryStepOnTheWay": "في الطريق",
+    "fulfillmentDeliveryStepDelivered": "تم التوصيل"
 }
