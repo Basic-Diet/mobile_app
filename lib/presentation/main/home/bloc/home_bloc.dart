@@ -41,7 +41,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         (data) {
           if (!isClosed) {
             emit(
-              HomeNavigateToPlansState(),
+               HomeNavigateToSubscriptionState()
             );
           }
         },
