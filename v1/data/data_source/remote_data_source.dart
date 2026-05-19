@@ -1,0 +1,177 @@
+import 'package:basic_diet/data/request/bulk_selections_request.dart';
+import 'package:basic_diet/data/request/day_selection_request.dart';
+import 'package:basic_diet/data/response/addons_response.dart';
+import 'package:basic_diet/data/response/subscription_menu_response.dart';
+import 'package:basic_diet/data/response/checkout_draft_response.dart';
+import 'package:basic_diet/data/request/subscription_checkout_request.dart';
+import 'package:basic_diet/data/request/subscription_quote_request.dart';
+import 'package:basic_diet/data/response/auth_response.dart';
+import 'package:basic_diet/data/response/base_response/base_response.dart';
+import 'package:basic_diet/data/response/delivery_options_response.dart';
+import 'package:basic_diet/data/response/plans_response.dart';
+import 'package:basic_diet/data/response/popular_packages_response.dart';
+import 'package:basic_diet/data/response/validation_response.dart';
+import 'package:basic_diet/data/response/subscription_day_response.dart';
+import 'package:basic_diet/data/response/premium_meals_response.dart';
+import 'package:basic_diet/data/response/subscription_checkout_response.dart';
+import 'package:basic_diet/data/response/subscription_quote_response.dart';
+import 'package:basic_diet/data/response/current_subscription_overview_response.dart';
+import 'package:basic_diet/data/request/freeze_subscription_request.dart';
+import 'package:basic_diet/data/response/freeze_subscription_response.dart';
+import 'package:basic_diet/data/request/skip_days_request.dart';
+import 'package:basic_diet/data/response/skip_days_response.dart';
+import 'package:basic_diet/data/response/timeline_response.dart';
+import 'package:basic_diet/data/response/categories_with_meals_response.dart';
+import 'package:basic_diet/data/response/meal_planner_menu_response.dart';
+import 'package:basic_diet/data/response/premium_payment_response.dart';
+import 'package:basic_diet/data/response/cancel_subscription_response.dart';
+import 'package:basic_diet/data/request/cancel_subscription_request.dart';
+
+import 'package:basic_diet/data/response/pickup_prepare_response.dart';
+import 'package:basic_diet/data/response/pickup_status_response.dart';
+import 'package:basic_diet/data/response/fulfillment_status_response.dart';
+import 'package:basic_diet/data/response/client_profile_response.dart';
+import 'package:basic_diet/data/request/pickup_request_request.dart';
+import 'package:basic_diet/data/response/subscription_pickup_request_response.dart';
+
+import 'package:basic_diet/data/request/order_quote_request.dart';
+import 'package:basic_diet/data/request/create_order_request.dart';
+import 'package:basic_diet/data/request/verify_payment_request.dart';
+import 'package:basic_diet/data/response/order_menu_response.dart';
+import 'package:basic_diet/data/response/order_quote_response.dart';
+import 'package:basic_diet/data/response/create_order_response.dart';
+import 'package:basic_diet/data/response/verify_payment_response.dart';
+import 'package:basic_diet/data/response/order_detail_response.dart';
+import 'package:basic_diet/data/response/orders_list_response.dart';
+import 'package:basic_diet/data/response/cancel_order_response.dart';
+
+import '../response/bulk_selections_response.dart';
+
+abstract class RemoteDataSource {
+  Future<AuthenticationResponse> login(
+    String phone,
+    String password,
+    String? deviceId,
+    String? deviceName,
+  );
+  Future<BaseResponse> requestRegistrationOtp(String phone);
+  Future<AuthenticationResponse> verifyRegistrationOtp(
+    String phone,
+    String otp,
+    String password,
+    String? deviceId,
+    String? deviceName,
+  );
+  Future<AuthenticationResponse> refreshToken(String refreshToken);
+  Future<AuthenticationResponse> getCurrentUser();
+  Future<ClientProfileResponse> getClientProfile();
+  Future<PlansResponse> getPlans();
+  Future<PopularPackagesResponse> getPopularPackages();
+  Future<PremiumMealsResponse> getPremiumMeals();
+  Future<AddOnsResponse> getAddOns();
+  Future<SubscriptionMenuResponse> getSubscriptionMenu();
+  Future<DeliveryOptionsResponse> getDeliveryOptions();
+  Future<SubscriptionQuoteResponse> getSubscriptionQuote(
+    SubscriptionQuoteRequest request,
+  );
+  Future<SubscriptionCheckoutResponse> checkoutSubscription(
+    SubscriptionCheckoutRequest request,
+  );
+  Future<CurrentSubscriptionOverviewResponse> getCurrentSubscriptionOverview();
+  Future<FreezeSubscriptionResponse> freezeSubscription(
+    String id,
+    FreezeSubscriptionRequest request,
+  );
+  Future<SkipDaysResponse> skipDay(String id, SkipDayRequest request);
+  Future<SkipDaysResponse> skipDateRange(
+    String id,
+    SkipDateRangeRequest request,
+  );
+  Future<TimelineResponse> getSubscriptionTimeline(String id);
+  Future<CategoriesWithMealsResponse> getCategoriesWithMeals();
+  Future<CheckoutDraftResponse> getCheckoutDraft(String id);
+  Future<BulkSelectionsResponse> bulkSelections(
+    String id,
+    BulkSelectionsRequest request,
+  );
+  Future<ValidationResponse> validateDaySelection(
+    String id,
+    String date,
+    DaySelectionRequest request,
+  );
+  Future<SubscriptionDayResponse> saveDaySelection(
+    String id,
+    String date,
+    DaySelectionRequest request,
+  );
+  Future<SubscriptionDayResponse> getSubscriptionDay(String id, String date);
+  Future<SubscriptionDayResponse> confirmDaySelection(String id, String date);
+  Future<PickupPrepareResponse> preparePickup(String id, String date);
+  Future<PickupStatusResponse> getPickupStatus(String id, String date);
+  Future<SubscriptionPickupRequestApiResponse> createPickupRequest(
+    String id,
+    PickupRequestRequest request,
+  );
+  Future<SubscriptionPickupRequestListApiResponse> getPickupRequests(
+    String id, {
+    String? date,
+    String status = 'active',
+  });
+  Future<SubscriptionPickupRequestApiResponse> getPickupRequestStatus(
+    String id,
+    String requestId,
+  );
+  Future<FulfillmentStatusResponse> getDayFulfillmentStatus(
+    String id,
+    String date,
+  );
+  Future<MealPlannerMenuResponse> getMealPlannerMenu();
+  Future<PremiumPaymentResponse> createPremiumPayment(
+    String subscriptionId,
+    String date,
+  );
+  Future<PremiumPaymentVerificationResponse> verifyPremiumPayment(
+    String subscriptionId,
+    String date,
+    String paymentId,
+  );
+  Future<PremiumPaymentResponse> createUnifiedDayPayment(
+    String subscriptionId,
+    String date,
+    Map<String, dynamic> body,
+  );
+  Future<PremiumPaymentVerificationResponse> verifyUnifiedDayPayment(
+    String subscriptionId,
+    String date,
+    String paymentId,
+    Map<String, dynamic> body,
+  );
+  Future<PremiumPaymentResponse> createOneTimeAddonPayment(
+    String subscriptionId,
+    String date,
+  );
+  Future<PremiumPaymentVerificationResponse> verifyOneTimeAddonPayment(
+    String subscriptionId,
+    String date,
+    String paymentId,
+  );
+  Future<CancelSubscriptionResponse> cancelSubscription(
+    String id,
+    CancelSubscriptionRequest request,
+  );
+
+  Future<OrderMenuResponse> getOrderMenu();
+  Future<OrderQuoteResponse> getOrderQuote(OrderQuoteRequest request);
+  Future<CreateOrderResponse> createOrder(
+    CreateOrderRequest request,
+    String idempotencyKey,
+  );
+  Future<VerifyPaymentResponse> verifyOrderPayment(
+    String orderId,
+    String paymentId,
+    VerifyPaymentRequest request,
+  );
+  Future<OrderDetailResponse> getOrderDetail(String orderId);
+  Future<OrdersListResponse> getOrders(int page, int limit);
+  Future<CancelOrderResponse> cancelOrder(String orderId);
+}
