@@ -81,6 +81,7 @@ import 'package:basic_diet/domain/model/verify_payment_request_model.dart';
 import 'package:basic_diet/data/mappers/order_detail_mapper.dart';
 import 'package:basic_diet/data/mappers/orders_list_mapper.dart';
 import 'package:basic_diet/data/mappers/cancel_order_mapper.dart';
+import 'package:basic_diet/data/response/base_response/base_response.dart';
 import 'package:basic_diet/domain/model/order_model.dart';
 
 class RepositoryImpl implements Repository {
@@ -94,33 +95,100 @@ class RepositoryImpl implements Repository {
 
   RepositoryImpl(this._remoteDataSource);
 
+  Map<String, dynamic>? _asResponseMap(dynamic response) {
+    if (response == null) {
+      return null;
+    }
+
+    if (response is Map<String, dynamic>) {
+      return response;
+    }
+
+    if (response is Map) {
+      return Map<String, dynamic>.from(response);
+    }
+
+    if (response is BaseResponse) {
+      return <String, dynamic>{
+        'status': response.status,
+        'message': response.message,
+      };
+    }
+
+    try {
+      final dynamic json = response.toJson();
+      if (json is Map<String, dynamic>) {
+        return json;
+      }
+      if (json is Map) {
+        return Map<String, dynamic>.from(json);
+      }
+    } catch (_) {}
+
+    return null;
+  }
+
+  dynamic _readResponseValue(dynamic response, String key) {
+    if (response is BaseResponse) {
+      switch (key) {
+        case 'status':
+          return response.status;
+        case 'message':
+          return response.message;
+      }
+    }
+
+    return _asResponseMap(response)?[key];
+  }
+
   bool _isSuccessfulResponse(dynamic response) {
-    if (response.ok is bool) {
-      return response.ok == true;
+    final ok = _readResponseValue(response, 'ok');
+    if (ok is bool) {
+      return ok;
     }
-    if (response.status is bool) {
-      return response.status == true;
+
+    final status = _readResponseValue(response, 'status');
+    if (status is bool) {
+      return status;
     }
-    if (response.status is num) {
-      return response.status >= 200 && response.status < 300;
+    if (status is num) {
+      return status >= 200 && status < 300;
     }
-    if (response.status is String) {
-      return response.status.toString().toLowerCase() == 'true';
+    if (status is String) {
+      return status.toLowerCase() == 'true';
     }
+
     return false;
   }
 
   Failure _mapFailureFromResponse(dynamic response) {
+    final message = _readResponseValue(response, 'message');
     return Failure(
       ApiInternalStatus.failure,
-      response.message ?? ResponseMessage.defaultError,
+      message is String && message.isNotEmpty
+          ? message
+          : ResponseMessage.defaultError,
     );
   }
 
   Either<Failure, T> _handleError<T>(dynamic error) {
     try {
       if (error is DioException && error.response != null) {
-        final data = error.response!.data as Map<String, dynamic>;
+        final rawData = error.response!.data;
+        if (rawData is! Map) {
+          final statusMessage = error.response?.statusMessage;
+          if (statusMessage != null && statusMessage.isNotEmpty) {
+            return Left(
+              Failure(
+                error.response?.statusCode ?? ApiInternalStatus.failure,
+                statusMessage,
+              ),
+            );
+          }
+          return Left(ExceptionHandler.handle(error).failure);
+        }
+
+        final data = Map<String, dynamic>.from(rawData);
         final message = data.toDomain();
 
         // Extract custom code if available
