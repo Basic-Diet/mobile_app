@@ -272,6 +272,8 @@ class DeliveryMethodContentView extends StatelessWidget {
               type: 'delivery',
               zoneId: state.selectedArea!.zoneId,
               slotId: state.selectedTime!.id,
+              slotWindow: state.selectedTime!.window,
+              slotLabel: state.selectedTime!.label,
               address: SubscriptionAddressModel(
                 street: state.street.trim(),
                 building: state.building.trim(),

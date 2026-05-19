@@ -91,3 +91,13 @@ class ApplyPromoCodeEvent extends SubscriptionEvent {
 class RemovePromoCodeEvent extends SubscriptionEvent {
   const RemovePromoCodeEvent();
 }
+
+class RestoreCachedQuoteEvent extends SubscriptionEvent {
+  final SubscriptionQuoteModel quote;
+  final SubscriptionQuoteRequestModel request;
+
+  const RestoreCachedQuoteEvent({required this.quote, required this.request});
+
+  @override
+  List<Object> get props => [quote, request];
+}

@@ -1,4 +1,6 @@
 import 'package:basic_diet/app/constants.dart';
+import 'package:basic_diet/app/subscription_quote_cache.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:basic_diet/data/data_source/remote_data_source.dart';
 import 'package:basic_diet/data/data_source/remote_data_source_impl.dart';
 import 'package:basic_diet/data/network/app_api.dart';
@@ -80,6 +82,11 @@ Future<void> initAppModule() async {
   instance.registerLazySingleton<AppPreferences>(
     // () => AppPreferences(instance<FlutterSecureStorage>()),
     () => AppPreferences(),
+  );
+
+  final prefs = await SharedPreferences.getInstance();
+  instance.registerLazySingleton<SubscriptionQuoteCache>(
+    () => SubscriptionQuoteCache(prefs),
   );
 
   instance.registerLazySingleton<String>(
@@ -200,6 +207,7 @@ void initSubscriptionModule() {
         instance<GetPlansUseCase>(),
         instance<GetSubscriptionQuoteUseCase>(),
         instance<CheckoutSubscriptionUseCase>(),
+        instance<SubscriptionQuoteCache>(),
       ),
     );
   }

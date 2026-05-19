@@ -1,4 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:basic_diet/app/dependency_injection.dart';
+import 'package:basic_diet/app/subscription_quote_cache.dart';
 import 'package:basic_diet/domain/model/subscription_checkout_model.dart';
 import 'package:basic_diet/domain/model/subscription_quote_model.dart';
 import 'package:basic_diet/presentation/main/home/payment-success/payment_webview_screen.dart';
@@ -47,6 +49,25 @@ class _SubscriptionDetailsState extends State<SubscriptionDetails> {
           widget.quoteRequest.promoCode ??
           '',
     );
+    // If the bloc lost its state (process kill + restore), re-hydrate it
+    // from the persisted cache so the screen stays functional.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      final bloc = context.read<SubscriptionBloc>();
+      if (bloc.state is! SubscriptionSuccess) {
+        final cache = instance<SubscriptionQuoteCache>();
+        final cachedQuote = cache.loadQuote();
+        final cachedRequest = cache.loadRequest();
+        if (cachedQuote != null && cachedRequest != null) {
+          bloc.add(
+            RestoreCachedQuoteEvent(
+              quote: cachedQuote,
+              request: cachedRequest,
+            ),
+          );
+        }
+      }
+    });
   }
 
   @override
@@ -178,6 +199,7 @@ class _SubscriptionDetailsState extends State<SubscriptionDetails> {
                     Gap(AppSize.s16.h),
                     _DeliveryScheduleSection(
                       quote: quote,
+                      quoteRequest: quoteRequest,
                       startDate: startDate,
                       endDate: endDate,
                     ),
@@ -755,11 +777,13 @@ class _DeliveryDetailsSection extends StatelessWidget {
 
 class _DeliveryScheduleSection extends StatelessWidget {
   final SubscriptionQuoteModel quote;
+  final SubscriptionQuoteRequestModel quoteRequest;
   final DateTime? startDate;
   final DateTime? endDate;
 
   const _DeliveryScheduleSection({
     required this.quote,
+    required this.quoteRequest,
     required this.startDate,
     required this.endDate,
   });
@@ -767,10 +791,26 @@ class _DeliveryScheduleSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final slot = quote.summary.delivery.slot;
-    final slotTitle = (slot?.label ?? '').trim().isNotEmpty
-        ? slot!.label
-        : ((slot?.window ?? '').trim().isNotEmpty ? slot!.window : '--');
-    final slotWindow = (slot?.window ?? '').trim();
+    // Fall back to the request's slot window/label when the API doesn't echo
+    // the slot back in the quote response.
+    final fallbackWindow = quoteRequest.delivery.slotWindow ?? '';
+    final fallbackLabel = quoteRequest.delivery.slotLabel ?? '';
+
+    final resolvedWindow =
+        (slot?.window ?? '').trim().isNotEmpty
+            ? slot!.window
+            : fallbackWindow.trim();
+    final resolvedLabel =
+        (slot?.label ?? '').trim().isNotEmpty
+            ? slot!.label
+            : fallbackLabel.trim();
+
+    final slotTitle = resolvedLabel.isNotEmpty
+        ? resolvedLabel
+        : resolvedWindow.isNotEmpty
+        ? resolvedWindow
+        : '--';
+    final slotWindow = resolvedWindow;
 
     return _SummarySectionCard(
       title: Strings.deliverySchedule.tr(),

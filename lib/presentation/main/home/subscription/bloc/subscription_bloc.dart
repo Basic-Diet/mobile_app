@@ -1,4 +1,6 @@
+import 'package:basic_diet/app/subscription_quote_cache.dart';
 import 'package:basic_diet/domain/model/add_ons_model.dart';
+import 'package:basic_diet/domain/model/plans_model.dart';
 import 'package:basic_diet/domain/model/subscription_checkout_model.dart';
 import 'package:basic_diet/domain/model/subscription_quote_model.dart';
 import 'package:basic_diet/domain/usecase/checkout_subscription_usecase.dart';
@@ -13,11 +15,13 @@ class SubscriptionBloc extends Bloc<SubscriptionEvent, SubscriptionState> {
   final GetPlansUseCase _getPlansUseCase;
   final GetSubscriptionQuoteUseCase _getSubscriptionQuoteUseCase;
   final CheckoutSubscriptionUseCase _checkoutSubscriptionUseCase;
+  final SubscriptionQuoteCache _quoteCache;
 
   SubscriptionBloc(
     this._getPlansUseCase,
     this._getSubscriptionQuoteUseCase,
     this._checkoutSubscriptionUseCase,
+    this._quoteCache,
   ) : super(const SubscriptionInitial()) {
     on<GetPlansEvent>(_onGetPlans);
     on<SelectMealOptionEvent>(_onSelectMealOption);
@@ -29,6 +33,7 @@ class SubscriptionBloc extends Bloc<SubscriptionEvent, SubscriptionState> {
     on<UpdatePromoCodeInputEvent>(_onUpdatePromoCodeInput);
     on<ApplyPromoCodeEvent>(_onApplyPromoCode);
     on<RemovePromoCodeEvent>(_onRemovePromoCode);
+    on<RestoreCachedQuoteEvent>(_onRestoreCachedQuote);
   }
 
   static const String _pricingChangedMessage =
@@ -221,27 +226,29 @@ class SubscriptionBloc extends Bloc<SubscriptionEvent, SubscriptionState> {
         final appliedPromo = quote.appliedPromo;
         final trimmedPromo = event.request.promoCode?.trim() ?? '';
 
-        emit(
-          successState.copyWith(
-            lastQuoteRequest: event.request,
-            lastSuccessfulQuoteRequest: event.request,
-            quoteStatus: SubscriptionQuoteStatus.success,
-            subscriptionQuote: quote,
-            quoteErrorMessage: null,
-            quoteErrorCode: null,
-            checkoutStatus: SubscriptionCheckoutStatus.initial,
-            lastCheckoutRequest: null,
-            subscriptionCheckout: null,
-            checkoutErrorMessage: null,
-            promoCodeInput: appliedPromo?.code ?? trimmedPromo,
-            promoStatus: trimmedPromo.isEmpty
-                ? SubscriptionPromoStatus.initial
-                : SubscriptionPromoStatus.applied,
-            promoMessage: _resolvePromoMessage(quote, appliedPromo),
-            appliedPromo: appliedPromo,
-            isPricingStale: false,
-          ),
+        final newState = successState.copyWith(
+          lastQuoteRequest: event.request,
+          lastSuccessfulQuoteRequest: event.request,
+          quoteStatus: SubscriptionQuoteStatus.success,
+          subscriptionQuote: quote,
+          quoteErrorMessage: null,
+          quoteErrorCode: null,
+          checkoutStatus: SubscriptionCheckoutStatus.initial,
+          lastCheckoutRequest: null,
+          subscriptionCheckout: null,
+          checkoutErrorMessage: null,
+          promoCodeInput: appliedPromo?.code ?? trimmedPromo,
+          promoStatus: trimmedPromo.isEmpty
+              ? SubscriptionPromoStatus.initial
+              : SubscriptionPromoStatus.applied,
+          promoMessage: _resolvePromoMessage(quote, appliedPromo),
+          appliedPromo: appliedPromo,
+          isPricingStale: false,
         );
+        emit(newState);
+        // Persist so the details screen survives a process kill
+        _quoteCache.saveQuote(quote);
+        _quoteCache.saveRequest(event.request);
       },
     );
   }
@@ -310,6 +317,8 @@ class SubscriptionBloc extends Bloc<SubscriptionEvent, SubscriptionState> {
             checkoutErrorMessage: null,
           ),
         );
+        // Quote fulfilled — clear the cache
+        _quoteCache.clear();
       },
     );
   }
@@ -445,6 +454,33 @@ class SubscriptionBloc extends Bloc<SubscriptionEvent, SubscriptionState> {
           delivery: lastQuoteRequest.delivery,
         ),
         isPromoUpdate: true,
+      ),
+    );
+  }
+
+  void _onRestoreCachedQuote(
+    RestoreCachedQuoteEvent event,
+    Emitter<SubscriptionState> emit,
+  ) {
+    // Only restore if the bloc has no live quote (e.g. after a process kill).
+    if (state is SubscriptionSuccess) return;
+
+    final appliedPromo = event.quote.appliedPromo;
+    final trimmedPromo = event.request.promoCode?.trim() ?? '';
+
+    emit(
+      SubscriptionSuccess(
+        const PlansModel(plans: []),
+        quoteStatus: SubscriptionQuoteStatus.success,
+        subscriptionQuote: event.quote,
+        lastQuoteRequest: event.request,
+        lastSuccessfulQuoteRequest: event.request,
+        promoCodeInput: appliedPromo?.code ?? trimmedPromo,
+        promoStatus: trimmedPromo.isEmpty
+            ? SubscriptionPromoStatus.initial
+            : SubscriptionPromoStatus.applied,
+        appliedPromo: appliedPromo,
+        isPricingStale: false,
       ),
     );
   }
