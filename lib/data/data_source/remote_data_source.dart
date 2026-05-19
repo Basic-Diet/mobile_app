@@ -45,9 +45,22 @@ import 'package:basic_diet/data/response/cancel_order_response.dart';
 import '../response/bulk_selections_response.dart';
 
 abstract class RemoteDataSource {
-  Future<BaseResponse> login(String phone);
-  Future<AuthenticationResponse> verifyOtp(String phone, String otp);
-  Future<BaseResponse> register(String fullName, String phone, String? email);
+  Future<AuthenticationResponse> login(
+    String phone,
+    String password,
+    String? deviceId,
+    String? deviceName,
+  );
+  Future<BaseResponse> requestRegistrationOtp(String phone);
+  Future<AuthenticationResponse> verifyRegistrationOtp(
+    String phone,
+    String otp,
+    String password,
+    String? deviceId,
+    String? deviceName,
+  );
+  Future<AuthenticationResponse> refreshToken(String refreshToken);
+  Future<AuthenticationResponse> getCurrentUser();
   Future<PlansResponse> getPlans();
   Future<PopularPackagesResponse> getPopularPackages();
   Future<PremiumMealsResponse> getPremiumMeals();
@@ -132,7 +145,10 @@ abstract class RemoteDataSource {
 
   Future<OrderMenuResponse> getOrderMenu();
   Future<OrderQuoteResponse> getOrderQuote(OrderQuoteRequest request);
-  Future<CreateOrderResponse> createOrder(CreateOrderRequest request, String idempotencyKey);
+  Future<CreateOrderResponse> createOrder(
+    CreateOrderRequest request,
+    String idempotencyKey,
+  );
   Future<VerifyPaymentResponse> verifyOrderPayment(
     String orderId,
     String paymentId,

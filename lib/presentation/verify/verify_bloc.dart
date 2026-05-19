@@ -10,33 +10,45 @@ class VerifyBloc extends Bloc<VerifyEvent, VerifyState> {
   final VerifyOtpUseCase _verifyOtpUseCase;
   final AppPreferences _appPreferences;
   Timer? _timer;
-  static const int _timerDuration = 5;
 
   VerifyBloc(this._verifyOtpUseCase, this._appPreferences)
     : super(const VerifyInitialState()) {
     on<VerifyCodeChanged>(_onCodeChanged);
+    on<VerifyPasswordChanged>(_onPasswordChanged);
     on<VerifySubmitted>(_onSubmitted);
     on<VerifyResendCode>(_onResendCode);
     on<VerifyTimerStarted>(_onTimerStarted);
     on<VerifyTimerTicked>(_onTimerTicked);
+
+    add(const VerifyTimerStarted());
+  }
+
+  void _onResendCode(VerifyResendCode event, Emitter<VerifyState> emit) {
+    emit(state.copyWith(canResend: false, timerDuration: 59));
     add(const VerifyTimerStarted());
   }
 
   void _onTimerStarted(VerifyTimerStarted event, Emitter<VerifyState> emit) {
     _timer?.cancel();
-    emit(state.copyWith(timerDuration: _timerDuration, canResend: false));
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      add(VerifyTimerTicked(_timerDuration - timer.tick));
+      if (state.timerDuration > 0) {
+        add(VerifyTimerTicked(state.timerDuration - 1));
+      } else {
+        timer.cancel();
+        if (!isClosed) {
+          emit(state.copyWith(canResend: true));
+        }
+      }
     });
   }
 
   void _onTimerTicked(VerifyTimerTicked event, Emitter<VerifyState> emit) {
-    if (event.duration > 0) {
-      emit(state.copyWith(timerDuration: event.duration));
-    } else {
-      _timer?.cancel();
-      emit(state.copyWith(timerDuration: 0, canResend: true));
-    }
+    emit(
+      state.copyWith(
+        timerDuration: event.duration,
+        canResend: event.duration == 0,
+      ),
+    );
   }
 
   void _onCodeChanged(VerifyCodeChanged event, Emitter<VerifyState> emit) {
@@ -44,20 +56,36 @@ class VerifyBloc extends Bloc<VerifyEvent, VerifyState> {
     emit(state.copyWith(otpCode: event.code, otpError: error));
   }
 
+  void _onPasswordChanged(
+    VerifyPasswordChanged event,
+    Emitter<VerifyState> emit,
+  ) {
+    final error = _validatePassword(event.password);
+    emit(state.copyWith(password: event.password, passwordError: error));
+  }
+
   Future<void> _onSubmitted(
     VerifySubmitted event,
     Emitter<VerifyState> emit,
   ) async {
+    final otpError = _validateCode(state.otpCode);
+    final passwordError = _validatePassword(state.password);
+    if (otpError != null || passwordError != null) {
+      emit(state.copyWith(otpError: otpError, passwordError: passwordError));
+      return;
+    }
+
     emit(
       VerifyLoadingState(
         otpCode: state.otpCode,
+        password: state.password,
         timerDuration: state.timerDuration,
         canResend: state.canResend,
       ),
     );
 
     final result = await _verifyOtpUseCase.execute(
-      VerifyOtpUseCaseInput(event.phone, state.otpCode),
+      VerifyOtpUseCaseInput(event.phone, state.otpCode, state.password),
     );
 
     await result.fold(
@@ -67,28 +95,35 @@ class VerifyBloc extends Bloc<VerifyEvent, VerifyState> {
           VerifyErrorState(
             failure.message,
             otpCode: state.otpCode,
+            password: state.password,
             timerDuration: state.timerDuration,
             canResend: state.canResend,
           ),
         );
       },
       (data) async {
-        // Store token
-        if (data.token != null && data.token!.isNotEmpty) {
-          await _appPreferences.setUserToken("login", data.token!);
+        if (data.accessToken.isNotEmpty && data.refreshToken.isNotEmpty) {
+          await _appPreferences.saveSession(
+            accessToken: data.accessToken,
+            refreshToken: data.refreshToken,
+            expiresIn: data.expiresIn,
+          );
           showToast(message: "Success Otp", state: ToastStates.success);
           emit(
             VerifySuccessState(
               otpCode: state.otpCode,
+              password: state.password,
               timerDuration: state.timerDuration,
               canResend: state.canResend,
             ),
           );
         } else {
+          showToast(message: "Token not found", state: ToastStates.error);
           emit(
             VerifyErrorState(
               "Token not found",
               otpCode: state.otpCode,
+              password: state.password,
               timerDuration: state.timerDuration,
               canResend: state.canResend,
             ),
@@ -98,22 +133,15 @@ class VerifyBloc extends Bloc<VerifyEvent, VerifyState> {
     );
   }
 
-  Future<void> _onResendCode(
-    VerifyResendCode event,
-    Emitter<VerifyState> emit,
-  ) async {
-    // Only allow resend if it's enabled
-    if (!state.canResend) return;
-
-    // Restart timer
-    add(const VerifyTimerStarted());
-
-    // Logic to actually resend code would go here
+  String? _validateCode(String code) {
+    if (code.isEmpty) return "Verification code is required";
+    if (code.length < 6) return "Code must be 6 digits";
+    return null;
   }
 
-  String? _validateCode(String code) {
-    if (code.isEmpty) return "Code is required";
-    if (code.length < 6) return "Code must be 6 digits";
+  String? _validatePassword(String password) {
+    if (password.isEmpty) return "Password is required";
+    if (password.length < 8) return "Password is too short";
     return null;
   }
 

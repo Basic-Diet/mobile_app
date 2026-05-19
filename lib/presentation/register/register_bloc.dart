@@ -43,6 +43,12 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     RegisterSubmitted event,
     Emitter<RegisterState> emit,
   ) async {
+    final phoneError = _validatePhone(state.phone);
+    if (phoneError != null) {
+      emit(state.copyWith(phoneError: phoneError));
+      return;
+    }
+
     emit(
       RegisterLoadingState(
         fullName: state.fullName,
@@ -52,11 +58,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     );
 
     final result = await _registerUseCase.execute(
-      RegisterUseCaseInput(
-        state.fullName,
-        state.phone,
-        state.email.isEmpty ? null : state.email,
-      ),
+      RegisterUseCaseInput(state.phone),
     );
 
     result.fold(

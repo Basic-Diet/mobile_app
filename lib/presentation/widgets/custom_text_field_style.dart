@@ -76,6 +76,22 @@ class AppTextField extends StatelessWidget {
     );
   }
 
+  factory AppTextField.password({
+    required TextEditingController controller,
+    ValueChanged<String>? onChanged,
+    String? errorText,
+  }) {
+    return AppTextField._(
+      hintText: Strings.passwordHint.tr(),
+      controller: controller,
+      keyboardType: TextInputType.visiblePassword,
+      obscureText: true,
+      textInputAction: TextInputAction.done,
+      errorText: errorText,
+      onChanged: onChanged,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -140,19 +156,3 @@ class AppTextField extends StatelessWidget {
     );
   }
 }
-
-// // 🔹 Password constructor
-// factory AppTextField.password({
-//   required TextEditingController controller,
-//   String? errorText,
-// }) {
-//   return AppTextField._(
-//     hintText: "Password",
-//     controller: controller,
-//     keyboardType: TextInputType.visiblePassword,
-//     obscureText: true,
-//     textInputAction: TextInputAction.done,
-//     prefixIcon: Icon(Icons.lock),
-//     errorText: errorText,
-//   );
-// }

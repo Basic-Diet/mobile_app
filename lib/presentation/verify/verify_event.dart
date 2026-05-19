@@ -1,10 +1,18 @@
 import 'package:equatable/equatable.dart';
 
-abstract class VerifyEvent extends Equatable {
+sealed class VerifyEvent extends Equatable {
   const VerifyEvent();
 
   @override
   List<Object?> get props => [];
+}
+
+class VerifyPasswordChanged extends VerifyEvent {
+  final String password;
+  const VerifyPasswordChanged(this.password);
+
+  @override
+  List<Object?> get props => [password];
 }
 
 class VerifyCodeChanged extends VerifyEvent {

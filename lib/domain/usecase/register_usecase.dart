@@ -11,14 +11,12 @@ class RegisterUseCase implements BaseUseCase<RegisterUseCaseInput, BaseModel> {
 
   @override
   Future<Either<Failure, BaseModel>> execute(RegisterUseCaseInput input) async {
-    return await _repository.register(input.fullName, input.phone, input.email);
+    return await _repository.requestRegistrationOtp(input.phone);
   }
 }
 
 class RegisterUseCaseInput {
-  String fullName;
-  String phone;
-  String? email;
+  final String phone;
 
-  RegisterUseCaseInput(this.fullName, this.phone, this.email);
+  const RegisterUseCaseInput(this.phone);
 }

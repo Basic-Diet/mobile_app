@@ -48,21 +48,26 @@ part 'app_api.g.dart';
 abstract class AppServiceClient {
   factory AppServiceClient(Dio dio, {String? baseUrl}) = _AppServiceClient;
 
-  @POST("/api/app/login")
-  Future<BaseResponse> login(@Field("phoneE164") String phone);
+  @POST("/api/auth/login")
+  Future<AuthenticationResponse> login(@Body() Map<String, dynamic> body);
 
-  @POST("/api/auth/otp/verify")
-  Future<AuthenticationResponse> verifyOtp(
-    @Field("phoneE164") String phone,
-    @Field("otp") String otp,
+  @POST("/api/auth/register/request-otp")
+  Future<BaseResponse> requestRegistrationOtp(
+    @Body() Map<String, dynamic> body,
   );
 
-  @POST("/api/app/register")
-  Future<BaseResponse> register(
-    @Field("fullName") String fullName,
-    @Field("phoneE164") String phone,
-    @Field("email") String? email,
+  @POST("/api/auth/register/verify")
+  Future<AuthenticationResponse> verifyRegistrationOtp(
+    @Body() Map<String, dynamic> body,
   );
+
+  @POST("/api/auth/refresh")
+  Future<AuthenticationResponse> refreshToken(
+    @Body() Map<String, dynamic> body,
+  );
+
+  @GET("/api/auth/me")
+  Future<AuthenticationResponse> getCurrentUser();
 
   @GET("/api/plans")
   Future<PlansResponse> getPlans();
@@ -226,9 +231,7 @@ abstract class AppServiceClient {
   Future<OrderMenuResponse> getOrderMenu();
 
   @POST("/api/orders/quote")
-  Future<OrderQuoteResponse> getOrderQuote(
-    @Body() OrderQuoteRequest request,
-  );
+  Future<OrderQuoteResponse> getOrderQuote(@Body() OrderQuoteRequest request);
 
   @POST("/api/orders")
   Future<CreateOrderResponse> createOrder(
@@ -244,9 +247,7 @@ abstract class AppServiceClient {
   );
 
   @GET("/api/orders/{orderId}")
-  Future<OrderDetailResponse> getOrderDetail(
-    @Path("orderId") String orderId,
-  );
+  Future<OrderDetailResponse> getOrderDetail(@Path("orderId") String orderId);
 
   @GET("/api/orders")
   Future<OrdersListResponse> getOrders(
@@ -255,7 +256,5 @@ abstract class AppServiceClient {
   );
 
   @DELETE("/api/orders/{orderId}")
-  Future<CancelOrderResponse> cancelOrder(
-    @Path("orderId") String orderId,
-  );
+  Future<CancelOrderResponse> cancelOrder(@Path("orderId") String orderId);
 }

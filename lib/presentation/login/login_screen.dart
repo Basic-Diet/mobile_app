@@ -1,11 +1,11 @@
 import 'package:basic_diet/app/dependency_injection.dart';
 import 'package:basic_diet/presentation/register/register_screen.dart';
+import 'package:basic_diet/presentation/main/main_screen.dart';
 import 'package:basic_diet/presentation/resources/color_manager.dart';
 import 'package:basic_diet/presentation/resources/font_manager.dart';
 import 'package:basic_diet/presentation/resources/strings_manager.dart';
 import 'package:basic_diet/presentation/resources/styles_manager.dart';
 import 'package:basic_diet/presentation/resources/values_manager.dart';
-import 'package:basic_diet/presentation/verify/verify_screen.dart';
 import 'package:basic_diet/presentation/widgets/button_widget.dart';
 import 'package:basic_diet/presentation/widgets/custom_text_field_style.dart';
 import 'package:basic_diet/presentation/widgets/text_button_widget.dart';
@@ -24,6 +24,8 @@ class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
 
   late final TextEditingController _phoneController = TextEditingController();
+  late final TextEditingController _passwordController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -32,11 +34,12 @@ class LoginScreen extends StatelessWidget {
     return BlocProvider(
       create: (_) => instance<LoginBloc>(),
       child: BlocListener<LoginBloc, LoginState>(
-        listenWhen: (previous, current) =>
-            previous is! LoginSuccessState && current is LoginSuccessState,
+        listenWhen:
+            (previous, current) =>
+                previous is! LoginSuccessState && current is LoginSuccessState,
         listener: (context, state) {
           if (state is LoginSuccessState) {
-            context.push(VerifyScreen.verifyRoute, extra: state.phone);
+            context.go(MainScreen.mainRoute);
           }
         },
         child: Scaffold(
@@ -102,8 +105,8 @@ class LoginScreen extends StatelessWidget {
         ),
         Gap(AppSize.s8.h),
         BlocBuilder<LoginBloc, LoginState>(
-          buildWhen: (previous, current) =>
-              previous.phoneError != current.phoneError,
+          buildWhen:
+              (previous, current) => previous.phoneError != current.phoneError,
           builder: (context, state) {
             return AppTextField.phone(
               controller: _phoneController,
@@ -115,23 +118,54 @@ class LoginScreen extends StatelessWidget {
           },
         ),
         Gap(AppSize.s16.h),
+        Text(
+          Strings.password.tr(),
+          style: getRegularTextStyle(
+            color: ColorManager.textPrimary,
+            fontSize: FontSizeManager.s16.sp,
+          ),
+        ),
+        Gap(AppSize.s8.h),
+        BlocBuilder<LoginBloc, LoginState>(
+          buildWhen:
+              (previous, current) =>
+                  previous.passwordError != current.passwordError,
+          builder: (context, state) {
+            return AppTextField.password(
+              controller: _passwordController,
+              errorText: state.passwordError,
+              onChanged: (password) {
+                context.read<LoginBloc>().add(LoginPasswordChanged(password));
+              },
+            );
+          },
+        ),
+        Gap(AppSize.s24.h),
         BlocBuilder<LoginBloc, LoginState>(
           builder: (context, state) {
             final isLoading = state is LoginLoadingState;
             final isEnabled =
-                state.phoneError == null && state.phone.isNotEmpty;
+                state.phoneError == null &&
+                state.phone.isNotEmpty &&
+                state.passwordError == null &&
+                state.password.isNotEmpty;
 
             return ButtonWidget(
-              text: isLoading ? Strings.loading.tr() : Strings.sendOtp.tr(),
+              text: isLoading ? Strings.loading.tr() : Strings.login.tr(),
               textColor: ColorManager.backgroundSurface,
-              color: isEnabled
-                  ? ColorManager.stateSuccessEmphasis
-                  : ColorManager.stateSuccessEmphasis.withValues(alpha: 0.5),
+              color:
+                  isEnabled
+                      ? ColorManager.stateSuccessEmphasis
+                      : ColorManager.stateSuccessEmphasis.withValues(
+                        alpha: 0.5,
+                      ),
               width: double.infinity,
               radius: AppSize.s12.r,
-              onTap: isEnabled
-                  ? () => context.read<LoginBloc>().add(const LoginSubmitted())
-                  : null,
+              onTap:
+                  isEnabled
+                      ? () =>
+                          context.read<LoginBloc>().add(const LoginSubmitted())
+                      : null,
             );
           },
         ),
