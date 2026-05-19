@@ -60,9 +60,7 @@ class TimelineMealSlotResponse {
     if (normalized['selectionType'] == 'standard_combo') {
       normalized['selectionType'] = 'standard_meal';
     }
-    if (normalized['selectionType'] == 'custom_premium_salad') {
-      normalized['selectionType'] = 'premium_large_salad';
-    }
+
     return _$TimelineMealSlotResponseFromJson(normalized);
   }
 

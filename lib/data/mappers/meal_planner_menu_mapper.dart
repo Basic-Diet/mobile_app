@@ -130,7 +130,7 @@ extension PremiumLargeSaladResponseMapper on PremiumLargeSaladResponse? {
     return PremiumLargeSaladModel(
       id: this?.id.orEmpty() ?? 'premium_large_salad',
       selectionType: this?.selectionType.orEmpty() ?? 'premium_large_salad',
-      premiumKey: this?.premiumKey.orEmpty() ?? 'custom_premium_salad',
+      premiumKey: this?.premiumKey.orEmpty() ?? 'premium_large_salad',
       presetKey: this?.presetKey.orEmpty() ?? 'large_salad',
       name: this?.name.orEmpty() ?? Constants.empty,
       extraFeeHalala: this?.extraFeeHalala.orZero() ?? Constants.zero,

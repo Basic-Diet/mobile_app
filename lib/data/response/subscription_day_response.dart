@@ -288,9 +288,7 @@ class MealSlotResponse {
     if (out['selectionType'] == 'standard_combo') {
       out['selectionType'] = 'standard_meal';
     }
-    if (out['selectionType'] == 'custom_premium_salad') {
-      out['selectionType'] = 'premium_large_salad';
-    }
+
     return out;
   }
 
