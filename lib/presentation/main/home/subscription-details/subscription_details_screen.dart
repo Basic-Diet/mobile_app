@@ -1406,6 +1406,16 @@ class _InfoTile extends StatelessWidget {
                     fontSize: FontSizeManager.s10.sp,
                   ),
                 ),
+                if (value.trim().isNotEmpty) ...[
+                  Gap(AppSize.s4.h),
+                  Text(
+                    value,
+                    style: getBoldTextStyle(
+                      color: ColorManager.black101828,
+                      fontSize: FontSizeManager.s14.sp,
+                    ),
+                  ),
+                ],
               ],
             ),
           ),
