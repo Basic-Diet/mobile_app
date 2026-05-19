@@ -278,7 +278,7 @@ class DeliveryMethodContentView extends StatelessWidget {
                 apartment: state.apartment.trim(),
                 notes: state.notes.trim(),
                 district: state.selectedArea!.label,
-                city: 'Riyadh',
+                city: 'Jeddah',
               ),
             )
           : SubscriptionQuoteDeliveryRequestModel(type: 'pickup'),
