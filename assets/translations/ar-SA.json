@@ -415,6 +415,8 @@
     "promoNotValidForSubscription": "كود الخصم هذا غير صالح لهذا الاشتراك",
     "promoBackendError": "تعذر التحقق من كود الخصم حالياً",
     "discount": "الخصم",
+    "pricingNeedsRefresh": "تغيّر السعر. يرجى إعادة تطبيق كود الخصم للمتابعة.",
+    "refreshPricingToContinue": "تحديث السعر للمتابعة",
     "confirmAndPay": "تأكيد والدفع",
     "subscriptionPoliciesTitle": "شروط وأحكام الاشتراك",
     "subscriptionPoliciesSubtitle": "يرجى قراءة الشروط والموافقة عليها للمتابعة إلى الدفع.",

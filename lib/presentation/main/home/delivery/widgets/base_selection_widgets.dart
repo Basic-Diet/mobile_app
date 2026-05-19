@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:basic_diet/presentation/resources/color_manager.dart';
 import 'package:basic_diet/presentation/resources/font_manager.dart';
 import 'package:basic_diet/presentation/resources/strings_manager.dart';
@@ -73,7 +74,7 @@ class _SelectionModalState<T> extends State<SelectionModal<T>> {
             Gap(AppSize.s24.h),
             ButtonWidget(
               radius: AppSize.s12,
-              text: Strings.confirm,
+              text: Strings.confirm.tr(),
               color:
                   _tempSelected != null
                       ? ColorManager.brandPrimary

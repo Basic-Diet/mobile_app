@@ -415,6 +415,8 @@
     "promoNotValidForSubscription": "This promo code is not valid for this subscription",
     "promoBackendError": "Unable to validate the promo code right now",
     "discount": "Discount",
+    "pricingNeedsRefresh": "Pricing has changed. Please re-apply your promo code to continue.",
+    "refreshPricingToContinue": "Refresh pricing to continue",
     "confirmAndPay": "Confirm & Pay",
     "subscriptionPoliciesTitle": "Subscription Terms & Conditions",
     "subscriptionPoliciesSubtitle": "Please read and accept to proceed to payment.",
