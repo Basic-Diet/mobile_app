@@ -502,6 +502,16 @@ class Strings {
   static const String language = 'language';
   static const String english = 'english';
   static const String arabic = 'arabic';
+  static const String guestName = 'guestName';
+  static const String currentSubscription = 'currentSubscription';
+  static const String viewSubscription = 'viewSubscription';
+  static const String profileMealsRemaining = 'profileMealsRemaining';
+  static const String myOrders = 'myOrders';
+  static const String myAddresses = 'myAddresses';
+  static const String support = 'support';
+  static const String termsPrivacy = 'termsPrivacy';
+  static const String unavailableNow = 'unavailableNow';
+  static const String logout = 'logout';
 
   // Subscription Details
   static const String confirmAndPay = 'confirmAndPay';

@@ -30,21 +30,27 @@ class GoRouterConfig {
     routes: <RouteBase>[
       GoRoute(
         path: SplashScreen.splashRoute,
-        pageBuilder: (BuildContext context, GoRouterState state) =>
-            getCustomTransitionPage(state: state, child: SplashScreen()),
+        pageBuilder:
+            (BuildContext context, GoRouterState state) =>
+                getCustomTransitionPage(state: state, child: SplashScreen()),
       ),
       GoRoute(
         path: LanguageSelectionScreen.languageSelectionRoute,
-        pageBuilder: (BuildContext context, GoRouterState state) =>
-            getCustomTransitionPage(
-              state: state,
-              child: const LanguageSelectionScreen(),
-            ),
+        pageBuilder:
+            (BuildContext context, GoRouterState state) =>
+                getCustomTransitionPage(
+                  state: state,
+                  child: const LanguageSelectionScreen(),
+                ),
       ),
       GoRoute(
         path: OnboardingScreen.routeName,
-        pageBuilder: (BuildContext context, GoRouterState state) =>
-            getCustomTransitionPage(state: state, child: OnboardingScreen()),
+        pageBuilder:
+            (BuildContext context, GoRouterState state) =>
+                getCustomTransitionPage(
+                  state: state,
+                  child: OnboardingScreen(),
+                ),
       ),
       GoRoute(
         path: LoginScreen.loginRoute,
@@ -76,9 +82,9 @@ class GoRouterConfig {
           initHomeModule();
           initOrderMenuModule();
           initOrdersModule();
-          final initialIndex = state.extra is int
-              ? state.extra as int
-              : MainScreen.homeTabIndex;
+          initProfileModule();
+          final initialIndex =
+              state.extra is int ? state.extra as int : MainScreen.homeTabIndex;
           return getCustomTransitionPage(
             state: state,
             child: MainScreen(initialIndex: initialIndex),

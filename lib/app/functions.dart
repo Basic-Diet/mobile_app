@@ -28,4 +28,16 @@ Future<void> changeLanguage(BuildContext context) async {
   }
 }
 
+Future<void> changeLanguageTo(BuildContext context, String languageCode) async {
+  final appPreferences = instance<AppPreferences>();
+  final currentLanguage = await appPreferences.getAppLanguage();
+  if (currentLanguage == languageCode) return;
+
+  await appPreferences.setAppLanguage(languageCode);
+
+  if (context.mounted) {
+    Phoenix.rebirth(context);
+  }
+}
+
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();

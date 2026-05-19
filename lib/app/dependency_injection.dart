@@ -6,6 +6,7 @@ import 'package:basic_diet/data/network/dio_factory.dart';
 import 'package:basic_diet/data/repository/repository.dart';
 import 'package:basic_diet/domain/repository/repository.dart';
 import 'package:basic_diet/domain/usecase/login_usecase.dart';
+import 'package:basic_diet/domain/usecase/get_client_profile_usecase.dart';
 import 'package:basic_diet/domain/usecase/get_current_user_usecase.dart';
 import 'package:basic_diet/domain/usecase/refresh_token_usecase.dart';
 import 'package:basic_diet/domain/usecase/prepare_pickup_usecase.dart';
@@ -65,6 +66,7 @@ import 'package:basic_diet/presentation/main/menu/bloc/menu_bloc.dart';
 import 'package:basic_diet/presentation/main/cart/bloc/checkout_bloc.dart';
 import 'package:basic_diet/presentation/main/cart/bloc/order_tracking_bloc.dart';
 import 'package:basic_diet/presentation/main/orders/bloc/orders_bloc.dart';
+import 'package:basic_diet/presentation/main/profile/bloc/profile_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 final instance = GetIt.instance; // Singleton instance of GetIt
@@ -190,6 +192,23 @@ void initHomeModule() {
       () => HomeBloc(
         instance<GetPopularPackagesUseCase>(),
         instance<GetCurrentSubscriptionOverviewUseCase>(),
+      ),
+    );
+  }
+}
+
+void initProfileModule() {
+  if (!GetIt.I.isRegistered<GetClientProfileUseCase>()) {
+    instance.registerFactory<GetClientProfileUseCase>(
+      () => GetClientProfileUseCase(instance<Repository>()),
+    );
+  }
+
+  if (!GetIt.I.isRegistered<ProfileBloc>()) {
+    instance.registerFactory<ProfileBloc>(
+      () => ProfileBloc(
+        instance<GetClientProfileUseCase>(),
+        instance<AppPreferences>(),
       ),
     );
   }

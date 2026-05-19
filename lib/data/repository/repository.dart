@@ -7,6 +7,7 @@ import 'package:basic_diet/data/mappers/login_mapper.dart';
 import 'package:basic_diet/data/mappers/auth_mapper.dart';
 import 'package:basic_diet/data/mappers/plans_mapper.dart';
 import 'package:basic_diet/data/mappers/popular_packages_mapper.dart';
+import 'package:basic_diet/data/mappers/client_profile_mapper.dart';
 import 'package:basic_diet/data/mappers/premium_meals_mapper.dart';
 import 'package:basic_diet/data/mappers/delivery_options_mapper.dart';
 import 'package:basic_diet/data/mappers/subscription_checkout_mapper.dart';
@@ -19,6 +20,7 @@ import 'package:basic_diet/data/network/failure.dart';
 import 'package:basic_diet/data/response/subscription_checkout_response.dart';
 import 'package:basic_diet/domain/model/auth_model.dart';
 import 'package:basic_diet/domain/model/base__model.dart';
+import 'package:basic_diet/domain/model/client_profile_model.dart';
 import 'package:basic_diet/domain/model/delivery_options_model.dart';
 import 'package:basic_diet/domain/model/plans_model.dart';
 import 'package:basic_diet/domain/model/popular_packages_model.dart';
@@ -342,6 +344,22 @@ class RepositoryImpl implements Repository {
   Future<Either<Failure, AuthenticationModel>> getCurrentUser() async {
     try {
       final response = await _remoteDataSource.getCurrentUser();
+      if (_isSuccessfulResponse(response)) {
+        return Right(response.toDomain());
+      } else {
+        return Left(
+          Failure(ApiInternalStatus.failure, ResponseMessage.defaultError),
+        );
+      }
+    } catch (error) {
+      return _handleError(error);
+    }
+  }
+
+  @override
+  Future<Either<Failure, ClientProfileModel>> getClientProfile() async {
+    try {
+      final response = await _remoteDataSource.getClientProfile();
       if (_isSuccessfulResponse(response)) {
         return Right(response.toDomain());
       } else {

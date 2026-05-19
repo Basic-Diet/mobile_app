@@ -4,6 +4,7 @@ import 'package:basic_diet/data/network/failure.dart';
 import 'package:basic_diet/domain/model/checkout_draft_model.dart';
 import 'package:basic_diet/domain/model/auth_model.dart';
 import 'package:basic_diet/domain/model/base__model.dart';
+import 'package:basic_diet/domain/model/client_profile_model.dart';
 import 'package:basic_diet/domain/model/delivery_options_model.dart';
 import 'package:basic_diet/domain/model/plans_model.dart';
 import 'package:basic_diet/domain/model/popular_packages_model.dart';
@@ -55,6 +56,7 @@ abstract class Repository {
     String refreshToken,
   );
   Future<Either<Failure, AuthenticationModel>> getCurrentUser();
+  Future<Either<Failure, ClientProfileModel>> getClientProfile();
   Future<Either<Failure, PlansModel>> getPlans();
   Future<Either<Failure, PopularPackagesModel>> getPopularPackages();
   Future<Either<Failure, PremiumMealsModel>> getPremiumMeals();
