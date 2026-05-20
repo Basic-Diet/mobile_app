@@ -659,6 +659,8 @@ class _AddOnTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final detailsLabel = _buildAddonDetailsLabel(item);
+
     return Padding(
       padding: EdgeInsetsDirectional.all(AppPadding.p16.w),
       child: Row(
@@ -686,13 +688,14 @@ class _AddOnTile extends StatelessWidget {
                   ),
                 ),
                 Gap(AppSize.s4.h),
-                Text(
-                  item.formulaLabel,
-                  style: getRegularTextStyle(
-                    color: ColorManager.grey6A7282,
-                    fontSize: FontSizeManager.s10.sp,
+                if (detailsLabel.isNotEmpty)
+                  Text(
+                    detailsLabel,
+                    style: getRegularTextStyle(
+                      color: ColorManager.grey6A7282,
+                      fontSize: FontSizeManager.s10.sp,
+                    ),
                   ),
-                ),
               ],
             ),
           ),
@@ -902,39 +905,26 @@ class _PriceBreakdownSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final totalItem = _findLineItemFromQuote(quote, 'total');
-    final pricingSummary = quote.pricingSummary;
-    final otherItems = quote.summary.lineItems
-        .where((item) => item.kind != 'total' && item.kind != 'vat')
+    final totalItem =
+        _findLineItemFromQuote(quote, 'total') ??
+        _buildFallbackTotalPriceItem(quote);
+    final lineItems = quote.summary.lineItems
+        .where((item) => item.kind != 'total')
         .toList();
+    final visibleItems = lineItems.isNotEmpty
+        ? lineItems
+        : _buildFallbackPriceBreakdownItems(quote);
 
     return _SummarySectionCard(
       title: Strings.priceBreakdown.tr(),
       icon: Icons.attach_money_rounded,
       child: Column(
         children: [
-          _StaticPriceRow(
-            label: Strings.packagePriceBeforeTax.tr(),
-            value: _formatSar(pricingSummary.basePlanNetSar),
-          ),
-          const Divider(height: 1, color: ColorManager.formFieldsBorderColor),
-          _StaticPriceRow(
-            label: Strings.valueAddedAmount.tr(),
-            value: _formatSar(pricingSummary.vatSar),
-            isVat: true,
-          ),
-          const Divider(height: 1, color: ColorManager.formFieldsBorderColor),
-          _StaticPriceRow(
-            label: Strings.packagePriceAfterTax.tr(),
-            value: _formatSar(pricingSummary.basePlanGrossSar),
-          ),
-          if (otherItems.isNotEmpty)
-            const Divider(height: 1, color: ColorManager.formFieldsBorderColor),
-          for (int index = 0; index < otherItems.length; index++)
+          for (int index = 0; index < visibleItems.length; index++)
             Column(
               children: [
-                _PriceRow(item: otherItems[index]),
-                if (index != otherItems.length - 1)
+                _PriceRow(item: visibleItems[index]),
+                if (index != visibleItems.length - 1)
                   const Divider(
                     height: 1,
                     color: ColorManager.formFieldsBorderColor,
@@ -981,62 +971,6 @@ class _PriceBreakdownSection extends StatelessWidget {
               ),
             ),
           ],
-        ],
-      ),
-    );
-  }
-}
-
-class _StaticPriceRow extends StatelessWidget {
-  final String label;
-  final String value;
-  final bool isVat;
-
-  const _StaticPriceRow({
-    required this.label,
-    required this.value,
-    this.isVat = false,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final valueColor = isVat
-        ? ColorManager.grey6A7282
-        : ColorManager.black101828;
-    final labelColor = isVat
-        ? ColorManager.grey6A7282
-        : ColorManager.grey4A5565;
-
-    return Padding(
-      padding: EdgeInsetsDirectional.symmetric(
-        horizontal: AppPadding.p16.w,
-        vertical: AppPadding.p14.h,
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            child: Text(
-              label,
-              style: getRegularTextStyle(
-                color: labelColor,
-                fontSize: isVat
-                    ? FontSizeManager.s12.sp
-                    : FontSizeManager.s14.sp,
-              ),
-            ),
-          ),
-          Text(
-            value,
-            style: isVat
-                ? getRegularTextStyle(
-                    color: valueColor,
-                    fontSize: FontSizeManager.s12.sp,
-                  )
-                : getBoldTextStyle(
-                    color: valueColor,
-                    fontSize: FontSizeManager.s14.sp,
-                  ),
-          ),
         ],
       ),
     );
@@ -1608,6 +1542,60 @@ SubscriptionQuoteLineItemModel? _findLineItemFromQuote(
   return null;
 }
 
+List<SubscriptionQuoteLineItemModel> _buildFallbackPriceBreakdownItems(
+  SubscriptionQuoteModel quote,
+) {
+  final breakdown = quote.breakdown;
+
+  return [
+    SubscriptionQuoteLineItemModel(
+      kind: 'package',
+      label: Strings.packagePriceAfterTax.tr(),
+      amountHalala: breakdown.basePlanPriceHalala,
+      amountSar: breakdown.basePlanPriceHalala / 100,
+      amountLabel: '',
+    ),
+    if (breakdown.addonsTotalHalala > 0)
+      SubscriptionQuoteLineItemModel(
+        kind: 'addons',
+        label: Strings.addOns.tr(),
+        amountHalala: breakdown.addonsTotalHalala,
+        amountSar: breakdown.addonsTotalHalala / 100,
+        amountLabel: '',
+      ),
+    if (breakdown.deliveryFeeHalala > 0)
+      SubscriptionQuoteLineItemModel(
+        kind: 'delivery',
+        label: Strings.deliveryFee.tr(),
+        amountHalala: breakdown.deliveryFeeHalala,
+        amountSar: breakdown.deliveryFeeHalala / 100,
+        amountLabel: '',
+      ),
+    if (breakdown.vatHalala > 0)
+      SubscriptionQuoteLineItemModel(
+        kind: 'vat',
+        label: Strings.tax.tr(),
+        amountHalala: breakdown.vatHalala,
+        amountSar: breakdown.vatHalala / 100,
+        amountLabel: '',
+      ),
+  ];
+}
+
+SubscriptionQuoteLineItemModel _buildFallbackTotalPriceItem(
+  SubscriptionQuoteModel quote,
+) {
+  final breakdown = quote.breakdown;
+
+  return SubscriptionQuoteLineItemModel(
+    kind: 'total',
+    label: Strings.total.tr(),
+    amountHalala: breakdown.totalHalala,
+    amountSar: breakdown.totalHalala / 100,
+    amountLabel: '',
+  );
+}
+
 DateTime? _tryParseDate(String? value) {
   if (value == null || value.trim().isEmpty) {
     return null;
@@ -1650,6 +1638,49 @@ String _displayAmount({String? label, required num fallbackAmount}) {
   }
 
   return _formatSar(fallbackAmount);
+}
+
+String _buildAddonDetailsLabel(SubscriptionQuoteAddonModel item) {
+  final formulaLabel = item.formulaLabel.trim();
+  if (formulaLabel.isNotEmpty) {
+    return formulaLabel;
+  }
+
+  final unitPrice = _displayAmount(
+    label: item.unitPriceLabel,
+    fallbackAmount: item.unitPriceSar,
+  );
+  final unitSuffix = _addonBillingUnitLabel(item);
+  final parts = <String>[
+    unitSuffix.isEmpty ? unitPrice : '$unitPrice / $unitSuffix',
+  ];
+
+  if (item.qty > 0) {
+    parts.add('x${item.qty}');
+  }
+
+  if (item.durationDays > 0) {
+    parts.add('${item.durationDays} ${Strings.days.tr()}');
+  }
+
+  final details = parts.join(' × ');
+  final total = _displayAmount(
+    label: item.totalLabel,
+    fallbackAmount: item.totalSar,
+  );
+
+  return details.isEmpty ? total : '$details = $total';
+}
+
+String _addonBillingUnitLabel(SubscriptionQuoteAddonModel item) {
+  final normalizedUnit = item.billingUnit.trim().toLowerCase();
+  if (normalizedUnit == 'day' ||
+      normalizedUnit == 'days' ||
+      normalizedUnit == 'per_day') {
+    return Strings.day.tr();
+  }
+
+  return item.billingUnit.trim();
 }
 
 bool _isDiscountLineItem(SubscriptionQuoteLineItemModel item) {
