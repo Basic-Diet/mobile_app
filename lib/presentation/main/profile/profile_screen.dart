@@ -2,6 +2,7 @@ import 'dart:ui' as ui;
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:basic_diet/app/dependency_injection.dart';
+import 'package:basic_diet/app/constants.dart';
 import 'package:basic_diet/app/functions.dart';
 import 'package:basic_diet/domain/model/client_profile_model.dart';
 import 'package:basic_diet/presentation/login/login_screen.dart';
@@ -367,7 +368,6 @@ class _ProfileMenuCard extends StatelessWidget {
                 : Strings.english.tr());
     final supportValue = _supportValue(menu?.support);
     final supportEnabled = menu?.support.hasContact ?? false;
-    final legalEnabled = menu?.legal.hasLinks ?? false;
 
     return _ProfileCard(
       padding: EdgeInsetsDirectional.fromSTEB(
@@ -430,8 +430,8 @@ class _ProfileMenuCard extends StatelessWidget {
               Strings.termsPrivacy.tr(),
             ),
             icon: Icons.description_outlined,
-            enabled: legalEnabled,
             showDivider: false,
+            onTap: () => openUrl(Constants.privacyPolicyUrl),
           ),
         ],
       ),

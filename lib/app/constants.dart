@@ -8,4 +8,6 @@ class Constants {
   static const bool isDebug = true;
   static const int timeout = 60 * 1000;
   static String get baseUrl => dotenv.env['BASE_URL']!;
+  static const String privacyPolicyUrl =
+      'https://basicdiet145.onrender.com/privacy-policy';
 }
