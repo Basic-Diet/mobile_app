@@ -3,12 +3,14 @@ part 'base_response.g.dart';
 
 @JsonSerializable()
 class BaseResponse {
+  @JsonKey(name: "ok")
+  bool? ok;
   @JsonKey(name: "status")
   dynamic status;
   @JsonKey(name: "message")
   String? message;
 
-  BaseResponse({this.status, this.message});
+  BaseResponse({this.ok, this.status, this.message});
 
   factory BaseResponse.fromJson(Map<String, dynamic> json) =>
       _$BaseResponseFromJson(json);

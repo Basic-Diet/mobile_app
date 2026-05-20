@@ -114,6 +114,7 @@ class RepositoryImpl implements Repository {
 
     if (response is BaseResponse) {
       return <String, dynamic>{
+        'ok': response.ok,
         'status': response.status,
         'message': response.message,
       };
@@ -135,6 +136,8 @@ class RepositoryImpl implements Repository {
   dynamic _readResponseValue(dynamic response, String key) {
     if (response is BaseResponse) {
       switch (key) {
+        case 'ok':
+          return response.ok;
         case 'status':
           return response.status;
         case 'message':

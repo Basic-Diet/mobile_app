@@ -63,26 +63,30 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
 
     result.fold(
       (failure) {
-        emit(
-          RegisterErrorState(
-            failure.message,
-            fullName: state.fullName,
-            phone: state.phone,
-            email: state.email,
-          ),
-        );
+        if (!isClosed) {
+          emit(
+            RegisterErrorState(
+              failure.message,
+              fullName: state.fullName,
+              phone: state.phone,
+              email: state.email,
+            ),
+          );
+        }
         showToast(message: failure.message, state: ToastStates.error);
       },
       (baseModel) {
         final message = baseModel.message ?? "OTP sent successfully";
-        emit(
-          RegisterSuccessState(
-            message,
-            fullName: state.fullName,
-            phone: state.phone,
-            email: state.email,
-          ),
-        );
+        if (!isClosed) {
+          emit(
+            RegisterSuccessState(
+              message,
+              fullName: state.fullName,
+              phone: state.phone,
+              email: state.email,
+            ),
+          );
+        }
         showToast(message: message, state: ToastStates.success);
       },
     );
