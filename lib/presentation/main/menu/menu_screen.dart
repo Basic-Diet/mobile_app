@@ -145,9 +145,6 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
     }
 
     context.read<CartBloc>().add(AddItemEvent(cartItem));
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text(Strings.itemAddedToCart.tr())));
   }
 
   OrderMenuProductModel? _findProductByKey(OrderMenuModel menu, String key) {
@@ -262,13 +259,6 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
                                             name: product.name,
                                             qty: 1,
                                             unitPriceHalala: product.priceHalala,
-                                          ),
-                                        ),
-                                      );
-                                      ScaffoldMessenger.of(context).showSnackBar(
-                                        SnackBar(
-                                          content: Text(
-                                            Strings.itemAddedToCart.tr(),
                                           ),
                                         ),
                                       );
@@ -1119,7 +1109,7 @@ class _CompactProductCard extends StatelessWidget {
           Gap(AppSize.s4.h),
           Row(
             children: [
-              _SquareAddButton(onTap: onAdd),
+              _ProductCartAction(product: product, onAdd: onAdd),
               Gap(AppSize.s8.w),
               Expanded(
                 child: Text(
@@ -1207,7 +1197,7 @@ class _ListProductCard extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        _SquareAddButton(onTap: onAdd),
+                        _ProductCartAction(product: product, onAdd: onAdd),
                         Text(
                           _formatHalala(product.priceHalala, currency),
                           style: getBoldTextStyle(
@@ -1224,6 +1214,36 @@ class _ListProductCard extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _ProductCartAction extends StatelessWidget {
+  final OrderMenuProductModel product;
+  final VoidCallback onAdd;
+
+  const _ProductCartAction({required this.product, required this.onAdd});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<CartBloc, CartState>(
+      builder: (context, state) {
+        final cartItem = _directCartItem(state, product.id);
+        if (cartItem == null) {
+          return _SquareAddButton(onTap: onAdd);
+        }
+
+        return _SmallQuantityButton(
+          quantity: cartItem.qty,
+          onIncrease: onAdd,
+          onDecrease: () {
+            final nextQty = cartItem.qty - 1;
+            context.read<CartBloc>().add(
+              UpdateQtyEvent(cartItem.compositeKey, nextQty),
+            );
+          },
+        );
+      },
     );
   }
 }
@@ -1248,6 +1268,84 @@ class _SquareAddButton extends StatelessWidget {
             Icons.add,
             color: ColorManager.backgroundSurface,
             size: 22,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _SmallQuantityButton extends StatelessWidget {
+  final int quantity;
+  final VoidCallback onIncrease;
+  final VoidCallback onDecrease;
+
+  const _SmallQuantityButton({
+    required this.quantity,
+    required this.onIncrease,
+    required this.onDecrease,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: AppSize.s40.h,
+      padding: EdgeInsetsDirectional.symmetric(horizontal: AppPadding.p4.w),
+      decoration: BoxDecoration(
+        color: ColorManager.brandPrimary,
+        borderRadius: BorderRadius.circular(AppSize.s15.r),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _SmallQuantityIconButton(
+            icon: Icons.remove,
+            onTap: onDecrease,
+          ),
+          Container(
+            constraints: BoxConstraints(minWidth: AppSize.s24.w),
+            alignment: Alignment.center,
+            child: Text(
+              '$quantity',
+              style: getBoldTextStyle(
+                fontSize: FontSizeManager.s13.sp,
+                color: ColorManager.backgroundSurface,
+              ),
+            ),
+          ),
+          _SmallQuantityIconButton(
+            icon: Icons.add,
+            onTap: onIncrease,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _SmallQuantityIconButton extends StatelessWidget {
+  final IconData icon;
+  final VoidCallback onTap;
+
+  const _SmallQuantityIconButton({
+    required this.icon,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(AppSize.s12.r),
+        child: SizedBox(
+          width: AppSize.s28.w,
+          height: AppSize.s32.h,
+          child: Icon(
+            icon,
+            color: ColorManager.backgroundSurface,
+            size: AppSize.s18.w,
           ),
         ),
       ),
@@ -3189,6 +3287,22 @@ class _MenuSectionData {
 }
 
 enum _SectionLayout { compactScroll, list, grid }
+
+CartItem? _directCartItem(CartState state, String productId) {
+  if (state is! CartLoaded) {
+    return null;
+  }
+
+  for (final item in state.items) {
+    if (item.productId == productId &&
+        item.selectedOptions.isEmpty &&
+        item.weightGrams == null) {
+      return item;
+    }
+  }
+
+  return null;
+}
 
 String _formatHalala(int halala, String currency) {
   final value = halala / 100;
