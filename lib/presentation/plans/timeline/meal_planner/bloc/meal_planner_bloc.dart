@@ -1297,6 +1297,8 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
           slotKey: slot.slotKey,
           selectionType: slot.selectionType,
           proteinId: slot.proteinId,
+          proteinKey: _proteinKeyForRequest(current.menu, slot.proteinId),
+          premiumKey: _premiumKeyForRequest(current.menu, slot),
           carbs:
               slot.carbs
                   .map(
@@ -1310,6 +1312,23 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
       }).toList(),
       addonsOneTime: current.selectedAddOnIds,
     );
+  }
+
+  String? _proteinKeyForRequest(MealPlannerMenuModel menu, String? proteinId) {
+    if (proteinId == null) return null;
+    final protein = _findProteinById(menu, proteinId);
+    if (protein == null) return null;
+    return protein.key.isNotEmpty ? protein.key : protein.id;
+  }
+
+  String? _premiumKeyForRequest(
+    MealPlannerMenuModel menu,
+    MealPlannerSlotSelection slot,
+  ) {
+    if (slot.selectionType != 'premium_meal') return null;
+    final protein = _findProteinById(menu, slot.proteinId ?? '');
+    if (protein == null) return null;
+    return protein.premiumKey.isNotEmpty ? protein.premiumKey : protein.key;
   }
 
   List<MealPlannerSlotSelection> _currentSlots(MealPlannerLoaded current) {

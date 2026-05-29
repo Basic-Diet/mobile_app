@@ -27,12 +27,17 @@ Failure _handleException(DioException exception) {
     case DioExceptionType.badCertificate:
       return DataSource.badRequest.getFailure();
     case DioExceptionType.badResponse:
-      if (exception.response != null &&
-          exception.response?.statusCode != null &&
-          exception.response?.statusMessage != null) {
+      final response = exception.response;
+      final backendFailure = _failureFromBackendResponse(response);
+      if (backendFailure != null) {
+        return backendFailure;
+      }
+      if (response != null &&
+          response.statusCode != null &&
+          response.statusMessage != null) {
         return Failure(
-          exception.response!.statusCode!,
-          exception.response!.statusMessage!,
+          response.statusCode!,
+          response.statusMessage!,
         );
       } else {
         return DataSource.defaultError.getFailure();
@@ -48,6 +53,38 @@ Failure _handleException(DioException exception) {
       }
       return DataSource.defaultError.getFailure();
   }
+}
+
+Failure? _failureFromBackendResponse(Response<dynamic>? response) {
+  final data = response?.data;
+  if (data is! Map<String, dynamic>) return null;
+  final error = data['error'];
+  if (error is! Map<String, dynamic>) return null;
+
+  final code = error['code']?.toString();
+  final message = error['message']?.toString();
+  final slotMessage = _firstSlotErrorMessage(error['details']);
+  final resolvedMessage =
+      slotMessage?.isNotEmpty == true ? slotMessage! : message;
+
+  if ((code == null || code.isEmpty) &&
+      (resolvedMessage == null || resolvedMessage.isEmpty)) {
+    return null;
+  }
+
+  return Failure(
+    code?.isNotEmpty == true ? code! : response?.statusCode,
+    resolvedMessage ?? response?.statusMessage ?? '',
+  );
+}
+
+String? _firstSlotErrorMessage(Object? details) {
+  if (details is! Map<String, dynamic>) return null;
+  final slotErrors = details['slotErrors'];
+  if (slotErrors is! List || slotErrors.isEmpty) return null;
+  final first = slotErrors.first;
+  if (first is! Map<String, dynamic>) return null;
+  return first['message']?.toString();
 }
 
 enum DataSource {

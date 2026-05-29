@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'day_selection_request.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class DaySelectionRequest {
   @JsonKey(name: "mealSlots")
   final List<MealSlotRequest> mealSlots;
@@ -18,7 +18,7 @@ class DaySelectionRequest {
   Map<String, dynamic> toJson() => _$DaySelectionRequestToJson(this);
 }
 
-@JsonSerializable(includeIfNull: false)
+@JsonSerializable(includeIfNull: false, explicitToJson: true)
 class MealSlotRequest {
   @JsonKey(name: "slotIndex")
   final int slotIndex;
@@ -31,6 +31,12 @@ class MealSlotRequest {
 
   @JsonKey(name: "proteinId")
   final String? proteinId;
+
+  @JsonKey(name: "proteinKey")
+  final String? proteinKey;
+
+  @JsonKey(name: "premiumKey")
+  final String? premiumKey;
 
   @JsonKey(name: "carbs")
   final List<MealSlotCarbRequest>? carbs;
@@ -46,6 +52,8 @@ class MealSlotRequest {
     this.slotKey,
     this.selectionType,
     this.proteinId,
+    this.proteinKey,
+    this.premiumKey,
     this.carbs,
     this.sandwichId,
     this.salad,

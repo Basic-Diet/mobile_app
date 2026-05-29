@@ -23,6 +23,7 @@ extension BuilderProteinResponseMapper on BuilderProteinResponse? {
   BuilderProteinModel toDomain() {
     return BuilderProteinModel(
       id: this?.id.orEmpty() ?? Constants.empty,
+      key: this?.id.orEmpty() ?? Constants.empty,
       displayCategoryId: this?.displayCategoryId.orEmpty() ?? Constants.empty,
       displayCategoryKey: this?.displayCategoryKey.orEmpty() ?? Constants.empty,
       name: this?.name.orEmpty() ?? Constants.empty,
@@ -324,6 +325,7 @@ List<BuilderProteinModel> _proteinOptions(
     );
     return BuilderProteinModel(
       id: option.id.orEmpty(),
+      key: _fallbackString(option.key, option.id.orEmpty()),
       displayCategoryId: displayCategoryKey,
       displayCategoryKey: displayCategoryKey,
       name: option.name.orEmpty(),

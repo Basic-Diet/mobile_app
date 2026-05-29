@@ -3,7 +3,6 @@ import 'package:basic_diet/data/response/client_profile_response.dart';
 import 'package:basic_diet/data/response/subscription_menu_response.dart';
 import 'package:basic_diet/data/response/addons_response.dart';
 import 'package:basic_diet/data/request/bulk_selections_request.dart';
-import 'package:basic_diet/data/request/day_selection_request.dart';
 import 'package:basic_diet/data/response/checkout_draft_response.dart';
 import 'package:basic_diet/data/request/subscription_checkout_request.dart';
 import 'package:basic_diet/data/request/subscription_quote_request.dart';
@@ -156,14 +155,14 @@ abstract class AppServiceClient {
   Future<SubscriptionDayResponse> saveDaySelection(
     @Path("id") String id,
     @Path("date") String date,
-    @Body() DaySelectionRequest request,
+    @Body() Map<String, dynamic> request,
   );
 
   @POST("/api/subscriptions/{id}/days/{date}/selection/validate")
   Future<ValidationResponse> validateDaySelection(
     @Path("id") String id,
     @Path("date") String date,
-    @Body() DaySelectionRequest request,
+    @Body() Map<String, dynamic> request,
   );
 
   @POST("/api/subscriptions/{id}/days/{date}/confirm")
