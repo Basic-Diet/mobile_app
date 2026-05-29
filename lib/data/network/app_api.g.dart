@@ -904,9 +904,11 @@ class _AppServiceClient implements AppServiceClient {
   }
 
   @override
-  Future<MealPlannerMenuResponse> getMealPlannerMenu() async {
+  Future<MealPlannerMenuResponse> getMealPlannerMenu({
+    bool includeLegacy = true,
+  }) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'includeLegacy': includeLegacy};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<MealPlannerMenuResponse>(

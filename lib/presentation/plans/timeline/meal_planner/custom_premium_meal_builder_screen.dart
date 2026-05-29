@@ -57,10 +57,11 @@ class _CustomPremiumMealBuilderScreenState
   void initState() {
     super.initState();
     _selectedProteinId = widget.initialProteinId;
-    _groupOrder = widget.config.preset.groups
-        .where((group) => !_isProteinGroup(group.key))
-        .map((group) => group.key)
-        .toList();
+    _groupOrder =
+        widget.config.preset.groups
+            .where((group) => !_isProteinGroup(group.key))
+            .map((group) => group.key)
+            .toList();
     for (final key in _groupOrder) {
       _selectedByGroup[key] = <String>[];
     }
@@ -91,9 +92,10 @@ class _CustomPremiumMealBuilderScreenState
             Expanded(
               child: AnimatedSwitcher(
                 duration: const Duration(milliseconds: 200),
-                child: _stepIndex == _totalSteps - 1
-                    ? _buildReviewStep(price)
-                    : _buildSelectionStep(),
+                child:
+                    _stepIndex == _totalSteps - 1
+                        ? _buildReviewStep(price)
+                        : _buildSelectionStep(),
               ),
             ),
             Padding(
@@ -118,14 +120,18 @@ class _CustomPremiumMealBuilderScreenState
                       style: ElevatedButton.styleFrom(
                         minimumSize: Size.fromHeight(52.h),
                         backgroundColor: ColorManager.brandPrimary,
-                        disabledBackgroundColor: ColorManager.stateDisabledSurface,
+                        disabledBackgroundColor:
+                            ColorManager.stateDisabledSurface,
                       ),
                       child: Text(
-                        isLastStep ? Strings.confirm.tr() : Strings.continueText.tr(),
+                        isLastStep
+                            ? Strings.confirm.tr()
+                            : Strings.continueText.tr(),
                         style: getBoldTextStyle(
-                          color: canContinue
-                              ? ColorManager.textInverse
-                              : ColorManager.stateDisabled,
+                          color:
+                              canContinue
+                                  ? ColorManager.textInverse
+                                  : ColorManager.stateDisabled,
                           fontSize: FontSizeManager.s14.sp,
                         ),
                       ),
@@ -153,13 +159,17 @@ class _CustomPremiumMealBuilderScreenState
           ),
         ),
         Gap(AppSize.s12.h),
-        if (_stepIndex == 0) _buildProteinSelector() else _buildCurrentGroupSection(),
+        if (_stepIndex == 0)
+          _buildProteinSelector()
+        else
+          _buildCurrentGroupSection(),
       ],
     );
   }
 
   Widget _buildProteinSelector() {
     final selectedId = _selectedProteinId;
+    final proteinOptions = _configProteinOptions();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -174,26 +184,43 @@ class _CustomPremiumMealBuilderScreenState
         Wrap(
           spacing: AppSize.s8.w,
           runSpacing: AppSize.s8.h,
-          children: widget.proteins.map((protein) {
-            final isSelected = selectedId == protein.id;
-            return _SelectionChip(
-              label: protein.name,
-              selected: isSelected,
-              onTap: () => setState(() => _selectedProteinId = protein.id),
-            );
-          }).toList(),
+          children:
+              proteinOptions.map((protein) {
+                final isSelected = selectedId == protein.id;
+                return _SelectionChip(
+                  label: protein.name,
+                  selected: isSelected,
+                  onTap: () => setState(() => _selectedProteinId = protein.id),
+                );
+              }).toList(),
         ),
       ],
     );
   }
 
+  List<_ProteinOption> _configProteinOptions() {
+    final options =
+        widget.config.ingredients
+            .where((item) => _isProteinGroup(item.groupKey))
+            .map((item) => _ProteinOption(id: item.id, name: item.name))
+            .toList();
+    if (options.isNotEmpty) return options;
+
+    return widget.proteins
+        .map((protein) => _ProteinOption(id: protein.id, name: protein.name))
+        .toList();
+  }
+
   Widget _buildCurrentGroupSection() {
     final groupKey = _groupOrder[_stepIndex - 1];
-    final group = widget.config.preset.groups.firstWhere((g) => g.key == groupKey);
+    final group = widget.config.preset.groups.firstWhere(
+      (g) => g.key == groupKey,
+    );
     final normalizedGroupKey = _normalizedGroupKey(group.key);
-    final ingredients = widget.config.ingredients.where((ingredient) {
-      return _normalizedGroupKey(ingredient.groupKey) == normalizedGroupKey;
-    }).toList();
+    final ingredients =
+        widget.config.ingredients.where((ingredient) {
+          return _normalizedGroupKey(ingredient.groupKey) == normalizedGroupKey;
+        }).toList();
 
     final selected = _selectedByGroup[group.key] ?? const [];
     final helper = _groupRuleText(group);
@@ -222,18 +249,20 @@ class _CustomPremiumMealBuilderScreenState
         Wrap(
           spacing: AppSize.s8.w,
           runSpacing: AppSize.s8.h,
-          children: ingredients.map((item) {
-            final isSelected = selected.contains(item.id);
-            return _SelectionChip(
-              label: item.name,
-              selected: isSelected,
-              onTap: () => _toggleIngredient(
-                group: group,
-                ingredientId: item.id,
-                isSelected: isSelected,
-              ),
-            );
-          }).toList(),
+          children:
+              ingredients.map((item) {
+                final isSelected = selected.contains(item.id);
+                return _SelectionChip(
+                  label: item.name,
+                  selected: isSelected,
+                  onTap:
+                      () => _toggleIngredient(
+                        group: group,
+                        ingredientId: item.id,
+                        isSelected: isSelected,
+                      ),
+                );
+              }).toList(),
         ),
       ],
     );
@@ -356,7 +385,9 @@ class _CustomPremiumMealBuilderScreenState
       );
       final selected = _selectedByGroup[group.key] ?? const [];
       if (selected.length < group.minSelect) return false;
-      if (group.maxSelect > 0 && selected.length > group.maxSelect) return false;
+      if (group.maxSelect > 0 && selected.length > group.maxSelect) {
+        return false;
+      }
     }
     return true;
   }
@@ -369,7 +400,9 @@ class _CustomPremiumMealBuilderScreenState
       return _isFormValid;
     }
     final groupKey = _groupOrder[_stepIndex - 1];
-    final group = widget.config.preset.groups.firstWhere((g) => g.key == groupKey);
+    final group = widget.config.preset.groups.firstWhere(
+      (g) => g.key == groupKey,
+    );
     final selected = _selectedByGroup[groupKey] ?? const [];
     if (selected.length < group.minSelect) return false;
     if (group.maxSelect > 0 && selected.length > group.maxSelect) return false;
@@ -380,7 +413,7 @@ class _CustomPremiumMealBuilderScreenState
 
   String _proteinNameById(String? id) {
     if (id == null) return '-';
-    for (final protein in widget.proteins) {
+    for (final protein in _configProteinOptions()) {
       if (protein.id == id) return protein.name;
     }
     return '-';
@@ -392,7 +425,9 @@ class _CustomPremiumMealBuilderScreenState
     final names = <String>[];
     final normalizedGroupKey = _normalizedGroupKey(groupKey);
     for (final ingredient in widget.config.ingredients) {
-      if (_normalizedGroupKey(ingredient.groupKey) != normalizedGroupKey) continue;
+      if (_normalizedGroupKey(ingredient.groupKey) != normalizedGroupKey) {
+        continue;
+      }
       if (selectedIds.contains(ingredient.id)) {
         names.add(ingredient.name);
       }
@@ -435,14 +470,18 @@ class _CustomPremiumMealBuilderScreenState
   }
 }
 
+class _ProteinOption {
+  final String id;
+  final String name;
+
+  const _ProteinOption({required this.id, required this.name});
+}
+
 class _WizardProgress extends StatelessWidget {
   final int currentStep;
   final int totalSteps;
 
-  const _WizardProgress({
-    required this.currentStep,
-    required this.totalSteps,
-  });
+  const _WizardProgress({required this.currentStep, required this.totalSteps});
 
   @override
   Widget build(BuildContext context) {
@@ -478,10 +517,7 @@ class _ReviewRow extends StatelessWidget {
   final String label;
   final String value;
 
-  const _ReviewRow({
-    required this.label,
-    required this.value,
-  });
+  const _ReviewRow({required this.label, required this.value});
 
   @override
   Widget build(BuildContext context) {
@@ -537,15 +573,22 @@ class _SelectionChip extends StatelessWidget {
       onTap: onTap,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 180),
-        padding: EdgeInsets.symmetric(horizontal: AppPadding.p14.w, vertical: AppPadding.p10.h),
+        padding: EdgeInsets.symmetric(
+          horizontal: AppPadding.p14.w,
+          vertical: AppPadding.p10.h,
+        ),
         decoration: BoxDecoration(
-          color: selected ? ColorManager.brandPrimary : ColorManager.backgroundSubtle,
+          color:
+              selected
+                  ? ColorManager.brandPrimary
+                  : ColorManager.backgroundSubtle,
           borderRadius: BorderRadius.circular(AppSize.s14.r),
         ),
         child: Text(
           label,
           style: getBoldTextStyle(
-            color: selected ? ColorManager.textInverse : ColorManager.textPrimary,
+            color:
+                selected ? ColorManager.textInverse : ColorManager.textPrimary,
             fontSize: FontSizeManager.s12.sp,
           ),
         ),

@@ -42,6 +42,7 @@ class OrderMenuCategoryModel {
   final String name;
   final String? description;
   final String? imageUrl;
+  final String cardVariant;
   final int sortOrder;
   final List<OrderMenuProductModel> products;
 
@@ -51,6 +52,7 @@ class OrderMenuCategoryModel {
     required this.name,
     this.description,
     this.imageUrl,
+    this.cardVariant = 'addon_collection',
     required this.sortOrder,
     required this.products,
   });
@@ -73,6 +75,7 @@ class OrderMenuProductModel {
   final int sortOrder;
   final bool? requiresBuilder;
   final bool? canAddDirectly;
+  final String cardVariant;
   final List<OrderMenuOptionGroupModel> optionGroups;
 
   bool get resolvedRequiresBuilder =>
@@ -101,6 +104,7 @@ class OrderMenuProductModel {
     required this.sortOrder,
     this.requiresBuilder,
     this.canAddDirectly,
+    this.cardVariant = 'standard',
     required this.optionGroups,
   });
 }
@@ -113,6 +117,7 @@ class OrderMenuOptionGroupModel {
   final int minSelections;
   final int maxSelections;
   final bool isRequired;
+  final String displayStyle;
   final int sortOrder;
   final List<OrderMenuOptionModel> options;
 
@@ -124,6 +129,7 @@ class OrderMenuOptionGroupModel {
     required this.minSelections,
     required this.maxSelections,
     required this.isRequired,
+    this.displayStyle = 'chips',
     required this.sortOrder,
     required this.options,
   });
@@ -136,6 +142,10 @@ class OrderMenuOptionModel {
   final String key;
   final String name;
   final int extraPriceHalala;
+  final int extraFeeHalala;
+  final String displayCategoryKey;
+  final String proteinFamilyKey;
+  final String premiumKey;
   final int extraWeightUnitGrams;
   final int extraWeightPriceHalala;
   final int sortOrder;
@@ -147,6 +157,10 @@ class OrderMenuOptionModel {
     required this.key,
     required this.name,
     required this.extraPriceHalala,
+    this.extraFeeHalala = 0,
+    this.displayCategoryKey = '',
+    this.proteinFamilyKey = '',
+    this.premiumKey = '',
     required this.extraWeightUnitGrams,
     required this.extraWeightPriceHalala,
     required this.sortOrder,

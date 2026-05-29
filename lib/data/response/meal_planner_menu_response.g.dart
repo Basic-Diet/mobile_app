@@ -37,6 +37,12 @@ MealPlannerMenuDataResponse _$MealPlannerMenuDataResponseFromJson(
           : BuilderCatalogResponse.fromJson(
             json['builderCatalog'] as Map<String, dynamic>,
           ),
+  builderCatalogV2:
+      json['builderCatalogV2'] == null
+          ? null
+          : BuilderCatalogV2Response.fromJson(
+            json['builderCatalogV2'] as Map<String, dynamic>,
+          ),
   addons: MealPlannerMenuDataResponse._addonsFromJson(
     MealPlannerMenuDataResponse._readAddonsOrCatalog(json, 'addons'),
   ),
@@ -47,7 +53,199 @@ Map<String, dynamic> _$MealPlannerMenuDataResponseToJson(
 ) => <String, dynamic>{
   'currency': instance.currency,
   'builderCatalog': instance.builderCatalog,
+  'builderCatalogV2': instance.builderCatalogV2,
   'addons': instance.addons,
+};
+
+BuilderCatalogV2Response _$BuilderCatalogV2ResponseFromJson(
+  Map<String, dynamic> json,
+) => BuilderCatalogV2Response(
+  catalogVersion: json['catalogVersion'] as String?,
+  currency: json['currency'] as String?,
+  sections:
+      (json['sections'] as List<dynamic>?)
+          ?.map(
+            (e) => BuilderCatalogV2SectionResponse.fromJson(
+              e as Map<String, dynamic>,
+            ),
+          )
+          .toList(),
+  rules:
+      json['rules'] == null
+          ? null
+          : BuilderRulesResponse.fromJson(
+            json['rules'] as Map<String, dynamic>,
+          ),
+);
+
+Map<String, dynamic> _$BuilderCatalogV2ResponseToJson(
+  BuilderCatalogV2Response instance,
+) => <String, dynamic>{
+  'catalogVersion': instance.catalogVersion,
+  'currency': instance.currency,
+  'sections': instance.sections,
+  'rules': instance.rules,
+};
+
+BuilderCatalogV2SectionResponse _$BuilderCatalogV2SectionResponseFromJson(
+  Map<String, dynamic> json,
+) => BuilderCatalogV2SectionResponse(
+  id: json['id'] as String?,
+  key: json['key'] as String?,
+  type: json['type'] as String?,
+  selectionType: json['selectionType'] as String?,
+  name: json['name'] as String?,
+  description: json['description'] as String?,
+  sortOrder: (json['sortOrder'] as num?)?.toInt(),
+  products:
+      (json['products'] as List<dynamic>?)
+          ?.map(
+            (e) => BuilderCatalogV2ProductResponse.fromJson(
+              e as Map<String, dynamic>,
+            ),
+          )
+          .toList(),
+);
+
+Map<String, dynamic> _$BuilderCatalogV2SectionResponseToJson(
+  BuilderCatalogV2SectionResponse instance,
+) => <String, dynamic>{
+  'id': instance.id,
+  'key': instance.key,
+  'type': instance.type,
+  'selectionType': instance.selectionType,
+  'name': instance.name,
+  'description': instance.description,
+  'sortOrder': instance.sortOrder,
+  'products': instance.products,
+};
+
+BuilderCatalogV2ProductResponse _$BuilderCatalogV2ProductResponseFromJson(
+  Map<String, dynamic> json,
+) => BuilderCatalogV2ProductResponse(
+  id: json['id'] as String?,
+  key: json['key'] as String?,
+  name: json['name'] as String?,
+  description: json['description'] as String?,
+  isVirtual: json['isVirtual'] as bool?,
+  priceHalala: (json['priceHalala'] as num?)?.toInt(),
+  currency: json['currency'] as String?,
+  ui:
+      json['ui'] == null
+          ? null
+          : MealPlannerMenuUiResponse.fromJson(
+            json['ui'] as Map<String, dynamic>,
+          ),
+  sortOrder: (json['sortOrder'] as num?)?.toInt(),
+  optionGroups:
+      (json['optionGroups'] as List<dynamic>?)
+          ?.map(
+            (e) => BuilderCatalogV2OptionGroupResponse.fromJson(
+              e as Map<String, dynamic>,
+            ),
+          )
+          .toList(),
+);
+
+Map<String, dynamic> _$BuilderCatalogV2ProductResponseToJson(
+  BuilderCatalogV2ProductResponse instance,
+) => <String, dynamic>{
+  'id': instance.id,
+  'key': instance.key,
+  'name': instance.name,
+  'description': instance.description,
+  'isVirtual': instance.isVirtual,
+  'priceHalala': instance.priceHalala,
+  'currency': instance.currency,
+  'ui': instance.ui,
+  'sortOrder': instance.sortOrder,
+  'optionGroups': instance.optionGroups,
+};
+
+BuilderCatalogV2OptionGroupResponse
+_$BuilderCatalogV2OptionGroupResponseFromJson(Map<String, dynamic> json) =>
+    BuilderCatalogV2OptionGroupResponse(
+      id: json['id'] as String?,
+      key: json['key'] as String?,
+      name: json['name'] as String?,
+      minSelections: (json['minSelections'] as num?)?.toInt(),
+      maxSelections: (json['maxSelections'] as num?)?.toInt(),
+      isRequired: json['isRequired'] as bool?,
+      sortOrder: (json['sortOrder'] as num?)?.toInt(),
+      ui:
+          json['ui'] == null
+              ? null
+              : MealPlannerMenuUiResponse.fromJson(
+                json['ui'] as Map<String, dynamic>,
+              ),
+      options:
+          (json['options'] as List<dynamic>?)
+              ?.map(
+                (e) => BuilderCatalogV2OptionResponse.fromJson(
+                  e as Map<String, dynamic>,
+                ),
+              )
+              .toList(),
+    );
+
+Map<String, dynamic> _$BuilderCatalogV2OptionGroupResponseToJson(
+  BuilderCatalogV2OptionGroupResponse instance,
+) => <String, dynamic>{
+  'id': instance.id,
+  'key': instance.key,
+  'name': instance.name,
+  'minSelections': instance.minSelections,
+  'maxSelections': instance.maxSelections,
+  'isRequired': instance.isRequired,
+  'sortOrder': instance.sortOrder,
+  'ui': instance.ui,
+  'options': instance.options,
+};
+
+BuilderCatalogV2OptionResponse _$BuilderCatalogV2OptionResponseFromJson(
+  Map<String, dynamic> json,
+) => BuilderCatalogV2OptionResponse(
+  id: json['id'] as String?,
+  key: json['key'] as String?,
+  name: json['name'] as String?,
+  description: json['description'] as String?,
+  displayCategoryKey: json['displayCategoryKey'] as String?,
+  proteinFamilyKey: json['proteinFamilyKey'] as String?,
+  premiumKey: json['premiumKey'] as String?,
+  isPremium: json['isPremium'] as bool?,
+  extraFeeHalala: (json['extraFeeHalala'] as num?)?.toInt(),
+  extraPriceHalala: (json['extraPriceHalala'] as num?)?.toInt(),
+  sortOrder: (json['sortOrder'] as num?)?.toInt(),
+);
+
+Map<String, dynamic> _$BuilderCatalogV2OptionResponseToJson(
+  BuilderCatalogV2OptionResponse instance,
+) => <String, dynamic>{
+  'id': instance.id,
+  'key': instance.key,
+  'name': instance.name,
+  'description': instance.description,
+  'displayCategoryKey': instance.displayCategoryKey,
+  'proteinFamilyKey': instance.proteinFamilyKey,
+  'premiumKey': instance.premiumKey,
+  'isPremium': instance.isPremium,
+  'extraFeeHalala': instance.extraFeeHalala,
+  'extraPriceHalala': instance.extraPriceHalala,
+  'sortOrder': instance.sortOrder,
+};
+
+MealPlannerMenuUiResponse _$MealPlannerMenuUiResponseFromJson(
+  Map<String, dynamic> json,
+) => MealPlannerMenuUiResponse(
+  cardVariant: json['cardVariant'] as String?,
+  displayStyle: json['displayStyle'] as String?,
+);
+
+Map<String, dynamic> _$MealPlannerMenuUiResponseToJson(
+  MealPlannerMenuUiResponse instance,
+) => <String, dynamic>{
+  'cardVariant': instance.cardVariant,
+  'displayStyle': instance.displayStyle,
 };
 
 MealPlannerAddonsResponse _$MealPlannerAddonsResponseFromJson(

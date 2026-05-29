@@ -131,9 +131,9 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
   }
 
   Future<void> _openBuilder(
-      OrderMenuProductModel product,
-      String currency,
-      ) async {
+    OrderMenuProductModel product,
+    String currency,
+  ) async {
     final cartItem = await Navigator.of(context).push<CartItem>(
       MaterialPageRoute(
         builder: (_) => _BuilderScreen(product: product, currency: currency),
@@ -235,7 +235,9 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
                               anchorKey: _sectionKey('custom_order'),
                               child: _BuilderSection(
                                 mainProducts: _filterProducts(builderData.main),
-                                lightProducts: _filterProducts(builderData.light),
+                                lightProducts: _filterProducts(
+                                  builderData.light,
+                                ),
                                 currency: menu.currency,
                                 onOpenBuilder: _openBuilder,
                               ),
@@ -258,7 +260,8 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
                                             productId: product.id,
                                             name: product.name,
                                             qty: 1,
-                                            unitPriceHalala: product.priceHalala,
+                                            unitPriceHalala:
+                                                product.priceHalala,
                                           ),
                                         ),
                                       );
@@ -286,8 +289,8 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
   }
 
   List<OrderMenuProductModel> _filterProducts(
-      List<OrderMenuProductModel> products,
-      ) {
+    List<OrderMenuProductModel> products,
+  ) {
     if (_searchQuery.isEmpty) {
       return products;
     }
@@ -295,26 +298,26 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
     return products
         .where(
           (product) =>
-      product.name.toLowerCase().contains(_searchQuery) ||
-          product.key.toLowerCase().contains(_searchQuery),
-    )
+              product.name.toLowerCase().contains(_searchQuery) ||
+              product.key.toLowerCase().contains(_searchQuery),
+        )
         .toList();
   }
 
   _BuilderProductsData _buildBuilderSections(OrderMenuModel menu) {
     final allConfigurable =
-    menu.categories
-        .expand((category) => category.products)
-        .where((product) => product.resolvedRequiresBuilder)
-        .toList()
-      ..sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
+        menu.categories
+            .expand((category) => category.products)
+            .where((product) => product.resolvedRequiresBuilder)
+            .toList()
+          ..sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
 
-    final lightKeys = {'fruit_salad', 'greek_yogurt', 'green_salad'};
     final main = <OrderMenuProductModel>[];
     final light = <OrderMenuProductModel>[];
 
     for (final product in allConfigurable) {
-      if (lightKeys.contains(product.key)) {
+      if (product.cardVariant == 'large_salad' ||
+          product.cardVariant == 'addon') {
         light.add(product);
       } else {
         main.add(product);
@@ -341,19 +344,20 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
     final sections = <_MenuSectionData>[];
 
     for (final category
-    in menu.categories
-      ..sort((a, b) => a.sortOrder.compareTo(b.sortOrder))) {
+        in menu.categories
+          ..sort((a, b) => a.sortOrder.compareTo(b.sortOrder))) {
       final directProducts =
-      category.products
-          .where((product) => product.resolvedCanAddDirectly)
-          .toList()
-        ..sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
+          category.products
+              .where((product) => product.resolvedCanAddDirectly)
+              .toList()
+            ..sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
 
       if (directProducts.isEmpty) {
         continue;
       }
 
-      if (category.key == 'custom_order' || category.key == 'light_options') {
+      if (category.cardVariant == 'meal_builder' ||
+          category.cardVariant == 'light_collection') {
         continue;
       }
 
@@ -361,8 +365,8 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
         _MenuSectionData(
           key: category.key,
           title: category.name,
-          subtitle: _sectionSubtitle(category.key),
-          layout: _layoutFor(category.key),
+          subtitle: _sectionSubtitle(category),
+          layout: _layoutFor(category),
           products: directProducts,
         ),
       );
@@ -371,22 +375,18 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
     return sections;
   }
 
-  String? _sectionSubtitle(String key) {
-    switch (key) {
-      case 'cold_sandwiches':
-        return Strings.coldSandwichesSubtitle.tr();
-      default:
-        return null;
+  String? _sectionSubtitle(OrderMenuCategoryModel category) {
+    if (category.cardVariant == 'sandwich_collection') {
+      return Strings.coldSandwichesSubtitle.tr();
     }
+    return null;
   }
 
-  _SectionLayout _layoutFor(String key) {
-    switch (key) {
-      case 'cold_sandwiches':
-        return _SectionLayout.compactScroll;
-      default:
-        return _SectionLayout.list;
+  _SectionLayout _layoutFor(OrderMenuCategoryModel category) {
+    if (category.cardVariant == 'sandwich_collection') {
+      return _SectionLayout.compactScroll;
     }
+    return _SectionLayout.list;
   }
 }
 
@@ -464,7 +464,6 @@ class _CircleActionButton extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(AppSize.s14.r),
               border: Border.all(color: Colors.white.withValues(alpha: 0.78)),
-
             ),
             child: InkWell(
               onTap: onTap,
@@ -607,9 +606,9 @@ class _MenuChipsRow extends StatelessWidget {
           final isSelected = chip.key == activeKey;
           return Material(
             color:
-            isSelected
-                ? const Color(0xFF0B241C)
-                : Colors.white.withValues(alpha: 0.84),
+                isSelected
+                    ? const Color(0xFF0B241C)
+                    : Colors.white.withValues(alpha: 0.84),
             borderRadius: BorderRadius.circular(AppSize.s13.r),
             child: InkWell(
               onTap: () => onSelected(chip.key),
@@ -623,9 +622,9 @@ class _MenuChipsRow extends StatelessWidget {
                   borderRadius: BorderRadius.circular(AppSize.s13.r),
                   border: Border.all(
                     color:
-                    isSelected
-                        ? const Color(0xFF0B241C)
-                        : const Color(0xFFE1EAE4),
+                        isSelected
+                            ? const Color(0xFF0B241C)
+                            : const Color(0xFFE1EAE4),
                   ),
                 ),
                 child: Text(
@@ -633,9 +632,9 @@ class _MenuChipsRow extends StatelessWidget {
                   style: getBoldTextStyle(
                     fontSize: FontSizeManager.s12.sp,
                     color:
-                    isSelected
-                        ? ColorManager.backgroundSurface
-                        : ColorManager.textSecondary,
+                        isSelected
+                            ? ColorManager.backgroundSurface
+                            : ColorManager.textSecondary,
                   ),
                 ),
               ),
@@ -673,7 +672,7 @@ class _BuilderSection extends StatelessWidget {
         ),
         Gap(AppSize.s16.h),
         ...mainProducts.map(
-              (product) => Padding(
+          (product) => Padding(
             padding: EdgeInsetsDirectional.only(bottom: AppPadding.p14.h),
             child: _BuilderProductCard(
               product: product,
@@ -686,7 +685,7 @@ class _BuilderSection extends StatelessWidget {
         if (lightProducts.isNotEmpty) ...[
           Gap(AppSize.s12.h),
           ...lightProducts.map(
-                (product) => Padding(
+            (product) => Padding(
               padding: EdgeInsetsDirectional.only(bottom: AppPadding.p12.h),
               child: _LightBuilderCard(
                 product: product,
@@ -705,10 +704,12 @@ class _BuilderSection extends StatelessWidget {
     switch (productKey) {
       case 'basic_salad':
         return context.locale.languageCode == 'ar'
-            ?ImageAssets.oneTimeBasicSalad:ImageAssets.oneTimeBasicRtlSalad;
+            ? ImageAssets.oneTimeBasicSalad
+            : ImageAssets.oneTimeBasicRtlSalad;
       case 'basic_meal':
-        return context.locale.languageCode == 'ar'?
-        ImageAssets.oneTimeBasicMeal:ImageAssets.oneTimeBasicRtlMeal;
+        return context.locale.languageCode == 'ar'
+            ? ImageAssets.oneTimeBasicMeal
+            : ImageAssets.oneTimeBasicRtlMeal;
       case 'fruit_salad':
         return ImageAssets.oneTimeFruitSalad;
       case 'greek_yogurt':
@@ -768,19 +769,19 @@ class _BuilderProductCard extends StatelessWidget {
                       begin: Alignment.centerLeft,
                       end: Alignment.centerRight,
                       colors:
-                      isArabic
-                          ? [
-                        Colors.white.withValues(alpha: 0.0),
-                        Colors.white.withValues(alpha: 0.25),
-                        Colors.white.withValues(alpha: 0.84),
-                        Colors.white.withValues(alpha: 0.95),
-                      ]
-                          : [
-                        Colors.white.withValues(alpha: 0.95),
-                        Colors.white.withValues(alpha: 0.84),
-                        Colors.white.withValues(alpha: 0.25),
-                        Colors.white.withValues(alpha: 0.0),
-                      ],
+                          isArabic
+                              ? [
+                                Colors.white.withValues(alpha: 0.0),
+                                Colors.white.withValues(alpha: 0.25),
+                                Colors.white.withValues(alpha: 0.84),
+                                Colors.white.withValues(alpha: 0.95),
+                              ]
+                              : [
+                                Colors.white.withValues(alpha: 0.95),
+                                Colors.white.withValues(alpha: 0.84),
+                                Colors.white.withValues(alpha: 0.25),
+                                Colors.white.withValues(alpha: 0.0),
+                              ],
                       stops: const [0.0, 0.32, 0.68, 1.0],
                     ),
                   ),
@@ -854,7 +855,6 @@ class _BuilderProductCard extends StatelessWidget {
       ),
     );
   }
-
 }
 
 class _LightBuilderCard extends StatelessWidget {
@@ -1004,48 +1004,48 @@ class _DynamicSection extends StatelessWidget {
                 separatorBuilder: (_, __) => Gap(AppSize.s12.w),
                 itemBuilder:
                     (context, index) => SizedBox(
-                  width: AppSize.s170.w,
-                  child: _CompactProductCard(
-                    product: products[index],
-                    currency: currency,
-                    onAdd: () => onAddDirectItem(products[index]),
-                  ),
-                ),
+                      width: AppSize.s170.w,
+                      child: _CompactProductCard(
+                        product: products[index],
+                        currency: currency,
+                        onAdd: () => onAddDirectItem(products[index]),
+                      ),
+                    ),
               ),
             ),
             _SectionLayout.list => Column(
               children:
-              products
-                  .map(
-                    (product) => Padding(
-                  padding: EdgeInsetsDirectional.only(
-                    bottom: AppPadding.p12.h,
-                  ),
-                  child: _ListProductCard(
-                    product: product,
-                    currency: currency,
-                    onAdd: () => onAddDirectItem(product),
-                  ),
-                ),
-              )
-                  .toList(),
+                  products
+                      .map(
+                        (product) => Padding(
+                          padding: EdgeInsetsDirectional.only(
+                            bottom: AppPadding.p12.h,
+                          ),
+                          child: _ListProductCard(
+                            product: product,
+                            currency: currency,
+                            onAdd: () => onAddDirectItem(product),
+                          ),
+                        ),
+                      )
+                      .toList(),
             ),
             _SectionLayout.grid => Column(
               children:
-              products
-                  .map(
-                    (product) => Padding(
-                  padding: EdgeInsetsDirectional.only(
-                    bottom: AppPadding.p12.h,
-                  ),
-                  child: _ListProductCard(
-                    product: product,
-                    currency: currency,
-                    onAdd: () => onAddDirectItem(product),
-                  ),
-                ),
-              )
-                  .toList(),
+                  products
+                      .map(
+                        (product) => Padding(
+                          padding: EdgeInsetsDirectional.only(
+                            bottom: AppPadding.p12.h,
+                          ),
+                          child: _ListProductCard(
+                            product: product,
+                            currency: currency,
+                            onAdd: () => onAddDirectItem(product),
+                          ),
+                        ),
+                      )
+                      .toList(),
             ),
           },
       ],
@@ -1298,10 +1298,7 @@ class _SmallQuantityButton extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          _SmallQuantityIconButton(
-            icon: Icons.remove,
-            onTap: onDecrease,
-          ),
+          _SmallQuantityIconButton(icon: Icons.remove, onTap: onDecrease),
           Container(
             constraints: BoxConstraints(minWidth: AppSize.s24.w),
             alignment: Alignment.center,
@@ -1313,10 +1310,7 @@ class _SmallQuantityButton extends StatelessWidget {
               ),
             ),
           ),
-          _SmallQuantityIconButton(
-            icon: Icons.add,
-            onTap: onIncrease,
-          ),
+          _SmallQuantityIconButton(icon: Icons.add, onTap: onIncrease),
         ],
       ),
     );
@@ -1327,10 +1321,7 @@ class _SmallQuantityIconButton extends StatelessWidget {
   final IconData icon;
   final VoidCallback onTap;
 
-  const _SmallQuantityIconButton({
-    required this.icon,
-    required this.onTap,
-  });
+  const _SmallQuantityIconButton({required this.icon, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -1372,7 +1363,7 @@ class _StickyCartBar extends StatelessWidget {
 
           final previewTotal = state.items.fold<int>(
             0,
-                (sum, item) => sum + ((item.unitPriceHalala ?? 0) * item.qty),
+            (sum, item) => sum + ((item.unitPriceHalala ?? 0) * item.qty),
           );
 
           return Material(
@@ -1531,10 +1522,7 @@ class _MenuMediaBox extends StatelessWidget {
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [
-            Color(0xFFF2FBF6),
-            Color(0xFFFFFFFF),
-          ],
+          colors: [Color(0xFFF2FBF6), Color(0xFFFFFFFF)],
         ),
         borderRadius: BorderRadius.circular(borderRadius),
       ),
@@ -1619,18 +1607,19 @@ class _BuilderScreenState extends State<_BuilderScreen> {
     super.initState();
     _qty = 1;
     _weightGrams =
-    widget.product.defaultWeightGrams > 0
-        ? widget.product.defaultWeightGrams
-        : widget.product.minWeightGrams;
+        widget.product.defaultWeightGrams > 0
+            ? widget.product.defaultWeightGrams
+            : widget.product.minWeightGrams;
 
     if (widget.product.optionGroups.isNotEmpty) {
       final firstRequiredIndex = widget.product.optionGroups.indexWhere(
-            (group) => group.isRequired,
+        (group) => group.isRequired,
       );
       _expandedGroupIds.add(
-        widget.product.optionGroups[
-        firstRequiredIndex >= 0 ? firstRequiredIndex : 0
-        ].groupId,
+        widget
+            .product
+            .optionGroups[firstRequiredIndex >= 0 ? firstRequiredIndex : 0]
+            .groupId,
       );
     }
   }
@@ -1657,19 +1646,19 @@ class _BuilderScreenState extends State<_BuilderScreen> {
 
   int get _estimatedUnitPriceHalala {
     int unitPrice =
-    widget.product.pricingModel == 'per_100g'
-        ? ((widget.product.priceHalala * _weightGrams) /
-        (widget.product.baseUnitGrams == 0
-            ? 100
-            : widget.product.baseUnitGrams))
-        .round()
-        : widget.product.priceHalala;
+        widget.product.pricingModel == 'per_100g'
+            ? ((widget.product.priceHalala * _weightGrams) /
+                    (widget.product.baseUnitGrams == 0
+                        ? 100
+                        : widget.product.baseUnitGrams))
+                .round()
+            : widget.product.priceHalala;
 
     for (final group in widget.product.optionGroups) {
       final selected = _selectedOptionIds[group.groupId] ?? <String>{};
       for (final optionId in selected) {
         final option = group.options.firstWhere(
-              (element) => element.optionId == optionId,
+          (element) => element.optionId == optionId,
         );
         unitPrice += option.extraPriceHalala;
         if (option.extraWeightUnitGrams > 0 &&
@@ -1696,12 +1685,12 @@ class _BuilderScreenState extends State<_BuilderScreen> {
           .where((group) => !_isGroupComplete(group))
           .map(
             (group) => Strings.builderSelectFromGroup.tr(
-          namedArgs: {
-            'count': group.minSelections.toString(),
-            'group': group.name,
-          },
-        ),
-      )
+              namedArgs: {
+                'count': group.minSelections.toString(),
+                'group': group.name,
+              },
+            ),
+          )
           .toList();
 
   String get _selectionSummary {
@@ -1715,7 +1704,8 @@ class _BuilderScreenState extends State<_BuilderScreen> {
   }
 
   bool _isGroupComplete(OrderMenuOptionGroupModel group) {
-    final selectedCount = (_selectedOptionIds[group.groupId] ?? <String>{}).length;
+    final selectedCount =
+        (_selectedOptionIds[group.groupId] ?? <String>{}).length;
     if (!group.isRequired) {
       return true;
     }
@@ -1757,7 +1747,7 @@ class _BuilderScreenState extends State<_BuilderScreen> {
     setState(() {
       final selected = _selectedOptionIds.putIfAbsent(
         group.groupId,
-            () => <String>{},
+        () => <String>{},
       );
       if (selected.contains(optionId)) {
         selected.remove(optionId);
@@ -1779,7 +1769,7 @@ class _BuilderScreenState extends State<_BuilderScreen> {
     setState(() {
       final current =
           _extraWeightByOptionId[option.optionId] ??
-              option.extraWeightUnitGrams;
+          option.extraWeightUnitGrams;
       final next = current + delta;
       if (next >= option.extraWeightUnitGrams) {
         _extraWeightByOptionId[option.optionId] = next;
@@ -1816,7 +1806,7 @@ class _BuilderScreenState extends State<_BuilderScreen> {
         name: widget.product.name,
         qty: _qty,
         weightGrams:
-        widget.product.pricingModel == 'per_100g' ? _weightGrams : null,
+            widget.product.pricingModel == 'per_100g' ? _weightGrams : null,
         selectedOptions: selectedOptions,
         unitPriceHalala: _estimatedUnitPriceHalala,
       ),
@@ -1856,9 +1846,9 @@ class _BuilderScreenState extends State<_BuilderScreen> {
     final product = widget.product;
     final missingRequirements = _missingRequirementLabels;
     final progressValue =
-    _requiredGroupsCount == 0
-        ? 1.0
-        : _completedRequiredGroupsCount / _requiredGroupsCount;
+        _requiredGroupsCount == 0
+            ? 1.0
+            : _completedRequiredGroupsCount / _requiredGroupsCount;
     return Scaffold(
       backgroundColor: ColorManager.backgroundApp,
       bottomNavigationBar: SafeArea(
@@ -1971,10 +1961,14 @@ class _BuilderScreenState extends State<_BuilderScreen> {
                       width: AppSize.s42.w,
                       height: AppSize.s42.h,
                       decoration: BoxDecoration(
-                        color: ColorManager.backgroundSurface.withValues(alpha: 0.92),
+                        color: ColorManager.backgroundSurface.withValues(
+                          alpha: 0.92,
+                        ),
                         borderRadius: BorderRadius.circular(AppSize.s14.r),
                         border: Border.all(
-                          color: ColorManager.backgroundSurface.withValues(alpha: 0.78),
+                          color: ColorManager.backgroundSurface.withValues(
+                            alpha: 0.78,
+                          ),
                         ),
                         boxShadow: [
                           BoxShadow(
@@ -2053,7 +2047,10 @@ class _BuilderScreenState extends State<_BuilderScreen> {
                       child: Text(
                         product.pricingModel == 'per_100g'
                             ? '${_formatHalala(product.priceHalala, widget.currency)} / ${Strings.grams.tr(args: ['100'])}'
-                            : _formatHalala(_estimatedUnitPriceHalala, widget.currency),
+                            : _formatHalala(
+                              _estimatedUnitPriceHalala,
+                              widget.currency,
+                            ),
                         style: getBoldTextStyle(
                           fontSize: FontSizeManager.s11.sp,
                           color: const Color(0xFF12382C),
@@ -2090,9 +2087,13 @@ class _BuilderScreenState extends State<_BuilderScreen> {
                         ),
                         Gap(AppSize.s14.w),
                         _BuilderHeroImage(
-                          imagePath: _builderImageForProduct(product.key, context),
+                          imagePath: _builderImageForProduct(
+                            product.key,
+                            context,
+                          ),
                           initials: _initials(product.name, context),
-                        ),                      ],
+                        ),
+                      ],
                     ),
                     if (product.pricingModel == 'per_100g') ...[
                       Gap(AppSize.s12.h),
@@ -2107,7 +2108,10 @@ class _BuilderScreenState extends State<_BuilderScreen> {
                           ),
                           _BuilderHeroPill(
                             label: Strings.per100g.tr(),
-                            value: _formatHalala(product.priceHalala, widget.currency),
+                            value: _formatHalala(
+                              product.priceHalala,
+                              widget.currency,
+                            ),
                           ),
                         ],
                       ),
@@ -2132,13 +2136,13 @@ class _BuilderScreenState extends State<_BuilderScreen> {
                     value: _weightGrams,
                     min: product.minWeightGrams,
                     max:
-                    product.maxWeightGrams > 0
-                        ? product.maxWeightGrams
-                        : 600,
+                        product.maxWeightGrams > 0
+                            ? product.maxWeightGrams
+                            : 600,
                     step:
-                    product.weightStepGrams > 0
-                        ? product.weightStepGrams
-                        : 50,
+                        product.weightStepGrams > 0
+                            ? product.weightStepGrams
+                            : 50,
                     onChanged: (value) {
                       setState(() {
                         _weightGrams = value;
@@ -2155,7 +2159,8 @@ class _BuilderScreenState extends State<_BuilderScreen> {
                     group: group,
                     currency: widget.currency,
                     isExpanded: _expandedGroupIds.contains(group.groupId),
-                    selectedIds: _selectedOptionIds[group.groupId] ?? <String>{},
+                    selectedIds:
+                        _selectedOptionIds[group.groupId] ?? <String>{},
                     extraWeightByOptionId: _extraWeightByOptionId,
                     visibleOptions: _sortedOptions(group),
                     ruleText: _groupRuleText(group),
@@ -2178,13 +2183,13 @@ class _BuilderScreenState extends State<_BuilderScreen> {
                 child: _QuantitySelector(
                   quantity: _qty,
                   onDecrease:
-                  _qty > 1
-                      ? () {
-                    setState(() {
-                      _qty--;
-                    });
-                  }
-                      : null,
+                      _qty > 1
+                          ? () {
+                            setState(() {
+                              _qty--;
+                            });
+                          }
+                          : null,
                   onIncrease: () {
                     setState(() {
                       _qty++;
@@ -2198,7 +2203,9 @@ class _BuilderScreenState extends State<_BuilderScreen> {
                   width: double.infinity,
                   padding: EdgeInsetsDirectional.all(AppPadding.p14.r),
                   decoration: BoxDecoration(
-                    color: ColorManager.backgroundSurface.withValues(alpha: 0.78),
+                    color: ColorManager.backgroundSurface.withValues(
+                      alpha: 0.78,
+                    ),
                     borderRadius: BorderRadius.circular(AppSize.s18.r),
                     border: Border.all(color: const Color(0x14000000)),
                   ),
@@ -2215,8 +2222,10 @@ class _BuilderScreenState extends State<_BuilderScreen> {
                       ),
                       Gap(AppSize.s8.h),
                       ...missingRequirements.map(
-                            (message) => Padding(
-                          padding: EdgeInsetsDirectional.only(bottom: AppPadding.p6.h),
+                        (message) => Padding(
+                          padding: EdgeInsetsDirectional.only(
+                            bottom: AppPadding.p6.h,
+                          ),
                           child: Text(
                             '• $message',
                             textAlign: TextAlign.right,
@@ -2392,9 +2401,9 @@ class _OptionGroupCard extends StatelessWidget {
                 height: AppSize.s30.h,
                 decoration: BoxDecoration(
                   color:
-                  isComplete
-                      ? ColorManager.brandPrimary
-                      : const Color(0xFFF4F7F5),
+                      isComplete
+                          ? ColorManager.brandPrimary
+                          : const Color(0xFFF4F7F5),
                   shape: BoxShape.circle,
                 ),
                 alignment: Alignment.center,
@@ -2402,9 +2411,9 @@ class _OptionGroupCard extends StatelessWidget {
                   isComplete ? Icons.check_rounded : Icons.add_rounded,
                   size: AppSize.s16.r,
                   color:
-                  isComplete
-                      ? ColorManager.backgroundSurface
-                      : ColorManager.textSecondary,
+                      isComplete
+                          ? ColorManager.backgroundSurface
+                          : ColorManager.textSecondary,
                 ),
               ),
               Gap(AppSize.s10.w),
@@ -2498,45 +2507,46 @@ class _OptionGroupCard extends StatelessWidget {
               runSpacing: AppSize.s8.h,
               alignment: WrapAlignment.end,
               children:
-              visibleOptions.map((option) {
-                final isSelected = selectedIds.contains(option.optionId);
-                final maxReached =
-                    selectedIds.length >= group.maxSelections && !isSelected;
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    _BuilderOptionChip(
-                      option: option,
-                      currency: currency,
-                      isSelected: isSelected,
-                      isDisabled: maxReached,
-                      onTap: () => onToggle(option.optionId),
-                    ),
-                    if (isSelected && option.extraWeightUnitGrams > 0)
-                      Padding(
-                        padding: EdgeInsetsDirectional.only(
-                          top: AppPadding.p8.h,
+                  visibleOptions.map((option) {
+                    final isSelected = selectedIds.contains(option.optionId);
+                    final maxReached =
+                        selectedIds.length >= group.maxSelections &&
+                        !isSelected;
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        _BuilderOptionChip(
+                          option: option,
+                          currency: currency,
+                          isSelected: isSelected,
+                          isDisabled: maxReached,
+                          onTap: () => onToggle(option.optionId),
                         ),
-                        child: _InlineExtraWeightSelector(
-                          value:
-                          extraWeightByOptionId[option.optionId] ??
-                              option.extraWeightUnitGrams,
-                          step: option.extraWeightUnitGrams,
-                          onDecrease:
-                              () => onExtraWeightChanged(
-                            option,
-                            -option.extraWeightUnitGrams,
+                        if (isSelected && option.extraWeightUnitGrams > 0)
+                          Padding(
+                            padding: EdgeInsetsDirectional.only(
+                              top: AppPadding.p8.h,
+                            ),
+                            child: _InlineExtraWeightSelector(
+                              value:
+                                  extraWeightByOptionId[option.optionId] ??
+                                  option.extraWeightUnitGrams,
+                              step: option.extraWeightUnitGrams,
+                              onDecrease:
+                                  () => onExtraWeightChanged(
+                                    option,
+                                    -option.extraWeightUnitGrams,
+                                  ),
+                              onIncrease:
+                                  () => onExtraWeightChanged(
+                                    option,
+                                    option.extraWeightUnitGrams,
+                                  ),
+                            ),
                           ),
-                          onIncrease:
-                              () => onExtraWeightChanged(
-                            option,
-                            option.extraWeightUnitGrams,
-                          ),
-                        ),
-                      ),
-                  ],
-                );
-              }).toList(),
+                      ],
+                    );
+                  }).toList(),
             ),
           ],
         ),
@@ -2569,7 +2579,8 @@ class _GroupSearchPickerSheet extends StatefulWidget {
   final void Function(OrderMenuOptionModel option) onIncreaseExtraWeight;
 
   @override
-  State<_GroupSearchPickerSheet> createState() => _GroupSearchPickerSheetState();
+  State<_GroupSearchPickerSheet> createState() =>
+      _GroupSearchPickerSheetState();
 }
 
 class _GroupSearchPickerSheetState extends State<_GroupSearchPickerSheet> {
@@ -2589,7 +2600,9 @@ class _GroupSearchPickerSheetState extends State<_GroupSearchPickerSheet> {
             .where(
               (option) =>
                   _query.isEmpty ||
-                  option.name.toLowerCase().contains(_query.trim().toLowerCase()),
+                  option.name.toLowerCase().contains(
+                    _query.trim().toLowerCase(),
+                  ),
             )
             .toList();
 
@@ -2612,9 +2625,7 @@ class _GroupSearchPickerSheetState extends State<_GroupSearchPickerSheet> {
             children: [
               Center(
                 child: Container(
-                  margin: EdgeInsetsDirectional.only(
-                    top: AppPadding.p12.h,
-                  ),
+                  margin: EdgeInsetsDirectional.only(top: AppPadding.p12.h),
                   width: AppSize.s48.w,
                   height: AppSize.s5.h,
                   decoration: BoxDecoration(
@@ -2671,25 +2682,19 @@ class _GroupSearchPickerSheetState extends State<_GroupSearchPickerSheet> {
                           vertical: AppPadding.p12.h,
                         ),
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                            AppSize.s15.r,
-                          ),
+                          borderRadius: BorderRadius.circular(AppSize.s15.r),
                           borderSide: const BorderSide(
                             color: Color(0xFFE5E7EB),
                           ),
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                            AppSize.s15.r,
-                          ),
+                          borderRadius: BorderRadius.circular(AppSize.s15.r),
                           borderSide: const BorderSide(
                             color: Color(0xFFE5E7EB),
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                            AppSize.s15.r,
-                          ),
+                          borderRadius: BorderRadius.circular(AppSize.s15.r),
                           borderSide: const BorderSide(
                             color: Color(0xFF10B981),
                           ),
@@ -2728,9 +2733,12 @@ class _GroupSearchPickerSheetState extends State<_GroupSearchPickerSheet> {
                           itemBuilder: (context, index) {
                             final option = visibleOptions[index];
                             final selectedIds = widget.getSelectedIds();
-                            final isSelected = selectedIds.contains(option.optionId);
+                            final isSelected = selectedIds.contains(
+                              option.optionId,
+                            );
                             final maxReached =
-                                selectedIds.length >= widget.group.maxSelections &&
+                                selectedIds.length >=
+                                    widget.group.maxSelections &&
                                 !isSelected;
 
                             return Column(
@@ -2749,7 +2757,8 @@ class _GroupSearchPickerSheetState extends State<_GroupSearchPickerSheet> {
                                     setState(() {});
                                   },
                                 ),
-                                if (isSelected && option.extraWeightUnitGrams > 0)
+                                if (isSelected &&
+                                    option.extraWeightUnitGrams > 0)
                                   Padding(
                                     padding: EdgeInsetsDirectional.only(
                                       top: AppPadding.p8.h,
@@ -2820,14 +2829,14 @@ class _BuilderSearchOptionTile extends StatelessWidget {
               borderRadius: BorderRadius.circular(AppSize.s18.r),
               border: Border.all(
                 color:
-                isSelected
-                    ? ColorManager.brandPrimary
-                    : const Color(0xFFE5E7EB),
+                    isSelected
+                        ? ColorManager.brandPrimary
+                        : const Color(0xFFE5E7EB),
               ),
               color:
-              isSelected
-                  ? ColorManager.brandPrimaryTint.withValues(alpha: 0.45)
-                  : ColorManager.backgroundSurface,
+                  isSelected
+                      ? ColorManager.brandPrimaryTint.withValues(alpha: 0.45)
+                      : ColorManager.backgroundSurface,
             ),
             child: Row(
               children: [
@@ -2836,9 +2845,9 @@ class _BuilderSearchOptionTile extends StatelessWidget {
                   height: AppSize.s28.h,
                   decoration: BoxDecoration(
                     color:
-                    isSelected
-                        ? ColorManager.brandPrimary
-                        : const Color(0xFFF4F7F5),
+                        isSelected
+                            ? ColorManager.brandPrimary
+                            : const Color(0xFFF4F7F5),
                     shape: BoxShape.circle,
                   ),
                   alignment: Alignment.center,
@@ -2846,9 +2855,9 @@ class _BuilderSearchOptionTile extends StatelessWidget {
                     isSelected ? Icons.check_rounded : Icons.add_rounded,
                     size: AppSize.s16.r,
                     color:
-                    isSelected
-                        ? ColorManager.backgroundSurface
-                        : const Color(0xFF112B22),
+                        isSelected
+                            ? ColorManager.backgroundSurface
+                            : const Color(0xFF112B22),
                   ),
                 ),
                 Gap(AppSize.s10.w),
@@ -2908,7 +2917,9 @@ class _BuilderOptionChip extends StatelessWidget {
       opacity: isDisabled ? 0.42 : 1,
       child: Material(
         color:
-        isSelected ? const Color(0xFF0B241C) : ColorManager.backgroundSurface,
+            isSelected
+                ? const Color(0xFF0B241C)
+                : ColorManager.backgroundSurface,
         borderRadius: BorderRadius.circular(AppSize.s15.r),
         child: InkWell(
           onTap: isDisabled ? null : onTap,
@@ -2923,7 +2934,9 @@ class _BuilderOptionChip extends StatelessWidget {
               borderRadius: BorderRadius.circular(AppSize.s15.r),
               border: Border.all(
                 color:
-                isSelected ? const Color(0xFF0B241C) : const Color(0xFFE5E7EB),
+                    isSelected
+                        ? const Color(0xFF0B241C)
+                        : const Color(0xFFE5E7EB),
               ),
             ),
             child: Row(
@@ -2943,9 +2956,9 @@ class _BuilderOptionChip extends StatelessWidget {
                     style: getBoldTextStyle(
                       fontSize: FontSizeManager.s11.sp,
                       color:
-                      isSelected
-                          ? ColorManager.backgroundSurface
-                          : ColorManager.brandAccent,
+                          isSelected
+                              ? ColorManager.backgroundSurface
+                              : ColorManager.brandAccent,
                     ),
                   ),
                   Gap(AppSize.s4.w),
@@ -2956,9 +2969,9 @@ class _BuilderOptionChip extends StatelessWidget {
                     style: getBoldTextStyle(
                       fontSize: FontSizeManager.s12.sp,
                       color:
-                      isSelected
-                          ? ColorManager.backgroundSurface
-                          : const Color(0xFF112B22),
+                          isSelected
+                              ? ColorManager.backgroundSurface
+                              : const Color(0xFF112B22),
                     ),
                   ),
                 ),
@@ -3191,17 +3204,17 @@ class _BuilderHeroImage extends StatelessWidget {
       ),
       clipBehavior: Clip.antiAlias,
       child:
-      imagePath == null
-          ? Center(
-        child: Text(
-          initials,
-          style: getBoldTextStyle(
-            fontSize: FontSizeManager.s26.sp,
-            color: const Color(0xFF12382C),
-          ),
-        ),
-      )
-          : Image.asset(imagePath!, fit: BoxFit.cover),
+          imagePath == null
+              ? Center(
+                child: Text(
+                  initials,
+                  style: getBoldTextStyle(
+                    fontSize: FontSizeManager.s26.sp,
+                    color: const Color(0xFF12382C),
+                  ),
+                ),
+              )
+              : Image.asset(imagePath!, fit: BoxFit.cover),
     );
   }
 }
@@ -3307,7 +3320,7 @@ CartItem? _directCartItem(CartState state, String productId) {
 String _formatHalala(int halala, String currency) {
   final value = halala / 100;
   final display =
-  value % 1 == 0 ? value.toStringAsFixed(0) : value.toStringAsFixed(2);
+      value % 1 == 0 ? value.toStringAsFixed(0) : value.toStringAsFixed(2);
   return '$display $currency';
 }
 

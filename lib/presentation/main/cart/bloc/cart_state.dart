@@ -65,7 +65,15 @@ class CartLoaded extends CartState {
 
   List<String> get branchIds {
     if (restaurantHours.isEmpty) return const [];
-    return restaurantHours.keys.whereType<String>().toList();
+    return restaurantHours.entries
+        .where((entry) {
+          final value = entry.value;
+          return value is Map<String, dynamic> &&
+              (value['windows'] is List || value['pickupWindows'] is List);
+        })
+        .map((entry) => entry.key)
+        .whereType<String>()
+        .toList();
   }
 
   List<String> get availableWindows {

@@ -96,6 +96,10 @@ OrderMenuCategoryResponse _$OrderMenuCategoryResponseFromJson(
   nameI18n: json['nameI18n'] as Map<String, dynamic>?,
   description: json['description'] as String?,
   imageUrl: json['imageUrl'] as String?,
+  ui:
+      json['ui'] == null
+          ? null
+          : OrderMenuUiResponse.fromJson(json['ui'] as Map<String, dynamic>),
   sortOrder: (json['sortOrder'] as num?)?.toInt(),
   products:
       (json['products'] as List<dynamic>?)
@@ -114,6 +118,7 @@ Map<String, dynamic> _$OrderMenuCategoryResponseToJson(
   'nameI18n': instance.nameI18n,
   'description': instance.description,
   'imageUrl': instance.imageUrl,
+  'ui': instance.ui?.toJson(),
   'sortOrder': instance.sortOrder,
   'products': instance.products?.map((e) => e.toJson()).toList(),
 };
@@ -138,6 +143,10 @@ OrderMenuProductResponse _$OrderMenuProductResponseFromJson(
   sortOrder: (json['sortOrder'] as num?)?.toInt(),
   requiresBuilder: json['requiresBuilder'] as bool?,
   canAddDirectly: json['canAddDirectly'] as bool?,
+  ui:
+      json['ui'] == null
+          ? null
+          : OrderMenuUiResponse.fromJson(json['ui'] as Map<String, dynamic>),
   optionGroups:
       (json['optionGroups'] as List<dynamic>?)
           ?.map(
@@ -168,6 +177,7 @@ Map<String, dynamic> _$OrderMenuProductResponseToJson(
   'sortOrder': instance.sortOrder,
   'requiresBuilder': instance.requiresBuilder,
   'canAddDirectly': instance.canAddDirectly,
+  'ui': instance.ui?.toJson(),
   'optionGroups': instance.optionGroups?.map((e) => e.toJson()).toList(),
 };
 
@@ -182,6 +192,10 @@ OrderMenuOptionGroupResponse _$OrderMenuOptionGroupResponseFromJson(
   minSelections: (json['minSelections'] as num?)?.toInt(),
   maxSelections: (json['maxSelections'] as num?)?.toInt(),
   isRequired: json['isRequired'] as bool?,
+  ui:
+      json['ui'] == null
+          ? null
+          : OrderMenuUiResponse.fromJson(json['ui'] as Map<String, dynamic>),
   sortOrder: (json['sortOrder'] as num?)?.toInt(),
   options:
       (json['options'] as List<dynamic>?)
@@ -202,6 +216,7 @@ Map<String, dynamic> _$OrderMenuOptionGroupResponseToJson(
   'minSelections': instance.minSelections,
   'maxSelections': instance.maxSelections,
   'isRequired': instance.isRequired,
+  'ui': instance.ui?.toJson(),
   'sortOrder': instance.sortOrder,
   'options': instance.options?.map((e) => e.toJson()).toList(),
 };
@@ -216,6 +231,10 @@ OrderMenuOptionResponse _$OrderMenuOptionResponseFromJson(
   name: json['name'] as String?,
   nameI18n: json['nameI18n'] as Map<String, dynamic>?,
   extraPriceHalala: (json['extraPriceHalala'] as num?)?.toInt(),
+  extraFeeHalala: (json['extraFeeHalala'] as num?)?.toInt(),
+  displayCategoryKey: json['displayCategoryKey'] as String?,
+  proteinFamilyKey: json['proteinFamilyKey'] as String?,
+  premiumKey: json['premiumKey'] as String?,
   extraWeightUnitGrams: (json['extraWeightUnitGrams'] as num?)?.toInt(),
   extraWeightPriceHalala: (json['extraWeightPriceHalala'] as num?)?.toInt(),
   sortOrder: (json['sortOrder'] as num?)?.toInt(),
@@ -231,9 +250,32 @@ Map<String, dynamic> _$OrderMenuOptionResponseToJson(
   'name': instance.name,
   'nameI18n': instance.nameI18n,
   'extraPriceHalala': instance.extraPriceHalala,
+  'extraFeeHalala': instance.extraFeeHalala,
+  'displayCategoryKey': instance.displayCategoryKey,
+  'proteinFamilyKey': instance.proteinFamilyKey,
+  'premiumKey': instance.premiumKey,
   'extraWeightUnitGrams': instance.extraWeightUnitGrams,
   'extraWeightPriceHalala': instance.extraWeightPriceHalala,
   'sortOrder': instance.sortOrder,
+};
+
+OrderMenuUiResponse _$OrderMenuUiResponseFromJson(Map<String, dynamic> json) =>
+    OrderMenuUiResponse(
+      cardVariant: json['cardVariant'] as String?,
+      displayStyle: json['displayStyle'] as String?,
+      badge: json['badge'] as String?,
+      ctaLabel: json['ctaLabel'] as String?,
+      imageRatio: json['imageRatio'] as String?,
+    );
+
+Map<String, dynamic> _$OrderMenuUiResponseToJson(
+  OrderMenuUiResponse instance,
+) => <String, dynamic>{
+  'cardVariant': instance.cardVariant,
+  'displayStyle': instance.displayStyle,
+  'badge': instance.badge,
+  'ctaLabel': instance.ctaLabel,
+  'imageRatio': instance.imageRatio,
 };
 
 OrderMenuStandardMealsDataResponse _$OrderMenuStandardMealsDataResponseFromJson(

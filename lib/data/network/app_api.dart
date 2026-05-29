@@ -69,7 +69,9 @@ abstract class AppServiceClient {
   );
 
   @POST("/api/auth/password/forgot")
-  Future<BaseResponse> requestPasswordResetOtp(@Body() Map<String, dynamic> body);
+  Future<BaseResponse> requestPasswordResetOtp(
+    @Body() Map<String, dynamic> body,
+  );
 
   @POST("/api/auth/password/reset")
   Future<BaseResponse> resetPassword(@Body() Map<String, dynamic> body);
@@ -189,7 +191,9 @@ abstract class AppServiceClient {
   );
 
   @GET("/api/subscriptions/meal-planner-menu")
-  Future<MealPlannerMenuResponse> getMealPlannerMenu();
+  Future<MealPlannerMenuResponse> getMealPlannerMenu({
+    @Query("includeLegacy") bool includeLegacy = true,
+  });
 
   @POST("/api/subscriptions/{id}/days/{date}/payments")
   Future<PremiumPaymentResponse> createUnifiedDayPayment(
@@ -267,7 +271,9 @@ abstract class AppServiceClient {
   );
 
   @GET("/api/orders/{orderId}/timeline")
-  Future<OrderTimelineResponse> getOrderTimeline(@Path("orderId") String orderId);
+  Future<OrderTimelineResponse> getOrderTimeline(
+    @Path("orderId") String orderId,
+  );
 
   @DELETE("/api/orders/{orderId}")
   Future<CancelOrderResponse> cancelOrder(@Path("orderId") String orderId);
