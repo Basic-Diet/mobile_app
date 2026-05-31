@@ -58,6 +58,7 @@ class BuilderCategoryModel {
 
 class BuilderProteinModel {
   final String id;
+  final String key;
   final String displayCategoryId;
   final String displayCategoryKey;
   final String name;
@@ -73,6 +74,7 @@ class BuilderProteinModel {
 
   BuilderProteinModel({
     required this.id,
+    required this.key,
     required this.displayCategoryId,
     required this.displayCategoryKey,
     required this.name,

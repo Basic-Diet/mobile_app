@@ -408,6 +408,7 @@
     "enterPromoCode": "Enter promo code",
     "apply": "Apply",
     "remove": "Remove",
+    "reset": "Reset",
     "applyingPromo": "Applying...",
     "validatingPromoCode": "Validating promo code...",
     "promoApplied": "Promo code applied successfully",

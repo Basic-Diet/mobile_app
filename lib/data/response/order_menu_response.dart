@@ -104,6 +104,9 @@ class OrderMenuCategoryResponse {
   @JsonKey(name: 'imageUrl')
   final String? imageUrl;
 
+  @JsonKey(name: 'ui')
+  final OrderMenuUiResponse? ui;
+
   @JsonKey(name: 'sortOrder')
   final int? sortOrder;
 
@@ -117,6 +120,7 @@ class OrderMenuCategoryResponse {
     this.nameI18n,
     this.description,
     this.imageUrl,
+    this.ui,
     this.sortOrder,
     this.products,
   });
@@ -180,6 +184,9 @@ class OrderMenuProductResponse {
   @JsonKey(name: 'canAddDirectly')
   final bool? canAddDirectly;
 
+  @JsonKey(name: 'ui')
+  final OrderMenuUiResponse? ui;
+
   @JsonKey(name: 'optionGroups')
   final List<OrderMenuOptionGroupResponse>? optionGroups;
 
@@ -201,6 +208,7 @@ class OrderMenuProductResponse {
     this.sortOrder,
     this.requiresBuilder,
     this.canAddDirectly,
+    this.ui,
     this.optionGroups,
   });
 
@@ -236,6 +244,9 @@ class OrderMenuOptionGroupResponse {
   @JsonKey(name: 'isRequired')
   final bool? isRequired;
 
+  @JsonKey(name: 'ui')
+  final OrderMenuUiResponse? ui;
+
   @JsonKey(name: 'sortOrder')
   final int? sortOrder;
 
@@ -251,6 +262,7 @@ class OrderMenuOptionGroupResponse {
     this.minSelections,
     this.maxSelections,
     this.isRequired,
+    this.ui,
     this.sortOrder,
     this.options,
   });
@@ -284,6 +296,18 @@ class OrderMenuOptionResponse {
   @JsonKey(name: 'extraPriceHalala')
   final int? extraPriceHalala;
 
+  @JsonKey(name: 'extraFeeHalala')
+  final int? extraFeeHalala;
+
+  @JsonKey(name: 'displayCategoryKey')
+  final String? displayCategoryKey;
+
+  @JsonKey(name: 'proteinFamilyKey')
+  final String? proteinFamilyKey;
+
+  @JsonKey(name: 'premiumKey')
+  final String? premiumKey;
+
   @JsonKey(name: 'extraWeightUnitGrams')
   final int? extraWeightUnitGrams;
 
@@ -301,6 +325,10 @@ class OrderMenuOptionResponse {
     this.name,
     this.nameI18n,
     this.extraPriceHalala,
+    this.extraFeeHalala,
+    this.displayCategoryKey,
+    this.proteinFamilyKey,
+    this.premiumKey,
     this.extraWeightUnitGrams,
     this.extraWeightPriceHalala,
     this.sortOrder,
@@ -310,6 +338,37 @@ class OrderMenuOptionResponse {
       _$OrderMenuOptionResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$OrderMenuOptionResponseToJson(this);
+}
+
+@JsonSerializable()
+class OrderMenuUiResponse {
+  @JsonKey(name: 'cardVariant')
+  final String? cardVariant;
+
+  @JsonKey(name: 'displayStyle')
+  final String? displayStyle;
+
+  @JsonKey(name: 'badge')
+  final String? badge;
+
+  @JsonKey(name: 'ctaLabel')
+  final String? ctaLabel;
+
+  @JsonKey(name: 'imageRatio')
+  final String? imageRatio;
+
+  const OrderMenuUiResponse({
+    this.cardVariant,
+    this.displayStyle,
+    this.badge,
+    this.ctaLabel,
+    this.imageRatio,
+  });
+
+  factory OrderMenuUiResponse.fromJson(Map<String, dynamic> json) =>
+      _$OrderMenuUiResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$OrderMenuUiResponseToJson(this);
 }
 
 // ─── Legacy Fallback ───

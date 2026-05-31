@@ -407,12 +407,14 @@ _$CurrentSubscriptionOverviewResponseFromJson(Map<String, dynamic> json) =>
               json['data'] as Map<String, dynamic>,
             ),
       )
+      ..ok = json['ok'] as bool?
       ..status = json['status']
       ..message = json['message'] as String?;
 
 Map<String, dynamic> _$CurrentSubscriptionOverviewResponseToJson(
   CurrentSubscriptionOverviewResponse instance,
 ) => <String, dynamic>{
+  'ok': instance.ok,
   'status': instance.status,
   'message': instance.message,
   'data': instance.data,

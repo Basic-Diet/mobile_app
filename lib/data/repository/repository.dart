@@ -196,7 +196,11 @@ class RepositoryImpl implements Repository {
         }
 
         final data = Map<String, dynamic>.from(rawData);
-        final message = data.toDomain();
+        final acceptLanguageHeader =
+            error.requestOptions.headers['Accept-Language']?.toString();
+        final message = data.toDomain(
+          preferredLanguageCode: acceptLanguageHeader,
+        );
 
         // Extract custom code if available
         dynamic code = error.response!.statusCode ?? ApiInternalStatus.failure;

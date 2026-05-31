@@ -22,8 +22,9 @@ class DioFactory {
       baseUrl: _baseUrl,
       headers: {accept: applicationJson, contentType: applicationJson},
       receiveDataWhenStatusError: true,
-      sendTimeout: const Duration(seconds: Constants.timeout),
-      receiveTimeout: const Duration(seconds: Constants.timeout),
+      connectTimeout: const Duration(milliseconds: Constants.timeout),
+      sendTimeout: const Duration(milliseconds: Constants.timeout),
+      receiveTimeout: const Duration(milliseconds: Constants.timeout),
       validateStatus:
           (status) => status != null && status >= 200 && status < 400,
     );
@@ -148,3 +149,6 @@ class DioFactory {
     options.headers[language] = selectedLanguage;
   }
 }
+
+
+

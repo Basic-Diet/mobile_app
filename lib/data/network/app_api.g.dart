@@ -729,13 +729,13 @@ class _AppServiceClient implements AppServiceClient {
   Future<SubscriptionDayResponse> saveDaySelection(
     String id,
     String date,
-    DaySelectionRequest request,
+    Map<String, dynamic> request,
   ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(request.toJson());
+    _data.addAll(request);
     final _options = _setStreamType<SubscriptionDayResponse>(
       Options(method: 'PUT', headers: _headers, extra: _extra)
           .compose(
@@ -761,13 +761,13 @@ class _AppServiceClient implements AppServiceClient {
   Future<ValidationResponse> validateDaySelection(
     String id,
     String date,
-    DaySelectionRequest request,
+    Map<String, dynamic> request,
   ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(request.toJson());
+    _data.addAll(request);
     final _options = _setStreamType<ValidationResponse>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
@@ -904,9 +904,11 @@ class _AppServiceClient implements AppServiceClient {
   }
 
   @override
-  Future<MealPlannerMenuResponse> getMealPlannerMenu() async {
+  Future<MealPlannerMenuResponse> getMealPlannerMenu({
+    bool includeLegacy = true,
+  }) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'includeLegacy': includeLegacy};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<MealPlannerMenuResponse>(

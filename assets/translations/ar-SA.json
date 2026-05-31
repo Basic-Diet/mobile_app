@@ -408,6 +408,7 @@
     "enterPromoCode": "أدخل كود الخصم",
     "apply": "تطبيق",
     "remove": "إزالة",
+    "reset": "إعادة تعيين",
     "applyingPromo": "جارٍ التطبيق...",
     "validatingPromoCode": "جارٍ التحقق من كود الخصم...",
     "promoApplied": "تم تطبيق كود الخصم بنجاح",

@@ -3,7 +3,6 @@ import 'package:basic_diet/data/response/client_profile_response.dart';
 import 'package:basic_diet/data/response/subscription_menu_response.dart';
 import 'package:basic_diet/data/response/addons_response.dart';
 import 'package:basic_diet/data/request/bulk_selections_request.dart';
-import 'package:basic_diet/data/request/day_selection_request.dart';
 import 'package:basic_diet/data/response/checkout_draft_response.dart';
 import 'package:basic_diet/data/request/subscription_checkout_request.dart';
 import 'package:basic_diet/data/request/subscription_quote_request.dart';
@@ -69,7 +68,9 @@ abstract class AppServiceClient {
   );
 
   @POST("/api/auth/password/forgot")
-  Future<BaseResponse> requestPasswordResetOtp(@Body() Map<String, dynamic> body);
+  Future<BaseResponse> requestPasswordResetOtp(
+    @Body() Map<String, dynamic> body,
+  );
 
   @POST("/api/auth/password/reset")
   Future<BaseResponse> resetPassword(@Body() Map<String, dynamic> body);
@@ -154,14 +155,14 @@ abstract class AppServiceClient {
   Future<SubscriptionDayResponse> saveDaySelection(
     @Path("id") String id,
     @Path("date") String date,
-    @Body() DaySelectionRequest request,
+    @Body() Map<String, dynamic> request,
   );
 
   @POST("/api/subscriptions/{id}/days/{date}/selection/validate")
   Future<ValidationResponse> validateDaySelection(
     @Path("id") String id,
     @Path("date") String date,
-    @Body() DaySelectionRequest request,
+    @Body() Map<String, dynamic> request,
   );
 
   @POST("/api/subscriptions/{id}/days/{date}/confirm")
@@ -189,7 +190,9 @@ abstract class AppServiceClient {
   );
 
   @GET("/api/subscriptions/meal-planner-menu")
-  Future<MealPlannerMenuResponse> getMealPlannerMenu();
+  Future<MealPlannerMenuResponse> getMealPlannerMenu({
+    @Query("includeLegacy") bool includeLegacy = true,
+  });
 
   @POST("/api/subscriptions/{id}/days/{date}/payments")
   Future<PremiumPaymentResponse> createUnifiedDayPayment(
@@ -267,7 +270,9 @@ abstract class AppServiceClient {
   );
 
   @GET("/api/orders/{orderId}/timeline")
-  Future<OrderTimelineResponse> getOrderTimeline(@Path("orderId") String orderId);
+  Future<OrderTimelineResponse> getOrderTimeline(
+    @Path("orderId") String orderId,
+  );
 
   @DELETE("/api/orders/{orderId}")
   Future<CancelOrderResponse> cancelOrder(@Path("orderId") String orderId);

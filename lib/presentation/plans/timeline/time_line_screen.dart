@@ -299,16 +299,18 @@ class TimeLineScreen extends StatelessWidget {
 
         if (result is MealPlannerScreenResult &&
             result.successMessage != null) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(result.successMessage!),
-              backgroundColor: ColorManager.stateSuccess,
-              duration: const Duration(seconds: 2),
-            ),
-          );
+          if (context.mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(result.successMessage!),
+                backgroundColor: ColorManager.stateSuccess,
+                duration: const Duration(seconds: 2),
+              ),
+            );
+          }
         }
 
-        if (shouldRefreshTimeline) {
+        if (shouldRefreshTimeline && context.mounted) {
           context.read<TimelineBloc>().add(
             FetchTimelineEvent(subscriptionId),
           );

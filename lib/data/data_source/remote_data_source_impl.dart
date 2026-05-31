@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:basic_diet/data/request/bulk_selections_request.dart';
 import 'package:basic_diet/data/request/day_selection_request.dart';
 import 'package:basic_diet/data/network/app_api.dart';
@@ -33,6 +35,7 @@ import 'package:basic_diet/data/response/pickup_status_response.dart';
 import 'package:basic_diet/data/response/fulfillment_status_response.dart';
 import 'package:basic_diet/data/response/cancel_subscription_response.dart';
 import 'package:basic_diet/data/request/cancel_subscription_request.dart';
+import 'package:flutter/foundation.dart';
 
 import 'package:basic_diet/data/request/order_quote_request.dart';
 import 'package:basic_diet/data/request/create_order_request.dart';
@@ -223,7 +226,9 @@ class RemoteDataSourceImpl implements RemoteDataSource {
     String date,
     DaySelectionRequest request,
   ) {
-    return _appServiceClient.validateDaySelection(id, date, request);
+    final body = request.toJson();
+    debugPrint(const JsonEncoder.withIndent('  ').convert(body));
+    return _appServiceClient.validateDaySelection(id, date, body);
   }
 
   @override
@@ -232,7 +237,9 @@ class RemoteDataSourceImpl implements RemoteDataSource {
     String date,
     DaySelectionRequest request,
   ) {
-    return _appServiceClient.saveDaySelection(id, date, request);
+    final body = request.toJson();
+    debugPrint(const JsonEncoder.withIndent('  ').convert(body));
+    return _appServiceClient.saveDaySelection(id, date, body);
   }
 
   @override

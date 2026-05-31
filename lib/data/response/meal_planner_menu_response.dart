@@ -39,12 +39,20 @@ class MealPlannerMenuDataResponse {
   @JsonKey(name: 'builderCatalog')
   final BuilderCatalogResponse? builderCatalog;
 
-  @JsonKey(name: 'addons', readValue: _readAddonsOrCatalog, fromJson: _addonsFromJson)
+  @JsonKey(name: 'builderCatalogV2')
+  final BuilderCatalogV2Response? builderCatalogV2;
+
+  @JsonKey(
+    name: 'addons',
+    readValue: _readAddonsOrCatalog,
+    fromJson: _addonsFromJson,
+  )
   final MealPlannerAddonsResponse? addons;
 
   const MealPlannerMenuDataResponse({
     this.currency,
     this.builderCatalog,
+    this.builderCatalogV2,
     this.addons,
   });
 
@@ -61,6 +69,249 @@ class MealPlannerMenuDataResponse {
       _$MealPlannerMenuDataResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$MealPlannerMenuDataResponseToJson(this);
+}
+
+@JsonSerializable()
+class BuilderCatalogV2Response {
+  @JsonKey(name: 'catalogVersion')
+  final String? catalogVersion;
+
+  @JsonKey(name: 'currency')
+  final String? currency;
+
+  @JsonKey(name: 'sections')
+  final List<BuilderCatalogV2SectionResponse>? sections;
+
+  @JsonKey(name: 'rules')
+  final BuilderRulesResponse? rules;
+
+  const BuilderCatalogV2Response({
+    this.catalogVersion,
+    this.currency,
+    this.sections,
+    this.rules,
+  });
+
+  factory BuilderCatalogV2Response.fromJson(Map<String, dynamic> json) =>
+      _$BuilderCatalogV2ResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$BuilderCatalogV2ResponseToJson(this);
+}
+
+@JsonSerializable()
+class BuilderCatalogV2SectionResponse {
+  @JsonKey(name: 'id')
+  final String? id;
+
+  @JsonKey(name: 'key')
+  final String? key;
+
+  @JsonKey(name: 'type')
+  final String? type;
+
+  @JsonKey(name: 'selectionType')
+  final String? selectionType;
+
+  @JsonKey(name: 'name')
+  final String? name;
+
+  @JsonKey(name: 'description')
+  final String? description;
+
+  @JsonKey(name: 'sortOrder')
+  final int? sortOrder;
+
+  @JsonKey(name: 'products')
+  final List<BuilderCatalogV2ProductResponse>? products;
+
+  const BuilderCatalogV2SectionResponse({
+    this.id,
+    this.key,
+    this.type,
+    this.selectionType,
+    this.name,
+    this.description,
+    this.sortOrder,
+    this.products,
+  });
+
+  factory BuilderCatalogV2SectionResponse.fromJson(Map<String, dynamic> json) =>
+      _$BuilderCatalogV2SectionResponseFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$BuilderCatalogV2SectionResponseToJson(this);
+}
+
+@JsonSerializable()
+class BuilderCatalogV2ProductResponse {
+  @JsonKey(name: 'id')
+  final String? id;
+
+  @JsonKey(name: 'key')
+  final String? key;
+
+  @JsonKey(name: 'name')
+  final String? name;
+
+  @JsonKey(name: 'description')
+  final String? description;
+
+  @JsonKey(name: 'isVirtual')
+  final bool? isVirtual;
+
+  @JsonKey(name: 'priceHalala')
+  final int? priceHalala;
+
+  @JsonKey(name: 'currency')
+  final String? currency;
+
+  @JsonKey(name: 'ui')
+  final MealPlannerMenuUiResponse? ui;
+
+  @JsonKey(name: 'sortOrder')
+  final int? sortOrder;
+
+  @JsonKey(name: 'optionGroups')
+  final List<BuilderCatalogV2OptionGroupResponse>? optionGroups;
+
+  const BuilderCatalogV2ProductResponse({
+    this.id,
+    this.key,
+    this.name,
+    this.description,
+    this.isVirtual,
+    this.priceHalala,
+    this.currency,
+    this.ui,
+    this.sortOrder,
+    this.optionGroups,
+  });
+
+  factory BuilderCatalogV2ProductResponse.fromJson(Map<String, dynamic> json) =>
+      _$BuilderCatalogV2ProductResponseFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$BuilderCatalogV2ProductResponseToJson(this);
+}
+
+@JsonSerializable()
+class BuilderCatalogV2OptionGroupResponse {
+  @JsonKey(name: 'id')
+  final String? id;
+
+  @JsonKey(name: 'key')
+  final String? key;
+
+  @JsonKey(name: 'name')
+  final String? name;
+
+  @JsonKey(name: 'minSelections')
+  final int? minSelections;
+
+  @JsonKey(name: 'maxSelections')
+  final int? maxSelections;
+
+  @JsonKey(name: 'isRequired')
+  final bool? isRequired;
+
+  @JsonKey(name: 'sortOrder')
+  final int? sortOrder;
+
+  @JsonKey(name: 'ui')
+  final MealPlannerMenuUiResponse? ui;
+
+  @JsonKey(name: 'options')
+  final List<BuilderCatalogV2OptionResponse>? options;
+
+  const BuilderCatalogV2OptionGroupResponse({
+    this.id,
+    this.key,
+    this.name,
+    this.minSelections,
+    this.maxSelections,
+    this.isRequired,
+    this.sortOrder,
+    this.ui,
+    this.options,
+  });
+
+  factory BuilderCatalogV2OptionGroupResponse.fromJson(
+    Map<String, dynamic> json,
+  ) => _$BuilderCatalogV2OptionGroupResponseFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$BuilderCatalogV2OptionGroupResponseToJson(this);
+}
+
+@JsonSerializable()
+class BuilderCatalogV2OptionResponse {
+  @JsonKey(name: 'id')
+  final String? id;
+
+  @JsonKey(name: 'key')
+  final String? key;
+
+  @JsonKey(name: 'name')
+  final String? name;
+
+  @JsonKey(name: 'description')
+  final String? description;
+
+  @JsonKey(name: 'displayCategoryKey')
+  final String? displayCategoryKey;
+
+  @JsonKey(name: 'proteinFamilyKey')
+  final String? proteinFamilyKey;
+
+  @JsonKey(name: 'premiumKey')
+  final String? premiumKey;
+
+  @JsonKey(name: 'isPremium')
+  final bool? isPremium;
+
+  @JsonKey(name: 'extraFeeHalala')
+  final int? extraFeeHalala;
+
+  @JsonKey(name: 'extraPriceHalala')
+  final int? extraPriceHalala;
+
+  @JsonKey(name: 'sortOrder')
+  final int? sortOrder;
+
+  const BuilderCatalogV2OptionResponse({
+    this.id,
+    this.key,
+    this.name,
+    this.description,
+    this.displayCategoryKey,
+    this.proteinFamilyKey,
+    this.premiumKey,
+    this.isPremium,
+    this.extraFeeHalala,
+    this.extraPriceHalala,
+    this.sortOrder,
+  });
+
+  factory BuilderCatalogV2OptionResponse.fromJson(Map<String, dynamic> json) =>
+      _$BuilderCatalogV2OptionResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$BuilderCatalogV2OptionResponseToJson(this);
+}
+
+@JsonSerializable()
+class MealPlannerMenuUiResponse {
+  @JsonKey(name: 'cardVariant')
+  final String? cardVariant;
+
+  @JsonKey(name: 'displayStyle')
+  final String? displayStyle;
+
+  const MealPlannerMenuUiResponse({this.cardVariant, this.displayStyle});
+
+  factory MealPlannerMenuUiResponse.fromJson(Map<String, dynamic> json) =>
+      _$MealPlannerMenuUiResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$MealPlannerMenuUiResponseToJson(this);
 }
 
 @JsonSerializable()
@@ -208,7 +459,8 @@ class PremiumLargeSaladPresetResponse {
   factory PremiumLargeSaladPresetResponse.fromJson(Map<String, dynamic> json) =>
       _$PremiumLargeSaladPresetResponseFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PremiumLargeSaladPresetResponseToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$PremiumLargeSaladPresetResponseToJson(this);
 }
 
 @JsonSerializable()
@@ -232,7 +484,8 @@ class PremiumLargeSaladGroupRuleResponse {
     Map<String, dynamic> json,
   ) => _$PremiumLargeSaladGroupRuleResponseFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PremiumLargeSaladGroupRuleResponseToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$PremiumLargeSaladGroupRuleResponseToJson(this);
 }
 
 @JsonSerializable()
@@ -260,7 +513,8 @@ class PremiumLargeSaladIngredientResponse {
     Map<String, dynamic> json,
   ) => _$PremiumLargeSaladIngredientResponseFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PremiumLargeSaladIngredientResponseToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$PremiumLargeSaladIngredientResponseToJson(this);
 }
 
 @JsonSerializable()

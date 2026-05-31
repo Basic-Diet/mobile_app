@@ -2,6 +2,21 @@ import 'package:basic_diet/app/constants.dart';
 import 'package:basic_diet/data/response/order_menu_response.dart';
 import 'package:basic_diet/domain/model/order_menu_model.dart';
 
+const _categoryCardVariants = {
+  'meal_builder',
+  'light_collection',
+  'sandwich_collection',
+  'addon_collection',
+};
+const _productCardVariants = {'standard', 'premium', 'large_salad', 'addon'};
+const _displayStyles = {
+  'chips',
+  'radio_cards',
+  'checkbox_grid',
+  'dropdown',
+  'stepper',
+};
+
 extension OrderMenuResponseMapper on OrderMenuResponse? {
   OrderMenuModel toDomain() {
     return OrderMenuModel(
@@ -33,6 +48,11 @@ extension OrderMenuCategoryResponseMapper on OrderMenuCategoryResponse? {
       name: this?.name ?? Constants.empty,
       description: this?.description,
       imageUrl: this?.imageUrl,
+      cardVariant: _allowedValue(
+        this?.ui?.cardVariant,
+        _categoryCardVariants,
+        'addon_collection',
+      ),
       sortOrder: this?.sortOrder ?? Constants.zero,
       products: this?.products?.map((e) => e.toDomain()).toList() ?? const [],
     );
@@ -58,6 +78,11 @@ extension OrderMenuProductResponseMapper on OrderMenuProductResponse? {
       sortOrder: this?.sortOrder ?? Constants.zero,
       requiresBuilder: this?.requiresBuilder,
       canAddDirectly: this?.canAddDirectly,
+      cardVariant: _allowedValue(
+        this?.ui?.cardVariant,
+        _productCardVariants,
+        'standard',
+      ),
       optionGroups:
           this?.optionGroups?.map((e) => e.toDomain()).toList() ?? const [],
     );
@@ -74,6 +99,11 @@ extension OrderMenuOptionGroupResponseMapper on OrderMenuOptionGroupResponse? {
       minSelections: this?.minSelections ?? Constants.zero,
       maxSelections: this?.maxSelections ?? 1,
       isRequired: this?.isRequired ?? false,
+      displayStyle: _allowedValue(
+        this?.ui?.displayStyle,
+        _displayStyles,
+        'chips',
+      ),
       sortOrder: this?.sortOrder ?? Constants.zero,
       options: this?.options?.map((e) => e.toDomain()).toList() ?? const [],
     );
@@ -89,11 +119,22 @@ extension OrderMenuOptionResponseMapper on OrderMenuOptionResponse? {
       key: this?.key ?? Constants.empty,
       name: this?.name ?? Constants.empty,
       extraPriceHalala: this?.extraPriceHalala ?? Constants.zero,
+      extraFeeHalala: this?.extraFeeHalala ?? Constants.zero,
+      displayCategoryKey: this?.displayCategoryKey ?? Constants.empty,
+      proteinFamilyKey: this?.proteinFamilyKey ?? Constants.empty,
+      premiumKey: this?.premiumKey ?? Constants.empty,
       extraWeightUnitGrams: this?.extraWeightUnitGrams ?? Constants.zero,
       extraWeightPriceHalala: this?.extraWeightPriceHalala ?? Constants.zero,
       sortOrder: this?.sortOrder ?? Constants.zero,
     );
   }
+}
+
+String _allowedValue(String? value, Set<String> allowed, String fallback) {
+  if (value == null || !allowed.contains(value)) {
+    return fallback;
+  }
+  return value;
 }
 
 // ─── Legacy Fallback Mappers ───
