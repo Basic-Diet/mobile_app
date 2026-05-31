@@ -57,8 +57,9 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       ),
     );
 
+    final fullPhone = "+966${state.phone}";
     final result = await _registerUseCase.execute(
-      RegisterUseCaseInput(state.phone),
+      RegisterUseCaseInput(fullPhone),
     );
 
     result.fold(

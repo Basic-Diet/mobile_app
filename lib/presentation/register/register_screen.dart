@@ -109,6 +109,14 @@ class RegisterScreen extends StatelessWidget {
             return AppTextField.phone(
               controller: _phoneController,
               errorText: state.phoneError,
+              hintText: "500000001",
+              prefixWidget: Text(
+                "+966",
+                style: getRegularTextStyle(
+                  color: ColorManager.textPrimary,
+                  fontSize: FontSizeManager.s16.sp,
+                ),
+              ),
               onChanged: (phone) {
                 context.read<RegisterBloc>().add(RegisterPhoneChanged(phone));
               },

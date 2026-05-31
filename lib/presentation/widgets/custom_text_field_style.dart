@@ -1,3 +1,5 @@
+import 'dart:ui' as ui;
+
 import 'package:basic_diet/presentation/resources/color_manager.dart';
 import 'package:basic_diet/presentation/resources/strings_manager.dart';
 import 'package:basic_diet/presentation/resources/styles_manager.dart';
@@ -6,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class AppTextField extends StatelessWidget {
+class AppTextField extends StatefulWidget {
   final String hintText;
   final TextEditingController controller;
   final TextInputType keyboardType;
@@ -14,8 +16,10 @@ class AppTextField extends StatelessWidget {
   final String? errorText;
   final TextInputAction textInputAction;
   final ValueChanged<String>? onChanged;
+  final Widget? prefixWidget;
 
   const AppTextField._({
+    super.key,
     required this.hintText,
     required this.controller,
     required this.keyboardType,
@@ -23,6 +27,7 @@ class AppTextField extends StatelessWidget {
     required this.textInputAction,
     this.errorText,
     this.onChanged,
+    this.prefixWidget,
   });
 
   // 🔹 Default constructor
@@ -64,15 +69,18 @@ class AppTextField extends StatelessWidget {
     required TextEditingController controller,
     ValueChanged<String>? onChanged,
     String? errorText,
+    Widget? prefixWidget,
+    String? hintText,
   }) {
     return AppTextField._(
-      hintText: Strings.phoneHint.tr(),
+      hintText: hintText ?? Strings.phoneHint.tr(),
       controller: controller,
       keyboardType: TextInputType.phone,
       obscureText: false,
       textInputAction: TextInputAction.done,
       errorText: errorText,
       onChanged: onChanged,
+      prefixWidget: prefixWidget,
     );
   }
 
@@ -93,66 +101,140 @@ class AppTextField extends StatelessWidget {
   }
 
   @override
+  State<AppTextField> createState() => _AppTextFieldState();
+}
+
+class _AppTextFieldState extends State<AppTextField> {
+  final FocusNode _focusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode.addListener(() {
+      setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      onChanged: onChanged,
-      controller: controller,
-      keyboardType: keyboardType,
-      obscureText: obscureText,
-      textInputAction: textInputAction,
-      // decoration: InputDecoration(
-      //   hintText: hintText,
-      //   prefixIcon: prefixIcon,
-      //   errorText: errorText,
-      // ),
-      decoration: InputDecoration(
-        errorText: errorText,
-
-        // helperText: "",
-        // helperStyle: getRegularTextStyle(
-        //   color: ColorManager.greyColor,
-        //   fontSize: AppSize.s8.sp,
-        // ),
-        contentPadding: EdgeInsetsDirectional.symmetric(
-          vertical: AppPadding.p18.h,
-          horizontal: AppPadding.p12.w,
-        ),
-
-        hintText: hintText,
-        filled: true,
-        fillColor: ColorManager.backgroundSurface,
-        hintStyle: getRegularTextStyle(
-          color: ColorManager.textSecondary,
-          fontSize: AppSize.s16.sp,
-        ),
-
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppSize.s14.r),
-          borderSide: BorderSide(
-            color: ColorManager.borderDefault,
+    if (widget.prefixWidget != null) {
+      // For phone fields with country code, use a Row with country code always on left
+      final borderColor = widget.errorText != null
+          ? ColorManager.stateError
+          : (_focusNode.hasFocus ? ColorManager.brandPrimary : ColorManager.borderDefault);
+      
+      return Container(
+        decoration: BoxDecoration(
+          color: ColorManager.backgroundSurface,
+          border: Border.all(
+            color: borderColor,
             width: AppSize.s1.w,
           ),
-        ),
-        focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppSize.s14.r),
-          borderSide: BorderSide(
-            color: ColorManager.brandPrimary,
-            width: AppSize.s1.w,
+        ),
+        child: Directionality(
+          textDirection: ui.TextDirection.ltr,
+          child: Row(
+            children: [
+              // Country code always on left
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: AppPadding.p12.w, vertical: AppPadding.p18.h),
+                child: widget.prefixWidget!,
+              ),
+              // Vertical divider
+              Container(
+                width: 1.w,
+                height: AppSize.s24.h,
+                color: ColorManager.borderDefault,
+              ),
+              // Phone number input (respects app's direction)
+              Expanded(
+                child: TextFormField(
+                  focusNode: _focusNode,
+                  onChanged: widget.onChanged,
+                  controller: widget.controller,
+                  keyboardType: widget.keyboardType,
+                  obscureText: widget.obscureText,
+                  textInputAction: widget.textInputAction,
+                  decoration: InputDecoration(
+                    errorText: widget.errorText,
+                    contentPadding: EdgeInsets.symmetric(
+                      vertical: AppPadding.p18.h,
+                      horizontal: AppPadding.p12.w,
+                    ),
+                    hintText: widget.hintText,
+                    filled: false,
+                    border: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    errorBorder: InputBorder.none,
+                    focusedErrorBorder: InputBorder.none,
+                    hintStyle: getRegularTextStyle(
+                      color: ColorManager.textSecondary,
+                      fontSize: AppSize.s16.sp,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
-        errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppSize.s14.r),
-          borderSide: BorderSide(color: ColorManager.stateError),
-        ),
-
-        focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(AppSize.s14.r),
-          borderSide: BorderSide(
-            color: ColorManager.stateError,
-            width: AppSize.s1.w,
+      );
+    } else {
+      // For normal fields, use the original layout
+      return TextFormField(
+        focusNode: _focusNode,
+        onChanged: widget.onChanged,
+        controller: widget.controller,
+        keyboardType: widget.keyboardType,
+        obscureText: widget.obscureText,
+        textInputAction: widget.textInputAction,
+        decoration: InputDecoration(
+          errorText: widget.errorText,
+          contentPadding: EdgeInsetsDirectional.symmetric(
+            vertical: AppPadding.p18.h,
+            horizontal: AppPadding.p12.w,
+          ),
+          hintText: widget.hintText,
+          filled: true,
+          fillColor: ColorManager.backgroundSurface,
+          hintStyle: getRegularTextStyle(
+            color: ColorManager.textSecondary,
+            fontSize: AppSize.s16.sp,
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(AppSize.s14.r),
+            borderSide: BorderSide(
+              color: ColorManager.borderDefault,
+              width: AppSize.s1.w,
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(AppSize.s14.r),
+            borderSide: BorderSide(
+              color: ColorManager.brandPrimary,
+              width: AppSize.s1.w,
+            ),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(AppSize.s14.r),
+            borderSide: BorderSide(color: ColorManager.stateError),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(AppSize.s14.r),
+            borderSide: BorderSide(
+              color: ColorManager.stateError,
+              width: AppSize.s1.w,
+            ),
           ),
         ),
-      ),
-    );
+      );
+    }
   }
 }

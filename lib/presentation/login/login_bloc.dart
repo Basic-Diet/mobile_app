@@ -61,10 +61,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       return;
     }
 
+    final fullPhone = "+966${state.phone}";
     emit(LoginLoadingState(phone: state.phone, password: state.password));
 
     final result = await _loginUseCase.execute(
-      LoginUseCaseInput(state.phone, state.password),
+      LoginUseCaseInput(fullPhone, state.password),
     );
 
     await result.fold(
