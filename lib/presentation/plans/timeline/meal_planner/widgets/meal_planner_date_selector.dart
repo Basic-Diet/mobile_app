@@ -36,29 +36,10 @@ class MealPlannerDateSelector extends StatelessWidget {
             day: day,
             index: index,
             isSelected: index == state.selectedDayIndex,
-            isComplete: !day.isHistoricalOnly && _isDayComplete(state, index),
           );
         },
       ),
     );
-  }
-
-  bool _isDayComplete(MealPlannerLoaded state, int index) {
-    final day = state.timelineDays[index];
-    final completed = state.selectedSlotsPerDay[index]?.where((slot) {
-          if (slot.selectionType == 'sandwich') {
-            return slot.sandwichId != null && slot.sandwichId!.isNotEmpty;
-          }
-          if (slot.selectionType == 'premium_large_salad') {
-            return slot.salad != null &&
-                slot.salad!.groups.protein.length == 1 &&
-                slot.salad!.groups.sauce.length == 1 &&
-                slot.carbs.isEmpty;
-          }
-          return slot.proteinId != null && slot.carbs.isNotEmpty;
-        }).length ??
-        0;
-    return completed >= day.requiredMeals;
   }
 }
 
@@ -66,28 +47,24 @@ class _DayCard extends StatelessWidget {
   final TimelineDayModel day;
   final int index;
   final bool isSelected;
-  final bool isComplete;
 
   const _DayCard({
     required this.day,
     required this.index,
     required this.isSelected,
-    required this.isComplete,
   });
 
   @override
   Widget build(BuildContext context) {
     final isLocked = day.commercialState.toLowerCase() == 'confirmed';
-    final _DayStyle style = _resolveDayStyle(
-      day,
-      isSelected,
-      isComplete,
-    );
+    final _DayStyle style = _resolveDayStyle(day, isSelected);
 
     return GestureDetector(
-      onTap: isLocked
-          ? null
-          : () => context.read<MealPlannerBloc>().add(ChangeDateEvent(index)),
+      onTap:
+          isLocked
+              ? null
+              : () =>
+                  context.read<MealPlannerBloc>().add(ChangeDateEvent(index)),
       child: Stack(
         clipBehavior: Clip.none,
         children: [
@@ -134,7 +111,7 @@ class _DayCard extends StatelessWidget {
               ],
             ),
           ),
-          if (isComplete)
+          if (day.showPlanned)
             Positioned(
               top: -6.h,
               right: -6.w,
@@ -160,12 +137,8 @@ class _DayCard extends StatelessWidget {
     );
   }
 
-  _DayStyle _resolveDayStyle(
-    TimelineDayModel day,
-    bool isSelected,
-    bool isComplete,
-  ) {
-    final status = day.status;
+  _DayStyle _resolveDayStyle(TimelineDayModel day, bool isSelected) {
+    final status = day.displayStatus;
     Color baseColor;
     Color baseBgColor;
     Color baseBorderColor;
@@ -183,6 +156,24 @@ class _DayCard extends StatelessWidget {
         baseBgColor = ColorManager.brandPrimaryTint;
         baseBorderColor = ColorManager.brandPrimary;
         statusText = Strings.planned.tr();
+        break;
+      case 'pending_payment':
+        baseColor = ColorManager.brandAccentPressed;
+        baseBgColor = ColorManager.brandAccentSoft;
+        baseBorderColor = ColorManager.brandAccent;
+        statusText = Strings.pendingPayment.tr();
+        break;
+      case 'draft':
+        baseColor = ColorManager.bluePrimary;
+        baseBgColor = ColorManager.blueSurface;
+        baseBorderColor = ColorManager.blueBorder;
+        statusText = Strings.draft.tr();
+        break;
+      case 'failed':
+        baseColor = ColorManager.stateError;
+        baseBgColor = ColorManager.stateError.withValues(alpha: 0.05);
+        baseBorderColor = ColorManager.stateError;
+        statusText = Strings.failed.tr();
         break;
       case 'frozen':
         baseColor = ColorManager.bluePrimary;
@@ -246,21 +237,16 @@ class _DayCard extends StatelessWidget {
     Color bgColor = baseBgColor;
     Color borderColor = baseBorderColor;
 
-    if (isComplete && !day.isHistoricalOnly) {
-      bgColor = ColorManager.brandPrimary;
-      borderColor = ColorManager.transparent;
-      textColor = ColorManager.textInverse;
-      statusText = Strings.planned.tr();
-    }
     if (isSelected) {
       borderColor = ColorManager.brandPrimary;
       bgColor = ColorManager.brandPrimary;
       textColor = ColorManager.textInverse;
     }
 
-    final pillBgColor = isComplete || isSelected
-        ? ColorManager.textInverse.withValues(alpha: 0.2)
-        : baseColor;
+    final pillBgColor =
+        isSelected
+            ? ColorManager.textInverse.withValues(alpha: 0.2)
+            : baseColor;
 
     return _DayStyle(
       bgColor: bgColor,

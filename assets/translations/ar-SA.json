@@ -611,6 +611,8 @@
     "pickupWindow": "فترة الاستلام",
     "selectBranchAndPickupWindow": "يرجى اختيار الفرع وفترة الاستلام قبل المتابعة.",
     "pendingPayment": "في انتظار الدفع",
+    "draft": "مسودة",
+    "failed": "فشل",
     "confirmed": "تم التأكيد",
     "inPreparation": "قيد التحضير",
     "readyForPickup": "جاهز للاستلام",

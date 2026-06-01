@@ -611,6 +611,8 @@
     "pickupWindow": "Pickup Window",
     "selectBranchAndPickupWindow": "Please choose a branch and pickup window before continuing.",
     "pendingPayment": "Pending Payment",
+    "draft": "Draft",
+    "failed": "Failed",
     "confirmed": "Confirmed",
     "inPreparation": "In Preparation",
     "readyForPickup": "Ready for Pickup",

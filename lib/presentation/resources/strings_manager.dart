@@ -797,6 +797,8 @@ class Strings {
   static const String selectBranchAndPickupWindow =
       'selectBranchAndPickupWindow';
   static const String pendingPayment = 'pendingPayment';
+  static const String draft = 'draft';
+  static const String failed = 'failed';
   static const String confirmed = 'confirmed';
   static const String inPreparation = 'inPreparation';
   static const String readyForPickup = 'readyForPickup';
@@ -865,7 +867,8 @@ class Strings {
   // Cancellation metadata messages
   static const String cancelledByCustomer = 'cancelledByCustomer';
   static const String cancelledByRestaurant = 'cancelledByRestaurant';
-  static const String cancelledByRestaurantRejected = 'cancelledByRestaurantRejected';
+  static const String cancelledByRestaurantRejected =
+      'cancelledByRestaurantRejected';
   static const String cancelledByAdmin = 'cancelledByAdmin';
   static const String cancelledBySystem = 'cancelledBySystem';
   static const String cancelledPaymentFailed = 'cancelledPaymentFailed';

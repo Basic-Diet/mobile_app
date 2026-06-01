@@ -35,13 +35,17 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       result.fold(
         (_) {
           if (!isClosed) {
-            emit(HomeNavigateToPlansState());
+            emit(HomeNavigateToSubscriptionState());
           }
         },
         (data) {
           if (!isClosed) {
+            final hasCurrentSubscription =
+                data.data != null && data.data!.id.isNotEmpty;
             emit(
-               HomeNavigateToSubscriptionState()
+              hasCurrentSubscription
+                  ? HomeNavigateToPlansState()
+                  : HomeNavigateToSubscriptionState(),
             );
           }
         },

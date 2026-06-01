@@ -84,6 +84,18 @@ class TimelineDayResponse {
   @JsonKey(name: 'status')
   final String? status;
 
+  @JsonKey(name: 'timelineStatus')
+  final String? timelineStatus;
+
+  @JsonKey(name: 'canShowAsPlanned')
+  final bool? canShowAsPlanned;
+
+  @JsonKey(name: 'paymentStatus')
+  final String? paymentStatus;
+
+  @JsonKey(name: 'hasSelection')
+  final bool? hasSelection;
+
   @JsonKey(name: 'deliveryMode')
   final String? deliveryMode;
 
@@ -183,6 +195,10 @@ class TimelineDayResponse {
     this.month,
     this.dayNumber,
     this.status,
+    this.timelineStatus,
+    this.canShowAsPlanned,
+    this.paymentStatus,
+    this.hasSelection,
     this.deliveryMode,
     this.statusLabel,
     this.commercialState,

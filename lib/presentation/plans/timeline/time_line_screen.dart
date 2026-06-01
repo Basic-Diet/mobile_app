@@ -191,7 +191,7 @@ class TimeLineScreen extends StatelessWidget {
     String statusText;
     String? extraTag;
 
-    switch (day.status.toLowerCase()) {
+    switch (day.displayStatus) {
       case 'locked':
         color = ColorManager.textMuted;
         bgColor = ColorManager.backgroundSubtle;
@@ -204,6 +204,27 @@ class TimeLineScreen extends StatelessWidget {
         borderColor = ColorManager.brandPrimary;
         icon = Icons.check_circle_outline;
         statusText = Strings.planned.tr();
+        break;
+      case 'pending_payment':
+        color = ColorManager.brandAccentPressed;
+        bgColor = ColorManager.brandAccentSoft;
+        borderColor = ColorManager.brandAccent;
+        icon = Icons.payments_outlined;
+        statusText = Strings.pendingPayment.tr();
+        break;
+      case 'draft':
+        color = ColorManager.bluePrimary;
+        bgColor = ColorManager.blueSurface;
+        borderColor = ColorManager.blueBorder;
+        icon = Icons.edit_note;
+        statusText = Strings.draft.tr();
+        break;
+      case 'failed':
+        color = ColorManager.stateError;
+        bgColor = ColorManager.stateError.withValues(alpha: 0.05);
+        borderColor = ColorManager.stateError;
+        icon = Icons.error_outline;
+        statusText = Strings.failed.tr();
         break;
       case 'frozen':
         color = ColorManager.bluePrimary;
@@ -277,16 +298,17 @@ class TimeLineScreen extends StatelessWidget {
         final result = await Navigator.push<dynamic>(
           context,
           MaterialPageRoute(
-            builder: (context) => MealPlannerScreen(
-              timelineDays: days,
-              addonEntitlements: addonSubscriptions,
-              premiumSummaries: premiumSummaries,
-              initialDayIndex: index,
-              premiumMealsRemaining: premiumMealsRemaining,
-              subscriptionId: subscriptionId,
-              mealBalance: mealBalance,
-              readOnly: isReadOnly,
-            ),
+            builder:
+                (context) => MealPlannerScreen(
+                  timelineDays: days,
+                  addonEntitlements: addonSubscriptions,
+                  premiumSummaries: premiumSummaries,
+                  initialDayIndex: index,
+                  premiumMealsRemaining: premiumMealsRemaining,
+                  subscriptionId: subscriptionId,
+                  mealBalance: mealBalance,
+                  readOnly: isReadOnly,
+                ),
           ),
         );
 
@@ -294,8 +316,7 @@ class TimeLineScreen extends StatelessWidget {
 
         final shouldRefreshTimeline =
             result == true ||
-            (result is MealPlannerScreenResult &&
-                result.shouldRefreshTimeline);
+            (result is MealPlannerScreenResult && result.shouldRefreshTimeline);
 
         if (result is MealPlannerScreenResult &&
             result.successMessage != null) {
@@ -311,9 +332,7 @@ class TimeLineScreen extends StatelessWidget {
         }
 
         if (shouldRefreshTimeline && context.mounted) {
-          context.read<TimelineBloc>().add(
-            FetchTimelineEvent(subscriptionId),
-          );
+          context.read<TimelineBloc>().add(FetchTimelineEvent(subscriptionId));
         }
       },
       child: Container(
@@ -321,9 +340,10 @@ class TimeLineScreen extends StatelessWidget {
         decoration: BoxDecoration(
           color: bgColor,
           borderRadius: BorderRadius.circular(AppSize.s16.r),
-          border: borderColor != null
-              ? Border.all(color: borderColor)
-              : Border.all(color: ColorManager.transparent),
+          border:
+              borderColor != null
+                  ? Border.all(color: borderColor)
+                  : Border.all(color: ColorManager.transparent),
         ),
         child: Row(
           children: [

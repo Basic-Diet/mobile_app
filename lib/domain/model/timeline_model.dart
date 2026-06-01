@@ -45,6 +45,10 @@ class TimelineDayModel {
   final String month;
   final int dayNumber;
   final String status;
+  final String timelineStatus;
+  final bool canShowAsPlanned;
+  final String paymentStatus;
+  final bool hasSelection;
   final String statusLabel;
   final String commercialState;
   final String commercialStateLabel;
@@ -83,6 +87,10 @@ class TimelineDayModel {
     required this.month,
     required this.dayNumber,
     required this.status,
+    this.timelineStatus = '',
+    this.canShowAsPlanned = false,
+    this.paymentStatus = '',
+    this.hasSelection = false,
     this.statusLabel = '',
     this.commercialState = '',
     this.commercialStateLabel = '',
@@ -117,6 +125,34 @@ class TimelineDayModel {
   });
 
   String get normalizedStatus => status.toLowerCase();
+
+  String get normalizedTimelineStatus => timelineStatus.toLowerCase();
+
+  String get normalizedPaymentStatus => paymentStatus.toLowerCase();
+
+  bool get showPlanned =>
+      normalizedTimelineStatus == 'planned' || canShowAsPlanned;
+
+  bool get showPendingPayment =>
+      normalizedTimelineStatus == 'pending_payment' ||
+      normalizedPaymentStatus == 'pending' ||
+      normalizedPaymentStatus == 'required';
+
+  bool get showDraft =>
+      hasSelection &&
+      normalizedTimelineStatus == 'draft' &&
+      canShowAsPlanned != true;
+
+  bool get showFailed => normalizedTimelineStatus == 'failed';
+
+  String get displayStatus {
+    if (showFailed) return 'failed';
+    if (showPendingPayment) return 'pending_payment';
+    if (showPlanned) return 'planned';
+    if (showDraft) return 'draft';
+    if (normalizedTimelineStatus == 'empty') return 'open';
+    return normalizedStatus;
+  }
 
   bool get isTerminalStatus => terminalStatuses.contains(normalizedStatus);
 
