@@ -67,6 +67,7 @@ extension OrderMenuProductResponseMapper on OrderMenuProductResponse? {
       categoryId: this?.categoryId ?? Constants.empty,
       name: this?.name ?? Constants.empty,
       description: this?.description,
+      imageUrl: this?.imageUrl,
       itemType: this?.itemType ?? Constants.empty,
       pricingModel: this?.pricingModel ?? 'fixed',
       priceHalala: this?.priceHalala ?? Constants.zero,

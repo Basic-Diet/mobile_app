@@ -1,5 +1,6 @@
 import 'dart:ui' as ui;
 
+import 'package:basic_diet/app/constants.dart';
 import 'package:basic_diet/app/dependency_injection.dart';
 import 'package:basic_diet/domain/model/order_menu_model.dart';
 import 'package:basic_diet/presentation/main/bloc/main_bloc.dart';
@@ -11,7 +12,6 @@ import 'package:basic_diet/presentation/main/menu/bloc/menu_bloc.dart';
 import 'package:basic_diet/presentation/main/menu/bloc/menu_event.dart';
 import 'package:basic_diet/presentation/main/menu/bloc/menu_state.dart';
 import 'package:basic_diet/presentation/main/menu/menu_navigation_intent.dart';
-import 'package:basic_diet/presentation/resources/assets_manager.dart';
 import 'package:basic_diet/presentation/resources/color_manager.dart';
 import 'package:basic_diet/presentation/resources/font_manager.dart';
 import 'package:basic_diet/presentation/resources/strings_manager.dart';
@@ -676,7 +676,7 @@ class _BuilderSection extends StatelessWidget {
             padding: EdgeInsetsDirectional.only(bottom: AppPadding.p14.h),
             child: _BuilderProductCard(
               product: product,
-              imagePath: _imageForProduct(product.key, context),
+              imageUrl: product.imageUrl,
               currency: currency,
               onTap: () => onOpenBuilder(product, currency),
             ),
@@ -689,7 +689,7 @@ class _BuilderSection extends StatelessWidget {
               padding: EdgeInsetsDirectional.only(bottom: AppPadding.p12.h),
               child: _LightBuilderCard(
                 product: product,
-                imagePath: _imageForProduct(product.key, context),
+                imageUrl: product.imageUrl,
                 currency: currency,
                 onTap: () => onOpenBuilder(product, currency),
               ),
@@ -699,38 +699,19 @@ class _BuilderSection extends StatelessWidget {
       ],
     );
   }
-
-  String? _imageForProduct(String productKey, BuildContext context) {
-    switch (productKey) {
-      case 'basic_salad':
-        return context.locale.languageCode == 'ar'
-            ? ImageAssets.oneTimeBasicSalad
-            : ImageAssets.oneTimeBasicRtlSalad;
-      case 'basic_meal':
-        return context.locale.languageCode == 'ar'
-            ? ImageAssets.oneTimeBasicMeal
-            : ImageAssets.oneTimeBasicRtlMeal;
-      case 'fruit_salad':
-        return ImageAssets.oneTimeFruitSalad;
-      case 'greek_yogurt':
-        return ImageAssets.oneTimeGreekYogurt;
-      default:
-        return null;
-    }
-  }
 }
 
 class _BuilderProductCard extends StatelessWidget {
   final OrderMenuProductModel product;
   final String currency;
-  final String? imagePath;
+  final String? imageUrl;
   final VoidCallback onTap;
 
   const _BuilderProductCard({
     required this.product,
     required this.currency,
     required this.onTap,
-    this.imagePath,
+    this.imageUrl,
   });
 
   @override
@@ -757,12 +738,13 @@ class _BuilderProductCard extends StatelessWidget {
             child: Stack(
               fit: StackFit.passthrough,
               children: [
-                if (imagePath != null)
-                  Image.asset(
-                    imagePath!,
-                    fit: BoxFit.cover,
-                    alignment: Alignment.centerLeft,
+                Positioned.fill(
+                  child: _MenuMediaBox(
+                    label: _initials(product.name, context),
+                    imageUrl: imageUrl,
+                    borderRadius: AppSize.s26.r,
                   ),
+                ),
                 Container(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
@@ -859,7 +841,7 @@ class _BuilderProductCard extends StatelessWidget {
 
 class _LightBuilderCard extends StatelessWidget {
   final OrderMenuProductModel product;
-  final String? imagePath;
+  final String? imageUrl;
   final String currency;
   final VoidCallback onTap;
 
@@ -867,7 +849,7 @@ class _LightBuilderCard extends StatelessWidget {
     required this.product,
     required this.currency,
     required this.onTap,
-    this.imagePath,
+    this.imageUrl,
   });
 
   @override
@@ -958,7 +940,7 @@ class _LightBuilderCard extends StatelessWidget {
               Gap(AppSize.s14.w),
               _MenuMediaBox(
                 label: _initials(product.name, context),
-                imagePath: imagePath,
+                imageUrl: imageUrl,
                 width: AppSize.s84.w,
                 height: AppSize.s84.w,
                 borderRadius: AppSize.s18.r,
@@ -1078,6 +1060,7 @@ class _CompactProductCard extends StatelessWidget {
         children: [
           _MenuMediaBox(
             label: _initials(product.name, context),
+            imageUrl: product.imageUrl,
             width: AppSize.s66.w,
             height: AppSize.s66.w,
             borderRadius: AppSize.s16.r,
@@ -1165,6 +1148,7 @@ class _ListProductCard extends StatelessWidget {
             children: [
               _MenuMediaBox(
                 label: _initials(product.name, context),
+                imageUrl: product.imageUrl,
                 width: AppSize.s76.w,
                 height: AppSize.s76.w,
                 borderRadius: AppSize.s18.r,
@@ -1486,56 +1470,87 @@ class _EmptyStateCard extends StatelessWidget {
 
 class _MenuMediaBox extends StatelessWidget {
   final String label;
-  final String? imagePath;
-  final double width;
-  final double height;
+  final String? imageUrl;
+  final double? width;
+  final double? height;
   final double borderRadius;
 
   const _MenuMediaBox({
     required this.label,
-    required this.width,
-    required this.height,
     required this.borderRadius,
-    this.imagePath,
+    this.width,
+    this.height,
+    this.imageUrl,
   });
 
   @override
   Widget build(BuildContext context) {
-    final image = imagePath;
+    final resolvedImageUrl = _resolveImageUrl(imageUrl);
 
-    if (image != null) {
-      return ClipRRect(
-        borderRadius: BorderRadius.circular(borderRadius),
-        child: Image.asset(
-          image,
-          width: width,
-          height: height,
-          fit: BoxFit.cover,
-        ),
-      );
-    }
-
-    return Container(
-      width: width,
-      height: height,
-      decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [Color(0xFFF2FBF6), Color(0xFFFFFFFF)],
-        ),
-        borderRadius: BorderRadius.circular(borderRadius),
-      ),
-      alignment: Alignment.center,
-      child: Text(
-        label,
-        style: getBoldTextStyle(
-          fontSize: FontSizeManager.s20.sp,
-          color: ColorManager.stateSuccessEmphasis,
-        ),
+    final media = ClipRRect(
+      borderRadius: BorderRadius.circular(borderRadius),
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [Color(0xFFF2FBF6), Color(0xFFFFFFFF)],
+              ),
+            ),
+            alignment: Alignment.center,
+            child: Text(
+              label,
+              style: getBoldTextStyle(
+                fontSize: FontSizeManager.s20.sp,
+                color: ColorManager.stateSuccessEmphasis,
+              ),
+            ),
+          ),
+          if (resolvedImageUrl != null)
+            Image.network(
+              resolvedImageUrl,
+              width: double.infinity,
+              height: double.infinity,
+              fit: BoxFit.cover,
+              errorBuilder: (_, __, ___) => const SizedBox.shrink(),
+              loadingBuilder: (context, child, loadingProgress) {
+                if (loadingProgress == null) {
+                  return child;
+                }
+                return const SizedBox.shrink();
+              },
+            ),
+        ],
       ),
     );
+
+    if (width == null && height == null) {
+      return media;
+    }
+
+    return SizedBox(
+      width: width,
+      height: height,
+      child: media,
+    );
   }
+}
+
+String? _resolveImageUrl(String? imageUrl) {
+  final value = imageUrl?.trim();
+  if (value == null || value.isEmpty) {
+    return null;
+  }
+
+  final uri = Uri.tryParse(value);
+  if (uri == null || uri.hasScheme) {
+    return value;
+  }
+
+  return Uri.parse(Constants.baseUrl).resolveUri(uri).toString();
 }
 
 class _MenuSectionHeader extends StatelessWidget {
@@ -2087,10 +2102,7 @@ class _BuilderScreenState extends State<_BuilderScreen> {
                         ),
                         Gap(AppSize.s14.w),
                         _BuilderHeroImage(
-                          imagePath: _builderImageForProduct(
-                            product.key,
-                            context,
-                          ),
+                          imageUrl: product.imageUrl,
                           initials: _initials(product.name, context),
                         ),
                       ],
@@ -3184,13 +3196,15 @@ class _QuantityButton extends StatelessWidget {
 }
 
 class _BuilderHeroImage extends StatelessWidget {
-  final String? imagePath;
+  final String? imageUrl;
   final String initials;
 
-  const _BuilderHeroImage({required this.imagePath, required this.initials});
+  const _BuilderHeroImage({required this.imageUrl, required this.initials});
 
   @override
   Widget build(BuildContext context) {
+    final resolvedImageUrl = _resolveImageUrl(imageUrl);
+
     return Container(
       width: AppSize.s95.w,
       height: AppSize.s118.h,
@@ -3203,18 +3217,32 @@ class _BuilderHeroImage extends StatelessWidget {
         ),
       ),
       clipBehavior: Clip.antiAlias,
-      child:
-          imagePath == null
-              ? Center(
-                child: Text(
-                  initials,
-                  style: getBoldTextStyle(
-                    fontSize: FontSizeManager.s26.sp,
-                    color: const Color(0xFF12382C),
-                  ),
-                ),
-              )
-              : Image.asset(imagePath!, fit: BoxFit.cover),
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          Center(
+            child: Text(
+              initials,
+              style: getBoldTextStyle(
+                fontSize: FontSizeManager.s26.sp,
+                color: const Color(0xFF12382C),
+              ),
+            ),
+          ),
+          if (resolvedImageUrl != null)
+            Image.network(
+              resolvedImageUrl,
+              fit: BoxFit.cover,
+              errorBuilder: (_, __, ___) => const SizedBox.shrink(),
+              loadingBuilder: (context, child, loadingProgress) {
+                if (loadingProgress == null) {
+                  return child;
+                }
+                return const SizedBox.shrink();
+              },
+            ),
+        ],
+      ),
     );
   }
 }
@@ -3245,25 +3273,6 @@ class _BuilderHeroPill extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-String? _builderImageForProduct(String productKey, BuildContext context) {
-  switch (productKey) {
-    case 'basic_salad':
-      return context.locale.languageCode == 'ar'
-          ? ImageAssets.oneTimeBasicRtlSalad
-          : ImageAssets.oneTimeBasicSalad;
-    case 'basic_meal':
-      return context.locale.languageCode == 'ar'
-          ? ImageAssets.oneTimeBasicRtlMeal
-          : ImageAssets.oneTimeBasicMeal;
-    case 'fruit_salad':
-      return ImageAssets.oneTimeFruitSalad;
-    case 'greek_yogurt':
-      return ImageAssets.oneTimeGreekYogurt;
-    default:
-      return null;
   }
 }
 

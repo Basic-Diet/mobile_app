@@ -64,6 +64,7 @@ class OrderMenuProductModel {
   final String categoryId;
   final String name;
   final String? description;
+  final String? imageUrl;
   final String itemType;
   final String pricingModel;
   final int priceHalala;
@@ -93,6 +94,7 @@ class OrderMenuProductModel {
     required this.categoryId,
     required this.name,
     this.description,
+    this.imageUrl,
     required this.itemType,
     required this.pricingModel,
     required this.priceHalala,
