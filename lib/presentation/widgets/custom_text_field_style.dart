@@ -13,17 +13,18 @@ class AppTextField extends StatefulWidget {
   final TextEditingController controller;
   final TextInputType keyboardType;
   final bool obscureText;
+  final bool enablePasswordToggle;
   final String? errorText;
   final TextInputAction textInputAction;
   final ValueChanged<String>? onChanged;
   final Widget? prefixWidget;
 
   const AppTextField._({
-    super.key,
     required this.hintText,
     required this.controller,
     required this.keyboardType,
     required this.obscureText,
+    required this.enablePasswordToggle,
     required this.textInputAction,
     this.errorText,
     this.onChanged,
@@ -42,6 +43,7 @@ class AppTextField extends StatefulWidget {
       controller: controller,
       keyboardType: TextInputType.text,
       obscureText: false,
+      enablePasswordToggle: false,
       textInputAction: TextInputAction.done,
       errorText: errorText,
       onChanged: onChanged,
@@ -59,6 +61,7 @@ class AppTextField extends StatefulWidget {
       controller: controller,
       keyboardType: TextInputType.emailAddress,
       obscureText: false,
+      enablePasswordToggle: false,
       textInputAction: TextInputAction.next,
       errorText: errorText,
       onChanged: onChanged,
@@ -77,6 +80,7 @@ class AppTextField extends StatefulWidget {
       controller: controller,
       keyboardType: TextInputType.phone,
       obscureText: false,
+      enablePasswordToggle: false,
       textInputAction: TextInputAction.done,
       errorText: errorText,
       onChanged: onChanged,
@@ -94,6 +98,7 @@ class AppTextField extends StatefulWidget {
       controller: controller,
       keyboardType: TextInputType.visiblePassword,
       obscureText: true,
+      enablePasswordToggle: true,
       textInputAction: TextInputAction.done,
       errorText: errorText,
       onChanged: onChanged,
@@ -106,10 +111,12 @@ class AppTextField extends StatefulWidget {
 
 class _AppTextFieldState extends State<AppTextField> {
   final FocusNode _focusNode = FocusNode();
+  late bool _obscureText;
 
   @override
   void initState() {
     super.initState();
+    _obscureText = widget.obscureText;
     _focusNode.addListener(() {
       setState(() {});
     });
@@ -160,7 +167,7 @@ class _AppTextFieldState extends State<AppTextField> {
                   onChanged: widget.onChanged,
                   controller: widget.controller,
                   keyboardType: widget.keyboardType,
-                  obscureText: widget.obscureText,
+                  obscureText: _obscureText,
                   textInputAction: widget.textInputAction,
                   decoration: InputDecoration(
                     errorText: widget.errorText,
@@ -193,7 +200,9 @@ class _AppTextFieldState extends State<AppTextField> {
         onChanged: widget.onChanged,
         controller: widget.controller,
         keyboardType: widget.keyboardType,
-        obscureText: widget.obscureText,
+        obscureText: _obscureText,
+        autocorrect: !widget.enablePasswordToggle,
+        enableSuggestions: !widget.enablePasswordToggle,
         textInputAction: widget.textInputAction,
         decoration: InputDecoration(
           errorText: widget.errorText,
@@ -208,6 +217,22 @@ class _AppTextFieldState extends State<AppTextField> {
             color: ColorManager.textSecondary,
             fontSize: AppSize.s16.sp,
           ),
+          suffixIcon:
+              widget.enablePasswordToggle
+                  ? IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _obscureText = !_obscureText;
+                      });
+                    },
+                    icon: Icon(
+                      _obscureText
+                          ? Icons.visibility_off_outlined
+                          : Icons.visibility_outlined,
+                      color: ColorManager.textSecondary,
+                    ),
+                  )
+                  : null,
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(AppSize.s14.r),
             borderSide: BorderSide(
