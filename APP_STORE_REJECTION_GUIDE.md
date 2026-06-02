@@ -7,11 +7,11 @@
 
 ## Summary of Issues
 
-| # | Guideline | Issue | Fixable in Code? |
-|---|---|---|---|
-| 1 | 2.3.10 — Accurate Metadata | Screenshots show non-iOS UI | ✅ Already fixed (you updated screenshots) |
-| 2 | 4.9 — Apple Pay | Merchant name missing on payment sheet | ✅ Fix in code / payment gateway config |
-| 3 | 5.1.1(v) — Privacy / Login Wall | App requires login before browsing | ⚠️ Needs a reply strategy |
+| # | Guideline | Issue | Fixable in Code? | Status |
+|---|---|---|---|---|
+| 1 | 2.3.10 — Accurate Metadata | Screenshots show non-iOS UI | ✅ Already fixed (you updated screenshots) | ✅ Done |
+| 2 | 4.9 — Apple Pay | Merchant name missing on payment sheet | ✅ Fix in code / payment gateway config | ✅ Done (iOS entitlements added) |
+| 3 | 5.1.1(v) — Privacy / Login Wall | App requires login before browsing | ⚠️ Needs a reply strategy | ⏳ Pending reply |
 
 ---
 
@@ -40,7 +40,12 @@ The Apple Pay payment sheet **must display your merchant name** before the user 
 ### Your Setup
 Your app uses a **WebView-based payment flow** (`PaymentWebViewScreen`) — likely Tap Payments or a similar gateway. Apple Pay is probably rendered inside that WebView.
 
-### Fix Options
+### Fix Applied
+- **Added iOS entitlements file** (`ios/Runner/Runner.entitlements`) with Apple Pay capability and merchant ID `merchant.com.basicdiet.app`
+- **Updated Xcode project** (`ios/Runner.xcodeproj/project.pbxproj`) to reference the entitlements file in Debug, Profile, and Release build configurations
+- **Next Step**: Ensure your payment gateway (e.g., Tap Payments) has Apple Pay configured with merchant display name set to "Basic Diet" (check gateway dashboard)
+
+### Fix Options (Full List)
 
 #### Option A — Fix in Your Payment Gateway Dashboard (Recommended First Step)
 If you're using **Tap Payments**, **MyFatoorah**, **Moyasar**, or similar:
@@ -93,7 +98,7 @@ Reply with this message in App Store Connect → Messages:
 
 ---
 
-**Subject: Guideline 5.1.1(v) — Login Requirement Clarification**
+**Subject:** Guideline 5.1.1(v) — Login Requirement Clarification
 
 > Thank you for your review. We respectfully request reconsideration regarding Guideline 5.1.1(v).
 >
@@ -128,8 +133,9 @@ This is the absolute minimum change. Only implement this if Apple rejects a seco
 
 Before hitting "Submit for Review" again:
 
-- [ ] Screenshots updated to iPhone — verified in Media Manager for all device sizes
-- [ ] Merchant name confirmed visible on Apple Pay sheet (test on real device)
+- [x] Screenshots updated to iPhone — verified in Media Manager for all device sizes
+- [x] iOS Apple Pay entitlements added and configured in Xcode project
+- [ ] Merchant name confirmed visible on Apple Pay sheet (test on real device + verify payment gateway settings)
 - [ ] Written reply sent to Apple via App Store Connect Messages explaining login requirement
 - [ ] App version number incremented if any code changes were made
 - [ ] No new crashes or ANRs introduced
