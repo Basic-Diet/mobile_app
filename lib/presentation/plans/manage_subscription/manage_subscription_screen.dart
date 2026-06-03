@@ -122,8 +122,8 @@ class ManageSubscriptionScreen extends StatelessWidget {
                   icon: IconAssets.freeze,
                   title: Strings.freezeSubscription.tr(),
                   subtitle: Strings.freezeSubscriptionDesc.tr(),
-                  onTap: () {
-                    Navigator.of(context).push(
+                  onTap: () async {
+                    await Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => FreezeSubscriptionScreen(
                           subscriptionId: subscriptionId,
@@ -138,8 +138,8 @@ class ManageSubscriptionScreen extends StatelessWidget {
                   icon: IconAssets.skip,
                   title: Strings.skipDays.tr(),
                   subtitle: Strings.skipDaysDesc.tr(),
-                  onTap: () {
-                    Navigator.of(context).push(
+                  onTap: () async {
+                    await Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => SkipDaysScreen(
                           subscriptionId: subscriptionId,
@@ -156,8 +156,8 @@ class ManageSubscriptionScreen extends StatelessWidget {
                   icon: IconAssets.delivery,
                   title: Strings.deliverySettings.tr(),
                   subtitle: Strings.deliverySettingsDesc.tr(),
-                  onTap: () {
-                    Navigator.of(context).push(
+                  onTap: () async {
+                    await Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => const DeliverySettingsScreen(),
                       ),

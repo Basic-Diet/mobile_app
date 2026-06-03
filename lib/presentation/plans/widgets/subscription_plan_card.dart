@@ -1,12 +1,15 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:basic_diet/domain/model/current_subscription_overview_model.dart';
 import 'package:basic_diet/presentation/plans/manage_subscription/manage_subscription_screen.dart';
+import 'package:basic_diet/presentation/plans/bloc/plans_bloc.dart';
+import 'package:basic_diet/presentation/plans/bloc/plans_event.dart';
 import 'package:basic_diet/presentation/resources/color_manager.dart';
 import 'package:basic_diet/presentation/resources/font_manager.dart';
 import 'package:basic_diet/presentation/resources/strings_manager.dart';
 import 'package:basic_diet/presentation/resources/styles_manager.dart';
 import 'package:basic_diet/presentation/resources/values_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 
@@ -112,22 +115,27 @@ class SubscriptionPlanCard extends StatelessWidget {
           ),
         ),
         InkWell(
-          onTap:
-              () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder:
-                      (_) => ManageSubscriptionScreen(
-                        subscriptionId: data.id,
-                        selectedMealsPerDay: data.selectedMealsPerDay,
-                        deliveryModeLabel: data.deliveryModeLabel,
-                        validityEndDate: data.validityEndDate,
-                        skipDaysUsed: data.skipDaysUsed,
-                        skipDaysLimit: data.skipDaysLimit,
-                        remainingSkipDays: data.remainingSkipDays,
-                      ),
+          onTap: () async {
+            await Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => ManageSubscriptionScreen(
+                  subscriptionId: data.id,
+                  selectedMealsPerDay: data.selectedMealsPerDay,
+                  deliveryModeLabel: data.deliveryModeLabel,
+                  validityEndDate: data.validityEndDate,
+                  skipDaysUsed: data.skipDaysUsed,
+                  skipDaysLimit: data.skipDaysLimit,
+                  remainingSkipDays: data.remainingSkipDays,
                 ),
               ),
+            );
+            if (context.mounted) {
+              context.read<PlansBloc>().add(
+                FetchCurrentSubscriptionOverviewEvent(),
+              );
+            }
+          },
           child: Icon(
             Icons.settings_outlined,
             color: ColorManager.brandPrimary,
