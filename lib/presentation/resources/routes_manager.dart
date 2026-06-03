@@ -106,11 +106,27 @@ class GoRouterConfig {
           initOrderMenuModule();
           initOrdersModule();
           initProfileModule();
+          final extra = state.extra;
           final initialIndex =
-              state.extra is int ? state.extra as int : MainScreen.homeTabIndex;
+              extra is Map<String, dynamic> &&
+                      extra['initialIndex'] is int
+                  ? extra['initialIndex'] as int
+                  : extra is int
+                  ? extra
+                  : MainScreen.homeTabIndex;
+          final plansRefreshToken =
+              extra is Map<String, dynamic>
+                  ? extra['plansRefreshToken'] as String?
+                  : null;
           return getCustomTransitionPage(
             state: state,
-            child: MainScreen(initialIndex: initialIndex),
+            child: MainScreen(
+              key: ValueKey<String>(
+                'main-$initialIndex-${plansRefreshToken ?? 'default'}',
+              ),
+              initialIndex: initialIndex,
+              plansRefreshToken: plansRefreshToken,
+            ),
           );
         },
       ),

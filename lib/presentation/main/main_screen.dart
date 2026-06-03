@@ -28,20 +28,29 @@ class MainScreen extends StatelessWidget {
   static const int plansTabIndex = 2;
 
   final int initialIndex;
+  final String? plansRefreshToken;
 
-  const MainScreen({super.key, this.initialIndex = homeTabIndex});
+  const MainScreen({
+    super.key,
+    this.initialIndex = homeTabIndex,
+    this.plansRefreshToken,
+  });
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => MainBloc(initialIndex: initialIndex),
-      child: const _MainScreenContent(),
+      child: _MainScreenContent(
+        plansRefreshToken: plansRefreshToken,
+      ),
     );
   }
 }
 
 class _MainScreenContent extends StatefulWidget {
-  const _MainScreenContent();
+  final String? plansRefreshToken;
+
+  const _MainScreenContent({this.plansRefreshToken});
 
   @override
   State<_MainScreenContent> createState() => _MainScreenContentState();
@@ -49,18 +58,24 @@ class _MainScreenContent extends StatefulWidget {
 
 class _MainScreenContentState extends State<_MainScreenContent> {
   static const Duration _exitConfirmationWindow = Duration(seconds: 2);
+  DateTime? _lastBackPressedAt;
 
-  late final List<Widget> _pages = [
+  List<Widget> get _pages => [
     BlocProvider(
       create: (_) => instance<HomeBloc>(),
       child: const HomeScreen(),
     ),
     const MenuScreen(),
-    const PlansScreen(),
+    PlansScreen(
+      key: ValueKey<String>(
+        widget.plansRefreshToken == null
+            ? 'plans-default'
+            : 'plans-${widget.plansRefreshToken}',
+      ),
+    ),
     const OrdersScreen(),
     const ProfileScreen(),
   ];
-  DateTime? _lastBackPressedAt;
 
   @override
   Widget build(BuildContext context) {

@@ -148,7 +148,13 @@ class PaymentSuccessfulScreen extends StatelessWidget {
   }
 
   void _openMainScreen(BuildContext context, int initialIndex) {
-    context.go(MainScreen.mainRoute, extra: initialIndex);
+    final extra = initialIndex == MainScreen.plansTabIndex
+        ? <String, dynamic>{
+            'initialIndex': initialIndex,
+            'plansRefreshToken': DateTime.now().microsecondsSinceEpoch.toString(),
+          }
+        : initialIndex;
+    context.go(MainScreen.mainRoute, extra: extra);
   }
 }
 
