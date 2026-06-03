@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../presentation/resources/language_manager.dart';
 
 const String pressKeyLanguage = "PRESS_KEY_LANGUAGE";
@@ -8,32 +10,44 @@ const String accessTokenKey = "accessToken";
 const String refreshTokenKey = "refreshToken";
 
 class AppPreferences {
-  final FlutterSecureStorage _secureStorage;
+  static const Duration _legacyReadTimeout = Duration(milliseconds: 500);
 
-  AppPreferences()
+  final FlutterSecureStorage _secureStorage;
+  final SharedPreferences _preferences;
+
+  AppPreferences(this._preferences)
     : _secureStorage = const FlutterSecureStorage(
         iOptions: IOSOptions(accessibility: KeychainAccessibility.first_unlock),
       );
 
   Future<String> getAppLanguage() async {
-    final language = await _secureStorage.read(key: pressKeyLanguage);
+    final language = _preferences.getString(pressKeyLanguage);
     if (language != null && language.isNotEmpty) {
       return language;
     }
-    return LanguageType.arabic.getValue();
+
+    final legacyLanguage = await _readLegacyString(pressKeyLanguage);
+    if (legacyLanguage != null && legacyLanguage.isNotEmpty) {
+      await _preferences.setString(pressKeyLanguage, legacyLanguage);
+      return legacyLanguage;
+    }
+
+    final defaultLanguage = LanguageType.arabic.getValue();
+    await _preferences.setString(pressKeyLanguage, defaultLanguage);
+    return defaultLanguage;
   }
 
   Future<void> changeAppLanguage() async {
     final currentLanguage = await getAppLanguage();
     if (currentLanguage == LanguageType.arabic.getValue()) {
-      await _secureStorage.write(
-        key: pressKeyLanguage,
-        value: LanguageType.english.getValue(),
+      await _preferences.setString(
+        pressKeyLanguage,
+        LanguageType.english.getValue(),
       );
     } else {
-      await _secureStorage.write(
-        key: pressKeyLanguage,
-        value: LanguageType.arabic.getValue(),
+      await _preferences.setString(
+        pressKeyLanguage,
+        LanguageType.arabic.getValue(),
       );
     }
   }
@@ -121,32 +135,42 @@ class AppPreferences {
   }
 
   Future<void> setOnboardingScreenViewed() async {
-    await _secureStorage.write(
-      key: 'PREFS_KEY_ONBOARDING_SCREEN_VIEWED',
-      value: 'true',
-    );
+    await _preferences.setBool('PREFS_KEY_ONBOARDING_SCREEN_VIEWED', true);
   }
 
   Future<bool> isOnboardingScreenViewed() async {
-    return (await _secureStorage.read(
-          key: 'PREFS_KEY_ONBOARDING_SCREEN_VIEWED',
-        )) ==
-        'true';
-  }
-
-  Future<void> setLanguageSelected() async {
-    await _secureStorage.write(
-      key: 'PREFS_KEY_LANGUAGE_SELECTED',
-      value: 'true',
+    return _getBoolPreferenceWithLegacyFallback(
+      'PREFS_KEY_ONBOARDING_SCREEN_VIEWED',
     );
   }
 
+  Future<void> setLanguageSelected() async {
+    await _preferences.setBool('PREFS_KEY_LANGUAGE_SELECTED', true);
+  }
+
   Future<bool> isLanguageSelected() async {
-    return (await _secureStorage.read(key: 'PREFS_KEY_LANGUAGE_SELECTED')) ==
-        'true';
+    return _getBoolPreferenceWithLegacyFallback('PREFS_KEY_LANGUAGE_SELECTED');
   }
 
   Future<void> setAppLanguage(String languageCode) async {
-    await _secureStorage.write(key: pressKeyLanguage, value: languageCode);
+    await _preferences.setString(pressKeyLanguage, languageCode);
+  }
+
+  Future<bool> _getBoolPreferenceWithLegacyFallback(String key) async {
+    final value = _preferences.getBool(key);
+    if (value != null) {
+      return value;
+    }
+
+    final legacyValue = await _readLegacyString(key);
+    final boolValue = legacyValue == 'true';
+    await _preferences.setBool(key, boolValue);
+    return boolValue;
+  }
+
+  Future<String?> _readLegacyString(String key) {
+    return _secureStorage
+        .read(key: key)
+        .timeout(_legacyReadTimeout, onTimeout: () => null);
   }
 }

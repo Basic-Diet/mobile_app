@@ -79,12 +79,12 @@ import 'package:get_it/get_it.dart';
 
 final instance = GetIt.instance; // Singleton instance of GetIt
 Future<void> initAppModule() async {
+  final prefs = await SharedPreferences.getInstance();
+
   instance.registerLazySingleton<AppPreferences>(
-    // () => AppPreferences(instance<FlutterSecureStorage>()),
-    () => AppPreferences(),
+    () => AppPreferences(prefs),
   );
 
-  final prefs = await SharedPreferences.getInstance();
   instance.registerLazySingleton<SubscriptionQuoteCache>(
     () => SubscriptionQuoteCache(prefs),
   );

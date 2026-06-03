@@ -25,12 +25,15 @@ class _MyAppState extends State<MyApp> {
   bool _isLocaleInitialized = false;
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-
-    if (_isLocaleInitialized) return;
-    _isLocaleInitialized = true;
-    _initLocale();
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || _isLocaleInitialized) {
+        return;
+      }
+      _isLocaleInitialized = true;
+      _initLocale();
+    });
   }
 
   Future<void> _initLocale() async {

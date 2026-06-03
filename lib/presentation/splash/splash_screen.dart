@@ -22,6 +22,8 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  static const Duration _localReadTimeout = Duration(seconds: 2);
+  static const Duration _sessionValidationTimeout = Duration(seconds: 5);
   Timer? _timer;
   final AppPreferences _appPreferences = instance<AppPreferences>();
   final GetCurrentUserUseCase _getCurrentUserUseCase =
@@ -32,32 +34,76 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    _startDelay();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        _startDelay();
+      }
+    });
   }
 
   void _startDelay() {
     _timer = Timer(const Duration(seconds: AppConstants.splashDelay), _goNext);
   }
 
-  void _goNext() async {
-    bool isLanguageSelected = await _appPreferences.isLanguageSelected();
-    final hasSessionTokens = await _appPreferences.hasSessionTokens();
-    final isSessionValid = hasSessionTokens ? await _hasValidSession() : false;
-    bool isOnboardingScreenViewed =
-        await _appPreferences.isOnboardingScreenViewed();
+  Future<void> _goNext() async {
+    try {
+      final isLanguageSelected = await _withTimeout(
+        _appPreferences.isLanguageSelected(),
+        fallback: false,
+      );
+      final isOnboardingScreenViewed =
+          await _withTimeout(
+            _appPreferences.isOnboardingScreenViewed(),
+            fallback: false,
+          );
 
-    if (mounted) {
+      if (!mounted) {
+        return;
+      }
+
       if (!isLanguageSelected) {
-        // First time user - show language selection
         context.go(LanguageSelectionScreen.languageSelectionRoute);
-      } else if (isSessionValid) {
-        context.go(MainScreen.mainRoute);
-      } else if (isOnboardingScreenViewed) {
-        context.go(LoginScreen.loginRoute);
-      } else {
+        return;
+      }
+
+      if (!isOnboardingScreenViewed) {
         context.go(OnboardingScreen.routeName);
+        return;
+      }
+
+      final hasSessionTokens = await _withTimeout(
+        _appPreferences.hasSessionTokens(),
+        fallback: false,
+      );
+      final isSessionValid =
+          hasSessionTokens
+              ? await _withTimeout(
+                _hasValidSession(),
+                fallback: false,
+                timeout: _sessionValidationTimeout,
+              )
+              : false;
+
+      if (!mounted) {
+        return;
+      }
+
+      context.go(
+        isSessionValid ? MainScreen.mainRoute : LoginScreen.loginRoute,
+      );
+    } catch (_) {
+      if (mounted) {
+        context.go(LoginScreen.loginRoute);
       }
     }
+  }
+
+  Future<T> _withTimeout<T>(
+    Future<T> future, {
+    required T fallback,
+    Duration timeout = _localReadTimeout,
+  }) {
+    return future.timeout(timeout, onTimeout: () => fallback);
   }
 
   Future<bool> _hasValidSession() async {

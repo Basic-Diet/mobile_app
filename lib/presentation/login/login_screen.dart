@@ -20,13 +20,31 @@ import 'login_bloc.dart';
 import 'login_event.dart';
 import 'login_state.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   static const String loginRoute = "/login";
-  LoginScreen({super.key});
+  const LoginScreen({super.key});
 
-  late final TextEditingController _phoneController = TextEditingController();
-  late final TextEditingController _passwordController =
-      TextEditingController();
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  late final TextEditingController _phoneController;
+  late final TextEditingController _passwordController;
+
+  @override
+  void initState() {
+    super.initState();
+    _phoneController = TextEditingController();
+    _passwordController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _phoneController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
