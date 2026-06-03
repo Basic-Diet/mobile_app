@@ -31,7 +31,10 @@ final class MealPlannerSlotCarbSelection extends Equatable {
   final String carbId;
   final int grams;
 
-  const MealPlannerSlotCarbSelection({required this.carbId, required this.grams});
+  const MealPlannerSlotCarbSelection({
+    required this.carbId,
+    required this.grams,
+  });
 
   @override
   List<Object?> get props => [carbId, grams];
@@ -221,11 +224,14 @@ final class MealPlannerLoaded extends MealPlannerState {
 
   TimelineDayModel get selectedTimelineDay => timelineDays[selectedDayIndex];
 
-  SubscriptionDayModel? get selectedDayDetail => dayDetailsByIndex[selectedDayIndex];
+  SubscriptionDayModel? get selectedDayDetail =>
+      dayDetailsByIndex[selectedDayIndex];
 
-  List<String> get selectedAddOnIds => selectedAddOnIdsByDay[selectedDayIndex] ?? const [];
+  List<String> get selectedAddOnIds =>
+      selectedAddOnIdsByDay[selectedDayIndex] ?? const [];
 
-  List<String> get savedAddOnIds => savedAddOnIdsByDay[selectedDayIndex] ?? const [];
+  List<String> get savedAddOnIds =>
+      savedAddOnIdsByDay[selectedDayIndex] ?? const [];
 
   List<AddonSelectionModel> get addonSelections =>
       selectedDayDetail?.addonSelections ?? const [];
@@ -245,7 +251,9 @@ final class MealPlannerLoaded extends MealPlannerState {
   }
 
   List<AddOnModel> get selectedAddOnModels {
-    final catalogMap = {for (final addon in plannerAddOnsCatalog) addon.id: addon};
+    final catalogMap = {
+      for (final addon in plannerAddOnsCatalog) addon.id: addon,
+    };
     return selectedAddOnIds
         .where((id) => catalogMap.containsKey(id))
         .map((id) => catalogMap[id]!)
@@ -253,7 +261,9 @@ final class MealPlannerLoaded extends MealPlannerState {
   }
 
   List<AddOnModel> selectedAddonsForCategory(String category) {
-    return selectedAddOnModels.where((addon) => addon.category == category).toList();
+    return selectedAddOnModels
+        .where((addon) => addon.category == category)
+        .toList();
   }
 
   String addonSelectionStatusFor(
@@ -295,7 +305,9 @@ final class MealPlannerLoaded extends MealPlannerState {
       }
     }
 
-    final catalogById = {for (final addon in plannerAddOnsCatalog) addon.id: addon};
+    final catalogById = {
+      for (final addon in plannerAddOnsCatalog) addon.id: addon,
+    };
     for (final id in selectedAddonIds) {
       final addon = catalogById[id];
       if (addon == null) continue;
@@ -341,7 +353,11 @@ final class MealPlannerLoaded extends MealPlannerState {
               (selectedDayDetail?.paymentRequirement?.blockingReason
                           ?.toUpperCase() ==
                       'ADDON_PAYMENT_REQUIRED' ||
-                  (selectedDayDetail?.paymentRequirement?.addonPendingPaymentCount ?? 0) > 0)
+                  (selectedDayDetail
+                              ?.paymentRequirement
+                              ?.addonPendingPaymentCount ??
+                          0) >
+                      0)
           ? selectedDayDetail!.paymentRequirement!.pendingAmountHalala
           : localAddonPendingAmountHalala;
 
@@ -367,6 +383,13 @@ final class MealPlannerLoaded extends MealPlannerState {
     }
     return premiumPendingPaymentAmountHalala + addonPendingPaymentAmountHalala;
   }
+
+  int get selectedMealsCount {
+    final slots = selectedDaySlots;
+    return slots.where(_isCompletedMealSelection).length;
+  }
+
+  bool get hasSelectedMeals => selectedMealsCount > 0;
 
   String get paymentCurrency {
     final dayCurrency = selectedDayDetail?.paymentRequirement?.currency;
@@ -396,7 +419,8 @@ final class MealPlannerLoaded extends MealPlannerState {
       if (mealBalance?.canConsumeNow == false) return false;
       if (mealBalance?.dailyMealLimitEnforced == true) return false;
       // Also ensure we have remaining meals globally if available
-      if (mealBalance?.remainingMeals != null && mealBalance!.remainingMeals! <= 0) {
+      if (mealBalance?.remainingMeals != null &&
+          mealBalance!.remainingMeals! <= 0) {
         return false;
       }
     }
@@ -408,8 +432,11 @@ final class MealPlannerLoaded extends MealPlannerState {
     if (!isSelectedDayEditable) return "DAY_NOT_EDITABLE";
     if (mealBalance != null) {
       if (mealBalance?.canConsumeNow == false) return "CANNOT_CONSUME_NOW";
-      if (mealBalance?.dailyMealLimitEnforced == true) return "DAILY_LIMIT_ENFORCED";
-      if (mealBalance?.remainingMeals != null && mealBalance!.remainingMeals! <= 0) {
+      if (mealBalance?.dailyMealLimitEnforced == true) {
+        return "DAILY_LIMIT_ENFORCED";
+      }
+      if (mealBalance?.remainingMeals != null &&
+          mealBalance!.remainingMeals! <= 0) {
         return "NO_REMAINING_MEALS";
       }
     }
@@ -422,15 +449,16 @@ final class MealPlannerLoaded extends MealPlannerState {
 
   int get initialRequiredMeals => selectedTimelineDay.requiredMeals;
 
-
   bool get isSelectedDayEditable {
     if (selectedTimelineDay.isHistoricalOnly) {
       return false;
     }
 
     final detail = selectedDayDetail;
-    final commercialState = detail?.commercialState ?? selectedTimelineDay.commercialState;
-    final blockingReason = detail?.paymentRequirement?.blockingReason?.toUpperCase();
+    final commercialState =
+        detail?.commercialState ?? selectedTimelineDay.commercialState;
+    final blockingReason =
+        detail?.paymentRequirement?.blockingReason?.toUpperCase();
     if (blockingReason == 'DAY_LOCKED_BEFORE_DELIVERY' ||
         blockingReason == 'DELIVERY_TIME_UNAVAILABLE' ||
         blockingReason == 'LOCKED' ||
@@ -444,10 +472,13 @@ final class MealPlannerLoaded extends MealPlannerState {
   }
 
   bool get hasPendingAddonPayment =>
-      (selectedDayDetail?.paymentRequirement?.addonPendingPaymentCount ?? 0) > 0;
+      (selectedDayDetail?.paymentRequirement?.addonPendingPaymentCount ?? 0) >
+      0;
 
   bool get hasPendingPremiumPayment =>
-      (selectedDayDetail?.paymentRequirement?.premiumPendingPaymentCount ?? premiumMealsPendingPayment) > 0;
+      (selectedDayDetail?.paymentRequirement?.premiumPendingPaymentCount ??
+          premiumMealsPendingPayment) >
+      0;
 
   bool get hasAnyPendingPayment =>
       selectedDayDetail?.paymentRequirement?.requiresPayment ??
@@ -590,7 +621,7 @@ final class MealPlannerLoaded extends MealPlannerState {
     var pendingAmountHalala = 0;
     final slots =
         (selectedSlotsPerDay ?? this.selectedSlotsPerDay)[selectedDayIndex] ??
-            const [];
+        const [];
 
     for (final slot in slots) {
       // --- Premium large salad slot ---
@@ -604,16 +635,16 @@ final class MealPlannerLoaded extends MealPlannerState {
               entry.premiumKey.isNotEmpty &&
               entry.premiumKey == salad.premiumKey,
         );
-        final idMatchIndex = keyMatchIndex == -1
-            ? allowances.indexWhere(
-                (entry) =>
-                    entry.remainingCount > 0 &&
-                    entry.premiumMealId == salad.id,
-              )
-            : -1;
+        final idMatchIndex =
+            keyMatchIndex == -1
+                ? allowances.indexWhere(
+                  (entry) =>
+                      entry.remainingCount > 0 &&
+                      entry.premiumMealId == salad.id,
+                )
+                : -1;
 
-        final matchIndex =
-            keyMatchIndex != -1 ? keyMatchIndex : idMatchIndex;
+        final matchIndex = keyMatchIndex != -1 ? keyMatchIndex : idMatchIndex;
 
         if (matchIndex != -1) {
           allowances[matchIndex].remainingCount -= 1;
@@ -639,35 +670,38 @@ final class MealPlannerLoaded extends MealPlannerState {
       final normalizedProteinName = _normalizePremiumMealName(protein.name);
 
       // Match priority: premiumKey → premiumMealId → normalized name
-      final keyMatchIndex = protein.premiumKey.isNotEmpty
-          ? allowances.indexWhere(
-              (entry) =>
-                  entry.remainingCount > 0 &&
-                  entry.premiumKey.isNotEmpty &&
-                  entry.premiumKey == protein.premiumKey,
-            )
-          : -1;
-      final idMatchIndex = keyMatchIndex == -1
-          ? allowances.indexWhere(
-              (entry) =>
-                  entry.remainingCount > 0 &&
-                  entry.premiumMealId == protein.id,
-            )
-          : -1;
+      final keyMatchIndex =
+          protein.premiumKey.isNotEmpty
+              ? allowances.indexWhere(
+                (entry) =>
+                    entry.remainingCount > 0 &&
+                    entry.premiumKey.isNotEmpty &&
+                    entry.premiumKey == protein.premiumKey,
+              )
+              : -1;
+      final idMatchIndex =
+          keyMatchIndex == -1
+              ? allowances.indexWhere(
+                (entry) =>
+                    entry.remainingCount > 0 &&
+                    entry.premiumMealId == protein.id,
+              )
+              : -1;
       final nameMatchIndex =
           keyMatchIndex == -1 && idMatchIndex == -1
               ? allowances.indexWhere(
-                  (entry) =>
-                      entry.remainingCount > 0 &&
-                      entry.normalizedName == normalizedProteinName,
-                )
+                (entry) =>
+                    entry.remainingCount > 0 &&
+                    entry.normalizedName == normalizedProteinName,
+              )
               : -1;
 
-      final matchIndex = keyMatchIndex != -1
-          ? keyMatchIndex
-          : idMatchIndex != -1
-          ? idMatchIndex
-          : nameMatchIndex;
+      final matchIndex =
+          keyMatchIndex != -1
+              ? keyMatchIndex
+              : idMatchIndex != -1
+              ? idMatchIndex
+              : nameMatchIndex;
 
       if (matchIndex != -1) {
         allowances[matchIndex].remainingCount -= 1;
@@ -695,7 +729,7 @@ final class MealPlannerLoaded extends MealPlannerState {
     var usedCredits = 0;
     final slots =
         (selectedSlotsPerDay ?? this.selectedSlotsPerDay)[selectedDayIndex] ??
-            const [];
+        const [];
 
     for (final slot in slots) {
       // --- Premium large salad slot ---
@@ -723,7 +757,8 @@ final class MealPlannerLoaded extends MealPlannerState {
 
       if (protein == null || !protein.isPremium) continue;
 
-      final cost = protein.premiumCreditCost == 0 ? 1 : protein.premiumCreditCost;
+      final cost =
+          protein.premiumCreditCost == 0 ? 1 : protein.premiumCreditCost;
       usedCredits += cost;
 
       if (usedCredits > premiumMealsRemaining) {
@@ -758,4 +793,17 @@ final class _PremiumAllowanceEntry {
 
 String _normalizePremiumMealName(String value) {
   return value.trim().toLowerCase();
+}
+
+bool _isCompletedMealSelection(MealPlannerSlotSelection slot) {
+  if (slot.selectionType == 'sandwich') {
+    return slot.sandwichId != null && slot.sandwichId!.isNotEmpty;
+  }
+  if (slot.selectionType == 'premium_large_salad') {
+    return slot.salad != null &&
+        slot.salad!.groups.protein.length == 1 &&
+        slot.salad!.groups.sauce.length == 1 &&
+        slot.carbs.isEmpty;
+  }
+  return slot.proteinId != null && slot.carbs.isNotEmpty;
 }

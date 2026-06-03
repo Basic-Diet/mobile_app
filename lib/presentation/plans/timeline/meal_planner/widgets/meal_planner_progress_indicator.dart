@@ -92,7 +92,7 @@ class MealPlannerProgressIndicator extends StatelessWidget {
                               }
 
                               return Container(
-                                width: 20.w,
+                                width: 8.w,
                                 height: 4.h,
                                 margin: EdgeInsets.only(right: 6.w),
                                 decoration: BoxDecoration(

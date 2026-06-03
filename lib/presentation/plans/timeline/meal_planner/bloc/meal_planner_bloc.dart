@@ -530,13 +530,23 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
     Emitter<MealPlannerState> emit,
     MealPlannerLoaded current,
   ) async {
-    if (_shouldRetryPendingVerification(current)) {
-      await _verifyPayment(emit, current.paymentId!);
+    if (!current.isSelectedDayEditable) {
+      emit(current.copyWith(paymentError: _dayNotEditableReason(current)));
       return;
     }
 
-    if (!current.isSelectedDayEditable) {
-      emit(current.copyWith(paymentError: _dayNotEditableReason(current)));
+    if (current.selectedMealsCount == 0) {
+      emit(
+        current.copyWith(
+          isSaving: false,
+          paymentError: Strings.selectAtLeastOneMealToContinue.tr(),
+        ),
+      );
+      return;
+    }
+
+    if (_shouldRetryPendingVerification(current)) {
+      await _verifyPayment(emit, current.paymentId!);
       return;
     }
 

@@ -682,6 +682,8 @@ class Strings {
   static const String payNow = 'payNow';
   static const String payFirstToSave = 'payFirstToSave';
   static const String saveAndPay = 'saveAndPay';
+  static const String selectAtLeastOneMealToContinue =
+      'selectAtLeastOneMealToContinue';
   static const String completePayment = 'completePayment';
   static const String redirectingToPayment = 'redirectingToPayment';
   static const String openPayment = 'openPayment';

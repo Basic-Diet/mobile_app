@@ -549,24 +549,7 @@ class _MealPlannerBody extends StatelessWidget {
   }
 
   int _selectedMealsCount(MealPlannerLoaded state) {
-    final plannerMeta = state.selectedDayDetail?.plannerMeta;
-    if (plannerMeta != null) {
-      return plannerMeta.completeSlotCount;
-    }
-
-    final slots = state.selectedSlotsPerDay[state.selectedDayIndex] ?? const [];
-    return slots.where((slot) {
-      if (slot.selectionType == 'sandwich') {
-        return slot.sandwichId != null && slot.sandwichId!.isNotEmpty;
-      }
-      if (slot.selectionType == 'premium_large_salad') {
-        return slot.salad != null &&
-            slot.salad!.groups.protein.length == 1 &&
-            slot.salad!.groups.sauce.length == 1 &&
-            slot.carbs.isEmpty;
-      }
-      return slot.proteinId != null && slot.carbs.isNotEmpty;
-    }).length;
+    return state.selectedMealsCount;
   }
 
   Widget _buildBalanceHint(MealPlannerLoaded state) {
