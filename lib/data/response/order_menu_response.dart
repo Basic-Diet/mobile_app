@@ -190,6 +190,9 @@ class OrderMenuProductResponse {
   @JsonKey(name: 'ui')
   final OrderMenuUiResponse? ui;
 
+  @JsonKey(name: 'optionSections')
+  final List<OrderMenuOptionSectionResponse>? optionSections;
+
   @JsonKey(name: 'optionGroups')
   final List<OrderMenuOptionGroupResponse>? optionGroups;
 
@@ -213,6 +216,7 @@ class OrderMenuProductResponse {
     this.requiresBuilder,
     this.canAddDirectly,
     this.ui,
+    this.optionSections,
     this.optionGroups,
   });
 
@@ -251,6 +255,9 @@ class OrderMenuOptionGroupResponse {
   @JsonKey(name: 'ui')
   final OrderMenuUiResponse? ui;
 
+  @JsonKey(name: 'optionSections')
+  final List<OrderMenuOptionSectionResponse>? optionSections;
+
   @JsonKey(name: 'sortOrder')
   final int? sortOrder;
 
@@ -267,6 +274,7 @@ class OrderMenuOptionGroupResponse {
     this.maxSelections,
     this.isRequired,
     this.ui,
+    this.optionSections,
     this.sortOrder,
     this.options,
   });
@@ -275,6 +283,37 @@ class OrderMenuOptionGroupResponse {
       _$OrderMenuOptionGroupResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$OrderMenuOptionGroupResponseToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class OrderMenuOptionSectionResponse {
+  @JsonKey(name: 'key')
+  final String? key;
+
+  @JsonKey(name: 'name')
+  final String? name;
+
+  @JsonKey(name: 'proteinFamilyKey')
+  final String? proteinFamilyKey;
+
+  @JsonKey(name: 'optionIds')
+  final List<String>? optionIds;
+
+  @JsonKey(name: 'sortOrder')
+  final int? sortOrder;
+
+  const OrderMenuOptionSectionResponse({
+    this.key,
+    this.name,
+    this.proteinFamilyKey,
+    this.optionIds,
+    this.sortOrder,
+  });
+
+  factory OrderMenuOptionSectionResponse.fromJson(Map<String, dynamic> json) =>
+      _$OrderMenuOptionSectionResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$OrderMenuOptionSectionResponseToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)

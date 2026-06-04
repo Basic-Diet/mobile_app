@@ -250,7 +250,9 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
                                   _SectionAnchor(
                                     anchorKey: _sectionKey('custom_order'),
                                     child: _BuilderSection(
-                                      mainProducts: _filterProducts(builderData.main),
+                                      mainProducts: _filterProducts(
+                                        builderData.main,
+                                      ),
                                       lightProducts: _filterProducts(
                                         builderData.light,
                                       ),
@@ -268,19 +270,32 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
                                         child: _DynamicSection(
                                           section: section,
                                           currency: menu.currency,
-                                          products: _filterProducts(section.products),
-                                          onAddDirectItem: (product) {
-                                            context.read<CartBloc>().add(
-                                              AddItemEvent(
-                                                CartItem(
-                                                  productId: product.id,
-                                                  name: product.name,
-                                                  qty: 1,
-                                                  unitPriceHalala:
-                                                      product.priceHalala,
+                                          products: _filterProducts(
+                                            section.products,
+                                          ),
+                                          onProductSelected: (product) {
+                                            if (product
+                                                .resolvedRequiresBuilder) {
+                                              _openBuilder(
+                                                product,
+                                                menu.currency,
+                                              );
+                                              return;
+                                            }
+                                            if (product
+                                                .resolvedCanAddDirectly) {
+                                              context.read<CartBloc>().add(
+                                                AddItemEvent(
+                                                  CartItem(
+                                                    productId: product.id,
+                                                    name: product.name,
+                                                    qty: 1,
+                                                    unitPriceHalala:
+                                                        product.priceHalala,
+                                                  ),
                                                 ),
-                                              ),
-                                            );
+                                              );
+                                            }
                                           },
                                         ),
                                       ),
@@ -362,21 +377,21 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
   List<_MenuSectionData> _buildDirectSections(OrderMenuModel menu) {
     final sections = <_MenuSectionData>[];
 
-    for (final category
-        in menu.categories
-          ..sort((a, b) => a.sortOrder.compareTo(b.sortOrder))) {
-      final directProducts =
+    final categories = [...menu.categories]
+      ..sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
+
+    for (final category in categories) {
+      final actionableProducts =
           category.products
-              .where((product) => product.resolvedCanAddDirectly)
+              .where(
+                (product) =>
+                    product.resolvedCanAddDirectly ||
+                    product.resolvedRequiresBuilder,
+              )
               .toList()
             ..sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
 
-      if (directProducts.isEmpty) {
-        continue;
-      }
-
-      if (category.cardVariant == 'meal_builder' ||
-          category.cardVariant == 'light_collection') {
+      if (actionableProducts.isEmpty) {
         continue;
       }
 
@@ -386,7 +401,7 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
           title: category.name,
           subtitle: _sectionSubtitle(category),
           layout: _layoutFor(category),
-          products: directProducts,
+          products: actionableProducts,
         ),
       );
     }
@@ -977,13 +992,13 @@ class _DynamicSection extends StatelessWidget {
   final _MenuSectionData section;
   final String currency;
   final List<OrderMenuProductModel> products;
-  final ValueChanged<OrderMenuProductModel> onAddDirectItem;
+  final ValueChanged<OrderMenuProductModel> onProductSelected;
 
   const _DynamicSection({
     required this.section,
     required this.currency,
     required this.products,
-    required this.onAddDirectItem,
+    required this.onProductSelected,
   });
 
   @override
@@ -1009,7 +1024,7 @@ class _DynamicSection extends StatelessWidget {
                       child: _CompactProductCard(
                         product: products[index],
                         currency: currency,
-                        onAdd: () => onAddDirectItem(products[index]),
+                        onTap: () => onProductSelected(products[index]),
                       ),
                     ),
               ),
@@ -1025,7 +1040,7 @@ class _DynamicSection extends StatelessWidget {
                           child: _ListProductCard(
                             product: product,
                             currency: currency,
-                            onAdd: () => onAddDirectItem(product),
+                            onTap: () => onProductSelected(product),
                           ),
                         ),
                       )
@@ -1042,7 +1057,7 @@ class _DynamicSection extends StatelessWidget {
                           child: _ListProductCard(
                             product: product,
                             currency: currency,
-                            onAdd: () => onAddDirectItem(product),
+                            onTap: () => onProductSelected(product),
                           ),
                         ),
                       )
@@ -1057,12 +1072,12 @@ class _DynamicSection extends StatelessWidget {
 class _CompactProductCard extends StatelessWidget {
   final OrderMenuProductModel product;
   final String currency;
-  final VoidCallback onAdd;
+  final VoidCallback onTap;
 
   const _CompactProductCard({
     required this.product,
     required this.currency,
-    required this.onAdd,
+    required this.onTap,
   });
 
   @override
@@ -1077,14 +1092,22 @@ class _CompactProductCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          _MenuMediaBox(
-            label: _initials(product.name, context),
-            imageUrl: product.imageUrl,
+          SizedBox(
             width: AppSize.s66.w,
-            height: AppSize.s66.w,
-            borderRadius: AppSize.s16.r,
+            child: AspectRatio(
+              aspectRatio: product.imageRatio ?? 1,
+              child: _MenuMediaBox(
+                label: _initials(product.name, context),
+                imageUrl: product.imageUrl,
+                borderRadius: AppSize.s16.r,
+              ),
+            ),
           ),
           Gap(AppSize.s10.h),
+          if (product.badge.isNotEmpty) ...[
+            _ProductBadge(label: product.badge),
+            Gap(AppSize.s6.h),
+          ],
           Text(
             product.name,
             maxLines: 2,
@@ -1111,7 +1134,7 @@ class _CompactProductCard extends StatelessWidget {
           Gap(AppSize.s4.h),
           Row(
             children: [
-              _ProductCartAction(product: product, onAdd: onAdd),
+              _ProductCartAction(product: product, onTap: onTap),
               Gap(AppSize.s8.w),
               Expanded(
                 child: Text(
@@ -1134,12 +1157,12 @@ class _CompactProductCard extends StatelessWidget {
 class _ListProductCard extends StatelessWidget {
   final OrderMenuProductModel product;
   final String currency;
-  final VoidCallback onAdd;
+  final VoidCallback onTap;
 
   const _ListProductCard({
     required this.product,
     required this.currency,
-    required this.onAdd,
+    required this.onTap,
   });
 
   @override
@@ -1148,7 +1171,7 @@ class _ListProductCard extends StatelessWidget {
       color: Colors.white.withValues(alpha: 0.96),
       borderRadius: BorderRadius.circular(AppSize.s22.r),
       child: InkWell(
-        onTap: onAdd,
+        onTap: onTap,
         borderRadius: BorderRadius.circular(AppSize.s22.r),
         child: Container(
           constraints: BoxConstraints(minHeight: AppSize.s118.h),
@@ -1165,18 +1188,26 @@ class _ListProductCard extends StatelessWidget {
           ),
           child: Row(
             children: [
-              _MenuMediaBox(
-                label: _initials(product.name, context),
-                imageUrl: product.imageUrl,
+              SizedBox(
                 width: AppSize.s76.w,
-                height: AppSize.s76.w,
-                borderRadius: AppSize.s18.r,
+                child: AspectRatio(
+                  aspectRatio: product.imageRatio ?? 1,
+                  child: _MenuMediaBox(
+                    label: _initials(product.name, context),
+                    imageUrl: product.imageUrl,
+                    borderRadius: AppSize.s18.r,
+                  ),
+                ),
               ),
               Gap(AppSize.s14.w),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
+                    if (product.badge.isNotEmpty) ...[
+                      _ProductBadge(label: product.badge),
+                      Gap(AppSize.s6.h),
+                    ],
                     Text(
                       product.name,
                       textAlign: TextAlign.right,
@@ -1200,7 +1231,7 @@ class _ListProductCard extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        _ProductCartAction(product: product, onAdd: onAdd),
+                        _ProductCartAction(product: product, onTap: onTap),
                         Text(
                           _formatHalala(product.priceHalala, currency),
                           style: getBoldTextStyle(
@@ -1223,22 +1254,29 @@ class _ListProductCard extends StatelessWidget {
 
 class _ProductCartAction extends StatelessWidget {
   final OrderMenuProductModel product;
-  final VoidCallback onAdd;
+  final VoidCallback onTap;
 
-  const _ProductCartAction({required this.product, required this.onAdd});
+  const _ProductCartAction({required this.product, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
+    if (product.resolvedRequiresBuilder) {
+      return _ProductCtaButton(
+        label: _productCtaLabel(product, context),
+        onTap: onTap,
+      );
+    }
+
     return BlocBuilder<CartBloc, CartState>(
       builder: (context, state) {
         final cartItem = _directCartItem(state, product.id);
         if (cartItem == null) {
-          return _SquareAddButton(onTap: onAdd);
+          return _SquareAddButton(onTap: onTap);
         }
 
         return _SmallQuantityButton(
           quantity: cartItem.qty,
-          onIncrease: onAdd,
+          onIncrease: onTap,
           onDecrease: () {
             final nextQty = cartItem.qty - 1;
             context.read<CartBloc>().add(
@@ -1272,6 +1310,71 @@ class _SquareAddButton extends StatelessWidget {
             color: ColorManager.backgroundSurface,
             size: 22,
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class _ProductCtaButton extends StatelessWidget {
+  final String label;
+  final VoidCallback onTap;
+
+  const _ProductCtaButton({required this.label, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: ColorManager.brandPrimary,
+      borderRadius: BorderRadius.circular(AppSize.s15.r),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(AppSize.s15.r),
+        child: Container(
+          height: AppSize.s40.h,
+          constraints: BoxConstraints(minWidth: AppSize.s76.w),
+          padding: EdgeInsetsDirectional.symmetric(
+            horizontal: AppPadding.p12.w,
+          ),
+          alignment: Alignment.center,
+          child: Text(
+            label,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: getBoldTextStyle(
+              fontSize: FontSizeManager.s11.sp,
+              color: ColorManager.backgroundSurface,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _ProductBadge extends StatelessWidget {
+  final String label;
+
+  const _ProductBadge({required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsetsDirectional.symmetric(
+        horizontal: AppPadding.p8.w,
+        vertical: AppPadding.p4.h,
+      ),
+      decoration: BoxDecoration(
+        color: const Color(0xFFEAF7F1),
+        borderRadius: BorderRadius.circular(AppSize.s99.r),
+      ),
+      child: Text(
+        label,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: getBoldTextStyle(
+          fontSize: FontSizeManager.s10.sp,
+          color: const Color(0xFF12382C),
         ),
       ),
     );
@@ -1550,11 +1653,7 @@ class _MenuMediaBox extends StatelessWidget {
       return media;
     }
 
-    return SizedBox(
-      width: width,
-      height: height,
-      child: media,
-    );
+    return SizedBox(width: width, height: height, child: media);
   }
 }
 
@@ -1671,7 +1770,8 @@ class _BuilderScreenState extends State<_BuilderScreen> {
       if (selected.length < group.minSelections) {
         return false;
       }
-      if (selected.length > group.maxSelections) {
+      if (group.maxSelections != null &&
+          selected.length > group.maxSelections!) {
         return false;
       }
     }
@@ -1746,27 +1846,40 @@ class _BuilderScreenState extends State<_BuilderScreen> {
     if (group.minSelections == group.maxSelections) {
       return selectedCount == group.minSelections;
     }
+    if (group.maxSelections == null) {
+      return selectedCount >= group.minSelections;
+    }
     return selectedCount >= group.minSelections &&
-        selectedCount <= group.maxSelections;
+        selectedCount <= group.maxSelections!;
   }
 
   String _groupRuleText(OrderMenuOptionGroupModel group) {
+    final maxSelections = group.maxSelections;
     if (!group.isRequired) {
+      if (maxSelections == null) {
+        return Strings.builderOptional.tr();
+      }
       return Strings.builderChooseUpTo.tr(
-        namedArgs: {'count': group.maxSelections.toString()},
+        namedArgs: {'count': '$maxSelections'},
       );
     }
 
-    if (group.minSelections == group.maxSelections) {
+    if (maxSelections == null) {
+      return Strings.builderChooseAtLeast.tr(
+        namedArgs: {'count': group.minSelections.toString()},
+      );
+    }
+
+    if (group.minSelections == maxSelections) {
       return Strings.builderChooseExact.tr(
-        namedArgs: {'count': group.maxSelections.toString()},
+        namedArgs: {'count': maxSelections.toString()},
       );
     }
 
     return Strings.builderChooseRange.tr(
       namedArgs: {
         'min': group.minSelections.toString(),
-        'max': group.maxSelections.toString(),
+        'max': maxSelections.toString(),
       },
     );
   }
@@ -1793,7 +1906,8 @@ class _BuilderScreenState extends State<_BuilderScreen> {
         selected.clear();
       }
 
-      if (selected.length < group.maxSelections) {
+      if (group.maxSelections == null ||
+          selected.length < group.maxSelections!) {
         selected.add(optionId);
       }
     });
@@ -2458,7 +2572,7 @@ class _OptionGroupCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(999.r),
                 ),
                 child: Text(
-                  '${selectedIds.length}/${group.maxSelections}',
+                  _selectionCountLabel(selectedIds.length, group.maxSelections),
                   style: getBoldTextStyle(
                     fontSize: FontSizeManager.s12.sp,
                     color: const Color(0xFF12382C),
@@ -2533,51 +2647,244 @@ class _OptionGroupCard extends StatelessWidget {
               ),
               Gap(AppSize.s10.h),
             ],
-            Wrap(
-              spacing: AppSize.s8.w,
-              runSpacing: AppSize.s8.h,
-              alignment: WrapAlignment.end,
-              children:
-                  visibleOptions.map((option) {
-                    final isSelected = selectedIds.contains(option.optionId);
-                    final maxReached =
-                        selectedIds.length >= group.maxSelections &&
-                        !isSelected;
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        _BuilderOptionChip(
-                          option: option,
-                          currency: currency,
-                          isSelected: isSelected,
-                          isDisabled: maxReached,
-                          onTap: () => onToggle(option.optionId),
-                        ),
-                        if (isSelected && option.extraWeightUnitGrams > 0)
-                          Padding(
-                            padding: EdgeInsetsDirectional.only(
-                              top: AppPadding.p8.h,
-                            ),
-                            child: _InlineExtraWeightSelector(
-                              value:
-                                  extraWeightByOptionId[option.optionId] ??
-                                  option.extraWeightUnitGrams,
-                              step: option.extraWeightUnitGrams,
-                              onDecrease:
-                                  () => onExtraWeightChanged(
-                                    option,
-                                    -option.extraWeightUnitGrams,
-                                  ),
-                              onIncrease:
-                                  () => onExtraWeightChanged(
-                                    option,
-                                    option.extraWeightUnitGrams,
-                                  ),
-                            ),
-                          ),
-                      ],
-                    );
-                  }).toList(),
+            _OptionGroupOptionsView(
+              group: group,
+              currency: currency,
+              selectedIds: selectedIds,
+              extraWeightByOptionId: extraWeightByOptionId,
+              visibleOptions: visibleOptions,
+              ruleText: ruleText,
+              onOpenSearch: onOpenSearch,
+              onToggle: onToggle,
+              onExtraWeightChanged: onExtraWeightChanged,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _OptionGroupOptionsView extends StatelessWidget {
+  final OrderMenuOptionGroupModel group;
+  final String currency;
+  final Set<String> selectedIds;
+  final Map<String, int> extraWeightByOptionId;
+  final List<OrderMenuOptionModel> visibleOptions;
+  final String ruleText;
+  final VoidCallback onOpenSearch;
+  final ValueChanged<String> onToggle;
+  final void Function(OrderMenuOptionModel option, int delta)
+  onExtraWeightChanged;
+
+  const _OptionGroupOptionsView({
+    required this.group,
+    required this.currency,
+    required this.selectedIds,
+    required this.extraWeightByOptionId,
+    required this.visibleOptions,
+    required this.ruleText,
+    required this.onOpenSearch,
+    required this.onToggle,
+    required this.onExtraWeightChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    if (group.displayStyle == 'dropdown') {
+      return _DropdownOptionPicker(
+        group: group,
+        selectedOptions: _selectedOptions,
+        ruleText: ruleText,
+        onTap: onOpenSearch,
+      );
+    }
+
+    final sections = _optionSections(group, visibleOptions);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children:
+          sections.map((section) {
+            return Padding(
+              padding: EdgeInsetsDirectional.only(bottom: AppPadding.p10.h),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  if (section.title.isNotEmpty) ...[
+                    Text(
+                      section.title,
+                      textAlign: TextAlign.right,
+                      style: getBoldTextStyle(
+                        fontSize: FontSizeManager.s12.sp,
+                        color: ColorManager.textSecondary,
+                      ),
+                    ),
+                    Gap(AppSize.s8.h),
+                  ],
+                  _buildOptionsForStyle(section.options),
+                ],
+              ),
+            );
+          }).toList(),
+    );
+  }
+
+  List<OrderMenuOptionModel> get _selectedOptions {
+    return visibleOptions
+        .where((option) => selectedIds.contains(option.optionId))
+        .toList();
+  }
+
+  Widget _buildOptionsForStyle(List<OrderMenuOptionModel> options) {
+    switch (group.displayStyle) {
+      case 'radio_cards':
+        return Column(
+          children:
+              options
+                  .map(
+                    (option) => Padding(
+                      padding: EdgeInsetsDirectional.only(
+                        bottom: AppPadding.p8.h,
+                      ),
+                      child: _optionTile(option),
+                    ),
+                  )
+                  .toList(),
+        );
+      case 'checkbox_grid':
+        return Wrap(
+          spacing: AppSize.s8.w,
+          runSpacing: AppSize.s8.h,
+          alignment: WrapAlignment.end,
+          children:
+              options
+                  .map(
+                    (option) => SizedBox(
+                      width: AppSize.s150.w,
+                      child: _optionTile(option),
+                    ),
+                  )
+                  .toList(),
+        );
+      case 'stepper':
+      case 'chips':
+      default:
+        return Wrap(
+          spacing: AppSize.s8.w,
+          runSpacing: AppSize.s8.h,
+          alignment: WrapAlignment.end,
+          children: options.map(_optionChipWithWeight).toList(),
+        );
+    }
+  }
+
+  Widget _optionTile(OrderMenuOptionModel option) {
+    final isSelected = selectedIds.contains(option.optionId);
+    final maxReached =
+        _hasReachedMaxSelections(selectedIds.length, group.maxSelections) &&
+        !isSelected;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        _BuilderSearchOptionTile(
+          option: option,
+          currency: currency,
+          isSelected: isSelected,
+          isDisabled: maxReached,
+          onTap: () => onToggle(option.optionId),
+        ),
+        if (isSelected && option.extraWeightUnitGrams > 0)
+          _extraWeightSelector(option),
+      ],
+    );
+  }
+
+  Widget _optionChipWithWeight(OrderMenuOptionModel option) {
+    final isSelected = selectedIds.contains(option.optionId);
+    final maxReached =
+        _hasReachedMaxSelections(selectedIds.length, group.maxSelections) &&
+        !isSelected;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        _BuilderOptionChip(
+          option: option,
+          currency: currency,
+          isSelected: isSelected,
+          isDisabled: maxReached,
+          onTap: () => onToggle(option.optionId),
+        ),
+        if (isSelected && option.extraWeightUnitGrams > 0)
+          _extraWeightSelector(option),
+      ],
+    );
+  }
+
+  Widget _extraWeightSelector(OrderMenuOptionModel option) {
+    return Padding(
+      padding: EdgeInsetsDirectional.only(top: AppPadding.p8.h),
+      child: _InlineExtraWeightSelector(
+        value:
+            extraWeightByOptionId[option.optionId] ??
+            option.extraWeightUnitGrams,
+        step: option.extraWeightUnitGrams,
+        onDecrease:
+            () => onExtraWeightChanged(option, -option.extraWeightUnitGrams),
+        onIncrease:
+            () => onExtraWeightChanged(option, option.extraWeightUnitGrams),
+      ),
+    );
+  }
+}
+
+class _DropdownOptionPicker extends StatelessWidget {
+  final OrderMenuOptionGroupModel group;
+  final List<OrderMenuOptionModel> selectedOptions;
+  final String ruleText;
+  final VoidCallback onTap;
+
+  const _DropdownOptionPicker({
+    required this.group,
+    required this.selectedOptions,
+    required this.ruleText,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final label =
+        selectedOptions.isEmpty
+            ? ruleText
+            : selectedOptions.map((option) => option.name).join(', ');
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(AppSize.s15.r),
+      child: Container(
+        width: double.infinity,
+        padding: EdgeInsetsDirectional.symmetric(
+          horizontal: AppPadding.p13.w,
+          vertical: AppPadding.p12.h,
+        ),
+        decoration: BoxDecoration(
+          color: const Color(0xFFF9FCFA),
+          borderRadius: BorderRadius.circular(AppSize.s15.r),
+          border: Border.all(color: const Color(0xFFE5E7EB)),
+        ),
+        child: Row(
+          children: [
+            const Icon(Icons.keyboard_arrow_down_rounded),
+            Gap(AppSize.s10.w),
+            Expanded(
+              child: Text(
+                label,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.right,
+                style: getRegularTextStyle(
+                  fontSize: FontSizeManager.s12.sp,
+                  color: ColorManager.textSecondary,
+                ),
+              ),
             ),
           ],
         ),
@@ -2768,8 +3075,10 @@ class _GroupSearchPickerSheetState extends State<_GroupSearchPickerSheet> {
                               option.optionId,
                             );
                             final maxReached =
-                                selectedIds.length >=
-                                    widget.group.maxSelections &&
+                                _hasReachedMaxSelections(
+                                  selectedIds.length,
+                                  widget.group.maxSelections,
+                                ) &&
                                 !isSelected;
 
                             return Column(
@@ -3329,6 +3638,13 @@ class _MenuSectionData {
 
 enum _SectionLayout { compactScroll, list, grid }
 
+class _OptionSectionData {
+  final String title;
+  final List<OrderMenuOptionModel> options;
+
+  const _OptionSectionData({required this.title, required this.options});
+}
+
 CartItem? _directCartItem(CartState state, String productId) {
   if (state is! CartLoaded) {
     return null;
@@ -3345,11 +3661,105 @@ CartItem? _directCartItem(CartState state, String productId) {
   return null;
 }
 
+List<_OptionSectionData> _optionSections(
+  OrderMenuOptionGroupModel group,
+  List<OrderMenuOptionModel> options,
+) {
+  if (group.optionSections.isEmpty) {
+    return [const _OptionSectionData(title: '', options: [])]
+        .map(
+          (section) =>
+              _OptionSectionData(title: section.title, options: options),
+        )
+        .toList();
+  }
+
+  final optionsById = {
+    for (final option in options) option.optionId: option,
+    for (final option in options) option.id: option,
+  };
+  final usedIds = <String>{};
+  final sections = <_OptionSectionData>[];
+  final sortedSections = [...group.optionSections]
+    ..sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
+
+  for (final section in sortedSections) {
+    final sectionOptions = <OrderMenuOptionModel>[];
+    for (final optionId in section.optionIds) {
+      final option = optionsById[optionId];
+      if (option != null && !sectionOptions.contains(option)) {
+        sectionOptions.add(option);
+        usedIds.add(option.optionId);
+        usedIds.add(option.id);
+      }
+    }
+
+    if (sectionOptions.isEmpty && section.proteinFamilyKey.isNotEmpty) {
+      for (final option in options) {
+        if (option.proteinFamilyKey == section.proteinFamilyKey) {
+          sectionOptions.add(option);
+          usedIds.add(option.optionId);
+          usedIds.add(option.id);
+        }
+      }
+    }
+
+    if (sectionOptions.isEmpty) {
+      continue;
+    }
+
+    sections.add(
+      _OptionSectionData(
+        title: section.name.isNotEmpty ? section.name : section.key,
+        options: sectionOptions,
+      ),
+    );
+  }
+
+  final unsectioned =
+      options
+          .where(
+            (option) =>
+                !usedIds.contains(option.optionId) &&
+                !usedIds.contains(option.id),
+          )
+          .toList();
+  if (unsectioned.isNotEmpty) {
+    sections.add(_OptionSectionData(title: '', options: unsectioned));
+  }
+
+  return sections.isEmpty
+      ? [_OptionSectionData(title: '', options: options)]
+      : sections;
+}
+
 String _formatHalala(int halala, String currency) {
   final value = halala / 100;
   final display =
       value % 1 == 0 ? value.toStringAsFixed(0) : value.toStringAsFixed(2);
   return '$display $currency';
+}
+
+bool _hasReachedMaxSelections(int selectedCount, int? maxSelections) {
+  return maxSelections != null && selectedCount >= maxSelections;
+}
+
+String _selectionCountLabel(int selectedCount, int? maxSelections) {
+  if (maxSelections == null) {
+    return selectedCount.toString();
+  }
+  return '$selectedCount/$maxSelections';
+}
+
+String _productCtaLabel(OrderMenuProductModel product, BuildContext context) {
+  final ctaLabel = product.ctaLabel.trim();
+  if (ctaLabel.isNotEmpty) {
+    return ctaLabel;
+  }
+  if (product.resolvedRequiresBuilder) {
+    return Strings.startCustomization.tr();
+  }
+  return Strings.addToCart.tr();
 }
 
 String _initials(String value, BuildContext context) {

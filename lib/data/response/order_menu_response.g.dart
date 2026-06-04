@@ -148,6 +148,14 @@ OrderMenuProductResponse _$OrderMenuProductResponseFromJson(
       json['ui'] == null
           ? null
           : OrderMenuUiResponse.fromJson(json['ui'] as Map<String, dynamic>),
+  optionSections:
+      (json['optionSections'] as List<dynamic>?)
+          ?.map(
+            (e) => OrderMenuOptionSectionResponse.fromJson(
+              e as Map<String, dynamic>,
+            ),
+          )
+          .toList(),
   optionGroups:
       (json['optionGroups'] as List<dynamic>?)
           ?.map(
@@ -180,6 +188,7 @@ Map<String, dynamic> _$OrderMenuProductResponseToJson(
   'requiresBuilder': instance.requiresBuilder,
   'canAddDirectly': instance.canAddDirectly,
   'ui': instance.ui?.toJson(),
+  'optionSections': instance.optionSections?.map((e) => e.toJson()).toList(),
   'optionGroups': instance.optionGroups?.map((e) => e.toJson()).toList(),
 };
 
@@ -198,6 +207,14 @@ OrderMenuOptionGroupResponse _$OrderMenuOptionGroupResponseFromJson(
       json['ui'] == null
           ? null
           : OrderMenuUiResponse.fromJson(json['ui'] as Map<String, dynamic>),
+  optionSections:
+      (json['optionSections'] as List<dynamic>?)
+          ?.map(
+            (e) => OrderMenuOptionSectionResponse.fromJson(
+              e as Map<String, dynamic>,
+            ),
+          )
+          .toList(),
   sortOrder: (json['sortOrder'] as num?)?.toInt(),
   options:
       (json['options'] as List<dynamic>?)
@@ -219,8 +236,30 @@ Map<String, dynamic> _$OrderMenuOptionGroupResponseToJson(
   'maxSelections': instance.maxSelections,
   'isRequired': instance.isRequired,
   'ui': instance.ui?.toJson(),
+  'optionSections': instance.optionSections?.map((e) => e.toJson()).toList(),
   'sortOrder': instance.sortOrder,
   'options': instance.options?.map((e) => e.toJson()).toList(),
+};
+
+OrderMenuOptionSectionResponse _$OrderMenuOptionSectionResponseFromJson(
+  Map<String, dynamic> json,
+) => OrderMenuOptionSectionResponse(
+  key: json['key'] as String?,
+  name: json['name'] as String?,
+  proteinFamilyKey: json['proteinFamilyKey'] as String?,
+  optionIds:
+      (json['optionIds'] as List<dynamic>?)?.map((e) => e as String).toList(),
+  sortOrder: (json['sortOrder'] as num?)?.toInt(),
+);
+
+Map<String, dynamic> _$OrderMenuOptionSectionResponseToJson(
+  OrderMenuOptionSectionResponse instance,
+) => <String, dynamic>{
+  'key': instance.key,
+  'name': instance.name,
+  'proteinFamilyKey': instance.proteinFamilyKey,
+  'optionIds': instance.optionIds,
+  'sortOrder': instance.sortOrder,
 };
 
 OrderMenuOptionResponse _$OrderMenuOptionResponseFromJson(

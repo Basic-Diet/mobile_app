@@ -82,32 +82,35 @@ class _CheckoutScreenContentState extends State<_CheckoutScreenContent> {
       return;
     }
 
-    final items = cartState.items.map((item) {
-      return OrderQuoteItemRequestModel(
-        productId: item.productId,
-        qty: item.qty,
-        weightGrams: item.weightGrams,
-        selectedOptions: item.selectedOptions.map((option) {
-          return OrderQuoteSelectedOptionRequestModel(
-            groupId: option.groupId,
-            optionId: option.optionId,
-            extraWeightGrams: option.extraWeightGrams,
+    final items =
+        cartState.items.map((item) {
+          return OrderQuoteItemRequestModel(
+            productId: item.productId,
+            qty: item.qty,
+            weightGrams: item.weightGrams,
+            selectedOptions:
+                item.selectedOptions.map((option) {
+                  return OrderQuoteSelectedOptionRequestModel(
+                    groupId: option.groupId,
+                    optionId: option.optionId,
+                    extraWeightGrams: option.extraWeightGrams,
+                  );
+                }).toList(),
           );
-        }).toList(),
-      );
-    }).toList();
+        }).toList();
 
     context.read<CheckoutBloc>().add(
       GetOrderQuoteEvent(
         OrderQuoteRequestModel(
           fulfillmentMethod: 'pickup',
-          pickup: cartState.resolvedBranchId != null &&
-                  cartState.resolvedPickupWindow != null
-              ? OrderQuotePickupRequestModel(
-                  branchId: cartState.resolvedBranchId!,
-                  pickupWindow: cartState.resolvedPickupWindow!,
-                )
-              : null,
+          pickup:
+              cartState.resolvedBranchId != null &&
+                      cartState.resolvedPickupWindow != null
+                  ? OrderQuotePickupRequestModel(
+                    branchId: cartState.resolvedBranchId!,
+                    pickupWindow: cartState.resolvedPickupWindow!,
+                  )
+                  : null,
           items: items,
         ),
       ),
@@ -120,32 +123,35 @@ class _CheckoutScreenContentState extends State<_CheckoutScreenContent> {
       return;
     }
 
-    final items = cartState.items.map((item) {
-      return CreateOrderItemRequestModel(
-        productId: item.productId,
-        qty: item.qty,
-        weightGrams: item.weightGrams,
-        selectedOptions: item.selectedOptions.map((option) {
-          return CreateOrderSelectedOptionRequestModel(
-            groupId: option.groupId,
-            optionId: option.optionId,
-            extraWeightGrams: option.extraWeightGrams,
+    final items =
+        cartState.items.map((item) {
+          return CreateOrderItemRequestModel(
+            productId: item.productId,
+            qty: item.qty,
+            weightGrams: item.weightGrams,
+            selectedOptions:
+                item.selectedOptions.map((option) {
+                  return CreateOrderSelectedOptionRequestModel(
+                    groupId: option.groupId,
+                    optionId: option.optionId,
+                    extraWeightGrams: option.extraWeightGrams,
+                  );
+                }).toList(),
           );
-        }).toList(),
-      );
-    }).toList();
+        }).toList();
 
     context.read<CheckoutBloc>().add(
       CreateOrderEvent(
         CreateOrderRequestModel(
           fulfillmentMethod: 'pickup',
-          pickup: cartState.resolvedBranchId != null &&
-                  cartState.resolvedPickupWindow != null
-              ? CreateOrderPickupRequestModel(
-                  branchId: cartState.resolvedBranchId!,
-                  pickupWindow: cartState.resolvedPickupWindow!,
-                )
-              : null,
+          pickup:
+              cartState.resolvedBranchId != null &&
+                      cartState.resolvedPickupWindow != null
+                  ? CreateOrderPickupRequestModel(
+                    branchId: cartState.resolvedBranchId!,
+                    pickupWindow: cartState.resolvedPickupWindow!,
+                  )
+                  : null,
           items: items,
           successUrl: _paymentSuccessUrl,
           backUrl: _paymentCancelUrl,
@@ -226,7 +232,10 @@ class _CheckoutScreenContentState extends State<_CheckoutScreenContent> {
             if (state is CheckoutLoaded &&
                 state.quoteStatus == OrderQuoteStatus.failure) {
               return _ErrorView(
-                message: state.quoteErrorMessage ?? Strings.defaultError.tr(),
+                message: _checkoutErrorMessage(
+                  code: state.quoteErrorCode,
+                  fallback: state.quoteErrorMessage,
+                ),
                 onRetry: _requestQuote,
               );
             }
@@ -257,10 +266,7 @@ class _ErrorView extends StatelessWidget {
   final String message;
   final VoidCallback onRetry;
 
-  const _ErrorView({
-    required this.message,
-    required this.onRetry,
-  });
+  const _ErrorView({required this.message, required this.onRetry});
 
   @override
   Widget build(BuildContext context) {
@@ -311,11 +317,13 @@ class _CheckoutView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isLoading = createStatus == OrderCreateStatus.loading ||
+    final isLoading =
+        createStatus == OrderCreateStatus.loading ||
         verifyStatus == OrderVerifyStatus.loading ||
         verifyStatus == OrderVerifyStatus.processing;
     final totalQty =
-        cartState?.totalQty ?? quote.items.fold<int>(0, (sum, item) => sum + item.qty);
+        cartState?.totalQty ??
+        quote.items.fold<int>(0, (sum, item) => sum + item.qty);
     final branchName = _resolveBranchName(cartState);
     final pickupWindow = _formatPickupWindow(cartState?.selectedPickupWindow);
     final total = _formatPrice(quote.pricing.totalHalala, quote.currency);
@@ -330,9 +338,7 @@ class _CheckoutView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(height: AppSize.s12.h),
-                  _CheckoutHeader(
-                    onBack: () => context.pop(),
-                  ),
+                  _CheckoutHeader(onBack: () => context.pop()),
                   SizedBox(height: AppSize.s18.h),
                   const _TrustCard(),
                   SizedBox(height: AppSize.s12.h),
@@ -347,10 +353,7 @@ class _CheckoutView extends StatelessWidget {
                     pickupWindow: pickupWindow,
                   ),
                   SizedBox(height: AppSize.s12.h),
-                  _PaymentSummaryCard(
-                    quote: quote,
-                    total: total,
-                  ),
+                  _PaymentSummaryCard(quote: quote, total: total),
                   SizedBox(height: AppSize.s12.h),
                   _MutedNote(text: Strings.paymentConfirmationNote.tr()),
                   if (createStatus == OrderCreateStatus.failure) ...[
@@ -367,7 +370,8 @@ class _CheckoutView extends StatelessWidget {
                     SizedBox(height: AppSize.s12.h),
                     _ErrorBanner(
                       message:
-                          verifyErrorMessage ?? Strings.paymentVerifyFailedMessage.tr(),
+                          verifyErrorMessage ??
+                          Strings.paymentVerifyFailedMessage.tr(),
                     ),
                   ],
                   SizedBox(height: AppSize.s24.h),
@@ -393,7 +397,8 @@ class _CheckoutView extends StatelessWidget {
 
     final branchData = currentCartState?.restaurantHours[selectedBranchId];
     if (branchData is Map<String, dynamic>) {
-      final possibleName = branchData['name'] ??
+      final possibleName =
+          branchData['name'] ??
           branchData['branchName'] ??
           branchData['label'] ??
           branchData['title'];
@@ -503,10 +508,7 @@ class _TrustCard extends StatelessWidget {
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [
-            Color(0xFFE4F6EE),
-            Color(0xFFFFFFFF),
-          ],
+          colors: [Color(0xFFE4F6EE), Color(0xFFFFFFFF)],
         ),
         borderRadius: BorderRadius.circular(AppSize.s16.r),
         border: Border.all(
@@ -578,9 +580,10 @@ class _MiniSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final productsLabel = totalQty == 1
-        ? '1 ${Strings.productsCount.tr()}'
-        : Strings.itemsCount.tr(args: [totalQty.toString()]);
+    final productsLabel =
+        totalQty == 1
+            ? '1 ${Strings.productsCount.tr()}'
+            : Strings.itemsCount.tr(args: [totalQty.toString()]);
 
     return Container(
       width: double.infinity,
@@ -628,10 +631,7 @@ class _PickupCard extends StatelessWidget {
   final String branchName;
   final String pickupWindow;
 
-  const _PickupCard({
-    required this.branchName,
-    required this.pickupWindow,
-  });
+  const _PickupCard({required this.branchName, required this.pickupWindow});
 
   @override
   Widget build(BuildContext context) {
@@ -689,10 +689,7 @@ class _PaymentSummaryCard extends StatelessWidget {
   final OrderQuoteModel quote;
   final String total;
 
-  const _PaymentSummaryCard({
-    required this.quote,
-    required this.total,
-  });
+  const _PaymentSummaryCard({required this.quote, required this.total});
 
   @override
   Widget build(BuildContext context) {
@@ -883,14 +880,15 @@ class _StickyPaymentBar extends StatelessWidget {
                 SizedBox(
                   width: AppSize.s20.w,
                   height: AppSize.s20.w,
-                  child: isLoading
-                      ? CircularProgressIndicator(
-                          strokeWidth: AppSize.s2.w,
-                          valueColor: const AlwaysStoppedAnimation<Color>(
-                            ColorManager.textInverse,
-                          ),
-                        )
-                      : null,
+                  child:
+                      isLoading
+                          ? CircularProgressIndicator(
+                            strokeWidth: AppSize.s2.w,
+                            valueColor: const AlwaysStoppedAnimation<Color>(
+                              ColorManager.textInverse,
+                            ),
+                          )
+                          : null,
                 ),
                 Expanded(
                   child: Text(
@@ -968,20 +966,22 @@ class _SummaryRow extends StatelessWidget {
       children: [
         Text(
           label,
-          style: isEmphasized
-              ? getBoldTextStyle(
-                  color: ColorManager.textPrimary,
-                  fontSize: FontSizeManager.s16.sp,
-                )
-              : getRegularTextStyle(
-                  color: ColorManager.textSecondary,
-                  fontSize: FontSizeManager.s13.sp,
-                ),
+          style:
+              isEmphasized
+                  ? getBoldTextStyle(
+                    color: ColorManager.textPrimary,
+                    fontSize: FontSizeManager.s16.sp,
+                  )
+                  : getRegularTextStyle(
+                    color: ColorManager.textSecondary,
+                    fontSize: FontSizeManager.s13.sp,
+                  ),
         ),
         Text(
           value,
           style: getBoldTextStyle(
-            color: valueColor ??
+            color:
+                valueColor ??
                 (isEmphasized
                     ? ColorManager.stateSuccessEmphasis
                     : ColorManager.textPrimary),
@@ -992,4 +992,11 @@ class _SummaryRow extends StatelessWidget {
       ],
     );
   }
+}
+
+String _checkoutErrorMessage({required dynamic code, String? fallback}) {
+  if (code?.toString() == 'CATALOG_ITEM_UNAVAILABLE') {
+    return Strings.catalogItemUnavailable.tr();
+  }
+  return fallback ?? Strings.defaultError.tr();
 }

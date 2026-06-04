@@ -181,9 +181,15 @@ extension BuilderCatalogV2ResponseMapper on BuilderCatalogV2Response? {
 
     final standardProduct = _firstProduct(standardSection);
     final premiumProduct = _firstProduct(premiumSection);
-    final standardProteinGroup = _groupByKey(standardProduct, 'protein');
-    final premiumProteinGroup = _groupByKey(premiumProduct, 'protein');
-    final carbGroup = _groupByKey(standardProduct, 'carb');
+    final standardProteinGroup = _groupByKeys(standardProduct, const {
+      'protein',
+      'proteins',
+    });
+    final premiumProteinGroup = _groupByKeys(premiumProduct, const {
+      'protein',
+      'proteins',
+    });
+    final carbGroup = _groupByKeys(standardProduct, const {'carb', 'carbs'});
 
     final proteins = _proteinOptions(
       standardProteinGroup,
@@ -291,14 +297,16 @@ BuilderCatalogV2ProductResponse? _firstProduct(
   return sorted.first;
 }
 
-BuilderCatalogV2OptionGroupResponse? _groupByKey(
+BuilderCatalogV2OptionGroupResponse? _groupByKeys(
   BuilderCatalogV2ProductResponse? product,
-  String key,
+  Set<String> keys,
 ) {
   for (final group
       in product?.optionGroups ??
           const <BuilderCatalogV2OptionGroupResponse>[]) {
-    if (group.key == key) return group;
+    if (keys.contains(group.key) || keys.contains(group.sourceKey)) {
+      return group;
+    }
   }
   return null;
 }

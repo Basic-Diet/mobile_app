@@ -202,6 +202,9 @@ class BuilderCatalogV2OptionGroupResponse {
   @JsonKey(name: 'key')
   final String? key;
 
+  @JsonKey(name: 'sourceKey')
+  final String? sourceKey;
+
   @JsonKey(name: 'name')
   final String? name;
 
@@ -226,6 +229,7 @@ class BuilderCatalogV2OptionGroupResponse {
   const BuilderCatalogV2OptionGroupResponse({
     this.id,
     this.key,
+    this.sourceKey,
     this.name,
     this.minSelections,
     this.maxSelections,

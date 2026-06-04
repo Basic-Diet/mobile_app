@@ -135,7 +135,7 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
     final addonChoicesResult = await _getAddonChoicesUseCase.execute(null);
     final addonChoices = addonChoicesResult.fold(
       (_) => _buildFallbackAddonChoices(menu),
-      (choices) => choices.isEmpty ? _buildFallbackAddonChoices(menu) : choices,
+      (choices) => choices,
     );
     final slotsByDay = <int, List<MealPlannerSlotSelection>>{};
     final savedSlotsByDay = <int, List<MealPlannerSlotSelection>>{};

@@ -167,6 +167,7 @@ _$BuilderCatalogV2OptionGroupResponseFromJson(Map<String, dynamic> json) =>
     BuilderCatalogV2OptionGroupResponse(
       id: json['id'] as String?,
       key: json['key'] as String?,
+      sourceKey: json['sourceKey'] as String?,
       name: json['name'] as String?,
       minSelections: (json['minSelections'] as num?)?.toInt(),
       maxSelections: (json['maxSelections'] as num?)?.toInt(),
@@ -193,6 +194,7 @@ Map<String, dynamic> _$BuilderCatalogV2OptionGroupResponseToJson(
 ) => <String, dynamic>{
   'id': instance.id,
   'key': instance.key,
+  'sourceKey': instance.sourceKey,
   'name': instance.name,
   'minSelections': instance.minSelections,
   'maxSelections': instance.maxSelections,

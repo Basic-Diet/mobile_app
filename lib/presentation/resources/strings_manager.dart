@@ -834,6 +834,9 @@ class Strings {
   static const String builderChooseUpTo = 'builderChooseUpTo';
   static const String builderChooseExact = 'builderChooseExact';
   static const String builderChooseRange = 'builderChooseRange';
+  static const String builderChooseAtLeast = 'builderChooseAtLeast';
+  static const String builderOptional = 'builderOptional';
+  static const String catalogItemUnavailable = 'catalogItemUnavailable';
   static const String builderCompletedGroupsCount =
       'builderCompletedGroupsCount';
   static const String builderRemainingBeforeAdd = 'builderRemainingBeforeAdd';

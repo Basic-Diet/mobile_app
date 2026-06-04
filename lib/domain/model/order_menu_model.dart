@@ -77,6 +77,10 @@ class OrderMenuProductModel {
   final bool? requiresBuilder;
   final bool? canAddDirectly;
   final String cardVariant;
+  final String badge;
+  final String ctaLabel;
+  final double? imageRatio;
+  final List<OrderMenuOptionSectionModel> optionSections;
   final List<OrderMenuOptionGroupModel> optionGroups;
 
   bool get resolvedRequiresBuilder =>
@@ -107,6 +111,10 @@ class OrderMenuProductModel {
     this.requiresBuilder,
     this.canAddDirectly,
     this.cardVariant = 'standard',
+    this.badge = '',
+    this.ctaLabel = '',
+    this.imageRatio,
+    this.optionSections = const [],
     required this.optionGroups,
   });
 }
@@ -117,9 +125,10 @@ class OrderMenuOptionGroupModel {
   final String key;
   final String name;
   final int minSelections;
-  final int maxSelections;
+  final int? maxSelections;
   final bool isRequired;
   final String displayStyle;
+  final List<OrderMenuOptionSectionModel> optionSections;
   final int sortOrder;
   final List<OrderMenuOptionModel> options;
 
@@ -132,8 +141,25 @@ class OrderMenuOptionGroupModel {
     required this.maxSelections,
     required this.isRequired,
     this.displayStyle = 'chips',
+    this.optionSections = const [],
     required this.sortOrder,
     required this.options,
+  });
+}
+
+class OrderMenuOptionSectionModel {
+  final String key;
+  final String name;
+  final String proteinFamilyKey;
+  final List<String> optionIds;
+  final int sortOrder;
+
+  const OrderMenuOptionSectionModel({
+    required this.key,
+    required this.name,
+    this.proteinFamilyKey = '',
+    this.optionIds = const [],
+    this.sortOrder = 0,
   });
 }
 

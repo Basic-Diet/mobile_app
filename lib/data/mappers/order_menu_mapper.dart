@@ -84,6 +84,11 @@ extension OrderMenuProductResponseMapper on OrderMenuProductResponse? {
         _productCardVariants,
         'standard',
       ),
+      badge: this?.ui?.badge ?? Constants.empty,
+      ctaLabel: this?.ui?.ctaLabel ?? Constants.empty,
+      imageRatio: _parseImageRatio(this?.ui?.imageRatio),
+      optionSections:
+          this?.optionSections?.map((e) => e.toDomain()).toList() ?? const [],
       optionGroups:
           this?.optionGroups?.map((e) => e.toDomain()).toList() ?? const [],
     );
@@ -98,15 +103,30 @@ extension OrderMenuOptionGroupResponseMapper on OrderMenuOptionGroupResponse? {
       key: this?.key ?? Constants.empty,
       name: this?.name ?? Constants.empty,
       minSelections: this?.minSelections ?? Constants.zero,
-      maxSelections: this?.maxSelections ?? 1,
+      maxSelections: this?.maxSelections,
       isRequired: this?.isRequired ?? false,
       displayStyle: _allowedValue(
         this?.ui?.displayStyle,
         _displayStyles,
         'chips',
       ),
+      optionSections:
+          this?.optionSections?.map((e) => e.toDomain()).toList() ?? const [],
       sortOrder: this?.sortOrder ?? Constants.zero,
       options: this?.options?.map((e) => e.toDomain()).toList() ?? const [],
+    );
+  }
+}
+
+extension OrderMenuOptionSectionResponseMapper
+    on OrderMenuOptionSectionResponse? {
+  OrderMenuOptionSectionModel toDomain() {
+    return OrderMenuOptionSectionModel(
+      key: this?.key ?? Constants.empty,
+      name: this?.name ?? Constants.empty,
+      proteinFamilyKey: this?.proteinFamilyKey ?? Constants.empty,
+      optionIds: this?.optionIds ?? const [],
+      sortOrder: this?.sortOrder ?? Constants.zero,
     );
   }
 }
@@ -136,6 +156,33 @@ String _allowedValue(String? value, Set<String> allowed, String fallback) {
     return fallback;
   }
   return value;
+}
+
+double? _parseImageRatio(String? value) {
+  final resolved = value?.trim();
+  if (resolved == null || resolved.isEmpty) {
+    return null;
+  }
+
+  final parts = resolved.split('/');
+  if (parts.length == 2) {
+    final width = double.tryParse(parts.first);
+    final height = double.tryParse(parts.last);
+    if (width != null && height != null && width > 0 && height > 0) {
+      return width / height;
+    }
+  }
+
+  final colonParts = resolved.split(':');
+  if (colonParts.length == 2) {
+    final width = double.tryParse(colonParts.first);
+    final height = double.tryParse(colonParts.last);
+    if (width != null && height != null && width > 0 && height > 0) {
+      return width / height;
+    }
+  }
+
+  return double.tryParse(resolved);
 }
 
 // ─── Legacy Fallback Mappers ───
