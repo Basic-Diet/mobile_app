@@ -197,80 +197,99 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
 
             return Stack(
               children: [
-                CustomScrollView(
-                  controller: _scrollController,
-                  physics: const BouncingScrollPhysics(),
-                  slivers: [
-                    SliverPadding(
+                Column(
+                  children: [
+                    Padding(
                       padding: EdgeInsetsDirectional.fromSTEB(
                         AppPadding.p16.w,
                         AppPadding.p16.h,
                         AppPadding.p16.w,
-                        AppPadding.p120.h,
+                        AppPadding.p16.h,
                       ),
-                      sliver: SliverToBoxAdapter(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const _MenuHeader(),
-                            Gap(AppSize.s18.h),
-                            const _PickupNoticeCard(),
-                            Gap(AppSize.s14.h),
-                            _SearchField(
-                              controller: _searchController,
-                              onChanged: (value) {
-                                setState(() {
-                                  _searchQuery = value.trim().toLowerCase();
-                                });
-                              },
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const _MenuHeader(),
+                          Gap(AppSize.s18.h),
+                          const _PickupNoticeCard(),
+                          Gap(AppSize.s14.h),
+                          _SearchField(
+                            controller: _searchController,
+                            onChanged: (value) {
+                              setState(() {
+                                _searchQuery = value.trim().toLowerCase();
+                              });
+                            },
+                          ),
+                          Gap(AppSize.s14.h),
+                          _MenuChipsRow(
+                            chips: chips,
+                            activeKey: _activeChip,
+                            onSelected: _scrollToSection,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: CustomScrollView(
+                        controller: _scrollController,
+                        physics: const BouncingScrollPhysics(),
+                        slivers: [
+                          SliverPadding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                              AppPadding.p16.w,
+                              0,
+                              AppPadding.p16.w,
+                              AppPadding.p120.h,
                             ),
-                            Gap(AppSize.s14.h),
-                            _MenuChipsRow(
-                              chips: chips,
-                              activeKey: _activeChip,
-                              onSelected: _scrollToSection,
-                            ),
-                            Gap(AppSize.s28.h),
-                            _SectionAnchor(
-                              anchorKey: _sectionKey('custom_order'),
-                              child: _BuilderSection(
-                                mainProducts: _filterProducts(builderData.main),
-                                lightProducts: _filterProducts(
-                                  builderData.light,
-                                ),
-                                currency: menu.currency,
-                                onOpenBuilder: _openBuilder,
-                              ),
-                            ),
-                            for (final section in sections)
-                              _SectionAnchor(
-                                anchorKey: _sectionKey(section.key),
-                                child: Padding(
-                                  padding: EdgeInsetsDirectional.only(
-                                    top: AppPadding.p28.h,
+                            sliver: SliverToBoxAdapter(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Gap(AppSize.s12.h),
+                                  _SectionAnchor(
+                                    anchorKey: _sectionKey('custom_order'),
+                                    child: _BuilderSection(
+                                      mainProducts: _filterProducts(builderData.main),
+                                      lightProducts: _filterProducts(
+                                        builderData.light,
+                                      ),
+                                      currency: menu.currency,
+                                      onOpenBuilder: _openBuilder,
+                                    ),
                                   ),
-                                  child: _DynamicSection(
-                                    section: section,
-                                    currency: menu.currency,
-                                    products: _filterProducts(section.products),
-                                    onAddDirectItem: (product) {
-                                      context.read<CartBloc>().add(
-                                        AddItemEvent(
-                                          CartItem(
-                                            productId: product.id,
-                                            name: product.name,
-                                            qty: 1,
-                                            unitPriceHalala:
-                                                product.priceHalala,
-                                          ),
+                                  for (final section in sections)
+                                    _SectionAnchor(
+                                      anchorKey: _sectionKey(section.key),
+                                      child: Padding(
+                                        padding: EdgeInsetsDirectional.only(
+                                          top: AppPadding.p28.h,
                                         ),
-                                      );
-                                    },
-                                  ),
-                                ),
+                                        child: _DynamicSection(
+                                          section: section,
+                                          currency: menu.currency,
+                                          products: _filterProducts(section.products),
+                                          onAddDirectItem: (product) {
+                                            context.read<CartBloc>().add(
+                                              AddItemEvent(
+                                                CartItem(
+                                                  productId: product.id,
+                                                  name: product.name,
+                                                  qty: 1,
+                                                  unitPriceHalala:
+                                                      product.priceHalala,
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                ],
                               ),
-                          ],
-                        ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
