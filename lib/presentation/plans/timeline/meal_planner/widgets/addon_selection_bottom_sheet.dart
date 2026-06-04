@@ -14,11 +14,11 @@ import 'package:gap/gap.dart';
 class AddonSelectionBottomSheet extends StatefulWidget {
   final MealPlannerBloc bloc;
   final Map<String, AddonChoiceCategoryModel> groupedItems;
-  final Map<String, String?> selectedAddonIdsByCategory;
+  final Map<String, List<String>> selectedAddonIdsByCategory;
   final String emptyLabel;
   final String? Function(
     AddonChoiceModel addon,
-    Map<String, String?> selectedAddonIdsByCategory,
+    Map<String, List<String>> selectedAddonIdsByCategory,
   )
   badgeLabelBuilder;
 
@@ -38,7 +38,7 @@ class AddonSelectionBottomSheet extends StatefulWidget {
 
 class _AddonSelectionBottomSheetState extends State<AddonSelectionBottomSheet> {
   late final List<String> _categories;
-  late final Map<String, String?> _localSelections;
+  late final Map<String, List<String>> _localSelections;
   late String _activeCategory;
 
   @override
@@ -47,7 +47,7 @@ class _AddonSelectionBottomSheetState extends State<AddonSelectionBottomSheet> {
     _categories = _resolveOrderedCategories(widget.groupedItems);
     _localSelections = {
       for (final entry in widget.selectedAddonIdsByCategory.entries)
-        entry.key: entry.value,
+        entry.key: List<String>.from(entry.value),
     };
     _activeCategory = _categories.isNotEmpty ? _categories.first : 'juice';
   }
@@ -60,7 +60,7 @@ class _AddonSelectionBottomSheetState extends State<AddonSelectionBottomSheet> {
       widget.bloc.add(
         SelectAddonForCategoryEvent(
           category: category,
-          addonId: _localSelections[category],
+          addonIds: _localSelections[category] ?? const [],
         ),
       );
     }
@@ -115,7 +115,10 @@ class _AddonSelectionBottomSheetState extends State<AddonSelectionBottomSheet> {
                           itemBuilder: (context, index) {
                             final addon = _activeItems[index];
                             final isSelected =
-                                _localSelections[_activeCategory] == addon.id;
+                                _localSelections[_activeCategory]?.contains(
+                                  addon.id,
+                                ) ??
+                                false;
                             return _AddonItemTile(
                               addon: addon,
                               isSelected: isSelected,
@@ -125,8 +128,17 @@ class _AddonSelectionBottomSheetState extends State<AddonSelectionBottomSheet> {
                               ),
                               onTap: () {
                                 setState(() {
+                                  final selectedIds = List<String>.from(
+                                    _localSelections[_activeCategory] ??
+                                        const [],
+                                  );
+                                  if (isSelected) {
+                                    selectedIds.remove(addon.id);
+                                  } else {
+                                    selectedIds.add(addon.id);
+                                  }
                                   _localSelections[_activeCategory] =
-                                      isSelected ? null : addon.id;
+                                      selectedIds;
                                 });
                               },
                             );
@@ -136,11 +148,11 @@ class _AddonSelectionBottomSheetState extends State<AddonSelectionBottomSheet> {
               _ApplyBar(
                 onApply: _applySelections,
                 onClear:
-                    _localSelections[_activeCategory] == null
+                    (_localSelections[_activeCategory]?.isEmpty ?? true)
                         ? null
                         : () {
                           setState(() {
-                            _localSelections[_activeCategory] = null;
+                            _localSelections[_activeCategory] = const [];
                           });
                         },
               ),
@@ -299,8 +311,8 @@ class _AddonItemTile extends StatelessWidget {
           children: [
             Icon(
               isSelected
-                  ? Icons.check_circle_rounded
-                  : Icons.radio_button_unchecked_rounded,
+                  ? Icons.check_box_rounded
+                  : Icons.check_box_outline_blank_rounded,
               color:
                   isSelected
                       ? ColorManager.brandPrimary
@@ -329,7 +341,8 @@ class _AddonItemTile extends StatelessWidget {
                       fontSize: FontSizeManager.s14.sp,
                     ),
                   ),
-                  if (addon.calories != null || addon.prepTimeMinutes != null) ...[
+                  if (addon.calories != null ||
+                      addon.prepTimeMinutes != null) ...[
                     Gap(AppSize.s4.h),
                     Wrap(
                       spacing: AppSize.s8.w,
@@ -339,9 +352,7 @@ class _AddonItemTile extends StatelessWidget {
                         if (addon.calories != null)
                           _MetaChip(
                             label: Strings.addonCalories.tr(
-                              namedArgs: {
-                                'count': addon.calories.toString(),
-                              },
+                              namedArgs: {'count': addon.calories.toString()},
                             ),
                           ),
                         if (addon.prepTimeMinutes != null)

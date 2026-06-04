@@ -87,18 +87,18 @@ final class SetPremiumLargeSaladEvent extends MealPlannerEvent {
   ];
 }
 
-/// Replaces the selected addon for a category. Pass `null` to clear it.
+/// Replaces the selected addons for a category.
 final class SelectAddonForCategoryEvent extends MealPlannerEvent {
   final String category;
-  final String? addonId;
+  final List<String> addonIds;
 
   const SelectAddonForCategoryEvent({
     required this.category,
-    required this.addonId,
+    this.addonIds = const [],
   });
 
   @override
-  List<Object?> get props => [category, addonId];
+  List<Object?> get props => [category, addonIds];
 }
 
 final class DismissPendingAddonPromptEvent extends MealPlannerEvent {

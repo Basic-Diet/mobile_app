@@ -257,24 +257,26 @@ final class MealPlannerLoaded extends MealPlannerState {
   }
 
   List<AddonChoiceModel> selectedAddonsForCategory(String category) {
-    final selectedId = selectedAddOnIdForCategory(category);
-    if (selectedId == null) {
-      return const [];
-    }
-    final addon = _catalogById[selectedId];
-    return addon == null ? const [] : [addon];
+    final categoryAddonIds =
+        groupedAddons[category]?.choices.map((addon) => addon.id).toSet() ??
+        const <String>{};
+    return selectedAddOnIds
+        .where(categoryAddonIds.contains)
+        .map((id) => _catalogById[id])
+        .whereType<AddonChoiceModel>()
+        .toList();
   }
 
   String? selectedAddOnIdForCategory(String category) {
-    final selectedIds = selectedAddOnIds;
-    final catalog = _catalogById;
-    for (final id in selectedIds) {
-      final addon = catalog[id];
-      if (addon?.categoryKey == category) {
-        return id;
-      }
-    }
-    return null;
+    final addons = selectedAddonsForCategory(category);
+    return addons.isEmpty ? null : addons.first.id;
+  }
+
+  List<String> selectedAddOnIdsForCategory(String category) {
+    final categoryAddonIds =
+        groupedAddons[category]?.choices.map((addon) => addon.id).toSet() ??
+        const <String>{};
+    return selectedAddOnIds.where(categoryAddonIds.contains).toList();
   }
 
   String addonSelectionStatusFor(
@@ -308,25 +310,36 @@ final class MealPlannerLoaded extends MealPlannerState {
     for (final entitlement in addonEntitlements) {
       if ((entitlement.status == 'active' || entitlement.status.isEmpty) &&
           entitlement.includedCount > 0) {
-        allowances[entitlement.category] =
-            (allowances[entitlement.category] ?? 0) + entitlement.includedCount;
+        final category = entitlement.category;
+        allowances[category] =
+            (allowances[category] ?? 0) + entitlement.includedCount;
       }
     }
 
     for (final id in selectedAddonIds) {
       final addon = _catalogById[id];
       if (addon == null) continue;
-      final remaining = allowances[addon.categoryKey] ?? 0;
+      final category = _categoryForAddon(addon);
+      final remaining = allowances[category] ?? 0;
       if (addon.id == targetAddon.id) {
         return remaining > 0 ? 'subscription' : 'pending_payment';
       }
       if (remaining > 0) {
-        allowances[addon.categoryKey] = remaining - 1;
+        allowances[category] = remaining - 1;
       }
     }
 
-    final remaining = allowances[targetAddon.categoryKey] ?? 0;
+    final remaining = allowances[_categoryForAddon(targetAddon)] ?? 0;
     return remaining > 0 ? 'subscription' : 'pending_payment';
+  }
+
+  String _categoryForAddon(AddonChoiceModel addon) {
+    for (final category in addonChoices.categories) {
+      if (category.choices.any((choice) => choice.id == addon.id)) {
+        return category.category;
+      }
+    }
+    return addon.categoryKey;
   }
 
   int get localAddonPendingAmountHalala {

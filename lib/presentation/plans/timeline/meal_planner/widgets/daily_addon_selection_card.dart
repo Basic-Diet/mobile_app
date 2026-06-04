@@ -128,9 +128,7 @@ class _AddonSelectorField extends StatelessWidget {
     final prompt =
         hasSelection
             ? Strings.addonSelectedCount.tr(
-              namedArgs: {
-                'count': state.selectedAddOnModels.length.toString(),
-              },
+              namedArgs: {'count': state.selectedAddOnModels.length.toString()},
             )
             : _entitlementPrompt();
 
@@ -203,7 +201,7 @@ class _AddonSelectorField extends StatelessWidget {
     final bloc = context.read<MealPlannerBloc>();
     final selectedByCategory = {
       for (final entry in state.groupedAddons.entries)
-        entry.key: state.selectedAddOnIdForCategory(entry.key),
+        entry.key: state.selectedAddOnIdsForCategory(entry.key),
     };
 
     showModalBottomSheet<void>(
@@ -217,21 +215,19 @@ class _AddonSelectorField extends StatelessWidget {
             selectedAddonIdsByCategory: selectedByCategory,
             emptyLabel: Strings.addonNoItemsAvailable.tr(),
             badgeLabelBuilder:
-                (addon, localSelections) => _badgeLabelFor(
-                  addon,
-                  localSelections,
-                ),
+                (addon, localSelections) =>
+                    _badgeLabelFor(addon, localSelections),
           ),
     );
   }
 
   String? _badgeLabelFor(
     AddonChoiceModel addon,
-    Map<String, String?> localSelections,
+    Map<String, List<String>> localSelections,
   ) {
     final selectedAddonIds = <String>[
-      for (final selectedId in localSelections.values)
-        if (selectedId != null) selectedId,
+      for (final categorySelections in localSelections.values)
+        ...categorySelections,
     ];
     final status = state.addonSelectionStatusFor(
       addon.id,
@@ -261,7 +257,8 @@ class _EntitlementBanner extends StatelessWidget {
         state.addonEntitlements
             .where(
               (entitlement) =>
-                  (entitlement.status == 'active' || entitlement.status.isEmpty) &&
+                  (entitlement.status == 'active' ||
+                      entitlement.status.isEmpty) &&
                   entitlement.includedCount > 0,
             )
             .toList();
@@ -279,7 +276,9 @@ class _EntitlementBanner extends StatelessWidget {
       decoration: BoxDecoration(
         color: ColorManager.stateSuccessSurface,
         borderRadius: BorderRadius.circular(AppSize.s14.r),
-        border: Border.all(color: ColorManager.brandPrimary.withValues(alpha: 0.24)),
+        border: Border.all(
+          color: ColorManager.brandPrimary.withValues(alpha: 0.24),
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -358,7 +357,9 @@ class _EntitlementChip extends StatelessWidget {
       decoration: BoxDecoration(
         color: ColorManager.backgroundSurface,
         borderRadius: BorderRadius.circular(AppSize.s20.r),
-        border: Border.all(color: ColorManager.brandPrimary.withValues(alpha: 0.18)),
+        border: Border.all(
+          color: ColorManager.brandPrimary.withValues(alpha: 0.18),
+        ),
       ),
       child: Text(
         label,

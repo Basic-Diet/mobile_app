@@ -87,8 +87,8 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
                    maxSlotsPerDay: 1,
                  ),
                ),
+             ),
            ),
-          ),
            addonChoices: const AddonChoicesModel(),
            addonEntitlements: addonEntitlements,
            premiumSummaries: premiumSummaries,
@@ -135,8 +135,7 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
     final addonChoicesResult = await _getAddonChoicesUseCase.execute(null);
     final addonChoices = addonChoicesResult.fold(
       (_) => _buildFallbackAddonChoices(menu),
-      (choices) =>
-          choices.isEmpty ? _buildFallbackAddonChoices(menu) : choices,
+      (choices) => choices.isEmpty ? _buildFallbackAddonChoices(menu) : choices,
     );
     final slotsByDay = <int, List<MealPlannerSlotSelection>>{};
     final savedSlotsByDay = <int, List<MealPlannerSlotSelection>>{};
@@ -401,14 +400,15 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
 
     final categoryAddonIds =
         current.groupedAddons[event.category]?.choices
-                .map((a) => a.id)
-                .toSet() ??
-            <String>{};
-    final currentIds =
-        List<String>.from(current.selectedAddOnIds)
-          ..removeWhere((id) => categoryAddonIds.contains(id));
-    if (event.addonId != null && categoryAddonIds.contains(event.addonId)) {
-      currentIds.add(event.addonId!);
+            .map((a) => a.id)
+            .toSet() ??
+        <String>{};
+    final currentIds = List<String>.from(current.selectedAddOnIds)
+      ..removeWhere((id) => categoryAddonIds.contains(id));
+    for (final addonId in event.addonIds) {
+      if (categoryAddonIds.contains(addonId) && !currentIds.contains(addonId)) {
+        currentIds.add(addonId);
+      }
     }
 
     emit(
@@ -427,26 +427,28 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
         menu.addons.where((addon) => addon.isItem && addon.isFlatOnce).toList();
     final grouped = <String, List<AddonChoiceModel>>{};
     for (final addon in items) {
-      grouped.putIfAbsent(addon.category, () => <AddonChoiceModel>[]).add(
-        AddonChoiceModel(
-          id: addon.id,
-          key: addon.id,
-          name: addon.name,
-          nameAr: '',
-          nameI18n: const {},
-          priceHalala: addon.priceHalala,
-          priceSar: addon.priceSar,
-          currency: addon.currency,
-          calories: null,
-          prepTimeMinutes: null,
-          categoryKey: addon.category,
-          itemType: addon.kind,
-          type: addon.kind,
-          available: true,
-          active: true,
-          ui: const {},
-        ),
-      );
+      grouped
+          .putIfAbsent(addon.category, () => <AddonChoiceModel>[])
+          .add(
+            AddonChoiceModel(
+              id: addon.id,
+              key: addon.id,
+              name: addon.name,
+              nameAr: '',
+              nameI18n: const {},
+              priceHalala: addon.priceHalala,
+              priceSar: addon.priceSar,
+              currency: addon.currency,
+              calories: null,
+              prepTimeMinutes: null,
+              categoryKey: addon.category,
+              itemType: addon.kind,
+              type: addon.kind,
+              available: true,
+              active: true,
+              ui: const {},
+            ),
+          );
     }
 
     return AddonChoicesModel(
