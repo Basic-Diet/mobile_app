@@ -202,17 +202,17 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
                     Padding(
                       padding: EdgeInsetsDirectional.fromSTEB(
                         AppPadding.p16.w,
-                        AppPadding.p16.h,
+                        AppPadding.p12.h,
                         AppPadding.p16.w,
-                        AppPadding.p16.h,
+                        AppPadding.p10.h,
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const _MenuHeader(),
-                          Gap(AppSize.s18.h),
+                          Gap(AppSize.s12.h),
                           const _PickupNoticeCard(),
-                          Gap(AppSize.s14.h),
+                          Gap(AppSize.s10.h),
                           _SearchField(
                             controller: _searchController,
                             onChanged: (value) {
@@ -221,7 +221,7 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
                               });
                             },
                           ),
-                          Gap(AppSize.s14.h),
+                          Gap(AppSize.s10.h),
                           _MenuChipsRow(
                             chips: chips,
                             activeKey: _activeChip,
@@ -423,15 +423,15 @@ class _MenuHeader extends StatelessWidget {
             Text(
               Strings.menu.tr(),
               style: getRegularTextStyle(
-                fontSize: FontSizeManager.s28.sp,
+                fontSize: FontSizeManager.s24.sp,
                 color: ColorManager.stateSuccessEmphasis,
               ),
             ),
-            Gap(AppSize.s4.h),
+            Gap(AppSize.s2.h),
             Text(
               Strings.oneTimeOrdersSubtitle.tr(),
               style: getRegularTextStyle(
-                fontSize: FontSizeManager.s14.sp,
+                fontSize: FontSizeManager.s12.sp,
                 color: ColorManager.textSecondary,
               ),
             ),
@@ -478,22 +478,22 @@ class _CircleActionButton extends StatelessWidget {
       children: [
         Material(
           color: Colors.white.withValues(alpha: 0.9),
-          borderRadius: BorderRadius.circular(AppSize.s14.r),
+          borderRadius: BorderRadius.circular(AppSize.s12.r),
           child: Container(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(AppSize.s14.r),
+              borderRadius: BorderRadius.circular(AppSize.s12.r),
               border: Border.all(color: Colors.white.withValues(alpha: 0.78)),
             ),
             child: InkWell(
               onTap: onTap,
-              borderRadius: BorderRadius.circular(AppSize.s14.r),
+              borderRadius: BorderRadius.circular(AppSize.s12.r),
               child: SizedBox(
-                width: AppSize.s42.w,
-                height: AppSize.s42.w,
+                width: AppSize.s36.w,
+                height: AppSize.s36.w,
                 child: Icon(
                   icon,
                   color: const Color(0xFF112B22),
-                  size: AppSize.s20.w,
+                  size: AppSize.s18.w,
                 ),
               ),
             ),
@@ -501,13 +501,13 @@ class _CircleActionButton extends StatelessWidget {
         ),
         if (badgeCount > 0)
           PositionedDirectional(
-            top: (-5).h,
-            end: (-5).w,
+            top: (-4).h,
+            end: (-4).w,
             child: Container(
-              constraints: BoxConstraints(minWidth: AppSize.s18.w),
-              height: AppSize.s18.w,
+              constraints: BoxConstraints(minWidth: AppSize.s16.w),
+              height: AppSize.s16.w,
               padding: EdgeInsetsDirectional.symmetric(
-                horizontal: AppPadding.p5.w,
+                horizontal: AppPadding.p4.w,
               ),
               decoration: BoxDecoration(
                 color: ColorManager.brandPrimary,
@@ -517,7 +517,7 @@ class _CircleActionButton extends StatelessWidget {
               child: Text(
                 '$badgeCount',
                 style: getBoldTextStyle(
-                  fontSize: FontSizeManager.s10.sp,
+                  fontSize: FontSizeManager.s8.sp,
                   color: ColorManager.backgroundSurface,
                 ),
               ),
@@ -535,8 +535,8 @@ class _PickupNoticeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsetsDirectional.symmetric(
-        horizontal: AppPadding.p14.w,
-        vertical: AppPadding.p13.h,
+        horizontal: AppPadding.p12.w,
+        vertical: AppPadding.p10.h,
       ),
       width: double.infinity,
       decoration: BoxDecoration(
@@ -569,7 +569,7 @@ class _SearchField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: AppSize.s52.h,
+      height: AppSize.s44.h,
       decoration: BoxDecoration(
         color: Colors.white.withValues(alpha: 0.94),
         borderRadius: BorderRadius.circular(AppSize.s16.r),
@@ -594,8 +594,8 @@ class _SearchField extends StatelessWidget {
             borderSide: BorderSide.none,
           ),
           contentPadding: EdgeInsetsDirectional.symmetric(
-            horizontal: AppPadding.p14.w,
-            vertical: AppPadding.p14.h,
+            horizontal: AppPadding.p12.w,
+            vertical: AppPadding.p10.h,
           ),
         ),
       ),
@@ -617,7 +617,7 @@ class _MenuChipsRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: AppSize.s38.h,
+      height: AppSize.s34.h,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
