@@ -5,6 +5,7 @@ import 'package:basic_diet/data/request/day_selection_request.dart';
 import 'package:basic_diet/data/network/app_api.dart';
 import 'package:basic_diet/data/response/checkout_draft_response.dart';
 import 'package:basic_diet/data/data_source/remote_data_source.dart';
+import 'package:basic_diet/data/response/addon_choices_response.dart';
 import 'package:basic_diet/data/request/subscription_checkout_request.dart';
 import 'package:basic_diet/data/request/subscription_quote_request.dart';
 import 'package:basic_diet/data/response/addons_response.dart';
@@ -143,8 +144,13 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   }
 
   @override
-  Future<AddOnsResponse> getAddOns() {
-    return _appServiceClient.getAddOns();
+  Future<AddOnsResponse> getAddOns({String? type}) {
+    return _appServiceClient.getAddOns(type);
+  }
+
+  @override
+  Future<AddonChoicesResponse> getAddonChoices({String? category}) {
+    return _appServiceClient.getAddonChoices(category: category);
   }
 
   @override

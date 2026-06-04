@@ -31,7 +31,7 @@ import 'package:basic_diet/domain/usecase/get_premium_meals_usecase.dart';
 import 'package:basic_diet/presentation/register/register_bloc.dart';
 import 'package:basic_diet/presentation/main/home/bloc/home_bloc.dart';
 import 'package:basic_diet/presentation/main/home/premium/bloc/premium_meals_bloc.dart';
-import 'package:basic_diet/domain/usecase/get_subscription_menu_usecase.dart';
+import 'package:basic_diet/domain/usecase/get_addons_usecase.dart';
 import 'package:basic_diet/presentation/main/home/add-ons/bloc/add_ons_bloc.dart';
 import 'package:basic_diet/presentation/main/home/delivery/bloc/delivery_options_bloc.dart';
 import 'package:dio/dio.dart';
@@ -47,6 +47,7 @@ import 'package:basic_diet/domain/usecase/skip_day_usecase.dart';
 import 'package:basic_diet/domain/usecase/skip_date_range_usecase.dart';
 import 'package:basic_diet/domain/usecase/get_timeline_usecase.dart';
 import 'package:basic_diet/domain/usecase/get_meal_planner_menu_usecase.dart';
+import 'package:basic_diet/domain/usecase/get_addon_choices_usecase.dart';
 import 'package:basic_diet/domain/usecase/get_subscription_day_usecase.dart';
 import 'package:basic_diet/domain/usecase/save_meal_planner_changes_usecase.dart';
 import 'package:basic_diet/domain/usecase/validate_day_selection_usecase.dart';
@@ -277,15 +278,15 @@ void initPremiumMealsModule() {
 }
 
 void initAddOnsModule() {
-  if (!GetIt.I.isRegistered<GetSubscriptionMenuUseCase>()) {
-    instance.registerFactory<GetSubscriptionMenuUseCase>(
-      () => GetSubscriptionMenuUseCase(instance<Repository>()),
+  if (!GetIt.I.isRegistered<GetAddOnsUseCase>()) {
+    instance.registerFactory<GetAddOnsUseCase>(
+      () => GetAddOnsUseCase(instance<Repository>()),
     );
   }
 
   if (!GetIt.I.isRegistered<AddOnsBloc>()) {
     instance.registerFactory<AddOnsBloc>(
-      () => AddOnsBloc(instance<GetSubscriptionMenuUseCase>()),
+      () => AddOnsBloc(instance<GetAddOnsUseCase>()),
     );
   }
 }
@@ -416,6 +417,12 @@ void initMealPlannerModule() {
     );
   }
 
+  if (!GetIt.I.isRegistered<GetAddonChoicesUseCase>()) {
+    instance.registerFactory<GetAddonChoicesUseCase>(
+      () => GetAddonChoicesUseCase(instance<Repository>()),
+    );
+  }
+
   if (!GetIt.I.isRegistered<GetSubscriptionDayUseCase>()) {
     instance.registerFactory<GetSubscriptionDayUseCase>(
       () => GetSubscriptionDayUseCase(instance<Repository>()),
@@ -463,6 +470,7 @@ void initMealPlannerModule() {
     instance.registerFactoryParam<MealPlannerBloc, Map<String, dynamic>, void>(
       (params, _) => MealPlannerBloc(
         instance<GetMealPlannerMenuUseCase>(),
+        instance<GetAddonChoicesUseCase>(),
         instance<GetSubscriptionDayUseCase>(),
         instance<ValidateDaySelectionUseCase>(),
         instance<SaveDaySelectionUseCase>(),

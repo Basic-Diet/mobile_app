@@ -467,6 +467,8 @@
     "addonChoosePrompt": "اختر إضافاتك",
     "addonSelectedCount": "تم اختيار {count} إضافة",
     "addonApplySelections": "تطبيق الاختيارات",
+    "addonCalories": "{count} سعرة",
+    "addonPrepTime": "{minutes} دقيقة",
     "pickupAlreadyRequested": "تم طلب التجهيز بالفعل",
     "pickupAlreadyCompleted": "تم الاستلام بالفعل",
     "pickupAlreadyClosed": "انتهت نافذة الاستلام",

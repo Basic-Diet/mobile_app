@@ -1,4 +1,4 @@
-import 'package:basic_diet/domain/model/add_ons_model.dart';
+import 'package:basic_diet/domain/model/addon_choices_model.dart';
 import 'package:basic_diet/domain/model/current_subscription_overview_model.dart';
 import 'package:basic_diet/domain/model/meal_planner_menu_model.dart';
 import 'package:basic_diet/domain/model/subscription_day_model.dart';
@@ -172,7 +172,7 @@ final class PremiumUsageEvaluation {
 final class MealPlannerLoaded extends MealPlannerState {
   final List<TimelineDayModel> timelineDays;
   final MealPlannerMenuModel menu;
-  final List<AddOnModel> addOnsCatalog;
+  final AddonChoicesModel addonChoices;
   final List<AddonSubscriptionModel> addonEntitlements;
   final List<PremiumSummaryModel> premiumSummaries;
   final int selectedDayIndex;
@@ -198,7 +198,7 @@ final class MealPlannerLoaded extends MealPlannerState {
   const MealPlannerLoaded({
     required this.timelineDays,
     required this.menu,
-    required this.addOnsCatalog,
+    required this.addonChoices,
     required this.addonEntitlements,
     required this.premiumSummaries,
     required this.selectedDayIndex,
@@ -236,34 +236,45 @@ final class MealPlannerLoaded extends MealPlannerState {
   List<AddonSelectionModel> get addonSelections =>
       selectedDayDetail?.addonSelections ?? const [];
 
-  List<AddOnModel> get plannerAddOnsCatalog =>
-      addOnsCatalog.where((addon) => addon.isItem && addon.isFlatOnce).toList();
+  Map<String, AddonChoiceCategoryModel> get groupedAddons =>
+      addonChoices.categoriesByKey;
 
-  Map<String, List<AddOnModel>> get groupedAddons {
-    if (menu.addonsByCategory.isNotEmpty) {
-      return menu.addonsByCategory;
+  Map<String, AddonChoiceModel> get _catalogById {
+    final map = <String, AddonChoiceModel>{};
+    for (final category in addonChoices.categories) {
+      for (final addon in category.choices) {
+        map[addon.id] = addon;
+      }
     }
-    final grouped = <String, List<AddOnModel>>{};
-    for (final addon in plannerAddOnsCatalog) {
-      grouped.putIfAbsent(addon.category, () => <AddOnModel>[]).add(addon);
-    }
-    return grouped;
+    return map;
   }
 
-  List<AddOnModel> get selectedAddOnModels {
-    final catalogMap = {
-      for (final addon in plannerAddOnsCatalog) addon.id: addon,
-    };
+  List<AddonChoiceModel> get selectedAddOnModels {
     return selectedAddOnIds
-        .where((id) => catalogMap.containsKey(id))
-        .map((id) => catalogMap[id]!)
+        .map((id) => _catalogById[id])
+        .whereType<AddonChoiceModel>()
         .toList();
   }
 
-  List<AddOnModel> selectedAddonsForCategory(String category) {
-    return selectedAddOnModels
-        .where((addon) => addon.category == category)
-        .toList();
+  List<AddonChoiceModel> selectedAddonsForCategory(String category) {
+    final selectedId = selectedAddOnIdForCategory(category);
+    if (selectedId == null) {
+      return const [];
+    }
+    final addon = _catalogById[selectedId];
+    return addon == null ? const [] : [addon];
+  }
+
+  String? selectedAddOnIdForCategory(String category) {
+    final selectedIds = selectedAddOnIds;
+    final catalog = _catalogById;
+    for (final id in selectedIds) {
+      final addon = catalog[id];
+      if (addon?.categoryKey == category) {
+        return id;
+      }
+    }
+    return null;
   }
 
   String addonSelectionStatusFor(
@@ -287,10 +298,7 @@ final class MealPlannerLoaded extends MealPlannerState {
     String addonId, {
     required List<String> selectedAddonIds,
   }) {
-    final targetAddon = plannerAddOnsCatalog
-        .where((addon) => addon.id == addonId)
-        .cast<AddOnModel?>()
-        .firstWhere((addon) => addon != null, orElse: () => null);
+    final targetAddon = _catalogById[addonId];
 
     if (targetAddon == null) {
       return 'pending_payment';
@@ -305,22 +313,19 @@ final class MealPlannerLoaded extends MealPlannerState {
       }
     }
 
-    final catalogById = {
-      for (final addon in plannerAddOnsCatalog) addon.id: addon,
-    };
     for (final id in selectedAddonIds) {
-      final addon = catalogById[id];
+      final addon = _catalogById[id];
       if (addon == null) continue;
-      final remaining = allowances[addon.category] ?? 0;
+      final remaining = allowances[addon.categoryKey] ?? 0;
       if (addon.id == targetAddon.id) {
         return remaining > 0 ? 'subscription' : 'pending_payment';
       }
       if (remaining > 0) {
-        allowances[addon.category] = remaining - 1;
+        allowances[addon.categoryKey] = remaining - 1;
       }
     }
 
-    final remaining = allowances[targetAddon.category] ?? 0;
+    final remaining = allowances[targetAddon.categoryKey] ?? 0;
     return remaining > 0 ? 'subscription' : 'pending_payment';
   }
 
@@ -507,7 +512,7 @@ final class MealPlannerLoaded extends MealPlannerState {
   List<Object?> get props => [
     timelineDays,
     menu,
-    addOnsCatalog,
+    addonChoices,
     addonEntitlements,
     premiumSummaries,
     selectedDayIndex,
@@ -534,7 +539,7 @@ final class MealPlannerLoaded extends MealPlannerState {
   MealPlannerLoaded copyWith({
     List<TimelineDayModel>? timelineDays,
     MealPlannerMenuModel? menu,
-    List<AddOnModel>? addOnsCatalog,
+    AddonChoicesModel? addonChoices,
     List<AddonSubscriptionModel>? addonEntitlements,
     List<PremiumSummaryModel>? premiumSummaries,
     int? selectedDayIndex,
@@ -564,7 +569,7 @@ final class MealPlannerLoaded extends MealPlannerState {
     return MealPlannerLoaded(
       timelineDays: timelineDays ?? this.timelineDays,
       menu: menu ?? this.menu,
-      addOnsCatalog: addOnsCatalog ?? this.addOnsCatalog,
+      addonChoices: addonChoices ?? this.addonChoices,
       addonEntitlements: addonEntitlements ?? this.addonEntitlements,
       premiumSummaries: premiumSummaries ?? this.premiumSummaries,
       selectedDayIndex: selectedDayIndex ?? this.selectedDayIndex,

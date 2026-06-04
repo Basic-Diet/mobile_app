@@ -1,5 +1,6 @@
 import 'package:basic_diet/data/network/failure.dart';
 import 'package:basic_diet/data/request/day_selection_request.dart';
+import 'package:basic_diet/domain/model/addon_choices_model.dart';
 import 'package:basic_diet/domain/model/current_subscription_overview_model.dart';
 import 'package:basic_diet/domain/model/meal_planner_menu_model.dart';
 import 'package:basic_diet/domain/model/premium_payment_model.dart';
@@ -7,6 +8,7 @@ import 'package:basic_diet/domain/model/subscription_day_model.dart';
 import 'package:basic_diet/domain/model/timeline_model.dart';
 import 'package:basic_diet/domain/usecase/confirm_day_selection_usecase.dart';
 import 'package:basic_diet/domain/usecase/create_unified_day_payment_usecase.dart';
+import 'package:basic_diet/domain/usecase/get_addon_choices_usecase.dart';
 import 'package:basic_diet/domain/usecase/get_meal_planner_menu_usecase.dart';
 import 'package:basic_diet/domain/usecase/get_subscription_day_usecase.dart';
 import 'package:flutter/foundation.dart';
@@ -26,6 +28,7 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
       'DAY_PAYMENT_REVISION_MISMATCH';
 
   final GetMealPlannerMenuUseCase _getMealPlannerMenuUseCase;
+  final GetAddonChoicesUseCase _getAddonChoicesUseCase;
   final GetSubscriptionDayUseCase _getSubscriptionDayUseCase;
   final ValidateDaySelectionUseCase _validateDaySelectionUseCase;
   final SaveDaySelectionUseCase _saveDaySelectionUseCase;
@@ -42,6 +45,7 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
 
   MealPlannerBloc(
     GetMealPlannerMenuUseCase getMealPlannerMenuUseCase,
+    GetAddonChoicesUseCase getAddonChoicesUseCase,
     GetSubscriptionDayUseCase getSubscriptionDayUseCase,
     ValidateDaySelectionUseCase validateDaySelectionUseCase,
     SaveDaySelectionUseCase saveDaySelectionUseCase,
@@ -56,6 +60,7 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
     this.mealBalance,
     String? subscriptionId,
   }) : _getMealPlannerMenuUseCase = getMealPlannerMenuUseCase,
+       _getAddonChoicesUseCase = getAddonChoicesUseCase,
        _getSubscriptionDayUseCase = getSubscriptionDayUseCase,
        _validateDaySelectionUseCase = validateDaySelectionUseCase,
        _saveDaySelectionUseCase = saveDaySelectionUseCase,
@@ -82,9 +87,9 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
                    maxSlotsPerDay: 1,
                  ),
                ),
-             ),
            ),
-           addOnsCatalog: const [],
+          ),
+           addonChoices: const AddonChoicesModel(),
            addonEntitlements: addonEntitlements,
            premiumSummaries: premiumSummaries,
            selectedDayIndex: initialDayIndex,
@@ -103,7 +108,6 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
     on<SetMealSlotProteinEvent>(_onSetProtein);
     on<SetMealSlotCarbEvent>(_onSetCarb);
     on<SetPremiumLargeSaladEvent>(_onSetPremiumLargeSalad);
-    on<ToggleAddOnSelectionEvent>(_onToggleAddonSelection);
     on<SelectAddonForCategoryEvent>(_onSelectAddonForCategory);
     on<DismissPendingAddonPromptEvent>(_onDismissPendingAddonPrompt);
     on<SaveMealPlannerChangesEvent>(_onSave);
@@ -128,6 +132,12 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
     }
 
     final menu = menuResult.getOrElse(() => throw Exception());
+    final addonChoicesResult = await _getAddonChoicesUseCase.execute(null);
+    final addonChoices = addonChoicesResult.fold(
+      (_) => _buildFallbackAddonChoices(menu),
+      (choices) =>
+          choices.isEmpty ? _buildFallbackAddonChoices(menu) : choices,
+    );
     final slotsByDay = <int, List<MealPlannerSlotSelection>>{};
     final savedSlotsByDay = <int, List<MealPlannerSlotSelection>>{};
     final selectedAddOnIdsByDay = <int, List<String>>{};
@@ -152,7 +162,7 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
     final initialState = MealPlannerLoaded(
       timelineDays: initialTimelineDays,
       menu: menu,
-      addOnsCatalog: menu.addons,
+      addonChoices: addonChoices,
       addonEntitlements: addonEntitlements,
       premiumSummaries: premiumSummaries,
       selectedDayIndex: initialDayIndex,
@@ -378,8 +388,8 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
     );
   }
 
-  void _onToggleAddonSelection(
-    ToggleAddOnSelectionEvent event,
+  void _onSelectAddonForCategory(
+    SelectAddonForCategoryEvent event,
     Emitter<MealPlannerState> emit,
   ) {
     if (state is! MealPlannerLoaded) return;
@@ -389,11 +399,16 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
       return;
     }
 
-    final currentIds = List<String>.from(current.selectedAddOnIds);
-    if (currentIds.contains(event.addOn.id)) {
-      currentIds.remove(event.addOn.id);
-    } else {
-      currentIds.add(event.addOn.id);
+    final categoryAddonIds =
+        current.groupedAddons[event.category]?.choices
+                .map((a) => a.id)
+                .toSet() ??
+            <String>{};
+    final currentIds =
+        List<String>.from(current.selectedAddOnIds)
+          ..removeWhere((id) => categoryAddonIds.contains(id));
+    if (event.addonId != null && categoryAddonIds.contains(event.addonId)) {
+      currentIds.add(event.addonId!);
     }
 
     emit(
@@ -407,35 +422,43 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
     );
   }
 
-  void _onSelectAddonForCategory(
-    SelectAddonForCategoryEvent event,
-    Emitter<MealPlannerState> emit,
-  ) {
-    if (state is! MealPlannerLoaded) return;
-    final current = state as MealPlannerLoaded;
-    if (!current.isSelectedDayEditable) {
-      emit(current.copyWith(paymentError: _dayNotEditableReason(current)));
-      return;
+  AddonChoicesModel _buildFallbackAddonChoices(MealPlannerMenuModel menu) {
+    final items =
+        menu.addons.where((addon) => addon.isItem && addon.isFlatOnce).toList();
+    final grouped = <String, List<AddonChoiceModel>>{};
+    for (final addon in items) {
+      grouped.putIfAbsent(addon.category, () => <AddonChoiceModel>[]).add(
+        AddonChoiceModel(
+          id: addon.id,
+          key: addon.id,
+          name: addon.name,
+          nameAr: '',
+          nameI18n: const {},
+          priceHalala: addon.priceHalala,
+          priceSar: addon.priceSar,
+          currency: addon.currency,
+          calories: null,
+          prepTimeMinutes: null,
+          categoryKey: addon.category,
+          itemType: addon.kind,
+          type: addon.kind,
+          available: true,
+          active: true,
+          ui: const {},
+        ),
+      );
     }
 
-    final categoryAddonIds =
-        current.addOnsCatalog
-            .where((a) => a.category == event.category)
-            .map((a) => a.id)
-            .toSet();
-    final currentIds =
-        List<String>.from(current.selectedAddOnIds)
-          ..removeWhere((id) => categoryAddonIds.contains(id))
-          ..addAll(event.addonIds.where((id) => categoryAddonIds.contains(id)));
-
-    emit(
-      current.copyWith(
-        selectedAddOnIdsByDay: Map<int, List<String>>.from(
-          current.selectedAddOnIdsByDay,
-        )..[current.selectedDayIndex] = currentIds,
-        clearPendingAddonPrompt: true,
-        clearPaymentError: true,
-      ),
+    return AddonChoicesModel(
+      categories:
+          grouped.entries
+              .map(
+                (entry) => AddonChoiceCategoryModel(
+                  category: entry.key,
+                  choices: entry.value,
+                ),
+              )
+              .toList(),
     );
   }
 

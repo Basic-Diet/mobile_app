@@ -1,4 +1,4 @@
-import 'package:basic_diet/domain/model/add_ons_model.dart';
+import 'package:basic_diet/domain/model/addon_choices_model.dart';
 import 'package:basic_diet/domain/model/current_subscription_overview_model.dart';
 import 'package:basic_diet/presentation/plans/timeline/meal_planner/bloc/meal_planner_bloc.dart';
 import 'package:basic_diet/presentation/plans/timeline/meal_planner/bloc/meal_planner_state.dart';
@@ -50,7 +50,7 @@ class DailyAddonSelectionCard extends StatelessWidget {
             _EntitlementBanner(state: state),
           ],
           Gap(AppSize.s16.h),
-          if (state.plannerAddOnsCatalog.isEmpty)
+          if (state.groupedAddons.isEmpty)
             _DisabledSelectorField()
           else
             _AddonSelectorField(state: state, isReadOnly: isReadOnly),
@@ -203,10 +203,7 @@ class _AddonSelectorField extends StatelessWidget {
     final bloc = context.read<MealPlannerBloc>();
     final selectedByCategory = {
       for (final entry in state.groupedAddons.entries)
-        entry.key:
-            state.selectedAddonsForCategory(entry.key)
-                .map((addon) => addon.id)
-                .toList(),
+        entry.key: state.selectedAddOnIdForCategory(entry.key),
     };
 
     showModalBottomSheet<void>(
@@ -221,8 +218,7 @@ class _AddonSelectorField extends StatelessWidget {
             emptyLabel: Strings.addonNoItemsAvailable.tr(),
             badgeLabelBuilder:
                 (addon, localSelections) => _badgeLabelFor(
-                  addon.id,
-                  addon.priceHalala,
+                  addon,
                   localSelections,
                 ),
           ),
@@ -230,16 +226,15 @@ class _AddonSelectorField extends StatelessWidget {
   }
 
   String? _badgeLabelFor(
-    String addonId,
-    int priceHalala,
-    Map<String, List<String>> localSelections,
+    AddonChoiceModel addon,
+    Map<String, String?> localSelections,
   ) {
     final selectedAddonIds = <String>[
-      for (final entry in state.groupedAddons.entries)
-        ...localSelections[entry.key] ?? const <String>[],
+      for (final selectedId in localSelections.values)
+        if (selectedId != null) selectedId,
     ];
     final status = state.addonSelectionStatusFor(
-      addonId,
+      addon.id,
       selectedAddonIdsOverride: selectedAddonIds,
     );
     if (status == 'subscription' || status == 'included') {
@@ -249,7 +244,7 @@ class _AddonSelectorField extends StatelessWidget {
       return Strings.addonStatusPaid.tr();
     }
     if (status == 'pending_payment') {
-      return '${Strings.addonStatusPendingPayment.tr()} (${_moneyLabel(priceHalala, state.paymentCurrency)})';
+      return '${Strings.addonStatusPendingPayment.tr()} (${_moneyLabel(addon.priceHalala, state.paymentCurrency)})';
     }
     return null;
   }
@@ -436,14 +431,14 @@ class _SelectedAddonsList extends StatelessWidget {
 
 class _SelectedAddonRow extends StatelessWidget {
   final MealPlannerLoaded state;
-  final AddOnModel addon;
+  final AddonChoiceModel addon;
 
   const _SelectedAddonRow({required this.state, required this.addon});
 
   @override
   Widget build(BuildContext context) {
     final status = state.addonSelectionStatusFor(addon.id);
-    final label = addon.ui.title.isNotEmpty ? addon.ui.title : addon.name;
+    final label = addon.displayName(context.locale.languageCode);
     final badgeLabel =
         status == 'subscription' || status == 'included'
             ? Strings.addonStatusIncluded.tr()

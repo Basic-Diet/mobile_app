@@ -57,7 +57,10 @@ extension AddonSelectionResponseMapper on AddonSelectionResponse {
     return AddonSelectionModel(
       addonId: addonId ?? '',
       category: category ?? '',
-      status: rawStatus == 'subscription' ? 'included' : rawStatus,
+      status:
+          rawStatus == 'subscription' || rawStatus == 'selected'
+              ? 'included'
+              : rawStatus,
       source: source ?? '',
       name: name ?? '',
       priceHalala: priceHalala ?? 0,

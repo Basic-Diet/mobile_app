@@ -507,6 +507,8 @@ class Strings {
   static const String addonChoosePrompt = 'addonChoosePrompt';
   static const String addonSelectedCount = 'addonSelectedCount';
   static const String addonApplySelections = 'addonApplySelections';
+  static const String addonCalories = 'addonCalories';
+  static const String addonPrepTime = 'addonPrepTime';
 
   // Profile
   static const String language = 'language';

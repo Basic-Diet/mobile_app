@@ -325,9 +325,10 @@ class _AppServiceClient implements AppServiceClient {
   }
 
   @override
-  Future<AddOnsResponse> getAddOns() async {
+  Future<AddOnsResponse> getAddOns(String? type) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'type': type};
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<AddOnsResponse>(
@@ -344,6 +345,34 @@ class _AppServiceClient implements AppServiceClient {
     late AddOnsResponse _value;
     try {
       _value = AddOnsResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<AddonChoicesResponse> getAddonChoices({String? category}) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'category': category};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<AddonChoicesResponse>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/subscriptions/addon-choices',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late AddonChoicesResponse _value;
+    try {
+      _value = AddonChoicesResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

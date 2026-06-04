@@ -1,4 +1,4 @@
-import 'package:basic_diet/domain/model/add_ons_model.dart';
+import 'package:basic_diet/domain/model/addon_choices_model.dart';
 import 'package:basic_diet/presentation/plans/timeline/meal_planner/bloc/meal_planner_bloc.dart';
 import 'package:basic_diet/presentation/plans/timeline/meal_planner/bloc/meal_planner_event.dart';
 import 'package:basic_diet/presentation/resources/color_manager.dart';
@@ -13,12 +13,12 @@ import 'package:gap/gap.dart';
 
 class AddonSelectionBottomSheet extends StatefulWidget {
   final MealPlannerBloc bloc;
-  final Map<String, List<AddOnModel>> groupedItems;
-  final Map<String, List<String>> selectedAddonIdsByCategory;
+  final Map<String, AddonChoiceCategoryModel> groupedItems;
+  final Map<String, String?> selectedAddonIdsByCategory;
   final String emptyLabel;
   final String? Function(
-    AddOnModel addon,
-    Map<String, List<String>> selectedAddonIdsByCategory,
+    AddonChoiceModel addon,
+    Map<String, String?> selectedAddonIdsByCategory,
   )
   badgeLabelBuilder;
 
@@ -38,7 +38,7 @@ class AddonSelectionBottomSheet extends StatefulWidget {
 
 class _AddonSelectionBottomSheetState extends State<AddonSelectionBottomSheet> {
   late final List<String> _categories;
-  late final Map<String, List<String>> _localSelections;
+  late final Map<String, String?> _localSelections;
   late String _activeCategory;
 
   @override
@@ -47,20 +47,20 @@ class _AddonSelectionBottomSheetState extends State<AddonSelectionBottomSheet> {
     _categories = _resolveOrderedCategories(widget.groupedItems);
     _localSelections = {
       for (final entry in widget.selectedAddonIdsByCategory.entries)
-        entry.key: List<String>.from(entry.value),
+        entry.key: entry.value,
     };
     _activeCategory = _categories.isNotEmpty ? _categories.first : 'juice';
   }
 
-  List<AddOnModel> get _activeItems =>
-      widget.groupedItems[_activeCategory] ?? const [];
+  List<AddonChoiceModel> get _activeItems =>
+      widget.groupedItems[_activeCategory]?.choices ?? const [];
 
   void _applySelections() {
     for (final category in _categories) {
       widget.bloc.add(
         SelectAddonForCategoryEvent(
           category: category,
-          addonIds: List<String>.from(_localSelections[category] ?? const []),
+          addonId: _localSelections[category],
         ),
       );
     }
@@ -114,9 +114,8 @@ class _AddonSelectionBottomSheetState extends State<AddonSelectionBottomSheet> {
                           separatorBuilder: (_, __) => Gap(AppSize.s10.h),
                           itemBuilder: (context, index) {
                             final addon = _activeItems[index];
-                            final selectedIds =
-                                _localSelections[_activeCategory] ?? const [];
-                            final isSelected = selectedIds.contains(addon.id);
+                            final isSelected =
+                                _localSelections[_activeCategory] == addon.id;
                             return _AddonItemTile(
                               addon: addon,
                               isSelected: isSelected,
@@ -126,17 +125,8 @@ class _AddonSelectionBottomSheetState extends State<AddonSelectionBottomSheet> {
                               ),
                               onTap: () {
                                 setState(() {
-                                  final updatedIds = List<String>.from(
-                                    _localSelections[_activeCategory] ??
-                                        const [],
-                                  );
-                                  if (isSelected) {
-                                    updatedIds.remove(addon.id);
-                                  } else {
-                                    updatedIds.add(addon.id);
-                                  }
                                   _localSelections[_activeCategory] =
-                                      updatedIds;
+                                      isSelected ? null : addon.id;
                                 });
                               },
                             );
@@ -146,11 +136,11 @@ class _AddonSelectionBottomSheetState extends State<AddonSelectionBottomSheet> {
               _ApplyBar(
                 onApply: _applySelections,
                 onClear:
-                    (_localSelections[_activeCategory] ?? const []).isEmpty
+                    _localSelections[_activeCategory] == null
                         ? null
                         : () {
                           setState(() {
-                            _localSelections[_activeCategory] = [];
+                            _localSelections[_activeCategory] = null;
                           });
                         },
               ),
@@ -162,10 +152,11 @@ class _AddonSelectionBottomSheetState extends State<AddonSelectionBottomSheet> {
   }
 
   List<String> _resolveOrderedCategories(
-    Map<String, List<AddOnModel>> groupedItems,
+    Map<String, AddonChoiceCategoryModel> groupedItems,
   ) {
-    return groupedItems.keys
-        .where((key) => groupedItems[key]?.isNotEmpty ?? false)
+    return groupedItems.entries
+        .where((entry) => entry.value.choices.isNotEmpty)
+        .map((entry) => entry.key)
         .toList();
   }
 }
@@ -266,7 +257,7 @@ class _CategoryTabItem extends StatelessWidget {
 }
 
 class _AddonItemTile extends StatelessWidget {
-  final AddOnModel addon;
+  final AddonChoiceModel addon;
   final bool isSelected;
   final String? badgeLabel;
   final VoidCallback onTap;
@@ -282,6 +273,8 @@ class _AddonItemTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final requiresPayment =
         badgeLabel != null && RegExp(r'\d').hasMatch(badgeLabel!);
+    final localeCode = context.locale.languageCode;
+    final title = addon.displayName(localeCode);
 
     return InkWell(
       borderRadius: BorderRadius.circular(AppSize.s16.r),
@@ -323,18 +316,78 @@ class _AddonItemTile extends StatelessWidget {
               Gap(AppSize.s10.w),
             ],
             Expanded(
-              child: Text(
-                addon.ui.title.isNotEmpty ? addon.ui.title : addon.name,
-                textAlign: TextAlign.end,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: getBoldTextStyle(
-                  color: ColorManager.textPrimary,
-                  fontSize: FontSizeManager.s14.sp,
-                ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    title,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.end,
+                    style: getBoldTextStyle(
+                      color: ColorManager.textPrimary,
+                      fontSize: FontSizeManager.s14.sp,
+                    ),
+                  ),
+                  if (addon.calories != null || addon.prepTimeMinutes != null) ...[
+                    Gap(AppSize.s4.h),
+                    Wrap(
+                      spacing: AppSize.s8.w,
+                      runSpacing: AppSize.s4.h,
+                      alignment: WrapAlignment.end,
+                      children: [
+                        if (addon.calories != null)
+                          _MetaChip(
+                            label: Strings.addonCalories.tr(
+                              namedArgs: {
+                                'count': addon.calories.toString(),
+                              },
+                            ),
+                          ),
+                        if (addon.prepTimeMinutes != null)
+                          _MetaChip(
+                            label: Strings.addonPrepTime.tr(
+                              namedArgs: {
+                                'minutes': addon.prepTimeMinutes.toString(),
+                              },
+                            ),
+                          ),
+                      ],
+                    ),
+                  ],
+                ],
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class _MetaChip extends StatelessWidget {
+  final String label;
+
+  const _MetaChip({required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: AppPadding.p10.w,
+        vertical: AppPadding.p6.h,
+      ),
+      decoration: BoxDecoration(
+        color: ColorManager.backgroundSubtle.withValues(alpha: 0.7),
+        borderRadius: BorderRadius.circular(AppSize.s20.r),
+      ),
+      child: Text(
+        label,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: getRegularTextStyle(
+          color: ColorManager.textSecondary,
+          fontSize: FontSizeManager.s10.sp,
         ),
       ),
     );

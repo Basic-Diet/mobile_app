@@ -467,6 +467,8 @@
     "addonChoosePrompt": "Choose your add-ons",
     "addonSelectedCount": "{count} add-ons selected",
     "addonApplySelections": "Apply selections",
+    "addonCalories": "{count} calories",
+    "addonPrepTime": "{minutes} min",
     "pickupAlreadyRequested": "Pickup already requested",
     "pickupAlreadyCompleted": "Pickup already completed",
     "pickupAlreadyClosed": "Pickup window closed",

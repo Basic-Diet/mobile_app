@@ -1,4 +1,3 @@
-import 'package:basic_diet/domain/model/add_ons_model.dart';
 import 'package:equatable/equatable.dart';
 
 sealed class MealPlannerEvent extends Equatable {
@@ -88,27 +87,18 @@ final class SetPremiumLargeSaladEvent extends MealPlannerEvent {
   ];
 }
 
-final class ToggleAddOnSelectionEvent extends MealPlannerEvent {
-  final AddOnModel addOn;
-
-  const ToggleAddOnSelectionEvent(this.addOn);
-
-  @override
-  List<Object?> get props => [addOn];
-}
-
-/// Replaces the selected addons for a category. Pass an empty list to clear it.
+/// Replaces the selected addon for a category. Pass `null` to clear it.
 final class SelectAddonForCategoryEvent extends MealPlannerEvent {
   final String category;
-  final List<String> addonIds;
+  final String? addonId;
 
   const SelectAddonForCategoryEvent({
     required this.category,
-    required this.addonIds,
+    required this.addonId,
   });
 
   @override
-  List<Object?> get props => [category, addonIds];
+  List<Object?> get props => [category, addonId];
 }
 
 final class DismissPendingAddonPromptEvent extends MealPlannerEvent {

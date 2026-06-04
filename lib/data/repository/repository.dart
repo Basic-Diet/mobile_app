@@ -34,7 +34,9 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 
 import 'package:basic_diet/data/mappers/addons_mapper.dart';
+import 'package:basic_diet/data/mappers/addon_choices_mapper.dart';
 import 'package:basic_diet/domain/model/add_ons_model.dart';
+import 'package:basic_diet/domain/model/addon_choices_model.dart';
 import 'package:basic_diet/data/mappers/subscription_menu_mapper.dart';
 import 'package:basic_diet/domain/model/subscription_menu_model.dart';
 import 'package:basic_diet/data/mappers/current_subscription_overview_mapper.dart';
@@ -482,9 +484,25 @@ class RepositoryImpl implements Repository {
   }
 
   @override
-  Future<Either<Failure, AddOnsModel>> getAddOns() async {
+  Future<Either<Failure, AddOnsModel>> getAddOns({String? type}) async {
     try {
-      final response = await _remoteDataSource.getAddOns();
+      final response = await _remoteDataSource.getAddOns(type: type);
+      if (_isSuccessfulResponse(response)) {
+        return Right(response.toDomain());
+      } else {
+        return Left(
+          Failure(ApiInternalStatus.failure, ResponseMessage.defaultError),
+        );
+      }
+    } catch (error) {
+      return _handleError(error);
+    }
+  }
+
+  @override
+  Future<Either<Failure, AddonChoicesModel>> getAddonChoices() async {
+    try {
+      final response = await _remoteDataSource.getAddonChoices();
       if (_isSuccessfulResponse(response)) {
         return Right(response.toDomain());
       } else {
