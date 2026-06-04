@@ -40,6 +40,7 @@ class OrderMenuCategoryModel {
   final String id;
   final String key;
   final String name;
+  final Map<String, String> nameI18n;
   final String? description;
   final String? imageUrl;
   final String cardVariant;
@@ -50,12 +51,16 @@ class OrderMenuCategoryModel {
     required this.id,
     required this.key,
     required this.name,
+    this.nameI18n = const {},
     this.description,
     this.imageUrl,
     this.cardVariant = 'addon_collection',
     required this.sortOrder,
     required this.products,
   });
+
+  String displayName(String localeCode) =>
+      _resolveLocalizedText(name, nameI18n, localeCode);
 }
 
 class OrderMenuProductModel {
@@ -63,11 +68,14 @@ class OrderMenuProductModel {
   final String key;
   final String categoryId;
   final String name;
+  final Map<String, String> nameI18n;
   final String? description;
+  final Map<String, String> descriptionI18n;
   final String? imageUrl;
   final String itemType;
   final String pricingModel;
   final int priceHalala;
+  final int? calories;
   final int baseUnitGrams;
   final int defaultWeightGrams;
   final int minWeightGrams;
@@ -97,11 +105,14 @@ class OrderMenuProductModel {
     required this.key,
     required this.categoryId,
     required this.name,
+    this.nameI18n = const {},
     this.description,
+    this.descriptionI18n = const {},
     this.imageUrl,
     required this.itemType,
     required this.pricingModel,
     required this.priceHalala,
+    this.calories,
     required this.baseUnitGrams,
     required this.defaultWeightGrams,
     required this.minWeightGrams,
@@ -117,6 +128,19 @@ class OrderMenuProductModel {
     this.optionSections = const [],
     required this.optionGroups,
   });
+
+  String displayName(String localeCode) =>
+      _resolveLocalizedText(name, nameI18n, localeCode);
+
+  String displayDescription(String localeCode, {String fallback = ''}) {
+    final localized = _resolveLocalizedText(
+      description ?? fallback,
+      descriptionI18n,
+      localeCode,
+      preferFallbackText: true,
+    );
+    return localized.isNotEmpty ? localized : fallback;
+  }
 }
 
 class OrderMenuOptionGroupModel {
@@ -124,10 +148,13 @@ class OrderMenuOptionGroupModel {
   final String groupId;
   final String key;
   final String name;
+  final Map<String, String> nameI18n;
   final int minSelections;
   final int? maxSelections;
   final bool isRequired;
   final String displayStyle;
+  final String sourceKey;
+  final Map<String, dynamic> rules;
   final List<OrderMenuOptionSectionModel> optionSections;
   final int sortOrder;
   final List<OrderMenuOptionModel> options;
@@ -137,10 +164,13 @@ class OrderMenuOptionGroupModel {
     required this.groupId,
     required this.key,
     required this.name,
+    this.nameI18n = const {},
     required this.minSelections,
     required this.maxSelections,
     required this.isRequired,
     this.displayStyle = 'chips',
+    this.sourceKey = '',
+    this.rules = const {},
     this.optionSections = const [],
     required this.sortOrder,
     required this.options,
@@ -169,14 +199,23 @@ class OrderMenuOptionModel {
   final String groupId;
   final String key;
   final String name;
+  final Map<String, String> nameI18n;
+  final String? description;
+  final Map<String, String> descriptionI18n;
   final int extraPriceHalala;
   final int extraFeeHalala;
   final String displayCategoryKey;
   final String proteinFamilyKey;
+  final Map<String, String> proteinFamilyNameI18n;
   final String premiumKey;
+  final String selectionType;
+  final bool isPremium;
+  final int? calories;
   final int extraWeightUnitGrams;
   final int extraWeightPriceHalala;
   final int sortOrder;
+  final String imageUrl;
+  final Map<String, dynamic> ui;
 
   const OrderMenuOptionModel({
     required this.id,
@@ -184,15 +223,64 @@ class OrderMenuOptionModel {
     required this.groupId,
     required this.key,
     required this.name,
+    this.nameI18n = const {},
+    this.description,
+    this.descriptionI18n = const {},
     required this.extraPriceHalala,
     this.extraFeeHalala = 0,
     this.displayCategoryKey = '',
     this.proteinFamilyKey = '',
+    this.proteinFamilyNameI18n = const {},
     this.premiumKey = '',
+    this.selectionType = '',
+    this.isPremium = false,
+    this.calories,
     required this.extraWeightUnitGrams,
     required this.extraWeightPriceHalala,
     required this.sortOrder,
+    this.imageUrl = '',
+    this.ui = const {},
   });
+
+  String displayName(String localeCode) =>
+      _resolveLocalizedText(name, nameI18n, localeCode);
+}
+
+String _resolveLocalizedText(
+  String fallback,
+  Map<String, String> localized,
+  String localeCode, {
+  bool preferFallbackText = false,
+}) {
+  final normalizedLocale = localeCode.toLowerCase().replaceAll('_', '-');
+  final languageCode = normalizedLocale.split('-').first;
+
+  final candidates = <String>[
+    normalizedLocale,
+    languageCode,
+    if (languageCode == 'ar') 'ar',
+    if (languageCode == 'ar') 'en',
+    if (languageCode != 'ar') 'en',
+  ];
+
+  for (final candidate in candidates) {
+    final value = localized[candidate]?.trim();
+    if (value != null && value.isNotEmpty) {
+      return value;
+    }
+  }
+
+  final fallbackValue = fallback.trim();
+  if (fallbackValue.isNotEmpty || preferFallbackText) {
+    return fallbackValue;
+  }
+
+  for (final value in localized.values) {
+    final resolved = value.trim();
+    if (resolved.isNotEmpty) return resolved;
+  }
+
+  return '';
 }
 
 // ─── Legacy Fallback ───

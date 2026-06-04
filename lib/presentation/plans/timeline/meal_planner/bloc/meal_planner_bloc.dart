@@ -525,8 +525,11 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
     );
 
     result.fold(
-      (failure) {
+      (failure) async {
         if (!emit.isDone) {
+          if (_isCatalogItemUnavailableFailure(failure)) {
+            await _refreshCatalogData(emit, baseState);
+          }
           emit(
             baseState.copyWith(
               isRefreshingDay: false,
@@ -605,6 +608,9 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
       (_) => null,
     );
     if (validationFailure != null) {
+      if (_isCatalogItemUnavailableFailure(validationFailure)) {
+        await _refreshCatalogData(emit, current);
+      }
       emit(
         current.copyWith(
           isSaving: false,
@@ -631,6 +637,9 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
     await result.fold(
       (failure) async {
         if (!emit.isDone) {
+          if (_isCatalogItemUnavailableFailure(failure)) {
+            await _refreshCatalogData(emit, current);
+          }
           emit(
             current.copyWith(
               isSaving: false,
@@ -1494,10 +1503,39 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
 
   String _formatFailure(Failure failure) {
     final code = failure.code?.toString();
+    if (code != null && code.toUpperCase() == 'CATALOG_ITEM_UNAVAILABLE') {
+      return Strings.catalogItemUnavailable.tr();
+    }
     if (code != null && code.isNotEmpty) {
       return failure.message.isNotEmpty ? '$code: ${failure.message}' : code;
     }
     return failure.message;
+  }
+
+  bool _isCatalogItemUnavailableFailure(Failure failure) {
+    return failure.code?.toString().toUpperCase() == 'CATALOG_ITEM_UNAVAILABLE';
+  }
+
+  Future<void> _refreshCatalogData(
+    Emitter<MealPlannerState> emit,
+    MealPlannerLoaded current,
+  ) async {
+    final menuResult = await _getMealPlannerMenuUseCase.execute(null);
+    final addonChoicesResult = await _getAddonChoicesUseCase.execute(null);
+    if (emit.isDone) return;
+
+    final refreshedMenu = menuResult.fold((_) => current.menu, (menu) => menu);
+    final refreshedAddonChoices = addonChoicesResult.fold(
+      (_) => current.addonChoices,
+      (choices) => choices,
+    );
+
+    emit(
+      current.copyWith(
+        menu: refreshedMenu,
+        addonChoices: refreshedAddonChoices,
+      ),
+    );
   }
 
   void _onAddMealSlot(AddMealSlotEvent event, Emitter<MealPlannerState> emit) {

@@ -119,6 +119,9 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
 
     final targetContext = _sectionKeys[sectionKey]?.currentContext;
     if (targetContext == null) {
+      setState(() {
+        _activeChip = 'all';
+      });
       return;
     }
 
@@ -191,8 +194,10 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
               return _MenuErrorView(message: Strings.noProductsAvailable.tr());
             }
 
-            final builderData = _buildBuilderSections(menu);
             final sections = _buildDirectSections(menu);
+            if (sections.isEmpty) {
+              return _MenuErrorView(message: Strings.noProductsAvailable.tr());
+            }
             final chips = _buildChips(sections);
 
             return Stack(
@@ -247,19 +252,6 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Gap(AppSize.s12.h),
-                                  _SectionAnchor(
-                                    anchorKey: _sectionKey('custom_order'),
-                                    child: _BuilderSection(
-                                      mainProducts: _filterProducts(
-                                        builderData.main,
-                                      ),
-                                      lightProducts: _filterProducts(
-                                        builderData.light,
-                                      ),
-                                      currency: menu.currency,
-                                      onOpenBuilder: _openBuilder,
-                                    ),
-                                  ),
                                   for (final section in sections)
                                     _SectionAnchor(
                                       anchorKey: _sectionKey(section.key),
@@ -288,7 +280,9 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
                                                 AddItemEvent(
                                                   CartItem(
                                                     productId: product.id,
-                                                    name: product.name,
+                                                    name: product.displayName(
+                                                      context.locale.toString(),
+                                                    ),
                                                     qty: 1,
                                                     unitPriceHalala:
                                                         product.priceHalala,
@@ -332,12 +326,15 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
     return products
         .where(
           (product) =>
-              product.name.toLowerCase().contains(_searchQuery) ||
+              product.displayName(context.locale.toString()).toLowerCase().contains(
+                _searchQuery,
+              ) ||
               product.key.toLowerCase().contains(_searchQuery),
         )
         .toList();
   }
 
+  // ignore: unused_element
   _BuilderProductsData _buildBuilderSections(OrderMenuModel menu) {
     final allConfigurable =
         menu.categories
@@ -364,7 +361,6 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
   List<_MenuChipData> _buildChips(List<_MenuSectionData> sections) {
     final chips = <_MenuChipData>[
       _MenuChipData(key: 'all', label: Strings.all.tr()),
-      _MenuChipData(key: 'custom_order', label: Strings.customOrder.tr()),
     ];
 
     for (final section in sections) {
@@ -682,6 +678,7 @@ class _MenuChipsRow extends StatelessWidget {
   }
 }
 
+// ignore: unused_element
 class _BuilderSection extends StatelessWidget {
   final List<OrderMenuProductModel> mainProducts;
   final List<OrderMenuProductModel> lightProducts;
@@ -774,7 +771,10 @@ class _BuilderProductCard extends StatelessWidget {
               children: [
                 Positioned.fill(
                   child: _MenuMediaBox(
-                    label: _initials(product.name, context),
+                    label: _initials(
+                      product.displayName(context.locale.toString()),
+                      context,
+                    ),
                     imageUrl: imageUrl,
                     borderRadius: AppSize.s26.r,
                   ),
@@ -814,7 +814,7 @@ class _BuilderProductCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        product.name,
+                      product.displayName(context.locale.toString()),
                         textAlign: TextAlign.right,
                         style: getBoldTextStyle(
                           fontSize: FontSizeManager.s18.sp,
@@ -823,7 +823,7 @@ class _BuilderProductCard extends StatelessWidget {
                       ),
                       Gap(AppSize.s4.h),
                       Text(
-                        _builderDescriptionForKey(product.key, context),
+                      _productDescription(product, context),
                         textAlign: TextAlign.right,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -914,7 +914,7 @@ class _LightBuilderCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      product.name,
+                      product.displayName(context.locale.toString()),
                       textAlign: TextAlign.right,
                       style: getBoldTextStyle(
                         fontSize: FontSizeManager.s16.sp,
@@ -923,7 +923,7 @@ class _LightBuilderCard extends StatelessWidget {
                     ),
                     Gap(AppSize.s3.h),
                     Text(
-                      _builderDescriptionForKey(product.key, context),
+                        _productDescription(product, context),
                       textAlign: TextAlign.right,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
@@ -973,7 +973,10 @@ class _LightBuilderCard extends StatelessWidget {
               ),
               Gap(AppSize.s14.w),
               _MenuMediaBox(
-                label: _initials(product.name, context),
+                label: _initials(
+                  product.displayName(context.locale.toString()),
+                  context,
+                ),
                 imageUrl: imageUrl,
                 width: AppSize.s84.w,
                 height: AppSize.s84.w,
@@ -1097,7 +1100,10 @@ class _CompactProductCard extends StatelessWidget {
             child: AspectRatio(
               aspectRatio: product.imageRatio ?? 1,
               child: _MenuMediaBox(
-                label: _initials(product.name, context),
+                label: _initials(
+                  product.displayName(context.locale.toString()),
+                  context,
+                ),
                 imageUrl: product.imageUrl,
                 borderRadius: AppSize.s16.r,
               ),
@@ -1109,7 +1115,7 @@ class _CompactProductCard extends StatelessWidget {
             Gap(AppSize.s6.h),
           ],
           Text(
-            product.name,
+            product.displayName(context.locale.toString()),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.right,
@@ -1193,7 +1199,10 @@ class _ListProductCard extends StatelessWidget {
                 child: AspectRatio(
                   aspectRatio: product.imageRatio ?? 1,
                   child: _MenuMediaBox(
-                    label: _initials(product.name, context),
+                    label: _initials(
+                      product.displayName(context.locale.toString()),
+                      context,
+                    ),
                     imageUrl: product.imageUrl,
                     borderRadius: AppSize.s18.r,
                   ),
@@ -1209,7 +1218,7 @@ class _ListProductCard extends StatelessWidget {
                       Gap(AppSize.s6.h),
                     ],
                     Text(
-                      product.name,
+                      product.displayName(context.locale.toString()),
                       textAlign: TextAlign.right,
                       style: getBoldTextStyle(
                         fontSize: FontSizeManager.s16.sp,
@@ -1218,7 +1227,7 @@ class _ListProductCard extends StatelessWidget {
                     ),
                     Gap(AppSize.s3.h),
                     Text(
-                      _productDescription(product),
+                      _productDescription(product, context),
                       textAlign: TextAlign.right,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
@@ -1951,7 +1960,7 @@ class _BuilderScreenState extends State<_BuilderScreen> {
     Navigator.of(context).pop(
       CartItem(
         productId: widget.product.id,
-        name: widget.product.name,
+        name: widget.product.displayName(context.locale.toString()),
         qty: _qty,
         weightGrams:
             widget.product.pricingModel == 'per_100g' ? _weightGrams : null,
@@ -2214,7 +2223,7 @@ class _BuilderScreenState extends State<_BuilderScreen> {
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               Text(
-                                product.name,
+                                product.displayName(context.locale.toString()),
                                 textAlign: TextAlign.right,
                                 style: getBoldTextStyle(
                                   fontSize: FontSizeManager.s22.sp,
@@ -2223,7 +2232,7 @@ class _BuilderScreenState extends State<_BuilderScreen> {
                               ),
                               Gap(AppSize.s6.h),
                               Text(
-                                _builderDescriptionForKey(product.key, context),
+                                _productDescription(product, context),
                                 textAlign: TextAlign.right,
                                 style: getBoldTextStyle(
                                   fontSize: FontSizeManager.s12_5.sp,
@@ -2236,7 +2245,10 @@ class _BuilderScreenState extends State<_BuilderScreen> {
                         Gap(AppSize.s14.w),
                         _BuilderHeroImage(
                           imageUrl: product.imageUrl,
-                          initials: _initials(product.name, context),
+                          initials: _initials(
+                            product.displayName(context.locale.toString()),
+                            context,
+                          ),
                         ),
                       ],
                     ),
@@ -3754,7 +3766,8 @@ String _selectionCountLabel(int selectedCount, int? maxSelections) {
 String _productCtaLabel(OrderMenuProductModel product, BuildContext context) {
   final ctaLabel = product.ctaLabel.trim();
   if (ctaLabel.isNotEmpty) {
-    return ctaLabel;
+    final translated = ctaLabel.tr();
+    return translated == ctaLabel ? ctaLabel : translated;
   }
   if (product.resolvedRequiresBuilder) {
     return Strings.startCustomization.tr();
@@ -3775,26 +3788,18 @@ String _initials(String value, BuildContext context) {
   return words.take(2).map((word) => word.characters.first).join();
 }
 
-String _productDescription(OrderMenuProductModel product) {
-  final description = product.description?.trim();
-  if (description != null && description.isNotEmpty) {
-    return description;
+String _productDescription(
+  OrderMenuProductModel product,
+  BuildContext context,
+) {
+  final localeCode = context.locale.toString();
+  final backendDescription = product.displayDescription(
+    localeCode,
+    fallback: '',
+  );
+  if (backendDescription.trim().isNotEmpty) {
+    return backendDescription;
   }
 
-  return product.name;
-}
-
-String _builderDescriptionForKey(String key, BuildContext context) {
-  switch (key) {
-    case 'basic_salad':
-      return Strings.builderBasicSaladDesc.tr();
-    case 'basic_meal':
-      return Strings.builderBasicMealDesc.tr();
-    case 'fruit_salad':
-      return Strings.builderFruitSaladDesc.tr();
-    case 'greek_yogurt':
-      return Strings.builderGreekYogurtDesc.tr();
-    default:
-      return Strings.customOrderSubtitle.tr();
-  }
+  return Strings.customOrderSubtitle.tr();
 }

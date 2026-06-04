@@ -46,6 +46,10 @@ extension OrderMenuCategoryResponseMapper on OrderMenuCategoryResponse? {
       id: this?.id ?? Constants.empty,
       key: this?.key ?? Constants.empty,
       name: this?.name ?? Constants.empty,
+      nameI18n:
+          (this?.nameI18n ?? const <String, dynamic>{}).map(
+            (key, value) => MapEntry(key, value?.toString() ?? ''),
+          ),
       description: this?.description,
       imageUrl: this?.imageUrl,
       cardVariant: _allowedValue(
@@ -66,11 +70,20 @@ extension OrderMenuProductResponseMapper on OrderMenuProductResponse? {
       key: this?.key ?? Constants.empty,
       categoryId: this?.categoryId ?? Constants.empty,
       name: this?.name ?? Constants.empty,
+      nameI18n:
+          (this?.nameI18n ?? const <String, dynamic>{}).map(
+            (key, value) => MapEntry(key, value?.toString() ?? ''),
+          ),
       description: this?.description,
+      descriptionI18n:
+          (this?.descriptionI18n ?? const <String, dynamic>{}).map(
+            (key, value) => MapEntry(key, value?.toString() ?? ''),
+          ),
       imageUrl: this?.imageUrl,
       itemType: this?.itemType ?? Constants.empty,
       pricingModel: this?.pricingModel ?? 'fixed',
       priceHalala: this?.priceHalala ?? Constants.zero,
+      calories: this?.calories,
       baseUnitGrams: this?.baseUnitGrams ?? Constants.zero,
       defaultWeightGrams: this?.defaultWeightGrams ?? Constants.zero,
       minWeightGrams: this?.minWeightGrams ?? Constants.zero,
@@ -102,6 +115,10 @@ extension OrderMenuOptionGroupResponseMapper on OrderMenuOptionGroupResponse? {
       groupId: this?.groupId ?? Constants.empty,
       key: this?.key ?? Constants.empty,
       name: this?.name ?? Constants.empty,
+      nameI18n:
+          (this?.nameI18n ?? const <String, dynamic>{}).map(
+            (key, value) => MapEntry(key, value?.toString() ?? ''),
+          ),
       minSelections: this?.minSelections ?? Constants.zero,
       maxSelections: this?.maxSelections,
       isRequired: this?.isRequired ?? false,
@@ -110,6 +127,8 @@ extension OrderMenuOptionGroupResponseMapper on OrderMenuOptionGroupResponse? {
         _displayStyles,
         'chips',
       ),
+      sourceKey: this?.sourceKey ?? Constants.empty,
+      rules: this?.rules ?? const {},
       optionSections:
           this?.optionSections?.map((e) => e.toDomain()).toList() ?? const [],
       sortOrder: this?.sortOrder ?? Constants.zero,
@@ -139,14 +158,32 @@ extension OrderMenuOptionResponseMapper on OrderMenuOptionResponse? {
       groupId: this?.groupId ?? Constants.empty,
       key: this?.key ?? Constants.empty,
       name: this?.name ?? Constants.empty,
+      nameI18n:
+          (this?.nameI18n ?? const <String, dynamic>{}).map(
+            (key, value) => MapEntry(key, value?.toString() ?? ''),
+          ),
+      description: this?.description,
+      descriptionI18n:
+          (this?.descriptionI18n ?? const <String, dynamic>{}).map(
+            (key, value) => MapEntry(key, value?.toString() ?? ''),
+          ),
       extraPriceHalala: this?.extraPriceHalala ?? Constants.zero,
       extraFeeHalala: this?.extraFeeHalala ?? Constants.zero,
       displayCategoryKey: this?.displayCategoryKey ?? Constants.empty,
       proteinFamilyKey: this?.proteinFamilyKey ?? Constants.empty,
+      proteinFamilyNameI18n:
+          (this?.proteinFamilyNameI18n ?? const <String, dynamic>{}).map(
+            (key, value) => MapEntry(key, value?.toString() ?? ''),
+          ),
       premiumKey: this?.premiumKey ?? Constants.empty,
+      selectionType: this?.selectionType ?? Constants.empty,
+      isPremium: this?.isPremium ?? false,
+      calories: this?.calories,
       extraWeightUnitGrams: this?.extraWeightUnitGrams ?? Constants.zero,
       extraWeightPriceHalala: this?.extraWeightPriceHalala ?? Constants.zero,
       sortOrder: this?.sortOrder ?? Constants.zero,
+      imageUrl: this?.imageUrl ?? Constants.empty,
+      ui: this?.ui == null ? const {} : this?.ui!.toJson() ?? const {},
     );
   }
 }

@@ -215,6 +215,31 @@ extension BuilderCatalogV2ResponseMapper on BuilderCatalogV2Response? {
       ),
     );
   }
+
+  BuilderCatalogV2Model toRawDomain() {
+    final self = this;
+    if (self == null) {
+      return BuilderCatalogV2Model(
+        catalogVersion: '',
+        currency: '',
+        sections: const [],
+        rules: BuilderRulesModel(
+          version: '',
+          beef: BeefRuleModel(proteinFamilyKey: '', maxSlotsPerDay: 0),
+        ),
+      );
+    }
+
+    return BuilderCatalogV2Model(
+      catalogVersion: self.catalogVersion.orEmpty(),
+      currency: self.currency.orEmpty(),
+      sections:
+          (self.sections ?? const <BuilderCatalogV2SectionResponse>[])
+              .map((section) => section.toRawDomain())
+              .toList(),
+      rules: (self.rules).toDomain(),
+    );
+  }
 }
 
 extension MealPlannerMenuResponseMapper on MealPlannerMenuResponse? {
@@ -267,8 +292,176 @@ extension MealPlannerMenuResponseMapper on MealPlannerMenuResponse? {
           self?.data?.builderCatalogV2 != null
               ? (self?.data?.builderCatalogV2).toDomain()
               : (self?.data?.builderCatalog).toDomain(),
+      builderCatalogV2: self?.data?.builderCatalogV2?.toRawDomain(),
       addons: addonItems,
       addonsByCategory: grouped,
+    );
+  }
+}
+
+extension BuilderCatalogV2SectionRawMapper on BuilderCatalogV2SectionResponse {
+  BuilderCatalogV2SectionModel toRawDomain() {
+    return BuilderCatalogV2SectionModel(
+      id: id.orEmpty(),
+      key: key.orEmpty(),
+      type: type.orEmpty(),
+      selectionType: selectionType.orEmpty(),
+      name: name.orEmpty(),
+      nameI18n:
+          (nameI18n ?? const <String, dynamic>{}).map(
+            (key, value) => MapEntry(key, value?.toString() ?? ''),
+          ),
+      description: description.orEmpty(),
+      descriptionI18n: const {},
+      sortOrder: sortOrder.orZero(),
+      ui: BuilderCatalogV2UiModel(
+        cardVariant: ui?.cardVariant ?? '',
+        badge: ui?.badge ?? '',
+        ctaLabel: ui?.ctaLabel ?? '',
+        imageRatio: ui?.imageRatio ?? '',
+        displayStyle: ui?.displayStyle ?? '',
+      ),
+      products: (products ?? const <BuilderCatalogV2ProductResponse>[])
+          .map((product) => product.toRawDomain())
+          .toList(),
+    );
+  }
+}
+
+extension BuilderCatalogV2ProductRawMapper on BuilderCatalogV2ProductResponse {
+  BuilderCatalogV2ProductModel toRawDomain() {
+    return BuilderCatalogV2ProductModel(
+      id: id.orEmpty(),
+      key: key.orEmpty(),
+      type: type.orEmpty(),
+      isVirtual: isVirtual.orFalse(),
+      selectionType: selectionType.orEmpty(),
+      name: name.orEmpty(),
+      nameI18n:
+          (nameI18n ?? const <String, dynamic>{}).map(
+            (key, value) => MapEntry(key, value?.toString() ?? ''),
+          ),
+      description: description.orEmpty(),
+      descriptionI18n:
+          (descriptionI18n ?? const <String, dynamic>{}).map(
+            (key, value) => MapEntry(key, value?.toString() ?? ''),
+          ),
+      imageUrl: imageUrl.orEmpty(),
+      itemType: itemType.orEmpty(),
+      pricingModel: pricingModel.orEmpty(),
+      priceHalala: priceHalala,
+      currency: currency.orEmpty(),
+      calories: calories,
+      proteinFamilyKey: proteinFamilyKey.orEmpty(),
+      sortOrder: sortOrder.orZero(),
+      ui: BuilderCatalogV2UiModel(
+        cardVariant: ui?.cardVariant ?? '',
+        badge: ui?.badge ?? '',
+        ctaLabel: ui?.ctaLabel ?? '',
+        imageRatio: ui?.imageRatio ?? '',
+        displayStyle: ui?.displayStyle ?? '',
+      ),
+      optionSections:
+          (optionSections ?? const <BuilderCatalogV2OptionSectionResponse>[])
+              .map((section) => section.toRawDomain())
+              .toList(),
+      optionGroups: (optionGroups ?? const <BuilderCatalogV2OptionGroupResponse>[])
+          .map((group) => group.toRawDomain())
+          .toList(),
+    );
+  }
+}
+
+extension BuilderCatalogV2OptionGroupRawMapper
+    on BuilderCatalogV2OptionGroupResponse {
+  BuilderCatalogV2OptionGroupModel toRawDomain() {
+    return BuilderCatalogV2OptionGroupModel(
+      id: id.orEmpty(),
+      groupId: groupId.orEmpty(),
+      key: key.orEmpty(),
+      sourceKey: sourceKey.orEmpty(),
+      name: name.orEmpty(),
+      nameI18n:
+          (nameI18n ?? const <String, dynamic>{}).map(
+            (key, value) => MapEntry(key, value?.toString() ?? ''),
+          ),
+      minSelections: minSelections,
+      maxSelections: maxSelections,
+      isRequired: isRequired.orFalse(),
+      sortOrder: sortOrder.orZero(),
+      ui: BuilderCatalogV2UiModel(
+        cardVariant: ui?.cardVariant ?? '',
+        badge: ui?.badge ?? '',
+        ctaLabel: ui?.ctaLabel ?? '',
+        imageRatio: ui?.imageRatio ?? '',
+        displayStyle: ui?.displayStyle ?? '',
+      ),
+      rules: rules ?? const {},
+      optionSections:
+          (optionSections ?? const <BuilderCatalogV2OptionSectionResponse>[])
+              .map((section) => section.toRawDomain())
+              .toList(),
+      options: (options ?? const <BuilderCatalogV2OptionResponse>[])
+          .map((option) => option.toRawDomain())
+          .toList(),
+    );
+  }
+}
+
+extension BuilderCatalogV2OptionSectionRawMapper
+    on BuilderCatalogV2OptionSectionResponse {
+  BuilderCatalogV2OptionSectionModel toRawDomain() {
+    return BuilderCatalogV2OptionSectionModel(
+      key: key.orEmpty(),
+      name: name.orEmpty(),
+      nameI18n:
+          (nameI18n ?? const <String, dynamic>{}).map(
+            (key, value) => MapEntry(key, value?.toString() ?? ''),
+          ),
+      proteinFamilyKey: proteinFamilyKey.orEmpty(),
+      optionIds: optionIds ?? const [],
+      sortOrder: sortOrder.orZero(),
+    );
+  }
+}
+
+extension BuilderCatalogV2OptionRawMapper on BuilderCatalogV2OptionResponse {
+  BuilderCatalogV2OptionModel toRawDomain() {
+    return BuilderCatalogV2OptionModel(
+      id: id.orEmpty(),
+      optionId: optionId.orEmpty(),
+      key: key.orEmpty(),
+      name: name.orEmpty(),
+      nameI18n:
+          (nameI18n ?? const <String, dynamic>{}).map(
+            (key, value) => MapEntry(key, value?.toString() ?? ''),
+          ),
+      description: description.orEmpty(),
+      descriptionI18n:
+          (descriptionI18n ?? const <String, dynamic>{}).map(
+            (key, value) => MapEntry(key, value?.toString() ?? ''),
+          ),
+      imageUrl: imageUrl.orEmpty(),
+      sortOrder: sortOrder.orZero(),
+      displayCategoryKey: displayCategoryKey.orEmpty(),
+      proteinFamilyKey: proteinFamilyKey.orEmpty(),
+      proteinFamilyNameI18n:
+          (proteinFamilyNameI18n ?? const <String, dynamic>{}).map(
+            (key, value) => MapEntry(key, value?.toString() ?? ''),
+          ),
+      premiumKey: premiumKey.orEmpty(),
+      extraFeeHalala: extraFeeHalala,
+      extraPriceHalala: extraPriceHalala,
+      selectionType: selectionType.orEmpty(),
+      isPremium: isPremium,
+      calories: calories,
+      ui: BuilderCatalogV2UiModel(
+        cardVariant: ui?.cardVariant ?? '',
+        badge: ui?.badge ?? '',
+        ctaLabel: ui?.ctaLabel ?? '',
+        imageRatio: ui?.imageRatio ?? '',
+        displayStyle: ui?.displayStyle ?? '',
+      ),
     );
   }
 }

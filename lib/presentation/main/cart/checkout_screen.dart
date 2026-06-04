@@ -202,6 +202,20 @@ class _CheckoutScreenContentState extends State<_CheckoutScreenContent> {
           }
 
           if (state is CheckoutLoaded &&
+              state.createStatus == OrderCreateStatus.failure) {
+            final message = checkoutErrorMessage(
+              code: state.createErrorCode,
+              fallback: state.createErrorMessage,
+            );
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(message)),
+            );
+            if (isCatalogItemUnavailableCode(state.createErrorCode)) {
+              _requestQuote();
+            }
+          }
+
+          if (state is CheckoutLoaded &&
               state.verifyStatus == OrderVerifyStatus.success) {
             final orderId = state.order?.orderId;
             if (orderId != null) {
@@ -232,7 +246,7 @@ class _CheckoutScreenContentState extends State<_CheckoutScreenContent> {
             if (state is CheckoutLoaded &&
                 state.quoteStatus == OrderQuoteStatus.failure) {
               return _ErrorView(
-                message: _checkoutErrorMessage(
+                message: checkoutErrorMessage(
                   code: state.quoteErrorCode,
                   fallback: state.quoteErrorMessage,
                 ),
@@ -994,9 +1008,13 @@ class _SummaryRow extends StatelessWidget {
   }
 }
 
-String _checkoutErrorMessage({required dynamic code, String? fallback}) {
-  if (code?.toString() == 'CATALOG_ITEM_UNAVAILABLE') {
+String checkoutErrorMessage({required dynamic code, String? fallback}) {
+  if (isCatalogItemUnavailableCode(code)) {
     return Strings.catalogItemUnavailable.tr();
   }
   return fallback ?? Strings.defaultError.tr();
+}
+
+bool isCatalogItemUnavailableCode(dynamic code) {
+  return code?.toString().toUpperCase() == 'CATALOG_ITEM_UNAVAILABLE';
 }

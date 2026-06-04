@@ -72,7 +72,7 @@ class AddonChoiceModel extends Equatable {
   bool get isSelectable => available && active;
 
   String displayName(String localeCode) {
-    final normalizedLocale = localeCode.toLowerCase();
+    final normalizedLocale = localeCode.toLowerCase().replaceAll('_', '-');
     final languageCode = normalizedLocale.split('-').first;
     if (nameI18n.containsKey(normalizedLocale)) {
       return nameI18n[normalizedLocale] ?? name;
