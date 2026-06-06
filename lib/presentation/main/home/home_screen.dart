@@ -1,3 +1,4 @@
+import 'package:basic_diet/app/auth_gate.dart';
 import 'package:basic_diet/presentation/main/home/bloc/home_bloc.dart';
 import 'package:basic_diet/presentation/main/home/bloc/home_event.dart';
 import 'package:basic_diet/presentation/main/home/bloc/home_state.dart';
@@ -118,7 +119,7 @@ class _HomeHeader extends StatelessWidget {
         Gap(AppSize.s10.w),
         _HeaderButton(
           icon: Icons.shopping_cart_outlined,
-          onTap: () => context.push('/cart'),
+          onTap: () => _openCart(context),
         ),
       ],
     );
@@ -197,11 +198,11 @@ class _SubscriptionHeroCard extends StatelessWidget {
           child: Stack(
             fit: StackFit.passthrough,
             children: [
-               Image(
+              Image(
                 image: AssetImage(
-                    context.locale.languageCode == 'ar'?
-                    ImageAssets.oneTimeSubscriptionHero:
-                    ImageAssets.oneTimeSubscriptionHeroRtl
+                  context.locale.languageCode == 'ar'
+                      ? ImageAssets.oneTimeSubscriptionHero
+                      : ImageAssets.oneTimeSubscriptionHeroRtl,
                 ),
                 fit: BoxFit.cover,
               ),
@@ -346,18 +347,21 @@ class _QuickOrderSection extends StatelessWidget {
                       gradient: LinearGradient(
                         begin: Alignment.centerLeft,
                         end: Alignment.centerRight,
-                        colors: context.locale.languageCode == 'ar'?[
-                          Colors.white.withValues(alpha: 0.0),
-                          Colors.white.withValues(alpha: 0.25),
-                          Colors.white.withValues(alpha: 0.84),
-                          Colors.white.withValues(alpha: 0.95),
-                        ]:[
-                          Colors.white.withValues(alpha: 0.95),
-                          Colors.white.withValues(alpha: 0.84),
-                          Colors.white.withValues(alpha: 0.25),
+                        colors:
+                            context.locale.languageCode == 'ar'
+                                ? [
+                                  Colors.white.withValues(alpha: 0.0),
+                                  Colors.white.withValues(alpha: 0.25),
+                                  Colors.white.withValues(alpha: 0.84),
+                                  Colors.white.withValues(alpha: 0.95),
+                                ]
+                                : [
+                                  Colors.white.withValues(alpha: 0.95),
+                                  Colors.white.withValues(alpha: 0.84),
+                                  Colors.white.withValues(alpha: 0.25),
 
-                          Colors.white.withValues(alpha: 0.0),
-                        ],
+                                  Colors.white.withValues(alpha: 0.0),
+                                ],
                         stops: const [0.0, 0.32, 0.68, 1.0],
                       ),
                     ),
@@ -634,7 +638,6 @@ class _RecommendationCardLarge extends StatelessWidget {
               color: Colors.white.withValues(alpha: 0.86),
               width: 1,
             ),
-
           ),
           child: Row(
             children: [
@@ -690,20 +693,20 @@ class _RecommendationCardLarge extends StatelessWidget {
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                                Text(
-                                  '‹',
-                                  style: getBoldTextStyle(
-                                    fontSize: FontSizeManager.s14.sp,
-                                    color: const Color(0xFF12382C),
-                                  ),
+                              Text(
+                                '‹',
+                                style: getBoldTextStyle(
+                                  fontSize: FontSizeManager.s14.sp,
+                                  color: const Color(0xFF12382C),
                                 ),
-                                Text(
-                                  Strings.customize.tr(),
-                                  style: getBoldTextStyle(
-                                    fontSize: FontSizeManager.s11_5.sp,
-                                    color: const Color(0xFF12382C),
-                                  ),
+                              ),
+                              Text(
+                                Strings.customize.tr(),
+                                style: getBoldTextStyle(
+                                  fontSize: FontSizeManager.s11_5.sp,
+                                  color: const Color(0xFF12382C),
                                 ),
+                              ),
                             ],
                           ),
                         ),
@@ -768,7 +771,6 @@ class _RecommendationCard extends StatelessWidget {
               color: Colors.white.withValues(alpha: 0.86),
               width: 1,
             ),
-
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
@@ -779,10 +781,7 @@ class _RecommendationCard extends StatelessWidget {
                 child: SizedBox(
                   width: double.infinity,
                   height: AppSize.s104.h,
-                  child: Image.asset(
-                    imagePath,
-                    fit: BoxFit.cover,
-                  ),
+                  child: Image.asset(imagePath, fit: BoxFit.cover),
                 ),
               ),
               Gap(AppSize.s9.h),
@@ -973,7 +972,8 @@ class _SectionHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      crossAxisAlignment: stacked ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+      crossAxisAlignment:
+          stacked ? CrossAxisAlignment.end : CrossAxisAlignment.start,
       children: [
         Expanded(
           child: Column(
@@ -1027,4 +1027,16 @@ void _openMenuSection(BuildContext context, String sectionKey) {
 void _openBuilderShortcut(BuildContext context, String productKey) {
   OneTimeMenuCoordinator.openProduct(productKey);
   context.read<MainBloc>().add(ChangeBottomNavIndexEvent(1));
+}
+
+Future<void> _openCart(BuildContext context) async {
+  if (!await requireAuthenticated(context)) {
+    return;
+  }
+
+  if (!context.mounted) {
+    return;
+  }
+
+  context.push('/cart');
 }

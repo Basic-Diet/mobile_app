@@ -4,7 +4,6 @@ import 'package:basic_diet/app/dependency_injection.dart';
 import 'package:basic_diet/domain/usecase/get_current_user_usecase.dart';
 import 'package:basic_diet/domain/usecase/refresh_token_usecase.dart';
 import 'package:basic_diet/presentation/language_selection/language_selection_screen.dart';
-import 'package:basic_diet/presentation/login/login_screen.dart';
 import 'package:basic_diet/presentation/main/main_screen.dart';
 import 'package:basic_diet/presentation/onboarding/on_boarding_screen.dart';
 import 'package:basic_diet/presentation/resources/assets_manager.dart';
@@ -51,11 +50,10 @@ class _SplashScreenState extends State<SplashScreen> {
         _appPreferences.isLanguageSelected(),
         fallback: false,
       );
-      final isOnboardingScreenViewed =
-          await _withTimeout(
-            _appPreferences.isOnboardingScreenViewed(),
-            fallback: false,
-          );
+      final isOnboardingScreenViewed = await _withTimeout(
+        _appPreferences.isOnboardingScreenViewed(),
+        fallback: false,
+      );
 
       if (!mounted) {
         return;
@@ -75,25 +73,22 @@ class _SplashScreenState extends State<SplashScreen> {
         _appPreferences.hasSessionTokens(),
         fallback: false,
       );
-      final isSessionValid =
-          hasSessionTokens
-              ? await _withTimeout(
-                _hasValidSession(),
-                fallback: false,
-                timeout: _sessionValidationTimeout,
-              )
-              : false;
+      if (hasSessionTokens) {
+        await _withTimeout(
+          _hasValidSession(),
+          fallback: false,
+          timeout: _sessionValidationTimeout,
+        );
+      }
 
       if (!mounted) {
         return;
       }
 
-      context.go(
-        isSessionValid ? MainScreen.mainRoute : LoginScreen.loginRoute,
-      );
+      context.go(MainScreen.mainRoute);
     } catch (_) {
       if (mounted) {
-        context.go(LoginScreen.loginRoute);
+        context.go(MainScreen.mainRoute);
       }
     }
   }

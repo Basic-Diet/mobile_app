@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:basic_diet/app/auth_gate.dart';
 import 'package:basic_diet/domain/model/current_subscription_overview_model.dart';
 import 'package:basic_diet/presentation/plans/bloc/plans_bloc.dart';
 import 'package:basic_diet/presentation/plans/bloc/plans_event.dart';
@@ -32,8 +33,14 @@ class PlansActionButtons extends StatelessWidget {
   Widget _buildTimelineButton(BuildContext context) {
     return ElevatedButton(
       onPressed: () async {
-        await Navigator.push(
-          context,
+        final plansBloc = context.read<PlansBloc>();
+        final navigator = Navigator.of(context);
+
+        if (!await requireAuthenticated(context)) {
+          return;
+        }
+
+        await navigator.push(
           MaterialPageRoute(
             builder:
                 (_) => TimeLineScreen(
@@ -43,10 +50,9 @@ class PlansActionButtons extends StatelessWidget {
                 ),
           ),
         );
-        if (context.mounted) {
-          context.read<PlansBloc>().add(
-            FetchCurrentSubscriptionOverviewEvent(),
-          );
+
+        if (!plansBloc.isClosed) {
+          plansBloc.add(FetchCurrentSubscriptionOverviewEvent());
         }
       },
       style: ElevatedButton.styleFrom(
@@ -80,13 +86,23 @@ class PlansActionButtons extends StatelessWidget {
 
   Widget _buildTodaysMealsButton(BuildContext context) {
     return OutlinedButton(
-      onPressed: () => context.read<PlansBloc>().add(
-        FetchTimelineAndOpenPlannerEvent(
-          data.id,
-          openCurrentDay: true,
-          preferredDate: data.businessDate,
-        ),
-      ),
+      onPressed: () async {
+        if (!await requireAuthenticated(context)) {
+          return;
+        }
+
+        if (!context.mounted) {
+          return;
+        }
+
+        context.read<PlansBloc>().add(
+          FetchTimelineAndOpenPlannerEvent(
+            data.id,
+            openCurrentDay: true,
+            preferredDate: data.businessDate,
+          ),
+        );
+      },
       style: OutlinedButton.styleFrom(
         padding: const EdgeInsetsDirectional.symmetric(
           vertical: AppPadding.p16,

@@ -1,4 +1,5 @@
 import 'package:basic_diet/app/dependency_injection.dart';
+import 'package:basic_diet/app/app_pref.dart';
 import 'package:basic_diet/presentation/plans/bloc/plans_bloc.dart';
 import 'package:basic_diet/presentation/plans/bloc/plans_event.dart';
 import 'package:basic_diet/presentation/plans/bloc/plans_state.dart';
@@ -25,6 +26,8 @@ class PlansScreen extends StatefulWidget {
 
 class _PlansScreenState extends State<PlansScreen> with WidgetsBindingObserver {
   late FulfillmentStatusCubit _fulfillmentStatusCubit;
+  bool _hasSession = false;
+  bool _isSessionChecked = false;
 
   @override
   void initState() {
@@ -32,6 +35,7 @@ class _PlansScreenState extends State<PlansScreen> with WidgetsBindingObserver {
     WidgetsBinding.instance.addObserver(this);
     initPlansModule();
     _fulfillmentStatusCubit = instance<FulfillmentStatusCubit>();
+    _loadSessionStatus();
   }
 
   @override
@@ -43,18 +47,48 @@ class _PlansScreenState extends State<PlansScreen> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) {
+    if (state == AppLifecycleState.resumed && _hasSession) {
       _fulfillmentStatusCubit.onAppResumed();
     }
   }
 
+  Future<void> _loadSessionStatus() async {
+    final hasSession = await instance<AppPreferences>().hasSessionTokens();
+    if (!mounted) {
+      return;
+    }
+
+    setState(() {
+      _hasSession = hasSession;
+      _isSessionChecked = true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (!_isSessionChecked) {
+      return const Scaffold(
+        backgroundColor: ColorManager.backgroundApp,
+        body: Center(
+          child: CircularProgressIndicator(color: ColorManager.brandPrimary),
+        ),
+      );
+    }
+
+    if (!_hasSession) {
+      return const Scaffold(
+        backgroundColor: ColorManager.backgroundApp,
+        body: SafeArea(child: NoSubscriptionView()),
+      );
+    }
+
     return MultiBlocProvider(
       providers: [
         BlocProvider<PlansBloc>(
-          create: (context) => instance<PlansBloc>()
-            ..add(FetchCurrentSubscriptionOverviewEvent()),
+          create:
+              (context) =>
+                  instance<PlansBloc>()
+                    ..add(FetchCurrentSubscriptionOverviewEvent()),
         ),
         BlocProvider<FulfillmentStatusCubit>.value(
           value: _fulfillmentStatusCubit,

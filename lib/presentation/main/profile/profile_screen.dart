@@ -5,7 +5,6 @@ import 'package:basic_diet/app/dependency_injection.dart';
 import 'package:basic_diet/app/constants.dart';
 import 'package:basic_diet/app/functions.dart';
 import 'package:basic_diet/domain/model/client_profile_model.dart';
-import 'package:basic_diet/presentation/login/login_screen.dart';
 import 'package:basic_diet/presentation/main/bloc/main_bloc.dart';
 import 'package:basic_diet/presentation/main/bloc/main_event.dart';
 import 'package:basic_diet/presentation/main/main_screen.dart';
@@ -51,7 +50,7 @@ class _ProfileView extends StatelessWidget {
                 previous.errorMessage != current.errorMessage,
         listener: (context, state) {
           if (state.isSignedOut) {
-            context.go(LoginScreen.loginRoute);
+            context.go(MainScreen.mainRoute);
             return;
           }
 

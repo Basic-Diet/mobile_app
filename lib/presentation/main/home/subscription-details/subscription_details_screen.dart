@@ -60,10 +60,7 @@ class _SubscriptionDetailsState extends State<SubscriptionDetails> {
         final cachedRequest = cache.loadRequest();
         if (cachedQuote != null && cachedRequest != null) {
           bloc.add(
-            RestoreCachedQuoteEvent(
-              quote: cachedQuote,
-              request: cachedRequest,
-            ),
+            RestoreCachedQuoteEvent(quote: cachedQuote, request: cachedRequest),
           );
         }
       }
@@ -115,12 +112,14 @@ class _SubscriptionDetailsState extends State<SubscriptionDetails> {
 
         return BlocListener<SubscriptionBloc, SubscriptionState>(
           listenWhen: (previous, current) {
-            final previousStatus = previous is SubscriptionSuccess
-                ? previous.checkoutStatus
-                : SubscriptionCheckoutStatus.initial;
-            final currentStatus = current is SubscriptionSuccess
-                ? current.checkoutStatus
-                : SubscriptionCheckoutStatus.initial;
+            final previousStatus =
+                previous is SubscriptionSuccess
+                    ? previous.checkoutStatus
+                    : SubscriptionCheckoutStatus.initial;
+            final currentStatus =
+                current is SubscriptionSuccess
+                    ? current.checkoutStatus
+                    : SubscriptionCheckoutStatus.initial;
             return previousStatus != currentStatus;
           },
           listener: (context, state) async {
@@ -139,12 +138,13 @@ class _SubscriptionDetailsState extends State<SubscriptionDetails> {
               final result = await Navigator.push<PaymentWebViewResult>(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => PaymentWebViewScreen(
-                    paymentUrl: state.subscriptionCheckout!.paymentUrl,
-                    draftId: state.subscriptionCheckout!.draftId,
-                    successUrl: _paymentSuccessUrl,
-                    backUrl: _paymentCancelUrl,
-                  ),
+                  builder:
+                      (_) => PaymentWebViewScreen(
+                        paymentUrl: state.subscriptionCheckout!.paymentUrl,
+                        draftId: state.subscriptionCheckout!.draftId,
+                        successUrl: _paymentSuccessUrl,
+                        backUrl: _paymentCancelUrl,
+                      ),
                 ),
               );
 
@@ -168,9 +168,10 @@ class _SubscriptionDetailsState extends State<SubscriptionDetails> {
               isLoading: isCheckoutLoading,
               isEnabled: canCheckout && !isCheckoutLoading,
               stalePricing: isPricingStale,
-              onTap: isCheckoutLoading || !canCheckout
-                  ? null
-                  : () => _handleConfirmAndPayTap(context, quoteRequest),
+              onTap:
+                  isCheckoutLoading || !canCheckout
+                      ? null
+                      : () => _handleConfirmAndPayTap(context, quoteRequest),
             ),
             body: SafeArea(
               top: false,
@@ -209,15 +210,18 @@ class _SubscriptionDetailsState extends State<SubscriptionDetails> {
                       promoStatus: promoStatus,
                       promoMessage: promoMessage,
                       appliedPromo: appliedPromo,
-                      onChanged: (value) => context
-                          .read<SubscriptionBloc>()
-                          .add(UpdatePromoCodeInputEvent(value)),
-                      onApply: () => context.read<SubscriptionBloc>().add(
-                        const ApplyPromoCodeEvent(),
-                      ),
-                      onRemove: () => context.read<SubscriptionBloc>().add(
-                        const RemovePromoCodeEvent(),
-                      ),
+                      onChanged:
+                          (value) => context.read<SubscriptionBloc>().add(
+                            UpdatePromoCodeInputEvent(value),
+                          ),
+                      onApply:
+                          () => context.read<SubscriptionBloc>().add(
+                            const ApplyPromoCodeEvent(),
+                          ),
+                      onRemove:
+                          () => context.read<SubscriptionBloc>().add(
+                            const RemovePromoCodeEvent(),
+                          ),
                     ),
                     if (isPricingStale) ...[
                       Gap(AppSize.s12.h),
@@ -475,18 +479,19 @@ class _PremiumMealsSection extends StatelessWidget {
     return _SummarySectionCard(
       title: Strings.premiumMeals.tr(),
       icon: Icons.star_border_rounded,
-      trailing: premiumLineItem != null
-          ? Text(
-              _displayAmount(
-                label: premiumLineItem.amountLabel,
-                fallbackAmount: premiumLineItem.amountSar,
-              ),
-              style: getRegularTextStyle(
-                color: ColorManager.grey6A7282,
-                fontSize: FontSizeManager.s12.sp,
-              ),
-            )
-          : null,
+      trailing:
+          premiumLineItem != null
+              ? Text(
+                _displayAmount(
+                  label: premiumLineItem.amountLabel,
+                  fallbackAmount: premiumLineItem.amountSar,
+                ),
+                style: getRegularTextStyle(
+                  color: ColorManager.grey6A7282,
+                  fontSize: FontSizeManager.s12.sp,
+                ),
+              )
+              : null,
       child: Column(
         children: [
           for (
@@ -522,12 +527,12 @@ class _PremiumMealTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isEven = index.isEven;
-    final iconColor = isEven
-        ? ColorManager.greenPrimary
-        : ColorManager.orangePrimary;
-    final backgroundColor = isEven
-        ? ColorManager.greenPrimary.withValues(alpha: 0.12)
-        : ColorManager.orangePrimary.withValues(alpha: 0.12);
+    final iconColor =
+        isEven ? ColorManager.greenPrimary : ColorManager.orangePrimary;
+    final backgroundColor =
+        isEven
+            ? ColorManager.greenPrimary.withValues(alpha: 0.12)
+            : ColorManager.orangePrimary.withValues(alpha: 0.12);
 
     return Padding(
       padding: EdgeInsetsDirectional.all(AppPadding.p16.w),
@@ -621,18 +626,19 @@ class _AddOnsSection extends StatelessWidget {
     return _SummarySectionCard(
       title: Strings.addOns.tr(),
       icon: Icons.add_circle_outline_rounded,
-      trailing: addOnsLineItem != null
-          ? Text(
-              _displayAmount(
-                label: addOnsLineItem.amountLabel,
-                fallbackAmount: addOnsLineItem.amountSar,
-              ),
-              style: getRegularTextStyle(
-                color: ColorManager.grey6A7282,
-                fontSize: FontSizeManager.s12.sp,
-              ),
-            )
-          : null,
+      trailing:
+          addOnsLineItem != null
+              ? Text(
+                _displayAmount(
+                  label: addOnsLineItem.amountLabel,
+                  fallbackAmount: addOnsLineItem.amountSar,
+                ),
+                style: getRegularTextStyle(
+                  color: ColorManager.grey6A7282,
+                  fontSize: FontSizeManager.s12.sp,
+                ),
+              )
+              : null,
       child: Column(
         children: [
           for (int index = 0; index < quote.summary.addons.length; index++)
@@ -808,11 +814,12 @@ class _DeliveryScheduleSection extends StatelessWidget {
             ? slot!.label
             : fallbackLabel.trim();
 
-    final slotTitle = resolvedLabel.isNotEmpty
-        ? resolvedLabel
-        : resolvedWindow.isNotEmpty
-        ? resolvedWindow
-        : '--';
+    final slotTitle =
+        resolvedLabel.isNotEmpty
+            ? resolvedLabel
+            : resolvedWindow.isNotEmpty
+            ? resolvedWindow
+            : '--';
     final slotWindow = resolvedWindow;
 
     return _SummarySectionCard(
@@ -908,12 +915,12 @@ class _PriceBreakdownSection extends StatelessWidget {
     final totalItem =
         _findLineItemFromQuote(quote, 'total') ??
         _buildFallbackTotalPriceItem(quote);
-    final lineItems = quote.summary.lineItems
-        .where((item) => item.kind != 'total')
-        .toList();
-    final visibleItems = lineItems.isNotEmpty
-        ? lineItems
-        : _buildFallbackPriceBreakdownItems(quote);
+    final lineItems =
+        quote.summary.lineItems.where((item) => item.kind != 'total').toList();
+    final visibleItems =
+        lineItems.isNotEmpty
+            ? lineItems
+            : _buildFallbackPriceBreakdownItems(quote);
 
     return _SummarySectionCard(
       title: Strings.priceBreakdown.tr(),
@@ -931,46 +938,44 @@ class _PriceBreakdownSection extends StatelessWidget {
                   ),
               ],
             ),
-          if (totalItem != null) ...[
-            const Divider(height: 1, color: ColorManager.formFieldsBorderColor),
-            Container(
-              width: double.infinity,
-              padding: EdgeInsetsDirectional.symmetric(
-                horizontal: AppPadding.p16.w,
-                vertical: AppPadding.p16.h,
-              ),
-              decoration: BoxDecoration(
-                color: ColorManager.greenPrimary.withValues(alpha: 0.10),
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(AppSize.s20.r),
-                  bottomRight: Radius.circular(AppSize.s20.r),
-                ),
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      totalItem.label,
-                      style: getBoldTextStyle(
-                        color: ColorManager.greenDark,
-                        fontSize: FontSizeManager.s16.sp,
-                      ),
-                    ),
-                  ),
-                  Text(
-                    _displayAmount(
-                      label: totalItem.amountLabel,
-                      fallbackAmount: totalItem.amountSar,
-                    ),
-                    style: getBoldTextStyle(
-                      color: ColorManager.greenDark,
-                      fontSize: FontSizeManager.s24.sp,
-                    ),
-                  ),
-                ],
+          const Divider(height: 1, color: ColorManager.formFieldsBorderColor),
+          Container(
+            width: double.infinity,
+            padding: EdgeInsetsDirectional.symmetric(
+              horizontal: AppPadding.p16.w,
+              vertical: AppPadding.p16.h,
+            ),
+            decoration: BoxDecoration(
+              color: ColorManager.greenPrimary.withValues(alpha: 0.10),
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(AppSize.s20.r),
+                bottomRight: Radius.circular(AppSize.s20.r),
               ),
             ),
-          ],
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    totalItem.label,
+                    style: getBoldTextStyle(
+                      color: ColorManager.greenDark,
+                      fontSize: FontSizeManager.s16.sp,
+                    ),
+                  ),
+                ),
+                Text(
+                  _displayAmount(
+                    label: totalItem.amountLabel,
+                    fallbackAmount: totalItem.amountSar,
+                  ),
+                  style: getBoldTextStyle(
+                    color: ColorManager.greenDark,
+                    fontSize: FontSizeManager.s24.sp,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -1031,12 +1036,14 @@ class _PromoCodeSection extends StatelessWidget {
                   child: ButtonWidget(
                     radius: AppSize.s14,
                     height: AppSize.s55,
-                    color: trimmedValue.isEmpty || isApplying
-                        ? ColorManager.grey9CA3AF
-                        : ColorManager.greenPrimary,
-                    text: isApplying
-                        ? Strings.applyingPromo.tr()
-                        : Strings.apply.tr(),
+                    color:
+                        trimmedValue.isEmpty || isApplying
+                            ? ColorManager.grey9CA3AF
+                            : ColorManager.greenPrimary,
+                    text:
+                        isApplying
+                            ? Strings.applyingPromo.tr()
+                            : Strings.apply.tr(),
                     onTap: trimmedValue.isEmpty || isApplying ? null : onApply,
                   ),
                 ),
@@ -1200,11 +1207,12 @@ class _BottomActionBar extends StatelessWidget {
         top: false,
         child: ButtonWidget(
           radius: AppSize.s16,
-          text: isLoading
-              ? Strings.openingPayment.tr()
-              : stalePricing
-              ? Strings.refreshPricingToContinue.tr()
-              : '${Strings.confirmAndPay.tr()} - $totalLabel',
+          text:
+              isLoading
+                  ? Strings.openingPayment.tr()
+                  : stalePricing
+                  ? Strings.refreshPricingToContinue.tr()
+                  : '${Strings.confirmAndPay.tr()} - $totalLabel',
           onTap: isEnabled ? onTap : null,
         ),
       ),
@@ -1468,16 +1476,18 @@ class _PriceRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final isVat = item.kind == 'vat';
     final isDiscount = _isDiscountLineItem(item);
-    final valueColor = isDiscount
-        ? ColorManager.greenDark
-        : isVat
-        ? ColorManager.grey6A7282
-        : ColorManager.black101828;
-    final labelColor = isDiscount
-        ? ColorManager.greenDark
-        : isVat
-        ? ColorManager.grey6A7282
-        : ColorManager.grey4A5565;
+    final valueColor =
+        isDiscount
+            ? ColorManager.greenDark
+            : isVat
+            ? ColorManager.grey6A7282
+            : ColorManager.black101828;
+    final labelColor =
+        isDiscount
+            ? ColorManager.greenDark
+            : isVat
+            ? ColorManager.grey6A7282
+            : ColorManager.grey4A5565;
 
     return Padding(
       padding: EdgeInsetsDirectional.symmetric(
@@ -1491,9 +1501,8 @@ class _PriceRow extends StatelessWidget {
               item.label,
               style: getRegularTextStyle(
                 color: labelColor,
-                fontSize: isVat
-                    ? FontSizeManager.s12.sp
-                    : FontSizeManager.s14.sp,
+                fontSize:
+                    isVat ? FontSizeManager.s12.sp : FontSizeManager.s14.sp,
               ),
             ),
           ),
@@ -1502,15 +1511,16 @@ class _PriceRow extends StatelessWidget {
               label: item.amountLabel,
               fallbackAmount: item.amountSar,
             ),
-            style: isVat
-                ? getRegularTextStyle(
-                    color: valueColor,
-                    fontSize: FontSizeManager.s12.sp,
-                  )
-                : getBoldTextStyle(
-                    color: valueColor,
-                    fontSize: FontSizeManager.s14.sp,
-                  ),
+            style:
+                isVat
+                    ? getRegularTextStyle(
+                      color: valueColor,
+                      fontSize: FontSizeManager.s12.sp,
+                    )
+                    : getBoldTextStyle(
+                      color: valueColor,
+                      fontSize: FontSizeManager.s14.sp,
+                    ),
           ),
         ],
       ),
@@ -1727,9 +1737,8 @@ Color _promoStatusColor(SubscriptionPromoStatus status, bool hasAppliedPromo) {
 
 String _formatNumber(num amount) {
   final isWhole = amount == amount.roundToDouble();
-  final rawValue = isWhole
-      ? amount.round().toString()
-      : amount.toStringAsFixed(2);
+  final rawValue =
+      isWhole ? amount.round().toString() : amount.toStringAsFixed(2);
   final parts = rawValue.split('.');
   final wholeNumber = parts.first;
   final buffer = StringBuffer();
@@ -1781,14 +1790,15 @@ SubscriptionCheckoutRequestModel _buildCheckoutRequest(
     mealsPerDay: request.mealsPerDay,
     startDate: request.startDate,
     promoCode: request.promoCode,
-    premiumItems: request.premiumItems
-        .map(
-          (item) => SubscriptionCheckoutPremiumItemRequestModel(
-            premiumKey: item.premiumKey,
-            qty: item.qty,
-          ),
-        )
-        .toList(),
+    premiumItems:
+        request.premiumItems
+            .map(
+              (item) => SubscriptionCheckoutPremiumItemRequestModel(
+                premiumKey: item.premiumKey,
+                qty: item.qty,
+              ),
+            )
+            .toList(),
     addons: request.addons,
     delivery: SubscriptionCheckoutDeliveryRequestModel(
       type: request.delivery.type,

@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:basic_diet/app/dependency_injection.dart';
+import 'package:basic_diet/app/auth_gate.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:basic_diet/presentation/resources/assets_manager.dart';
 import 'package:basic_diet/presentation/resources/color_manager.dart';
@@ -40,9 +43,7 @@ class MainScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => MainBloc(initialIndex: initialIndex),
-      child: _MainScreenContent(
-        plansRefreshToken: plansRefreshToken,
-      ),
+      child: _MainScreenContent(plansRefreshToken: plansRefreshToken),
     );
   }
 }
@@ -93,7 +94,7 @@ class _MainScreenContentState extends State<_MainScreenContent> {
             bottomNavigationBar: BottomNavBar(
               currentIndex: state.currentIndex,
               onTap: (index) {
-                context.read<MainBloc>().add(ChangeBottomNavIndexEvent(index));
+                unawaited(_handleBottomNavTap(index));
               },
             ),
           ),
@@ -148,6 +149,22 @@ class _MainScreenContentState extends State<_MainScreenContent> {
           duration: _exitConfirmationWindow,
         ),
       );
+  }
+
+  Future<void> _handleBottomNavTap(int index) async {
+    if (!_isGuestAccessibleTab(index) && !await requireAuthenticated(context)) {
+      return;
+    }
+
+    if (!mounted) {
+      return;
+    }
+
+    context.read<MainBloc>().add(ChangeBottomNavIndexEvent(index));
+  }
+
+  bool _isGuestAccessibleTab(int index) {
+    return index <= MainScreen.plansTabIndex;
   }
 }
 

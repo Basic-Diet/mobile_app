@@ -1,5 +1,6 @@
 import 'dart:ui' as ui;
 
+import 'package:basic_diet/app/auth_gate.dart';
 import 'package:basic_diet/app/constants.dart';
 import 'package:basic_diet/app/dependency_injection.dart';
 import 'package:basic_diet/domain/model/order_menu_model.dart';
@@ -137,6 +138,14 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
     OrderMenuProductModel product,
     String currency,
   ) async {
+    if (!await requireAuthenticated(context)) {
+      return;
+    }
+
+    if (!mounted) {
+      return;
+    }
+
     final cartItem = await Navigator.of(context).push<CartItem>(
       MaterialPageRoute(
         builder: (_) => _BuilderScreen(product: product, currency: currency),
@@ -326,9 +335,10 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
     return products
         .where(
           (product) =>
-              product.displayName(context.locale.toString()).toLowerCase().contains(
-                _searchQuery,
-              ) ||
+              product
+                  .displayName(context.locale.toString())
+                  .toLowerCase()
+                  .contains(_searchQuery) ||
               product.key.toLowerCase().contains(_searchQuery),
         )
         .toList();
@@ -462,7 +472,7 @@ class _MenuHeader extends StatelessWidget {
             return _CircleActionButton(
               icon: Icons.shopping_cart_outlined,
               badgeCount: count,
-              onTap: () => context.push('/cart'),
+              onTap: () => _openCart(context),
             );
           },
         ),
@@ -814,7 +824,7 @@ class _BuilderProductCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                      product.displayName(context.locale.toString()),
+                        product.displayName(context.locale.toString()),
                         textAlign: TextAlign.right,
                         style: getBoldTextStyle(
                           fontSize: FontSizeManager.s18.sp,
@@ -823,7 +833,7 @@ class _BuilderProductCard extends StatelessWidget {
                       ),
                       Gap(AppSize.s4.h),
                       Text(
-                      _productDescription(product, context),
+                        _productDescription(product, context),
                         textAlign: TextAlign.right,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -923,7 +933,7 @@ class _LightBuilderCard extends StatelessWidget {
                     ),
                     Gap(AppSize.s3.h),
                     Text(
-                        _productDescription(product, context),
+                      _productDescription(product, context),
                       textAlign: TextAlign.right,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
@@ -1485,7 +1495,7 @@ class _StickyCartBar extends StatelessWidget {
             color: ColorManager.brandPrimary,
             borderRadius: BorderRadius.circular(AppSize.s99.r),
             child: InkWell(
-              onTap: () => context.push('/cart'),
+              onTap: () => _openCart(context),
               borderRadius: BorderRadius.circular(AppSize.s99.r),
               child: Container(
                 height: AppSize.s54.h,
@@ -3743,6 +3753,18 @@ List<_OptionSectionData> _optionSections(
   return sections.isEmpty
       ? [_OptionSectionData(title: '', options: options)]
       : sections;
+}
+
+Future<void> _openCart(BuildContext context) async {
+  if (!await requireAuthenticated(context)) {
+    return;
+  }
+
+  if (!context.mounted) {
+    return;
+  }
+
+  context.push('/cart');
 }
 
 String _formatHalala(int halala, String currency) {
