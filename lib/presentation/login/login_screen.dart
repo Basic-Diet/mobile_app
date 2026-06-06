@@ -31,18 +31,21 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   late final TextEditingController _phoneController;
   late final TextEditingController _passwordController;
+  late final LoginBloc _loginBloc;
 
   @override
   void initState() {
     super.initState();
     _phoneController = TextEditingController();
     _passwordController = TextEditingController();
+    _loginBloc = instance<LoginBloc>();
   }
 
   @override
   void dispose() {
     _phoneController.dispose();
     _passwordController.dispose();
+    _loginBloc.close();
     super.dispose();
   }
 
@@ -50,8 +53,8 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     final bottomInset = MediaQuery.viewInsetsOf(context).bottom;
 
-    return BlocProvider(
-      create: (_) => instance<LoginBloc>(),
+    return BlocProvider.value(
+      value: _loginBloc,
       child: BlocListener<LoginBloc, LoginState>(
         listenWhen:
             (previous, current) =>
