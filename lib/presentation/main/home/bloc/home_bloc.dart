@@ -40,12 +40,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         },
         (data) {
           if (!isClosed) {
-            final hasCurrentSubscription =
-                data.data != null && data.data!.id.isNotEmpty;
             emit(
-              hasCurrentSubscription
-                  ? HomeNavigateToPlansState()
-                  : HomeNavigateToSubscriptionState(),
+              HomeNavigateToSubscriptionState(),
             );
           }
         },
