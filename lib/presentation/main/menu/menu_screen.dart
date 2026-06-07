@@ -21,7 +21,6 @@ import 'package:basic_diet/presentation/resources/values_manager.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
@@ -65,16 +64,19 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
   String _searchQuery = '';
   String _activeChip = 'all';
   bool _showMenuIntro = true;
+  double _lastScrollOffset = 0;
 
   @override
   void initState() {
     super.initState();
+    _scrollController.addListener(_handleScroll);
     OneTimeMenuCoordinator.intent.addListener(_handleMenuIntent);
   }
 
   @override
   void dispose() {
     OneTimeMenuCoordinator.intent.removeListener(_handleMenuIntent);
+    _scrollController.removeListener(_handleScroll);
     _searchController.dispose();
     _scrollController.dispose();
     super.dispose();
@@ -144,19 +146,38 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
     }
   }
 
-  bool _handleScrollNotification(ScrollNotification notification) {
-    if (notification is UserScrollNotification) {
-      final shouldShow =
-          notification.direction == ScrollDirection.forward ||
-          notification.metrics.pixels <= 0;
-      if (shouldShow != _showMenuIntro) {
-        setState(() {
-          _showMenuIntro = shouldShow;
-        });
-      }
+  void _handleScroll() {
+    if (!_scrollController.hasClients) {
+      return;
     }
 
-    return false;
+    final offset = _scrollController.offset;
+    final delta = offset - _lastScrollOffset;
+    _lastScrollOffset = offset;
+
+    if (offset <= AppSize.s4.h) {
+      _setMenuIntroVisible(true);
+      return;
+    }
+
+    if (delta > 0.8 && _showMenuIntro) {
+      _setMenuIntroVisible(false);
+      return;
+    }
+
+    if (delta < -1.2 && !_showMenuIntro) {
+      _setMenuIntroVisible(true);
+    }
+  }
+
+  void _setMenuIntroVisible(bool isVisible) {
+    if (_showMenuIntro == isVisible || !mounted) {
+      return;
+    }
+
+    setState(() {
+      _showMenuIntro = isVisible;
+    });
   }
 
   Future<void> _openBuilder(
@@ -254,20 +275,33 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          AnimatedSize(
-                            duration: const Duration(milliseconds: 220),
-                            curve: Curves.easeOutCubic,
-                            alignment: Alignment.topCenter,
-                            child:
-                                _showMenuIntro
-                                    ? Column(
-                                      children: [
-                                        const _MenuHeader(),
-                                        Gap(AppSize.s12.h),
-                                        const _PickupNoticeCard(),
-                                      ],
-                                    )
-                                    : const SizedBox(width: double.infinity),
+                          ClipRect(
+                            child: AnimatedAlign(
+                              duration: const Duration(milliseconds: 150),
+                              curve: Curves.easeOutCubic,
+                              alignment: Alignment.topCenter,
+                              heightFactor: _showMenuIntro ? 1 : 0,
+                              child: AnimatedOpacity(
+                                duration: const Duration(milliseconds: 110),
+                                curve: Curves.easeOutCubic,
+                                opacity: _showMenuIntro ? 1 : 0,
+                                child: AnimatedSlide(
+                                  duration: const Duration(milliseconds: 150),
+                                  curve: Curves.easeOutCubic,
+                                  offset:
+                                      _showMenuIntro
+                                          ? Offset.zero
+                                          : const Offset(0, -0.08),
+                                  child: Column(
+                                    children: [
+                                      const _MenuHeader(),
+                                      Gap(AppSize.s12.h),
+                                      const _PickupNoticeCard(),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
                           ),
                           Gap(AppSize.s10.h),
                           _SearchField(
@@ -288,49 +322,46 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
                       ),
                     ),
                     Expanded(
-                      child: NotificationListener<ScrollNotification>(
-                        onNotification: _handleScrollNotification,
-                        child: CustomScrollView(
-                          controller: _scrollController,
-                          physics: const BouncingScrollPhysics(),
-                          slivers: [
-                            SliverPadding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                AppPadding.p16.w,
-                                0,
-                                AppPadding.p16.w,
-                                AppPadding.p120.h,
-                              ),
-                              sliver: SliverToBoxAdapter(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Gap(AppSize.s12.h),
-                                    for (final section in visibleSections)
-                                      Padding(
-                                        padding: EdgeInsetsDirectional.only(
-                                          top: AppPadding.p28.h,
-                                        ),
-                                        child: _DynamicSection(
-                                          section: section,
-                                          currency: menu.currency,
-                                          products: _filterProducts(
-                                            section.products,
-                                          ),
-                                          onProductSelected: (product) {
-                                            _handleProductSelection(
-                                              product,
-                                              menu.currency,
-                                            );
-                                          },
-                                        ),
+                      child: CustomScrollView(
+                        controller: _scrollController,
+                        physics: const BouncingScrollPhysics(),
+                        slivers: [
+                          SliverPadding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                              AppPadding.p16.w,
+                              0,
+                              AppPadding.p16.w,
+                              AppPadding.p120.h,
+                            ),
+                            sliver: SliverToBoxAdapter(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Gap(AppSize.s12.h),
+                                  for (final section in visibleSections)
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.only(
+                                        top: AppPadding.p28.h,
                                       ),
-                                  ],
-                                ),
+                                      child: _DynamicSection(
+                                        section: section,
+                                        currency: menu.currency,
+                                        products: _filterProducts(
+                                          section.products,
+                                        ),
+                                        onProductSelected: (product) {
+                                          _handleProductSelection(
+                                            product,
+                                            menu.currency,
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                ],
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
