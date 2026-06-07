@@ -21,6 +21,7 @@ import 'package:basic_diet/presentation/resources/values_manager.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
@@ -61,9 +62,9 @@ class _MenuScreenContent extends StatefulWidget {
 class _MenuScreenContentState extends State<_MenuScreenContent> {
   final ScrollController _scrollController = ScrollController();
   final TextEditingController _searchController = TextEditingController();
-  final Map<String, GlobalKey> _sectionKeys = {};
   String _searchQuery = '';
   String _activeChip = 'all';
+  bool _showMenuIntro = true;
 
   @override
   void initState() {
@@ -91,7 +92,7 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
     }
 
     if (intent.sectionKey != null) {
-      _scrollToSection(intent.sectionKey!);
+      _selectSection(intent.sectionKey!);
     }
 
     if (intent.productKey != null) {
@@ -133,34 +134,29 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
     );
   }
 
-  void _scrollToSection(String sectionKey) {
+  void _selectSection(String sectionKey) {
     setState(() {
       _activeChip = sectionKey == 'all' ? 'all' : sectionKey;
     });
 
-    if (sectionKey == 'all') {
-      _scrollController.animateTo(
-        0,
-        duration: const Duration(milliseconds: 350),
-        curve: Curves.easeOutCubic,
-      );
-      return;
+    if (_scrollController.hasClients) {
+      _scrollController.jumpTo(0);
+    }
+  }
+
+  bool _handleScrollNotification(ScrollNotification notification) {
+    if (notification is UserScrollNotification) {
+      final shouldShow =
+          notification.direction == ScrollDirection.forward ||
+          notification.metrics.pixels <= 0;
+      if (shouldShow != _showMenuIntro) {
+        setState(() {
+          _showMenuIntro = shouldShow;
+        });
+      }
     }
 
-    final targetContext = _sectionKeys[sectionKey]?.currentContext;
-    if (targetContext == null) {
-      setState(() {
-        _activeChip = 'all';
-      });
-      return;
-    }
-
-    Scrollable.ensureVisible(
-      targetContext,
-      duration: const Duration(milliseconds: 350),
-      curve: Curves.easeOutCubic,
-      alignment: 0.06,
-    );
+    return false;
   }
 
   Future<void> _openBuilder(
@@ -237,6 +233,12 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
               return _MenuErrorView(message: Strings.noProductsAvailable.tr());
             }
             final chips = _buildChips(sections);
+            final visibleSections =
+                _activeChip == 'all'
+                    ? sections
+                    : sections
+                        .where((section) => section.key == _activeChip)
+                        .toList();
 
             return Stack(
               children: [
@@ -252,9 +254,21 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const _MenuHeader(),
-                          Gap(AppSize.s12.h),
-                          const _PickupNoticeCard(),
+                          AnimatedSize(
+                            duration: const Duration(milliseconds: 220),
+                            curve: Curves.easeOutCubic,
+                            alignment: Alignment.topCenter,
+                            child:
+                                _showMenuIntro
+                                    ? Column(
+                                      children: [
+                                        const _MenuHeader(),
+                                        Gap(AppSize.s12.h),
+                                        const _PickupNoticeCard(),
+                                      ],
+                                    )
+                                    : const SizedBox(width: double.infinity),
+                          ),
                           Gap(AppSize.s10.h),
                           _SearchField(
                             controller: _searchController,
@@ -268,32 +282,32 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
                           _MenuChipsRow(
                             chips: chips,
                             activeKey: _activeChip,
-                            onSelected: _scrollToSection,
+                            onSelected: _selectSection,
                           ),
                         ],
                       ),
                     ),
                     Expanded(
-                      child: CustomScrollView(
-                        controller: _scrollController,
-                        physics: const BouncingScrollPhysics(),
-                        slivers: [
-                          SliverPadding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                              AppPadding.p16.w,
-                              0,
-                              AppPadding.p16.w,
-                              AppPadding.p120.h,
-                            ),
-                            sliver: SliverToBoxAdapter(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Gap(AppSize.s12.h),
-                                  for (final section in sections)
-                                    _SectionAnchor(
-                                      anchorKey: _sectionKey(section.key),
-                                      child: Padding(
+                      child: NotificationListener<ScrollNotification>(
+                        onNotification: _handleScrollNotification,
+                        child: CustomScrollView(
+                          controller: _scrollController,
+                          physics: const BouncingScrollPhysics(),
+                          slivers: [
+                            SliverPadding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                AppPadding.p16.w,
+                                0,
+                                AppPadding.p16.w,
+                                AppPadding.p120.h,
+                              ),
+                              sliver: SliverToBoxAdapter(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Gap(AppSize.s12.h),
+                                    for (final section in visibleSections)
+                                      Padding(
                                         padding: EdgeInsetsDirectional.only(
                                           top: AppPadding.p28.h,
                                         ),
@@ -311,12 +325,12 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
                                           },
                                         ),
                                       ),
-                                    ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ],
@@ -328,10 +342,6 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
         ),
       ),
     );
-  }
-
-  GlobalKey _sectionKey(String key) {
-    return _sectionKeys.putIfAbsent(key, GlobalKey.new);
   }
 
   List<OrderMenuProductModel> _filterProducts(
@@ -855,7 +865,11 @@ class _BuilderProductCard extends StatelessWidget {
                         ),
                       ),
                       Gap(AppSize.s10.h),
-                      _ProductCartAction(product: product, onTap: onTap),
+                      _ProductCartAction(
+                        product: product,
+                        onTap: onTap,
+                        ctaWidth: AppSize.s120.w,
+                      ),
                     ],
                   ),
                 ),
@@ -1197,18 +1211,21 @@ class _ListProductCard extends StatelessWidget {
                       ),
                     ),
                     Gap(AppSize.s8.h),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        _ProductCartAction(product: product, onTap: onTap),
-                        Text(
-                          _productPriceLabel(product, currency),
-                          style: getBoldTextStyle(
-                            fontSize: FontSizeManager.s14.sp,
-                            color: const Color(0xFF12382C),
-                          ),
-                        ),
-                      ],
+                    Text(
+                      _productPriceLabel(product, currency),
+                      style: getBoldTextStyle(
+                        fontSize: FontSizeManager.s14.sp,
+                        color: const Color(0xFF12382C),
+                      ),
+                    ),
+                    Gap(AppSize.s10.h),
+                    Align(
+                      alignment: AlignmentDirectional.centerEnd,
+                      child: _ProductCartAction(
+                        product: product,
+                        onTap: onTap,
+                        ctaWidth: AppSize.s120.w,
+                      ),
                     ),
                   ],
                 ),
@@ -1224,8 +1241,13 @@ class _ListProductCard extends StatelessWidget {
 class _ProductCartAction extends StatelessWidget {
   final OrderMenuProductModel product;
   final VoidCallback onTap;
+  final double? ctaWidth;
 
-  const _ProductCartAction({required this.product, required this.onTap});
+  const _ProductCartAction({
+    required this.product,
+    required this.onTap,
+    this.ctaWidth,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -1233,6 +1255,7 @@ class _ProductCartAction extends StatelessWidget {
       return _ProductCtaButton(
         label: _productCtaLabel(product, context),
         onTap: onTap,
+        width: ctaWidth,
       );
     }
 
@@ -1288,8 +1311,13 @@ class _SquareAddButton extends StatelessWidget {
 class _ProductCtaButton extends StatelessWidget {
   final String label;
   final VoidCallback onTap;
+  final double? width;
 
-  const _ProductCtaButton({required this.label, required this.onTap});
+  const _ProductCtaButton({
+    required this.label,
+    required this.onTap,
+    this.width,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -1300,6 +1328,7 @@ class _ProductCtaButton extends StatelessWidget {
         onTap: onTap,
         borderRadius: BorderRadius.circular(AppSize.s15.r),
         child: Container(
+          width: width,
           height: AppSize.s40.h,
           constraints: BoxConstraints(minWidth: AppSize.s76.w),
           padding: EdgeInsetsDirectional.symmetric(
@@ -1672,18 +1701,6 @@ class _MenuSectionHeader extends StatelessWidget {
         ],
       ],
     );
-  }
-}
-
-class _SectionAnchor extends StatelessWidget {
-  final GlobalKey anchorKey;
-  final Widget child;
-
-  const _SectionAnchor({required this.anchorKey, required this.child});
-
-  @override
-  Widget build(BuildContext context) {
-    return KeyedSubtree(key: anchorKey, child: child);
   }
 }
 
