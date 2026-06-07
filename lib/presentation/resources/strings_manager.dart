@@ -157,7 +157,6 @@ class Strings {
   static const String cannotConsumeNow = 'cannotConsumeNow';
   static const String maxMealsReached = 'maxMealsReached';
   static const String dailyLimitEnforced = 'dailyLimitEnforced';
-  static const String mealBalancePolicyNote = 'mealBalancePolicyNote';
 
   // Empty States
   static const String noSubscriptionTitle = 'noSubscriptionTitle';

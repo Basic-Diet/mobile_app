@@ -63,10 +63,7 @@ class SubscriptionPlanCard extends StatelessWidget {
 
           _buildDeliveryInfo(),
 
-          if (data.mealBalance != null) ...[
-            Gap(AppSize.s16.h),
-            _buildBalancePolicyNote(),
-          ],
+
         ],
       ),
     );
@@ -330,44 +327,4 @@ class SubscriptionPlanCard extends StatelessWidget {
     );
   }
 
-  Widget _buildBalancePolicyNote() {
-    return Container(
-      padding: EdgeInsets.all(AppPadding.p12.w),
-      decoration: BoxDecoration(
-        color: ColorManager.backgroundSubtle,
-        borderRadius: BorderRadius.circular(AppSize.s12.r),
-        border: Border.all(color: ColorManager.borderDefault),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(
-                Icons.info_outline,
-                size: AppSize.s14.sp,
-                color: ColorManager.textSecondary,
-              ),
-              Gap(AppSize.s6.w),
-              Text(
-                Strings.mealBalancePolicyNote.tr(),
-                style: getBoldTextStyle(
-                  color: ColorManager.textPrimary,
-                  fontSize: FontSizeManager.s12.sp,
-                ),
-              ),
-            ],
-          ),
-          Gap(AppSize.s4.h),
-          Text(
-            Strings.dailyMealsDefaultNote.tr(),
-            style: getRegularTextStyle(
-              color: ColorManager.textSecondary,
-              fontSize: FontSizeManager.s10.sp,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 }
