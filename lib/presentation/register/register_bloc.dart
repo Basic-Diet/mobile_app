@@ -125,6 +125,11 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   String? _validatePassword(String password) {
     if (password.isEmpty) return "Password is required";
     if (password.length < 8) return "Password is too short";
+    final hasLetter = password.contains(RegExp(r'[a-zA-Z]'));
+    final hasNumber = password.contains(RegExp(r'[0-9]'));
+    if (!hasLetter || !hasNumber) {
+      return "Password should include at least one letter and one number";
+    }
     return null;
   }
 

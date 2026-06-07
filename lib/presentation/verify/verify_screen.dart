@@ -5,9 +5,10 @@ import 'package:basic_diet/presentation/resources/color_manager.dart';
 import 'package:basic_diet/presentation/resources/font_manager.dart';
 import 'package:basic_diet/presentation/resources/strings_manager.dart';
 import 'package:basic_diet/presentation/resources/styles_manager.dart';
-import 'package:basic_diet/presentation/widgets/button_widget.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:basic_diet/presentation/resources/values_manager.dart';
+import 'package:basic_diet/presentation/widgets/button_widget.dart';
+import 'package:basic_diet/presentation/widgets/custom_back_button.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -52,6 +53,7 @@ class VerifyScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Gap(AppSize.s20.h),
+                        const CustomBackButton(),
                         Gap(AppSize.s40.h),
                         _buildHeader(),
                         Gap(AppSize.s40.h),
