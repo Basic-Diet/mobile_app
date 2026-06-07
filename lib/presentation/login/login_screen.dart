@@ -16,6 +16,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
+import '../widgets/custom_back_button.dart';
 import 'login_bloc.dart';
 import 'login_event.dart';
 import 'login_state.dart';
@@ -75,6 +76,8 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Gap(AppSize.s20.h),
+                  const CustomBackButton(),
                   Gap(AppSize.s100.h),
                   _buildHeader(),
                   Gap(AppSize.s105.h),
