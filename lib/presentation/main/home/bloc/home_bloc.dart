@@ -30,19 +30,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     });
 
     on<ViewPlansRequestedEvent>((event, emit) async {
-      final result = await _getCurrentSubscriptionOverviewUseCase.execute(null);
-
-      result.fold(
-        (_) {
-
-        },
-        (data) {
-          if (!isClosed) {
-            emit(
-              HomeNavigateToSubscriptionState(),
-            );
-          }
-        },
+      emit(
+        HomeNavigateToSubscriptionState(),
       );
     });
   }
