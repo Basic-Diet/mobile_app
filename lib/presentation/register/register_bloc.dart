@@ -11,6 +11,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     : super(const RegisterFormInitialState()) {
     on<RegisterFullNameChanged>(_onFullNameChanged);
     on<RegisterPhoneChanged>(_onPhoneChanged);
+    on<RegisterPasswordChanged>(_onPasswordChanged);
     on<RegisterEmailChanged>(_onEmailChanged);
     on<RegisterSubmitted>(_onSubmitted);
   }
@@ -31,6 +32,14 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     emit(state.copyWith(phone: event.phone, phoneError: error));
   }
 
+  void _onPasswordChanged(
+    RegisterPasswordChanged event,
+    Emitter<RegisterState> emit,
+  ) {
+    final error = _validatePassword(event.password);
+    emit(state.copyWith(password: event.password, passwordError: error));
+  }
+
   void _onEmailChanged(
     RegisterEmailChanged event,
     Emitter<RegisterState> emit,
@@ -44,8 +53,14 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     Emitter<RegisterState> emit,
   ) async {
     final phoneError = _validatePhone(state.phone);
-    if (phoneError != null) {
-      emit(state.copyWith(phoneError: phoneError));
+    final passwordError = _validatePassword(state.password);
+    if (phoneError != null || passwordError != null) {
+      emit(
+        state.copyWith(
+          phoneError: phoneError,
+          passwordError: passwordError,
+        ),
+      );
       return;
     }
 
@@ -53,11 +68,12 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       RegisterLoadingState(
         fullName: state.fullName,
         phone: state.phone,
+        password: state.password,
         email: state.email,
       ),
     );
 
-    final fullPhone = "+966${state.phone}";
+    final fullPhone = _buildSaudiPhoneNumber(state.phone);
     final result = await _registerUseCase.execute(
       RegisterUseCaseInput(fullPhone),
     );
@@ -70,6 +86,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
               failure.message,
               fullName: state.fullName,
               phone: state.phone,
+              password: state.password,
               email: state.email,
             ),
           );
@@ -84,6 +101,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
               message,
               fullName: state.fullName,
               phone: state.phone,
+              password: state.password,
               email: state.email,
             ),
           );
@@ -104,10 +122,24 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     return null;
   }
 
+  String? _validatePassword(String password) {
+    if (password.isEmpty) return "Password is required";
+    if (password.length < 8) return "Password is too short";
+    return null;
+  }
+
   String? _validateEmail(String email) {
     if (email.isNotEmpty && !email.contains("@")) {
       return "Invalid email";
     }
     return null;
+  }
+
+  String _buildSaudiPhoneNumber(String phone) {
+    final trimmedPhone = phone.trim();
+    if (trimmedPhone.startsWith('+966')) {
+      return trimmedPhone;
+    }
+    return '+966$trimmedPhone';
   }
 }

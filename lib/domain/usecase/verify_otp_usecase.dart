@@ -14,10 +14,18 @@ class VerifyOtpUseCase
     VerifyOtpUseCaseInput input,
   ) async {
     return await _repository.verifyRegistrationOtp(
-      input.phone,
+      _buildSaudiPhoneNumber(input.phone),
       input.otp,
       input.password,
     );
+  }
+
+  String _buildSaudiPhoneNumber(String phone) {
+    final trimmedPhone = phone.trim();
+    if (trimmedPhone.startsWith('+966')) {
+      return trimmedPhone;
+    }
+    return '+966$trimmedPhone';
   }
 }
 

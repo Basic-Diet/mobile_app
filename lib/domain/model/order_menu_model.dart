@@ -36,6 +36,8 @@ class OrderMenuModel {
 
 // ─── Dynamic Catalog ───
 
+enum ProductCardSize { large, medium, small }
+
 class OrderMenuCategoryModel {
   final String id;
   final String key;
@@ -84,7 +86,7 @@ class OrderMenuProductModel {
   final int sortOrder;
   final bool? requiresBuilder;
   final bool? canAddDirectly;
-  final String cardVariant;
+  final ProductCardSize cardSize;
   final String badge;
   final String ctaLabel;
   final double? imageRatio;
@@ -121,7 +123,7 @@ class OrderMenuProductModel {
     required this.sortOrder,
     this.requiresBuilder,
     this.canAddDirectly,
-    this.cardVariant = 'standard',
+    this.cardSize = ProductCardSize.medium,
     this.badge = '',
     this.ctaLabel = '',
     this.imageRatio,

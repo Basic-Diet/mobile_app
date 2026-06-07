@@ -597,6 +597,9 @@ class OrderMenuOptionResponse {
 
 @JsonSerializable()
 class OrderMenuUiResponse {
+  @JsonKey(name: 'cardSize')
+  final String? cardSize;
+
   @JsonKey(name: 'cardVariant')
   final String? cardVariant;
 
@@ -613,6 +616,7 @@ class OrderMenuUiResponse {
   final String? imageRatio;
 
   const OrderMenuUiResponse({
+    this.cardSize,
     this.cardVariant,
     this.displayStyle,
     this.badge,

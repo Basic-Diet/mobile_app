@@ -7,14 +7,6 @@ sealed class VerifyEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class VerifyPasswordChanged extends VerifyEvent {
-  final String password;
-  const VerifyPasswordChanged(this.password);
-
-  @override
-  List<Object?> get props => [password];
-}
-
 class VerifyCodeChanged extends VerifyEvent {
   final String code;
   const VerifyCodeChanged(this.code);
@@ -25,10 +17,11 @@ class VerifyCodeChanged extends VerifyEvent {
 
 class VerifySubmitted extends VerifyEvent {
   final String phone;
-  const VerifySubmitted(this.phone);
+  final String password;
+  const VerifySubmitted(this.phone, this.password);
 
   @override
-  List<Object?> get props => [phone];
+  List<Object?> get props => [phone, password];
 }
 
 class VerifyResendCode extends VerifyEvent {

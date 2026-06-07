@@ -5,6 +5,8 @@ abstract class RegisterState extends Equatable {
   final String? fullNameError;
   final String phone;
   final String? phoneError;
+  final String password;
+  final String? passwordError;
   final String email;
   final String? emailError;
 
@@ -13,6 +15,8 @@ abstract class RegisterState extends Equatable {
     this.fullNameError,
     this.phone = '',
     this.phoneError,
+    this.password = '',
+    this.passwordError,
     this.email = '',
     this.emailError,
   });
@@ -22,6 +26,8 @@ abstract class RegisterState extends Equatable {
     String? fullNameError,
     String? phone,
     String? phoneError,
+    String? password,
+    String? passwordError,
     String? email,
     String? emailError,
   });
@@ -32,6 +38,8 @@ abstract class RegisterState extends Equatable {
     fullNameError ?? '',
     phone,
     phoneError ?? '',
+    password,
+    passwordError ?? '',
     email,
     emailError ?? '',
   ];
@@ -43,6 +51,8 @@ class RegisterFormInitialState extends RegisterState {
     super.fullNameError,
     super.phone = '',
     super.phoneError,
+    super.password = '',
+    super.passwordError,
     super.email = '',
     super.emailError,
   });
@@ -53,6 +63,8 @@ class RegisterFormInitialState extends RegisterState {
     String? fullNameError,
     String? phone,
     String? phoneError,
+    String? password,
+    String? passwordError,
     String? email,
     String? emailError,
   }) {
@@ -61,6 +73,8 @@ class RegisterFormInitialState extends RegisterState {
       fullNameError: fullNameError,
       phone: phone ?? this.phone,
       phoneError: phoneError,
+      password: password ?? this.password,
+      passwordError: passwordError,
       email: email ?? this.email,
       emailError: emailError,
     );
@@ -73,6 +87,8 @@ class RegisterLoadingState extends RegisterState {
     super.fullNameError,
     super.phone = '',
     super.phoneError,
+    super.password = '',
+    super.passwordError,
     super.email = '',
     super.emailError,
   });
@@ -83,6 +99,8 @@ class RegisterLoadingState extends RegisterState {
     String? fullNameError,
     String? phone,
     String? phoneError,
+    String? password,
+    String? passwordError,
     String? email,
     String? emailError,
   }) {
@@ -91,6 +109,8 @@ class RegisterLoadingState extends RegisterState {
       fullNameError: fullNameError,
       phone: phone ?? this.phone,
       phoneError: phoneError,
+      password: password ?? this.password,
+      passwordError: passwordError,
       email: email ?? this.email,
       emailError: emailError,
     );
@@ -105,6 +125,8 @@ class RegisterSuccessState extends RegisterState {
     super.fullNameError,
     super.phone = '',
     super.phoneError,
+    super.password = '',
+    super.passwordError,
     super.email = '',
     super.emailError,
   });
@@ -115,6 +137,8 @@ class RegisterSuccessState extends RegisterState {
     String? fullNameError,
     String? phone,
     String? phoneError,
+    String? password,
+    String? passwordError,
     String? email,
     String? emailError,
   }) {
@@ -124,6 +148,8 @@ class RegisterSuccessState extends RegisterState {
       fullNameError: fullNameError,
       phone: phone ?? this.phone,
       phoneError: phoneError,
+      password: password ?? this.password,
+      passwordError: passwordError,
       email: email ?? this.email,
       emailError: emailError,
     );
@@ -135,6 +161,8 @@ class RegisterSuccessState extends RegisterState {
     fullNameError ?? '',
     phone,
     phoneError ?? '',
+    password,
+    passwordError ?? '',
     email,
     emailError ?? '',
     message,
@@ -149,6 +177,8 @@ class RegisterErrorState extends RegisterState {
     super.fullNameError,
     super.phone = '',
     super.phoneError,
+    super.password = '',
+    super.passwordError,
     super.email = '',
     super.emailError,
   });
@@ -159,6 +189,8 @@ class RegisterErrorState extends RegisterState {
     String? fullNameError,
     String? phone,
     String? phoneError,
+    String? password,
+    String? passwordError,
     String? email,
     String? emailError,
   }) {
@@ -168,6 +200,8 @@ class RegisterErrorState extends RegisterState {
       fullNameError: fullNameError,
       phone: phone ?? this.phone,
       phoneError: phoneError,
+      password: password ?? this.password,
+      passwordError: passwordError,
       email: email ?? this.email,
       emailError: emailError,
     );
@@ -179,6 +213,8 @@ class RegisterErrorState extends RegisterState {
     fullNameError ?? '',
     phone,
     phoneError ?? '',
+    password,
+    passwordError ?? '',
     email,
     emailError ?? '',
     message,

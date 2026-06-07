@@ -72,9 +72,17 @@ class GoRouterConfig {
         path: VerifyScreen.verifyRoute,
         pageBuilder: (BuildContext context, GoRouterState state) {
           initVerifyModule();
+          final extra = state.extra;
+          final phoneNumber =
+              extra is Map<String, String> ? extra['phone'] : extra as String?;
+          final password =
+              extra is Map<String, String> ? extra['password'] : null;
           return getCustomTransitionPage(
             state: state,
-            child: VerifyScreen(phoneNumber: state.extra as String?),
+            child: VerifyScreen(
+              phoneNumber: phoneNumber,
+              password: password,
+            ),
           );
         },
       ),

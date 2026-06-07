@@ -6,7 +6,6 @@ import 'package:basic_diet/presentation/resources/font_manager.dart';
 import 'package:basic_diet/presentation/resources/strings_manager.dart';
 import 'package:basic_diet/presentation/resources/styles_manager.dart';
 import 'package:basic_diet/presentation/widgets/button_widget.dart';
-import 'package:basic_diet/presentation/widgets/custom_text_field_style.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:basic_diet/presentation/resources/values_manager.dart';
 import 'package:flutter/material.dart';
@@ -22,11 +21,9 @@ import 'verify_state.dart';
 class VerifyScreen extends StatelessWidget {
   static const String verifyRoute = "/verify";
   final String? phoneNumber;
+  final String? password;
 
-  VerifyScreen({super.key, this.phoneNumber});
-
-  late final TextEditingController _passwordController =
-      TextEditingController();
+  const VerifyScreen({super.key, this.phoneNumber, this.password});
 
   @override
   Widget build(BuildContext context) {
@@ -58,8 +55,6 @@ class VerifyScreen extends StatelessWidget {
                         Gap(AppSize.s40.h),
                         _buildHeader(),
                         Gap(AppSize.s40.h),
-                        _buildPasswordForm(innerContext),
-                        Gap(AppSize.s24.h),
                         _buildOtpForm(innerContext),
                         Gap(AppSize.s24.h),
                         _buildResendCode(innerContext),
@@ -86,37 +81,12 @@ class VerifyScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildPasswordForm(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          Strings.password.tr(),
-          style: getRegularTextStyle(
-            color: ColorManager.textPrimary,
-            fontSize: FontSizeManager.s16.sp,
-          ),
-        ),
-        Gap(AppSize.s8.h),
-        BlocBuilder<VerifyBloc, VerifyState>(
-          buildWhen:
-              (previous, current) =>
-                  previous.passwordError != current.passwordError,
-          builder: (context, state) {
-            return AppTextField.password(
-              controller: _passwordController,
-              errorText: state.passwordError,
-              onChanged: (password) {
-                context.read<VerifyBloc>().add(VerifyPasswordChanged(password));
-              },
-            );
-          },
-        ),
-      ],
-    );
-  }
-
   Widget _buildHeader() {
+    final displayedPhone =
+        phoneNumber == null || phoneNumber!.trim().isEmpty
+            ? ''
+            : '+966 ${phoneNumber!.trim()}';
+
     return Center(
       child: Column(
         children: [
@@ -137,7 +107,7 @@ class VerifyScreen extends StatelessWidget {
           ),
           Gap(AppSize.s8.h),
           Text(
-            phoneNumber ?? "",
+            displayedPhone,
             style: getBoldTextStyle(
               color: ColorManager.textPrimary,
               fontSize: FontSizeManager.s16.sp,
@@ -240,11 +210,7 @@ class VerifyScreen extends StatelessWidget {
     return BlocBuilder<VerifyBloc, VerifyState>(
       builder: (context, state) {
         final isLoading = state is VerifyLoadingState;
-        final isEnabled =
-            state.otpError == null &&
-            state.otpCode.length == 6 &&
-            state.passwordError == null &&
-            state.password.isNotEmpty;
+        final isEnabled = state.otpError == null && state.otpCode.length == 6;
 
         return ButtonWidget(
           text: isLoading ? Strings.loading.tr() : Strings.verifyContinue.tr(),
@@ -258,7 +224,10 @@ class VerifyScreen extends StatelessWidget {
           onTap:
               isEnabled
                   ? () => context.read<VerifyBloc>().add(
-                    VerifySubmitted(phoneNumber ?? ""),
+                    VerifySubmitted(
+                      phoneNumber?.trim() ?? "",
+                      password ?? "",
+                    ),
                   )
                   : null,
         );

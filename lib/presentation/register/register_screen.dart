@@ -25,6 +25,8 @@ class RegisterScreen extends StatelessWidget {
   RegisterScreen({super.key});
 
   late final TextEditingController _phoneController = TextEditingController();
+  late final TextEditingController _passwordController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +37,13 @@ class RegisterScreen extends StatelessWidget {
       child: BlocListener<RegisterBloc, RegisterState>(
         listener: (context, state) {
           if (state is RegisterSuccessState) {
-            context.push(VerifyScreen.verifyRoute, extra: state.phone);
+            context.push(
+              VerifyScreen.verifyRoute,
+              extra: <String, String>{
+                'phone': state.phone.trim(),
+                'password': state.password,
+              },
+            );
           }
         },
         child: Scaffold(
@@ -124,12 +132,40 @@ class RegisterScreen extends StatelessWidget {
           },
         ),
         Gap(AppSize.s24.h),
+        Text(
+          Strings.password.tr(),
+          style: getRegularTextStyle(
+            color: ColorManager.textPrimary,
+            fontSize: FontSizeManager.s16.sp,
+          ),
+        ),
+        Gap(AppSize.s8.h),
+        BlocBuilder<RegisterBloc, RegisterState>(
+          buildWhen:
+              (previous, current) =>
+                  previous.passwordError != current.passwordError,
+          builder: (context, state) {
+            return AppTextField.password(
+              controller: _passwordController,
+              errorText: state.passwordError,
+              onChanged: (password) {
+                context
+                    .read<RegisterBloc>()
+                    .add(RegisterPasswordChanged(password));
+              },
+            );
+          },
+        ),
+        Gap(AppSize.s24.h),
 
         BlocBuilder<RegisterBloc, RegisterState>(
           builder: (context, state) {
             final isLoading = state is RegisterLoadingState;
             final isEnabled =
-                state.phoneError == null && state.phone.isNotEmpty;
+                state.phoneError == null &&
+                state.passwordError == null &&
+                state.phone.isNotEmpty &&
+                state.password.isNotEmpty;
 
             return ButtonWidget(
               text:

@@ -8,14 +8,6 @@ const _categoryCardVariants = {
   'sandwich_collection',
   'addon_collection',
 };
-const _productCardVariants = {'standard', 'premium', 'large_salad', 'addon'};
-const _displayStyles = {
-  'chips',
-  'radio_cards',
-  'checkbox_grid',
-  'dropdown',
-  'stepper',
-};
 
 extension OrderMenuResponseMapper on OrderMenuResponse? {
   OrderMenuModel toDomain() {
@@ -92,10 +84,8 @@ extension OrderMenuProductResponseMapper on OrderMenuProductResponse? {
       sortOrder: this?.sortOrder ?? Constants.zero,
       requiresBuilder: this?.requiresBuilder,
       canAddDirectly: this?.canAddDirectly,
-      cardVariant: _allowedValue(
-        this?.ui?.cardVariant,
-        _productCardVariants,
-        'standard',
+      cardSize: _parseProductCardSize(
+        this?.ui?.cardSize ?? this?.ui?.cardVariant,
       ),
       badge: this?.ui?.badge ?? Constants.empty,
       ctaLabel: this?.ui?.ctaLabel ?? Constants.empty,
@@ -122,11 +112,7 @@ extension OrderMenuOptionGroupResponseMapper on OrderMenuOptionGroupResponse? {
       minSelections: this?.minSelections ?? Constants.zero,
       maxSelections: this?.maxSelections,
       isRequired: this?.isRequired ?? false,
-      displayStyle: _allowedValue(
-        this?.ui?.displayStyle,
-        _displayStyles,
-        'chips',
-      ),
+      displayStyle: this?.ui?.displayStyle ?? 'chips',
       sourceKey: this?.sourceKey ?? Constants.empty,
       rules: this?.rules ?? const {},
       optionSections:
@@ -193,6 +179,20 @@ String _allowedValue(String? value, Set<String> allowed, String fallback) {
     return fallback;
   }
   return value;
+}
+
+ProductCardSize _parseProductCardSize(String? value) {
+  switch (value?.trim().toLowerCase()) {
+    case 'large':
+    case 'big':
+      return ProductCardSize.large;
+    case 'small':
+      return ProductCardSize.small;
+    case 'medium':
+    case null:
+    default:
+      return ProductCardSize.medium;
+  }
 }
 
 double? _parseImageRatio(String? value) {

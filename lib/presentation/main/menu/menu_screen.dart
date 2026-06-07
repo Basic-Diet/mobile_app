@@ -79,7 +79,7 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
     super.dispose();
   }
 
-  void _handleMenuIntent() {
+  Future<void> _handleMenuIntent() async {
     final menuState = context.read<MenuBloc>().state;
     if (menuState is! MenuSuccess) {
       return;
@@ -97,11 +97,40 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
     if (intent.productKey != null) {
       final product = _findProductByKey(menuState.menu, intent.productKey!);
       if (product != null) {
-        _openBuilder(product, menuState.menu.currency);
+        await _handleProductSelection(product, menuState.menu.currency);
       }
     }
 
     OneTimeMenuCoordinator.clear();
+  }
+
+  Future<void> _handleProductSelection(
+    OrderMenuProductModel product,
+    String currency,
+  ) async {
+    if (product.resolvedRequiresBuilder) {
+      await _openBuilder(product, currency);
+      return;
+    }
+
+    if (!product.resolvedCanAddDirectly) {
+      return;
+    }
+
+    if (!mounted) {
+      return;
+    }
+
+    context.read<CartBloc>().add(
+      AddItemEvent(
+        CartItem(
+          productId: product.id,
+          name: product.displayName(context.locale.toString()),
+          qty: 1,
+          unitPriceHalala: product.priceHalala,
+        ),
+      ),
+    );
   }
 
   void _scrollToSection(String sectionKey) {
@@ -275,30 +304,10 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
                                             section.products,
                                           ),
                                           onProductSelected: (product) {
-                                            if (product
-                                                .resolvedRequiresBuilder) {
-                                              _openBuilder(
-                                                product,
-                                                menu.currency,
-                                              );
-                                              return;
-                                            }
-                                            if (product
-                                                .resolvedCanAddDirectly) {
-                                              context.read<CartBloc>().add(
-                                                AddItemEvent(
-                                                  CartItem(
-                                                    productId: product.id,
-                                                    name: product.displayName(
-                                                      context.locale.toString(),
-                                                    ),
-                                                    qty: 1,
-                                                    unitPriceHalala:
-                                                        product.priceHalala,
-                                                  ),
-                                                ),
-                                              );
-                                            }
+                                            _handleProductSelection(
+                                              product,
+                                              menu.currency,
+                                            );
                                           },
                                         ),
                                       ),
@@ -357,8 +366,7 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
     final light = <OrderMenuProductModel>[];
 
     for (final product in allConfigurable) {
-      if (product.cardVariant == 'large_salad' ||
-          product.cardVariant == 'addon') {
+      if (product.cardSize == ProductCardSize.small) {
         light.add(product);
       } else {
         main.add(product);
@@ -406,7 +414,6 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
           key: category.key,
           title: category.name,
           subtitle: _sectionSubtitle(category),
-          layout: _layoutFor(category),
           products: actionableProducts,
         ),
       );
@@ -420,13 +427,6 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
       return Strings.coldSandwichesSubtitle.tr();
     }
     return null;
-  }
-
-  _SectionLayout _layoutFor(OrderMenuCategoryModel category) {
-    if (category.cardVariant == 'sandwich_collection') {
-      return _SectionLayout.compactScroll;
-    }
-    return _SectionLayout.list;
   }
 }
 
@@ -846,7 +846,7 @@ class _BuilderProductCard extends StatelessWidget {
                       Directionality(
                         textDirection: ui.TextDirection.ltr,
                         child: Text(
-                          '${_formatHalala(product.priceHalala, currency)} / ${Strings.grams.tr(args: ['100'])}',
+                          _productPriceLabel(product, currency),
                           textAlign: TextAlign.right,
                           style: getBoldTextStyle(
                             fontSize: FontSizeManager.s13.sp,
@@ -855,22 +855,7 @@ class _BuilderProductCard extends StatelessWidget {
                         ),
                       ),
                       Gap(AppSize.s10.h),
-                      Container(
-                        width: AppSize.s122.w,
-                        height: AppSize.s42.h,
-                        decoration: BoxDecoration(
-                          color: ColorManager.brandPrimary,
-                          borderRadius: BorderRadius.circular(AppSize.s16.r),
-                        ),
-                        alignment: Alignment.center,
-                        child: Text(
-                          Strings.startCustomization.tr(),
-                          style: getBoldTextStyle(
-                            fontSize: FontSizeManager.s12_5.sp,
-                            color: ColorManager.backgroundSurface,
-                          ),
-                        ),
-                      ),
+                      _ProductCartAction(product: product, onTap: onTap),
                     ],
                   ),
                 ),
@@ -948,7 +933,7 @@ class _LightBuilderCard extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Text(
-                            Strings.priceDependsOnChoices.tr(),
+                            _productPriceLabel(product, currency),
                             textAlign: TextAlign.start,
                             style: getBoldTextStyle(
                               fontSize: FontSizeManager.s12_5.sp,
@@ -956,26 +941,7 @@ class _LightBuilderCard extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Container(
-                          width: AppSize.s96.w,
-                          height: AppSize.s36.h,
-                          padding: EdgeInsetsDirectional.symmetric(
-                            horizontal: AppPadding.p16.w,
-                          ),
-                          decoration: BoxDecoration(
-                            color: ColorManager.brandPrimary,
-                            borderRadius: BorderRadius.circular(AppSize.s15.r),
-                          ),
-                          alignment: Alignment.center,
-                          child: Text(
-                            Strings.startCustomization.tr(),
-                            textAlign: TextAlign.center,
-                            style: getBoldTextStyle(
-                              fontSize: FontSizeManager.s10.sp,
-                              color: ColorManager.backgroundSurface,
-                            ),
-                          ),
-                        ),
+                        _ProductCartAction(product: product, onTap: onTap),
                       ],
                     ),
                   ],
@@ -1016,6 +982,30 @@ class _DynamicSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Widget buildProductCard(OrderMenuProductModel product) {
+      switch (product.cardSize) {
+        case ProductCardSize.large:
+          return _BuilderProductCard(
+            product: product,
+            imageUrl: product.imageUrl,
+            currency: currency,
+            onTap: () => onProductSelected(product),
+          );
+        case ProductCardSize.small:
+          return _CompactProductCard(
+            product: product,
+            currency: currency,
+            onTap: () => onProductSelected(product),
+          );
+        case ProductCardSize.medium:
+          return _ListProductCard(
+            product: product,
+            currency: currency,
+            onTap: () => onProductSelected(product),
+          );
+      }
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -1024,59 +1014,19 @@ class _DynamicSection extends StatelessWidget {
         if (products.isEmpty)
           _EmptyStateCard(message: Strings.noProductsAvailable.tr())
         else
-          switch (section.layout) {
-            _SectionLayout.compactScroll => SizedBox(
-              height: AppSize.s205.h,
-              child: ListView.separated(
-                scrollDirection: Axis.horizontal,
-                itemCount: products.length,
-                separatorBuilder: (_, __) => Gap(AppSize.s12.w),
-                itemBuilder:
-                    (context, index) => SizedBox(
-                      width: AppSize.s170.w,
-                      child: _CompactProductCard(
-                        product: products[index],
-                        currency: currency,
-                        onTap: () => onProductSelected(products[index]),
+          Column(
+            children:
+                products
+                    .map(
+                      (product) => Padding(
+                        padding: EdgeInsetsDirectional.only(
+                          bottom: AppPadding.p12.h,
+                        ),
+                        child: buildProductCard(product),
                       ),
-                    ),
-              ),
-            ),
-            _SectionLayout.list => Column(
-              children:
-                  products
-                      .map(
-                        (product) => Padding(
-                          padding: EdgeInsetsDirectional.only(
-                            bottom: AppPadding.p12.h,
-                          ),
-                          child: _ListProductCard(
-                            product: product,
-                            currency: currency,
-                            onTap: () => onProductSelected(product),
-                          ),
-                        ),
-                      )
-                      .toList(),
-            ),
-            _SectionLayout.grid => Column(
-              children:
-                  products
-                      .map(
-                        (product) => Padding(
-                          padding: EdgeInsetsDirectional.only(
-                            bottom: AppPadding.p12.h,
-                          ),
-                          child: _ListProductCard(
-                            product: product,
-                            currency: currency,
-                            onTap: () => onProductSelected(product),
-                          ),
-                        ),
-                      )
-                      .toList(),
-            ),
-          },
+                    )
+                    .toList(),
+          ),
       ],
     );
   }
@@ -1104,6 +1054,7 @@ class _CompactProductCard extends StatelessWidget {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
+        mainAxisSize: MainAxisSize.min,
         children: [
           SizedBox(
             width: AppSize.s66.w,
@@ -1146,7 +1097,6 @@ class _CompactProductCard extends StatelessWidget {
                 color: ColorManager.textSecondary,
               ),
             ),
-          const Spacer(),
           Gap(AppSize.s4.h),
           Row(
             children: [
@@ -1154,7 +1104,7 @@ class _CompactProductCard extends StatelessWidget {
               Gap(AppSize.s8.w),
               Expanded(
                 child: Text(
-                  _formatHalala(product.priceHalala, currency),
+                  _productPriceLabel(product, currency),
                   textAlign: TextAlign.right,
                   style: getBoldTextStyle(
                     fontSize: FontSizeManager.s13.sp,
@@ -1252,7 +1202,7 @@ class _ListProductCard extends StatelessWidget {
                       children: [
                         _ProductCartAction(product: product, onTap: onTap),
                         Text(
-                          _formatHalala(product.priceHalala, currency),
+                          _productPriceLabel(product, currency),
                           style: getBoldTextStyle(
                             fontSize: FontSizeManager.s14.sp,
                             color: const Color(0xFF12382C),
@@ -3646,19 +3596,15 @@ class _MenuSectionData {
   final String key;
   final String title;
   final String? subtitle;
-  final _SectionLayout layout;
   final List<OrderMenuProductModel> products;
 
   const _MenuSectionData({
     required this.key,
     required this.title,
-    required this.layout,
     required this.products,
     this.subtitle,
   });
 }
-
-enum _SectionLayout { compactScroll, list, grid }
 
 class _OptionSectionData {
   final String title;
@@ -3772,6 +3718,14 @@ String _formatHalala(int halala, String currency) {
   final display =
       value % 1 == 0 ? value.toStringAsFixed(0) : value.toStringAsFixed(2);
   return '$display $currency';
+}
+
+String _productPriceLabel(OrderMenuProductModel product, String currency) {
+  final price = _formatHalala(product.priceHalala, currency);
+  if (product.pricingModel == 'per_100g') {
+    return '$price / ${Strings.grams.tr(args: ['100'])}';
+  }
+  return price;
 }
 
 bool _hasReachedMaxSelections(int selectedCount, int? maxSelections) {

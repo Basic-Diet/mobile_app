@@ -153,7 +153,7 @@ void main() {
         'requiresBuilder': true,
         'canAddDirectly': false,
         'ui': {
-          'cardVariant': 'standard',
+          'cardSize': 'big',
           'badge': 'Popular',
           'ctaLabel': 'startCustomization',
           'imageRatio': '1/1',
@@ -167,6 +167,7 @@ void main() {
       expect(product.displayName('ar'), 'دجاج');
       expect(product.displayDescription('ar'), 'وصف عربي');
       expect(product.calories, 420);
+      expect(product.cardSize, ProductCardSize.large);
       expect(product.resolvedRequiresBuilder, isTrue);
       expect(product.resolvedCanAddDirectly, isFalse);
       expect(product.ctaLabel, 'startCustomization');
@@ -192,6 +193,7 @@ void main() {
         maxWeightGrams: 0,
         weightStepGrams: 0,
         sortOrder: 0,
+        cardSize: ProductCardSize.medium,
         optionGroups: [],
       );
 

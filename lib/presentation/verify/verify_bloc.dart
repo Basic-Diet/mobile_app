@@ -14,7 +14,6 @@ class VerifyBloc extends Bloc<VerifyEvent, VerifyState> {
   VerifyBloc(this._verifyOtpUseCase, this._appPreferences)
     : super(const VerifyInitialState()) {
     on<VerifyCodeChanged>(_onCodeChanged);
-    on<VerifyPasswordChanged>(_onPasswordChanged);
     on<VerifySubmitted>(_onSubmitted);
     on<VerifyResendCode>(_onResendCode);
     on<VerifyTimerStarted>(_onTimerStarted);
@@ -56,36 +55,26 @@ class VerifyBloc extends Bloc<VerifyEvent, VerifyState> {
     emit(state.copyWith(otpCode: event.code, otpError: error));
   }
 
-  void _onPasswordChanged(
-    VerifyPasswordChanged event,
-    Emitter<VerifyState> emit,
-  ) {
-    final error = _validatePassword(event.password);
-    emit(state.copyWith(password: event.password, passwordError: error));
-  }
-
   Future<void> _onSubmitted(
     VerifySubmitted event,
     Emitter<VerifyState> emit,
   ) async {
     final otpError = _validateCode(state.otpCode);
-    final passwordError = _validatePassword(state.password);
-    if (otpError != null || passwordError != null) {
-      emit(state.copyWith(otpError: otpError, passwordError: passwordError));
+    if (otpError != null) {
+      emit(state.copyWith(otpError: otpError));
       return;
     }
 
     emit(
       VerifyLoadingState(
         otpCode: state.otpCode,
-        password: state.password,
         timerDuration: state.timerDuration,
         canResend: state.canResend,
       ),
     );
 
     final result = await _verifyOtpUseCase.execute(
-      VerifyOtpUseCaseInput(event.phone, state.otpCode, state.password),
+      VerifyOtpUseCaseInput(event.phone, state.otpCode, event.password),
     );
 
     await result.fold(
@@ -95,7 +84,6 @@ class VerifyBloc extends Bloc<VerifyEvent, VerifyState> {
           VerifyErrorState(
             failure.message,
             otpCode: state.otpCode,
-            password: state.password,
             timerDuration: state.timerDuration,
             canResend: state.canResend,
           ),
@@ -112,7 +100,6 @@ class VerifyBloc extends Bloc<VerifyEvent, VerifyState> {
           emit(
             VerifySuccessState(
               otpCode: state.otpCode,
-              password: state.password,
               timerDuration: state.timerDuration,
               canResend: state.canResend,
             ),
@@ -123,7 +110,6 @@ class VerifyBloc extends Bloc<VerifyEvent, VerifyState> {
             VerifyErrorState(
               "Token not found",
               otpCode: state.otpCode,
-              password: state.password,
               timerDuration: state.timerDuration,
               canResend: state.canResend,
             ),
@@ -136,12 +122,6 @@ class VerifyBloc extends Bloc<VerifyEvent, VerifyState> {
   String? _validateCode(String code) {
     if (code.isEmpty) return "Verification code is required";
     if (code.length < 6) return "Code must be 6 digits";
-    return null;
-  }
-
-  String? _validatePassword(String password) {
-    if (password.isEmpty) return "Password is required";
-    if (password.length < 8) return "Password is too short";
     return null;
   }
 
