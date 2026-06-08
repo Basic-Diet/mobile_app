@@ -58,6 +58,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     ProfileLogoutRequested event,
     Emitter<ProfileState> emit,
   ) async {
+    emit(state.copyWith(isLoggingOut: true));
+
     // Attempt server-side logout first (best-effort)
     try {
       final refreshToken = await _appPreferences.getRefreshToken();
@@ -70,7 +72,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
     await _appPreferences.logOut();
     if (!isClosed) {
-      emit(state.copyWith(isSignedOut: true));
+      emit(state.copyWith(isLoggingOut: false, isSignedOut: true));
     }
   }
 }

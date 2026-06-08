@@ -20,7 +20,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:go_router/go_router.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -50,7 +49,9 @@ class _ProfileView extends StatelessWidget {
                 previous.errorMessage != current.errorMessage,
         listener: (context, state) {
           if (state.isSignedOut) {
-            context.go(MainScreen.mainRoute);
+            context.read<MainBloc>().add(
+              const ChangeBottomNavIndexEvent(MainScreen.homeTabIndex),
+            );
             return;
           }
 
@@ -84,39 +85,55 @@ class _ProfileView extends StatelessWidget {
                 );
               }
 
-              return RefreshIndicator(
-                color: ColorManager.brandPrimary,
-                onRefresh: () async {
-                  context.read<ProfileBloc>().add(
-                    const ProfileOverviewRequested(),
-                  );
-                },
-                child: ListView(
-                  physics: const AlwaysScrollableScrollPhysics(
-                    parent: BouncingScrollPhysics(),
-                  ),
-                  padding: EdgeInsetsDirectional.fromSTEB(
-                    AppPadding.p10.w,
-                    AppPadding.p4.h,
-                    AppPadding.p10.w,
-                    AppPadding.p20.h,
-                  ),
-                  children: [
-                    _UserCard(profile: state.profile),
-                    Gap(AppSize.s12.h),
-                    _SubscriptionCard(profile: state.profile),
-                    Gap(AppSize.s12.h),
-                    _ProfileMenuCard(profile: state.profile),
-                    Gap(AppSize.s12.h),
-                    _LogoutButton(
-                      onTap: () {
-                        context.read<ProfileBloc>().add(
-                          const ProfileLogoutRequested(),
-                        );
-                      },
+              return Stack(
+                children: [
+                  RefreshIndicator(
+                    color: ColorManager.brandPrimary,
+                    onRefresh: () async {
+                      context.read<ProfileBloc>().add(
+                        const ProfileOverviewRequested(),
+                      );
+                    },
+                    child: ListView(
+                      physics: const AlwaysScrollableScrollPhysics(
+                        parent: BouncingScrollPhysics(),
+                      ),
+                      padding: EdgeInsetsDirectional.fromSTEB(
+                        AppPadding.p10.w,
+                        AppPadding.p4.h,
+                        AppPadding.p10.w,
+                        AppPadding.p20.h,
+                      ),
+                      children: [
+                        _UserCard(profile: state.profile),
+                        Gap(AppSize.s12.h),
+                        _SubscriptionCard(profile: state.profile),
+                        Gap(AppSize.s12.h),
+                        _ProfileMenuCard(profile: state.profile),
+                        Gap(AppSize.s12.h),
+                        _LogoutButton(
+                          onTap: state.isLoggingOut
+                              ? null
+                              : () {
+                                  context.read<ProfileBloc>().add(
+                                    const ProfileLogoutRequested(),
+                                  );
+                                },
+                          isLoading: state.isLoggingOut,
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                  if (state.isLoggingOut)
+                    Container(
+                      color: ColorManager.backgroundApp.withValues(alpha: 0.7),
+                      child: const Center(
+                        child: CircularProgressIndicator(
+                          color: ColorManager.brandPrimary,
+                        ),
+                      ),
+                    ),
+                ],
               );
             },
           ),
@@ -595,9 +612,13 @@ class _StatusChip extends StatelessWidget {
 }
 
 class _LogoutButton extends StatelessWidget {
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
+  final bool isLoading;
 
-  const _LogoutButton({required this.onTap});
+  const _LogoutButton({
+    required this.onTap,
+    this.isLoading = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -613,11 +634,21 @@ class _LogoutButton extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.logout_rounded,
-              color: ColorManager.stateError,
-              size: AppSize.s16.r,
-            ),
+            if (isLoading)
+              SizedBox(
+                width: AppSize.s16.r,
+                height: AppSize.s16.r,
+                child: const CircularProgressIndicator(
+                  color: ColorManager.stateError,
+                  strokeWidth: 2,
+                ),
+              )
+            else
+              Icon(
+                Icons.logout_rounded,
+                color: ColorManager.stateError,
+                size: AppSize.s16.r,
+              ),
             Gap(AppSize.s8.w),
             Text(
               Strings.logout.tr(),

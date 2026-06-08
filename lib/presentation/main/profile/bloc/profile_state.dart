@@ -8,12 +8,14 @@ class ProfileState extends Equatable {
   final ClientProfileDataModel? profile;
   final String errorMessage;
   final bool isSignedOut;
+  final bool isLoggingOut;
 
   const ProfileState({
     this.status = ProfileStatus.initial,
     this.profile,
     this.errorMessage = '',
     this.isSignedOut = false,
+    this.isLoggingOut = false,
   });
 
   ProfileState copyWith({
@@ -21,6 +23,7 @@ class ProfileState extends Equatable {
     ClientProfileDataModel? profile,
     String? errorMessage,
     bool? isSignedOut,
+    bool? isLoggingOut,
     bool clearProfile = false,
   }) {
     return ProfileState(
@@ -28,9 +31,10 @@ class ProfileState extends Equatable {
       profile: clearProfile ? null : profile ?? this.profile,
       errorMessage: errorMessage ?? this.errorMessage,
       isSignedOut: isSignedOut ?? this.isSignedOut,
+      isLoggingOut: isLoggingOut ?? this.isLoggingOut,
     );
   }
 
   @override
-  List<Object?> get props => [status, profile, errorMessage, isSignedOut];
+  List<Object?> get props => [status, profile, errorMessage, isSignedOut, isLoggingOut];
 }
