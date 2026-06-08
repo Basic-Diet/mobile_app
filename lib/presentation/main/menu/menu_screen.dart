@@ -1107,11 +1107,6 @@ class _DynamicSection extends StatelessWidget {
             onTap: () => onProductSelected(product),
           );
         case ProductCardSize.small:
-          return _CompactProductCard(
-            product: product,
-            currency: currency,
-            onTap: () => onProductSelected(product),
-          );
         case ProductCardSize.medium:
           return _ListProductCard(
             product: product,
@@ -1147,93 +1142,7 @@ class _DynamicSection extends StatelessWidget {
   }
 }
 
-class _CompactProductCard extends StatelessWidget {
-  final OrderMenuProductModel product;
-  final String currency;
-  final VoidCallback onTap;
 
-  const _CompactProductCard({
-    required this.product,
-    required this.currency,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsetsDirectional.all(AppPadding.p12.r),
-      decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.96),
-        borderRadius: BorderRadius.circular(AppSize.s20.r),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.84)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SizedBox(
-            width: AppSize.s66.w,
-            child: AspectRatio(
-              aspectRatio: product.imageRatio ?? 1,
-              child: _MenuMediaBox(
-                label: _initials(
-                  product.displayName(context.locale.toString()),
-                  context,
-                ),
-                imageUrl: product.imageUrl,
-                borderRadius: AppSize.s16.r,
-              ),
-            ),
-          ),
-          Gap(AppSize.s10.h),
-          if (product.badge.isNotEmpty) ...[
-            _ProductBadge(label: product.badge),
-            Gap(AppSize.s6.h),
-          ],
-          Text(
-            product.displayName(context.locale.toString()),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            textAlign: TextAlign.right,
-            style: getBoldTextStyle(
-              fontSize: FontSizeManager.s14.sp,
-              color: const Color(0xFF112B22),
-            ),
-          ),
-          Gap(AppSize.s3.h),
-          if ((product.description ?? '').isNotEmpty)
-            Text(
-              product.description!,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.right,
-              style: getBoldTextStyle(
-                fontSize: FontSizeManager.s11_5.sp,
-                color: ColorManager.textSecondary,
-              ),
-            ),
-          Gap(AppSize.s4.h),
-          Row(
-            children: [
-              _ProductCartAction(product: product, onTap: onTap),
-              Gap(AppSize.s8.w),
-              Expanded(
-                child: Text(
-                  _productPriceLabel(product, currency),
-                  textAlign: TextAlign.right,
-                  style: getBoldTextStyle(
-                    fontSize: FontSizeManager.s13.sp,
-                    color: const Color(0xFF12382C),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
 
 class _ListProductCard extends StatelessWidget {
   final OrderMenuProductModel product;
