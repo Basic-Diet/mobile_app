@@ -47,25 +47,9 @@ class ListProductCard extends StatelessWidget {
           ),
           child: Row(
             children: [
-              SizedBox(
-                width: AppSize.s100.w,
-                height: AppSize.s130.h,
-                child: AspectRatio(
-                  aspectRatio: product.imageRatio ?? 1,
-                  child: MenuMediaBox(
-                    label: initials(
-                      product.displayName(context.locale.toString()),
-                      context,
-                    ),
-                    imageUrl: product.imageUrl,
-                    borderRadius: AppSize.s18.r,
-                  ),
-                ),
-              ),
-              Gap(AppSize.s14.w),
               Expanded(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     if (product.badge.isNotEmpty) ...[
                       ProductBadge(label: product.badge),
@@ -99,15 +83,27 @@ class ListProductCard extends StatelessWidget {
                       ),
                     ),
                     Gap(AppSize.s10.h),
-                    Align(
-                      alignment: AlignmentDirectional.centerEnd,
-                      child: ProductCartAction(
-                        product: product,
-                        onTap: onTap,
-                        ctaWidth: AppSize.s120.w,
-                      ),
+                    ProductCartAction(
+                      product: product,
+                      onTap: onTap,
+                      ctaWidth: AppSize.s120.w,
                     ),
                   ],
+                ),
+              ),
+              Gap(AppSize.s14.w),
+              SizedBox(
+                width: AppSize.s80.w,
+                height: AppSize.s80.h,
+                child: ClipOval(
+                  child: MenuMediaBox(
+                    label: initials(
+                      product.displayName(context.locale.toString()),
+                      context,
+                    ),
+                    imageUrl: product.imageUrl,
+                    borderRadius: 0,
+                  ),
                 ),
               ),
             ],

@@ -580,12 +580,12 @@ class _RecommendedSection extends StatelessWidget {
           children: [
             Expanded(
               child: _RecommendationCard(
-                title: Strings.sourdoughSandwich.tr(),
-                description: Strings.sourdoughDesc.tr(),
-                imagePath: ImageAssets.oneTimeSourdough,
-                footerText: Strings.offer.tr(),
+                title: Strings.alternativeMeals.tr(),
+                description: Strings.alternativeMealsDesc.tr(),
+                imagePath: ImageAssets.oneTimeBasicMeal,
+                footerText: Strings.viewMenu.tr(),
                 helperText: '',
-                sectionKey: 'sourdough',
+                sectionKey: 'meals',
               ),
             ),
             Gap(AppSize.s12.w),

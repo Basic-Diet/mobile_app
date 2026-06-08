@@ -771,6 +771,8 @@ class Strings {
   static const String juices = 'juices';
   static const String juicesDesc = 'juicesDesc';
   static const String offer = 'offer';
+  static const String alternativeMeals = 'alternativeMeals';
+  static const String alternativeMealsDesc = 'alternativeMealsDesc';
   static const String coldSandwichesSubtitle = 'coldSandwichesSubtitle';
   static const String builderBasicSaladDesc = 'builderBasicSaladDesc';
   static const String builderBasicMealDesc = 'builderBasicMealDesc';
