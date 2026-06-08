@@ -168,8 +168,7 @@ class RegisterScreen extends StatelessWidget {
                 state.password.isNotEmpty;
 
             return ButtonWidget(
-              text:
-                  isLoading ? Strings.loading.tr() : Strings.createAccount.tr(),
+              text: Strings.createAccount.tr(),
               textColor: ColorManager.backgroundSurface,
               color:
                   isEnabled
@@ -185,6 +184,7 @@ class RegisterScreen extends StatelessWidget {
                         const RegisterSubmitted(),
                       )
                       : null,
+              isLoading: isLoading,
             );
           },
         ),

@@ -12,6 +12,7 @@ class ButtonWidget extends StatelessWidget {
   final Color textColor;
   final Color? disabledColor;
   final Color? disabledTextColor;
+  final bool isLoading;
 
   const ButtonWidget({
     super.key,
@@ -24,11 +25,12 @@ class ButtonWidget extends StatelessWidget {
     this.textColor = ColorManager.textInverse,
     this.disabledColor,
     this.disabledTextColor,
+    this.isLoading = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    final isEnabled = onTap != null;
+    final isEnabled = onTap != null && !isLoading;
     final backgroundColor = isEnabled
         ? color
         : (disabledColor ?? ColorManager.stateDisabledSurface);
@@ -39,7 +41,7 @@ class ButtonWidget extends StatelessWidget {
     return Material(
       color: ColorManager.transparent,
       child: InkWell(
-        onTap: onTap,
+        onTap: isEnabled ? onTap : null,
         borderRadius: BorderRadius.circular(radius.r),
         splashColor: ColorManager.brandPrimaryTint,
         highlightColor: ColorManager.brandPrimaryTint,
@@ -52,13 +54,24 @@ class ButtonWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(radius.r),
           ),
           child: Center(
-            child: Text(
-              text,
-              style: getBoldTextStyle(
-                color: foregroundColor,
-                fontSize: AppSize.s18.sp,
-              ),
-            ),
+            child: isLoading
+                ? SizedBox(
+                    height: AppSize.s20.h,
+                    width: AppSize.s20.h,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        foregroundColor,
+                      ),
+                    ),
+                  )
+                : Text(
+                    text,
+                    style: getBoldTextStyle(
+                      color: foregroundColor,
+                      fontSize: AppSize.s18.sp,
+                    ),
+                  ),
           ),
         ),
       ),

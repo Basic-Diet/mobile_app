@@ -194,7 +194,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 state.password.isNotEmpty;
 
             return ButtonWidget(
-              text: isLoading ? Strings.loading.tr() : Strings.login.tr(),
+              text: Strings.login.tr(),
               textColor: ColorManager.backgroundSurface,
               color:
                   isEnabled
@@ -209,6 +209,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ? () =>
                           context.read<LoginBloc>().add(const LoginSubmitted())
                       : null,
+              isLoading: isLoading,
             );
           },
         ),
