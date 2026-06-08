@@ -60,11 +60,14 @@ class _MenuScreenContent extends StatefulWidget {
 
 class _MenuScreenContentState extends State<_MenuScreenContent> {
   final ScrollController _scrollController = ScrollController();
+  final ScrollController _chipsScrollController = ScrollController();
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
   String _activeChip = 'all';
   bool _showMenuIntro = true;
   double _lastScrollOffset = 0;
+  final List<GlobalKey> _chipKeys = [];
+  List<_MenuChipData> _currentChips = [];
 
   @override
   void initState() {
@@ -143,6 +146,21 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
 
     if (_scrollController.hasClients) {
       _scrollController.jumpTo(0);
+    }
+
+    // Scroll the selected chip to center
+    final chipIndex = _currentChips.indexWhere((chip) => chip.key == _activeChip);
+    if (chipIndex != -1) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (_chipKeys[chipIndex].currentContext != null) {
+          Scrollable.ensureVisible(
+            _chipKeys[chipIndex].currentContext!,
+            alignment: 0.5,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeInOut,
+          );
+        }
+      });
     }
   }
 
@@ -254,6 +272,14 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
               return _MenuErrorView(message: Strings.noProductsAvailable.tr());
             }
             final chips = _buildChips(sections);
+            _currentChips = chips;
+            // Initialize chip keys if needed
+            if (_chipKeys.length != chips.length) {
+              _chipKeys.clear();
+              for (int i = 0; i < chips.length; i++) {
+                _chipKeys.add(GlobalKey());
+              }
+            }
             final visibleSections =
                 _activeChip == 'all'
                     ? sections
@@ -317,6 +343,8 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
                             chips: chips,
                             activeKey: _activeChip,
                             onSelected: _selectSection,
+                            scrollController: _chipsScrollController,
+                            chipKeys: _chipKeys,
                           ),
                         ],
                       ),
@@ -669,11 +697,15 @@ class _MenuChipsRow extends StatelessWidget {
   final List<_MenuChipData> chips;
   final String activeKey;
   final ValueChanged<String> onSelected;
+  final ScrollController scrollController;
+  final List<GlobalKey> chipKeys;
 
   const _MenuChipsRow({
     required this.chips,
     required this.activeKey,
     required this.onSelected,
+    required this.scrollController,
+    required this.chipKeys,
   });
 
   @override
@@ -681,11 +713,13 @@ class _MenuChipsRow extends StatelessWidget {
     return SizedBox(
       height: AppSize.s34.h,
       child: ListView.separated(
+        controller: scrollController,
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
           final chip = chips[index];
           final isSelected = chip.key == activeKey;
           return Material(
+            key: chipKeys[index],
             color:
                 isSelected
                     ? const Color(0xFF0B241C)
