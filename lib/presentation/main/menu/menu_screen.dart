@@ -909,17 +909,17 @@ class _BuilderProductCard extends StatelessWidget {
                           isArabic
                               ? [
                                 Colors.white.withValues(alpha: 0.0),
-                                Colors.white.withValues(alpha: 0.25),
-                                Colors.white.withValues(alpha: 0.84),
-                                Colors.white.withValues(alpha: 0.95),
+                                Colors.white.withValues(alpha: 0.35),
+                                Colors.white.withValues(alpha: 0.94),
+                                Colors.white.withValues(alpha: 1),
                               ]
                               : [
-                                Colors.white.withValues(alpha: 0.95),
-                                Colors.white.withValues(alpha: 0.84),
-                                Colors.white.withValues(alpha: 0.25),
+                                Colors.white.withValues(alpha: 1),
+                                Colors.white.withValues(alpha: 0.94),
+                                Colors.white.withValues(alpha: 0.35),
                                 Colors.white.withValues(alpha: 0.0),
                               ],
-                      stops: const [0.0, 0.32, 0.68, 1.0],
+                      stops: const [0.0, 0.32, 0.78, 1.0],
                     ),
                   ),
                 ),
