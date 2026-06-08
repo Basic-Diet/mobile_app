@@ -1270,7 +1270,8 @@ class _ListProductCard extends StatelessWidget {
           child: Row(
             children: [
               SizedBox(
-                width: AppSize.s76.w,
+                width: AppSize.s100.w,
+                height: AppSize.s130.h,
                 child: AspectRatio(
                   aspectRatio: product.imageRatio ?? 1,
                   child: _MenuMediaBox(
