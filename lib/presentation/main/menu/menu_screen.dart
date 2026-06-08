@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui' as ui;
 
 import 'package:basic_diet/app/auth_gate.dart';
@@ -1706,6 +1707,8 @@ class _MenuMediaBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final resolvedImageUrl = _resolveImageUrl(imageUrl);
+    final isArabic = context.locale.languageCode == 'ar';
+    const angle = 0.0;
 
     final media = ClipRRect(
       borderRadius: BorderRadius.circular(borderRadius),
@@ -1730,18 +1733,26 @@ class _MenuMediaBox extends StatelessWidget {
             ),
           ),
           if (resolvedImageUrl != null)
-            Image.network(
-              resolvedImageUrl,
-              width: double.infinity,
-              height: double.infinity,
-              fit: BoxFit.cover,
-              errorBuilder: (_, __, ___) => const SizedBox.shrink(),
-              loadingBuilder: (context, child, loadingProgress) {
-                if (loadingProgress == null) {
-                  return child;
-                }
-                return const SizedBox.shrink();
-              },
+            Transform(
+              transform: isArabic
+                  ? Matrix4.identity()
+                  : (Matrix4.identity()
+                    ..setEntry(0, 1, tan(angle))
+                    ..setEntry(1, 0, tan(angle))),
+              alignment: Alignment.center,
+              child: Image.network(
+                resolvedImageUrl,
+                width: double.infinity,
+                height: double.infinity,
+                fit: BoxFit.cover,
+                errorBuilder: (_, __, ___) => const SizedBox.shrink(),
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) {
+                    return child;
+                  }
+                  return const SizedBox.shrink();
+                },
+              ),
             ),
         ],
       ),
