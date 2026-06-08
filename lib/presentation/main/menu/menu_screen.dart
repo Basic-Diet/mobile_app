@@ -1,6 +1,6 @@
-import 'dart:math';
 import 'dart:ui' as ui;
 
+import 'package:basic_diet/app/app_pref.dart';
 import 'package:basic_diet/app/auth_gate.dart';
 import 'package:basic_diet/app/constants.dart';
 import 'package:basic_diet/app/dependency_injection.dart';
@@ -1707,8 +1707,15 @@ class _MenuMediaBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final resolvedImageUrl = _resolveImageUrl(imageUrl);
-    final isArabic = context.locale.languageCode == 'ar';
-    const angle = 0.0;
+    final appPreferences = instance<AppPreferences>();
+    final storedLanguage = appPreferences.getAppLanguageSync();
+    final isArabic = storedLanguage == 'ar';
+    
+    debugPrint('=== _MenuMediaBox Language Debug ===');
+    debugPrint('Stored language: "$storedLanguage"');
+    debugPrint('Is Arabic? $isArabic');
+    debugPrint('Will transform: ${isArabic ? "No transform" : "Flip horizontal"}');
+    debugPrint('=================================');
 
     final media = ClipRRect(
       borderRadius: BorderRadius.circular(borderRadius),
@@ -1733,14 +1740,8 @@ class _MenuMediaBox extends StatelessWidget {
             ),
           ),
           if (resolvedImageUrl != null)
-            Transform(
-              transform: isArabic
-                  ? Matrix4.identity()
-                  : (Matrix4.identity()
-                    ..setEntry(0, 1, tan(angle))
-                    ..setEntry(1, 0, tan(angle))),
-              alignment: Alignment.center,
-              child: Image.network(
+            if (isArabic)
+              Image.network(
                 resolvedImageUrl,
                 width: double.infinity,
                 height: double.infinity,
@@ -1752,8 +1753,24 @@ class _MenuMediaBox extends StatelessWidget {
                   }
                   return const SizedBox.shrink();
                 },
+              )
+            else
+              Transform.flip(
+                flipX: true,
+                child: Image.network(
+                  resolvedImageUrl,
+                  width: double.infinity,
+                  height: double.infinity,
+                  fit: BoxFit.cover,
+                  errorBuilder: (_, __, ___) => const SizedBox.shrink(),
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) {
+                      return child;
+                    }
+                    return const SizedBox.shrink();
+                  },
+                ),
               ),
-            ),
         ],
       ),
     );

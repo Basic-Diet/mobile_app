@@ -15,6 +15,19 @@ class AppPreferences {
   final FlutterSecureStorage _secureStorage;
   final SharedPreferences _preferences;
 
+  // Expose _preferences so it can be accessed directly if needed
+  SharedPreferences get preferences => _preferences;
+
+  // Add a synchronous method to get the language
+  String getAppLanguageSync() {
+    final language = _preferences.getString(pressKeyLanguage);
+    if (language != null && language.isNotEmpty) {
+      return language;
+    }
+    // Default to Arabic like the async method
+    return LanguageType.arabic.getValue();
+  }
+
   AppPreferences(this._preferences)
     : _secureStorage = const FlutterSecureStorage(
         iOptions: IOSOptions(accessibility: KeychainAccessibility.first_unlock),
