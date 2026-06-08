@@ -38,6 +38,7 @@ class ClientSubscriptionSummaryModel {
   final String planName;
   final String status;
   final String statusLabelAr;
+  final String statusLabelEn;
   final int remainingMeals;
   final int totalMeals;
 
@@ -46,6 +47,7 @@ class ClientSubscriptionSummaryModel {
     this.planName = '',
     this.status = '',
     this.statusLabelAr = '',
+    this.statusLabelEn = '',
     this.remainingMeals = 0,
     this.totalMeals = 0,
   });
@@ -69,18 +71,21 @@ class ClientProfileMenuModel {
 
 class ClientProfileCounterItemModel {
   final String labelAr;
+  final String labelEn;
   final int count;
 
-  const ClientProfileCounterItemModel({this.labelAr = '', this.count = 0});
+  const ClientProfileCounterItemModel({this.labelAr = '', this.labelEn = '', this.count = 0});
 }
 
 class ClientProfileLanguageItemModel {
   final String labelAr;
+  final String labelEn;
   final String current;
   final String code;
 
   const ClientProfileLanguageItemModel({
     this.labelAr = '',
+    this.labelEn = '',
     this.current = '',
     this.code = '',
   });
@@ -88,12 +93,14 @@ class ClientProfileLanguageItemModel {
 
 class ClientProfileSupportItemModel {
   final String labelAr;
+  final String labelEn;
   final String phone;
   final String whatsapp;
   final String email;
 
   const ClientProfileSupportItemModel({
     this.labelAr = '',
+    this.labelEn = '',
     this.phone = '',
     this.whatsapp = '',
     this.email = '',
@@ -107,11 +114,13 @@ class ClientProfileSupportItemModel {
 
 class ClientProfileLegalItemModel {
   final String labelAr;
+  final String labelEn;
   final String termsUrl;
   final String privacyUrl;
 
   const ClientProfileLegalItemModel({
     this.labelAr = '',
+    this.labelEn = '',
     this.termsUrl = '',
     this.privacyUrl = '',
   });

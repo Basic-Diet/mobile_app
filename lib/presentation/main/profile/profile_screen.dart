@@ -231,12 +231,19 @@ class _SubscriptionCard extends StatelessWidget {
     final remaining = summary?.remainingMeals ?? 0;
     final total = summary?.totalMeals ?? 0;
     final progress = total == 0 ? 0.0 : (remaining / total).clamp(0.0, 1.0);
+    final isArabic = context.locale.languageCode == 'ar';
     final statusLabel =
-        summary?.statusLabelAr.trim().isNotEmpty == true
-            ? summary!.statusLabelAr
-            : (summary?.hasActiveSubscription == true
-                ? Strings.active.tr()
-                : Strings.unavailableNow.tr());
+        isArabic
+            ? (summary?.statusLabelAr.trim().isNotEmpty == true
+                ? summary!.statusLabelAr
+                : (summary?.hasActiveSubscription == true
+                    ? Strings.active.tr()
+                    : Strings.unavailableNow.tr()))
+            : (summary?.statusLabelEn.trim().isNotEmpty == true
+                ? summary!.statusLabelEn
+                : (summary?.hasActiveSubscription == true
+                    ? Strings.active.tr()
+                    : Strings.unavailableNow.tr()));
     final planName = summary?.planName.trim() ?? '';
     final hasPlanName = planName.isNotEmpty;
 
@@ -359,10 +366,11 @@ class _ProfileMenuCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final menu = profile?.profileMenu;
+    final isArabic = context.locale.languageCode == 'ar';
     final languageValue =
         menu?.language.current.trim().isNotEmpty == true
             ? menu!.language.current
-            : (context.locale.languageCode == 'ar'
+            : (isArabic
                 ? Strings.arabic.tr()
                 : Strings.english.tr());
     final supportValue = _supportValue(menu?.support);
@@ -388,8 +396,10 @@ class _ProfileMenuCard extends StatelessWidget {
           Gap(AppSize.s12.h),
           _MenuRow(
             title: _labelOrFallback(
-              menu?.orders.labelAr,
-              Strings.myOrders.tr(),
+              isArabic: isArabic,
+              labelAr: menu?.orders.labelAr,
+              labelEn: menu?.orders.labelEn,
+              fallback: Strings.myOrders.tr(),
             ),
             value: '${menu?.orders.count ?? 0}',
             icon: Icons.receipt_long_outlined,
@@ -399,16 +409,20 @@ class _ProfileMenuCard extends StatelessWidget {
           ),
           _MenuRow(
             title: _labelOrFallback(
-              menu?.addresses.labelAr,
-              Strings.myAddresses.tr(),
+              isArabic: isArabic,
+              labelAr: menu?.addresses.labelAr,
+              labelEn: menu?.addresses.labelEn,
+              fallback: Strings.myAddresses.tr(),
             ),
             value: '${menu?.addresses.count ?? 0}',
             icon: Icons.location_on_outlined,
           ),
           _MenuRow(
             title: _labelOrFallback(
-              menu?.language.labelAr,
-              Strings.language.tr(),
+              isArabic: isArabic,
+              labelAr: menu?.language.labelAr,
+              labelEn: menu?.language.labelEn,
+              fallback: Strings.language.tr(),
             ),
             value: languageValue,
             icon: Icons.language_rounded,
@@ -416,8 +430,10 @@ class _ProfileMenuCard extends StatelessWidget {
           ),
           _MenuRow(
             title: _labelOrFallback(
-              menu?.support.labelAr,
-              Strings.support.tr(),
+              isArabic: isArabic,
+              labelAr: menu?.support.labelAr,
+              labelEn: menu?.support.labelEn,
+              fallback: Strings.support.tr(),
             ),
             value: supportValue,
             icon: Icons.headset_mic_outlined,
@@ -425,8 +441,10 @@ class _ProfileMenuCard extends StatelessWidget {
           ),
           _MenuRow(
             title: _labelOrFallback(
-              menu?.legal.labelAr,
-              Strings.termsPrivacy.tr(),
+              isArabic: isArabic,
+              labelAr: menu?.legal.labelAr,
+              labelEn: menu?.legal.labelEn,
+              fallback: Strings.termsPrivacy.tr(),
             ),
             icon: Icons.description_outlined,
             showDivider: false,
@@ -438,8 +456,14 @@ class _ProfileMenuCard extends StatelessWidget {
   }
 }
 
-String _labelOrFallback(String? value, String fallback) {
-  final label = value?.trim() ?? '';
+String _labelOrFallback({
+  required bool isArabic,
+  String? labelAr,
+  String? labelEn,
+  required String fallback,
+}) {
+  final selectedLabel = isArabic ? labelAr : labelEn;
+  final label = selectedLabel?.trim() ?? '';
   return label.isNotEmpty ? label : fallback;
 }
 

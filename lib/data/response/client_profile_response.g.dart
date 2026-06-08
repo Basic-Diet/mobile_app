@@ -85,6 +85,7 @@ ClientSubscriptionSummaryResponse _$ClientSubscriptionSummaryResponseFromJson(
   planName: json['planName'] as String?,
   status: json['status'] as String?,
   statusLabelAr: json['statusLabelAr'] as String?,
+  statusLabelEn: json['statusLabelEn'] as String?,
   remainingMeals: (json['remainingMeals'] as num?)?.toInt(),
   totalMeals: (json['totalMeals'] as num?)?.toInt(),
 );
@@ -96,6 +97,7 @@ Map<String, dynamic> _$ClientSubscriptionSummaryResponseToJson(
   'planName': instance.planName,
   'status': instance.status,
   'statusLabelAr': instance.statusLabelAr,
+  'statusLabelEn': instance.statusLabelEn,
   'remainingMeals': instance.remainingMeals,
   'totalMeals': instance.totalMeals,
 };
@@ -149,17 +151,23 @@ ClientProfileCounterItemResponse _$ClientProfileCounterItemResponseFromJson(
   Map<String, dynamic> json,
 ) => ClientProfileCounterItemResponse(
   labelAr: json['labelAr'] as String?,
+  labelEn: json['labelEn'] as String?,
   count: (json['count'] as num?)?.toInt(),
 );
 
 Map<String, dynamic> _$ClientProfileCounterItemResponseToJson(
   ClientProfileCounterItemResponse instance,
-) => <String, dynamic>{'labelAr': instance.labelAr, 'count': instance.count};
+) => <String, dynamic>{
+  'labelAr': instance.labelAr,
+  'labelEn': instance.labelEn,
+  'count': instance.count,
+};
 
 ClientProfileLanguageItemResponse _$ClientProfileLanguageItemResponseFromJson(
   Map<String, dynamic> json,
 ) => ClientProfileLanguageItemResponse(
   labelAr: json['labelAr'] as String?,
+  labelEn: json['labelEn'] as String?,
   current: json['current'] as String?,
   code: json['code'] as String?,
 );
@@ -168,6 +176,7 @@ Map<String, dynamic> _$ClientProfileLanguageItemResponseToJson(
   ClientProfileLanguageItemResponse instance,
 ) => <String, dynamic>{
   'labelAr': instance.labelAr,
+  'labelEn': instance.labelEn,
   'current': instance.current,
   'code': instance.code,
 };
@@ -176,6 +185,7 @@ ClientProfileSupportItemResponse _$ClientProfileSupportItemResponseFromJson(
   Map<String, dynamic> json,
 ) => ClientProfileSupportItemResponse(
   labelAr: json['labelAr'] as String?,
+  labelEn: json['labelEn'] as String?,
   phone: json['phone'] as String?,
   whatsapp: json['whatsapp'] as String?,
   email: json['email'] as String?,
@@ -185,6 +195,7 @@ Map<String, dynamic> _$ClientProfileSupportItemResponseToJson(
   ClientProfileSupportItemResponse instance,
 ) => <String, dynamic>{
   'labelAr': instance.labelAr,
+  'labelEn': instance.labelEn,
   'phone': instance.phone,
   'whatsapp': instance.whatsapp,
   'email': instance.email,
@@ -194,6 +205,7 @@ ClientProfileLegalItemResponse _$ClientProfileLegalItemResponseFromJson(
   Map<String, dynamic> json,
 ) => ClientProfileLegalItemResponse(
   labelAr: json['labelAr'] as String?,
+  labelEn: json['labelEn'] as String?,
   termsUrl: json['termsUrl'] as String?,
   privacyUrl: json['privacyUrl'] as String?,
 );
@@ -202,6 +214,7 @@ Map<String, dynamic> _$ClientProfileLegalItemResponseToJson(
   ClientProfileLegalItemResponse instance,
 ) => <String, dynamic>{
   'labelAr': instance.labelAr,
+  'labelEn': instance.labelEn,
   'termsUrl': instance.termsUrl,
   'privacyUrl': instance.privacyUrl,
 };

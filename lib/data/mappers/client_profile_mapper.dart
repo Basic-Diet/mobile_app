@@ -45,6 +45,7 @@ extension ClientSubscriptionSummaryResponseMapper
       planName: this?.planName.orEmpty() ?? Constants.empty,
       status: this?.status.orEmpty() ?? Constants.empty,
       statusLabelAr: this?.statusLabelAr.orEmpty() ?? Constants.empty,
+      statusLabelEn: this?.statusLabelEn.orEmpty() ?? Constants.empty,
       remainingMeals: this?.remainingMeals.orZero() ?? Constants.zero,
       totalMeals: this?.totalMeals.orZero() ?? Constants.zero,
     );
@@ -71,6 +72,7 @@ extension ClientProfileCounterItemResponseMapper
   ClientProfileCounterItemModel toDomain() {
     return ClientProfileCounterItemModel(
       labelAr: this?.labelAr.orEmpty() ?? Constants.empty,
+      labelEn: this?.labelEn.orEmpty() ?? Constants.empty,
       count: this?.count.orZero() ?? Constants.zero,
     );
   }
@@ -81,6 +83,7 @@ extension ClientProfileLanguageItemResponseMapper
   ClientProfileLanguageItemModel toDomain() {
     return ClientProfileLanguageItemModel(
       labelAr: this?.labelAr.orEmpty() ?? Constants.empty,
+      labelEn: this?.labelEn.orEmpty() ?? Constants.empty,
       current: this?.current.orEmpty() ?? Constants.empty,
       code: this?.code.orEmpty() ?? Constants.empty,
     );
@@ -92,6 +95,7 @@ extension ClientProfileSupportItemResponseMapper
   ClientProfileSupportItemModel toDomain() {
     return ClientProfileSupportItemModel(
       labelAr: this?.labelAr.orEmpty() ?? Constants.empty,
+      labelEn: this?.labelEn.orEmpty() ?? Constants.empty,
       phone: this?.phone.orEmpty() ?? Constants.empty,
       whatsapp: this?.whatsapp.orEmpty() ?? Constants.empty,
       email: this?.email.orEmpty() ?? Constants.empty,
@@ -104,6 +108,7 @@ extension ClientProfileLegalItemResponseMapper
   ClientProfileLegalItemModel toDomain() {
     return ClientProfileLegalItemModel(
       labelAr: this?.labelAr.orEmpty() ?? Constants.empty,
+      labelEn: this?.labelEn.orEmpty() ?? Constants.empty,
       termsUrl: this?.termsUrl.orEmpty() ?? Constants.empty,
       privacyUrl: this?.privacyUrl.orEmpty() ?? Constants.empty,
     );

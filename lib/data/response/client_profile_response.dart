@@ -77,6 +77,8 @@ class ClientSubscriptionSummaryResponse {
   final String? status;
   @JsonKey(name: 'statusLabelAr')
   final String? statusLabelAr;
+  @JsonKey(name: 'statusLabelEn')
+  final String? statusLabelEn;
   @JsonKey(name: 'remainingMeals')
   final int? remainingMeals;
   @JsonKey(name: 'totalMeals')
@@ -87,6 +89,7 @@ class ClientSubscriptionSummaryResponse {
     this.planName,
     this.status,
     this.statusLabelAr,
+    this.statusLabelEn,
     this.remainingMeals,
     this.totalMeals,
   });
@@ -130,10 +133,12 @@ class ClientProfileMenuResponse {
 class ClientProfileCounterItemResponse {
   @JsonKey(name: 'labelAr')
   final String? labelAr;
+  @JsonKey(name: 'labelEn')
+  final String? labelEn;
   @JsonKey(name: 'count')
   final int? count;
 
-  const ClientProfileCounterItemResponse({this.labelAr, this.count});
+  const ClientProfileCounterItemResponse({this.labelAr, this.labelEn, this.count});
 
   factory ClientProfileCounterItemResponse.fromJson(
     Map<String, dynamic> json,
@@ -147,6 +152,8 @@ class ClientProfileCounterItemResponse {
 class ClientProfileLanguageItemResponse {
   @JsonKey(name: 'labelAr')
   final String? labelAr;
+  @JsonKey(name: 'labelEn')
+  final String? labelEn;
   @JsonKey(name: 'current')
   final String? current;
   @JsonKey(name: 'code')
@@ -154,6 +161,7 @@ class ClientProfileLanguageItemResponse {
 
   const ClientProfileLanguageItemResponse({
     this.labelAr,
+    this.labelEn,
     this.current,
     this.code,
   });
@@ -170,6 +178,8 @@ class ClientProfileLanguageItemResponse {
 class ClientProfileSupportItemResponse {
   @JsonKey(name: 'labelAr')
   final String? labelAr;
+  @JsonKey(name: 'labelEn')
+  final String? labelEn;
   @JsonKey(name: 'phone')
   final String? phone;
   @JsonKey(name: 'whatsapp')
@@ -179,6 +189,7 @@ class ClientProfileSupportItemResponse {
 
   const ClientProfileSupportItemResponse({
     this.labelAr,
+    this.labelEn,
     this.phone,
     this.whatsapp,
     this.email,
@@ -196,6 +207,8 @@ class ClientProfileSupportItemResponse {
 class ClientProfileLegalItemResponse {
   @JsonKey(name: 'labelAr')
   final String? labelAr;
+  @JsonKey(name: 'labelEn')
+  final String? labelEn;
   @JsonKey(name: 'termsUrl')
   final String? termsUrl;
   @JsonKey(name: 'privacyUrl')
@@ -203,6 +216,7 @@ class ClientProfileLegalItemResponse {
 
   const ClientProfileLegalItemResponse({
     this.labelAr,
+    this.labelEn,
     this.termsUrl,
     this.privacyUrl,
   });
