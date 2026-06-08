@@ -68,6 +68,8 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
   double _lastScrollOffset = 0;
   final List<GlobalKey> _chipKeys = [];
   List<_MenuChipData> _currentChips = [];
+  double _hideThreshold = 0.0;
+  double _accumulatedDelta = 0.0;
 
   @override
   void initState() {
@@ -169,22 +171,55 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
       return;
     }
 
-    final offset = _scrollController.offset;
+    final position = _scrollController.position;
+    final offset = position.pixels;
+    final maxScroll = position.maxScrollExtent;
+    final minScroll = position.minScrollExtent;
+
+    // Check if we're bouncing (out of bounds)
+    final isOutOfBounds = offset < minScroll || offset > maxScroll;
+    if (isOutOfBounds) {
+      // Don't update lastScrollOffset when bouncing to avoid false delta calculations
+      return;
+    }
+
     final delta = offset - _lastScrollOffset;
     _lastScrollOffset = offset;
 
+    // If delta changes direction, reset accumulated delta
+    if ((delta > 0 && _accumulatedDelta < 0) || (delta < 0 && _accumulatedDelta > 0)) {
+      _accumulatedDelta = 0.0;
+    }
+    _accumulatedDelta += delta;
+
+    // If there isn't enough scroll space to hide the intro, keep it visible
+    if (maxScroll < AppSize.s40.h) {
+      if (!_showMenuIntro) {
+        _setMenuIntroVisible(true);
+      }
+      return;
+    }
+
     if (offset <= AppSize.s4.h) {
       _setMenuIntroVisible(true);
+      _accumulatedDelta = 0.0;
       return;
     }
 
-    if (delta > 0.8 && _showMenuIntro) {
+    // Threshold to hide: only hide if we've accumulated enough downward scroll
+    if (_accumulatedDelta > AppSize.s10.h && _showMenuIntro && offset > _hideThreshold) {
       _setMenuIntroVisible(false);
+      // When hiding, set a threshold to prevent accidental show on small bounces
+      _hideThreshold = offset - AppSize.s8.h;
+      _accumulatedDelta = 0.0;
       return;
     }
 
-    if (delta < -1.2 && !_showMenuIntro) {
+    // Threshold to show: only show if we've accumulated enough upward scroll
+    if (_accumulatedDelta < -AppSize.s10.h && !_showMenuIntro) {
       _setMenuIntroVisible(true);
+      _hideThreshold = 0.0;
+      _accumulatedDelta = 0.0;
     }
   }
 
