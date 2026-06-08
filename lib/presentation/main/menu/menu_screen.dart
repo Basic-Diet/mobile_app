@@ -8,7 +8,6 @@ import 'package:basic_diet/presentation/main/menu/bloc/menu_event.dart';
 import 'package:basic_diet/presentation/main/menu/bloc/menu_state.dart';
 import 'package:basic_diet/presentation/main/menu/menu_navigation_intent.dart';
 import 'package:basic_diet/presentation/main/menu/models/menu_models.dart';
-import 'package:basic_diet/presentation/main/menu/utils/menu_utils.dart';
 import 'package:basic_diet/presentation/main/menu/widgets/dynamic_section.dart';
 import 'package:basic_diet/presentation/main/menu/widgets/menu_chips_row.dart';
 import 'package:basic_diet/presentation/main/menu/widgets/menu_error_view.dart';
@@ -18,7 +17,6 @@ import 'package:basic_diet/presentation/main/menu/widgets/pickup_notice_card.dar
 import 'package:basic_diet/presentation/main/menu/widgets/sticky_cart_bar.dart';
 import 'package:basic_diet/presentation/main/menu/widgets/builder/builder_screen.dart';
 import 'package:basic_diet/presentation/resources/color_manager.dart';
-import 'package:basic_diet/presentation/resources/font_manager.dart';
 import 'package:basic_diet/presentation/resources/strings_manager.dart';
 import 'package:basic_diet/presentation/resources/values_manager.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -72,6 +70,7 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
   List<MenuChipData> _currentChips = [];
   double _hideThreshold = 0.0;
   double _accumulatedDelta = 0.0;
+  bool _isHandlingMenuIntent = false;
 
   @override
   void initState() {
@@ -90,6 +89,10 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
   }
 
   Future<void> _handleMenuIntent() async {
+    if (_isHandlingMenuIntent) {
+      return;
+    }
+
     final menuState = context.read<MenuBloc>().state;
     if (menuState is! MenuSuccess) {
       return;
@@ -100,18 +103,23 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
       return;
     }
 
-    if (intent.sectionKey != null) {
-      _selectSection(intent.sectionKey!);
-    }
-
-    if (intent.productKey != null) {
-      final product = _findProductByKey(menuState.menu, intent.productKey!);
-      if (product != null) {
-        await _handleProductSelection(product, menuState.menu.currency);
-      }
-    }
-
+    _isHandlingMenuIntent = true;
     OneTimeMenuCoordinator.clear();
+
+    try {
+      if (intent.sectionKey != null) {
+        _selectSection(intent.sectionKey!);
+      }
+
+      if (intent.productKey != null) {
+        final product = _findProductByKey(menuState.menu, intent.productKey!);
+        if (product != null) {
+          await _handleProductSelection(product, menuState.menu.currency);
+        }
+      }
+    } finally {
+      _isHandlingMenuIntent = false;
+    }
   }
 
   Future<void> _handleProductSelection(
