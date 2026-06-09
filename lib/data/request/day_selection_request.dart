@@ -81,7 +81,7 @@ class MealSlotCarbRequest {
   Map<String, dynamic> toJson() => _$MealSlotCarbRequestToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class SaladRequest {
   @JsonKey(name: 'presetKey')
   final String presetKey;

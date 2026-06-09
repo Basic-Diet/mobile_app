@@ -78,7 +78,7 @@ SaladRequest _$SaladRequestFromJson(Map<String, dynamic> json) => SaladRequest(
 Map<String, dynamic> _$SaladRequestToJson(SaladRequest instance) =>
     <String, dynamic>{
       'presetKey': instance.presetKey,
-      'groups': instance.groups,
+      'groups': instance.groups.toJson(),
     };
 
 SaladGroupsRequest _$SaladGroupsRequestFromJson(
