@@ -34,14 +34,8 @@ MealPlannerMenuDataResponse _$MealPlannerMenuDataResponseFromJson(
   builderCatalog:
       json['builderCatalog'] == null
           ? null
-          : BuilderCatalogResponse.fromJson(
-            json['builderCatalog'] as Map<String, dynamic>,
-          ),
-  builderCatalogV2:
-      json['builderCatalogV2'] == null
-          ? null
           : BuilderCatalogV2Response.fromJson(
-            json['builderCatalogV2'] as Map<String, dynamic>,
+            json['builderCatalog'] as Map<String, dynamic>,
           ),
   addons: MealPlannerMenuDataResponse._addonsFromJson(
     MealPlannerMenuDataResponse._readAddonsOrCatalog(json, 'addons'),
@@ -53,14 +47,14 @@ Map<String, dynamic> _$MealPlannerMenuDataResponseToJson(
 ) => <String, dynamic>{
   'currency': instance.currency,
   'builderCatalog': instance.builderCatalog,
-  'builderCatalogV2': instance.builderCatalogV2,
   'addons': instance.addons,
 };
 
 BuilderCatalogV2Response _$BuilderCatalogV2ResponseFromJson(
   Map<String, dynamic> json,
 ) => BuilderCatalogV2Response(
-  catalogVersion: json['catalogVersion'] as String?,
+  catalogVersion:
+      (json['contractVersion'] ?? json['catalogVersion']) as String?,
   currency: json['currency'] as String?,
   sections:
       (json['sections'] as List<dynamic>?)
@@ -81,7 +75,7 @@ BuilderCatalogV2Response _$BuilderCatalogV2ResponseFromJson(
 Map<String, dynamic> _$BuilderCatalogV2ResponseToJson(
   BuilderCatalogV2Response instance,
 ) => <String, dynamic>{
-  'catalogVersion': instance.catalogVersion,
+  'contractVersion': instance.catalogVersion,
   'currency': instance.currency,
   'sections': instance.sections,
   'rules': instance.rules,

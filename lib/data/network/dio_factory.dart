@@ -147,8 +147,10 @@ class DioFactory {
   Future<void> _addLanguageHeader(RequestOptions options) async {
     final selectedLanguage = await _appPreferences.getAppLanguage();
     options.headers[language] = selectedLanguage;
+    if (options.path == '/api/subscriptions/meal-planner-menu') {
+      options.queryParameters.putIfAbsent('lang', () => selectedLanguage);
+    }
   }
 }
-
 
 

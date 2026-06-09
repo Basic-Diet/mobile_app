@@ -81,11 +81,11 @@ extension BuilderRulesResponseMapper on BuilderRulesResponse? {
       version: self?.version.orEmpty() ?? Constants.empty,
       beef: (self?.beef).toDomain(),
       maxCarbItemsPerMeal:
-          self?.maxCarbItemsPerMeal.orZero() == 0
+          (self?.maxCarbItemsPerMeal ?? Constants.zero) == 0
               ? 2
               : self!.maxCarbItemsPerMeal!,
       maxCarbTotalGrams:
-          self?.maxCarbTotalGrams.orZero() == 0
+          (self?.maxCarbTotalGrams ?? Constants.zero) == 0
               ? 300
               : self!.maxCarbTotalGrams!,
     );
@@ -172,12 +172,14 @@ extension BuilderCatalogV2ResponseMapper on BuilderCatalogV2Response? {
 
     final sections = self.sections ?? const <BuilderCatalogV2SectionResponse>[];
     final standardSection = _sectionBySelectionType(sections, 'standard_meal');
-    final premiumSection = _sectionBySelectionType(sections, 'premium_meal');
+    final premiumSection =
+        _sectionBySelectionType(sections, 'premium_meal') ??
+        _sectionBySelectionType(sections, 'premium');
     final sandwichSection = _sectionBySelectionType(sections, 'sandwich');
-    final saladSection = _sectionBySelectionType(
-      sections,
-      'premium_large_salad',
-    );
+    final saladSection =
+        _sectionBySelectionType(sections, 'premium_large_salad') ??
+        premiumSection;
+    final carbSection = _sectionBySelectionType(sections, 'carbs');
 
     final standardProduct = _firstProduct(standardSection);
     final premiumProduct = _firstProduct(premiumSection);
@@ -201,12 +203,26 @@ extension BuilderCatalogV2ResponseMapper on BuilderCatalogV2Response? {
       isPremiumFallback: true,
       currency: _fallbackString(self.currency, 'SAR'),
     );
+    final resolvedProteins =
+        proteins.isNotEmpty ? proteins : _sectionProteins(sections);
+    final resolvedPremiumProteins =
+        premiumProteins.isNotEmpty
+            ? premiumProteins
+            : _sectionProteins(
+              premiumSection == null ? const [] : [premiumSection],
+              isPremiumFallback: true,
+              currency: _fallbackString(self.currency, 'SAR'),
+            );
+    final carbOptions = _carbOptions(carbGroup);
 
     return BuilderCatalogModel(
-      categories: _proteinCategories(proteins),
-      proteins: proteins,
-      premiumProteins: premiumProteins,
-      carbs: _carbOptions(carbGroup),
+      categories: _proteinCategories(
+        resolvedProteins,
+        categoryNamesByKey: _sectionNamesByKey(sections),
+      ),
+      proteins: resolvedProteins,
+      premiumProteins: resolvedPremiumProteins,
+      carbs: carbOptions.isNotEmpty ? carbOptions : _sectionCarbs(carbSection),
       sandwiches: _sandwiches(sandwichSection),
       rules: (self.rules).toDomain(),
       premiumLargeSalad: _premiumLargeSalad(
@@ -245,6 +261,12 @@ extension BuilderCatalogV2ResponseMapper on BuilderCatalogV2Response? {
 extension MealPlannerMenuResponseMapper on MealPlannerMenuResponse? {
   MealPlannerMenuModel toDomain() {
     final self = this;
+    final builderCatalog = self?.data?.builderCatalog;
+    if (builderCatalog?.catalogVersion != 'meal_planner_menu.v3') {
+      throw FormatException(
+        'Unsupported meal planner menu contract: ${builderCatalog?.catalogVersion}',
+      );
+    }
     final addonItems =
         self?.data?.addons?.items
             ?.map((e) => e.toDomain())
@@ -285,14 +307,11 @@ extension MealPlannerMenuResponseMapper on MealPlannerMenuResponse? {
 
     return MealPlannerMenuModel(
       currency: _fallbackString(
-        self?.data?.builderCatalogV2?.currency,
+        builderCatalog?.currency,
         self?.data?.currency.orEmpty() ?? Constants.empty,
       ),
-      builderCatalog:
-          self?.data?.builderCatalogV2 != null
-              ? (self?.data?.builderCatalogV2).toDomain()
-              : (self?.data?.builderCatalog).toDomain(),
-      builderCatalogV2: self?.data?.builderCatalogV2?.toRawDomain(),
+      builderCatalog: builderCatalog.toDomain(),
+      builderCatalogV2: builderCatalog.toRawDomain(),
       addons: addonItems,
       addonsByCategory: grouped,
     );
@@ -307,10 +326,9 @@ extension BuilderCatalogV2SectionRawMapper on BuilderCatalogV2SectionResponse {
       type: type.orEmpty(),
       selectionType: selectionType.orEmpty(),
       name: name.orEmpty(),
-      nameI18n:
-          (nameI18n ?? const <String, dynamic>{}).map(
-            (key, value) => MapEntry(key, value?.toString() ?? ''),
-          ),
+      nameI18n: (nameI18n ?? const <String, dynamic>{}).map(
+        (key, value) => MapEntry(key, value?.toString() ?? ''),
+      ),
       description: description.orEmpty(),
       descriptionI18n: const {},
       sortOrder: sortOrder.orZero(),
@@ -321,9 +339,10 @@ extension BuilderCatalogV2SectionRawMapper on BuilderCatalogV2SectionResponse {
         imageRatio: ui?.imageRatio ?? '',
         displayStyle: ui?.displayStyle ?? '',
       ),
-      products: (products ?? const <BuilderCatalogV2ProductResponse>[])
-          .map((product) => product.toRawDomain())
-          .toList(),
+      products:
+          (products ?? const <BuilderCatalogV2ProductResponse>[])
+              .map((product) => product.toRawDomain())
+              .toList(),
     );
   }
 }
@@ -337,15 +356,13 @@ extension BuilderCatalogV2ProductRawMapper on BuilderCatalogV2ProductResponse {
       isVirtual: isVirtual.orFalse(),
       selectionType: selectionType.orEmpty(),
       name: name.orEmpty(),
-      nameI18n:
-          (nameI18n ?? const <String, dynamic>{}).map(
-            (key, value) => MapEntry(key, value?.toString() ?? ''),
-          ),
+      nameI18n: (nameI18n ?? const <String, dynamic>{}).map(
+        (key, value) => MapEntry(key, value?.toString() ?? ''),
+      ),
       description: description.orEmpty(),
-      descriptionI18n:
-          (descriptionI18n ?? const <String, dynamic>{}).map(
-            (key, value) => MapEntry(key, value?.toString() ?? ''),
-          ),
+      descriptionI18n: (descriptionI18n ?? const <String, dynamic>{}).map(
+        (key, value) => MapEntry(key, value?.toString() ?? ''),
+      ),
       imageUrl: imageUrl.orEmpty(),
       itemType: itemType.orEmpty(),
       pricingModel: pricingModel.orEmpty(),
@@ -365,9 +382,10 @@ extension BuilderCatalogV2ProductRawMapper on BuilderCatalogV2ProductResponse {
           (optionSections ?? const <BuilderCatalogV2OptionSectionResponse>[])
               .map((section) => section.toRawDomain())
               .toList(),
-      optionGroups: (optionGroups ?? const <BuilderCatalogV2OptionGroupResponse>[])
-          .map((group) => group.toRawDomain())
-          .toList(),
+      optionGroups:
+          (optionGroups ?? const <BuilderCatalogV2OptionGroupResponse>[])
+              .map((group) => group.toRawDomain())
+              .toList(),
     );
   }
 }
@@ -381,10 +399,9 @@ extension BuilderCatalogV2OptionGroupRawMapper
       key: key.orEmpty(),
       sourceKey: sourceKey.orEmpty(),
       name: name.orEmpty(),
-      nameI18n:
-          (nameI18n ?? const <String, dynamic>{}).map(
-            (key, value) => MapEntry(key, value?.toString() ?? ''),
-          ),
+      nameI18n: (nameI18n ?? const <String, dynamic>{}).map(
+        (key, value) => MapEntry(key, value?.toString() ?? ''),
+      ),
       minSelections: minSelections,
       maxSelections: maxSelections,
       isRequired: isRequired.orFalse(),
@@ -401,9 +418,10 @@ extension BuilderCatalogV2OptionGroupRawMapper
           (optionSections ?? const <BuilderCatalogV2OptionSectionResponse>[])
               .map((section) => section.toRawDomain())
               .toList(),
-      options: (options ?? const <BuilderCatalogV2OptionResponse>[])
-          .map((option) => option.toRawDomain())
-          .toList(),
+      options:
+          (options ?? const <BuilderCatalogV2OptionResponse>[])
+              .map((option) => option.toRawDomain())
+              .toList(),
     );
   }
 }
@@ -414,10 +432,9 @@ extension BuilderCatalogV2OptionSectionRawMapper
     return BuilderCatalogV2OptionSectionModel(
       key: key.orEmpty(),
       name: name.orEmpty(),
-      nameI18n:
-          (nameI18n ?? const <String, dynamic>{}).map(
-            (key, value) => MapEntry(key, value?.toString() ?? ''),
-          ),
+      nameI18n: (nameI18n ?? const <String, dynamic>{}).map(
+        (key, value) => MapEntry(key, value?.toString() ?? ''),
+      ),
       proteinFamilyKey: proteinFamilyKey.orEmpty(),
       optionIds: optionIds ?? const [],
       sortOrder: sortOrder.orZero(),
@@ -432,23 +449,20 @@ extension BuilderCatalogV2OptionRawMapper on BuilderCatalogV2OptionResponse {
       optionId: optionId.orEmpty(),
       key: key.orEmpty(),
       name: name.orEmpty(),
-      nameI18n:
-          (nameI18n ?? const <String, dynamic>{}).map(
-            (key, value) => MapEntry(key, value?.toString() ?? ''),
-          ),
+      nameI18n: (nameI18n ?? const <String, dynamic>{}).map(
+        (key, value) => MapEntry(key, value?.toString() ?? ''),
+      ),
       description: description.orEmpty(),
-      descriptionI18n:
-          (descriptionI18n ?? const <String, dynamic>{}).map(
-            (key, value) => MapEntry(key, value?.toString() ?? ''),
-          ),
+      descriptionI18n: (descriptionI18n ?? const <String, dynamic>{}).map(
+        (key, value) => MapEntry(key, value?.toString() ?? ''),
+      ),
       imageUrl: imageUrl.orEmpty(),
       sortOrder: sortOrder.orZero(),
       displayCategoryKey: displayCategoryKey.orEmpty(),
       proteinFamilyKey: proteinFamilyKey.orEmpty(),
-      proteinFamilyNameI18n:
-          (proteinFamilyNameI18n ?? const <String, dynamic>{}).map(
-            (key, value) => MapEntry(key, value?.toString() ?? ''),
-          ),
+      proteinFamilyNameI18n: (proteinFamilyNameI18n ??
+              const <String, dynamic>{})
+          .map((key, value) => MapEntry(key, value?.toString() ?? '')),
       premiumKey: premiumKey.orEmpty(),
       extraFeeHalala: extraFeeHalala,
       extraPriceHalala: extraPriceHalala,
@@ -544,9 +558,56 @@ List<BuilderProteinModel> _proteinOptions(
   }).toList();
 }
 
-List<BuilderCategoryModel> _proteinCategories(
-  List<BuilderProteinModel> proteins,
+List<BuilderProteinModel> _sectionProteins(
+  List<BuilderCatalogV2SectionResponse> sections, {
+  bool isPremiumFallback = false,
+  String currency = 'SAR',
+}) {
+  final proteins = <BuilderProteinModel>[];
+  for (final section in sections) {
+    if (!_isProteinSection(section, isPremiumFallback)) continue;
+    final sectionKey = _fallbackString(section.key, 'protein');
+    proteins.addAll(
+      _sectionOptions(section, const {'protein', 'proteins'}).map((option) {
+        final isPremium = option.isPremium ?? isPremiumFallback;
+        return BuilderProteinModel(
+          id: option.id.orEmpty(),
+          key: _fallbackString(option.key, option.id.orEmpty()),
+          displayCategoryId: sectionKey,
+          displayCategoryKey: sectionKey,
+          name: option.name.orEmpty(),
+          description: option.description.orEmpty(),
+          proteinFamilyKey: sectionKey,
+          premiumKey: option.premiumKey.orEmpty(),
+          ruleTags: const [],
+          isPremium: isPremium,
+          premiumCreditCost: Constants.zero,
+          extraFeeHalala:
+              option.extraFeeHalala ??
+              option.extraPriceHalala ??
+              Constants.zero,
+          currency: currency,
+          sortOrder: option.sortOrder.orZero(),
+        );
+      }),
+    );
+  }
+  proteins.sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
+  return proteins;
+}
+
+bool _isProteinSection(
+  BuilderCatalogV2SectionResponse section,
+  bool isPremiumFallback,
 ) {
+  if (isPremiumFallback) return true;
+  return const {'chicken', 'beef', 'fish', 'eggs'}.contains(section.key);
+}
+
+List<BuilderCategoryModel> _proteinCategories(
+  List<BuilderProteinModel> proteins, {
+  Map<String, String> categoryNamesByKey = const {},
+}) {
   final categoriesByKey = <String, BuilderCategoryModel>{};
   for (final protein in proteins) {
     final key =
@@ -558,10 +619,7 @@ List<BuilderCategoryModel> _proteinCategories(
       id: key,
       key: key,
       dimension: 'protein',
-      name:
-          protein.displayCategoryKey.isNotEmpty
-              ? protein.displayCategoryKey
-              : protein.name,
+      name: _fallbackString(categoryNamesByKey[key], protein.name),
       description: Constants.empty,
       sortOrder: protein.sortOrder,
     );
@@ -592,6 +650,56 @@ List<BuilderCarbModel> _carbOptions(
   }).toList();
 }
 
+List<BuilderCarbModel> _sectionCarbs(BuilderCatalogV2SectionResponse? section) {
+  final options =
+      section == null
+          ? const <BuilderCatalogV2OptionResponse>[]
+          : _sectionOptions(section, const {'carb', 'carbs'});
+
+  return options.map((option) {
+      return BuilderCarbModel(
+        id: option.id.orEmpty(),
+        displayCategoryId: _fallbackString(section?.key, 'carbs'),
+        displayCategoryKey: _fallbackString(section?.key, 'carbs'),
+        name: option.name.orEmpty(),
+        description: option.description.orEmpty(),
+        sortOrder: option.sortOrder.orZero(),
+      );
+    }).toList()
+    ..sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
+}
+
+List<BuilderCatalogV2OptionResponse> _sectionOptions(
+  BuilderCatalogV2SectionResponse section,
+  Set<String> groupKeys,
+) {
+  final options = <BuilderCatalogV2OptionResponse>[];
+  for (final product
+      in section.products ?? const <BuilderCatalogV2ProductResponse>[]) {
+    for (final group
+        in product.optionGroups ??
+            const <BuilderCatalogV2OptionGroupResponse>[]) {
+      if (!groupKeys.contains(group.key) &&
+          !groupKeys.contains(group.sourceKey)) {
+        continue;
+      }
+      options.addAll(group.options ?? const <BuilderCatalogV2OptionResponse>[]);
+    }
+  }
+  options.sort((a, b) => (a.sortOrder ?? 0).compareTo(b.sortOrder ?? 0));
+  return options;
+}
+
+Map<String, String> _sectionNamesByKey(
+  List<BuilderCatalogV2SectionResponse> sections,
+) {
+  return {
+    for (final section in sections)
+      if (section.key.orEmpty().isNotEmpty && section.name.orEmpty().isNotEmpty)
+        section.key!: section.name!,
+  };
+}
+
 List<BuilderSandwichModel> _sandwiches(
   BuilderCatalogV2SectionResponse? section,
 ) {
@@ -614,7 +722,7 @@ PremiumLargeSaladModel? _premiumLargeSalad(
   BuilderCatalogV2SectionResponse? section, {
   required String currency,
 }) {
-  final product = _firstProduct(section);
+  final product = _premiumLargeSaladProduct(section);
   if (product == null) return null;
 
   final groups = List<BuilderCatalogV2OptionGroupResponse>.from(
@@ -664,6 +772,22 @@ PremiumLargeSaladModel? _premiumLargeSalad(
     ingredients: ingredients,
     groups: groupRules,
   );
+}
+
+BuilderCatalogV2ProductResponse? _premiumLargeSaladProduct(
+  BuilderCatalogV2SectionResponse? section,
+) {
+  final products = List<BuilderCatalogV2ProductResponse>.from(
+    section?.products ?? const <BuilderCatalogV2ProductResponse>[],
+  )..sort((a, b) => (a.sortOrder ?? 0).compareTo(b.sortOrder ?? 0));
+  for (final product in products) {
+    final key = _fallbackString(product.key, product.id.orEmpty());
+    if (key.contains('salad')) return product;
+  }
+  if (section?.key == 'premium_large_salad') {
+    return products.isEmpty ? null : products.first;
+  }
+  return null;
 }
 
 String _fallbackString(String? value, String fallback) {

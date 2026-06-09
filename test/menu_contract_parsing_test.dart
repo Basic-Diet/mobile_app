@@ -7,14 +7,14 @@ import 'package:basic_diet/presentation/main/cart/checkout_screen.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  group('builderCatalogV2 parsing', () {
+  group('meal planner menu v3 parsing', () {
     test('preserves localized names, calories, and option sections', () {
       final response = MealPlannerMenuResponse.fromJson({
         'status': true,
         'data': {
           'currency': 'SAR',
-          'builderCatalogV2': {
-            'catalogVersion': 'v2',
+          'builderCatalog': {
+            'contractVersion': 'meal_planner_menu.v3',
             'currency': 'SAR',
             'sections': [
               {
@@ -84,13 +84,13 @@ void main() {
                             'key': 'opt-key',
                             'name': 'White Rice',
                             'nameI18n': {'ar': 'رز أبيض', 'en': 'White Rice'},
-                            'descriptionI18n': {'ar': 'خيار عربي', 'en': 'English option'},
+                            'descriptionI18n': {
+                              'ar': 'خيار عربي',
+                              'en': 'English option',
+                            },
                             'displayCategoryKey': 'protein',
                             'proteinFamilyKey': 'rice',
-                            'proteinFamilyNameI18n': {
-                              'ar': 'رز',
-                              'en': 'Rice',
-                            },
+                            'proteinFamilyNameI18n': {'ar': 'رز', 'en': 'Rice'},
                             'premiumKey': 'premium-1',
                             'selectionType': 'choice',
                             'isPremium': false,
@@ -115,21 +115,182 @@ void main() {
         },
       });
 
-      final raw = response.data?.builderCatalogV2?.toRawDomain();
+      final raw = response.data?.builderCatalog.toRawDomain();
 
-      expect(raw?.catalogVersion, 'v2');
+      expect(raw?.catalogVersion, 'meal_planner_menu.v3');
       expect(raw?.sections.first.nameI18n['ar'], 'الرئيسية');
       expect(raw?.sections.first.products.first.nameI18n['ar'], 'دجاج');
-      expect(raw?.sections.first.products.first.descriptionI18n['ar'], 'وصف عربي');
+      expect(
+        raw?.sections.first.products.first.descriptionI18n['ar'],
+        'وصف عربي',
+      );
       expect(raw?.sections.first.products.first.calories, isNull);
       expect(raw?.sections.first.products.first.optionSections, isNotEmpty);
-      expect(raw?.sections.first.products.first.optionGroups.first.optionSections, isNotEmpty);
-      expect(raw?.sections.first.products.first.optionGroups.first.options.first.calories, 180);
-      expect(raw?.sections.first.products.first.optionGroups.first.options.first.nameI18n['ar'], 'رز أبيض');
       expect(
-        raw?.sections.first.products.first.optionGroups.first.options.first
+        raw?.sections.first.products.first.optionGroups.first.optionSections,
+        isNotEmpty,
+      );
+      expect(
+        raw
+            ?.sections
+            .first
+            .products
+            .first
+            .optionGroups
+            .first
+            .options
+            .first
+            .calories,
+        180,
+      );
+      expect(
+        raw
+            ?.sections
+            .first
+            .products
+            .first
+            .optionGroups
+            .first
+            .options
+            .first
+            .nameI18n['ar'],
+        'رز أبيض',
+      );
+      expect(
+        raw
+            ?.sections
+            .first
+            .products
+            .first
+            .optionGroups
+            .first
+            .options
+            .first
             .proteinFamilyNameI18n['ar'],
         'رز',
+      );
+    });
+
+    test('maps section option groups to protein and carb choices', () {
+      final response = MealPlannerMenuResponse.fromJson({
+        'status': true,
+        'data': {
+          'builderCatalog': {
+            'contractVersion': 'meal_planner_menu.v3',
+            'currency': 'SAR',
+            'sections': [
+              {
+                'id': 'section:chicken',
+                'key': 'chicken',
+                'type': 'configurable_product',
+                'name': 'دجاج',
+                'sortOrder': 30,
+                'products': [
+                  {
+                    'id': 'product-basic-meal',
+                    'key': 'basic_meal',
+                    'name': 'وجبة بيسك',
+                    'selectionType': 'standard_meal',
+                    'optionGroups': [
+                      {
+                        'id': 'group-proteins',
+                        'key': 'proteins',
+                        'sourceKey': 'proteins',
+                        'name': 'دجاج',
+                        'options': [
+                          {
+                            'id': 'option-chicken',
+                            'key': 'chicken',
+                            'name': 'دجاج',
+                            'isPremium': false,
+                            'sortOrder': 10,
+                          },
+                          {
+                            'id': 'option-fajita',
+                            'key': 'chicken_fajita',
+                            'name': 'فاهيتا',
+                            'isPremium': false,
+                            'sortOrder': 100,
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                'id': 'section:carbs',
+                'key': 'carbs',
+                'type': 'configurable_product',
+                'name': 'نشويات',
+                'sortOrder': 70,
+                'products': [
+                  {
+                    'id': 'product-basic-meal',
+                    'key': 'basic_meal',
+                    'name': 'وجبة بيسك',
+                    'selectionType': 'standard_meal',
+                    'optionGroups': [
+                      {
+                        'id': 'group-carbs',
+                        'key': 'carbs',
+                        'sourceKey': 'carbs',
+                        'name': 'نشويات',
+                        'options': [
+                          {
+                            'id': 'option-white-rice',
+                            'key': 'white_rice',
+                            'name': 'رز أبيض',
+                            'sortOrder': 10,
+                          },
+                          {
+                            'id': 'option-pasta',
+                            'key': 'alfredo_pasta',
+                            'name': 'باستا الفريدو',
+                            'sortOrder': 30,
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+            'rules': {},
+          },
+        },
+      });
+
+      final menu = response.toDomain();
+
+      expect(menu.builderCatalog.categories.single.name, 'دجاج');
+      expect(menu.builderCatalog.proteins.map((protein) => protein.id), [
+        'option-chicken',
+        'option-fajita',
+      ]);
+      expect(menu.builderCatalog.proteins.map((protein) => protein.name), [
+        'دجاج',
+        'فاهيتا',
+      ]);
+      expect(menu.builderCatalog.carbs.map((carb) => carb.id), [
+        'option-white-rice',
+        'option-pasta',
+      ]);
+      expect(menu.builderCatalog.carbs.map((carb) => carb.name), [
+        'رز أبيض',
+        'باستا الفريدو',
+      ]);
+      expect(
+        menu.builderCatalog.allProteins.any(
+          (protein) => protein.id == 'product-basic-meal',
+        ),
+        isFalse,
+      );
+      expect(
+        menu.builderCatalog.carbs.any(
+          (carb) => carb.id == 'product-basic-meal',
+        ),
+        isFalse,
       );
     });
   });

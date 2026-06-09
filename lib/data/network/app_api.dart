@@ -196,9 +196,7 @@ abstract class AppServiceClient {
   );
 
   @GET("/api/subscriptions/meal-planner-menu")
-  Future<MealPlannerMenuResponse> getMealPlannerMenu({
-    @Query("includeLegacy") bool includeLegacy = true,
-  });
+  Future<MealPlannerMenuResponse> getMealPlannerMenu();
 
   @POST("/api/subscriptions/{id}/days/{date}/payments")
   Future<PremiumPaymentResponse> createUnifiedDayPayment(
