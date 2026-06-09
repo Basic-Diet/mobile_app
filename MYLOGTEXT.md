@@ -1,5 +1,6 @@
+flutter: onClose -- MealPlannerBloc
 flutter: onCreate -- MealPlannerBloc
-flutter: onChange -- MealPlannerBloc, Change { currentState: MealPlannerLoaded([Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel'], Instance of 'MealPlannerMenuModel', AddonChoicesModel([]), [Instance of 'AddonSubscriptionModel'], [Instance of 'PremiumSummaryModel'], 5, {}, {}, {}, {}, {}, false, false, false, , 0, false, 0, null, null, null, null, null, null), nextState: MealPlannerLoading() }
+flutter: onChange -- MealPlannerBloc, Change { currentState: MealPlannerLoaded([Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel'], Instance of 'MealPlannerMenuModel', AddonChoicesModel([]), [Instance of 'AddonSubscriptionModel'], [Instance of 'PremiumSummaryModel'], 3, {}, {}, {}, {}, {}, false, false, false, , 0, false, 0, null, null, null, null, null, null), nextState: MealPlannerLoading() }
 flutter:
 flutter: ╔╣ Request ║ GET
 flutter: ║  https://basicdiet145.onrender.com/api/subscriptions/meal-planner-menu?lang=ar
@@ -12,8 +13,8 @@ flutter: ╟ accept: application/json
 flutter: ╟ content-type: application/json
 flutter: ╟ authorization:
 flutter: ║ Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2YTI0NTNiMmYwMWVhMmI0MDg3Y2Q2Nj
-flutter: ║ kiLCJyb2xlIjoiY2xpZW50IiwidG9rZW5UeXBlIjoiYXBwX2FjY2VzcyIsImlhdCI6MTc4MTAxNTM0MCwiZXhwIjox
-flutter: ║ NzgxMDE2MjQwfQ.tqQDXvewU_eyA6VNcF3QeRjaB2weeAZ9C_BER1ptcKA
+flutter: ║ kiLCJyb2xlIjoiY2xpZW50IiwidG9rZW5UeXBlIjoiYXBwX2FjY2VzcyIsImlhdCI6MTc4MTAyOTI1MiwiZXhwIjox
+flutter: ║ NzgxMDMwMTUyfQ.Op7Jzr5xIWyDXZUcK1EhBEU7RzzjKxODHrzmfGSlj3U
 flutter: ╟ Accept-Language: ar
 flutter: ╟ contentType: application/json
 flutter: ╟ responseType: ResponseType.json
@@ -22,22 +23,22 @@ flutter: ╟ connectTimeout: 0:01:00.000000
 flutter: ╟ receiveTimeout: 0:01:00.000000
 flutter: ╚══════════════════════════════════════════════════════════════════════════════════════════╝
 flutter:
-flutter: ╔╣ Response ║ GET ║ Status: 200 OK  ║ Time: 4554 ms
+flutter: ╔╣ Response ║ GET ║ Status: 200 OK  ║ Time: 3246 ms
 flutter: ║  https://basicdiet145.onrender.com/api/subscriptions/meal-planner-menu?lang=ar
 flutter: ╚══════════════════════════════════════════════════════════════════════════════════════════╝
 flutter: ╔ Headers
 flutter: ╟ x-dns-prefetch-control: [off]
 flutter: ╟ x-render-origin-server: [Render]
-flutter: ╟ date: [Tue, 09 Jun 2026 14:40:07 GMT]
+flutter: ╟ date: [Tue, 09 Jun 2026 18:30:46 GMT]
 flutter: ╟ transfer-encoding: [chunked]
 flutter: ╟ origin-agent-cluster: [?1]
 flutter: ╟ vary: [Origin, Accept-Encoding]
 flutter: ╟ content-encoding: [gzip]
 flutter: ╟ server: [cloudflare]
-flutter: ╟ x-request-id: [b6dc79b2-0198-4438-9dd0-900c5cfa8c00]
+flutter: ╟ x-request-id: [b12d05a7-5840-45e5-b90c-58c2ce79127e]
 flutter: ╟ cross-origin-resource-policy: [same-origin]
-flutter: ╟ cf-ray: [a090e3a76f7ae28c-MRS]
-flutter: ╟ etag: [W/"9662-1FAeNA+GH91ZI6WtQMPsL419fZs"]
+flutter: ╟ cf-ray: [a092358779f9fb98-MRS]
+flutter: ╟ etag: [W/"98f0-BDmVJFk7pnnuaQY/u7/4nj/erps"]
 flutter: ╟ x-frame-options: [SAMEORIGIN]
 flutter: ╟ content-security-policy:
 flutter: ║ [default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-
@@ -48,9 +49,9 @@ flutter: ╟ strict-transport-security: [max-age=15552000; includeSubDomains]
 flutter: ╟ referrer-policy: [no-referrer]
 flutter: ╟ cf-cache-status: [DYNAMIC]
 flutter: ╟ x-permitted-cross-domain-policies: [none]
-flutter: ╟ content-type: [application/json; charset=utf-8]
 flutter: ╟ cross-origin-opener-policy: [same-origin]
-flutter: ╟ rndr-id: [71cd3d30-2d89-421b]
+flutter: ╟ content-type: [application/json; charset=utf-8]
+flutter: ╟ rndr-id: [3aa319e3-67de-4e17]
 flutter: ╟ x-xss-protection: [0]
 flutter: ╟ access-control-allow-credentials: [true]
 flutter: ╟ alt-svc: [h3=":443"; ma=86400]
@@ -1000,7 +1001,8 @@ flutter: ║                                 "productId": "6a2454824a2465a2f7a07
 flutter: ║                                 "key": "turkey_cold_sandwich",
 flutter: ║                                 "name": "تركي",
 flutter: ║                                 "nameI18n": {ar: تركي, en: Turkey},
-flutter: ║                                 "imageUrl": "",
+flutter: ║                                 "imageUrl": "https://res.cloudinary.com/da8tyika6/image/upload/f_auto,
+flutter: ║                                  q_auto/v1/basicdiet145/menu/file_ynicye?_a=BAMAPqfk0"
 flutter: ║                                 "itemType": "cold_sandwich",
 flutter: ║                                 "selectionType": "sandwich",
 flutter: ║                                 "pricing": {priceHalala: 1300, extraFeeHalala: 0, currency: SAR},
@@ -1014,7 +1016,8 @@ flutter: ║                                 "productId": "6a2454824a2465a2f7a07
 flutter: ║                                 "key": "boiled_egg_cold_sandwich",
 flutter: ║                                 "name": "بيض مسلوق",
 flutter: ║                                 "nameI18n": {ar: بيض مسلوق, en: Boiled Egg},
-flutter: ║                                 "imageUrl": "",
+flutter: ║                                 "imageUrl": "https://res.cloudinary.com/da8tyika6/image/upload/f_auto,
+flutter: ║                                  q_auto/v1/basicdiet145/menu/file_pn5ims?_a=BAMAPqfk0"
 flutter: ║                                 "itemType": "cold_sandwich",
 flutter: ║                                 "selectionType": "sandwich",
 flutter: ║                                 "pricing": {priceHalala: 900, extraFeeHalala: 0, currency: SAR},
@@ -1028,7 +1031,8 @@ flutter: ║                                 "productId": "6a2454834a2465a2f7a07
 flutter: ║                                 "key": "tuna_cold_sandwich",
 flutter: ║                                 "name": "تونا",
 flutter: ║                                 "nameI18n": {ar: تونا, en: Tuna},
-flutter: ║                                 "imageUrl": "",
+flutter: ║                                 "imageUrl": "https://res.cloudinary.com/da8tyika6/image/upload/f_auto,
+flutter: ║                                  q_auto/v1/basicdiet145/menu/file_gih4he?_a=BAMAPqfk0"
 flutter: ║                                 "itemType": "cold_sandwich",
 flutter: ║                                 "selectionType": "sandwich",
 flutter: ║                                 "pricing": {priceHalala: 1300, extraFeeHalala: 0, currency: SAR},
@@ -1042,7 +1046,8 @@ flutter: ║                                 "productId": "6a2454834a2465a2f7a07
 flutter: ║                                 "key": "scrambled_egg_cold_sandwich"
 flutter: ║                                 "name": "بيض مخفوق",
 flutter: ║                                 "nameI18n": {ar: بيض مخفوق, en: Scrambled Egg},
-flutter: ║                                 "imageUrl": "",
+flutter: ║                                 "imageUrl": "https://res.cloudinary.com/da8tyika6/image/upload/f_auto,
+flutter: ║                                  q_auto/v1/basicdiet145/menu/file_qjw3ul?_a=BAMAPqfk0"
 flutter: ║                                 "itemType": "cold_sandwich",
 flutter: ║                                 "selectionType": "sandwich",
 flutter: ║                                 "pricing": {priceHalala: 900, extraFeeHalala: 0, currency: SAR},
@@ -1084,7 +1089,8 @@ flutter: ║                                 "productId": "6a2454854a2465a2f7a07
 flutter: ║                                 "key": "mexican_chicken_cold_sandwich"
 flutter: ║                                 "name": "دجاج مكسيكي",
 flutter: ║                                 "nameI18n": {ar: دجاج مكسيكي, en: Mexican Chicken},
-flutter: ║                                 "imageUrl": "",
+flutter: ║                                 "imageUrl": "https://res.cloudinary.com/da8tyika6/image/upload/f_auto,
+flutter: ║                                  q_auto/v1/basicdiet145/menu/file_lh5fun?_a=BAMAPqfk0"
 flutter: ║                                 "itemType": "cold_sandwich",
 flutter: ║                                 "selectionType": "sandwich",
 flutter: ║                                 "pricing": {priceHalala: 1300, extraFeeHalala: 0, currency: SAR},
@@ -1098,7 +1104,8 @@ flutter: ║                                 "productId": "6a2454864a2465a2f7a07
 flutter: ║                                 "key": "grilled_chicken_cold_sandwich"
 flutter: ║                                 "name": "دجاج مشوي",
 flutter: ║                                 "nameI18n": {ar: دجاج مشوي, en: Grilled Chicken},
-flutter: ║                                 "imageUrl": "",
+flutter: ║                                 "imageUrl": "https://res.cloudinary.com/da8tyika6/image/upload/f_auto,
+flutter: ║                                  q_auto/v1/basicdiet145/menu/file_a7yy7p?_a=BAMAPqfk0"
 flutter: ║                                 "itemType": "cold_sandwich",
 flutter: ║                                 "selectionType": "sandwich",
 flutter: ║                                 "pricing": {priceHalala: 1300, extraFeeHalala: 0, currency: SAR},
@@ -1708,7 +1715,7 @@ flutter: ║                     "source": "meal_builder_config",
 flutter: ║                     "builderRevisionHash": "sha256:e2ad0d2d2594c8788d7342f560f8cb029af186659cf511ef2d170cb6a488c6
 flutter: ║                      6f"
 flutter: ║                }
-flutter: ║                 "catalogHash": "sha256:98dd4579caecbc4f26c55d3e1bcccfeebe807c3155099377c966108895f43734"
+flutter: ║                 "catalogHash": "sha256:a920a637375a06514011240e5d33b2fc0825ffb79b77ffed2f59fb64ca0f73cb"
 flutter: ║                 "publishedVersionId": null,
 flutter: ║                 "builderRevisionHash": "sha256:e2ad0d2d2594c8788d7342f560f8cb029af186659cf511ef2d170cb6a488c66f"
 flutter: ║            }
@@ -1730,8 +1737,8 @@ flutter: ╟ accept: application/json
 flutter: ╟ content-type: application/json
 flutter: ╟ authorization:
 flutter: ║ Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2YTI0NTNiMmYwMWVhMmI0MDg3Y2Q2Nj
-flutter: ║ kiLCJyb2xlIjoiY2xpZW50IiwidG9rZW5UeXBlIjoiYXBwX2FjY2VzcyIsImlhdCI6MTc4MTAxNTM0MCwiZXhwIjox
-flutter: ║ NzgxMDE2MjQwfQ.tqQDXvewU_eyA6VNcF3QeRjaB2weeAZ9C_BER1ptcKA
+flutter: ║ kiLCJyb2xlIjoiY2xpZW50IiwidG9rZW5UeXBlIjoiYXBwX2FjY2VzcyIsImlhdCI6MTc4MTAyOTI1MiwiZXhwIjox
+flutter: ║ NzgxMDMwMTUyfQ.Op7Jzr5xIWyDXZUcK1EhBEU7RzzjKxODHrzmfGSlj3U
 flutter: ╟ Accept-Language: ar
 flutter: ╟ contentType: application/json
 flutter: ╟ responseType: ResponseType.json
@@ -1740,22 +1747,22 @@ flutter: ╟ connectTimeout: 0:01:00.000000
 flutter: ╟ receiveTimeout: 0:01:00.000000
 flutter: ╚══════════════════════════════════════════════════════════════════════════════════════════╝
 flutter:
-flutter: ╔╣ Response ║ GET ║ Status: 200 OK  ║ Time: 665 ms
+flutter: ╔╣ Response ║ GET ║ Status: 200 OK  ║ Time: 535 ms
 flutter: ║  https://basicdiet145.onrender.com/api/subscriptions/addon-choices
 flutter: ╚══════════════════════════════════════════════════════════════════════════════════════════╝
 flutter: ╔ Headers
 flutter: ╟ x-dns-prefetch-control: [off]
 flutter: ╟ x-render-origin-server: [Render]
-flutter: ╟ date: [Tue, 09 Jun 2026 14:40:08 GMT]
+flutter: ╟ date: [Tue, 09 Jun 2026 18:30:46 GMT]
 flutter: ╟ transfer-encoding: [chunked]
 flutter: ╟ origin-agent-cluster: [?1]
 flutter: ╟ vary: [Origin, Accept-Encoding]
 flutter: ╟ content-encoding: [gzip]
 flutter: ╟ server: [cloudflare]
-flutter: ╟ x-request-id: [5a51d792-d16e-4f73-84bb-907b147aaf3c]
+flutter: ╟ x-request-id: [fc498cb9-5a7b-4d10-a102-18819acc0e23]
 flutter: ╟ cross-origin-resource-policy: [same-origin]
-flutter: ╟ cf-ray: [a090e3c3a8e0e28c-MRS]
-flutter: ╟ etag: [W/"2daf-xBqbKQe4AeBmqJQm7abVg/peMAQ"]
+flutter: ╟ cf-ray: [a092359bddf0fb98-MRS]
+flutter: ╟ etag: [W/"32d7-CL2z4ZQuzXj7s4Emn0lQRdlcPe0"]
 flutter: ╟ x-frame-options: [SAMEORIGIN]
 flutter: ╟ content-security-policy:
 flutter: ║ [default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-
@@ -1768,7 +1775,7 @@ flutter: ╟ cf-cache-status: [DYNAMIC]
 flutter: ╟ x-permitted-cross-domain-policies: [none]
 flutter: ╟ cross-origin-opener-policy: [same-origin]
 flutter: ╟ content-type: [application/json; charset=utf-8]
-flutter: ╟ rndr-id: [5dee196b-4376-4654]
+flutter: ╟ rndr-id: [ba134b32-1ad0-4820]
 flutter: ╟ x-xss-protection: [0]
 flutter: ╟ access-control-allow-credentials: [true]
 flutter: ╟ alt-svc: [h3=":443"; ma=86400]
@@ -1813,7 +1820,8 @@ flutter: ║                         "nameAr": "بيري بروت",
 flutter: ║                         "nameI18n": {ar: بيري بروت, en: Berry Prot},
 flutter: ║                         "description": "",
 flutter: ║                         "descriptionI18n": {ar: , en: },
-flutter: ║                         "imageUrl": "",
+flutter: ║                         "imageUrl": "https://res.cloudinary.com/da8tyika6/image/upload/f_auto,q_auto/v
+flutter: ║                          1/basicdiet145/menu/file_pc2d9r?_a=BAMAPqfk0"
 flutter: ║                         "priceHalala": 1300,
 flutter: ║                         "priceSar": 13,
 flutter: ║                         "currency": "SAR",
@@ -1824,7 +1832,7 @@ flutter: ║                         "itemType": "juice",
 flutter: ║                         "type": "menu_product",
 flutter: ║                         "available": true,
 flutter: ║                         "active": true,
-flutter: ║                         "ui": {cardVariant: addon_card, cardSize: small, badge: , ctaLabel: , imageRatio: square}
+flutter: ║                         "ui": {cardVariant: addon_card, cardSize: medium, badge: , ctaLabel: , imageRatio: square}
 flutter: ║                    },
 flutter: ║                    {
 flutter: ║                         "id": "6a24548d4a2465a2f7a0765b",
@@ -1855,7 +1863,8 @@ flutter: ║                         "nameAr": "بيت بنش",
 flutter: ║                         "nameI18n": {ar: بيت بنش, en: Beet Punch},
 flutter: ║                         "description": "",
 flutter: ║                         "descriptionI18n": {ar: , en: },
-flutter: ║                         "imageUrl": "",
+flutter: ║                         "imageUrl": "https://res.cloudinary.com/da8tyika6/image/upload/f_auto,q_auto/v
+flutter: ║                          1/basicdiet145/menu/file_gancwa?_a=BAMAPqfk0"
 flutter: ║                         "priceHalala": 1100,
 flutter: ║                         "priceSar": 11,
 flutter: ║                         "currency": "SAR",
@@ -1866,7 +1875,7 @@ flutter: ║                         "itemType": "juice",
 flutter: ║                         "type": "menu_product",
 flutter: ║                         "available": true,
 flutter: ║                         "active": true,
-flutter: ║                         "ui": {cardVariant: addon_card, cardSize: small, badge: , ctaLabel: , imageRatio: square}
+flutter: ║                         "ui": {cardVariant: addon_card, cardSize: medium, badge: , ctaLabel: , imageRatio: square}
 flutter: ║                    },
 flutter: ║                    {
 flutter: ║                         "id": "6a24548e4a2465a2f7a07665",
@@ -1876,7 +1885,8 @@ flutter: ║                         "nameAr": "برتقال وجزر",
 flutter: ║                         "nameI18n": {ar: برتقال وجزر, en: Orange Carrot},
 flutter: ║                         "description": "",
 flutter: ║                         "descriptionI18n": {ar: , en: },
-flutter: ║                         "imageUrl": "",
+flutter: ║                         "imageUrl": "https://res.cloudinary.com/da8tyika6/image/upload/f_auto,q_auto/v
+flutter: ║                          1/basicdiet145/menu/file_ywijxj?_a=BAMAPqfk0"
 flutter: ║                         "priceHalala": 1100,
 flutter: ║                         "priceSar": 11,
 flutter: ║                         "currency": "SAR",
@@ -1887,7 +1897,7 @@ flutter: ║                         "itemType": "juice",
 flutter: ║                         "type": "menu_product",
 flutter: ║                         "available": true,
 flutter: ║                         "active": true,
-flutter: ║                         "ui": {cardVariant: addon_card, cardSize: small, badge: , ctaLabel: , imageRatio: square}
+flutter: ║                         "ui": {cardVariant: addon_card, cardSize: medium, badge: , ctaLabel: , imageRatio: square}
 flutter: ║                    },
 flutter: ║                    {
 flutter: ║                         "id": "6a24548e4a2465a2f7a0766a",
@@ -1897,7 +1907,8 @@ flutter: ║                         "nameAr": "بطيخ بالنعناع",
 flutter: ║                         "nameI18n": {ar: بطيخ بالنعناع, en: Watermelon Mint},
 flutter: ║                         "description": "",
 flutter: ║                         "descriptionI18n": {ar: , en: },
-flutter: ║                         "imageUrl": "",
+flutter: ║                         "imageUrl": "https://res.cloudinary.com/da8tyika6/image/upload/f_auto,q_auto/v
+flutter: ║                          1/basicdiet145/menu/file_viried?_a=BAMAPqfk0"
 flutter: ║                         "priceHalala": 1100,
 flutter: ║                         "priceSar": 11,
 flutter: ║                         "currency": "SAR",
@@ -1908,7 +1919,7 @@ flutter: ║                         "itemType": "juice",
 flutter: ║                         "type": "menu_product",
 flutter: ║                         "available": true,
 flutter: ║                         "active": true,
-flutter: ║                         "ui": {cardVariant: addon_card, cardSize: small, badge: , ctaLabel: , imageRatio: square}
+flutter: ║                         "ui": {cardVariant: addon_card, cardSize: medium, badge: , ctaLabel: , imageRatio: square}
 flutter: ║                    },
 flutter: ║                    {
 flutter: ║                         "id": "6a2454914a2465a2f7a0767e",
@@ -1939,7 +1950,8 @@ flutter: ║                         "nameAr": "ايس تى دايت",
 flutter: ║                         "nameI18n": {ar: ايس تى دايت, en: Diet Iced Tea},
 flutter: ║                         "description": "",
 flutter: ║                         "descriptionI18n": {ar: , en: },
-flutter: ║                         "imageUrl": "",
+flutter: ║                         "imageUrl": "https://res.cloudinary.com/da8tyika6/image/upload/f_auto,q_auto/v
+flutter: ║                          1/basicdiet145/menu/file_lwwoxm?_a=BAMAPqfk0"
 flutter: ║                         "priceHalala": 400,
 flutter: ║                         "priceSar": 4,
 flutter: ║                         "currency": "SAR",
@@ -1950,7 +1962,7 @@ flutter: ║                         "itemType": "drink",
 flutter: ║                         "type": "menu_product",
 flutter: ║                         "available": true,
 flutter: ║                         "active": true,
-flutter: ║                         "ui": {cardVariant: addon_card, cardSize: small, badge: , ctaLabel: , imageRatio: square}
+flutter: ║                         "ui": {cardVariant: addon_card, cardSize: medium, badge: , ctaLabel: , imageRatio: square}
 flutter: ║                    },
 flutter: ║                    {
 flutter: ║                         "id": "6a2454924a2465a2f7a07688",
@@ -2014,7 +2026,8 @@ flutter: ║                              وقوام ناعم، بدون سكر.
 flutter: ║                             "en": "Healthy orange cake made with light ingredients, natural refr
 flutter: ║                              eshing orange flavor, soft texture, and no sugar."
 flutter: ║                        }
-flutter: ║                         "imageUrl": "",
+flutter: ║                         "imageUrl": "https://res.cloudinary.com/da8tyika6/image/upload/f_auto,q_auto/v
+flutter: ║                          1/basicdiet145/menu/file_h6hnfq?_a=BAMAPqfk0"
 flutter: ║                         "priceHalala": 900,
 flutter: ║                         "priceSar": 9,
 flutter: ║                         "currency": "SAR",
@@ -2025,7 +2038,7 @@ flutter: ║                         "itemType": "dessert",
 flutter: ║                         "type": "menu_product",
 flutter: ║                         "available": true,
 flutter: ║                         "active": true,
-flutter: ║                         "ui": {cardVariant: addon_card, cardSize: small, badge: , ctaLabel: , imageRatio: square}
+flutter: ║                         "ui": {cardVariant: addon_card, cardSize: medium, badge: , ctaLabel: , imageRatio: square}
 flutter: ║                    },
 flutter: ║                    {
 flutter: ║                         "id": "6a2454874a2465a2f7a0762e",
@@ -2035,7 +2048,8 @@ flutter: ║                         "nameAr": "مافن التفاح بالقر
 flutter: ║                         "nameI18n": {ar: مافن التفاح بالقرفة قطعتين, en: Apple Cinnamon Muffin - 2 Pieces},
 flutter: ║                         "description": "",
 flutter: ║                         "descriptionI18n": {ar: , en: },
-flutter: ║                         "imageUrl": "",
+flutter: ║                         "imageUrl": "https://res.cloudinary.com/da8tyika6/image/upload/f_auto,q_auto/v
+flutter: ║                          1/basicdiet145/menu/file_n17d6f?_a=BAMAPqfk0"
 flutter: ║                         "priceHalala": 1200,
 flutter: ║                         "priceSar": 12,
 flutter: ║                         "currency": "SAR",
@@ -2046,7 +2060,7 @@ flutter: ║                         "itemType": "dessert",
 flutter: ║                         "type": "menu_product",
 flutter: ║                         "available": true,
 flutter: ║                         "active": true,
-flutter: ║                         "ui": {cardVariant: addon_card, cardSize: small, badge: , ctaLabel: , imageRatio: square}
+flutter: ║                         "ui": {cardVariant: addon_card, cardSize: medium, badge: , ctaLabel: , imageRatio: square}
 flutter: ║                    },
 flutter: ║                    {
 flutter: ║                         "id": "6a2454884a2465a2f7a07633",
@@ -2056,7 +2070,8 @@ flutter: ║                         "nameAr": "تشيز كيك بالتوت",
 flutter: ║                         "nameI18n": {ar: تشيز كيك بالتوت, en: Berry Cheesecake},
 flutter: ║                         "description": "",
 flutter: ║                         "descriptionI18n": {ar: , en: },
-flutter: ║                         "imageUrl": "",
+flutter: ║                         "imageUrl": "https://res.cloudinary.com/da8tyika6/image/upload/f_auto,q_auto/v
+flutter: ║                          1/basicdiet145/menu/file_fp7kbd?_a=BAMAPqfk0"
 flutter: ║                         "priceHalala": 1900,
 flutter: ║                         "priceSar": 19,
 flutter: ║                         "currency": "SAR",
@@ -2067,7 +2082,7 @@ flutter: ║                         "itemType": "dessert",
 flutter: ║                         "type": "menu_product",
 flutter: ║                         "available": true,
 flutter: ║                         "active": true,
-flutter: ║                         "ui": {cardVariant: addon_card, cardSize: small, badge: , ctaLabel: , imageRatio: square}
+flutter: ║                         "ui": {cardVariant: addon_card, cardSize: medium, badge: , ctaLabel: , imageRatio: square}
 flutter: ║                    },
 flutter: ║                    {
 flutter: ║                         "id": "6a2454894a2465a2f7a07638",
@@ -2077,7 +2092,8 @@ flutter: ║                         "nameAr": "تشيز كيك بالفراول
 flutter: ║                         "nameI18n": {ar: تشيز كيك بالفراولة, en: Strawberry Cheesecake},
 flutter: ║                         "description": "",
 flutter: ║                         "descriptionI18n": {ar: , en: },
-flutter: ║                         "imageUrl": "",
+flutter: ║                         "imageUrl": "https://res.cloudinary.com/da8tyika6/image/upload/f_auto,q_auto/v
+flutter: ║                          1/basicdiet145/menu/file_g0kgwb?_a=BAMAPqfk0"
 flutter: ║                         "priceHalala": 1900,
 flutter: ║                         "priceSar": 19,
 flutter: ║                         "currency": "SAR",
@@ -2088,7 +2104,7 @@ flutter: ║                         "itemType": "dessert",
 flutter: ║                         "type": "menu_product",
 flutter: ║                         "available": true,
 flutter: ║                         "active": true,
-flutter: ║                         "ui": {cardVariant: addon_card, cardSize: small, badge: , ctaLabel: , imageRatio: square}
+flutter: ║                         "ui": {cardVariant: addon_card, cardSize: medium, badge: , ctaLabel: , imageRatio: square}
 flutter: ║                    },
 flutter: ║                    {
 flutter: ║                         "id": "6a2454894a2465a2f7a0763d",
@@ -2098,7 +2114,8 @@ flutter: ║                         "nameAr": "براونيز داكن",
 flutter: ║                         "nameI18n": {ar: براونيز داكن, en: Dark Brownies},
 flutter: ║                         "description": "",
 flutter: ║                         "descriptionI18n": {ar: , en: },
-flutter: ║                         "imageUrl": "",
+flutter: ║                         "imageUrl": "https://res.cloudinary.com/da8tyika6/image/upload/f_auto,q_auto/v
+flutter: ║                          1/basicdiet145/menu/file_gmih9c?_a=BAMAPqfk0"
 flutter: ║                         "priceHalala": 1300,
 flutter: ║                         "priceSar": 13,
 flutter: ║                         "currency": "SAR",
@@ -2109,7 +2126,7 @@ flutter: ║                         "itemType": "dessert",
 flutter: ║                         "type": "menu_product",
 flutter: ║                         "available": true,
 flutter: ║                         "active": true,
-flutter: ║                         "ui": {cardVariant: addon_card, cardSize: small, badge: , ctaLabel: , imageRatio: square}
+flutter: ║                         "ui": {cardVariant: addon_card, cardSize: medium, badge: , ctaLabel: , imageRatio: square}
 flutter: ║                    },
 flutter: ║                    {
 flutter: ║                         "id": "6a24548a4a2465a2f7a07642",
@@ -2119,7 +2136,8 @@ flutter: ║                         "nameAr": "بروتين بار",
 flutter: ║                         "nameI18n": {ar: بروتين بار, en: Protein Bar},
 flutter: ║                         "description": "",
 flutter: ║                         "descriptionI18n": {ar: , en: },
-flutter: ║                         "imageUrl": "",
+flutter: ║                         "imageUrl": "https://res.cloudinary.com/da8tyika6/image/upload/f_auto,q_auto/v
+flutter: ║                          1/basicdiet145/menu/file_y87kaw?_a=BAMAPqfk0"
 flutter: ║                         "priceHalala": 1500,
 flutter: ║                         "priceSar": 15,
 flutter: ║                         "currency": "SAR",
@@ -2130,7 +2148,7 @@ flutter: ║                         "itemType": "dessert",
 flutter: ║                         "type": "menu_product",
 flutter: ║                         "available": true,
 flutter: ║                         "active": true,
-flutter: ║                         "ui": {cardVariant: addon_card, cardSize: small, badge: , ctaLabel: , imageRatio: square}
+flutter: ║                         "ui": {cardVariant: addon_card, cardSize: medium, badge: , ctaLabel: , imageRatio: square}
 flutter: ║                    },
 flutter: ║                    {
 flutter: ║                         "id": "6a24548a4a2465a2f7a07647",
@@ -2161,7 +2179,8 @@ flutter: ║                         "nameAr": "كيك شوكولاتة بروت
 flutter: ║                         "nameI18n": {ar: كيك شوكولاتة بروتين, en: Protein Chocolate Cake},
 flutter: ║                         "description": "",
 flutter: ║                         "descriptionI18n": {ar: , en: },
-flutter: ║                         "imageUrl": "",
+flutter: ║                         "imageUrl": "https://res.cloudinary.com/da8tyika6/image/upload/f_auto,q_auto/v
+flutter: ║                          1/basicdiet145/menu/file_chkljd?_a=BAMAPqfk0"
 flutter: ║                         "priceHalala": 1900,
 flutter: ║                         "priceSar": 19,
 flutter: ║                         "currency": "SAR",
@@ -2172,7 +2191,7 @@ flutter: ║                         "itemType": "dessert",
 flutter: ║                         "type": "menu_product",
 flutter: ║                         "available": true,
 flutter: ║                         "active": true,
-flutter: ║                         "ui": {cardVariant: addon_card, cardSize: small, badge: , ctaLabel: , imageRatio: square}
+flutter: ║                         "ui": {cardVariant: addon_card, cardSize: medium, badge: , ctaLabel: , imageRatio: square}
 flutter: ║                    }
 flutter: ║                 ]
 flutter: ║            }
@@ -2229,19 +2248,19 @@ flutter: ║    }
 flutter: ║
 flutter: ╚══════════════════════════════════════════════════════════════════════════════════════════╝
 flutter: MealPlannerBloc: Initialized with mealBalance: canConsumeNow=null, limitEnforced=null, maxConsumable=null, remaining=null
-flutter: onChange -- MealPlannerBloc, Change { currentState: MealPlannerLoading(), nextState: MealPlannerLoaded([Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel'], Instance of 'MealPlannerMenuModel', AddonChoicesModel([AddonChoiceCategoryModel(juice, [juices, drinks], [AddonChoiceModel(6a24548b4a2465a2f7a07651, berry_blast, بيري بلاست, بيري بلاست, {ar: بيري بلاست, en: Berry Blast}, 1100, 11.0, SAR, null, null, juices, juice, menu_product, true, true, {cardVariant: addon_card, cardSize: small, badge: , ctaLabel: , imageRatio: square}), AddonChoiceModel(6a24548c4a2465a2f7a07656, berry_prot, بيري بروت, بيري بروت, {ar: بيري بروت, en: Berry Prot}, 1300, 13.0, SAR, null, null, juices, juice, menu_product, true, true, {cardVariant: addon_card, cardSize: small, badge: , ctaLabel: ,<…>
+flutter: onChange -- MealPlannerBloc, Change { currentState: MealPlannerLoading(), nextState: MealPlannerLoaded([Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel'], Instance of 'MealPlannerMenuModel', AddonChoicesModel([AddonChoiceCategoryModel(juice, [juices, drinks], [AddonChoiceModel(6a24548b4a2465a2f7a07651, berry_blast, بيري بلاست, بيري بلاست, {ar: بيري بلاست, en: Berry Blast}, 1100, 11.0, SAR, null, null, juices, juice, menu_product, true, true, {cardVariant: addon_card, cardSize: small, badge: , ctaLabel: , imageRatio: square}), AddonChoiceModel(6a24548c4a2465a2f7a07656, berry_prot, بيري بروت, بيري بروت, {ar: بيري بروت, en: Berry Prot}, 1300, 13.0, SAR, null, null, juices, juice, menu_product, true, true, {cardVariant: addon_card, cardSize: medium, badge: , ctaLabel: <…>
 flutter: \^[[34m[🌎 Easy Localization] [WARNING] Localization key [dailyLimitEnforced] not found<…>
 flutter:
 flutter: ╔╣ Request ║ GET
-flutter: ║  https://basicdiet145.onrender.com/api/subscriptions/6a2498e0e9ea79c6d966ad1f/days/2026-06-12
+flutter: ║  https://basicdiet145.onrender.com/api/subscriptions/6a283b2adbc0f093a0603f08/days/2026-06-12
 flutter: ╚══════════════════════════════════════════════════════════════════════════════════════════╝
 flutter: ╔ Headers
 flutter: ╟ accept: application/json
 flutter: ╟ content-type: application/json
 flutter: ╟ authorization:
 flutter: ║ Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2YTI0NTNiMmYwMWVhMmI0MDg3Y2Q2Nj
-flutter: ║ kiLCJyb2xlIjoiY2xpZW50IiwidG9rZW5UeXBlIjoiYXBwX2FjY2VzcyIsImlhdCI6MTc4MTAxNTM0MCwiZXhwIjox
-flutter: ║ NzgxMDE2MjQwfQ.tqQDXvewU_eyA6VNcF3QeRjaB2weeAZ9C_BER1ptcKA
+flutter: ║ kiLCJyb2xlIjoiY2xpZW50IiwidG9rZW5UeXBlIjoiYXBwX2FjY2VzcyIsImlhdCI6MTc4MTAyOTI1MiwiZXhwIjox
+flutter: ║ NzgxMDMwMTUyfQ.Op7Jzr5xIWyDXZUcK1EhBEU7RzzjKxODHrzmfGSlj3U
 flutter: ╟ Accept-Language: ar
 flutter: ╟ contentType: application/json
 flutter: ╟ responseType: ResponseType.json
@@ -2250,22 +2269,22 @@ flutter: ╟ connectTimeout: 0:01:00.000000
 flutter: ╟ receiveTimeout: 0:01:00.000000
 flutter: ╚══════════════════════════════════════════════════════════════════════════════════════════╝
 flutter:
-flutter: ╔╣ Response ║ GET ║ Status: 200 OK  ║ Time: 591 ms
-flutter: ║  https://basicdiet145.onrender.com/api/subscriptions/6a2498e0e9ea79c6d966ad1f/days/2026-06-12
+flutter: ╔╣ Response ║ GET ║ Status: 200 OK  ║ Time: 990 ms
+flutter: ║  https://basicdiet145.onrender.com/api/subscriptions/6a283b2adbc0f093a0603f08/days/2026-06-12
 flutter: ╚══════════════════════════════════════════════════════════════════════════════════════════╝
 flutter: ╔ Headers
 flutter: ╟ x-dns-prefetch-control: [off]
 flutter: ╟ x-render-origin-server: [Render]
-flutter: ╟ date: [Tue, 09 Jun 2026 14:40:09 GMT]
+flutter: ╟ date: [Tue, 09 Jun 2026 18:30:47 GMT]
 flutter: ╟ transfer-encoding: [chunked]
 flutter: ╟ origin-agent-cluster: [?1]
 flutter: ╟ vary: [Origin, Accept-Encoding]
 flutter: ╟ content-encoding: [gzip]
 flutter: ╟ server: [cloudflare]
-flutter: ╟ x-request-id: [e6fb2d22-e02e-4028-9b35-d596c99ee270]
+flutter: ╟ x-request-id: [711250a2-3c9a-40d7-bb9c-06e99c29240a]
 flutter: ╟ cross-origin-resource-policy: [same-origin]
-flutter: ╟ cf-ray: [a090e3c85f64e28c-MRS]
-flutter: ╟ etag: [W/"1630-szogV8EJY6bqfTNHpgGDZzQRpD8"]
+flutter: ╟ cf-ray: [a092359f9e40fb98-MRS]
+flutter: ╟ etag: [W/"213f-vSZB1sINT7Rk4r5PmG7OaXnN8Ts"]
 flutter: ╟ x-frame-options: [SAMEORIGIN]
 flutter: ╟ content-security-policy:
 flutter: ║ [default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-
@@ -2278,7 +2297,7 @@ flutter: ╟ cf-cache-status: [DYNAMIC]
 flutter: ╟ x-permitted-cross-domain-policies: [none]
 flutter: ╟ content-type: [application/json; charset=utf-8]
 flutter: ╟ cross-origin-opener-policy: [same-origin]
-flutter: ╟ rndr-id: [21055aa5-aba0-48a2]
+flutter: ╟ rndr-id: [2ae4073c-30b3-4e88]
 flutter: ╟ x-xss-protection: [0]
 flutter: ╟ access-control-allow-credentials: [true]
 flutter: ╟ alt-svc: [h3=":443"; ma=86400]
@@ -2290,11 +2309,11 @@ flutter: ║
 flutter: ║    {
 flutter: ║         "status": true,
 flutter: ║         "data": {
-flutter: ║             "_id": "6a2498e0e9ea79c6d966ad28",
-flutter: ║             "subscriptionId": "6a2498e0e9ea79c6d966ad1f",
+flutter: ║             "_id": "6a283b2adbc0f093a0603f0f",
+flutter: ║             "subscriptionId": "6a283b2adbc0f093a0603f08",
 flutter: ║             "date": "2026-06-12",
 flutter: ║             "status": "open",
-flutter: ║             "selections": []
+flutter: ║             "selections": [6a2453ea4a2465a2f7a07135]
 flutter: ║             "skippedByUser": false,
 flutter: ║             "skipCompensated": false,
 flutter: ║             "assignedByKitchen": false,
@@ -2319,26 +2338,153 @@ flutter: ║             "canceledBy": null,
 flutter: ║             "canceledAt": null,
 flutter: ║             "creditsDeducted": false,
 flutter: ║             "autoLocked": false,
-flutter: ║             "plannerRevisionHash": "b0ddd7e6b9051b1c961aa465baaa398393149b64baaf0d86503e2b7694ca46e4",
+flutter: ║             "plannerRevisionHash": "2e1f7f316dbd506bff223fd0343683a72467e8ac6c85fce28f449edd57107b88",
 flutter: ║             "mealReminderSentAt": null,
-flutter: ║             "addonSelections": []
-flutter: ║             "premiumUpgradeSelections": []
+flutter: ║             "addonSelections": [
+flutter: ║                {
+flutter: ║                     "addonId": "6a24548b4a2465a2f7a07651",
+flutter: ║                     "name": "Berry Blast",
+flutter: ║                     "category": "juice",
+flutter: ║                     "source": "subscription",
+flutter: ║                     "priceHalala": 0,
+flutter: ║                     "currency": "SAR",
+flutter: ║                     "paymentId": null,
+flutter: ║                     "consumedAt": "2026-06-09T18:22:39.932Z",
+flutter: ║                     "_id": "6a2859f0dd42a573e5c2754b"
+flutter: ║                },
+flutter: ║                {
+flutter: ║                     "addonId": "6a2454654a2465a2f7a07524",
+flutter: ║                     "name": "Green Salad - 100g",
+flutter: ║                     "category": "small_salad",
+flutter: ║                     "source": "pending_payment",
+flutter: ║                     "priceHalala": 1500,
+flutter: ║                     "currency": "SAR",
+flutter: ║                     "paymentId": null,
+flutter: ║                     "consumedAt": "2026-06-09T18:22:39.932Z",
+flutter: ║                     "_id": "6a2859f0dd42a573e5c2754c"
+flutter: ║                }
+flutter: ║             ],
+flutter: ║             "premiumUpgradeSelections": [
+flutter: ║                {
+flutter: ║                     "baseSlotKey": "slot_1",
+flutter: ║                     "proteinId": "6a2453ea4a2465a2f7a07135",
+flutter: ║                     "premiumKey": "beef_steak",
+flutter: ║                     "unitExtraFeeHalala": 2000,
+flutter: ║                     "currency": "SAR",
+flutter: ║                     "premiumSource": "pending_payment",
+flutter: ║                     "_id": "6a2859f0dd42a573e5c27555",
+flutter: ║                     "consumedAt": "2026-06-09T18:22:40.091Z"
+flutter: ║                }
+flutter: ║             ],
 flutter: ║             "operationAuditLog": []
 flutter: ║             "customSalads": []
 flutter: ║             "customMeals": []
-flutter: ║             "baseMealSlots": []
-flutter: ║             "__v": 0,
-flutter: ║             "createdAt": "2026-06-06T22:02:08.187Z",
-flutter: ║             "updatedAt": "2026-06-06T22:02:08.187Z",
+flutter: ║             "baseMealSlots": [
+flutter: ║                {
+flutter: ║                     "slotKey": "base_slot_1",
+flutter: ║                     "mealId": "6a2453ea4a2465a2f7a07135",
+flutter: ║                     "assignmentSource": "client",
+flutter: ║                     "assignedAt": "2026-06-09T18:22:40.089Z",
+flutter: ║                     "_id": "6a2859f0dd42a573e5c27554"
+flutter: ║                }
+flutter: ║             ],
+flutter: ║             "__v": 1,
+flutter: ║             "createdAt": "2026-06-09T16:11:22.143Z",
+flutter: ║             "updatedAt": "2026-06-09T18:22:41.974Z",
+flutter: ║             "materializedMeals": [
+flutter: ║                {
+flutter: ║                     "slotKey": "slot_1",
+flutter: ║                     "selectionType": "premium_meal",
+flutter: ║                     "sandwichId": null,
+flutter: ║                     "proteinId": "6a2453ea4a2465a2f7a07135",
+flutter: ║                     "carbId": "6a2453f14a2465a2f7a07174",
+flutter: ║                     "isPremium": true,
+flutter: ║                     "premiumSource": "pending_payment",
+flutter: ║                     "premiumKey": "beef_steak",
+flutter: ║                     "premiumExtraFeeHalala": 2000,
+flutter: ║                     "comboKey": "6a2453ea4a2465a2f7a07135:6a2453f14a2465a2f7a07174"
+flutter: ║                     "operationalSku": "6a2453ea4a2465a2f7a07135:6a2453f14a2465a2f7a07174"
+flutter: ║                     "generatedAt": "2026-06-09T18:22:39.650Z"
+flutter: ║                }
+flutter: ║             ],
+flutter: ║             "mealSlots": [
+flutter: ║                {
+flutter: ║                     "slotIndex": 1,
+flutter: ║                     "slotKey": "slot_1",
+flutter: ║                     "status": "complete",
+flutter: ║                     "selectionType": "premium_meal",
+flutter: ║                     "proteinId": "6a2453ea4a2465a2f7a07135",
+flutter: ║                     "carbs": [{carbId: 6a2453f14a2465a2f7a07174, grams: 150}]
+flutter: ║                     "sandwichId": null,
+flutter: ║                     "salad": null,
+flutter: ║                     "isPremium": true,
+flutter: ║                     "premiumKey": "beef_steak",
+flutter: ║                     "premiumSource": "pending_payment",
+flutter: ║                     "premiumExtraFeeHalala": 2000
+flutter: ║                }
+flutter: ║             ],
+flutter: ║             "plannerMeta": {
+flutter: ║                 "requiredSlotCount": 1,
+flutter: ║                 "emptySlotCount": 0,
+flutter: ║                 "partialSlotCount": 0,
+flutter: ║                 "completeSlotCount": 1,
+flutter: ║                 "beefSlotCount": 0,
+flutter: ║                 "premiumSlotCount": 1,
+flutter: ║                 "premiumCoveredByBalanceCount": 0,
+flutter: ║                 "premiumPendingPaymentCount": 1,
+flutter: ║                 "premiumPaidExtraCount": 0,
+flutter: ║                 "premiumTotalHalala": 2000,
+flutter: ║                 "isDraftValid": true,
+flutter: ║                 "isConfirmable": false,
+flutter: ║                 "lastEditedAt": "2026-06-09T18:22:39.649Z",
+flutter: ║                 "confirmedAt": null,
+flutter: ║                 "confirmedByRole": null
+flutter: ║            }
+flutter: ║             "plannerState": "draft",
+flutter: ║             "plannerVersion": "v1",
+flutter: ║             "premiumExtraPayment": {
+flutter: ║                 "status": "pending",
+flutter: ║                 "paymentId": "6a2859f1dd42a573e5c2757c",
+flutter: ║                 "providerInvoiceId": "9cb4327f-280f-45de-8637-761c32d6d922",
+flutter: ║                 "amountHalala": 2000,
+flutter: ║                 "currency": "SAR",
+flutter: ║                 "expiresAt": null,
+flutter: ║                 "reused": false,
+flutter: ║                 "revisionHash": "2e1f7f316dbd506bff223fd0343683a72467e8ac6c85fce28f449edd57107b88"
+flutter: ║                 "createdAt": "2026-06-09T18:22:41.973Z",
+flutter: ║                 "paidAt": null,
+flutter: ║                 "extraPremiumCount": 1,
+flutter: ║                 "statusLabel": "معلق"
+flutter: ║            }
+flutter: ║             "planningMeta": {
+flutter: ║                 "requiredMealCount": 1,
+flutter: ║                 "selectedBaseMealCount": 0,
+flutter: ║                 "selectedPremiumMealCount": 1,
+flutter: ║                 "selectedTotalMealCount": 1,
+flutter: ║                 "isExactCountSatisfied": true,
+flutter: ║                 "lastEditedAt": "2026-06-09T18:22:40.089Z",
+flutter: ║                 "confirmedAt": null,
+flutter: ║                 "confirmedByRole": null
+flutter: ║            }
+flutter: ║             "planningState": "draft",
+flutter: ║             "planningVersion": "subscription_day_planning.v1",
 flutter: ║             "addonEntitlements": {
 flutter: ║                 "juice": {
 flutter: ║                     "category": "juice",
 flutter: ║                     "subscribed": true,
 flutter: ║                     "addonPlanId": "6a2454b24a2465a2f7a0778e",
-flutter: ║                     "name": "Juice Subscription",
+flutter: ║                     "name": "اشتراك العصير",
 flutter: ║                     "maxPerDay": 1,
-flutter: ║                     "selectedItem": null,
-flutter: ║                     "status": "pending_selection"
+flutter: ║                     "selectedItem": {
+flutter: ║                         "id": "6a24548b4a2465a2f7a07651",
+flutter: ║                         "menuProductId": "6a24548b4a2465a2f7a07651",
+flutter: ║                         "name": "Berry Blast",
+flutter: ║                         "category": "juice",
+flutter: ║                         "source": "subscription",
+flutter: ║                         "priceHalala": 0,
+flutter: ║                         "currency": "SAR"
+flutter: ║                    }
+flutter: ║                     "status": "selected"
 flutter: ║                }
 flutter: ║                 "snack": {
 flutter: ║                     "category": "snack",
@@ -2364,15 +2510,23 @@ flutter: ║                 "version": "subscription_day_planning.v1",
 flutter: ║                 "state": "draft",
 flutter: ║                 "requiredMealCount": 1,
 flutter: ║                 "selectedBaseMealCount": 0,
-flutter: ║                 "selectedPremiumMealCount": 0,
-flutter: ║                 "selectedTotalMealCount": 0,
-flutter: ║                 "isThresholdMet": false,
-flutter: ║                 "isExactCountSatisfied": false,
+flutter: ║                 "selectedPremiumMealCount": 1,
+flutter: ║                 "selectedTotalMealCount": 1,
+flutter: ║                 "isThresholdMet": true,
+flutter: ║                 "isExactCountSatisfied": true,
 flutter: ║                 "isBalanceExceeded": false,
-flutter: ║                 "maxConsumableMealsNow": 6,
+flutter: ║                 "maxConsumableMealsNow": 7,
 flutter: ║                 "confirmedAt": null,
 flutter: ║                 "confirmedByRole": null,
-flutter: ║                 "baseMealSlots": []
+flutter: ║                 "baseMealSlots": [
+flutter: ║                    {
+flutter: ║                         "slotKey": "base_slot_1",
+flutter: ║                         "mealId": "6a2453ea4a2465a2f7a07135",
+flutter: ║                         "assignmentSource": "client",
+flutter: ║                         "assignedAt": "2026-06-09T18:22:40.089Z",
+flutter: ║                         "_id": "6a2859f0dd42a573e5c27554"
+flutter: ║                    }
+flutter: ║                 ],
 flutter: ║                 "premiumOverageCount": 0,
 flutter: ║                 "premiumOverageStatus": null,
 flutter: ║                 "stateLabel": "مسودة",
@@ -2380,56 +2534,42 @@ flutter: ║                 "premiumOverageStatusLabel": ""
 flutter: ║            }
 flutter: ║             "statusLabel": "مفتوح",
 flutter: ║             "premiumSummary": {
-flutter: ║                 "selectedCount": 0,
+flutter: ║                 "selectedCount": 1,
 flutter: ║                 "coveredByBalanceCount": 0,
-flutter: ║                 "pendingPaymentCount": 0,
+flutter: ║                 "pendingPaymentCount": 1,
 flutter: ║                 "paidExtraCount": 0,
-flutter: ║                 "totalExtraHalala": 0,
+flutter: ║                 "totalExtraHalala": 2000,
 flutter: ║                 "currency": "SAR"
 flutter: ║            }
-flutter: ║             "premiumExtraPayment": {
-flutter: ║                 "status": "none",
-flutter: ║                 "paymentId": null,
-flutter: ║                 "providerInvoiceId": null,
-flutter: ║                 "amountHalala": 0,
-flutter: ║                 "currency": "SAR",
-flutter: ║                 "expiresAt": null,
-flutter: ║                 "reused": false,
-flutter: ║                 "revisionHash": "b0ddd7e6b9051b1c961aa465baaa398393149b64baaf0d86503e2b7694ca46e4"
-flutter: ║                 "createdAt": null,
-flutter: ║                 "paidAt": null,
-flutter: ║                 "extraPremiumCount": 0,
-flutter: ║                 "statusLabel": "لا يوجد دفع"
-flutter: ║            }
 flutter: ║             "paymentRequirement": {
-flutter: ║                 "status": "satisfied",
-flutter: ║                 "requiresPayment": false,
-flutter: ║                 "pricingStatus": "not_required",
-flutter: ║                 "blockingReason": "PLANNING_INCOMPLETE",
-flutter: ║                 "canCreatePayment": false,
-flutter: ║                 "premiumSelectedCount": 0,
-flutter: ║                 "premiumPendingPaymentCount": 0,
-flutter: ║                 "addonSelectedCount": 0,
-flutter: ║                 "addonPendingPaymentCount": 0,
-flutter: ║                 "pendingAmountHalala": 0,
-flutter: ║                 "amountHalala": 0,
+flutter: ║                 "status": "priced",
+flutter: ║                 "requiresPayment": true,
+flutter: ║                 "pricingStatus": "priced",
+flutter: ║                 "blockingReason": "PREMIUM_PAYMENT_REQUIRED",
+flutter: ║                 "canCreatePayment": true,
+flutter: ║                 "premiumSelectedCount": 1,
+flutter: ║                 "premiumPendingPaymentCount": 1,
+flutter: ║                 "addonSelectedCount": 2,
+flutter: ║                 "addonPendingPaymentCount": 1,
+flutter: ║                 "pendingAmountHalala": 3500,
+flutter: ║                 "amountHalala": 3500,
 flutter: ║                 "currency": "SAR",
-flutter: ║                 "pricingStatusLabel": "غير مطلوب",
+flutter: ║                 "pricingStatusLabel": "مسعر",
 flutter: ║                 "blockingReasonLabel": ""
 flutter: ║            }
-flutter: ║             "commercialState": "draft",
+flutter: ║             "commercialState": "payment_required",
 flutter: ║             "isFulfillable": false,
 flutter: ║             "canBePrepared": false,
 flutter: ║             "pickupPrepared": false,
 flutter: ║             "pickupPreparationFlowStatus": "waiting_for_prepare",
-flutter: ║             "fulfillmentMode": "no_service",
+flutter: ║             "fulfillmentMode": "customer_selected",
 flutter: ║             "consumptionState": "pending_day",
 flutter: ║             "requiredMealCount": 1,
-flutter: ║             "specifiedMealCount": 0,
-flutter: ║             "unspecifiedMealCount": 1,
-flutter: ║             "hasCustomerSelections": false,
-flutter: ║             "requiresMealTypeKnowledge": false,
-flutter: ║             "mealTypesSpecified": false,
+flutter: ║             "specifiedMealCount": 1,
+flutter: ║             "unspecifiedMealCount": 0,
+flutter: ║             "hasCustomerSelections": true,
+flutter: ║             "requiresMealTypeKnowledge": true,
+flutter: ║             "mealTypesSpecified": true,
 flutter: ║             "planningReady": false,
 flutter: ║             "fulfillmentReady": false,
 flutter: ║             "deliveryMode": "pickup",
@@ -2466,10 +2606,10 @@ flutter: ║             "lockedReason": null,
 flutter: ║             "lockedMessage": null,
 flutter: ║             "mealBalance": {
 flutter: ║                 "totalMeals": 7,
-flutter: ║                 "remainingMeals": 6,
-flutter: ║                 "consumedMeals": 1,
+flutter: ║                 "remainingMeals": 7,
+flutter: ║                 "consumedMeals": 0,
 flutter: ║                 "canConsumeNow": true,
-flutter: ║                 "maxConsumableMealsNow": 6,
+flutter: ║                 "maxConsumableMealsNow": 7,
 flutter: ║                 "mealBalancePolicy": "TOTAL_BALANCE_WITHIN_VALIDITY",
 flutter: ║                 "dailyMealLimitEnforced": false,
 flutter: ║                 "dailyMealsDefault": 1
@@ -2539,9 +2679,9 @@ flutter: ║                     ],
 flutter: ║                     "excludedGroupKeys": [extra_protein_50g]
 flutter: ║                }
 flutter: ║            }
-flutter: ║             "commercialStateLabel": "مسودة"
+flutter: ║             "commercialStateLabel": "الدفع مطلوب"
 flutter: ║        }
 flutter: ║    }
 flutter: ║
 flutter: ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-flutter: onChange -- MealPlannerBloc, Change { currentState: MealPlannerLoaded([Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel'], Instance of 'MealPlannerMenuModel', AddonChoicesModel([AddonChoiceCategoryModel(juice, [juices, drinks], [AddonChoiceModel(6a24548b4a2465a2f7a07651, berry_blast, بيري بلاست, بيري بلاست, {ar: بيري بلاست, en: Berry Blast}, 1100, 11.0, SAR, null, null, juices, juice, menu_product, true, true, {cardVariant: addon_card, cardSize: small, badge: , ctaLabel: , imageRatio: square}), AddonChoiceModel(6a24548c4a2465a2f7a07656, berry_prot, بيري بروت, بيري بروت, {ar: بيري بروت, en: Berry Prot}, 1300, 13.0, SAR, null, null, juices, juice, menu_product, true, true, {cardVariant: addon_card, cardSize: small, badge: , ctaLabel: , imageRatio: square}), AddonChoic<…>
+flutter: onChange -- MealPlannerBloc, Change { currentState: MealPlannerLoaded([Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel'], Instance of 'MealPlannerMenuModel', AddonChoicesModel([AddonChoiceCategoryModel(juice, [juices, drinks], [AddonChoiceModel(6a24548b4a2465a2f7a07651, berry_blast, بيري بلاست, بيري بلاست, {ar: بيري بلاست, en: Berry Blast}, 1100, 11.0, SAR, null, null, juices, juice, menu_product, true, true, {cardVariant: addon_card, cardSize: small, badge: , ctaLabel: , imageRatio: square}), AddonChoiceModel(6a24548c4a2465a2f7a07656, berry_prot, بيري بروت, بيري بروت, {ar: بيري بروت, en: Berry Prot}, 1300, 13.0, SAR, null, null, juices, juice, menu_product, true, true, {cardVariant: addon_card, cardSize: medium, badge: , ctaLabel: , imageRatio: square}), AddonChoi<…>

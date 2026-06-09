@@ -604,18 +604,7 @@ class _MealPlannerBody extends StatelessWidget {
   }
 
   double _premiumPaymentAmount(MealPlannerLoaded state) {
-    final paymentRequirement = state.selectedDayDetail?.paymentRequirement;
-    if (paymentRequirement != null) {
-      final amountHalala =
-          paymentRequirement.pendingAmountHalala > 0
-              ? paymentRequirement.pendingAmountHalala
-              : paymentRequirement.amountHalala;
-      if (amountHalala > 0) {
-        return amountHalala / 100.0;
-      }
-    }
-
-    return state.evaluatePremiumUsage().pendingAmountHalala / 100.0;
+    return state.totalPendingPaymentAmountHalala / 100.0;
   }
 
   MealPlannerSlotSelection? _slotForIndex(

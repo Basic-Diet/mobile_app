@@ -283,11 +283,13 @@ final class MealPlannerLoaded extends MealPlannerState {
     String addonId, {
     List<String>? selectedAddonIdsOverride,
   }) {
+    final shouldUseBackendSelection =
+        selectedAddonIdsOverride == null && !hasSelectedDayUnsavedChanges;
     final backendSelection = addonSelections
         .where((selection) => selection.addonId == addonId)
         .cast<AddonSelectionModel?>()
         .firstWhere((selection) => selection != null, orElse: () => null);
-    if (backendSelection != null && selectedAddonIdsOverride == null) {
+    if (backendSelection != null && shouldUseBackendSelection) {
       return backendSelection.status;
     }
     return _computeLocalAddonStatus(
@@ -363,11 +365,15 @@ final class MealPlannerLoaded extends MealPlannerState {
   }
 
   int get addonPendingPaymentCount =>
-      selectedDayDetail?.paymentRequirement?.addonPendingPaymentCount ??
-      localAddonPendingCount;
+      !hasSelectedDayUnsavedChanges
+          ? selectedDayDetail?.paymentRequirement?.addonPendingPaymentCount ??
+              localAddonPendingCount
+          : localAddonPendingCount;
 
   int get addonPendingPaymentAmountHalala =>
-      selectedDayDetail?.paymentRequirement?.pendingAmountHalala != null &&
+      !hasSelectedDayUnsavedChanges &&
+              selectedDayDetail?.paymentRequirement?.pendingAmountHalala !=
+                  null &&
               (selectedDayDetail?.paymentRequirement?.blockingReason
                           ?.toUpperCase() ==
                       'ADDON_PAYMENT_REQUIRED' ||
@@ -381,7 +387,8 @@ final class MealPlannerLoaded extends MealPlannerState {
 
   int get premiumPendingPaymentAmountHalala {
     final requirement = selectedDayDetail?.paymentRequirement;
-    if (requirement != null &&
+    if (!hasSelectedDayUnsavedChanges &&
+        requirement != null &&
         ((requirement.blockingReason?.toUpperCase() ==
                 'PREMIUM_PAYMENT_REQUIRED') ||
             requirement.premiumPendingPaymentCount > 0)) {
@@ -394,12 +401,26 @@ final class MealPlannerLoaded extends MealPlannerState {
 
   int get totalPendingPaymentAmountHalala {
     final requirement = selectedDayDetail?.paymentRequirement;
-    if (requirement != null && requirement.requiresPayment) {
+    if (!hasSelectedDayUnsavedChanges &&
+        requirement != null &&
+        requirement.requiresPayment) {
       return requirement.pendingAmountHalala > 0
           ? requirement.pendingAmountHalala
           : requirement.amountHalala;
     }
     return premiumPendingPaymentAmountHalala + addonPendingPaymentAmountHalala;
+  }
+
+  bool get hasSelectedDayUnsavedChanges {
+    final currentSlots = selectedDaySlots;
+    final savedSlots = savedSlotsPerDay[selectedDayIndex] ?? const [];
+    if (currentSlots.length != savedSlots.length) return true;
+    for (var i = 0; i < currentSlots.length; i++) {
+      if (currentSlots[i] != savedSlots[i]) return true;
+    }
+
+    final savedAddons = savedAddOnIdsByDay[selectedDayIndex] ?? const [];
+    return !listEquals(selectedAddOnIds, savedAddons);
   }
 
   int get selectedMealsCount {
