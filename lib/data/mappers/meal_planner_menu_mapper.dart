@@ -781,11 +781,7 @@ BuilderCatalogV2ProductResponse? _premiumLargeSaladProduct(
     section?.products ?? const <BuilderCatalogV2ProductResponse>[],
   )..sort((a, b) => (a.sortOrder ?? 0).compareTo(b.sortOrder ?? 0));
   for (final product in products) {
-    final key = _fallbackString(product.key, product.id.orEmpty());
-    if (key.contains('salad')) return product;
-  }
-  if (section?.key == 'premium_large_salad') {
-    return products.isEmpty ? null : products.first;
+    if (product.key == 'premium_large_salad') return product;
   }
   return null;
 }

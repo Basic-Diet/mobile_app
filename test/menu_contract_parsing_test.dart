@@ -293,6 +293,102 @@ void main() {
         isFalse,
       );
     });
+
+    test('derives premium large salad from exact product key only', () {
+      final response = MealPlannerMenuResponse.fromJson({
+        'status': true,
+        'data': {
+          'builderCatalog': {
+            'contractVersion': 'meal_planner_menu.v3',
+            'currency': 'SAR',
+            'sections': [
+              {
+                'id': 'section:premium-large-salad',
+                'key': 'premium_large_salad',
+                'type': 'configurable_product',
+                'selectionType': 'premium_large_salad',
+                'name': 'Premium Large Salad',
+                'products': [
+                  {
+                    'id': 'product-basic-salad',
+                    'key': 'basic_salad',
+                    'name': 'Basic Salad',
+                    'selectionType': 'premium_large_salad',
+                    'priceHalala': 1000,
+                    'currency': 'SAR',
+                    'sortOrder': 1,
+                  },
+                  {
+                    'id': 'product-premium-large-salad',
+                    'key': 'premium_large_salad',
+                    'name': 'Premium Large Salad',
+                    'selectionType': 'premium_large_salad',
+                    'priceHalala': 2500,
+                    'currency': 'SAR',
+                    'sortOrder': 2,
+                  },
+                ],
+              },
+            ],
+            'rules': {},
+          },
+        },
+      });
+
+      final menu = response.toDomain();
+      final salad = menu.builderCatalog.premiumLargeSalad;
+
+      expect(salad, isNotNull);
+      expect(salad?.id, 'product-premium-large-salad');
+      expect(salad?.premiumKey, 'premium_large_salad');
+      expect(salad?.preset.key, 'premium_large_salad');
+    });
+
+    test('does not derive premium large salad from other salad-like keys', () {
+      final response = MealPlannerMenuResponse.fromJson({
+        'status': true,
+        'data': {
+          'builderCatalog': {
+            'contractVersion': 'meal_planner_menu.v3',
+            'currency': 'SAR',
+            'sections': [
+              {
+                'id': 'section:premium-large-salad',
+                'key': 'premium_large_salad',
+                'type': 'configurable_product',
+                'selectionType': 'premium_large_salad',
+                'name': 'Premium Large Salad',
+                'products': [
+                  {
+                    'id': 'product-basic-salad',
+                    'key': 'basic_salad',
+                    'name': 'Basic Salad',
+                    'selectionType': 'premium_large_salad',
+                    'priceHalala': 1000,
+                    'currency': 'SAR',
+                    'sortOrder': 1,
+                  },
+                  {
+                    'id': 'product-side-salad',
+                    'key': 'side_salad',
+                    'name': 'Side Salad',
+                    'selectionType': 'premium_large_salad',
+                    'priceHalala': 1200,
+                    'currency': 'SAR',
+                    'sortOrder': 2,
+                  },
+                ],
+              },
+            ],
+            'rules': {},
+          },
+        },
+      });
+
+      final menu = response.toDomain();
+
+      expect(menu.builderCatalog.premiumLargeSalad, isNull);
+    });
   });
 
   group('order menu parsing', () {
