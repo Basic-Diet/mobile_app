@@ -24,7 +24,7 @@ class ImageAssets {
   static const String oneTimeBasicRtlSalad = '$imagesPath/saladbasicrtl.png';
   static const String oneTimeBasicSalad = '$imagesPath/saladbasic.png';
   static const String oneTimeBasicRtlMeal = '$imagesPath/mealbasicrtl.png';
-  static const String oneTimeBasicMeal = '$imagesPath/mealbasic.png';
+  static const String oneTimeBasicMeal = '$imagesPath/meals.jpeg';
   static const String oneTimeFruitSalad = '$imagesPath/سلطة فواكه.png';
   static const String oneTimeGreekYogurt = '$imagesPath/زبادي يوناني.png';
   static const String oneTimeSourdough = '$imagesPath/ساندوتش ساوردو.png';
