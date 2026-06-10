@@ -11,7 +11,6 @@ import 'package:basic_diet/domain/usecase/create_unified_day_payment_usecase.dar
 import 'package:basic_diet/domain/usecase/get_addon_choices_usecase.dart';
 import 'package:basic_diet/domain/usecase/get_meal_planner_menu_usecase.dart';
 import 'package:basic_diet/domain/usecase/get_subscription_day_usecase.dart';
-import 'package:flutter/foundation.dart';
 import 'package:basic_diet/domain/usecase/save_day_selection_usecase.dart';
 import 'package:basic_diet/domain/usecase/validate_day_selection_usecase.dart';
 import 'package:basic_diet/domain/usecase/verify_unified_day_payment_usecase.dart';
@@ -149,14 +148,6 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
       selectedAddOnIdsByDay[dayIndex] = const [];
       savedAddOnIdsByDay[dayIndex] = const [];
     }
-
-    debugPrint(
-      'MealPlannerBloc: Initialized with mealBalance: '
-      'canConsumeNow=${mealBalance?.canConsumeNow}, '
-      'limitEnforced=${mealBalance?.dailyMealLimitEnforced}, '
-      'maxConsumable=${mealBalance?.maxConsumableMealsNow}, '
-      'remaining=${mealBalance?.remainingMeals}',
-    );
 
     final initialState = MealPlannerLoaded(
       timelineDays: initialTimelineDays,
@@ -611,8 +602,12 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
       if (_isCatalogItemUnavailableFailure(validationFailure)) {
         await _refreshCatalogData(emit, current);
       }
+      final refreshedState = await _refreshSelectedDayForFailure(
+        current,
+        validationFailure,
+      );
       emit(
-        current.copyWith(
+        refreshedState.copyWith(
           isSaving: false,
           paymentError: _formatFailure(validationFailure),
         ),
@@ -640,8 +635,12 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
           if (_isCatalogItemUnavailableFailure(failure)) {
             await _refreshCatalogData(emit, current);
           }
+          final refreshedState = await _refreshSelectedDayForFailure(
+            current,
+            failure,
+          );
           emit(
-            current.copyWith(
+            refreshedState.copyWith(
               isSaving: false,
               paymentError: _formatFailure(failure),
             ),
@@ -689,6 +688,8 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
 
   String _blockingReasonMessage(PaymentRequirementModel? requirement) {
     final reason = requirement?.blockingReason;
+    final mapped = _localizedLifecycleCode(reason);
+    if (mapped != null) return mapped;
     return reason?.isNotEmpty == true
         ? reason!
         : Strings.paymentRequiredMessage.tr();
@@ -880,27 +881,18 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
       ),
     );
 
-    debugPrint(
-      'MealPlannerBloc: Verifying unified day payment '
-      'subscriptionId=$subscriptionId '
-      'date=${day.date} '
-      'paymentId=$paymentId '
-      'body={}',
-    );
-
     final result = await _verifyUnifiedDayPaymentUseCase.execute(
       VerifyUnifiedDayPaymentUseCaseInput(subscriptionId, day.date, paymentId),
     );
 
     final verificationFailure = result.fold((failure) => failure, (_) => null);
     if (verificationFailure != null) {
-      debugPrint(
-        'MealPlannerBloc: Verify unified day payment failed '
-        'code=${verificationFailure.code} '
-        'message=${verificationFailure.message}',
+      final refreshedState = await _refreshSelectedDayForFailure(
+        current,
+        verificationFailure,
       );
       emit(
-        current.copyWith(
+        refreshedState.copyWith(
           isSaving: false,
           paymentError: _mapPaymentVerificationFailure(verificationFailure),
           clearPaymentUrl: true,
@@ -914,15 +906,6 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
     }
 
     final verificationModel = result.getOrElse(() => throw Exception());
-    debugPrint(
-      'MealPlannerBloc: Verify unified day payment response '
-      'httpStatus=200 '
-      'paymentStatus=${verificationModel.resolvedPaymentStatus} '
-      'applied=${verificationModel.applied} '
-      'isFinal=${verificationModel.isFinal} '
-      'commercialState=${verificationModel.commercialState}',
-    );
-
     if (verificationModel.isVerificationPending) {
       emit(
         current.copyWith(
@@ -1014,6 +997,7 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
     return code == 'PAYMENT_EXPIRED' ||
         code == 'PAYMENT_NOT_FOUND' ||
         code == 'MISMATCH' ||
+        code == _dayPaymentRevisionMismatchCode ||
         code == 'ORDER_NOT_PAYABLE' ||
         failure.code == 404;
   }
@@ -1021,6 +1005,8 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
   String _mapPaymentVerificationFailure(Failure failure) {
     final code = failure.code?.toString().toUpperCase();
     switch (code) {
+      case _dayPaymentRevisionMismatchCode:
+        return Strings.latestPaymentRequired.tr();
       case 'PAYMENT_EXPIRED':
       case 'PAYMENT_NOT_FOUND':
         return Strings.paymentExpiredMessage.tr();
@@ -1037,7 +1023,7 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
       return Strings.paymentExpiredMessage.tr();
     }
     if (failure.code == 409) {
-      return Strings.paymentMismatchMessage.tr();
+      return Strings.latestPaymentRequired.tr();
     }
     if (failure.code == 502) {
       return Strings.paymentProviderErrorMessage.tr();
@@ -1047,6 +1033,59 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
     }
 
     return _formatFailure(failure);
+  }
+
+  Future<MealPlannerLoaded> _refreshSelectedDayForFailure(
+    MealPlannerLoaded baseState,
+    Failure failure,
+  ) async {
+    if (!_shouldRefreshAfterLifecycleFailure(failure)) return baseState;
+    if (baseState.timelineDays.isEmpty) return baseState;
+
+    final selectedIndex = baseState.selectedDayIndex;
+    if (selectedIndex < 0 || selectedIndex >= baseState.timelineDays.length) {
+      return baseState;
+    }
+
+    final day = baseState.timelineDays[selectedIndex];
+    final refreshed = await _getSubscriptionDayUseCase.execute(
+      GetSubscriptionDayUseCaseInput(subscriptionId, day.date),
+    );
+
+    return refreshed.fold(
+      (_) => baseState,
+      (dayDetail) =>
+          _applyUpdatedDay(baseState, dayDetail, dayIndex: selectedIndex),
+    );
+  }
+
+  bool _shouldRefreshAfterLifecycleFailure(Failure failure) {
+    final code = failure.code?.toString().toUpperCase();
+    if (code == null || code.isEmpty) return false;
+    return const {
+      'MEAL_PLANNING_LIMIT_EXCEEDED',
+      _dayPaymentRevisionMismatchCode,
+      'INVALID_DELIVERY_MODE',
+      'INSUFFICIENT_CREDITS',
+      'SUBSCRIPTION_DATE_OUT_OF_RANGE',
+      'SUBSCRIPTION_DAY_LOCKED',
+      'DAY_LOCKED_BEFORE_DELIVERY',
+      'LOCKED',
+      'FORBIDDEN',
+      'SUBSCRIPTION_ACCESS_DENIED',
+      'SUBSCRIPTION_NOT_ACTIVE',
+      'SUBSCRIPTION_INACTIVE',
+      'SUB_INACTIVE',
+      'SUBSCRIPTION_EXPIRED',
+      'SUB_EXPIRED',
+      'SUBSCRIPTION_CANCELED',
+      'SUBSCRIPTION_CANCELLED',
+      'ADDON_PAYMENT_REQUIRED',
+      'PREMIUM_PAYMENT_REQUIRED',
+      'PREMIUM_OVERAGE_PAYMENT_REQUIRED',
+      'ONE_TIME_ADDON_PAYMENT_REQUIRED',
+      'PAYMENT_REQUIRED',
+    }.contains(code);
   }
 
   MealPlannerLoaded _applyUpdatedDay(
@@ -1397,6 +1436,8 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
   String _dayNotEditableReason(MealPlannerLoaded current) {
     final blocker =
         current.selectedDayDetail?.paymentRequirement?.blockingReason;
+    final mapped = _localizedLifecycleCode(blocker);
+    if (mapped != null) return mapped;
     return blocker?.isNotEmpty == true ? blocker! : 'LOCKED';
   }
 
@@ -1503,6 +1544,8 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
 
   String _formatFailure(Failure failure) {
     final code = failure.code?.toString();
+    final mapped = _localizedLifecycleCode(code);
+    if (mapped != null) return mapped;
     if (code != null && code.toUpperCase() == 'CATALOG_ITEM_UNAVAILABLE') {
       return Strings.catalogItemUnavailable.tr();
     }
@@ -1510,6 +1553,47 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
       return failure.message.isNotEmpty ? '$code: ${failure.message}' : code;
     }
     return failure.message;
+  }
+
+  String? _localizedLifecycleCode(String? rawCode) {
+    final code = rawCode?.toUpperCase();
+    switch (code) {
+      case 'MEAL_PLANNING_LIMIT_EXCEEDED':
+        return Strings.mealPlanningLimitExceeded.tr();
+      case _dayPaymentRevisionMismatchCode:
+        return Strings.latestPaymentRequired.tr();
+      case 'INVALID_DELIVERY_MODE':
+        return Strings.invalidDeliveryMode.tr();
+      case 'INSUFFICIENT_CREDITS':
+        return Strings.insufficientCredits.tr();
+      case 'SUBSCRIPTION_DATE_OUT_OF_RANGE':
+        return Strings.subscriptionDateOutOfRange.tr();
+      case 'SUBSCRIPTION_DAY_LOCKED':
+      case 'DAY_LOCKED_BEFORE_DELIVERY':
+      case 'LOCKED':
+      case 'DAY_ALREADY_CONFIRMED':
+        return Strings.subscriptionDayLocked.tr();
+      case 'FORBIDDEN':
+      case 'SUBSCRIPTION_ACCESS_DENIED':
+        return Strings.subscriptionAccessDenied.tr();
+      case 'SUBSCRIPTION_NOT_ACTIVE':
+      case 'SUBSCRIPTION_INACTIVE':
+      case 'SUB_INACTIVE':
+        return Strings.subscriptionInactive.tr();
+      case 'SUBSCRIPTION_EXPIRED':
+      case 'SUB_EXPIRED':
+        return Strings.subscriptionExpired.tr();
+      case 'SUBSCRIPTION_CANCELED':
+      case 'SUBSCRIPTION_CANCELLED':
+        return Strings.subscriptionCanceled.tr();
+      case 'ADDON_PAYMENT_REQUIRED':
+      case 'PREMIUM_PAYMENT_REQUIRED':
+      case 'PREMIUM_OVERAGE_PAYMENT_REQUIRED':
+      case 'ONE_TIME_ADDON_PAYMENT_REQUIRED':
+      case 'PAYMENT_REQUIRED':
+        return Strings.paymentRequiredMessage.tr();
+    }
+    return null;
   }
 
   bool _isCatalogItemUnavailableFailure(Failure failure) {

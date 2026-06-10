@@ -153,15 +153,6 @@ class MealPlannerScreen extends StatelessWidget {
     String paymentUrl,
     String paymentId,
   ) async {
-    debugPrint(
-      'MealPlannerScreen: Opening unified day payment webview '
-      'subscriptionId=$subscriptionId '
-      'date=${context.read<MealPlannerBloc>().state is MealPlannerLoaded ? (context.read<MealPlannerBloc>().state as MealPlannerLoaded).selectedTimelineDay.date : ''} '
-      'paymentId=$paymentId '
-      'providerInvoiceId=unavailable '
-      'paymentUrl=$paymentUrl',
-    );
-
     final uri = Uri.tryParse(paymentUrl);
     if (uri == null || !uri.hasScheme) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -188,11 +179,6 @@ class MealPlannerScreen extends StatelessWidget {
     );
 
     if (!context.mounted) return;
-
-    debugPrint(
-      'MealPlannerScreen: Webview finished for paymentId=$paymentId '
-      'result=$result',
-    );
 
     if (result == PaymentWebViewResult.cancelled) {
       ScaffoldMessenger.of(

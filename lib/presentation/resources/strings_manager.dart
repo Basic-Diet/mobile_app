@@ -230,6 +230,13 @@ class Strings {
   static const String unableToResolvePickupDay = 'unableToResolvePickupDay';
   static const String validationFailed = 'validationFailed';
   static const String daySelectionChangedReview = 'daySelectionChangedReview';
+  static const String mealPlanningLimitExceeded = 'mealPlanningLimitExceeded';
+  static const String invalidDeliveryMode = 'invalidDeliveryMode';
+  static const String subscriptionDateOutOfRange = 'subscriptionDateOutOfRange';
+  static const String subscriptionDayLocked = 'subscriptionDayLocked';
+  static const String subscriptionAccessDenied = 'subscriptionAccessDenied';
+  static const String subscriptionCanceled = 'subscriptionCanceled';
+  static const String latestPaymentRequired = 'latestPaymentRequired';
 
   // Days
   static const String monday = 'monday';
