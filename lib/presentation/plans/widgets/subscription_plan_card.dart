@@ -206,57 +206,24 @@ class SubscriptionPlanCard extends StatelessWidget {
       children: [
         ...data.premiumSummary.map(
           (premium) => Padding(
-            padding: EdgeInsetsDirectional.only(bottom: AppSize.s24.h),
+            padding: EdgeInsetsDirectional.only(bottom: AppSize.s12.h),
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                  padding: const EdgeInsetsDirectional.all(AppPadding.p8),
-                  decoration: BoxDecoration(
-                    color: ColorManager.brandAccentSoft,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(
-                    Icons.workspace_premium_outlined,
-                    color: ColorManager.brandAccent,
-                    size: AppSize.s18,
+                Text(
+                  premium.name.isNotEmpty
+                      ? premium.name
+                      : Strings.premiumMealsText.tr(),
+                  style: getRegularTextStyle(
+                    color: ColorManager.textSecondary,
+                    fontSize: FontSizeManager.s12.sp,
                   ),
                 ),
-                Gap(AppSize.s12.w),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            premium.name.isNotEmpty
-                                ? premium.name
-                                : Strings.premiumMealsText.tr(),
-                            style: getRegularTextStyle(
-                              color: ColorManager.textSecondary,
-                              fontSize: FontSizeManager.s14.sp,
-                            ),
-                          ),
-                          Text(
-                            '${premium.remainingQtyTotal} ${Strings.available.tr()}',
-                            style: getBoldTextStyle(
-                              color: ColorManager.brandAccent,
-                              fontSize: FontSizeManager.s14.sp,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Gap(AppSize.s4.h),
-                      Text(
-                        '${Strings.purchased.tr()} ${premium.purchasedQtyTotal} • ${Strings.consumed.tr()} ${premium.consumedQtyTotal}',
-                        style: getRegularTextStyle(
-                          color: ColorManager.textSecondary,
-                          fontSize: FontSizeManager.s12.sp,
-                        ),
-                      ),
-                    ],
+                Text(
+                  '${premium.remainingQtyTotal} ${Strings.available.tr()}',
+                  style: getBoldTextStyle(
+                    color: ColorManager.brandAccent,
+                    fontSize: FontSizeManager.s12.sp,
                   ),
                 ),
               ],
