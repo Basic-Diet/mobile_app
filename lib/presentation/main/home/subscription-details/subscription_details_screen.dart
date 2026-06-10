@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:basic_diet/app/constants.dart';
 import 'package:basic_diet/app/dependency_injection.dart';
 import 'package:basic_diet/app/subscription_quote_cache.dart';
 import 'package:basic_diet/domain/model/subscription_checkout_model.dart';
@@ -1205,15 +1206,31 @@ class _BottomActionBar extends StatelessWidget {
       ),
       child: SafeArea(
         top: false,
-        child: ButtonWidget(
-          radius: AppSize.s16,
-          text:
-              isLoading
-                  ? Strings.openingPayment.tr()
-                  : stalePricing
-                  ? Strings.refreshPricingToContinue.tr()
-                  : '${Strings.confirmAndPay.tr()} - $totalLabel',
-          onTap: isEnabled ? onTap : null,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              Strings.merchantPaymentDisclosure.tr(
+                args: [Constants.merchantDisplayName],
+              ),
+              style: getRegularTextStyle(
+                fontSize: FontSizeManager.s11.sp,
+                color: ColorManager.textSecondary,
+              ),
+            ),
+            Gap(AppSize.s10.h),
+            ButtonWidget(
+              radius: AppSize.s16,
+              text:
+                  isLoading
+                      ? Strings.openingPayment.tr()
+                      : stalePricing
+                      ? Strings.refreshPricingToContinue.tr()
+                      : '${Strings.confirmAndPay.tr()} - $totalLabel',
+              onTap: isEnabled ? onTap : null,
+            ),
+          ],
         ),
       ),
     );

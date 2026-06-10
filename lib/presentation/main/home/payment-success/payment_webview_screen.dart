@@ -1,9 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:basic_diet/app/constants.dart';
 import 'package:basic_diet/presentation/main/home/payment-success/payment_successful_screen.dart';
 import 'package:basic_diet/presentation/resources/color_manager.dart';
 import 'package:basic_diet/presentation/resources/font_manager.dart';
 import 'package:basic_diet/presentation/resources/strings_manager.dart';
 import 'package:basic_diet/presentation/resources/styles_manager.dart';
+import 'package:basic_diet/presentation/resources/values_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -199,7 +201,30 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
                     : SizedBox(height: 3.h),
           ),
         ),
-        body: WebViewWidget(controller: _controller),
+        body: Column(
+          children: [
+            Container(
+              width: double.infinity,
+              padding: EdgeInsetsDirectional.fromSTEB(
+                AppPadding.p16.w,
+                AppPadding.p12.h,
+                AppPadding.p16.w,
+                AppPadding.p12.h,
+              ),
+              color: ColorManager.brandPrimaryTint,
+              child: Text(
+                Strings.redirectingToPaymentSubtitle.tr(
+                  args: [Constants.merchantDisplayName],
+                ),
+                style: getRegularTextStyle(
+                  color: ColorManager.textPrimary,
+                  fontSize: FontSizeManager.s12.sp,
+                ),
+              ),
+            ),
+            Expanded(child: WebViewWidget(controller: _controller)),
+          ],
+        ),
       ),
     );
   }

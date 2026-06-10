@@ -523,6 +523,11 @@ class Strings {
   static const String termsPrivacy = 'termsPrivacy';
   static const String privacyPolicy = 'privacyPolicy';
   static const String unavailableNow = 'unavailableNow';
+  static const String deleteAccount = 'deleteAccount';
+  static const String deleteAccountSubtitle = 'deleteAccountSubtitle';
+  static const String deleteAccountWarningTitle = 'deleteAccountWarningTitle';
+  static const String deleteAccountWarningBody = 'deleteAccountWarningBody';
+  static const String openDeletionPage = 'openDeletionPage';
   static const String logout = 'logout';
 
   // Subscription Details
@@ -546,6 +551,8 @@ class Strings {
   static const String paymentSummary = 'paymentSummary';
   static const String paymentMethod = 'paymentMethod';
   static const String orderType = 'orderType';
+  static const String merchant = 'merchant';
+  static const String merchantPaymentDisclosure = 'merchantPaymentDisclosure';
   static const String reviewOrderBeforePayment = 'reviewOrderBeforePayment';
   static const String openPaymentPage = 'openPaymentPage';
   static const String paymentConfirmationNote = 'paymentConfirmationNote';
@@ -687,6 +694,8 @@ class Strings {
       'selectAtLeastOneMealToContinue';
   static const String completePayment = 'completePayment';
   static const String redirectingToPayment = 'redirectingToPayment';
+  static const String redirectingToPaymentSubtitle =
+      'redirectingToPaymentSubtitle';
   static const String openPayment = 'openPayment';
   static const String createCustomMeal = 'createCustomMeal';
   static const String customMealBuilder = 'customMealBuilder';

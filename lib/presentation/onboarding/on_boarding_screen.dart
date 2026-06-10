@@ -1,6 +1,6 @@
 import 'package:basic_diet/app/app_pref.dart';
 import 'package:basic_diet/app/dependency_injection.dart';
-import 'package:basic_diet/presentation/register/register_screen.dart';
+import 'package:basic_diet/presentation/main/main_screen.dart';
 import 'package:basic_diet/presentation/resources/assets_manager.dart';
 import 'package:basic_diet/presentation/resources/color_manager.dart';
 import 'package:basic_diet/presentation/resources/strings_manager.dart';
@@ -75,7 +75,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   void _handleContinueButtonPressed() {
     if (_isLastPage) {
-      _navigateToRegister();
+      _enterAppAsGuest();
     } else {
       _navigateToNextPage();
     }
@@ -89,11 +89,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     );
   }
 
-  void _navigateToRegister() async {
+  void _enterAppAsGuest() async {
     final appPreferences = instance<AppPreferences>();
     await appPreferences.setOnboardingScreenViewed();
     if (mounted) {
-      context.push(RegisterScreen.registerRoute);
+      context.go(MainScreen.mainRoute);
     }
   }
 

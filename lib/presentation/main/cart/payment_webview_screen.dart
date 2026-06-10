@@ -1,8 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:basic_diet/app/constants.dart';
 import 'package:basic_diet/presentation/resources/color_manager.dart';
 import 'package:basic_diet/presentation/resources/strings_manager.dart';
 import 'package:basic_diet/presentation/resources/styles_manager.dart';
 import 'package:basic_diet/presentation/resources/font_manager.dart';
+import 'package:basic_diet/presentation/resources/values_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -33,31 +35,32 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
   @override
   void initState() {
     super.initState();
-    _controller = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setNavigationDelegate(
-        NavigationDelegate(
-          onPageStarted: (url) {
-            setState(() => _isLoading = true);
-          },
-          onPageFinished: (url) {
-            setState(() => _isLoading = false);
-          },
-          onNavigationRequest: (request) {
-            final url = request.url;
-            if (_matchesCallback(url, widget.successUrl)) {
-              context.pop(true);
-              return NavigationDecision.prevent;
-            }
-            if (_matchesCallback(url, widget.backUrl)) {
-              context.pop(false);
-              return NavigationDecision.prevent;
-            }
-            return NavigationDecision.navigate;
-          },
-        ),
-      )
-      ..loadRequest(Uri.parse(widget.paymentUrl));
+    _controller =
+        WebViewController()
+          ..setJavaScriptMode(JavaScriptMode.unrestricted)
+          ..setNavigationDelegate(
+            NavigationDelegate(
+              onPageStarted: (url) {
+                setState(() => _isLoading = true);
+              },
+              onPageFinished: (url) {
+                setState(() => _isLoading = false);
+              },
+              onNavigationRequest: (request) {
+                final url = request.url;
+                if (_matchesCallback(url, widget.successUrl)) {
+                  context.pop(true);
+                  return NavigationDecision.prevent;
+                }
+                if (_matchesCallback(url, widget.backUrl)) {
+                  context.pop(false);
+                  return NavigationDecision.prevent;
+                }
+                return NavigationDecision.navigate;
+              },
+            ),
+          )
+          ..loadRequest(Uri.parse(widget.paymentUrl));
   }
 
   bool _matchesCallback(String currentUrl, String callbackUrl) {
@@ -108,9 +111,31 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
       ),
       body: Stack(
         children: [
-          WebViewWidget(controller: _controller),
-          if (_isLoading)
-            const Center(child: CircularProgressIndicator()),
+          Column(
+            children: [
+              Container(
+                width: double.infinity,
+                padding: EdgeInsetsDirectional.fromSTEB(
+                  AppPadding.p16.w,
+                  AppPadding.p12.h,
+                  AppPadding.p16.w,
+                  AppPadding.p12.h,
+                ),
+                color: ColorManager.brandPrimaryTint,
+                child: Text(
+                  Strings.redirectingToPaymentSubtitle.tr(
+                    args: [Constants.merchantDisplayName],
+                  ),
+                  style: getRegularTextStyle(
+                    color: ColorManager.textPrimary,
+                    fontSize: FontSizeManager.s12.sp,
+                  ),
+                ),
+              ),
+              Expanded(child: WebViewWidget(controller: _controller)),
+            ],
+          ),
+          if (_isLoading) const Center(child: CircularProgressIndicator()),
         ],
       ),
     );

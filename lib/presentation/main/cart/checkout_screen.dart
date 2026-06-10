@@ -1,5 +1,6 @@
 import 'dart:developer' as developer;
 
+import 'package:basic_diet/app/constants.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:basic_diet/app/dependency_injection.dart';
 import 'package:basic_diet/domain/model/create_order_request_model.dart';
@@ -207,9 +208,9 @@ class _CheckoutScreenContentState extends State<_CheckoutScreenContent> {
               code: state.createErrorCode,
               fallback: state.createErrorMessage,
             );
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(message)),
-            );
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(message)));
             if (isCatalogItemUnavailableCode(state.createErrorCode)) {
               _requestQuote();
             }
@@ -730,6 +731,11 @@ class _PaymentSummaryCard extends StatelessWidget {
           ),
           SizedBox(height: AppSize.s10.h),
           _SummaryRow(
+            label: Strings.merchant.tr(),
+            value: Constants.merchantDisplayName,
+          ),
+          SizedBox(height: AppSize.s10.h),
+          _SummaryRow(
             label: Strings.vatIncluded.tr(),
             value: Strings.vatIncludedInPrice.tr(),
           ),
@@ -869,61 +875,77 @@ class _StickyPaymentBar extends StatelessWidget {
       ),
       child: Material(
         color: Colors.transparent,
-        child: InkWell(
-          borderRadius: BorderRadius.circular(AppSize.s99.r),
-          onTap: isLoading ? null : onTap,
-          child: Ink(
-            height: AppSize.s54.h,
-            padding: EdgeInsetsDirectional.only(
-              start: AppPadding.p20.w,
-              end: AppPadding.p18.w,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              Strings.merchantPaymentDisclosure.tr(
+                args: [Constants.merchantDisplayName],
+              ),
+              style: getRegularTextStyle(
+                fontSize: FontSizeManager.s11.sp,
+                color: ColorManager.textSecondary,
+              ),
             ),
-            decoration: BoxDecoration(
-              color: const Color(0xFFFF8500),
+            SizedBox(height: AppSize.s10.h),
+            InkWell(
               borderRadius: BorderRadius.circular(AppSize.s99.r),
-              boxShadow: [
-                BoxShadow(
-                  color: const Color(0xFFFF8500).withValues(alpha: 0.30),
-                  blurRadius: AppSize.s12.r,
-                  offset: const Offset(0, 4),
+              onTap: isLoading ? null : onTap,
+              child: Ink(
+                height: AppSize.s54.h,
+                padding: EdgeInsetsDirectional.only(
+                  start: AppPadding.p20.w,
+                  end: AppPadding.p18.w,
                 ),
-              ],
-            ),
-            child: Row(
-              children: [
-                SizedBox(
-                  width: AppSize.s20.w,
-                  height: AppSize.s20.w,
-                  child:
-                      isLoading
-                          ? CircularProgressIndicator(
-                            strokeWidth: AppSize.s2.w,
-                            valueColor: const AlwaysStoppedAnimation<Color>(
-                              ColorManager.textInverse,
-                            ),
-                          )
-                          : null,
-                ),
-                Expanded(
-                  child: Text(
-                    Strings.openPaymentPage.tr(),
-                    textAlign: TextAlign.center,
-                    style: getBoldTextStyle(
-                      fontSize: FontSizeManager.s15.sp,
-                      color: ColorManager.textInverse,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFFF8500),
+                  borderRadius: BorderRadius.circular(AppSize.s99.r),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFFFF8500).withValues(alpha: 0.30),
+                      blurRadius: AppSize.s12.r,
+                      offset: const Offset(0, 4),
                     ),
-                  ),
+                  ],
                 ),
-                Text(
-                  total,
-                  style: getBoldTextStyle(
-                    fontSize: FontSizeManager.s16.sp,
-                    color: ColorManager.textInverse,
-                  ),
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: AppSize.s20.w,
+                      height: AppSize.s20.w,
+                      child:
+                          isLoading
+                              ? CircularProgressIndicator(
+                                strokeWidth: AppSize.s2.w,
+                                valueColor: const AlwaysStoppedAnimation<Color>(
+                                  ColorManager.textInverse,
+                                ),
+                              )
+                              : null,
+                    ),
+                    Expanded(
+                      child: Text(
+                        Strings.openPaymentPage.tr(),
+                        textAlign: TextAlign.center,
+                        style: getBoldTextStyle(
+                          fontSize: FontSizeManager.s15.sp,
+                          color: ColorManager.textInverse,
+                        ),
+                      ),
+                    ),
+                    Text(
+                      total,
+                      style: getBoldTextStyle(
+                        fontSize: FontSizeManager.s16.sp,
+                        color: ColorManager.textInverse,
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );
