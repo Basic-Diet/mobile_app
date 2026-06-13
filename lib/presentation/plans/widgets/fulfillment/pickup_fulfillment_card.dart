@@ -62,12 +62,13 @@ class PickupFulfillmentCard extends StatelessWidget {
                     ? _pickupLocationName
                     : Strings.fulfillmentPickupLocationMissing.tr(),
             icon: Icons.place_outlined,
-            customContent: _pickupLocationName.isEmpty
-                ? FulfillmentWarningTile(
-                    message: Strings.fulfillmentPickupLocationMissing.tr(),
-                    subtext: Strings.fulfillmentLocationMissingSubtext.tr(),
-                  )
-                : null,
+            customContent:
+                _pickupLocationName.isEmpty
+                    ? FulfillmentWarningTile(
+                      message: Strings.fulfillmentPickupLocationMissing.tr(),
+                      subtext: Strings.fulfillmentLocationMissingSubtext.tr(),
+                    )
+                    : null,
           ),
           if (_pickupLocationAddress.isNotEmpty)
             FulfillmentInfoItem(
@@ -108,13 +109,11 @@ class PickupFulfillmentCard extends StatelessWidget {
       ),
       footer: Column(
         children: [
-          if (_footerCode() != null) ...[
-            _footerCode()!,
-            Gap(AppSize.s12.h),
-          ],
+          if (_footerCode() != null) ...[_footerCode()!, Gap(AppSize.s12.h)],
           if (fulfillmentStatus?.isTerminal == false)
             FulfillmentAutoUpdateFooter(
-              message: '${Strings.autoUpdatingStatus.tr()} • ${Strings.updatedJustNow.tr()}',
+              message:
+                  '${Strings.autoUpdatingStatus.tr()} • ${Strings.updatedJustNow.tr()}',
             ),
         ],
       ),
@@ -126,10 +125,7 @@ class PickupFulfillmentCard extends StatelessWidget {
     final isReady = _isReadyForPickup && !_isCompletedPickup;
 
     if (code?.isNotEmpty == true && isReady) {
-      return FulfillmentCodePanel(
-        label: Strings.pickupCode.tr(),
-        code: code!,
-      );
+      return FulfillmentCodePanel(label: Strings.pickupCode.tr(), code: code!);
     }
     return null;
   }
@@ -142,22 +138,22 @@ class PickupFulfillmentCard extends StatelessWidget {
     if (status == 'no_show' || status == 'canceled_at_branch') {
       return FulfillmentStatusTone.error;
     }
+    if (status == 'locked' || status == 'in_preparation') {
+      return FulfillmentStatusTone.info;
+    }
     if (_friendlyBlockedMessage().isNotEmpty ||
         status == 'consumed_without_preparation') {
       return FulfillmentStatusTone.warning;
-    }
-    if (status == 'locked' || status == 'in_preparation') {
-      return FulfillmentStatusTone.info;
     }
     return FulfillmentStatusTone.neutral;
   }
 
   String _statusText(BuildContext context) {
     String label = '';
-    if (fulfillmentStatus?.statusLabel.isNotEmpty == true) {
-      label = fulfillmentStatus!.statusLabel;
-    } else if (pickupStatus?.statusLabel.isNotEmpty == true) {
+    if (pickupStatus?.statusLabel.isNotEmpty == true) {
       label = pickupStatus!.statusLabel;
+    } else if (fulfillmentStatus?.statusLabel.isNotEmpty == true) {
+      label = fulfillmentStatus!.statusLabel;
     } else if (overview.fulfillmentSummary?.statusLabel.isNotEmpty == true) {
       label = overview.fulfillmentSummary!.statusLabel;
     } else if (overview.statusLabel.isNotEmpty) {
@@ -303,6 +299,13 @@ class PickupFulfillmentCard extends StatelessWidget {
     if (_isCompletedPickup) {
       return '';
     }
+    if (const {
+      'locked',
+      'in_preparation',
+      'ready_for_pickup',
+    }.contains(_effectiveStatus)) {
+      return '';
+    }
     if (pickupStatus?.requestBlockedMessage.isNotEmpty == true) {
       return pickupStatus!.requestBlockedMessage;
     }
@@ -313,7 +316,9 @@ class PickupFulfillmentCard extends StatelessWidget {
   }
 
   PickupLocationSummaryModel? get _pickupLocation =>
-      fulfillmentStatus?.pickupLocation ?? pickupStatus?.pickupLocation ?? overview.pickupLocation;
+      fulfillmentStatus?.pickupLocation ??
+      pickupStatus?.pickupLocation ??
+      overview.pickupLocation;
 
   String get _pickupLocationName => _pickupLocation?.name ?? '';
 
@@ -338,7 +343,7 @@ class PickupFulfillmentCard extends StatelessWidget {
   }
 
   String get _effectiveStatus =>
-      fulfillmentStatus?.status ?? pickupStatus?.status ?? '';
+      pickupStatus?.status ?? fulfillmentStatus?.status ?? '';
 
   bool get _isReadyForPickup =>
       _effectiveStatus == 'ready_for_pickup' ||
