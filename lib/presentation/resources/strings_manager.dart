@@ -545,6 +545,7 @@ class Strings {
   static const String myAddresses = 'myAddresses';
   static const String support = 'support';
   static const String termsPrivacy = 'termsPrivacy';
+  static const String refundPrivacy = 'refundPrivacy';
   static const String privacyPolicy = 'privacyPolicy';
   static const String unavailableNow = 'unavailableNow';
   static const String deleteAccount = 'deleteAccount';
