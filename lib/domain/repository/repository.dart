@@ -1,5 +1,6 @@
 import 'package:basic_diet/data/request/bulk_selections_request.dart';
 import 'package:basic_diet/data/request/day_selection_request.dart';
+import 'package:basic_diet/data/request/pickup_request.dart';
 import 'package:basic_diet/data/network/failure.dart';
 import 'package:basic_diet/domain/model/checkout_draft_model.dart';
 import 'package:basic_diet/domain/model/auth_model.dart';
@@ -29,6 +30,7 @@ import 'package:basic_diet/domain/model/cancel_subscription_model.dart';
 
 import 'package:basic_diet/domain/model/pickup_prepare_model.dart';
 import 'package:basic_diet/domain/model/pickup_status_model.dart';
+import 'package:basic_diet/domain/model/pickup_request_model.dart';
 import 'package:basic_diet/domain/model/fulfillment_status_model.dart';
 
 import 'package:basic_diet/domain/model/order_menu_model.dart';
@@ -122,6 +124,22 @@ abstract class Repository {
   Future<Either<Failure, PickupPrepareModel>> preparePickup(
     String id,
     String date,
+  );
+  Future<Either<Failure, PickupAvailabilityModel>> getPickupAvailability(
+    String id,
+    String date,
+  );
+  Future<Either<Failure, PickupRequestModel>> createPickupRequest(
+    String id,
+    CreatePickupRequest request,
+  );
+  Future<Either<Failure, List<PickupRequestModel>>> getPickupRequests(
+    String id,
+  );
+  Future<Either<Failure, PickupAvailabilityModel>> appendMealsToDay(
+    String id,
+    String date,
+    AppendMealsRequest request,
   );
   Future<Either<Failure, PickupStatusModel>> getPickupStatus(
     String id,

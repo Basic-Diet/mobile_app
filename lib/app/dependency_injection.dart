@@ -13,6 +13,10 @@ import 'package:basic_diet/domain/usecase/get_current_user_usecase.dart';
 import 'package:basic_diet/domain/usecase/refresh_token_usecase.dart';
 import 'package:basic_diet/domain/usecase/logout_usecase.dart';
 import 'package:basic_diet/domain/usecase/prepare_pickup_usecase.dart';
+import 'package:basic_diet/domain/usecase/create_pickup_request_usecase.dart';
+import 'package:basic_diet/domain/usecase/append_meals_to_day_usecase.dart';
+import 'package:basic_diet/domain/usecase/get_pickup_availability_usecase.dart';
+import 'package:basic_diet/domain/usecase/get_pickup_requests_usecase.dart';
 import 'package:basic_diet/domain/usecase/verify_otp_usecase.dart';
 import 'package:basic_diet/domain/usecase/request_password_reset_otp_usecase.dart';
 import 'package:basic_diet/domain/usecase/reset_password_usecase.dart';
@@ -61,6 +65,7 @@ import 'package:basic_diet/domain/usecase/get_checkout_draft_usecase.dart';
 import 'package:basic_diet/domain/usecase/get_pickup_status_usecase.dart';
 import 'package:basic_diet/presentation/main/home/payment-success/payment_validation_cubit.dart';
 import 'package:basic_diet/presentation/plans/pickup_status/pickup_status_cubit.dart';
+import 'package:basic_diet/presentation/plans/pickup_requests/pickup_requests_cubit.dart';
 import 'package:basic_diet/domain/usecase/get_day_fulfillment_status_usecase.dart';
 import 'package:basic_diet/presentation/plans/fulfillment_status/fulfillment_status_cubit.dart';
 import 'package:basic_diet/domain/usecase/get_order_menu_usecase.dart';
@@ -82,9 +87,7 @@ final instance = GetIt.instance; // Singleton instance of GetIt
 Future<void> initAppModule() async {
   final prefs = await SharedPreferences.getInstance();
 
-  instance.registerLazySingleton<AppPreferences>(
-    () => AppPreferences(prefs),
-  );
+  instance.registerLazySingleton<AppPreferences>(() => AppPreferences(prefs));
 
   instance.registerLazySingleton<SubscriptionQuoteCache>(
     () => SubscriptionQuoteCache(prefs),
@@ -181,10 +184,8 @@ void initResetPasswordModule() {
     );
 
     instance.registerFactoryParam<ResetPasswordBloc, String, void>(
-      (phone, _) => ResetPasswordBloc(
-        instance<ResetPasswordUseCase>(),
-        phone: phone,
-      ),
+      (phone, _) =>
+          ResetPasswordBloc(instance<ResetPasswordUseCase>(), phone: phone),
     );
   }
 }
@@ -307,6 +308,7 @@ void initDeliveryOptionsModule() {
 
 void initPlansModule() {
   initTimelineModule();
+  initPickupRequestsModule();
   if (!GetIt.I.isRegistered<GetCurrentSubscriptionOverviewUseCase>()) {
     instance.registerFactory<GetCurrentSubscriptionOverviewUseCase>(
       () => GetCurrentSubscriptionOverviewUseCase(instance<Repository>()),
@@ -337,6 +339,42 @@ void initPlansModule() {
         instance<GetCurrentSubscriptionOverviewUseCase>(),
         instance<GetTimelineUseCase>(),
         instance<PreparePickupUseCase>(),
+      ),
+    );
+  }
+}
+
+void initPickupRequestsModule() {
+  if (!GetIt.I.isRegistered<GetPickupAvailabilityUseCase>()) {
+    instance.registerFactory<GetPickupAvailabilityUseCase>(
+      () => GetPickupAvailabilityUseCase(instance<Repository>()),
+    );
+  }
+
+  if (!GetIt.I.isRegistered<GetPickupRequestsUseCase>()) {
+    instance.registerFactory<GetPickupRequestsUseCase>(
+      () => GetPickupRequestsUseCase(instance<Repository>()),
+    );
+  }
+
+  if (!GetIt.I.isRegistered<CreatePickupRequestUseCase>()) {
+    instance.registerFactory<CreatePickupRequestUseCase>(
+      () => CreatePickupRequestUseCase(instance<Repository>()),
+    );
+  }
+
+  if (!GetIt.I.isRegistered<AppendMealsToDayUseCase>()) {
+    instance.registerFactory<AppendMealsToDayUseCase>(
+      () => AppendMealsToDayUseCase(instance<Repository>()),
+    );
+  }
+
+  if (!GetIt.I.isRegistered<PickupRequestsCubit>()) {
+    instance.registerFactory<PickupRequestsCubit>(
+      () => PickupRequestsCubit(
+        instance<GetPickupAvailabilityUseCase>(),
+        instance<GetPickupRequestsUseCase>(),
+        instance<CreatePickupRequestUseCase>(),
       ),
     );
   }

@@ -317,6 +317,23 @@ class Strings {
 
   // Pickup Preparation
   static const String pickupCode = 'pickupCode';
+  static const String createPickupRequest = 'createPickupRequest';
+  static const String confirmPickupRequest = 'confirmPickupRequest';
+  static const String chooseMealsForPickup = 'chooseMealsForPickup';
+  static const String pickupRequest = 'pickupRequest';
+  static const String pickupRequestsForDay = 'pickupRequestsForDay';
+  static const String mealCount = 'mealCount';
+  static const String pickupReady = 'pickupReady';
+  static const String pickupCompleted = 'pickupCompleted';
+  static const String pickupRequested = 'pickupRequested';
+  static const String pickupInPreparation = 'pickupInPreparation';
+  static const String pickupCodeAppearsWhenReady = 'pickupCodeAppearsWhenReady';
+  static const String availableMealBalance = 'availableMealBalance';
+  static const String noPickupMealsAvailable = 'noPickupMealsAvailable';
+  static const String addMealsToThisDay = 'addMealsToThisDay';
+  static const String noBalanceForAppendMeals = 'noBalanceForAppendMeals';
+  static const String paymentRequiredBeforePickup =
+      'paymentRequiredBeforePickup';
   static const String yourOrderIsReady = 'yourOrderIsReady';
   static const String orderPickedUp = 'orderPickedUp';
   static const String successfully = 'successfully';

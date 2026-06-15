@@ -3,12 +3,17 @@ import 'package:basic_diet/domain/model/current_subscription_overview_model.dart
 import 'package:basic_diet/domain/model/timeline_model.dart';
 import 'package:basic_diet/presentation/plans/bloc/plans_bloc.dart';
 import 'package:basic_diet/presentation/plans/bloc/plans_event.dart';
-import 'package:basic_diet/presentation/plans/pickup_status/pickup_status_cubit.dart';
 import 'package:basic_diet/presentation/plans/widgets/fulfillment/delivery_fulfillment_card.dart';
+import 'package:basic_diet/presentation/plans/pickup_requests/pickup_requests_cubit.dart';
+import 'package:basic_diet/presentation/plans/pickup_requests/pickup_requests_state.dart';
+import 'package:basic_diet/presentation/plans/widgets/fulfillment/pickup_availability_sheet.dart';
 import 'package:basic_diet/presentation/plans/widgets/fulfillment/pickup_fulfillment_card.dart';
+import 'package:basic_diet/presentation/plans/widgets/fulfillment/pickup_request_card.dart';
 import 'package:basic_diet/presentation/plans/fulfillment_status/fulfillment_status_cubit.dart';
 import 'package:basic_diet/presentation/plans/fulfillment_status/fulfillment_status_state.dart';
+import 'package:basic_diet/presentation/resources/strings_manager.dart';
 import 'package:basic_diet/presentation/resources/values_manager.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -29,9 +34,12 @@ class FulfillmentStatusSection extends StatelessWidget {
     if (data.deliveryMode == 'pickup') {
       final businessDate = _pickupBusinessDate;
       if (businessDate.isNotEmpty) {
-        context.read<FulfillmentStatusCubit>().startPolling(data.id, businessDate);
+        context.read<FulfillmentStatusCubit>().startPolling(
+          data.id,
+          businessDate,
+        );
       }
-      
+
       if (businessDate.isEmpty) {
         return Column(
           children: [
@@ -43,9 +51,9 @@ class FulfillmentStatusSection extends StatelessWidget {
                   pickupStatus: null,
                   fulfillmentStatus: pollingState.data,
                   onOpenPlanner: () => _openPlanner(context),
-                  onPrepare: () => _preparePickup(context, businessDate),
+                  onCreatePickupRequest: () {},
                 );
-              }
+              },
             ),
           ],
         );
@@ -56,24 +64,56 @@ class FulfillmentStatusSection extends StatelessWidget {
           Gap(AppSize.s16.h),
           BlocProvider(
             create: (_) {
-              initPickupStatusModule();
-              return instance<PickupStatusCubit>()..startPolling(data.id, businessDate);
+              initPickupRequestsModule();
+              return instance<PickupRequestsCubit>()
+                ..load(subscriptionId: data.id, date: businessDate);
             },
-            child: BlocBuilder<PickupStatusCubit, PickupStatusState>(
-              builder: (_, pickupState) {
-                return BlocBuilder<FulfillmentStatusCubit, FulfillmentStatusState>(
+            child: BlocBuilder<PickupRequestsCubit, PickupRequestsState>(
+              builder: (pickupContext, pickupState) {
+                return BlocBuilder<
+                  FulfillmentStatusCubit,
+                  FulfillmentStatusState
+                >(
                   builder: (context, pollingState) {
-                    final pickupStatus =
-                        pickupState is PickupStatusLoaded ? pickupState.data : null;
-
-                    return PickupFulfillmentCard(
-                      overview: data,
-                      pickupStatus: pickupStatus,
-                      fulfillmentStatus: pollingState.data,
-                      onOpenPlanner: () => _openPlanner(context),
-                      onPrepare: () => _preparePickup(context, businessDate),
+                    return Column(
+                      children: [
+                        PickupFulfillmentCard(
+                          overview: data,
+                          pickupStatus: null,
+                          fulfillmentStatus: pollingState.data,
+                          onOpenPlanner: () => _openPlanner(context),
+                          onCreatePickupRequest:
+                              () => _openPickupAvailabilitySheet(
+                                pickupContext,
+                                context,
+                              ),
+                        ),
+                        if (pickupState.isLoading) ...[
+                          Gap(AppSize.s12.h),
+                          const Center(child: CircularProgressIndicator()),
+                        ] else if (pickupState.errorMessage.isNotEmpty) ...[
+                          Gap(AppSize.s12.h),
+                          Text(pickupState.errorMessage),
+                        ] else if (pickupState.requests.isNotEmpty) ...[
+                          Gap(AppSize.s12.h),
+                          Align(
+                            alignment: AlignmentDirectional.centerStart,
+                            child: Text(Strings.pickupRequestsForDay.tr()),
+                          ),
+                          Gap(AppSize.s8.h),
+                          ...pickupState.requests.asMap().entries.map(
+                            (entry) => Padding(
+                              padding: EdgeInsets.only(bottom: AppSize.s8.h),
+                              child: PickupRequestCard(
+                                request: entry.value,
+                                index: entry.key,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ],
                     );
-                  }
+                  },
                 );
               },
             ),
@@ -85,9 +125,12 @@ class FulfillmentStatusSection extends StatelessWidget {
     if (data.deliveryMode == 'delivery') {
       final businessDate = fulfillmentDay?.date ?? data.businessDate;
       if (businessDate.isNotEmpty) {
-        context.read<FulfillmentStatusCubit>().startPolling(data.id, businessDate);
+        context.read<FulfillmentStatusCubit>().startPolling(
+          data.id,
+          businessDate,
+        );
       }
-      
+
       return Column(
         children: [
           Gap(AppSize.s16.h),
@@ -99,7 +142,7 @@ class FulfillmentStatusSection extends StatelessWidget {
                 fulfillmentStatus: pollingState.data,
                 onOpenPlanner: () => _openPlanner(context),
               );
-            }
+            },
           ),
         ],
       );
@@ -124,7 +167,27 @@ class FulfillmentStatusSection extends StatelessWidget {
     );
   }
 
-  void _preparePickup(BuildContext context, String businessDate) {
-    context.read<PlansBloc>().add(PreparePickupEvent(data.id, businessDate));
+  void _openPickupAvailabilitySheet(
+    BuildContext pickupContext,
+    BuildContext parentContext,
+  ) {
+    final cubit = pickupContext.read<PickupRequestsCubit>();
+    cubit.openAvailability();
+    showModalBottomSheet<void>(
+      context: parentContext,
+      isScrollControlled: true,
+      useSafeArea: true,
+      builder: (_) {
+        return BlocProvider.value(
+          value: cubit,
+          child: PickupAvailabilitySheet(
+            onAppendMeals: () {
+              Navigator.of(parentContext).pop();
+              _openPlanner(parentContext);
+            },
+          ),
+        );
+      },
+    );
   }
 }

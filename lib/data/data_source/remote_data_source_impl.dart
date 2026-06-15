@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:basic_diet/data/request/bulk_selections_request.dart';
 import 'package:basic_diet/data/request/day_selection_request.dart';
+import 'package:basic_diet/data/request/pickup_request.dart';
 import 'package:basic_diet/data/network/app_api.dart';
 import 'package:basic_diet/data/response/checkout_draft_response.dart';
 import 'package:basic_diet/data/data_source/remote_data_source.dart';
@@ -33,6 +34,7 @@ import 'package:basic_diet/data/response/premium_payment_response.dart';
 
 import 'package:basic_diet/data/response/pickup_prepare_response.dart';
 import 'package:basic_diet/data/response/pickup_status_response.dart';
+import 'package:basic_diet/data/response/pickup_request_response.dart';
 import 'package:basic_diet/data/response/fulfillment_status_response.dart';
 import 'package:basic_diet/data/response/cancel_subscription_response.dart';
 import 'package:basic_diet/data/request/cancel_subscription_request.dart';
@@ -110,7 +112,11 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   }
 
   @override
-  Future<BaseResponse> resetPassword(String phone, String otp, String newPassword) {
+  Future<BaseResponse> resetPassword(
+    String phone,
+    String otp,
+    String newPassword,
+  ) {
     return _appServiceClient.resetPassword({
       'phoneE164': phone,
       'otp': otp,
@@ -261,6 +267,36 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   @override
   Future<PickupPrepareResponse> preparePickup(String id, String date) {
     return _appServiceClient.preparePickup(id, date);
+  }
+
+  @override
+  Future<PickupAvailabilityResponse> getPickupAvailability(
+    String id,
+    String date,
+  ) {
+    return _appServiceClient.getPickupAvailability(id, date);
+  }
+
+  @override
+  Future<PickupRequestResponse> createPickupRequest(
+    String id,
+    CreatePickupRequest request,
+  ) {
+    return _appServiceClient.createPickupRequest(id, request);
+  }
+
+  @override
+  Future<PickupRequestsResponse> getPickupRequests(String id) {
+    return _appServiceClient.getPickupRequests(id);
+  }
+
+  @override
+  Future<PickupAvailabilityResponse> appendMealsToDay(
+    String id,
+    String date,
+    AppendMealsRequest request,
+  ) {
+    return _appServiceClient.appendMealsToDay(id, date, request);
   }
 
   @override

@@ -1,5 +1,6 @@
 import 'package:basic_diet/data/request/bulk_selections_request.dart';
 import 'package:basic_diet/data/request/day_selection_request.dart';
+import 'package:basic_diet/data/request/pickup_request.dart';
 import 'package:basic_diet/data/response/addon_choices_response.dart';
 import 'package:basic_diet/data/response/addons_response.dart';
 import 'package:basic_diet/data/response/subscription_menu_response.dart';
@@ -31,6 +32,7 @@ import 'package:basic_diet/data/request/cancel_subscription_request.dart';
 
 import 'package:basic_diet/data/response/pickup_prepare_response.dart';
 import 'package:basic_diet/data/response/pickup_status_response.dart';
+import 'package:basic_diet/data/response/pickup_request_response.dart';
 import 'package:basic_diet/data/response/fulfillment_status_response.dart';
 
 import 'package:basic_diet/data/request/order_quote_request.dart';
@@ -65,7 +67,11 @@ abstract class RemoteDataSource {
   Future<AuthenticationResponse> refreshToken(String refreshToken);
   Future<BaseResponse> logout(String refreshToken);
   Future<BaseResponse> requestPasswordResetOtp(String phone);
-  Future<BaseResponse> resetPassword(String phone, String otp, String newPassword);
+  Future<BaseResponse> resetPassword(
+    String phone,
+    String otp,
+    String newPassword,
+  );
   Future<AuthenticationResponse> getCurrentUser();
   Future<ClientProfileResponse> getClientProfile();
   Future<PlansResponse> getPlans();
@@ -111,6 +117,20 @@ abstract class RemoteDataSource {
   Future<SubscriptionDayResponse> getSubscriptionDay(String id, String date);
   Future<SubscriptionDayResponse> confirmDaySelection(String id, String date);
   Future<PickupPrepareResponse> preparePickup(String id, String date);
+  Future<PickupAvailabilityResponse> getPickupAvailability(
+    String id,
+    String date,
+  );
+  Future<PickupRequestResponse> createPickupRequest(
+    String id,
+    CreatePickupRequest request,
+  );
+  Future<PickupRequestsResponse> getPickupRequests(String id);
+  Future<PickupAvailabilityResponse> appendMealsToDay(
+    String id,
+    String date,
+    AppendMealsRequest request,
+  );
   Future<PickupStatusResponse> getPickupStatus(String id, String date);
   Future<FulfillmentStatusResponse> getDayFulfillmentStatus(
     String id,

@@ -4,6 +4,7 @@ import 'package:basic_diet/data/response/addon_choices_response.dart';
 import 'package:basic_diet/data/response/subscription_menu_response.dart';
 import 'package:basic_diet/data/response/addons_response.dart';
 import 'package:basic_diet/data/request/bulk_selections_request.dart';
+import 'package:basic_diet/data/request/pickup_request.dart';
 import 'package:basic_diet/data/response/checkout_draft_response.dart';
 import 'package:basic_diet/data/request/subscription_checkout_request.dart';
 import 'package:basic_diet/data/request/subscription_quote_request.dart';
@@ -24,6 +25,7 @@ import 'package:basic_diet/data/response/timeline_response.dart';
 import 'package:basic_diet/data/response/categories_with_meals_response.dart';
 import 'package:basic_diet/data/response/pickup_prepare_response.dart';
 import 'package:basic_diet/data/response/pickup_status_response.dart';
+import 'package:basic_diet/data/response/pickup_request_response.dart';
 import 'package:basic_diet/data/response/meal_planner_menu_response.dart';
 import 'package:basic_diet/data/response/premium_payment_response.dart';
 import 'package:basic_diet/data/response/subscription_day_response.dart';
@@ -181,6 +183,28 @@ abstract class AppServiceClient {
   Future<PickupPrepareResponse> preparePickup(
     @Path("id") String id,
     @Path("date") String date,
+  );
+
+  @GET("/api/subscriptions/{id}/pickup-availability")
+  Future<PickupAvailabilityResponse> getPickupAvailability(
+    @Path("id") String id,
+    @Query("date") String date,
+  );
+
+  @POST("/api/subscriptions/{id}/pickup-requests")
+  Future<PickupRequestResponse> createPickupRequest(
+    @Path("id") String id,
+    @Body() CreatePickupRequest request,
+  );
+
+  @GET("/api/subscriptions/{id}/pickup-requests")
+  Future<PickupRequestsResponse> getPickupRequests(@Path("id") String id);
+
+  @POST("/api/subscriptions/{id}/days/{date}/meals/append")
+  Future<PickupAvailabilityResponse> appendMealsToDay(
+    @Path("id") String id,
+    @Path("date") String date,
+    @Body() AppendMealsRequest request,
   );
 
   @GET("/api/subscriptions/{id}/days/{date}/pickup/status")

@@ -14,7 +14,7 @@ class PickupFulfillmentCard extends StatelessWidget {
   final PickupStatusDataModel? pickupStatus;
   final FulfillmentStatusModel? fulfillmentStatus;
   final VoidCallback onOpenPlanner;
-  final VoidCallback onPrepare;
+  final VoidCallback onCreatePickupRequest;
 
   const PickupFulfillmentCard({
     super.key,
@@ -22,7 +22,7 @@ class PickupFulfillmentCard extends StatelessWidget {
     required this.pickupStatus,
     this.fulfillmentStatus,
     required this.onOpenPlanner,
-    required this.onPrepare,
+    required this.onCreatePickupRequest,
   });
 
   @override
@@ -33,11 +33,9 @@ class PickupFulfillmentCard extends StatelessWidget {
         _effectiveStatus == 'consumed_without_preparation' ||
         _effectiveStatus == 'no_show' ||
         _effectiveStatus == 'canceled_at_branch';
-    final canPrepare =
-        !isTerminalPickupState &&
-        (pickupStatus?.canRequestPrepare ?? prep?.canRequestPrepare ?? false);
+    final canCreatePickupRequest = !isTerminalPickupState;
     final showPlannerCta =
-        !canPrepare &&
+        !canCreatePickupRequest &&
         !isTerminalPickupState &&
         (prep?.showMealPlannerCta ?? false) &&
         !_isReadyForPickup;
@@ -97,14 +95,16 @@ class PickupFulfillmentCard extends StatelessWidget {
         message: _nextActionText(context),
         tone: _tone(),
         buttonLabel:
-            canPrepare || showPlannerCta
-                ? canPrepare
-                    ? _prepareButtonLabel(context)
+            canCreatePickupRequest || showPlannerCta
+                ? canCreatePickupRequest
+                    ? Strings.createPickupRequest.tr()
                     : _plannerButtonLabel(context)
                 : null,
         onPressed:
-            canPrepare || showPlannerCta
-                ? (canPrepare ? onPrepare : onOpenPlanner)
+            canCreatePickupRequest || showPlannerCta
+                ? (canCreatePickupRequest
+                    ? onCreatePickupRequest
+                    : onOpenPlanner)
                 : null,
       ),
       footer: Column(
@@ -274,13 +274,6 @@ class PickupFulfillmentCard extends StatelessWidget {
         isActive: status == 'ready_for_pickup',
       ),
     ];
-  }
-
-  String _prepareButtonLabel(BuildContext context) {
-    if (overview.pickupPreparation?.buttonLabel.isNotEmpty == true) {
-      return overview.pickupPreparation!.buttonLabel;
-    }
-    return Strings.fulfillmentPrepareActionNow.tr();
   }
 
   String _plannerButtonLabel(BuildContext context) {

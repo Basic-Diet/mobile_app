@@ -1,5 +1,6 @@
 import 'package:basic_diet/data/request/bulk_selections_request.dart';
 import 'package:basic_diet/data/request/day_selection_request.dart';
+import 'package:basic_diet/data/request/pickup_request.dart';
 import 'dart:developer' as developer;
 
 import 'package:basic_diet/data/data_source/remote_data_source.dart';
@@ -59,6 +60,8 @@ import 'package:basic_diet/domain/model/pickup_prepare_model.dart';
 
 import 'package:basic_diet/data/mappers/pickup_status_mapper.dart';
 import 'package:basic_diet/domain/model/pickup_status_model.dart';
+import 'package:basic_diet/data/mappers/pickup_request_mapper.dart';
+import 'package:basic_diet/domain/model/pickup_request_model.dart';
 import 'package:basic_diet/data/mappers/fulfillment_status_mapper.dart';
 import 'package:basic_diet/domain/model/fulfillment_status_model.dart';
 
@@ -832,6 +835,78 @@ class RepositoryImpl implements Repository {
   ) async {
     try {
       final response = await _remoteDataSource.preparePickup(id, date);
+      if (_isSuccessfulResponse(response)) {
+        return Right(response.toDomain());
+      } else {
+        return Left(_mapFailureFromResponse(response));
+      }
+    } catch (error) {
+      return _handleError(error);
+    }
+  }
+
+  @override
+  Future<Either<Failure, PickupAvailabilityModel>> getPickupAvailability(
+    String id,
+    String date,
+  ) async {
+    try {
+      final response = await _remoteDataSource.getPickupAvailability(id, date);
+      if (_isSuccessfulResponse(response)) {
+        return Right(response.toDomain());
+      } else {
+        return Left(_mapFailureFromResponse(response));
+      }
+    } catch (error) {
+      return _handleError(error);
+    }
+  }
+
+  @override
+  Future<Either<Failure, PickupRequestModel>> createPickupRequest(
+    String id,
+    CreatePickupRequest request,
+  ) async {
+    try {
+      final response = await _remoteDataSource.createPickupRequest(id, request);
+      if (_isSuccessfulResponse(response)) {
+        return Right(response.toDomain());
+      } else {
+        return Left(_mapFailureFromResponse(response));
+      }
+    } catch (error) {
+      return _handleError(error);
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<PickupRequestModel>>> getPickupRequests(
+    String id,
+  ) async {
+    try {
+      final response = await _remoteDataSource.getPickupRequests(id);
+      if (_isSuccessfulResponse(response)) {
+        return Right(response.toDomain());
+      } else {
+        return Left(_mapFailureFromResponse(response));
+      }
+    } catch (error) {
+      return _handleError(error);
+    }
+  }
+
+  @override
+  Future<Either<Failure, PickupAvailabilityModel>> appendMealsToDay(
+    String id,
+    String date,
+    AppendMealsRequest request,
+  ) async {
+    try {
+      final response = await _remoteDataSource.appendMealsToDay(
+        id,
+        date,
+        request,
+      );
       if (_isSuccessfulResponse(response)) {
         return Right(response.toDomain());
       } else {
