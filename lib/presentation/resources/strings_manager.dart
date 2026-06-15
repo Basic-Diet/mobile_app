@@ -555,6 +555,16 @@ class Strings {
   static const String openDeletionPage = 'openDeletionPage';
   static const String logout = 'logout';
 
+  // Support
+  static const String supportTitle = 'supportTitle';
+  static const String supportSubtitle = 'supportSubtitle';
+  static const String subject = 'subject';
+  static const String subjectHint = 'subjectHint';
+  static const String message = 'message';
+  static const String messageHint = 'messageHint';
+  static const String submit = 'submit';
+  static const String supportSent = 'supportSent';
+
   // Subscription Details
   static const String confirmAndPay = 'confirmAndPay';
   static const String openingPayment = 'openingPayment';

@@ -11,6 +11,8 @@ import 'package:basic_diet/presentation/main/main_screen.dart';
 import 'package:basic_diet/presentation/main/profile/bloc/profile_bloc.dart';
 import 'package:basic_diet/presentation/main/profile/bloc/profile_event.dart';
 import 'package:basic_diet/presentation/main/profile/bloc/profile_state.dart';
+import 'package:basic_diet/presentation/main/profile/support/support_screen.dart';
+import 'package:go_router/go_router.dart';
 import 'package:basic_diet/presentation/resources/color_manager.dart';
 import 'package:basic_diet/presentation/resources/font_manager.dart';
 import 'package:basic_diet/presentation/resources/strings_manager.dart';
@@ -391,8 +393,6 @@ class _ProfileMenuCard extends StatelessWidget {
         menu?.language.current.trim().isNotEmpty == true
             ? menu!.language.current
             : (isArabic ? Strings.arabic.tr() : Strings.english.tr());
-    final supportValue = _supportValue(menu?.support);
-    final supportEnabled = menu?.support.hasContact ?? false;
 
     return _ProfileCard(
       padding: EdgeInsetsDirectional.fromSTEB(
@@ -453,9 +453,8 @@ class _ProfileMenuCard extends StatelessWidget {
               labelEn: menu?.support.labelEn,
               fallback: Strings.support.tr(),
             ),
-            value: supportValue,
             icon: Icons.headset_mic_outlined,
-            enabled: supportEnabled,
+            onTap: () => context.push(SupportScreen.supportRoute),
           ),
           _MenuRow(
             title: _labelOrFallback(
