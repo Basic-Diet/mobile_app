@@ -105,6 +105,14 @@ PickupAvailabilitySlotResponse _$PickupAvailabilitySlotResponseFromJson(
           : PickupAvailabilityPaymentResponse.fromJson(
             json['payment'] as Map<String, dynamic>,
           ),
+  addons:
+      (json['addons'] as List<dynamic>?)
+          ?.map(
+            (e) => PickupAvailabilityAddonResponse.fromJson(
+              e as Map<String, dynamic>,
+            ),
+          )
+          .toList(),
   paymentStatus: json['paymentStatus'] as String?,
   amountDue: json['amountDue'] as num?,
   display:
@@ -133,9 +141,39 @@ Map<String, dynamic> _$PickupAvailabilitySlotResponseToJson(
   'unavailableReason': instance.unavailableReason,
   'paymentRequired': instance.paymentRequired,
   'payment': instance.payment,
+  'addons': instance.addons,
   'paymentStatus': instance.paymentStatus,
   'amountDue': instance.amountDue,
   'display': instance.display,
+};
+
+PickupAvailabilityAddonResponse _$PickupAvailabilityAddonResponseFromJson(
+  Map<String, dynamic> json,
+) => PickupAvailabilityAddonResponse(
+  id: json['id'] as String?,
+  name:
+      json['name'] == null
+          ? null
+          : PickupSlotTitleResponse.fromJson(
+            json['name'] as Map<String, dynamic>,
+          ),
+  quantity: (json['quantity'] as num?)?.toInt(),
+  price: json['price'] as num?,
+  paymentStatus: json['paymentStatus'] as String?,
+  paymentRequired: json['paymentRequired'] as bool?,
+  addonScope: json['addonScope'] as String?,
+);
+
+Map<String, dynamic> _$PickupAvailabilityAddonResponseToJson(
+  PickupAvailabilityAddonResponse instance,
+) => <String, dynamic>{
+  'id': instance.id,
+  'name': instance.name,
+  'quantity': instance.quantity,
+  'price': instance.price,
+  'paymentStatus': instance.paymentStatus,
+  'paymentRequired': instance.paymentRequired,
+  'addonScope': instance.addonScope,
 };
 
 PickupAvailabilityMealResponse _$PickupAvailabilityMealResponseFromJson(

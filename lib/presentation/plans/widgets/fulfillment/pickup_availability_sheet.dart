@@ -76,17 +76,24 @@ class PickupAvailabilitySheet extends StatelessWidget {
                             isSelected: state.selectedSlotIds.contains(
                               slot.slotId,
                             ),
+                            selectedAddonIds: state.selectedAddonIds,
                             onTap:
                                 () => context
                                     .read<PickupRequestsCubit>()
                                     .toggleSlot(slot),
+                            onAddonTap:
+                                (addon) => context
+                                    .read<PickupRequestsCubit>()
+                                    .toggleAddon(slot, addon),
                           ),
                         ),
                         ...availability.unavailableSlots.map(
                           (slot) => _SlotTile(
                             slot: slot,
                             isSelected: false,
+                            selectedAddonIds: const {},
                             onTap: () {},
+                            onAddonTap: (_) {},
                           ),
                         ),
                       ],
@@ -207,12 +214,16 @@ class _WalletSummary extends StatelessWidget {
 class _SlotTile extends StatelessWidget {
   final PickupAvailabilitySlotModel slot;
   final bool isSelected;
+  final Set<String> selectedAddonIds;
   final VoidCallback onTap;
+  final ValueChanged<PickupAvailabilityAddonModel> onAddonTap;
 
   const _SlotTile({
     required this.slot,
     required this.isSelected,
+    required this.selectedAddonIds,
     required this.onTap,
+    required this.onAddonTap,
   });
 
   @override
@@ -297,11 +308,92 @@ class _SlotTile extends StatelessWidget {
                                 .toList(),
                       ),
                     ],
+                    if (slot.addons.isNotEmpty) ...[
+                      Gap(AppSize.s10.h),
+                      Text(
+                        Strings.addOns.tr(),
+                        style: getBoldTextStyle(
+                          color: ColorManager.textSecondary,
+                          fontSize: FontSizeManager.s11.sp,
+                        ),
+                      ),
+                      Gap(AppSize.s4.h),
+                      ...slot.addons.map(
+                        (addon) => _AddonTile(
+                          addon: addon,
+                          isSelected: selectedAddonIds.contains(addon.id),
+                          isEnabled: isEnabled && isSelected,
+                          onTap: () => onAddonTap(addon),
+                        ),
+                      ),
+                    ],
                   ],
                 ),
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class _AddonTile extends StatelessWidget {
+  final PickupAvailabilityAddonModel addon;
+  final bool isSelected;
+  final bool isEnabled;
+  final VoidCallback onTap;
+
+  const _AddonTile({
+    required this.addon,
+    required this.isSelected,
+    required this.isEnabled,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final isArabic = context.locale.languageCode == 'ar';
+    final title = isArabic ? addon.nameAr : addon.nameEn;
+    final enabled = isEnabled && addon.isSelectable;
+
+    return InkWell(
+      onTap: enabled ? onTap : null,
+      borderRadius: BorderRadius.circular(AppSize.s8.r),
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: AppPadding.p2.h),
+        child: Row(
+          children: [
+            SizedBox(
+              width: AppSize.s32.w,
+              height: AppSize.s32.w,
+              child: Checkbox(
+                value: isSelected,
+                onChanged: enabled ? (_) => onTap() : null,
+              ),
+            ),
+            Gap(AppSize.s4.w),
+            Expanded(
+              child: Text(
+                title.isEmpty ? Strings.addOns.tr() : title,
+                style: getRegularTextStyle(
+                  color:
+                      enabled
+                          ? ColorManager.textPrimary
+                          : ColorManager.textMuted,
+                  fontSize: FontSizeManager.s11.sp,
+                ),
+              ),
+            ),
+            if (addon.quantity > 0)
+              Text(
+                '${addon.quantity}',
+                style: getRegularTextStyle(
+                  color: ColorManager.textSecondary,
+                  fontSize: FontSizeManager.s10.sp,
+                ),
+              ),
+          ],
         ),
       ),
     );

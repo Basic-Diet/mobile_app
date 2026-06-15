@@ -68,6 +68,23 @@ extension PickupAvailabilitySlotResponseMapper
       paymentStatus:
           this?.paymentStatus.orEmpty() ?? payment?.status.orEmpty() ?? '',
       amountDue: (this?.amountDue ?? payment?.amountDue ?? 0).toDouble(),
+      addons: this?.addons?.map((addon) => addon.toDomain()).toList() ?? [],
+    );
+  }
+}
+
+extension PickupAvailabilityAddonResponseMapper
+    on PickupAvailabilityAddonResponse? {
+  PickupAvailabilityAddonModel toDomain() {
+    return PickupAvailabilityAddonModel(
+      id: this?.id.orEmpty() ?? '',
+      nameAr: this?.name?.ar.orEmpty() ?? this?.name?.en.orEmpty() ?? '',
+      nameEn: this?.name?.en.orEmpty() ?? this?.name?.ar.orEmpty() ?? '',
+      quantity: this?.quantity ?? 0,
+      price: (this?.price ?? 0).toDouble(),
+      paymentStatus: this?.paymentStatus.orEmpty() ?? '',
+      paymentRequired: this?.paymentRequired ?? false,
+      addonScope: this?.addonScope.orEmpty() ?? '',
     );
   }
 }

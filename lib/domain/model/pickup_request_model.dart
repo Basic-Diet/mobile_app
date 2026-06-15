@@ -39,6 +39,7 @@ class PickupAvailabilitySlotModel extends Equatable {
   final bool paymentRequired;
   final String paymentStatus;
   final double amountDue;
+  final List<PickupAvailabilityAddonModel> addons;
 
   const PickupAvailabilitySlotModel({
     this.slotId = '',
@@ -57,6 +58,7 @@ class PickupAvailabilitySlotModel extends Equatable {
     this.paymentRequired = false,
     this.paymentStatus = '',
     this.amountDue = 0,
+    this.addons = const [],
   });
 
   bool get isSelectable => isAvailableForPickup && !paymentRequired;
@@ -79,6 +81,43 @@ class PickupAvailabilitySlotModel extends Equatable {
     paymentRequired,
     paymentStatus,
     amountDue,
+    addons,
+  ];
+}
+
+class PickupAvailabilityAddonModel extends Equatable {
+  final String id;
+  final String nameAr;
+  final String nameEn;
+  final int quantity;
+  final double price;
+  final String paymentStatus;
+  final bool paymentRequired;
+  final String addonScope;
+
+  const PickupAvailabilityAddonModel({
+    this.id = '',
+    this.nameAr = '',
+    this.nameEn = '',
+    this.quantity = 0,
+    this.price = 0,
+    this.paymentStatus = '',
+    this.paymentRequired = false,
+    this.addonScope = '',
+  });
+
+  bool get isSelectable => id.isNotEmpty && !paymentRequired;
+
+  @override
+  List<Object?> get props => [
+    id,
+    nameAr,
+    nameEn,
+    quantity,
+    price,
+    paymentStatus,
+    paymentRequired,
+    addonScope,
   ];
 }
 

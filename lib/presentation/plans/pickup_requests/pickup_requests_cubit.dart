@@ -56,6 +56,7 @@ class PickupRequestsCubit extends Cubit<PickupRequestsState> {
         errorMessage: '',
         createErrorMessage: '',
         selectedSlotIds: const {},
+        selectedAddonIds: const {},
         idempotencyKey: const Uuid().v4(),
         clearAvailability: true,
       ),
@@ -89,12 +90,40 @@ class PickupRequestsCubit extends Cubit<PickupRequestsState> {
     if (!slot.isSelectable || state.isCreating) return;
 
     final next = Set<String>.from(state.selectedSlotIds);
+    final nextAddons = Set<String>.from(state.selectedAddonIds);
     if (next.contains(slot.slotId)) {
       next.remove(slot.slotId);
+      nextAddons.removeAll(slot.addons.map((addon) => addon.id));
     } else {
       next.add(slot.slotId);
     }
-    emit(state.copyWith(selectedSlotIds: next, createErrorMessage: ''));
+    emit(
+      state.copyWith(
+        selectedSlotIds: next,
+        selectedAddonIds: nextAddons,
+        createErrorMessage: '',
+      ),
+    );
+  }
+
+  void toggleAddon(
+    PickupAvailabilitySlotModel slot,
+    PickupAvailabilityAddonModel addon,
+  ) {
+    if (!slot.isSelectable ||
+        !addon.isSelectable ||
+        !state.selectedSlotIds.contains(slot.slotId) ||
+        state.isCreating) {
+      return;
+    }
+
+    final next = Set<String>.from(state.selectedAddonIds);
+    if (next.contains(addon.id)) {
+      next.remove(addon.id);
+    } else {
+      next.add(addon.id);
+    }
+    emit(state.copyWith(selectedAddonIds: next, createErrorMessage: ''));
   }
 
   Future<bool> confirmSelectedSlots() async {
@@ -112,6 +141,7 @@ class PickupRequestsCubit extends Cubit<PickupRequestsState> {
         date: state.date,
         subscriptionDayId: availability.subscriptionDayId,
         selectedMealSlotIds: state.selectedSlotIds.toList(),
+        selectedAddonIds: state.selectedAddonIds.toList(),
         idempotencyKey:
             state.idempotencyKey.isEmpty
                 ? const Uuid().v4()
@@ -135,6 +165,7 @@ class PickupRequestsCubit extends Cubit<PickupRequestsState> {
           state.copyWith(
             isCreating: false,
             selectedSlotIds: const {},
+            selectedAddonIds: const {},
             idempotencyKey: '',
             clearAvailability: true,
           ),

@@ -24,6 +24,8 @@ class CreatePickupRequestUseCase
         subscriptionDayId:
             input.subscriptionDayId.isEmpty ? null : input.subscriptionDayId,
         selectedMealSlotIds: input.selectedMealSlotIds,
+        selectedAddonIds:
+            input.selectedAddonIds.isEmpty ? null : input.selectedAddonIds,
         idempotencyKey: input.idempotencyKey,
       ),
     );
@@ -35,6 +37,7 @@ class CreatePickupRequestUseCaseInput extends Equatable {
   final String date;
   final String subscriptionDayId;
   final List<String> selectedMealSlotIds;
+  final List<String> selectedAddonIds;
   final String idempotencyKey;
 
   const CreatePickupRequestUseCaseInput({
@@ -42,6 +45,7 @@ class CreatePickupRequestUseCaseInput extends Equatable {
     required this.date,
     required this.selectedMealSlotIds,
     required this.idempotencyKey,
+    this.selectedAddonIds = const [],
     this.subscriptionDayId = '',
   });
 
@@ -51,6 +55,7 @@ class CreatePickupRequestUseCaseInput extends Equatable {
     date,
     subscriptionDayId,
     selectedMealSlotIds,
+    selectedAddonIds,
     idempotencyKey,
   ];
 }

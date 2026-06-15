@@ -14,6 +14,9 @@ class CreatePickupRequest {
   @JsonKey(name: 'selectedMealSlotIds')
   final List<String> selectedMealSlotIds;
 
+  @JsonKey(name: 'selectedAddonIds')
+  final List<String>? selectedAddonIds;
+
   @JsonKey(name: 'idempotencyKey')
   final String idempotencyKey;
 
@@ -21,6 +24,7 @@ class CreatePickupRequest {
     required this.date,
     required this.selectedMealSlotIds,
     required this.idempotencyKey,
+    this.selectedAddonIds,
     this.subscriptionDayId,
   });
 

@@ -14,6 +14,10 @@ CreatePickupRequest _$CreatePickupRequestFromJson(Map<String, dynamic> json) =>
               .map((e) => e as String)
               .toList(),
       idempotencyKey: json['idempotencyKey'] as String,
+      selectedAddonIds:
+          (json['selectedAddonIds'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList(),
       subscriptionDayId: json['subscriptionDayId'] as String?,
     );
 
@@ -23,6 +27,7 @@ Map<String, dynamic> _$CreatePickupRequestToJson(
   'date': instance.date,
   if (instance.subscriptionDayId case final value?) 'subscriptionDayId': value,
   'selectedMealSlotIds': instance.selectedMealSlotIds,
+  if (instance.selectedAddonIds case final value?) 'selectedAddonIds': value,
   'idempotencyKey': instance.idempotencyKey,
 };
 

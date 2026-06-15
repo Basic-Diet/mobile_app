@@ -12,6 +12,7 @@ class PickupRequestsState extends Equatable {
   final PickupAvailabilityModel? availability;
   final List<PickupRequestModel> requests;
   final Set<String> selectedSlotIds;
+  final Set<String> selectedAddonIds;
   final String idempotencyKey;
 
   const PickupRequestsState({
@@ -25,6 +26,7 @@ class PickupRequestsState extends Equatable {
     this.availability,
     this.requests = const [],
     this.selectedSlotIds = const {},
+    this.selectedAddonIds = const {},
     this.idempotencyKey = '',
   });
 
@@ -40,6 +42,7 @@ class PickupRequestsState extends Equatable {
     bool clearAvailability = false,
     List<PickupRequestModel>? requests,
     Set<String>? selectedSlotIds,
+    Set<String>? selectedAddonIds,
     String? idempotencyKey,
   }) {
     return PickupRequestsState(
@@ -55,6 +58,7 @@ class PickupRequestsState extends Equatable {
           clearAvailability ? null : availability ?? this.availability,
       requests: requests ?? this.requests,
       selectedSlotIds: selectedSlotIds ?? this.selectedSlotIds,
+      selectedAddonIds: selectedAddonIds ?? this.selectedAddonIds,
       idempotencyKey: idempotencyKey ?? this.idempotencyKey,
     );
   }
@@ -71,6 +75,7 @@ class PickupRequestsState extends Equatable {
     availability,
     requests,
     selectedSlotIds,
+    selectedAddonIds,
     idempotencyKey,
   ];
 }

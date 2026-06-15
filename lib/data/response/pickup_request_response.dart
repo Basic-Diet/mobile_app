@@ -115,6 +115,8 @@ class PickupAvailabilitySlotResponse {
   final bool? paymentRequired;
   @JsonKey(name: 'payment')
   final PickupAvailabilityPaymentResponse? payment;
+  @JsonKey(name: 'addons')
+  final List<PickupAvailabilityAddonResponse>? addons;
   @JsonKey(name: 'paymentStatus')
   final String? paymentStatus;
   @JsonKey(name: 'amountDue')
@@ -138,6 +140,7 @@ class PickupAvailabilitySlotResponse {
     this.unavailableReason,
     this.paymentRequired,
     this.payment,
+    this.addons,
     this.paymentStatus,
     this.amountDue,
     this.display,
@@ -147,6 +150,40 @@ class PickupAvailabilitySlotResponse {
       _$PickupAvailabilitySlotResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$PickupAvailabilitySlotResponseToJson(this);
+}
+
+@JsonSerializable()
+class PickupAvailabilityAddonResponse {
+  @JsonKey(name: 'id')
+  final String? id;
+  @JsonKey(name: 'name')
+  final PickupSlotTitleResponse? name;
+  @JsonKey(name: 'quantity')
+  final int? quantity;
+  @JsonKey(name: 'price')
+  final num? price;
+  @JsonKey(name: 'paymentStatus')
+  final String? paymentStatus;
+  @JsonKey(name: 'paymentRequired')
+  final bool? paymentRequired;
+  @JsonKey(name: 'addonScope')
+  final String? addonScope;
+
+  const PickupAvailabilityAddonResponse({
+    this.id,
+    this.name,
+    this.quantity,
+    this.price,
+    this.paymentStatus,
+    this.paymentRequired,
+    this.addonScope,
+  });
+
+  factory PickupAvailabilityAddonResponse.fromJson(Map<String, dynamic> json) =>
+      _$PickupAvailabilityAddonResponseFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$PickupAvailabilityAddonResponseToJson(this);
 }
 
 @JsonSerializable()
