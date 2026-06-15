@@ -18,31 +18,56 @@ extension PickupAvailabilitySlotResponseMapper
   PickupAvailabilitySlotModel toDomain() {
     final display = this?.display;
     final title = this?.title;
+    final meal = this?.meal;
+    final product = this?.product;
+    final payment = this?.payment;
+    final isAvailable =
+        this?.isAvailableForPickup ??
+        this?.canSelect ??
+        this?.available ??
+        false;
+    final paymentRequired = this?.paymentRequired ?? payment?.required ?? false;
     return PickupAvailabilitySlotModel(
       slotId: this?.slotId.orEmpty() ?? '',
       slotIndex: this?.slotIndex ?? 0,
       titleAr:
           display?.titleAr.orEmpty() ??
+          meal?.title?.ar.orEmpty() ??
+          product?.name?.ar.orEmpty() ??
           title?.ar.orEmpty() ??
           title?.en.orEmpty() ??
           '',
       titleEn:
           display?.titleEn.orEmpty() ??
+          meal?.title?.en.orEmpty() ??
+          product?.name?.en.orEmpty() ??
           title?.en.orEmpty() ??
           title?.ar.orEmpty() ??
           '',
-      subtitleAr: display?.subtitleAr.orEmpty() ?? '',
-      subtitleEn: display?.subtitleEn.orEmpty() ?? '',
+      subtitleAr:
+          display?.subtitleAr.orEmpty() ??
+          display?.statusTextAr.orEmpty() ??
+          meal?.subtitle?.ar.orEmpty() ??
+          '',
+      subtitleEn:
+          display?.subtitleEn.orEmpty() ??
+          display?.statusTextEn.orEmpty() ??
+          meal?.subtitle?.en.orEmpty() ??
+          '',
       badgesAr: display?.badgesAr ?? const [],
       badgesEn: display?.badgesEn ?? const [],
-      productId: this?.productId.orEmpty() ?? '',
-      isAvailableForPickup: this?.isAvailableForPickup ?? false,
-      pickupRequestId: this?.pickupRequestId.orEmpty() ?? '',
+      productId: this?.productId.orEmpty() ?? product?.id.orEmpty() ?? '',
+      isAvailableForPickup: isAvailable,
+      pickupRequestId:
+          this?.pickupRequestId.orEmpty() ??
+          this?.reservedByPickupRequestId.orEmpty() ??
+          '',
       status: this?.status.orEmpty() ?? '',
       unavailableReason: this?.unavailableReason.orEmpty() ?? '',
-      paymentRequired: this?.paymentRequired ?? false,
-      paymentStatus: this?.paymentStatus.orEmpty() ?? '',
-      amountDue: (this?.amountDue ?? 0).toDouble(),
+      paymentRequired: paymentRequired,
+      paymentStatus:
+          this?.paymentStatus.orEmpty() ?? payment?.status.orEmpty() ?? '',
+      amountDue: (this?.amountDue ?? payment?.amountDue ?? 0).toDouble(),
     );
   }
 }
@@ -50,19 +75,36 @@ extension PickupAvailabilitySlotResponseMapper
 extension PickupAvailabilityResponseMapper on PickupAvailabilityResponse? {
   PickupAvailabilityModel toDomain() {
     final data = this?.data;
+    final allSlots = data?.plannedSlots ?? data?.slots ?? const [];
+    final plannedSlots =
+        data?.plannedSlots ??
+        allSlots.where((slot) {
+          return slot.isAvailableForPickup ??
+              slot.canSelect ??
+              slot.available ??
+              false;
+        }).toList();
+    final unavailableSlots =
+        data?.unavailableSlots ??
+        allSlots.where((slot) {
+          final available =
+              slot.isAvailableForPickup ??
+              slot.canSelect ??
+              slot.available ??
+              false;
+          return !available;
+        }).toList();
     return PickupAvailabilityModel(
       subscriptionId: data?.subscriptionId.orEmpty() ?? '',
       date: data?.date.orEmpty() ?? '',
       subscriptionDayId: data?.subscriptionDayId.orEmpty() ?? '',
       wallet: data?.wallet.toDomain() ?? const PickupWalletModel(),
-      plannedSlots:
-          data?.plannedSlots?.map((slot) => slot.toDomain()).toList() ??
-          const [],
+      plannedSlots: plannedSlots.map((slot) => slot.toDomain()).toList(),
       unavailableSlots:
-          data?.unavailableSlots?.map((slot) => slot.toDomain()).toList() ??
-          const [],
-      canAppendMeals: data?.canAppendMeals ?? false,
-      appendLimit: data?.appendLimit ?? 0,
+          unavailableSlots.map((slot) => slot.toDomain()).toList(),
+      canAppendMeals:
+          data?.canAppendMeals ?? data?.summary?.canAppendMeals ?? false,
+      appendLimit: data?.appendLimit ?? data?.summary?.appendLimit ?? 0,
     );
   }
 }

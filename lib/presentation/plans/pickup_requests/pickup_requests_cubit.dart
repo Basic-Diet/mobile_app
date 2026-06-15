@@ -53,6 +53,7 @@ class PickupRequestsCubit extends Cubit<PickupRequestsState> {
     emit(
       state.copyWith(
         isAvailabilityLoading: true,
+        errorMessage: '',
         createErrorMessage: '',
         selectedSlotIds: const {},
         idempotencyKey: const Uuid().v4(),

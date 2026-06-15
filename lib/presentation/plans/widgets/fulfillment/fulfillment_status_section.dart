@@ -91,9 +91,6 @@ class FulfillmentStatusSection extends StatelessWidget {
                         if (pickupState.isLoading) ...[
                           Gap(AppSize.s12.h),
                           const Center(child: CircularProgressIndicator()),
-                        ] else if (pickupState.errorMessage.isNotEmpty) ...[
-                          Gap(AppSize.s12.h),
-                          Text(pickupState.errorMessage),
                         ] else if (pickupState.requests.isNotEmpty) ...[
                           Gap(AppSize.s12.h),
                           Align(

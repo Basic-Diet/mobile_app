@@ -35,6 +35,10 @@ PickupSlotDisplayResponse _$PickupSlotDisplayResponseFromJson(
       (json['badgesAr'] as List<dynamic>?)?.map((e) => e as String).toList(),
   badgesEn:
       (json['badgesEn'] as List<dynamic>?)?.map((e) => e as String).toList(),
+  statusTextAr: json['statusTextAr'] as String?,
+  statusTextEn: json['statusTextEn'] as String?,
+  unavailableTextAr: json['unavailableTextAr'] as String?,
+  unavailableTextEn: json['unavailableTextEn'] as String?,
 );
 
 Map<String, dynamic> _$PickupSlotDisplayResponseToJson(
@@ -46,6 +50,10 @@ Map<String, dynamic> _$PickupSlotDisplayResponseToJson(
   'subtitleEn': instance.subtitleEn,
   'badgesAr': instance.badgesAr,
   'badgesEn': instance.badgesEn,
+  'statusTextAr': instance.statusTextAr,
+  'statusTextEn': instance.statusTextEn,
+  'unavailableTextAr': instance.unavailableTextAr,
+  'unavailableTextEn': instance.unavailableTextEn,
 };
 
 PickupSlotTitleResponse _$PickupSlotTitleResponseFromJson(
@@ -70,12 +78,33 @@ PickupAvailabilitySlotResponse _$PickupAvailabilitySlotResponseFromJson(
           : PickupSlotTitleResponse.fromJson(
             json['title'] as Map<String, dynamic>,
           ),
+  meal:
+      json['meal'] == null
+          ? null
+          : PickupAvailabilityMealResponse.fromJson(
+            json['meal'] as Map<String, dynamic>,
+          ),
+  product:
+      json['product'] == null
+          ? null
+          : PickupAvailabilityProductResponse.fromJson(
+            json['product'] as Map<String, dynamic>,
+          ),
   productId: json['productId'] as String?,
   isAvailableForPickup: json['isAvailableForPickup'] as bool?,
+  available: json['available'] as bool?,
+  canSelect: json['canSelect'] as bool?,
   pickupRequestId: json['pickupRequestId'] as String?,
+  reservedByPickupRequestId: json['reservedByPickupRequestId'] as String?,
   status: json['status'] as String?,
   unavailableReason: json['unavailableReason'] as String?,
   paymentRequired: json['paymentRequired'] as bool?,
+  payment:
+      json['payment'] == null
+          ? null
+          : PickupAvailabilityPaymentResponse.fromJson(
+            json['payment'] as Map<String, dynamic>,
+          ),
   paymentStatus: json['paymentStatus'] as String?,
   amountDue: json['amountDue'] as num?,
   display:
@@ -92,15 +121,88 @@ Map<String, dynamic> _$PickupAvailabilitySlotResponseToJson(
   'slotId': instance.slotId,
   'slotIndex': instance.slotIndex,
   'title': instance.title,
+  'meal': instance.meal,
+  'product': instance.product,
   'productId': instance.productId,
   'isAvailableForPickup': instance.isAvailableForPickup,
+  'available': instance.available,
+  'canSelect': instance.canSelect,
   'pickupRequestId': instance.pickupRequestId,
+  'reservedByPickupRequestId': instance.reservedByPickupRequestId,
   'status': instance.status,
   'unavailableReason': instance.unavailableReason,
   'paymentRequired': instance.paymentRequired,
+  'payment': instance.payment,
   'paymentStatus': instance.paymentStatus,
   'amountDue': instance.amountDue,
   'display': instance.display,
+};
+
+PickupAvailabilityMealResponse _$PickupAvailabilityMealResponseFromJson(
+  Map<String, dynamic> json,
+) => PickupAvailabilityMealResponse(
+  title:
+      json['title'] == null
+          ? null
+          : PickupSlotTitleResponse.fromJson(
+            json['title'] as Map<String, dynamic>,
+          ),
+  subtitle:
+      json['subtitle'] == null
+          ? null
+          : PickupSlotTitleResponse.fromJson(
+            json['subtitle'] as Map<String, dynamic>,
+          ),
+);
+
+Map<String, dynamic> _$PickupAvailabilityMealResponseToJson(
+  PickupAvailabilityMealResponse instance,
+) => <String, dynamic>{'title': instance.title, 'subtitle': instance.subtitle};
+
+PickupAvailabilityProductResponse _$PickupAvailabilityProductResponseFromJson(
+  Map<String, dynamic> json,
+) => PickupAvailabilityProductResponse(
+  id: json['id'] as String?,
+  name:
+      json['name'] == null
+          ? null
+          : PickupSlotTitleResponse.fromJson(
+            json['name'] as Map<String, dynamic>,
+          ),
+);
+
+Map<String, dynamic> _$PickupAvailabilityProductResponseToJson(
+  PickupAvailabilityProductResponse instance,
+) => <String, dynamic>{'id': instance.id, 'name': instance.name};
+
+PickupAvailabilityPaymentResponse _$PickupAvailabilityPaymentResponseFromJson(
+  Map<String, dynamic> json,
+) => PickupAvailabilityPaymentResponse(
+  required: json['required'] as bool?,
+  status: json['status'] as String?,
+  amountDue: json['amountDue'] as num?,
+);
+
+Map<String, dynamic> _$PickupAvailabilityPaymentResponseToJson(
+  PickupAvailabilityPaymentResponse instance,
+) => <String, dynamic>{
+  'required': instance.required,
+  'status': instance.status,
+  'amountDue': instance.amountDue,
+};
+
+PickupAvailabilitySummaryResponse _$PickupAvailabilitySummaryResponseFromJson(
+  Map<String, dynamic> json,
+) => PickupAvailabilitySummaryResponse(
+  canAppendMeals: json['canAppendMeals'] as bool?,
+  appendLimit: (json['appendLimit'] as num?)?.toInt(),
+);
+
+Map<String, dynamic> _$PickupAvailabilitySummaryResponseToJson(
+  PickupAvailabilitySummaryResponse instance,
+) => <String, dynamic>{
+  'canAppendMeals': instance.canAppendMeals,
+  'appendLimit': instance.appendLimit,
 };
 
 PickupAvailabilityDataResponse _$PickupAvailabilityDataResponseFromJson(
@@ -123,6 +225,14 @@ PickupAvailabilityDataResponse _$PickupAvailabilityDataResponseFromJson(
             ),
           )
           .toList(),
+  slots:
+      (json['slots'] as List<dynamic>?)
+          ?.map(
+            (e) => PickupAvailabilitySlotResponse.fromJson(
+              e as Map<String, dynamic>,
+            ),
+          )
+          .toList(),
   unavailableSlots:
       (json['unavailableSlots'] as List<dynamic>?)
           ?.map(
@@ -133,6 +243,12 @@ PickupAvailabilityDataResponse _$PickupAvailabilityDataResponseFromJson(
           .toList(),
   canAppendMeals: json['canAppendMeals'] as bool?,
   appendLimit: (json['appendLimit'] as num?)?.toInt(),
+  summary:
+      json['summary'] == null
+          ? null
+          : PickupAvailabilitySummaryResponse.fromJson(
+            json['summary'] as Map<String, dynamic>,
+          ),
 );
 
 Map<String, dynamic> _$PickupAvailabilityDataResponseToJson(
@@ -143,9 +259,11 @@ Map<String, dynamic> _$PickupAvailabilityDataResponseToJson(
   'subscriptionDayId': instance.subscriptionDayId,
   'wallet': instance.wallet,
   'plannedSlots': instance.plannedSlots,
+  'slots': instance.slots,
   'unavailableSlots': instance.unavailableSlots,
   'canAppendMeals': instance.canAppendMeals,
   'appendLimit': instance.appendLimit,
+  'summary': instance.summary,
 };
 
 PickupAvailabilityResponse _$PickupAvailabilityResponseFromJson(
@@ -256,7 +374,7 @@ PickupRequestsResponse _$PickupRequestsResponseFromJson(
 ) => PickupRequestsResponse(
   status: json['status'] as bool?,
   data:
-      (json['data'] as List<dynamic>?)
+      (PickupRequestsResponse._readRequests(json, 'data') as List<dynamic>?)
           ?.map(
             (e) =>
                 PickupRequestDataResponse.fromJson(e as Map<String, dynamic>),
