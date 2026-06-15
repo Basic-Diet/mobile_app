@@ -468,6 +468,17 @@ class _ProfileMenuCard extends StatelessWidget {
             showDivider: false,
             onTap: () => openUrl(Constants.privacyPolicyUrl),
           ),
+          _MenuRow(
+            title: _labelOrFallback(
+              isArabic: isArabic,
+              labelAr: menu?.legal.labelAr,
+              labelEn: menu?.legal.labelEn,
+              fallback: Strings.refundPrivacy.tr(),
+            ),
+            icon: Icons.payments_outlined,
+            showDivider: false,
+            onTap: () => openUrl(Constants.refoundPolicyUrl),
+          ),
         ],
       ),
     );
