@@ -11,6 +11,8 @@ class Constants {
   static String get baseUrl => dotenv.env['BASE_URL']!;
   static const String privacyPolicyUrl =
       'https://basicdiet145.onrender.com/privacy-policy';
+  static const String refoundPolicyUrl =
+      'https://basicdiet145.onrender.com/refund-policy';
   static const String accountDeletionUrl =
       'https://basicdiet145.onrender.com/account-deletion';
 }
