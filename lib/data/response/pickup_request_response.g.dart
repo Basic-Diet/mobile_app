@@ -39,6 +39,8 @@ PickupSlotDisplayResponse _$PickupSlotDisplayResponseFromJson(
   statusTextEn: json['statusTextEn'] as String?,
   unavailableTextAr: json['unavailableTextAr'] as String?,
   unavailableTextEn: json['unavailableTextEn'] as String?,
+  selectionTextAr: json['selectionTextAr'] as String?,
+  selectionTextEn: json['selectionTextEn'] as String?,
 );
 
 Map<String, dynamic> _$PickupSlotDisplayResponseToJson(
@@ -54,6 +56,8 @@ Map<String, dynamic> _$PickupSlotDisplayResponseToJson(
   'statusTextEn': instance.statusTextEn,
   'unavailableTextAr': instance.unavailableTextAr,
   'unavailableTextEn': instance.unavailableTextEn,
+  'selectionTextAr': instance.selectionTextAr,
+  'selectionTextEn': instance.selectionTextEn,
 };
 
 PickupSlotTitleResponse _$PickupSlotTitleResponseFromJson(
@@ -229,11 +233,87 @@ Map<String, dynamic> _$PickupAvailabilityPaymentResponseToJson(
   'amountDue': instance.amountDue,
 };
 
+PickupAvailabilityStateResponse _$PickupAvailabilityStateResponseFromJson(
+  Map<String, dynamic> json,
+) => PickupAvailabilityStateResponse(
+  state: json['state'] as String?,
+  available: json['available'] as bool?,
+  canSelect: json['canSelect'] as bool?,
+  unavailableReason: json['unavailableReason'] as String?,
+  reservedByPickupRequestId: json['reservedByPickupRequestId'] as String?,
+);
+
+Map<String, dynamic> _$PickupAvailabilityStateResponseToJson(
+  PickupAvailabilityStateResponse instance,
+) => <String, dynamic>{
+  'state': instance.state,
+  'available': instance.available,
+  'canSelect': instance.canSelect,
+  'unavailableReason': instance.unavailableReason,
+  'reservedByPickupRequestId': instance.reservedByPickupRequestId,
+};
+
+PickupAvailabilityItemResponse _$PickupAvailabilityItemResponseFromJson(
+  Map<String, dynamic> json,
+) => PickupAvailabilityItemResponse(
+  itemId: json['itemId'] as String?,
+  itemType: json['itemType'] as String?,
+  categoryKey: json['categoryKey'] as String?,
+  title:
+      json['title'] == null
+          ? null
+          : PickupSlotTitleResponse.fromJson(
+            json['title'] as Map<String, dynamic>,
+          ),
+  subtitle:
+      json['subtitle'] == null
+          ? null
+          : PickupSlotTitleResponse.fromJson(
+            json['subtitle'] as Map<String, dynamic>,
+          ),
+  display:
+      json['display'] == null
+          ? null
+          : PickupSlotDisplayResponse.fromJson(
+            json['display'] as Map<String, dynamic>,
+          ),
+  availability:
+      json['availability'] == null
+          ? null
+          : PickupAvailabilityStateResponse.fromJson(
+            json['availability'] as Map<String, dynamic>,
+          ),
+  payment:
+      json['payment'] == null
+          ? null
+          : PickupAvailabilityPaymentResponse.fromJson(
+            json['payment'] as Map<String, dynamic>,
+          ),
+);
+
+Map<String, dynamic> _$PickupAvailabilityItemResponseToJson(
+  PickupAvailabilityItemResponse instance,
+) => <String, dynamic>{
+  'itemId': instance.itemId,
+  'itemType': instance.itemType,
+  'categoryKey': instance.categoryKey,
+  'title': instance.title,
+  'subtitle': instance.subtitle,
+  'display': instance.display,
+  'availability': instance.availability,
+  'payment': instance.payment,
+};
+
 PickupAvailabilitySummaryResponse _$PickupAvailabilitySummaryResponseFromJson(
   Map<String, dynamic> json,
 ) => PickupAvailabilitySummaryResponse(
   canAppendMeals: json['canAppendMeals'] as bool?,
   appendLimit: (json['appendLimit'] as num?)?.toInt(),
+  titleAr: json['titleAr'] as String?,
+  titleEn: json['titleEn'] as String?,
+  emptyTextAr: json['emptyTextAr'] as String?,
+  emptyTextEn: json['emptyTextEn'] as String?,
+  canCreatePickupRequest: json['canCreatePickupRequest'] as bool?,
 );
 
 Map<String, dynamic> _$PickupAvailabilitySummaryResponseToJson(
@@ -241,6 +321,11 @@ Map<String, dynamic> _$PickupAvailabilitySummaryResponseToJson(
 ) => <String, dynamic>{
   'canAppendMeals': instance.canAppendMeals,
   'appendLimit': instance.appendLimit,
+  'titleAr': instance.titleAr,
+  'titleEn': instance.titleEn,
+  'emptyTextAr': instance.emptyTextAr,
+  'emptyTextEn': instance.emptyTextEn,
+  'canCreatePickupRequest': instance.canCreatePickupRequest,
 };
 
 PickupAvailabilityDataResponse _$PickupAvailabilityDataResponseFromJson(
@@ -279,6 +364,14 @@ PickupAvailabilityDataResponse _$PickupAvailabilityDataResponseFromJson(
             ),
           )
           .toList(),
+  pickupItems:
+      (json['pickupItems'] as List<dynamic>?)
+          ?.map(
+            (e) => PickupAvailabilityItemResponse.fromJson(
+              e as Map<String, dynamic>,
+            ),
+          )
+          .toList(),
   canAppendMeals: json['canAppendMeals'] as bool?,
   appendLimit: (json['appendLimit'] as num?)?.toInt(),
   summary:
@@ -299,6 +392,7 @@ Map<String, dynamic> _$PickupAvailabilityDataResponseToJson(
   'plannedSlots': instance.plannedSlots,
   'slots': instance.slots,
   'unavailableSlots': instance.unavailableSlots,
+  'pickupItems': instance.pickupItems,
   'canAppendMeals': instance.canAppendMeals,
   'appendLimit': instance.appendLimit,
   'summary': instance.summary,
@@ -359,6 +453,12 @@ PickupRequestDataResponse _$PickupRequestDataResponseFromJson(
       (json['selectedMealSlotIds'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
+  selectedPickupItemIds:
+      (json['selectedPickupItemIds'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
+  addonCount: (json['addonCount'] as num?)?.toInt(),
+  itemCount: (json['itemCount'] as num?)?.toInt(),
   status: json['status'] as String?,
   statusLabel: json['statusLabel'] as String?,
   currentStep: (json['currentStep'] as num?)?.toInt(),
@@ -383,6 +483,9 @@ Map<String, dynamic> _$PickupRequestDataResponseToJson(
   'date': instance.date,
   'mealCount': instance.mealCount,
   'selectedMealSlotIds': instance.selectedMealSlotIds,
+  'selectedPickupItemIds': instance.selectedPickupItemIds,
+  'addonCount': instance.addonCount,
+  'itemCount': instance.itemCount,
   'status': instance.status,
   'statusLabel': instance.statusLabel,
   'currentStep': instance.currentStep,

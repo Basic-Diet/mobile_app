@@ -30,6 +30,21 @@ class PickupAvailabilitySheet extends StatelessWidget {
         child: BlocBuilder<PickupRequestsCubit, PickupRequestsState>(
           builder: (context, state) {
             final availability = state.availability;
+            final isArabic = context.locale.languageCode == 'ar';
+            final hasPickupItems =
+                availability != null && availability.pickupItems.isNotEmpty;
+            final sheetTitle =
+                availability == null
+                    ? Strings.chooseMealsForPickup.tr()
+                    : isArabic
+                    ? availability.titleAr
+                    : availability.titleEn;
+            final emptyText =
+                availability == null
+                    ? ''
+                    : isArabic
+                    ? availability.emptyTextAr
+                    : availability.emptyTextEn;
             return Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,7 +61,9 @@ class PickupAvailabilitySheet extends StatelessWidget {
                 ),
                 Gap(AppSize.s16.h),
                 Text(
-                  Strings.chooseMealsForPickup.tr(),
+                  sheetTitle.isEmpty
+                      ? Strings.chooseMealsForPickup.tr()
+                      : sheetTitle,
                   style: getBoldTextStyle(
                     color: ColorManager.textPrimary,
                     fontSize: FontSizeManager.s18.sp,
@@ -70,38 +87,54 @@ class PickupAvailabilitySheet extends StatelessWidget {
                     child: ListView(
                       shrinkWrap: true,
                       children: [
-                        ...availability.plannedSlots.map(
-                          (slot) => _SlotTile(
-                            slot: slot,
-                            isSelected: state.selectedSlotIds.contains(
-                              slot.slotId,
+                        if (hasPickupItems)
+                          ...availability.pickupItems.map(
+                            (item) => _PickupItemTile(
+                              item: item,
+                              isSelected: state.selectedPickupItemIds.contains(
+                                item.itemId,
+                              ),
+                              onTap:
+                                  () => context
+                                      .read<PickupRequestsCubit>()
+                                      .togglePickupItem(item),
                             ),
-                            selectedAddonIds: state.selectedAddonIds,
-                            onTap:
-                                () => context
-                                    .read<PickupRequestsCubit>()
-                                    .toggleSlot(slot),
-                            onAddonTap:
-                                (addon) => context
-                                    .read<PickupRequestsCubit>()
-                                    .toggleAddon(slot, addon),
+                          )
+                        else ...[
+                          ...availability.plannedSlots.map(
+                            (slot) => _SlotTile(
+                              slot: slot,
+                              isSelected: state.selectedPickupItemIds.contains(
+                                slot.slotId,
+                              ),
+                              onTap:
+                                  () => context
+                                      .read<PickupRequestsCubit>()
+                                      .toggleSlot(slot),
+                            ),
                           ),
-                        ),
-                        ...availability.unavailableSlots.map(
-                          (slot) => _SlotTile(
-                            slot: slot,
-                            isSelected: false,
-                            selectedAddonIds: const {},
-                            onTap: () {},
-                            onAddonTap: (_) {},
+                          ...availability.unavailableSlots.map(
+                            (slot) => _SlotTile(
+                              slot: slot,
+                              isSelected: false,
+                              onTap: () {},
+                            ),
                           ),
-                        ),
+                        ],
                       ],
                     ),
                   ),
-                  if (availability.selectableSlots.isEmpty) ...[
+                  if ((hasPickupItems &&
+                          availability.selectableItems.isEmpty) ||
+                      (!hasPickupItems &&
+                          availability.selectableSlots.isEmpty)) ...[
                     Gap(AppSize.s12.h),
-                    _MessageTile(text: Strings.noPickupMealsAvailable.tr()),
+                    _MessageTile(
+                      text:
+                          emptyText.isEmpty
+                              ? Strings.noPickupMealsAvailable.tr()
+                              : emptyText,
+                    ),
                     if (availability.canAppendMeals) ...[
                       Gap(AppSize.s10.h),
                       SizedBox(
@@ -134,7 +167,8 @@ class PickupAvailabilitySheet extends StatelessWidget {
                     Expanded(
                       child: ElevatedButton(
                         onPressed:
-                            state.selectedSlotIds.isEmpty || state.isCreating
+                            state.selectedPickupItemIds.isEmpty ||
+                                    state.isCreating
                                 ? null
                                 : () async {
                                   final navigator = Navigator.of(context);
@@ -214,16 +248,12 @@ class _WalletSummary extends StatelessWidget {
 class _SlotTile extends StatelessWidget {
   final PickupAvailabilitySlotModel slot;
   final bool isSelected;
-  final Set<String> selectedAddonIds;
   final VoidCallback onTap;
-  final ValueChanged<PickupAvailabilityAddonModel> onAddonTap;
 
   const _SlotTile({
     required this.slot,
     required this.isSelected,
-    required this.selectedAddonIds,
     required this.onTap,
-    required this.onAddonTap,
   });
 
   @override
@@ -308,25 +338,6 @@ class _SlotTile extends StatelessWidget {
                                 .toList(),
                       ),
                     ],
-                    if (slot.addons.isNotEmpty) ...[
-                      Gap(AppSize.s10.h),
-                      Text(
-                        Strings.addOns.tr(),
-                        style: getBoldTextStyle(
-                          color: ColorManager.textSecondary,
-                          fontSize: FontSizeManager.s11.sp,
-                        ),
-                      ),
-                      Gap(AppSize.s4.h),
-                      ...slot.addons.map(
-                        (addon) => _AddonTile(
-                          addon: addon,
-                          isSelected: selectedAddonIds.contains(addon.id),
-                          isEnabled: isEnabled && isSelected,
-                          onTap: () => onAddonTap(addon),
-                        ),
-                      ),
-                    ],
                   ],
                 ),
               ),
@@ -338,62 +349,101 @@ class _SlotTile extends StatelessWidget {
   }
 }
 
-class _AddonTile extends StatelessWidget {
-  final PickupAvailabilityAddonModel addon;
+class _PickupItemTile extends StatelessWidget {
+  final PickupAvailabilityItemModel item;
   final bool isSelected;
-  final bool isEnabled;
   final VoidCallback onTap;
 
-  const _AddonTile({
-    required this.addon,
+  const _PickupItemTile({
+    required this.item,
     required this.isSelected,
-    required this.isEnabled,
     required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     final isArabic = context.locale.languageCode == 'ar';
-    final title = isArabic ? addon.nameAr : addon.nameEn;
-    final enabled = isEnabled && addon.isSelectable;
+    final title = isArabic ? item.titleAr : item.titleEn;
+    final subtitle = isArabic ? item.subtitleAr : item.subtitleEn;
+    final statusText = isArabic ? item.statusTextAr : item.statusTextEn;
+    final enabled = item.isSelectable;
 
-    return InkWell(
-      onTap: enabled ? onTap : null,
-      borderRadius: BorderRadius.circular(AppSize.s8.r),
-      child: Padding(
-        padding: EdgeInsets.symmetric(vertical: AppPadding.p2.h),
-        child: Row(
-          children: [
-            SizedBox(
-              width: AppSize.s32.w,
-              height: AppSize.s32.w,
-              child: Checkbox(
+    return Padding(
+      padding: EdgeInsets.only(bottom: AppPadding.p8.h),
+      child: InkWell(
+        onTap: enabled ? onTap : null,
+        borderRadius: BorderRadius.circular(AppSize.s12.r),
+        child: Container(
+          padding: EdgeInsets.all(AppPadding.p12.w),
+          decoration: BoxDecoration(
+            color:
+                enabled
+                    ? ColorManager.backgroundSurface
+                    : ColorManager.stateDisabledSurface,
+            borderRadius: BorderRadius.circular(AppSize.s12.r),
+            border: Border.all(
+              color:
+                  isSelected
+                      ? ColorManager.brandPrimary
+                      : ColorManager.borderDefault,
+            ),
+          ),
+          child: Row(
+            children: [
+              Checkbox(
                 value: isSelected,
                 onChanged: enabled ? (_) => onTap() : null,
               ),
-            ),
-            Gap(AppSize.s4.w),
-            Expanded(
-              child: Text(
-                title.isEmpty ? Strings.addOns.tr() : title,
-                style: getRegularTextStyle(
-                  color:
-                      enabled
-                          ? ColorManager.textPrimary
-                          : ColorManager.textMuted,
-                  fontSize: FontSizeManager.s11.sp,
+              Gap(AppSize.s8.w),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title.isEmpty ? Strings.pickupRequest.tr() : title,
+                      style: getBoldTextStyle(
+                        color:
+                            enabled
+                                ? ColorManager.textPrimary
+                                : ColorManager.textMuted,
+                        fontSize: FontSizeManager.s13.sp,
+                      ),
+                    ),
+                    if (subtitle.isNotEmpty) ...[
+                      Gap(AppSize.s4.h),
+                      Text(
+                        subtitle,
+                        style: getRegularTextStyle(
+                          color: ColorManager.textSecondary,
+                          fontSize: FontSizeManager.s11.sp,
+                        ),
+                      ),
+                    ],
+                    if (!enabled && statusText.isNotEmpty) ...[
+                      Gap(AppSize.s4.h),
+                      Text(
+                        statusText,
+                        style: getRegularTextStyle(
+                          color: ColorManager.textMuted,
+                          fontSize: FontSizeManager.s11.sp,
+                        ),
+                      ),
+                    ],
+                    if (item.paymentRequired) ...[
+                      Gap(AppSize.s4.h),
+                      Text(
+                        Strings.paymentRequiredBeforePickup.tr(),
+                        style: getBoldTextStyle(
+                          color: ColorManager.stateWarningEmphasis,
+                          fontSize: FontSizeManager.s11.sp,
+                        ),
+                      ),
+                    ],
+                  ],
                 ),
               ),
-            ),
-            if (addon.quantity > 0)
-              Text(
-                '${addon.quantity}',
-                style: getRegularTextStyle(
-                  color: ColorManager.textSecondary,
-                  fontSize: FontSizeManager.s10.sp,
-                ),
-              ),
-          ],
+            ],
+          ),
         ),
       ),
     );

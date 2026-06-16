@@ -11,8 +11,7 @@ class PickupRequestsState extends Equatable {
   final String date;
   final PickupAvailabilityModel? availability;
   final List<PickupRequestModel> requests;
-  final Set<String> selectedSlotIds;
-  final Set<String> selectedAddonIds;
+  final Set<String> selectedPickupItemIds;
   final String idempotencyKey;
 
   const PickupRequestsState({
@@ -25,8 +24,7 @@ class PickupRequestsState extends Equatable {
     this.date = '',
     this.availability,
     this.requests = const [],
-    this.selectedSlotIds = const {},
-    this.selectedAddonIds = const {},
+    this.selectedPickupItemIds = const {},
     this.idempotencyKey = '',
   });
 
@@ -41,8 +39,7 @@ class PickupRequestsState extends Equatable {
     PickupAvailabilityModel? availability,
     bool clearAvailability = false,
     List<PickupRequestModel>? requests,
-    Set<String>? selectedSlotIds,
-    Set<String>? selectedAddonIds,
+    Set<String>? selectedPickupItemIds,
     String? idempotencyKey,
   }) {
     return PickupRequestsState(
@@ -57,8 +54,8 @@ class PickupRequestsState extends Equatable {
       availability:
           clearAvailability ? null : availability ?? this.availability,
       requests: requests ?? this.requests,
-      selectedSlotIds: selectedSlotIds ?? this.selectedSlotIds,
-      selectedAddonIds: selectedAddonIds ?? this.selectedAddonIds,
+      selectedPickupItemIds:
+          selectedPickupItemIds ?? this.selectedPickupItemIds,
       idempotencyKey: idempotencyKey ?? this.idempotencyKey,
     );
   }
@@ -74,8 +71,7 @@ class PickupRequestsState extends Equatable {
     date,
     availability,
     requests,
-    selectedSlotIds,
-    selectedAddonIds,
+    selectedPickupItemIds,
     idempotencyKey,
   ];
 }

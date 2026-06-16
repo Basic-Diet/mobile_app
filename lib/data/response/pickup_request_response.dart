@@ -48,6 +48,10 @@ class PickupSlotDisplayResponse {
   final String? unavailableTextAr;
   @JsonKey(name: 'unavailableTextEn')
   final String? unavailableTextEn;
+  @JsonKey(name: 'selectionTextAr')
+  final String? selectionTextAr;
+  @JsonKey(name: 'selectionTextEn')
+  final String? selectionTextEn;
 
   const PickupSlotDisplayResponse({
     this.titleAr,
@@ -60,6 +64,8 @@ class PickupSlotDisplayResponse {
     this.statusTextEn,
     this.unavailableTextAr,
     this.unavailableTextEn,
+    this.selectionTextAr,
+    this.selectionTextEn,
   });
 
   factory PickupSlotDisplayResponse.fromJson(Map<String, dynamic> json) =>
@@ -242,15 +248,94 @@ class PickupAvailabilityPaymentResponse {
 }
 
 @JsonSerializable()
+class PickupAvailabilityStateResponse {
+  @JsonKey(name: 'state')
+  final String? state;
+  @JsonKey(name: 'available')
+  final bool? available;
+  @JsonKey(name: 'canSelect')
+  final bool? canSelect;
+  @JsonKey(name: 'unavailableReason')
+  final String? unavailableReason;
+  @JsonKey(name: 'reservedByPickupRequestId')
+  final String? reservedByPickupRequestId;
+
+  const PickupAvailabilityStateResponse({
+    this.state,
+    this.available,
+    this.canSelect,
+    this.unavailableReason,
+    this.reservedByPickupRequestId,
+  });
+
+  factory PickupAvailabilityStateResponse.fromJson(Map<String, dynamic> json) =>
+      _$PickupAvailabilityStateResponseFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$PickupAvailabilityStateResponseToJson(this);
+}
+
+@JsonSerializable()
+class PickupAvailabilityItemResponse {
+  @JsonKey(name: 'itemId')
+  final String? itemId;
+  @JsonKey(name: 'itemType')
+  final String? itemType;
+  @JsonKey(name: 'categoryKey')
+  final String? categoryKey;
+  @JsonKey(name: 'title')
+  final PickupSlotTitleResponse? title;
+  @JsonKey(name: 'subtitle')
+  final PickupSlotTitleResponse? subtitle;
+  @JsonKey(name: 'display')
+  final PickupSlotDisplayResponse? display;
+  @JsonKey(name: 'availability')
+  final PickupAvailabilityStateResponse? availability;
+  @JsonKey(name: 'payment')
+  final PickupAvailabilityPaymentResponse? payment;
+
+  const PickupAvailabilityItemResponse({
+    this.itemId,
+    this.itemType,
+    this.categoryKey,
+    this.title,
+    this.subtitle,
+    this.display,
+    this.availability,
+    this.payment,
+  });
+
+  factory PickupAvailabilityItemResponse.fromJson(Map<String, dynamic> json) =>
+      _$PickupAvailabilityItemResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PickupAvailabilityItemResponseToJson(this);
+}
+
+@JsonSerializable()
 class PickupAvailabilitySummaryResponse {
   @JsonKey(name: 'canAppendMeals')
   final bool? canAppendMeals;
   @JsonKey(name: 'appendLimit')
   final int? appendLimit;
+  @JsonKey(name: 'titleAr')
+  final String? titleAr;
+  @JsonKey(name: 'titleEn')
+  final String? titleEn;
+  @JsonKey(name: 'emptyTextAr')
+  final String? emptyTextAr;
+  @JsonKey(name: 'emptyTextEn')
+  final String? emptyTextEn;
+  @JsonKey(name: 'canCreatePickupRequest')
+  final bool? canCreatePickupRequest;
 
   const PickupAvailabilitySummaryResponse({
     this.canAppendMeals,
     this.appendLimit,
+    this.titleAr,
+    this.titleEn,
+    this.emptyTextAr,
+    this.emptyTextEn,
+    this.canCreatePickupRequest,
   });
 
   factory PickupAvailabilitySummaryResponse.fromJson(
@@ -277,6 +362,8 @@ class PickupAvailabilityDataResponse {
   final List<PickupAvailabilitySlotResponse>? slots;
   @JsonKey(name: 'unavailableSlots')
   final List<PickupAvailabilitySlotResponse>? unavailableSlots;
+  @JsonKey(name: 'pickupItems')
+  final List<PickupAvailabilityItemResponse>? pickupItems;
   @JsonKey(name: 'canAppendMeals')
   final bool? canAppendMeals;
   @JsonKey(name: 'appendLimit')
@@ -292,6 +379,7 @@ class PickupAvailabilityDataResponse {
     this.plannedSlots,
     this.slots,
     this.unavailableSlots,
+    this.pickupItems,
     this.canAppendMeals,
     this.appendLimit,
     this.summary,
@@ -351,6 +439,12 @@ class PickupRequestDataResponse {
   final int? mealCount;
   @JsonKey(name: 'selectedMealSlotIds')
   final List<String>? selectedMealSlotIds;
+  @JsonKey(name: 'selectedPickupItemIds')
+  final List<String>? selectedPickupItemIds;
+  @JsonKey(name: 'addonCount')
+  final int? addonCount;
+  @JsonKey(name: 'itemCount')
+  final int? itemCount;
   @JsonKey(name: 'status')
   final String? status;
   @JsonKey(name: 'statusLabel')
@@ -372,6 +466,9 @@ class PickupRequestDataResponse {
     this.date,
     this.mealCount,
     this.selectedMealSlotIds,
+    this.selectedPickupItemIds,
+    this.addonCount,
+    this.itemCount,
     this.status,
     this.statusLabel,
     this.currentStep,

@@ -89,6 +89,58 @@ extension PickupAvailabilityAddonResponseMapper
   }
 }
 
+extension PickupAvailabilityItemResponseMapper
+    on PickupAvailabilityItemResponse? {
+  PickupAvailabilityItemModel toDomain() {
+    final display = this?.display;
+    final title = this?.title;
+    final subtitle = this?.subtitle;
+    final availability = this?.availability;
+    final payment = this?.payment;
+    final available = availability?.available ?? false;
+    final canSelect = availability?.canSelect ?? false;
+    return PickupAvailabilityItemModel(
+      itemId: this?.itemId.orEmpty() ?? '',
+      itemType: this?.itemType.orEmpty() ?? '',
+      categoryKey: this?.categoryKey.orEmpty() ?? '',
+      titleAr:
+          display?.titleAr.orEmpty() ??
+          title?.ar.orEmpty() ??
+          title?.en.orEmpty() ??
+          '',
+      titleEn:
+          display?.titleEn.orEmpty() ??
+          title?.en.orEmpty() ??
+          title?.ar.orEmpty() ??
+          '',
+      subtitleAr:
+          display?.subtitleAr.orEmpty() ??
+          subtitle?.ar.orEmpty() ??
+          subtitle?.en.orEmpty() ??
+          '',
+      subtitleEn:
+          display?.subtitleEn.orEmpty() ??
+          subtitle?.en.orEmpty() ??
+          subtitle?.ar.orEmpty() ??
+          '',
+      statusTextAr:
+          display?.statusTextAr.orEmpty() ??
+          display?.unavailableTextAr.orEmpty() ??
+          '',
+      statusTextEn:
+          display?.statusTextEn.orEmpty() ??
+          display?.unavailableTextEn.orEmpty() ??
+          '',
+      selectionTextAr: display?.selectionTextAr.orEmpty() ?? '',
+      selectionTextEn: display?.selectionTextEn.orEmpty() ?? '',
+      availabilityState: availability?.state.orEmpty() ?? '',
+      available: available,
+      canSelect: canSelect,
+      paymentRequired: payment?.required ?? false,
+    );
+  }
+}
+
 extension PickupAvailabilityResponseMapper on PickupAvailabilityResponse? {
   PickupAvailabilityModel toDomain() {
     final data = this?.data;
@@ -119,6 +171,13 @@ extension PickupAvailabilityResponseMapper on PickupAvailabilityResponse? {
       plannedSlots: plannedSlots.map((slot) => slot.toDomain()).toList(),
       unavailableSlots:
           unavailableSlots.map((slot) => slot.toDomain()).toList(),
+      pickupItems:
+          data?.pickupItems?.map((item) => item.toDomain()).toList() ??
+          const [],
+      titleAr: data?.summary?.titleAr.orEmpty() ?? '',
+      titleEn: data?.summary?.titleEn.orEmpty() ?? '',
+      emptyTextAr: data?.summary?.emptyTextAr.orEmpty() ?? '',
+      emptyTextEn: data?.summary?.emptyTextEn.orEmpty() ?? '',
       canAppendMeals:
           data?.canAppendMeals ?? data?.summary?.canAppendMeals ?? false,
       appendLimit: data?.appendLimit ?? data?.summary?.appendLimit ?? 0,
@@ -153,6 +212,13 @@ extension PickupRequestDataResponseMapper on PickupRequestDataResponse? {
       date: this?.date.orEmpty() ?? '',
       mealCount: this?.mealCount ?? this?.selectedMealSlotIds?.length ?? 0,
       selectedMealSlotIds: this?.selectedMealSlotIds ?? const [],
+      selectedPickupItemIds: this?.selectedPickupItemIds ?? const [],
+      addonCount: this?.addonCount ?? 0,
+      itemCount:
+          this?.itemCount ??
+          this?.selectedPickupItemIds?.length ??
+          this?.selectedMealSlotIds?.length ??
+          0,
       status: this?.status.orEmpty() ?? '',
       statusLabel: this?.statusLabel.orEmpty() ?? '',
       currentStep: this?.currentStep ?? 0,

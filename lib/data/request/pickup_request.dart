@@ -11,20 +11,16 @@ class CreatePickupRequest {
   @JsonKey(name: 'subscriptionDayId')
   final String? subscriptionDayId;
 
-  @JsonKey(name: 'selectedMealSlotIds')
-  final List<String> selectedMealSlotIds;
-
-  @JsonKey(name: 'selectedAddonIds')
-  final List<String>? selectedAddonIds;
+  @JsonKey(name: 'selectedPickupItemIds')
+  final List<String> selectedPickupItemIds;
 
   @JsonKey(name: 'idempotencyKey')
   final String idempotencyKey;
 
   const CreatePickupRequest({
     required this.date,
-    required this.selectedMealSlotIds,
+    required this.selectedPickupItemIds,
     required this.idempotencyKey,
-    this.selectedAddonIds,
     this.subscriptionDayId,
   });
 

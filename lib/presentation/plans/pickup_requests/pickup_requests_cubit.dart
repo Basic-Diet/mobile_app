@@ -55,8 +55,7 @@ class PickupRequestsCubit extends Cubit<PickupRequestsState> {
         isAvailabilityLoading: true,
         errorMessage: '',
         createErrorMessage: '',
-        selectedSlotIds: const {},
-        selectedAddonIds: const {},
+        selectedPickupItemIds: const {},
         idempotencyKey: const Uuid().v4(),
         clearAvailability: true,
       ),
@@ -89,47 +88,31 @@ class PickupRequestsCubit extends Cubit<PickupRequestsState> {
   void toggleSlot(PickupAvailabilitySlotModel slot) {
     if (!slot.isSelectable || state.isCreating) return;
 
-    final next = Set<String>.from(state.selectedSlotIds);
-    final nextAddons = Set<String>.from(state.selectedAddonIds);
+    final next = Set<String>.from(state.selectedPickupItemIds);
     if (next.contains(slot.slotId)) {
       next.remove(slot.slotId);
-      nextAddons.removeAll(slot.addons.map((addon) => addon.id));
     } else {
       next.add(slot.slotId);
     }
-    emit(
-      state.copyWith(
-        selectedSlotIds: next,
-        selectedAddonIds: nextAddons,
-        createErrorMessage: '',
-      ),
-    );
+    emit(state.copyWith(selectedPickupItemIds: next, createErrorMessage: ''));
   }
 
-  void toggleAddon(
-    PickupAvailabilitySlotModel slot,
-    PickupAvailabilityAddonModel addon,
-  ) {
-    if (!slot.isSelectable ||
-        !addon.isSelectable ||
-        !state.selectedSlotIds.contains(slot.slotId) ||
-        state.isCreating) {
-      return;
-    }
+  void togglePickupItem(PickupAvailabilityItemModel item) {
+    if (!item.isSelectable || state.isCreating) return;
 
-    final next = Set<String>.from(state.selectedAddonIds);
-    if (next.contains(addon.id)) {
-      next.remove(addon.id);
+    final next = Set<String>.from(state.selectedPickupItemIds);
+    if (next.contains(item.itemId)) {
+      next.remove(item.itemId);
     } else {
-      next.add(addon.id);
+      next.add(item.itemId);
     }
-    emit(state.copyWith(selectedAddonIds: next, createErrorMessage: ''));
+    emit(state.copyWith(selectedPickupItemIds: next, createErrorMessage: ''));
   }
 
   Future<bool> confirmSelectedSlots() async {
     final availability = state.availability;
     if (availability == null ||
-        state.selectedSlotIds.isEmpty ||
+        state.selectedPickupItemIds.isEmpty ||
         state.isCreating) {
       return false;
     }
@@ -140,8 +123,7 @@ class PickupRequestsCubit extends Cubit<PickupRequestsState> {
         subscriptionId: state.subscriptionId,
         date: state.date,
         subscriptionDayId: availability.subscriptionDayId,
-        selectedMealSlotIds: state.selectedSlotIds.toList(),
-        selectedAddonIds: state.selectedAddonIds.toList(),
+        selectedPickupItemIds: state.selectedPickupItemIds.toList(),
         idempotencyKey:
             state.idempotencyKey.isEmpty
                 ? const Uuid().v4()
@@ -164,12 +146,12 @@ class PickupRequestsCubit extends Cubit<PickupRequestsState> {
         emit(
           state.copyWith(
             isCreating: false,
-            selectedSlotIds: const {},
-            selectedAddonIds: const {},
+            selectedPickupItemIds: const {},
             idempotencyKey: '',
             clearAvailability: true,
           ),
         );
+        openAvailability();
         load(subscriptionId: state.subscriptionId, date: state.date);
         return true;
       },
@@ -187,6 +169,7 @@ class PickupRequestsCubit extends Cubit<PickupRequestsState> {
     const paymentCodes = {
       'PREMIUM_PAYMENT_REQUIRED',
       'ADDON_PAYMENT_REQUIRED',
+      'PAYMENT_REQUIRED',
       'PENDING_ADDON_PAYMENT',
     };
     if (paymentCodes.contains(message)) {
