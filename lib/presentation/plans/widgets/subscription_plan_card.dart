@@ -53,12 +53,13 @@ class SubscriptionPlanCard extends StatelessWidget {
               ],
             ],
           ),
-          Gap(AppSize.s24.h),
+          Gap(AppSize.s16.h),
           _buildMealsProgress(progressValue),
           Gap(AppSize.s16.h),
           if (data.addonSubscriptions.isNotEmpty) _buildAddonsSection(),
+          Gap(AppSize.s16.h),
           Container(height: 1, color: ColorManager.borderDefault),
-          Gap(AppSize.s20.h),
+          Gap(AppSize.s16.h),
           if (data.premiumSummary.isNotEmpty) _buildPremiumSection(),
 
           _buildDeliveryInfo(),
@@ -235,26 +236,29 @@ class SubscriptionPlanCard extends StatelessWidget {
   }
 
   Widget _buildAddonsSection() {
-    return Column(
-      children:
-          data.addonSubscriptions.map((addon) {
-            return Container(
-              margin: EdgeInsets.only(bottom: AppSize.s12.h),
-              padding: EdgeInsets.all(AppPadding.p14.w),
-              decoration: BoxDecoration(
-                color: ColorManager.brandAccentSoft,
-                border: Border.all(color: ColorManager.brandAccentBorder),
-                borderRadius: BorderRadius.circular(AppSize.s18.r),
-              ),
-              child: Text(
-                '${addon.includedCount} ${addon.category.isNotEmpty ? addon.category : Strings.addOns.tr()} ${Strings.includedPerDay.tr()}',
-                style: getBoldTextStyle(
-                  color: ColorManager.brandAccent,
-                  fontSize: FontSizeManager.s12.sp,
-                ),
-              ),
-            );
-          }).toList(),
+    return Wrap(
+      spacing: AppSize.s8.w,
+      runSpacing: AppSize.s8.h,
+      children: data.addonSubscriptions.map((addon) {
+        return Container(
+          padding: EdgeInsets.symmetric(
+            horizontal: AppPadding.p8.w,
+            vertical: AppPadding.p4.h,
+          ),
+          decoration: BoxDecoration(
+            color: ColorManager.brandAccentSoft,
+            border: Border.all(color: ColorManager.brandAccentBorder),
+            borderRadius: BorderRadius.circular(AppSize.s12.r),
+          ),
+          child: Text(
+            '${addon.includedCount} ${addon.category.isNotEmpty ? addon.category : Strings.addOns.tr()} ${Strings.includedPerDay.tr()}',
+            style: getBoldTextStyle(
+              color: ColorManager.brandAccent,
+              fontSize: FontSizeManager.s10.sp,
+            ),
+          ),
+        );
+      }).toList(),
     );
   }
 
