@@ -11,7 +11,7 @@ enum FulfillmentStatusTone { neutral, info, warning, success, error }
 class FulfillmentStatusCard extends StatelessWidget {
   final String title;
   final String? subtitle;
-  final String statusText;
+  final String? statusText;
   final String? reasonText;
   final FulfillmentStatusTone tone;
   final IconData icon;
@@ -25,7 +25,7 @@ class FulfillmentStatusCard extends StatelessWidget {
     super.key,
     required this.title,
     this.subtitle,
-    required this.statusText,
+    this.statusText,
     this.reasonText,
     required this.tone,
     required this.icon,
@@ -523,7 +523,7 @@ _TonePalette _tonePalette(FulfillmentStatusTone tone) {
 class _FulfillmentHeader extends StatelessWidget {
   final String title;
   final String? subtitle;
-  final String statusText;
+  final String? statusText;
   final String? reasonText;
   final IconData icon;
   final _TonePalette palette;
@@ -531,7 +531,7 @@ class _FulfillmentHeader extends StatelessWidget {
   const _FulfillmentHeader({
     required this.title,
     this.subtitle,
-    required this.statusText,
+    this.statusText,
     this.reasonText,
     required this.icon,
     required this.palette,
@@ -574,30 +574,32 @@ class _FulfillmentHeader extends StatelessWidget {
                   ),
                 ),
               ],
-              Gap(AppSize.s10.h),
-              Align(
-                alignment: AlignmentDirectional.centerStart,
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: palette.surface,
-                    borderRadius: BorderRadius.circular(AppSize.s100.r),
-                    border: Border.all(color: palette.border),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: AppPadding.p12.w,
-                      vertical: AppPadding.p6.h,
+              if (statusText?.trim().isNotEmpty == true) ...[
+                Gap(AppSize.s10.h),
+                Align(
+                  alignment: AlignmentDirectional.centerStart,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: palette.surface,
+                      borderRadius: BorderRadius.circular(AppSize.s100.r),
+                      border: Border.all(color: palette.border),
                     ),
-                    child: Text(
-                      statusText,
-                      style: getBoldTextStyle(
-                        color: palette.text,
-                        fontSize: FontSizeManager.s12.sp,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: AppPadding.p12.w,
+                        vertical: AppPadding.p6.h,
+                      ),
+                      child: Text(
+                        statusText!,
+                        style: getBoldTextStyle(
+                          color: palette.text,
+                          fontSize: FontSizeManager.s12.sp,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
+              ],
               if (reasonText?.isNotEmpty == true) ...[
                 Gap(AppSize.s8.h),
                 Text(

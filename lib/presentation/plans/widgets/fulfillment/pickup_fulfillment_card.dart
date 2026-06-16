@@ -44,7 +44,7 @@ class PickupFulfillmentCard extends StatelessWidget {
           overview.fulfillmentSummary?.title.isNotEmpty == true
               ? overview.fulfillmentSummary!.title
               : Strings.fulfillmentPickupTitle.tr(),
-      statusText: _statusText(context),
+      statusText: null,
       reasonText: _reasonText(context),
       tone: _tone(),
       icon: Icons.storefront_rounded,
@@ -145,26 +145,6 @@ class PickupFulfillmentCard extends StatelessWidget {
       return FulfillmentStatusTone.warning;
     }
     return FulfillmentStatusTone.neutral;
-  }
-
-  String _statusText(BuildContext context) {
-    String label = '';
-    if (pickupStatus?.statusLabel.isNotEmpty == true) {
-      label = pickupStatus!.statusLabel;
-    } else if (fulfillmentStatus?.statusLabel.isNotEmpty == true) {
-      label = fulfillmentStatus!.statusLabel;
-    } else if (overview.fulfillmentSummary?.statusLabel.isNotEmpty == true) {
-      label = overview.fulfillmentSummary!.statusLabel;
-    } else if (overview.statusLabel.isNotEmpty) {
-      label = overview.statusLabel;
-    } else {
-      label = Strings.fulfillmentUnknownStatus.tr();
-    }
-
-    if (label == 'مفتوح' || label.toLowerCase() == 'open') {
-      return Strings.orderOpenState.tr();
-    }
-    return label;
   }
 
   String _reasonText(BuildContext context) {

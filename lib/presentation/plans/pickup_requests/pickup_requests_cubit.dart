@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:basic_diet/domain/model/pickup_request_model.dart';
 import 'package:basic_diet/domain/usecase/create_pickup_request_usecase.dart';
 import 'package:basic_diet/domain/usecase/get_pickup_availability_usecase.dart';
@@ -10,6 +12,8 @@ class PickupRequestsCubit extends Cubit<PickupRequestsState> {
   final GetPickupAvailabilityUseCase _getPickupAvailabilityUseCase;
   final GetPickupRequestsUseCase _getPickupRequestsUseCase;
   final CreatePickupRequestUseCase _createPickupRequestUseCase;
+  Timer? _pollingTimer;
+  bool _isPollingFetchInProgress = false;
 
   PickupRequestsCubit(
     this._getPickupAvailabilityUseCase,
@@ -20,10 +24,11 @@ class PickupRequestsCubit extends Cubit<PickupRequestsState> {
   Future<void> load({
     required String subscriptionId,
     required String date,
+    bool showLoading = true,
   }) async {
     emit(
       state.copyWith(
-        isLoading: true,
+        isLoading: showLoading,
         errorMessage: '',
         subscriptionId: subscriptionId,
         date: date,
@@ -45,6 +50,36 @@ class PickupRequestsCubit extends Cubit<PickupRequestsState> {
         ),
       ),
     );
+  }
+
+  void startPolling({
+    required String subscriptionId,
+    required String date,
+    bool forceRefresh = false,
+  }) {
+    if (state.subscriptionId == subscriptionId &&
+        state.date == date &&
+        _pollingTimer != null) {
+      if (forceRefresh) {
+        _pollRequests(subscriptionId: subscriptionId, date: date);
+      }
+      return;
+    }
+
+    stopPolling();
+    load(subscriptionId: subscriptionId, date: date).then((_) {
+      if (!isClosed && _allVisibleRequestsCompleted) {
+        stopPolling();
+      }
+    });
+    _pollingTimer = Timer.periodic(const Duration(seconds: 10), (_) {
+      _pollRequests(subscriptionId: subscriptionId, date: date);
+    });
+  }
+
+  void stopPolling() {
+    _pollingTimer?.cancel();
+    _pollingTimer = null;
   }
 
   Future<void> openAvailability() async {
@@ -152,11 +187,42 @@ class PickupRequestsCubit extends Cubit<PickupRequestsState> {
           ),
         );
         openAvailability();
-        load(subscriptionId: state.subscriptionId, date: state.date);
+        startPolling(
+          subscriptionId: state.subscriptionId,
+          date: state.date,
+          forceRefresh: true,
+        );
         return true;
       },
     );
   }
+
+  Future<void> _pollRequests({
+    required String subscriptionId,
+    required String date,
+  }) async {
+    if (_isPollingFetchInProgress) return;
+
+    _isPollingFetchInProgress = true;
+    try {
+      await load(
+        subscriptionId: subscriptionId,
+        date: date,
+        showLoading: false,
+      );
+    } finally {
+      _isPollingFetchInProgress = false;
+    }
+    if (isClosed) return;
+
+    if (_allVisibleRequestsCompleted) {
+      stopPolling();
+    }
+  }
+
+  bool get _allVisibleRequestsCompleted =>
+      state.requests.isNotEmpty &&
+      state.requests.every((request) => request.isCompleted);
 
   List<PickupRequestModel> _requestsForDate(
     List<PickupRequestModel> requests,
@@ -176,5 +242,11 @@ class PickupRequestsCubit extends Cubit<PickupRequestsState> {
       return 'PAYMENT_REQUIRED_BEFORE_PICKUP';
     }
     return message;
+  }
+
+  @override
+  Future<void> close() {
+    stopPolling();
+    return super.close();
   }
 }

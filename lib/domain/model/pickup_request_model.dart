@@ -286,7 +286,12 @@ class PickupRequestModel extends Equatable {
 
   bool get isReady => status == 'ready_for_pickup';
 
-  bool get isFulfilled => status == 'fulfilled';
+  bool get isCompleted {
+    final normalizedStatus = status.trim().toLowerCase();
+    return normalizedStatus == 'completed' || normalizedStatus == 'fulfilled';
+  }
+
+  bool get isFulfilled => isCompleted;
 
   @override
   List<Object?> get props => [

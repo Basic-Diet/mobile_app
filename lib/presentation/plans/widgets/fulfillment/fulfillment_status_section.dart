@@ -63,10 +63,11 @@ class FulfillmentStatusSection extends StatelessWidget {
         children: [
           Gap(AppSize.s16.h),
           BlocProvider(
+            key: ValueKey('pickup-requests-${data.id}-$businessDate'),
             create: (_) {
               initPickupRequestsModule();
               return instance<PickupRequestsCubit>()
-                ..load(subscriptionId: data.id, date: businessDate);
+                ..startPolling(subscriptionId: data.id, date: businessDate);
             },
             child: BlocBuilder<PickupRequestsCubit, PickupRequestsState>(
               builder: (pickupContext, pickupState) {
