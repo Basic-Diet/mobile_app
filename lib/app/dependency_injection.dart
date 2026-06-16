@@ -485,6 +485,12 @@ void initMealPlannerModule() {
     );
   }
 
+  if (!GetIt.I.isRegistered<AppendMealsToDayUseCase>()) {
+    instance.registerFactory<AppendMealsToDayUseCase>(
+      () => AppendMealsToDayUseCase(instance<Repository>()),
+    );
+  }
+
   if (!GetIt.I.isRegistered<CreateUnifiedDayPaymentUseCase>()) {
     instance.registerFactory<CreateUnifiedDayPaymentUseCase>(
       () => CreateUnifiedDayPaymentUseCase(instance<Repository>()),
@@ -512,6 +518,7 @@ void initMealPlannerModule() {
         instance<GetSubscriptionDayUseCase>(),
         instance<ValidateDaySelectionUseCase>(),
         instance<SaveDaySelectionUseCase>(),
+        instance<AppendMealsToDayUseCase>(),
         instance<CreateUnifiedDayPaymentUseCase>(),
         instance<VerifyUnifiedDayPaymentUseCase>(),
         instance<ConfirmDaySelectionUseCase>(),

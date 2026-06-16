@@ -345,6 +345,7 @@ final class MealPlannerLoaded extends MealPlannerState {
   }
 
   int get localAddonPendingAmountHalala {
+    if (isSelectedDayAppendMode) return 0;
     var total = 0;
     for (final addon in selectedAddOnModels) {
       if (addonSelectionStatusFor(addon.id) == 'pending_payment') {
@@ -355,6 +356,7 @@ final class MealPlannerLoaded extends MealPlannerState {
   }
 
   int get localAddonPendingCount {
+    if (isSelectedDayAppendMode) return 0;
     var total = 0;
     for (final addon in selectedAddOnModels) {
       if (addonSelectionStatusFor(addon.id) == 'pending_payment') {
@@ -430,6 +432,26 @@ final class MealPlannerLoaded extends MealPlannerState {
 
   bool get hasSelectedMeals => selectedMealsCount > 0;
 
+  Iterable<MealPlannerSlotSelection> get appendedSlots =>
+      selectedDaySlots.skip(savedMealSlotCount);
+
+  int get appendedMealsCount =>
+      appendedSlots.where(_isCompletedMealSelection).length;
+
+  bool get hasAppendableMealSelection => appendedMealsCount > 0;
+
+  bool get hasIncompleteAppendedSlots =>
+      appendedSlots.any((slot) => !_isCompletedMealSelection(slot));
+
+  int get billableSelectedMealsCount =>
+      isSelectedDayAppendMode ? appendedMealsCount : selectedMealsCount;
+
+  bool get hasBillableSelectedMeals {
+    if (billableSelectedMealsCount > 0) return true;
+    return isSelectedDayAppendMode &&
+        (selectedDayDetail?.paymentRequirement?.requiresPayment ?? false);
+  }
+
   String get paymentCurrency {
     final dayCurrency = selectedDayDetail?.paymentRequirement?.currency;
     if (dayCurrency != null && dayCurrency.isNotEmpty) {
@@ -453,14 +475,20 @@ final class MealPlannerLoaded extends MealPlannerState {
   }
 
   bool get canAddMoreMeals {
-    if (!isSelectedDayEditable) return false;
+    if (!canModifySelectedDay) return false;
     if (mealBalance != null) {
       if (mealBalance?.canConsumeNow == false) return false;
-      if (mealBalance?.dailyMealLimitEnforced == true) return false;
-      // Also ensure we have remaining meals globally if available
       if (mealBalance?.remainingMeals != null &&
           mealBalance!.remainingMeals! <= 0) {
         return false;
+      }
+      if (mealBalance?.dailyMealLimitEnforced == true &&
+          !isSelectedDayAppendMode) {
+        return false;
+      }
+      if (mealBalance?.maxConsumableMealsNow == null &&
+          isSelectedDayAppendMode) {
+        return true;
       }
     }
 
@@ -468,16 +496,20 @@ final class MealPlannerLoaded extends MealPlannerState {
   }
 
   String? get canAddMoreMealsReason {
-    if (!isSelectedDayEditable) return "DAY_NOT_EDITABLE";
+    if (!canModifySelectedDay) return "DAY_NOT_EDITABLE";
     if (mealBalance != null) {
       if (mealBalance?.canConsumeNow == false) return "CANNOT_CONSUME_NOW";
-      if (mealBalance?.dailyMealLimitEnforced == true) {
+      if (mealBalance?.dailyMealLimitEnforced == true &&
+          !isSelectedDayAppendMode) {
         return "DAILY_LIMIT_ENFORCED";
       }
       if (mealBalance?.remainingMeals != null &&
           mealBalance!.remainingMeals! <= 0) {
         return "NO_REMAINING_MEALS";
       }
+    }
+    if (mealBalance?.maxConsumableMealsNow == null && isSelectedDayAppendMode) {
+      return null;
     }
     if (maxMeals >= displayMaxConsumableMealsNow) return "MAX_MEALS_REACHED";
     return null;
@@ -509,6 +541,41 @@ final class MealPlannerLoaded extends MealPlannerState {
     }
     return true;
   }
+
+  bool get canModifySelectedDay =>
+      isSelectedDayEditable || isSelectedDayAppendMode;
+
+  bool get isSelectedDayAppendMode {
+    if (selectedTimelineDay.isHistoricalOnly) return false;
+    if (!_isSelectedPickupDay) return false;
+
+    final detail = selectedDayDetail;
+    final commercialState =
+        detail?.commercialState ?? selectedTimelineDay.commercialState;
+    final blockingReason =
+        detail?.paymentRequirement?.blockingReason?.toUpperCase();
+
+    return commercialState.toLowerCase() == 'confirmed' ||
+        blockingReason == 'DAY_ALREADY_CONFIRMED';
+  }
+
+  bool get _isSelectedPickupDay {
+    final mode = selectedTimelineDay.fulfillmentMode.toLowerCase();
+    final deliveryMode = selectedTimelineDay.deliveryMode.toLowerCase();
+    return mode == 'pickup' ||
+        deliveryMode == 'pickup' ||
+        selectedTimelineDay.pickupLocation != null ||
+        selectedDayDetail?.pickupLocation != null;
+  }
+
+  int get savedMealSlotCount => savedSlotsPerDay[selectedDayIndex]?.length ?? 0;
+
+  bool canEditMealSlot(int slotIndex) {
+    if (isSelectedDayEditable) return true;
+    return isSelectedDayAppendMode && slotIndex >= savedMealSlotCount;
+  }
+
+  bool get canChangeAddons => isSelectedDayEditable;
 
   bool get hasPendingAddonPayment =>
       (selectedDayDetail?.paymentRequirement?.addonPendingPaymentCount ?? 0) >
@@ -661,8 +728,10 @@ final class MealPlannerLoaded extends MealPlannerState {
     final slots =
         (selectedSlotsPerDay ?? this.selectedSlotsPerDay)[selectedDayIndex] ??
         const [];
+    final billableSlots =
+        isSelectedDayAppendMode ? slots.skip(savedMealSlotCount) : slots;
 
-    for (final slot in slots) {
+    for (final slot in billableSlots) {
       // --- Premium large salad slot ---
       if (slot.selectionType == 'premium_large_salad') {
         final salad = menu.builderCatalog.premiumLargeSalad;
@@ -769,8 +838,10 @@ final class MealPlannerLoaded extends MealPlannerState {
     final slots =
         (selectedSlotsPerDay ?? this.selectedSlotsPerDay)[selectedDayIndex] ??
         const [];
+    final billableSlots =
+        isSelectedDayAppendMode ? slots.skip(savedMealSlotCount) : slots;
 
-    for (final slot in slots) {
+    for (final slot in billableSlots) {
       // --- Premium large salad slot ---
       if (slot.selectionType == 'premium_large_salad') {
         final salad = menu.builderCatalog.premiumLargeSalad;

@@ -7,6 +7,7 @@ import 'package:basic_diet/domain/model/premium_payment_model.dart';
 import 'package:basic_diet/domain/model/subscription_day_model.dart';
 import 'package:basic_diet/domain/model/timeline_model.dart';
 import 'package:basic_diet/domain/usecase/confirm_day_selection_usecase.dart';
+import 'package:basic_diet/domain/usecase/append_meals_to_day_usecase.dart';
 import 'package:basic_diet/domain/usecase/create_unified_day_payment_usecase.dart';
 import 'package:basic_diet/domain/usecase/get_addon_choices_usecase.dart';
 import 'package:basic_diet/domain/usecase/get_meal_planner_menu_usecase.dart';
@@ -17,6 +18,7 @@ import 'package:basic_diet/domain/usecase/verify_unified_day_payment_usecase.dar
 import 'package:basic_diet/presentation/resources/strings_manager.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:uuid/uuid.dart';
 
 import 'meal_planner_event.dart';
 import 'meal_planner_state.dart';
@@ -31,6 +33,7 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
   final GetSubscriptionDayUseCase _getSubscriptionDayUseCase;
   final ValidateDaySelectionUseCase _validateDaySelectionUseCase;
   final SaveDaySelectionUseCase _saveDaySelectionUseCase;
+  final AppendMealsToDayUseCase _appendMealsToDayUseCase;
   final CreateUnifiedDayPaymentUseCase _createUnifiedDayPaymentUseCase;
   final VerifyUnifiedDayPaymentUseCase _verifyUnifiedDayPaymentUseCase;
   final ConfirmDaySelectionUseCase _confirmDaySelectionUseCase;
@@ -48,6 +51,7 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
     GetSubscriptionDayUseCase getSubscriptionDayUseCase,
     ValidateDaySelectionUseCase validateDaySelectionUseCase,
     SaveDaySelectionUseCase saveDaySelectionUseCase,
+    AppendMealsToDayUseCase appendMealsToDayUseCase,
     CreateUnifiedDayPaymentUseCase createUnifiedDayPaymentUseCase,
     VerifyUnifiedDayPaymentUseCase verifyUnifiedDayPaymentUseCase,
     ConfirmDaySelectionUseCase confirmDaySelectionUseCase, {
@@ -63,6 +67,7 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
        _getSubscriptionDayUseCase = getSubscriptionDayUseCase,
        _validateDaySelectionUseCase = validateDaySelectionUseCase,
        _saveDaySelectionUseCase = saveDaySelectionUseCase,
+       _appendMealsToDayUseCase = appendMealsToDayUseCase,
        _createUnifiedDayPaymentUseCase = createUnifiedDayPaymentUseCase,
        _verifyUnifiedDayPaymentUseCase = verifyUnifiedDayPaymentUseCase,
        _confirmDaySelectionUseCase = confirmDaySelectionUseCase,
@@ -201,7 +206,7 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
   ) {
     if (state is! MealPlannerLoaded) return;
     final current = state as MealPlannerLoaded;
-    if (!current.isSelectedDayEditable) {
+    if (!current.canEditMealSlot(event.slotIndex)) {
       emit(current.copyWith(paymentError: _dayNotEditableReason(current)));
       return;
     }
@@ -269,7 +274,7 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
   void _onSetCarb(SetMealSlotCarbEvent event, Emitter<MealPlannerState> emit) {
     if (state is! MealPlannerLoaded) return;
     final current = state as MealPlannerLoaded;
-    if (!current.isSelectedDayEditable) {
+    if (!current.canEditMealSlot(event.slotIndex)) {
       emit(current.copyWith(paymentError: _dayNotEditableReason(current)));
       return;
     }
@@ -335,7 +340,7 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
   ) {
     if (state is! MealPlannerLoaded) return;
     final current = state as MealPlannerLoaded;
-    if (!current.isSelectedDayEditable) {
+    if (!current.canEditMealSlot(event.slotIndex)) {
       emit(current.copyWith(paymentError: _dayNotEditableReason(current)));
       return;
     }
@@ -384,7 +389,7 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
   ) {
     if (state is! MealPlannerLoaded) return;
     final current = state as MealPlannerLoaded;
-    if (!current.isSelectedDayEditable) {
+    if (!current.canChangeAddons) {
       emit(current.copyWith(paymentError: _dayNotEditableReason(current)));
       return;
     }
@@ -549,7 +554,7 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
     Emitter<MealPlannerState> emit,
     MealPlannerLoaded current,
   ) async {
-    if (!current.isSelectedDayEditable) {
+    if (!current.canModifySelectedDay) {
       emit(current.copyWith(paymentError: _dayNotEditableReason(current)));
       return;
     }
@@ -572,6 +577,11 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
     final carbValidationMessage = _validateCurrentCarbSelections(current);
     if (carbValidationMessage != null) {
       emit(current.copyWith(paymentError: carbValidationMessage));
+      return;
+    }
+
+    if (current.isSelectedDayAppendMode) {
+      await _appendMealsAndMaybeContinue(emit, current);
       return;
     }
 
@@ -675,6 +685,121 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
             saveSuccess: false,
             paymentError: _blockingReasonMessage(updatedDay.paymentRequirement),
           ),
+        );
+      },
+    );
+  }
+
+  Future<void> _appendMealsAndMaybeContinue(
+    Emitter<MealPlannerState> emit,
+    MealPlannerLoaded current,
+  ) async {
+    final carbValidationMessage = _validateCurrentCarbSelections(current);
+    if (carbValidationMessage != null) {
+      emit(current.copyWith(paymentError: carbValidationMessage));
+      return;
+    }
+
+    final newSlots = _newCompleteSlots(current);
+    if (newSlots.isEmpty) {
+      emit(
+        current.copyWith(
+          isSaving: false,
+          paymentError: Strings.selectAtLeastOneMealToContinue.tr(),
+        ),
+      );
+      return;
+    }
+
+    final currentDay = current.selectedTimelineDay;
+    emit(
+      current.copyWith(
+        isSaving: true,
+        saveSuccess: false,
+        clearPaymentError: true,
+        clearPendingAddonPrompt: true,
+      ),
+    );
+
+    final result = await _appendMealsToDayUseCase.execute(
+      AppendMealsToDayUseCaseInput(
+        subscriptionId: subscriptionId,
+        date: currentDay.date,
+        mealSlots:
+            newSlots
+                .map((slot) => _buildMealSlotRequest(current, slot))
+                .toList(),
+        idempotencyKey: const Uuid().v4(),
+      ),
+    );
+
+    await result.fold(
+      (failure) async {
+        if (!emit.isDone) {
+          if (_isCatalogItemUnavailableFailure(failure)) {
+            await _refreshCatalogData(emit, current);
+          }
+          final refreshedState = await _refreshSelectedDayForFailure(
+            current,
+            failure,
+          );
+          emit(
+            refreshedState.copyWith(
+              isSaving: false,
+              paymentError: _formatFailure(failure),
+            ),
+          );
+        }
+      },
+      (_) async {
+        if (emit.isDone) return;
+        final refreshed = await _getSubscriptionDayUseCase.execute(
+          GetSubscriptionDayUseCaseInput(subscriptionId, currentDay.date),
+        );
+
+        await refreshed.fold(
+          (failure) async {
+            if (!emit.isDone) {
+              emit(
+                current.copyWith(
+                  isSaving: false,
+                  paymentError: _formatFailure(failure),
+                ),
+              );
+            }
+          },
+          (updatedDay) async {
+            if (emit.isDone) return;
+            final updatedState = _applyUpdatedDay(
+              current,
+              updatedDay,
+            ).copyWith(isSaving: true, clearPaymentError: true);
+            emit(updatedState);
+
+            final requiresPayment =
+                updatedDay.paymentRequirement?.requiresPayment ?? false;
+            if (!requiresPayment &&
+                _canConfirm(updatedDay.paymentRequirement)) {
+              await _confirmAndFinalize(emit, updatedState, currentDay.date);
+              return;
+            }
+
+            if (updatedDay.paymentRequirement?.canCreatePayment == true) {
+              await _createUnifiedDayPayment(emit, updatedState, updatedDay);
+              return;
+            }
+
+            emit(
+              updatedState.copyWith(
+                isSaving: false,
+                saveSuccess: !requiresPayment,
+                paymentError:
+                    requiresPayment
+                        ? _blockingReasonMessage(updatedDay.paymentRequirement)
+                        : null,
+              ),
+            );
+          },
         );
       },
     );
@@ -1350,54 +1475,65 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
   DaySelectionRequest _buildRequest(MealPlannerLoaded current) {
     final slots = _currentSlots(current).where(_isCompleteSlot).toList();
     return DaySelectionRequest(
-      slots.map((slot) {
-        if (slot.selectionType == 'sandwich') {
-          return MealSlotRequest(
-            slotIndex: slot.slotIndex,
-            slotKey: slot.slotKey,
-            selectionType: 'sandwich',
-            sandwichId: slot.sandwichId,
-          );
-        }
-        if (slot.selectionType == 'premium_large_salad' && slot.salad != null) {
-          return MealSlotRequest(
-            slotIndex: slot.slotIndex,
-            slotKey: slot.slotKey,
-            selectionType: 'premium_large_salad',
-            proteinId: slot.proteinId,
-            salad: SaladRequest(
-              presetKey: slot.salad!.presetKey,
-              groups: SaladGroupsRequest(
-                leafyGreens: slot.salad!.groups.leafyGreens,
-                vegetables: slot.salad!.groups.vegetables,
-                protein: slot.salad!.groups.protein,
-                cheeseNuts: slot.salad!.groups.cheeseNuts,
-                fruits: slot.salad!.groups.fruits,
-                sauce: slot.salad!.groups.sauce,
-              ),
-            ),
-          );
-        }
-
-        return MealSlotRequest(
-          slotIndex: slot.slotIndex,
-          slotKey: slot.slotKey,
-          selectionType: slot.selectionType,
-          proteinId: slot.proteinId,
-          proteinKey: _proteinKeyForRequest(current.menu, slot.proteinId),
-          premiumKey: _premiumKeyForRequest(current.menu, slot),
-          carbs:
-              slot.carbs
-                  .map(
-                    (carb) => MealSlotCarbRequest(
-                      carbId: carb.carbId,
-                      grams: carb.grams,
-                    ),
-                  )
-                  .toList(),
-        );
-      }).toList(),
+      slots.map((slot) => _buildMealSlotRequest(current, slot)).toList(),
       addonsOneTime: current.selectedAddOnIds,
+    );
+  }
+
+  List<MealPlannerSlotSelection> _newCompleteSlots(MealPlannerLoaded current) {
+    final savedCount =
+        current.savedSlotsPerDay[current.selectedDayIndex]?.length ?? 0;
+    return _currentSlots(current)
+        .where((slot) => slot.slotIndex > savedCount && _isCompleteSlot(slot))
+        .toList();
+  }
+
+  MealSlotRequest _buildMealSlotRequest(
+    MealPlannerLoaded current,
+    MealPlannerSlotSelection slot,
+  ) {
+    if (slot.selectionType == 'sandwich') {
+      return MealSlotRequest(
+        slotIndex: slot.slotIndex,
+        slotKey: slot.slotKey,
+        selectionType: 'sandwich',
+        sandwichId: slot.sandwichId,
+      );
+    }
+    if (slot.selectionType == 'premium_large_salad' && slot.salad != null) {
+      return MealSlotRequest(
+        slotIndex: slot.slotIndex,
+        slotKey: slot.slotKey,
+        selectionType: 'premium_large_salad',
+        proteinId: slot.proteinId,
+        salad: SaladRequest(
+          presetKey: slot.salad!.presetKey,
+          groups: SaladGroupsRequest(
+            leafyGreens: slot.salad!.groups.leafyGreens,
+            vegetables: slot.salad!.groups.vegetables,
+            protein: slot.salad!.groups.protein,
+            cheeseNuts: slot.salad!.groups.cheeseNuts,
+            fruits: slot.salad!.groups.fruits,
+            sauce: slot.salad!.groups.sauce,
+          ),
+        ),
+      );
+    }
+
+    return MealSlotRequest(
+      slotIndex: slot.slotIndex,
+      slotKey: slot.slotKey,
+      selectionType: slot.selectionType,
+      proteinId: slot.proteinId,
+      proteinKey: _proteinKeyForRequest(current.menu, slot.proteinId),
+      premiumKey: _premiumKeyForRequest(current.menu, slot),
+      carbs:
+          slot.carbs
+              .map(
+                (carb) =>
+                    MealSlotCarbRequest(carbId: carb.carbId, grams: carb.grams),
+              )
+              .toList(),
     );
   }
 
@@ -1657,7 +1793,7 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
     if (state is! MealPlannerLoaded) return;
     final currentState = state as MealPlannerLoaded;
 
-    if (!currentState.isSelectedDayEditable) return;
+    if (!currentState.canEditMealSlot(event.index)) return;
 
     final selectedDayIndex = currentState.selectedDayIndex;
     final currentDaySlots = List<MealPlannerSlotSelection>.from(

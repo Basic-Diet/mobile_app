@@ -21,19 +21,19 @@ class MealPlannerBottomAction extends StatelessWidget {
   Widget build(BuildContext context) {
     final pendingAmountHalala = state.totalPendingPaymentAmountHalala;
     final hasPendingPayment = pendingAmountHalala > 0;
-    final hasMealSelection = state.hasSelectedMeals;
+    final hasMealSelection = state.hasBillableSelectedMeals;
     final canProceedWithPayment = hasPendingPayment && hasMealSelection;
     final canSave =
         state.isDirty &&
         _hasCompletedSelectedDay() &&
-        state.isSelectedDayEditable;
+        state.canModifySelectedDay;
 
     final String label;
     final String? subtitle;
     final Color bgColor;
     final bool active;
 
-    if (!state.isSelectedDayEditable) {
+    if (!state.canModifySelectedDay) {
       label = Strings.dayLocked.tr();
       subtitle = null;
       bgColor = ColorManager.stateDisabledSurface;
@@ -105,6 +105,10 @@ class MealPlannerBottomAction extends StatelessWidget {
   }
 
   bool _hasCompletedSelectedDay() {
+    if (state.isSelectedDayAppendMode) {
+      return state.hasAppendableMealSelection &&
+          !state.hasIncompleteAppendedSlots;
+    }
     return state.selectedMealsCount >= state.selectedTimelineDay.requiredMeals;
   }
 

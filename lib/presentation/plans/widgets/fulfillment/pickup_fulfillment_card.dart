@@ -33,12 +33,11 @@ class PickupFulfillmentCard extends StatelessWidget {
         _effectiveStatus == 'consumed_without_preparation' ||
         _effectiveStatus == 'no_show' ||
         _effectiveStatus == 'canceled_at_branch';
-    final canCreatePickupRequest = !isTerminalPickupState;
+    final canOpenPlanner =
+        (prep?.showMealPlannerCta ?? false) && !_isReadyForPickup;
+    final canCreatePickupRequest = !isTerminalPickupState && !canOpenPlanner;
     final showPlannerCta =
-        !canCreatePickupRequest &&
-        !isTerminalPickupState &&
-        (prep?.showMealPlannerCta ?? false) &&
-        !_isReadyForPickup;
+        !isTerminalPickupState && !canCreatePickupRequest && canOpenPlanner;
 
     return FulfillmentStatusCard(
       title:

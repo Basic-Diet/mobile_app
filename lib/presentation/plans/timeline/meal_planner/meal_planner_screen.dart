@@ -255,7 +255,7 @@ class MealPlannerView extends StatelessWidget {
           return const SizedBox.shrink();
         }
 
-        final isViewOnly = readOnly || !state.isSelectedDayEditable;
+        final isViewOnly = readOnly || !state.canModifySelectedDay;
 
         return Scaffold(
           backgroundColor: ColorManager.backgroundSurface,
@@ -278,7 +278,7 @@ class _MealPlannerBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isSelectedDayReadOnly = readOnly || !state.isSelectedDayEditable;
+    final areAddonsReadOnly = readOnly || !state.canChangeAddons;
 
     return Stack(
       children: [
@@ -323,7 +323,7 @@ class _MealPlannerBody extends StatelessWidget {
                     Gap(AppSize.s16.h),
                     DailyAddonSelectionCard(
                       state: state,
-                      isReadOnly: isSelectedDayReadOnly,
+                      isReadOnly: areAddonsReadOnly,
                     ),
                     Gap(AppSize.s16.h),
                   ],
@@ -344,7 +344,7 @@ class _MealPlannerBody extends StatelessWidget {
                       context,
                       state,
                       index,
-                      isSelectedDayReadOnly,
+                      readOnly || !state.canEditMealSlot(index),
                     ),
               ),
             ),
@@ -377,7 +377,9 @@ class _MealPlannerBody extends StatelessWidget {
                 ),
               ),
             // Debug info and reason why adding is disabled
-            if (!state.canAddMoreMeals && !isSelectedDayReadOnly)
+            if (!state.canAddMoreMeals &&
+                !readOnly &&
+                state.canModifySelectedDay)
               SliverPadding(
                 padding: EdgeInsets.symmetric(horizontal: AppPadding.p16.w),
                 sliver: SliverToBoxAdapter(
