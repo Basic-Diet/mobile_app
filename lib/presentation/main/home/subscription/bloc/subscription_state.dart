@@ -1,4 +1,4 @@
-import 'package:basic_diet/domain/model/add_ons_model.dart';
+import 'package:basic_diet/domain/model/addon_subscription_options_model.dart';
 import 'package:basic_diet/domain/model/plans_model.dart';
 import 'package:basic_diet/domain/model/subscription_checkout_model.dart';
 import 'package:basic_diet/domain/model/subscription_quote_model.dart';
@@ -41,7 +41,7 @@ class SubscriptionSuccess extends SubscriptionState {
   final GramOptionModel? selectedGramOption;
   final MealOptionModel? selectedMealOption;
   final Map<String, int> selectedPremiumMealCounters;
-  final Set<AddOnModel> selectedAddOns;
+  final Set<AddonSubscriptionOptionModel> selectedAddOns;
   final SubscriptionQuoteStatus quoteStatus;
   final SubscriptionQuoteModel? subscriptionQuote;
   final String? quoteErrorMessage;
@@ -97,7 +97,7 @@ class SubscriptionSuccess extends SubscriptionState {
     GramOptionModel? selectedGramOption,
     MealOptionModel? selectedMealOption,
     Map<String, int>? selectedPremiumMealCounters,
-    Set<AddOnModel>? selectedAddOns,
+    Set<AddonSubscriptionOptionModel>? selectedAddOns,
     SubscriptionQuoteStatus? quoteStatus,
     Object? subscriptionQuote = _noChange,
     Object? quoteErrorMessage = _noChange,
@@ -124,40 +124,49 @@ class SubscriptionSuccess extends SubscriptionState {
           selectedPremiumMealCounters ?? this.selectedPremiumMealCounters,
       selectedAddOns: selectedAddOns ?? this.selectedAddOns,
       quoteStatus: quoteStatus ?? this.quoteStatus,
-      subscriptionQuote: identical(subscriptionQuote, _noChange)
-          ? this.subscriptionQuote
-          : subscriptionQuote as SubscriptionQuoteModel?,
-      quoteErrorMessage: identical(quoteErrorMessage, _noChange)
-          ? this.quoteErrorMessage
-          : quoteErrorMessage as String?,
-      quoteErrorCode: identical(quoteErrorCode, _noChange)
-          ? this.quoteErrorCode
-          : quoteErrorCode,
-      lastQuoteRequest: identical(lastQuoteRequest, _noChange)
-          ? this.lastQuoteRequest
-          : lastQuoteRequest as SubscriptionQuoteRequestModel?,
+      subscriptionQuote:
+          identical(subscriptionQuote, _noChange)
+              ? this.subscriptionQuote
+              : subscriptionQuote as SubscriptionQuoteModel?,
+      quoteErrorMessage:
+          identical(quoteErrorMessage, _noChange)
+              ? this.quoteErrorMessage
+              : quoteErrorMessage as String?,
+      quoteErrorCode:
+          identical(quoteErrorCode, _noChange)
+              ? this.quoteErrorCode
+              : quoteErrorCode,
+      lastQuoteRequest:
+          identical(lastQuoteRequest, _noChange)
+              ? this.lastQuoteRequest
+              : lastQuoteRequest as SubscriptionQuoteRequestModel?,
       lastSuccessfulQuoteRequest:
           identical(lastSuccessfulQuoteRequest, _noChange)
-          ? this.lastSuccessfulQuoteRequest
-          : lastSuccessfulQuoteRequest as SubscriptionQuoteRequestModel?,
-      lastCheckoutRequest: identical(lastCheckoutRequest, _noChange)
-          ? this.lastCheckoutRequest
-          : lastCheckoutRequest as SubscriptionCheckoutRequestModel?,
+              ? this.lastSuccessfulQuoteRequest
+              : lastSuccessfulQuoteRequest as SubscriptionQuoteRequestModel?,
+      lastCheckoutRequest:
+          identical(lastCheckoutRequest, _noChange)
+              ? this.lastCheckoutRequest
+              : lastCheckoutRequest as SubscriptionCheckoutRequestModel?,
       checkoutStatus: checkoutStatus ?? this.checkoutStatus,
-      subscriptionCheckout: identical(subscriptionCheckout, _noChange)
-          ? this.subscriptionCheckout
-          : subscriptionCheckout as SubscriptionCheckoutModel?,
-      checkoutErrorMessage: identical(checkoutErrorMessage, _noChange)
-          ? this.checkoutErrorMessage
-          : checkoutErrorMessage as String?,
+      subscriptionCheckout:
+          identical(subscriptionCheckout, _noChange)
+              ? this.subscriptionCheckout
+              : subscriptionCheckout as SubscriptionCheckoutModel?,
+      checkoutErrorMessage:
+          identical(checkoutErrorMessage, _noChange)
+              ? this.checkoutErrorMessage
+              : checkoutErrorMessage as String?,
       promoCodeInput: promoCodeInput ?? this.promoCodeInput,
       promoStatus: promoStatus ?? this.promoStatus,
-      promoMessage: identical(promoMessage, _noChange)
-          ? this.promoMessage
-          : promoMessage as String?,
-      appliedPromo: identical(appliedPromo, _noChange)
-          ? this.appliedPromo
-          : appliedPromo as SubscriptionAppliedPromoModel?,
+      promoMessage:
+          identical(promoMessage, _noChange)
+              ? this.promoMessage
+              : promoMessage as String?,
+      appliedPromo:
+          identical(appliedPromo, _noChange)
+              ? this.appliedPromo
+              : appliedPromo as SubscriptionAppliedPromoModel?,
       isPricingStale: isPricingStale ?? this.isPricingStale,
       expandedPlanIndex: expandedPlanIndex ?? this.expandedPlanIndex,
     );

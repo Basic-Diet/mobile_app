@@ -708,6 +708,11 @@ class Strings {
   static const String addOnsStepTitle = 'addOnsStepTitle';
   static const String addOnsStepDescription = 'addOnsStepDescription';
   static const String addOnsStepHint = 'addOnsStepHint';
+  static const String noAddonsAvailableForPlan = 'noAddonsAvailableForPlan';
+  static const String selectValidPlanAgain = 'selectValidPlanAgain';
+  static const String backToPlans = 'backToPlans';
+  static const String addonMaxPerDay = 'addonMaxPerDay';
+  static const String includes = 'includes';
   static const String appliedTo = 'appliedTo';
   static const String signInToContinueYourHealthyJourney =
       'signInToContinueYourHealthyJourney';

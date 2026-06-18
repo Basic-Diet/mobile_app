@@ -276,7 +276,6 @@ class _SubscriptionDetailsState extends State<SubscriptionDetails> {
     SubscriptionQuoteRequestModel quoteRequest,
   ) {
     final request = _buildCheckoutRequest(quoteRequest);
-    debugPrint('Checkout idempotencyKey: ${request.idempotencyKey}');
     context.read<SubscriptionBloc>().add(CheckoutSubscriptionEvent(request));
   }
 
@@ -1668,46 +1667,15 @@ String _displayAmount({String? label, required num fallbackAmount}) {
 }
 
 String _buildAddonDetailsLabel(SubscriptionQuoteAddonModel item) {
-  final formulaLabel = item.formulaLabel.trim();
-  if (formulaLabel.isNotEmpty) {
-    return formulaLabel;
-  }
-
-  final unitPrice = _displayAmount(
+  final unitPriceLabel = _displayAmount(
     label: item.unitPriceLabel,
     fallbackAmount: item.unitPriceSar,
   );
-  final unitSuffix = _addonBillingUnitLabel(item);
-  final parts = <String>[
-    unitSuffix.isEmpty ? unitPrice : '$unitPrice / $unitSuffix',
-  ];
-
-  if (item.qty > 0) {
-    parts.add('x${item.qty}');
-  }
-
-  if (item.durationDays > 0) {
-    parts.add('${item.durationDays} ${Strings.days.tr()}');
-  }
-
-  final details = parts.join(' × ');
-  final total = _displayAmount(
+  final totalLabel = _displayAmount(
     label: item.totalLabel,
     fallbackAmount: item.totalSar,
   );
-
-  return details.isEmpty ? total : '$details = $total';
-}
-
-String _addonBillingUnitLabel(SubscriptionQuoteAddonModel item) {
-  final normalizedUnit = item.billingUnit.trim().toLowerCase();
-  if (normalizedUnit == 'day' ||
-      normalizedUnit == 'days' ||
-      normalizedUnit == 'per_day') {
-    return Strings.day.tr();
-  }
-
-  return item.billingUnit.trim();
+  return unitPriceLabel == totalLabel ? '' : unitPriceLabel;
 }
 
 bool _isDiscountLineItem(SubscriptionQuoteLineItemModel item) {

@@ -765,5 +765,10 @@
     "fulfillmentDeliveryStepConfirmed": "تم التأكيد",
     "fulfillmentDeliveryStepPreparing": "جاري التحضير",
     "fulfillmentDeliveryStepOnTheWay": "في الطريق",
-    "fulfillmentDeliveryStepDelivered": "تم التوصيل"
+    "fulfillmentDeliveryStepDelivered": "تم التوصيل",
+    "noAddonsAvailableForPlan": "لا توجد إضافات متاحة لهذه الخطة.",
+    "selectValidPlanAgain": "يرجى اختيار خطة صالحة والمحاولة مرة أخرى.",
+    "backToPlans": "العودة إلى الخطط",
+    "addonMaxPerDay": "{count} يوميًا",
+    "includes": "يشمل"
 }

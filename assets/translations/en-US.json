@@ -765,5 +765,10 @@
     "fulfillmentDeliveryStepConfirmed": "Confirmed",
     "fulfillmentDeliveryStepPreparing": "Preparing",
     "fulfillmentDeliveryStepOnTheWay": "On the Way",
-    "fulfillmentDeliveryStepDelivered": "Delivered"
+    "fulfillmentDeliveryStepDelivered": "Delivered",
+    "noAddonsAvailableForPlan": "No add-ons are available for this plan.",
+    "selectValidPlanAgain": "Please select a valid plan and try again.",
+    "backToPlans": "Back to plans",
+    "addonMaxPerDay": "{count} per day",
+    "includes": "Includes"
 }

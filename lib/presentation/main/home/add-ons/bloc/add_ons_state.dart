@@ -1,45 +1,47 @@
-import 'package:basic_diet/domain/model/add_ons_model.dart';
+import 'package:basic_diet/domain/model/addon_subscription_options_model.dart';
 import 'package:equatable/equatable.dart';
 
-abstract class AddOnsState extends Equatable {
+sealed class AddOnsState extends Equatable {
   const AddOnsState();
 
   @override
   List<Object?> get props => [];
 }
 
-class AddOnsInitial extends AddOnsState {
+final class AddOnsInitial extends AddOnsState {
   const AddOnsInitial();
 }
 
-class AddOnsLoading extends AddOnsState {
+final class AddOnsLoading extends AddOnsState {
   const AddOnsLoading();
 }
 
-class AddOnsSuccess extends AddOnsState {
-  final AddOnsModel addOnsModel;
-  final Set<AddOnModel> selectedAddOns;
+final class AddOnsSuccess extends AddOnsState {
+  final AddonSubscriptionOptionsModel options;
+  final Set<AddonSubscriptionOptionModel> selectedAddOns;
 
-  const AddOnsSuccess(this.addOnsModel, {this.selectedAddOns = const {}});
+  const AddOnsSuccess(this.options, {this.selectedAddOns = const {}});
 
   AddOnsSuccess copyWith({
-    AddOnsModel? addOnsModel,
-    Set<AddOnModel>? selectedAddOns,
+    AddonSubscriptionOptionsModel? options,
+    Set<AddonSubscriptionOptionModel>? selectedAddOns,
   }) {
     return AddOnsSuccess(
-      addOnsModel ?? this.addOnsModel,
+      options ?? this.options,
       selectedAddOns: selectedAddOns ?? this.selectedAddOns,
     );
   }
 
   @override
-  List<Object?> get props => [addOnsModel, selectedAddOns];
+  List<Object?> get props => [options, selectedAddOns];
 }
 
-class AddOnsError extends AddOnsState {
+final class AddOnsError extends AddOnsState {
   final String message;
-  const AddOnsError(this.message);
+  final Object? code;
+
+  const AddOnsError(this.message, {this.code});
 
   @override
-  List<Object?> get props => [message];
+  List<Object?> get props => [message, code];
 }

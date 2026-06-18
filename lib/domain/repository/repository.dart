@@ -16,6 +16,7 @@ import 'package:basic_diet/domain/model/subscription_quote_model.dart';
 import 'package:dartz/dartz.dart';
 
 import 'package:basic_diet/domain/model/add_ons_model.dart';
+import 'package:basic_diet/domain/model/addon_subscription_options_model.dart';
 import 'package:basic_diet/domain/model/addon_choices_model.dart';
 import 'package:basic_diet/domain/model/subscription_menu_model.dart';
 import 'package:basic_diet/domain/model/current_subscription_overview_model.dart';
@@ -72,6 +73,8 @@ abstract class Repository {
   Future<Either<Failure, PopularPackagesModel>> getPopularPackages();
   Future<Either<Failure, PremiumMealsModel>> getPremiumMeals();
   Future<Either<Failure, AddOnsModel>> getAddOns({String? type});
+  Future<Either<Failure, AddonSubscriptionOptionsModel>>
+  getAddonSubscriptionOptions(String planId);
   Future<Either<Failure, AddonChoicesModel>> getAddonChoices();
   Future<Either<Failure, SubscriptionMenuModel>> getSubscriptionMenu();
   Future<Either<Failure, DeliveryOptionsModel>> getDeliveryOptions();

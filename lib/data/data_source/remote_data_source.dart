@@ -3,6 +3,7 @@ import 'package:basic_diet/data/request/day_selection_request.dart';
 import 'package:basic_diet/data/request/pickup_request.dart';
 import 'package:basic_diet/data/response/addon_choices_response.dart';
 import 'package:basic_diet/data/response/addons_response.dart';
+import 'package:basic_diet/data/response/addon_subscription_options_response.dart';
 import 'package:basic_diet/data/response/subscription_menu_response.dart';
 import 'package:basic_diet/data/response/checkout_draft_response.dart';
 import 'package:basic_diet/data/request/subscription_checkout_request.dart';
@@ -78,6 +79,9 @@ abstract class RemoteDataSource {
   Future<PopularPackagesResponse> getPopularPackages();
   Future<PremiumMealsResponse> getPremiumMeals();
   Future<AddOnsResponse> getAddOns({String? type});
+  Future<AddonSubscriptionOptionsResponse> getAddonSubscriptionOptions(
+    String planId,
+  );
   Future<AddonChoicesResponse> getAddonChoices({String? category});
   Future<SubscriptionMenuResponse> getSubscriptionMenu();
   Future<DeliveryOptionsResponse> getDeliveryOptions();

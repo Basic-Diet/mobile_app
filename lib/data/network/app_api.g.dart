@@ -353,6 +353,35 @@ class _AppServiceClient implements AppServiceClient {
   }
 
   @override
+  Future<AddonSubscriptionOptionsResponse> getAddonSubscriptionOptions(
+    String planId,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'planId': planId};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<AddonSubscriptionOptionsResponse>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/subscriptions/addons/options',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late AddonSubscriptionOptionsResponse _value;
+    try {
+      _value = AddonSubscriptionOptionsResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
   Future<AddonChoicesResponse> getAddonChoices({String? category}) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'category': category};

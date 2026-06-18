@@ -1,13 +1,13 @@
-import 'package:basic_diet/domain/model/add_ons_model.dart';
-import 'package:basic_diet/domain/usecase/get_addons_usecase.dart';
+import 'package:basic_diet/domain/model/addon_subscription_options_model.dart';
+import 'package:basic_diet/domain/usecase/get_addon_subscription_options_usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'add_ons_event.dart';
 import 'add_ons_state.dart';
 
 class AddOnsBloc extends Bloc<AddOnsEvent, AddOnsState> {
-  final GetAddOnsUseCase _getAddOnsUseCase;
+  final GetAddonSubscriptionOptionsUseCase _getOptionsUseCase;
 
-  AddOnsBloc(this._getAddOnsUseCase) : super(const AddOnsInitial()) {
+  AddOnsBloc(this._getOptionsUseCase) : super(const AddOnsInitial()) {
     on<GetAddOnsEvent>(_onGetAddOns);
     on<ToggleAddOnSelectionEvent>(_onToggleSelection);
   }
@@ -17,14 +17,23 @@ class AddOnsBloc extends Bloc<AddOnsEvent, AddOnsState> {
     Emitter<AddOnsState> emit,
   ) async {
     emit(const AddOnsLoading());
-    final result = await _getAddOnsUseCase.execute(
-      const GetAddOnsUseCaseInput(type: 'subscription'),
+    final result = await _getOptionsUseCase.execute(
+      GetAddonSubscriptionOptionsInput(planId: event.planId),
     );
     result.fold(
-      (failure) => emit(AddOnsError(failure.message)),
-      (addOnsModel) {
-        final planAddOns = AddOnsModel(addOns: addOnsModel.addOns);
-        emit(AddOnsSuccess(planAddOns));
+      (failure) {
+        if (!isClosed) {
+          emit(AddOnsError(failure.message, code: failure.code));
+        }
+      },
+      (options) {
+        final selected =
+            options.addons
+                .where((addon) => event.initiallySelectedIds.contains(addon.id))
+                .toSet();
+        if (!isClosed) {
+          emit(AddOnsSuccess(options, selectedAddOns: selected));
+        }
       },
     );
   }
@@ -35,7 +44,9 @@ class AddOnsBloc extends Bloc<AddOnsEvent, AddOnsState> {
   ) {
     if (state is AddOnsSuccess) {
       final successState = state as AddOnsSuccess;
-      final selected = Set.of(successState.selectedAddOns);
+      final selected = Set<AddonSubscriptionOptionModel>.of(
+        successState.selectedAddOns,
+      );
       if (selected.contains(event.addOn)) {
         selected.remove(event.addOn);
       } else {

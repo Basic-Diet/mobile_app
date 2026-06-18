@@ -1,19 +1,28 @@
-import 'package:basic_diet/domain/model/add_ons_model.dart';
+import 'package:basic_diet/domain/model/addon_subscription_options_model.dart';
 import 'package:equatable/equatable.dart';
 
-abstract class AddOnsEvent extends Equatable {
+sealed class AddOnsEvent extends Equatable {
   const AddOnsEvent();
 
   @override
   List<Object> get props => [];
 }
 
-class GetAddOnsEvent extends AddOnsEvent {
-  const GetAddOnsEvent();
+final class GetAddOnsEvent extends AddOnsEvent {
+  final String planId;
+  final Set<String> initiallySelectedIds;
+
+  const GetAddOnsEvent({
+    required this.planId,
+    this.initiallySelectedIds = const {},
+  });
+
+  @override
+  List<Object> get props => [planId, initiallySelectedIds];
 }
 
-class ToggleAddOnSelectionEvent extends AddOnsEvent {
-  final AddOnModel addOn;
+final class ToggleAddOnSelectionEvent extends AddOnsEvent {
+  final AddonSubscriptionOptionModel addOn;
 
   const ToggleAddOnSelectionEvent(this.addOn);
 

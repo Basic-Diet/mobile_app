@@ -12,7 +12,8 @@ extension SubscriptionQuoteRequestMapper on SubscriptionQuoteRequestModel {
       startDate: startDate,
       promoCode: promoCode,
       premiumItems: premiumItems.map((item) => item.toRequest()).toList(),
-      addons: addons,
+      addons:
+          addons.map((id) => SubscriptionQuoteAddonRequest(id: id)).toList(),
       delivery: delivery.toRequest(),
     );
   }
@@ -21,7 +22,10 @@ extension SubscriptionQuoteRequestMapper on SubscriptionQuoteRequestModel {
 extension SubscriptionQuotePremiumItemRequestMapper
     on SubscriptionQuotePremiumItemRequestModel {
   SubscriptionQuotePremiumItemRequest toRequest() {
-    return SubscriptionQuotePremiumItemRequest(premiumKey: premiumKey, qty: qty);
+    return SubscriptionQuotePremiumItemRequest(
+      premiumKey: premiumKey,
+      qty: qty,
+    );
   }
 }
 

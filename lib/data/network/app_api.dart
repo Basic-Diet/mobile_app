@@ -3,6 +3,7 @@ import 'package:basic_diet/data/response/client_profile_response.dart';
 import 'package:basic_diet/data/response/addon_choices_response.dart';
 import 'package:basic_diet/data/response/subscription_menu_response.dart';
 import 'package:basic_diet/data/response/addons_response.dart';
+import 'package:basic_diet/data/response/addon_subscription_options_response.dart';
 import 'package:basic_diet/data/request/bulk_selections_request.dart';
 import 'package:basic_diet/data/request/pickup_request.dart';
 import 'package:basic_diet/data/response/checkout_draft_response.dart';
@@ -95,6 +96,11 @@ abstract class AppServiceClient {
 
   @GET("/api/addons")
   Future<AddOnsResponse> getAddOns(@Query("type") String? type);
+
+  @GET("/api/subscriptions/addons/options")
+  Future<AddonSubscriptionOptionsResponse> getAddonSubscriptionOptions(
+    @Query("planId") String planId,
+  );
 
   @GET("/api/subscriptions/addon-choices")
   Future<AddonChoicesResponse> getAddonChoices({

@@ -13,6 +13,7 @@ import 'package:basic_diet/data/mappers/premium_meals_mapper.dart';
 import 'package:basic_diet/data/mappers/delivery_options_mapper.dart';
 import 'package:basic_diet/data/mappers/subscription_checkout_mapper.dart';
 import 'package:basic_diet/data/mappers/subscription_quote_mapper.dart';
+import 'package:basic_diet/data/mappers/addon_subscription_options_mapper.dart';
 import 'package:basic_diet/data/mappers/error_mapper.dart';
 import 'package:basic_diet/data/mappers/bulk_selections_mapper.dart';
 import 'package:basic_diet/data/mappers/subscription_day_mapper.dart';
@@ -28,6 +29,7 @@ import 'package:basic_diet/domain/model/popular_packages_model.dart';
 import 'package:basic_diet/domain/model/premium_meals_model.dart';
 import 'package:basic_diet/domain/model/subscription_checkout_model.dart';
 import 'package:basic_diet/domain/model/subscription_quote_model.dart';
+import 'package:basic_diet/domain/model/addon_subscription_options_model.dart';
 import 'package:basic_diet/domain/model/bulk_selections_model.dart';
 import 'package:basic_diet/domain/model/subscription_day_model.dart';
 import 'package:basic_diet/domain/repository/repository.dart';
@@ -497,6 +499,24 @@ class RepositoryImpl implements Repository {
           Failure(ApiInternalStatus.failure, ResponseMessage.defaultError),
         );
       }
+    } catch (error) {
+      return _handleError(error);
+    }
+  }
+
+  @override
+  Future<Either<Failure, AddonSubscriptionOptionsModel>>
+  getAddonSubscriptionOptions(String planId) async {
+    try {
+      final response = await _remoteDataSource.getAddonSubscriptionOptions(
+        planId,
+      );
+      if (_isSuccessfulResponse(response)) {
+        return Right(response.toDomain());
+      }
+      return Left(
+        Failure(ApiInternalStatus.failure, ResponseMessage.defaultError),
+      );
     } catch (error) {
       return _handleError(error);
     }

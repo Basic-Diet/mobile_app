@@ -23,6 +23,7 @@ import 'package:basic_diet/data/response/popular_packages_response.dart';
 import 'package:basic_diet/data/response/premium_meals_response.dart';
 import 'package:basic_diet/data/response/subscription_checkout_response.dart';
 import 'package:basic_diet/data/response/subscription_quote_response.dart';
+import 'package:basic_diet/data/response/addon_subscription_options_response.dart';
 import 'package:basic_diet/data/response/current_subscription_overview_response.dart';
 import 'package:basic_diet/data/request/freeze_subscription_request.dart';
 import 'package:basic_diet/data/response/freeze_subscription_response.dart';
@@ -152,6 +153,13 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   @override
   Future<AddOnsResponse> getAddOns({String? type}) {
     return _appServiceClient.getAddOns(type);
+  }
+
+  @override
+  Future<AddonSubscriptionOptionsResponse> getAddonSubscriptionOptions(
+    String planId,
+  ) {
+    return _appServiceClient.getAddonSubscriptionOptions(planId);
   }
 
   @override

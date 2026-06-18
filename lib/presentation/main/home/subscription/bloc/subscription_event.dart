@@ -1,10 +1,10 @@
-import 'package:basic_diet/domain/model/add_ons_model.dart';
+import 'package:basic_diet/domain/model/addon_subscription_options_model.dart';
 import 'package:basic_diet/domain/model/plans_model.dart';
 import 'package:basic_diet/domain/model/subscription_checkout_model.dart';
 import 'package:basic_diet/domain/model/subscription_quote_model.dart';
 import 'package:equatable/equatable.dart';
 
-abstract class SubscriptionEvent extends Equatable {
+sealed class SubscriptionEvent extends Equatable {
   const SubscriptionEvent();
 
   @override
@@ -48,7 +48,7 @@ class SavePremiumMealsSelectionEvent extends SubscriptionEvent {
 }
 
 class SaveAddOnsSelectionEvent extends SubscriptionEvent {
-  final Set<AddOnModel> selectedAddOns;
+  final Set<AddonSubscriptionOptionModel> selectedAddOns;
 
   const SaveAddOnsSelectionEvent(this.selectedAddOns);
 
