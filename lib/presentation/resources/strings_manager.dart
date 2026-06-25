@@ -18,6 +18,8 @@ class Strings {
   static const String phoneHint = 'phoneHint';
   static const String password = 'password';
   static const String passwordHint = 'passwordHint';
+  static const String confirmPassword = 'confirmPassword';
+  static const String confirmPasswordHint = 'confirmPasswordHint';
   static const String newPassword = 'newPassword';
   static const String login = 'login';
   static const String welcomeBack = 'welcomeBack';

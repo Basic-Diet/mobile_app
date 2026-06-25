@@ -92,9 +92,10 @@ class AppTextField extends StatefulWidget {
     required TextEditingController controller,
     ValueChanged<String>? onChanged,
     String? errorText,
+    String? hintText,
   }) {
     return AppTextField._(
-      hintText: Strings.passwordHint.tr(),
+      hintText: hintText ?? Strings.passwordHint.tr(),
       controller: controller,
       keyboardType: TextInputType.visiblePassword,
       obscureText: true,

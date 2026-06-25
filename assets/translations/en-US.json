@@ -12,6 +12,8 @@
     "phoneHint": "Enter your phone number",
     "password": "Password",
     "passwordHint": "Enter your password",
+    "confirmPassword": "Confirm Password",
+    "confirmPasswordHint": "Re-enter your password",
     "newPassword": "New Password",
     "login": "Log In",
     "forgotPassword": "Forgot Password?",

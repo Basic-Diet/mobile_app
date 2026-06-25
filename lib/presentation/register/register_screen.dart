@@ -1,4 +1,5 @@
 import 'package:basic_diet/presentation/login/login_screen.dart';
+import 'package:basic_diet/presentation/main/main_screen.dart';
 import 'package:basic_diet/presentation/resources/color_manager.dart';
 import 'package:basic_diet/presentation/resources/font_manager.dart';
 import 'package:basic_diet/presentation/resources/strings_manager.dart';
@@ -27,6 +28,8 @@ class RegisterScreen extends StatelessWidget {
   late final TextEditingController _phoneController = TextEditingController();
   late final TextEditingController _passwordController =
       TextEditingController();
+  late final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +47,8 @@ class RegisterScreen extends StatelessWidget {
                 'password': state.password,
               },
             );
+          } else if (state is RegisterCompletedState) {
+            context.go(MainScreen.mainRoute);
           }
         },
         child: Scaffold(
@@ -143,7 +148,9 @@ class RegisterScreen extends StatelessWidget {
         BlocBuilder<RegisterBloc, RegisterState>(
           buildWhen:
               (previous, current) =>
-                  previous.passwordError != current.passwordError,
+                  previous.passwordError != current.passwordError ||
+                  previous.confirmPasswordError !=
+                      current.confirmPasswordError,
           builder: (context, state) {
             return AppTextField.password(
               controller: _passwordController,
@@ -157,6 +164,33 @@ class RegisterScreen extends StatelessWidget {
           },
         ),
         Gap(AppSize.s24.h),
+        Text(
+          Strings.confirmPassword.tr(),
+          style: getRegularTextStyle(
+            color: ColorManager.textPrimary,
+            fontSize: FontSizeManager.s16.sp,
+          ),
+        ),
+        Gap(AppSize.s8.h),
+        BlocBuilder<RegisterBloc, RegisterState>(
+          buildWhen:
+              (previous, current) =>
+                  previous.confirmPasswordError !=
+                  current.confirmPasswordError,
+          builder: (context, state) {
+            return AppTextField.password(
+              controller: _confirmPasswordController,
+              errorText: state.confirmPasswordError,
+              hintText: Strings.confirmPasswordHint.tr(),
+              onChanged: (confirmPassword) {
+                context
+                    .read<RegisterBloc>()
+                    .add(RegisterConfirmPasswordChanged(confirmPassword));
+              },
+            );
+          },
+        ),
+        Gap(AppSize.s24.h),
 
         BlocBuilder<RegisterBloc, RegisterState>(
           builder: (context, state) {
@@ -164,8 +198,10 @@ class RegisterScreen extends StatelessWidget {
             final isEnabled =
                 state.phoneError == null &&
                 state.passwordError == null &&
+                state.confirmPasswordError == null &&
                 state.phone.isNotEmpty &&
-                state.password.isNotEmpty;
+                state.password.isNotEmpty &&
+                state.confirmPassword.isNotEmpty;
 
             return ButtonWidget(
               text: Strings.createAccount.tr(),

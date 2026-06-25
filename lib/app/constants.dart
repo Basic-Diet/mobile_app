@@ -5,6 +5,8 @@ class Constants {
   static const int zero = 0;
   static const double decimalZero = 0.0;
   static const bool falseValue = false;
+  // ignore: constant_identifier_names
+  static const bool skip_otp = true;
   static const bool isDebug = bool.fromEnvironment('dart.vm.product') == false;
   static const int timeout = 60 * 1000;
   static const String merchantDisplayName = 'Basic Diet';

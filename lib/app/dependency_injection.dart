@@ -145,9 +145,21 @@ void initRegisterModule() {
     instance.registerFactory<RegisterUseCase>(
       () => RegisterUseCase(instance<Repository>()),
     );
+  }
 
+  if (!GetIt.I.isRegistered<VerifyOtpUseCase>()) {
+    instance.registerFactory<VerifyOtpUseCase>(
+      () => VerifyOtpUseCase(instance<Repository>()),
+    );
+  }
+
+  if (!GetIt.I.isRegistered<RegisterBloc>()) {
     instance.registerFactory<RegisterBloc>(
-      () => RegisterBloc(instance<RegisterUseCase>()),
+      () => RegisterBloc(
+        instance<RegisterUseCase>(),
+        instance<VerifyOtpUseCase>(),
+        instance<AppPreferences>(),
+      ),
     );
   }
 }
@@ -157,7 +169,9 @@ void initVerifyModule() {
     instance.registerFactory<VerifyOtpUseCase>(
       () => VerifyOtpUseCase(instance<Repository>()),
     );
+  }
 
+  if (!GetIt.I.isRegistered<VerifyBloc>()) {
     instance.registerFactory<VerifyBloc>(
       () =>
           VerifyBloc(instance<VerifyOtpUseCase>(), instance<AppPreferences>()),

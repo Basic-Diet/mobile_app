@@ -7,6 +7,8 @@ abstract class RegisterState extends Equatable {
   final String? phoneError;
   final String password;
   final String? passwordError;
+  final String confirmPassword;
+  final String? confirmPasswordError;
   final String email;
   final String? emailError;
 
@@ -17,6 +19,8 @@ abstract class RegisterState extends Equatable {
     this.phoneError,
     this.password = '',
     this.passwordError,
+    this.confirmPassword = '',
+    this.confirmPasswordError,
     this.email = '',
     this.emailError,
   });
@@ -28,6 +32,8 @@ abstract class RegisterState extends Equatable {
     String? phoneError,
     String? password,
     String? passwordError,
+    String? confirmPassword,
+    String? confirmPasswordError,
     String? email,
     String? emailError,
   });
@@ -40,6 +46,8 @@ abstract class RegisterState extends Equatable {
     phoneError ?? '',
     password,
     passwordError ?? '',
+    confirmPassword,
+    confirmPasswordError ?? '',
     email,
     emailError ?? '',
   ];
@@ -53,6 +61,8 @@ class RegisterFormInitialState extends RegisterState {
     super.phoneError,
     super.password = '',
     super.passwordError,
+    super.confirmPassword = '',
+    super.confirmPasswordError,
     super.email = '',
     super.emailError,
   });
@@ -65,6 +75,8 @@ class RegisterFormInitialState extends RegisterState {
     String? phoneError,
     String? password,
     String? passwordError,
+    String? confirmPassword,
+    String? confirmPasswordError,
     String? email,
     String? emailError,
   }) {
@@ -75,6 +87,8 @@ class RegisterFormInitialState extends RegisterState {
       phoneError: phoneError,
       password: password ?? this.password,
       passwordError: passwordError,
+      confirmPassword: confirmPassword ?? this.confirmPassword,
+      confirmPasswordError: confirmPasswordError,
       email: email ?? this.email,
       emailError: emailError,
     );
@@ -89,6 +103,8 @@ class RegisterLoadingState extends RegisterState {
     super.phoneError,
     super.password = '',
     super.passwordError,
+    super.confirmPassword = '',
+    super.confirmPasswordError,
     super.email = '',
     super.emailError,
   });
@@ -101,6 +117,8 @@ class RegisterLoadingState extends RegisterState {
     String? phoneError,
     String? password,
     String? passwordError,
+    String? confirmPassword,
+    String? confirmPasswordError,
     String? email,
     String? emailError,
   }) {
@@ -111,6 +129,8 @@ class RegisterLoadingState extends RegisterState {
       phoneError: phoneError,
       password: password ?? this.password,
       passwordError: passwordError,
+      confirmPassword: confirmPassword ?? this.confirmPassword,
+      confirmPasswordError: confirmPasswordError,
       email: email ?? this.email,
       emailError: emailError,
     );
@@ -127,6 +147,8 @@ class RegisterSuccessState extends RegisterState {
     super.phoneError,
     super.password = '',
     super.passwordError,
+    super.confirmPassword = '',
+    super.confirmPasswordError,
     super.email = '',
     super.emailError,
   });
@@ -139,6 +161,8 @@ class RegisterSuccessState extends RegisterState {
     String? phoneError,
     String? password,
     String? passwordError,
+    String? confirmPassword,
+    String? confirmPasswordError,
     String? email,
     String? emailError,
   }) {
@@ -150,6 +174,8 @@ class RegisterSuccessState extends RegisterState {
       phoneError: phoneError,
       password: password ?? this.password,
       passwordError: passwordError,
+      confirmPassword: confirmPassword ?? this.confirmPassword,
+      confirmPasswordError: confirmPasswordError,
       email: email ?? this.email,
       emailError: emailError,
     );
@@ -163,10 +189,54 @@ class RegisterSuccessState extends RegisterState {
     phoneError ?? '',
     password,
     passwordError ?? '',
+    confirmPassword,
+    confirmPasswordError ?? '',
     email,
     emailError ?? '',
     message,
   ];
+}
+
+class RegisterCompletedState extends RegisterState {
+  const RegisterCompletedState({
+    super.fullName = '',
+    super.fullNameError,
+    super.phone = '',
+    super.phoneError,
+    super.password = '',
+    super.passwordError,
+    super.confirmPassword = '',
+    super.confirmPasswordError,
+    super.email = '',
+    super.emailError,
+  });
+
+  @override
+  RegisterState copyWith({
+    String? fullName,
+    String? fullNameError,
+    String? phone,
+    String? phoneError,
+    String? password,
+    String? passwordError,
+    String? confirmPassword,
+    String? confirmPasswordError,
+    String? email,
+    String? emailError,
+  }) {
+    return RegisterCompletedState(
+      fullName: fullName ?? this.fullName,
+      fullNameError: fullNameError,
+      phone: phone ?? this.phone,
+      phoneError: phoneError,
+      password: password ?? this.password,
+      passwordError: passwordError,
+      confirmPassword: confirmPassword ?? this.confirmPassword,
+      confirmPasswordError: confirmPasswordError,
+      email: email ?? this.email,
+      emailError: emailError,
+    );
+  }
 }
 
 class RegisterErrorState extends RegisterState {
@@ -179,6 +249,8 @@ class RegisterErrorState extends RegisterState {
     super.phoneError,
     super.password = '',
     super.passwordError,
+    super.confirmPassword = '',
+    super.confirmPasswordError,
     super.email = '',
     super.emailError,
   });
@@ -191,6 +263,8 @@ class RegisterErrorState extends RegisterState {
     String? phoneError,
     String? password,
     String? passwordError,
+    String? confirmPassword,
+    String? confirmPasswordError,
     String? email,
     String? emailError,
   }) {
@@ -202,6 +276,8 @@ class RegisterErrorState extends RegisterState {
       phoneError: phoneError,
       password: password ?? this.password,
       passwordError: passwordError,
+      confirmPassword: confirmPassword ?? this.confirmPassword,
+      confirmPasswordError: confirmPasswordError,
       email: email ?? this.email,
       emailError: emailError,
     );
@@ -215,6 +291,8 @@ class RegisterErrorState extends RegisterState {
     phoneError ?? '',
     password,
     passwordError ?? '',
+    confirmPassword,
+    confirmPasswordError ?? '',
     email,
     emailError ?? '',
     message,
