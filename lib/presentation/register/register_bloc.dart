@@ -1,22 +1,17 @@
 import 'package:basic_diet/app/app_pref.dart';
-import 'package:basic_diet/app/constants.dart';
 import 'package:basic_diet/app/toast_handeller.dart';
 import 'package:basic_diet/domain/usecase/register_usecase.dart';
-import 'package:basic_diet/domain/usecase/verify_otp_usecase.dart';
+import 'package:basic_diet/presentation/resources/strings_manager.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'register_event.dart';
 import 'register_state.dart';
 
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   final RegisterUseCase _registerUseCase;
-  final VerifyOtpUseCase _verifyOtpUseCase;
   final AppPreferences _appPreferences;
 
-  RegisterBloc(
-    this._registerUseCase,
-    this._verifyOtpUseCase,
-    this._appPreferences,
-  )
+  RegisterBloc(this._registerUseCase, this._appPreferences)
     : super(const RegisterFormInitialState()) {
     on<RegisterFullNameChanged>(_onFullNameChanged);
     on<RegisterPhoneChanged>(_onPhoneChanged);
@@ -46,15 +41,19 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     RegisterPasswordChanged event,
     Emitter<RegisterState> emit,
   ) {
-    final error = _validatePassword(event.password);
-    final confirmPasswordError = _validateConfirmPassword(
-      state.confirmPassword,
-      event.password,
-    );
+    final passwordError = _validatePassword(event.password);
+    final confirmPasswordError =
+        event.confirmPassword.isEmpty
+            ? state.confirmPasswordError
+            : _validateConfirmPassword(
+              event.confirmPassword,
+              event.password,
+            );
+
     emit(
       state.copyWith(
-        password: event.password,
-        passwordError: error,
+        isPasswordNotEmpty: event.password.isNotEmpty,
+        passwordError: passwordError,
         confirmPasswordError: confirmPasswordError,
       ),
     );
@@ -66,11 +65,11 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   ) {
     final error = _validateConfirmPassword(
       event.confirmPassword,
-      state.password,
+      event.password,
     );
     emit(
       state.copyWith(
-        confirmPassword: event.confirmPassword,
+        isConfirmPasswordNotEmpty: event.confirmPassword.isNotEmpty,
         confirmPasswordError: error,
       ),
     );
@@ -88,22 +87,30 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     RegisterSubmitted event,
     Emitter<RegisterState> emit,
   ) async {
-    final phoneError = _validatePhone(state.phone);
-    final passwordError = _validatePassword(state.password);
+    final phone = event.phone.trim();
+    final email = event.email.trim();
+    final phoneError = _validatePhone(phone);
+    final passwordError = _validatePassword(event.password);
     final confirmPasswordError = _validateConfirmPassword(
-      state.confirmPassword,
-      state.password,
+      event.confirmPassword,
+      event.password,
     );
-    if (
-      phoneError != null ||
-      passwordError != null ||
-      confirmPasswordError != null
-    ) {
+    final emailError = _validateEmail(email);
+
+    if (phoneError != null ||
+        passwordError != null ||
+        confirmPasswordError != null ||
+        emailError != null) {
       emit(
         state.copyWith(
+          phone: phone,
           phoneError: phoneError,
+          isPasswordNotEmpty: event.password.isNotEmpty,
           passwordError: passwordError,
+          isConfirmPasswordNotEmpty: event.confirmPassword.isNotEmpty,
           confirmPasswordError: confirmPasswordError,
+          email: email,
+          emailError: emailError,
         ),
       );
       return;
@@ -112,64 +119,20 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     emit(
       RegisterLoadingState(
         fullName: state.fullName,
-        phone: state.phone,
-        password: state.password,
-        confirmPassword: state.confirmPassword,
-        email: state.email,
+        phone: phone,
+        isPasswordNotEmpty: event.password.isNotEmpty,
+        isConfirmPasswordNotEmpty: event.confirmPassword.isNotEmpty,
+        email: email,
       ),
     );
 
-    final fullPhone = _buildSaudiPhoneNumber(state.phone);
-    if (Constants.skip_otp) {
-      await _completeRegistrationWithoutOtp(fullPhone, emit);
-      return;
-    }
-
     final result = await _registerUseCase.execute(
-      RegisterUseCaseInput(fullPhone),
-    );
-
-    result.fold(
-      (failure) {
-        if (!isClosed) {
-          emit(
-            RegisterErrorState(
-              failure.message,
-              fullName: state.fullName,
-              phone: state.phone,
-              password: state.password,
-              confirmPassword: state.confirmPassword,
-              email: state.email,
-            ),
-          );
-        }
-        showToast(message: failure.message, state: ToastStates.error);
-      },
-      (baseModel) {
-        final message = baseModel.message ?? "OTP sent successfully";
-        if (!isClosed) {
-          emit(
-            RegisterSuccessState(
-              message,
-              fullName: state.fullName,
-              phone: state.phone,
-              password: state.password,
-              confirmPassword: state.confirmPassword,
-              email: state.email,
-            ),
-          );
-        }
-        showToast(message: message, state: ToastStates.success);
-      },
-    );
-  }
-
-  Future<void> _completeRegistrationWithoutOtp(
-    String fullPhone,
-    Emitter<RegisterState> emit,
-  ) async {
-    final result = await _verifyOtpUseCase.execute(
-      VerifyOtpUseCaseInput(fullPhone, Constants.empty, state.password),
+      RegisterUseCaseInput(
+        phone: _buildSaudiPhoneNumber(phone),
+        password: event.password,
+        confirmPassword: event.confirmPassword,
+        email: email.isEmpty ? null : email,
+      ),
     );
 
     await result.fold(
@@ -179,10 +142,10 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
             RegisterErrorState(
               failure.message,
               fullName: state.fullName,
-              phone: state.phone,
-              password: state.password,
-              confirmPassword: state.confirmPassword,
-              email: state.email,
+              phone: phone,
+              isPasswordNotEmpty: event.password.isNotEmpty,
+              isConfirmPasswordNotEmpty: event.confirmPassword.isNotEmpty,
+              email: email,
             ),
           );
         }
@@ -190,16 +153,16 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       },
       (data) async {
         if (data.accessToken.isEmpty || data.refreshToken.isEmpty) {
-          const message = "Token not found";
+          final message = Strings.defaultError.tr();
           if (!isClosed) {
             emit(
               RegisterErrorState(
                 message,
                 fullName: state.fullName,
-                phone: state.phone,
-                password: state.password,
-                confirmPassword: state.confirmPassword,
-                email: state.email,
+                phone: phone,
+                isPasswordNotEmpty: event.password.isNotEmpty,
+                isConfirmPasswordNotEmpty: event.confirmPassword.isNotEmpty,
+                email: email,
               ),
             );
           }
@@ -217,49 +180,47 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
           emit(
             RegisterCompletedState(
               fullName: state.fullName,
-              phone: state.phone,
-              password: state.password,
-              confirmPassword: state.confirmPassword,
-              email: state.email,
+              phone: phone,
+              email: email,
             ),
           );
         }
-        showToast(message: "Registration successful", state: ToastStates.success);
+        showToast(message: Strings.success.tr(), state: ToastStates.success);
       },
     );
   }
 
   String? _validateFullName(String fullName) {
-    if (fullName.isEmpty) return "Full name is required";
+    if (fullName.isEmpty) return Strings.fullNameRequired.tr();
     return null;
   }
 
   String? _validatePhone(String phone) {
-    if (phone.isEmpty) return "Phone is required";
-    if (phone.length < 9) return "Phone is too short";
+    if (phone.isEmpty) return Strings.phoneRequired.tr();
+    if (phone.length < 9) return Strings.phoneTooShort.tr();
     return null;
   }
 
   String? _validatePassword(String password) {
-    if (password.isEmpty) return "Password is required";
-    if (password.length < 8) return "Password is too short";
+    if (password.isEmpty) return Strings.passwordRequired.tr();
+    if (password.length < 8) return Strings.passwordTooShort.tr();
     final hasLetter = password.contains(RegExp(r'[a-zA-Z]'));
     final hasNumber = password.contains(RegExp(r'[0-9]'));
     if (!hasLetter || !hasNumber) {
-      return "Password should include at least one letter and one number";
+      return Strings.passwordComplexity.tr();
     }
     return null;
   }
 
   String? _validateConfirmPassword(String confirmPassword, String password) {
-    if (confirmPassword.isEmpty) return "Confirm password is required";
-    if (confirmPassword != password) return "Passwords do not match";
+    if (confirmPassword.isEmpty) return Strings.confirmPasswordRequired.tr();
+    if (confirmPassword != password) return Strings.passwordMismatch.tr();
     return null;
   }
 
   String? _validateEmail(String email) {
     if (email.isNotEmpty && !email.contains("@")) {
-      return "Invalid email";
+      return Strings.invalidEmail.tr();
     }
     return null;
   }

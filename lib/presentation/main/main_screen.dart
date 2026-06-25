@@ -61,6 +61,16 @@ class _MainScreenContentState extends State<_MainScreenContent> {
   static const Duration _exitConfirmationWindow = Duration(seconds: 2);
   DateTime? _lastBackPressedAt;
 
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        unawaited(redirectIfPasswordChangeRequired(context));
+      }
+    });
+  }
+
   List<Widget> get _pages => [
     BlocProvider(
       create: (_) => instance<HomeBloc>(),

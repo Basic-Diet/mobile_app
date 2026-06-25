@@ -3,6 +3,7 @@ import 'package:basic_diet/app/app_pref.dart';
 import 'package:basic_diet/app/dependency_injection.dart';
 import 'package:basic_diet/domain/usecase/get_current_user_usecase.dart';
 import 'package:basic_diet/domain/usecase/refresh_token_usecase.dart';
+import 'package:basic_diet/presentation/change_password/change_password_screen.dart';
 import 'package:basic_diet/presentation/language_selection/language_selection_screen.dart';
 import 'package:basic_diet/presentation/main/main_screen.dart';
 import 'package:basic_diet/presentation/onboarding/on_boarding_screen.dart';
@@ -73,10 +74,11 @@ class _SplashScreenState extends State<SplashScreen> {
         _appPreferences.hasSessionTokens(),
         fallback: false,
       );
+      String? sessionRedirectRoute;
       if (hasSessionTokens) {
-        await _withTimeout(
-          _hasValidSession(),
-          fallback: false,
+        sessionRedirectRoute = await _withTimeout<String?>(
+          _resolveSessionRedirectRoute(),
+          fallback: null,
           timeout: _sessionValidationTimeout,
         );
       }
@@ -85,7 +87,7 @@ class _SplashScreenState extends State<SplashScreen> {
         return;
       }
 
-      context.go(MainScreen.mainRoute);
+      context.go(sessionRedirectRoute ?? MainScreen.mainRoute);
     } catch (_) {
       if (mounted) {
         context.go(MainScreen.mainRoute);
@@ -101,7 +103,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return future.timeout(timeout, onTimeout: () => fallback);
   }
 
-  Future<bool> _hasValidSession() async {
+  Future<String?> _resolveSessionRedirectRoute() async {
     final currentUserResult = await _getCurrentUserUseCase.execute(null);
 
     return currentUserResult.fold((failure) async {
@@ -110,22 +112,27 @@ class _SplashScreenState extends State<SplashScreen> {
       }
 
       await _appPreferences.clearSession();
-      return false;
-    }, (_) async => true);
+      return null;
+    }, (data) async {
+      if (data.user?.forcePasswordChange == true) {
+        return ChangePasswordScreen.routeName;
+      }
+      return null;
+    });
   }
 
-  Future<bool> _refreshSession() async {
+  Future<String?> _refreshSession() async {
     final refreshToken = await _appPreferences.getRefreshToken();
     if (refreshToken.isEmpty) {
       await _appPreferences.clearSession();
-      return false;
+      return null;
     }
 
     final refreshResult = await _refreshTokenUseCase.execute(refreshToken);
     return refreshResult.fold(
       (_) async {
         await _appPreferences.clearSession();
-        return false;
+        return null;
       },
       (data) async {
         await _appPreferences.saveSession(
@@ -135,7 +142,12 @@ class _SplashScreenState extends State<SplashScreen> {
         );
 
         final retryResult = await _getCurrentUserUseCase.execute(null);
-        return retryResult.fold((_) async => false, (_) async => true);
+        return retryResult.fold((_) async => null, (data) async {
+          if (data.user?.forcePasswordChange == true) {
+            return ChangePasswordScreen.routeName;
+          }
+          return null;
+        });
       },
     );
   }
@@ -150,10 +162,12 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorManager.backgroundSurface,
-      body: Center(child: Container(
-        width: 180,
-        height: 180,
-          child: Image.asset(ImageAssets.splashLogo))
+      body: Center(
+        child: SizedBox(
+          width: 180,
+          height: 180,
+          child: Image.asset(ImageAssets.splashLogo),
+        ),
       ),
     );
   }

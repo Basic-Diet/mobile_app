@@ -1,4 +1,5 @@
 import 'package:basic_diet/app/dependency_injection.dart';
+import 'package:basic_diet/presentation/change_password/change_password_screen.dart';
 import 'package:basic_diet/presentation/register/register_screen.dart';
 import 'package:basic_diet/presentation/forgot_password/forgot_password_screen.dart';
 import 'package:basic_diet/presentation/main/main_screen.dart';
@@ -44,6 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void dispose() {
+    _passwordController.clear();
     _phoneController.dispose();
     _passwordController.dispose();
     _loginBloc.close();
@@ -59,10 +61,15 @@ class _LoginScreenState extends State<LoginScreen> {
       child: BlocListener<LoginBloc, LoginState>(
         listenWhen:
             (previous, current) =>
-                previous is! LoginSuccessState && current is LoginSuccessState,
+                current is LoginSuccessState ||
+                current is LoginForcePasswordChangeRequiredState,
         listener: (context, state) {
           if (state is LoginSuccessState) {
+            _passwordController.clear();
             context.go(MainScreen.mainRoute);
+          } else if (state is LoginForcePasswordChangeRequiredState) {
+            _passwordController.clear();
+            context.go(ChangePasswordScreen.routeName, extra: state.phone);
           }
         },
         child: Scaffold(
@@ -191,7 +198,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 state.phoneError == null &&
                 state.phone.isNotEmpty &&
                 state.passwordError == null &&
-                state.password.isNotEmpty;
+                state.isPasswordNotEmpty;
 
             return ButtonWidget(
               text: Strings.login.tr(),
@@ -207,7 +214,9 @@ class _LoginScreenState extends State<LoginScreen> {
               onTap:
                   isEnabled
                       ? () =>
-                          context.read<LoginBloc>().add(const LoginSubmitted())
+                          context.read<LoginBloc>().add(
+                            LoginSubmitted(_passwordController.text),
+                          )
                       : null,
               isLoading: isLoading,
             );

@@ -38,6 +38,7 @@ AuthUserResponse _$AuthUserResponseFromJson(Map<String, dynamic> json) =>
       id: json['id'] as String?,
       phoneE164: json['phoneE164'] as String?,
       phoneVerified: json['phoneVerified'] as bool?,
+      forcePasswordChange: json['forcePasswordChange'] as bool?,
     );
 
 Map<String, dynamic> _$AuthUserResponseToJson(AuthUserResponse instance) =>
@@ -45,4 +46,5 @@ Map<String, dynamic> _$AuthUserResponseToJson(AuthUserResponse instance) =>
       'id': instance.id,
       'phoneE164': instance.phoneE164,
       'phoneVerified': instance.phoneVerified,
+      'forcePasswordChange': instance.forcePasswordChange,
     };

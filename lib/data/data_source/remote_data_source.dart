@@ -57,6 +57,12 @@ abstract class RemoteDataSource {
     String? deviceId,
     String? deviceName,
   );
+  Future<AuthenticationResponse> register(
+    String phone,
+    String password,
+    String confirmPassword, {
+    String? email,
+  });
   Future<BaseResponse> requestRegistrationOtp(String phone);
   Future<AuthenticationResponse> verifyRegistrationOtp(
     String phone,
@@ -72,6 +78,11 @@ abstract class RemoteDataSource {
     String phone,
     String otp,
     String newPassword,
+  );
+  Future<BaseResponse> changePassword(
+    String currentPassword,
+    String newPassword,
+    String confirmPassword,
   );
   Future<AuthenticationResponse> getCurrentUser();
   Future<ClientProfileResponse> getClientProfile();

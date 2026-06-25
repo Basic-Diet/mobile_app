@@ -43,8 +43,15 @@ class AuthUserResponse {
   final String? phoneE164;
   @JsonKey(name: "phoneVerified")
   final bool? phoneVerified;
+  @JsonKey(name: "forcePasswordChange")
+  final bool? forcePasswordChange;
 
-  const AuthUserResponse({this.id, this.phoneE164, this.phoneVerified});
+  const AuthUserResponse({
+    this.id,
+    this.phoneE164,
+    this.phoneVerified,
+    this.forcePasswordChange,
+  });
 
   factory AuthUserResponse.fromJson(Map<String, dynamic> json) =>
       _$AuthUserResponseFromJson(json);

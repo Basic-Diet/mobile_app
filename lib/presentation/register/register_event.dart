@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-abstract class RegisterEvent extends Equatable {
+sealed class RegisterEvent extends Equatable {
   const RegisterEvent();
 
   @override
@@ -9,6 +9,7 @@ abstract class RegisterEvent extends Equatable {
 
 class RegisterFullNameChanged extends RegisterEvent {
   final String fullName;
+
   const RegisterFullNameChanged(this.fullName);
 
   @override
@@ -17,6 +18,7 @@ class RegisterFullNameChanged extends RegisterEvent {
 
 class RegisterPhoneChanged extends RegisterEvent {
   final String phone;
+
   const RegisterPhoneChanged(this.phone);
 
   @override
@@ -25,22 +27,33 @@ class RegisterPhoneChanged extends RegisterEvent {
 
 class RegisterPasswordChanged extends RegisterEvent {
   final String password;
-  const RegisterPasswordChanged(this.password);
+  final String confirmPassword;
+
+  const RegisterPasswordChanged({
+    required this.password,
+    required this.confirmPassword,
+  });
 
   @override
-  List<Object?> get props => [password];
+  List<Object?> get props => [password.isNotEmpty, confirmPassword.isNotEmpty];
 }
 
 class RegisterConfirmPasswordChanged extends RegisterEvent {
+  final String password;
   final String confirmPassword;
-  const RegisterConfirmPasswordChanged(this.confirmPassword);
+
+  const RegisterConfirmPasswordChanged({
+    required this.password,
+    required this.confirmPassword,
+  });
 
   @override
-  List<Object?> get props => [confirmPassword];
+  List<Object?> get props => [password.isNotEmpty, confirmPassword.isNotEmpty];
 }
 
 class RegisterEmailChanged extends RegisterEvent {
   final String email;
+
   const RegisterEmailChanged(this.email);
 
   @override
@@ -48,5 +61,23 @@ class RegisterEmailChanged extends RegisterEvent {
 }
 
 class RegisterSubmitted extends RegisterEvent {
-  const RegisterSubmitted();
+  final String phone;
+  final String password;
+  final String confirmPassword;
+  final String email;
+
+  const RegisterSubmitted({
+    required this.phone,
+    required this.password,
+    required this.confirmPassword,
+    this.email = '',
+  });
+
+  @override
+  List<Object?> get props => [
+    phone,
+    password.isNotEmpty,
+    confirmPassword.isNotEmpty,
+    email,
+  ];
 }

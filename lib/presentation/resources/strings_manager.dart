@@ -20,7 +20,11 @@ class Strings {
   static const String passwordHint = 'passwordHint';
   static const String confirmPassword = 'confirmPassword';
   static const String confirmPasswordHint = 'confirmPasswordHint';
+  static const String currentPassword = 'currentPassword';
+  static const String currentPasswordHint = 'currentPasswordHint';
   static const String newPassword = 'newPassword';
+  static const String newPasswordHint = 'newPasswordHint';
+  static const String changePassword = 'changePassword';
   static const String login = 'login';
   static const String welcomeBack = 'welcomeBack';
   static const String signInSubtitle = 'signInSubtitle';
@@ -47,12 +51,30 @@ class Strings {
   static const String forgotPassword = 'forgotPassword';
   static const String forgotPasswordTitle = 'forgotPasswordTitle';
   static const String forgotPasswordSubtitle = 'forgotPasswordSubtitle';
+  static const String forgotPasswordSupportPrompt =
+      'forgotPasswordSupportPrompt';
   static const String backToLogin = 'backToLogin';
   static const String resetPassword = 'resetPassword';
   static const String resetPasswordTitle = 'resetPasswordTitle';
   static const String resetPasswordSubtitle = 'resetPasswordSubtitle';
   static const String passwordResetSuccess = 'passwordResetSuccess';
   static const String otpCode = 'otpCode';
+  static const String invalidCredentials = 'invalidCredentials';
+  static const String forcePasswordChangeTitle = 'forcePasswordChangeTitle';
+  static const String forcePasswordChangeSubtitle =
+      'forcePasswordChangeSubtitle';
+  static const String passwordMismatch = 'passwordMismatch';
+  static const String passwordChangedSuccess = 'passwordChangedSuccess';
+  static const String fullNameRequired = 'fullNameRequired';
+  static const String phoneRequired = 'phoneRequired';
+  static const String phoneTooShort = 'phoneTooShort';
+  static const String passwordRequired = 'passwordRequired';
+  static const String passwordTooShort = 'passwordTooShort';
+  static const String passwordComplexity = 'passwordComplexity';
+  static const String confirmPasswordRequired = 'confirmPasswordRequired';
+  static const String currentPasswordRequired = 'currentPasswordRequired';
+  static const String newPasswordRequired = 'newPasswordRequired';
+  static const String invalidEmail = 'invalidEmail';
 
   // Navigation
   static const String home = 'home';

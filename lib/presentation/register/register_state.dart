@@ -5,9 +5,9 @@ abstract class RegisterState extends Equatable {
   final String? fullNameError;
   final String phone;
   final String? phoneError;
-  final String password;
+  final bool isPasswordNotEmpty;
   final String? passwordError;
-  final String confirmPassword;
+  final bool isConfirmPasswordNotEmpty;
   final String? confirmPasswordError;
   final String email;
   final String? emailError;
@@ -17,9 +17,9 @@ abstract class RegisterState extends Equatable {
     this.fullNameError,
     this.phone = '',
     this.phoneError,
-    this.password = '',
+    this.isPasswordNotEmpty = false,
     this.passwordError,
-    this.confirmPassword = '',
+    this.isConfirmPasswordNotEmpty = false,
     this.confirmPasswordError,
     this.email = '',
     this.emailError,
@@ -30,9 +30,9 @@ abstract class RegisterState extends Equatable {
     String? fullNameError,
     String? phone,
     String? phoneError,
-    String? password,
+    bool? isPasswordNotEmpty,
     String? passwordError,
-    String? confirmPassword,
+    bool? isConfirmPasswordNotEmpty,
     String? confirmPasswordError,
     String? email,
     String? emailError,
@@ -44,9 +44,9 @@ abstract class RegisterState extends Equatable {
     fullNameError ?? '',
     phone,
     phoneError ?? '',
-    password,
+    isPasswordNotEmpty,
     passwordError ?? '',
-    confirmPassword,
+    isConfirmPasswordNotEmpty,
     confirmPasswordError ?? '',
     email,
     emailError ?? '',
@@ -59,9 +59,9 @@ class RegisterFormInitialState extends RegisterState {
     super.fullNameError,
     super.phone = '',
     super.phoneError,
-    super.password = '',
+    super.isPasswordNotEmpty = false,
     super.passwordError,
-    super.confirmPassword = '',
+    super.isConfirmPasswordNotEmpty = false,
     super.confirmPasswordError,
     super.email = '',
     super.emailError,
@@ -73,9 +73,9 @@ class RegisterFormInitialState extends RegisterState {
     String? fullNameError,
     String? phone,
     String? phoneError,
-    String? password,
+    bool? isPasswordNotEmpty,
     String? passwordError,
-    String? confirmPassword,
+    bool? isConfirmPasswordNotEmpty,
     String? confirmPasswordError,
     String? email,
     String? emailError,
@@ -85,9 +85,10 @@ class RegisterFormInitialState extends RegisterState {
       fullNameError: fullNameError,
       phone: phone ?? this.phone,
       phoneError: phoneError,
-      password: password ?? this.password,
+      isPasswordNotEmpty: isPasswordNotEmpty ?? this.isPasswordNotEmpty,
       passwordError: passwordError,
-      confirmPassword: confirmPassword ?? this.confirmPassword,
+      isConfirmPasswordNotEmpty:
+          isConfirmPasswordNotEmpty ?? this.isConfirmPasswordNotEmpty,
       confirmPasswordError: confirmPasswordError,
       email: email ?? this.email,
       emailError: emailError,
@@ -101,9 +102,9 @@ class RegisterLoadingState extends RegisterState {
     super.fullNameError,
     super.phone = '',
     super.phoneError,
-    super.password = '',
+    super.isPasswordNotEmpty = false,
     super.passwordError,
-    super.confirmPassword = '',
+    super.isConfirmPasswordNotEmpty = false,
     super.confirmPasswordError,
     super.email = '',
     super.emailError,
@@ -115,9 +116,9 @@ class RegisterLoadingState extends RegisterState {
     String? fullNameError,
     String? phone,
     String? phoneError,
-    String? password,
+    bool? isPasswordNotEmpty,
     String? passwordError,
-    String? confirmPassword,
+    bool? isConfirmPasswordNotEmpty,
     String? confirmPasswordError,
     String? email,
     String? emailError,
@@ -127,74 +128,15 @@ class RegisterLoadingState extends RegisterState {
       fullNameError: fullNameError,
       phone: phone ?? this.phone,
       phoneError: phoneError,
-      password: password ?? this.password,
+      isPasswordNotEmpty: isPasswordNotEmpty ?? this.isPasswordNotEmpty,
       passwordError: passwordError,
-      confirmPassword: confirmPassword ?? this.confirmPassword,
+      isConfirmPasswordNotEmpty:
+          isConfirmPasswordNotEmpty ?? this.isConfirmPasswordNotEmpty,
       confirmPasswordError: confirmPasswordError,
       email: email ?? this.email,
       emailError: emailError,
     );
   }
-}
-
-class RegisterSuccessState extends RegisterState {
-  final String message;
-  const RegisterSuccessState(
-    this.message, {
-    super.fullName = '',
-    super.fullNameError,
-    super.phone = '',
-    super.phoneError,
-    super.password = '',
-    super.passwordError,
-    super.confirmPassword = '',
-    super.confirmPasswordError,
-    super.email = '',
-    super.emailError,
-  });
-
-  @override
-  RegisterState copyWith({
-    String? fullName,
-    String? fullNameError,
-    String? phone,
-    String? phoneError,
-    String? password,
-    String? passwordError,
-    String? confirmPassword,
-    String? confirmPasswordError,
-    String? email,
-    String? emailError,
-  }) {
-    return RegisterSuccessState(
-      message,
-      fullName: fullName ?? this.fullName,
-      fullNameError: fullNameError,
-      phone: phone ?? this.phone,
-      phoneError: phoneError,
-      password: password ?? this.password,
-      passwordError: passwordError,
-      confirmPassword: confirmPassword ?? this.confirmPassword,
-      confirmPasswordError: confirmPasswordError,
-      email: email ?? this.email,
-      emailError: emailError,
-    );
-  }
-
-  @override
-  List<Object?> get props => [
-    fullName,
-    fullNameError ?? '',
-    phone,
-    phoneError ?? '',
-    password,
-    passwordError ?? '',
-    confirmPassword,
-    confirmPasswordError ?? '',
-    email,
-    emailError ?? '',
-    message,
-  ];
 }
 
 class RegisterCompletedState extends RegisterState {
@@ -203,9 +145,9 @@ class RegisterCompletedState extends RegisterState {
     super.fullNameError,
     super.phone = '',
     super.phoneError,
-    super.password = '',
+    super.isPasswordNotEmpty = false,
     super.passwordError,
-    super.confirmPassword = '',
+    super.isConfirmPasswordNotEmpty = false,
     super.confirmPasswordError,
     super.email = '',
     super.emailError,
@@ -217,9 +159,9 @@ class RegisterCompletedState extends RegisterState {
     String? fullNameError,
     String? phone,
     String? phoneError,
-    String? password,
+    bool? isPasswordNotEmpty,
     String? passwordError,
-    String? confirmPassword,
+    bool? isConfirmPasswordNotEmpty,
     String? confirmPasswordError,
     String? email,
     String? emailError,
@@ -229,9 +171,10 @@ class RegisterCompletedState extends RegisterState {
       fullNameError: fullNameError,
       phone: phone ?? this.phone,
       phoneError: phoneError,
-      password: password ?? this.password,
+      isPasswordNotEmpty: isPasswordNotEmpty ?? this.isPasswordNotEmpty,
       passwordError: passwordError,
-      confirmPassword: confirmPassword ?? this.confirmPassword,
+      isConfirmPasswordNotEmpty:
+          isConfirmPasswordNotEmpty ?? this.isConfirmPasswordNotEmpty,
       confirmPasswordError: confirmPasswordError,
       email: email ?? this.email,
       emailError: emailError,
@@ -241,15 +184,16 @@ class RegisterCompletedState extends RegisterState {
 
 class RegisterErrorState extends RegisterState {
   final String message;
+
   const RegisterErrorState(
     this.message, {
     super.fullName = '',
     super.fullNameError,
     super.phone = '',
     super.phoneError,
-    super.password = '',
+    super.isPasswordNotEmpty = false,
     super.passwordError,
-    super.confirmPassword = '',
+    super.isConfirmPasswordNotEmpty = false,
     super.confirmPasswordError,
     super.email = '',
     super.emailError,
@@ -261,9 +205,9 @@ class RegisterErrorState extends RegisterState {
     String? fullNameError,
     String? phone,
     String? phoneError,
-    String? password,
+    bool? isPasswordNotEmpty,
     String? passwordError,
-    String? confirmPassword,
+    bool? isConfirmPasswordNotEmpty,
     String? confirmPasswordError,
     String? email,
     String? emailError,
@@ -274,9 +218,10 @@ class RegisterErrorState extends RegisterState {
       fullNameError: fullNameError,
       phone: phone ?? this.phone,
       phoneError: phoneError,
-      password: password ?? this.password,
+      isPasswordNotEmpty: isPasswordNotEmpty ?? this.isPasswordNotEmpty,
       passwordError: passwordError,
-      confirmPassword: confirmPassword ?? this.confirmPassword,
+      isConfirmPasswordNotEmpty:
+          isConfirmPasswordNotEmpty ?? this.isConfirmPasswordNotEmpty,
       confirmPasswordError: confirmPasswordError,
       email: email ?? this.email,
       emailError: emailError,
@@ -284,17 +229,5 @@ class RegisterErrorState extends RegisterState {
   }
 
   @override
-  List<Object?> get props => [
-    fullName,
-    fullNameError ?? '',
-    phone,
-    phoneError ?? '',
-    password,
-    passwordError ?? '',
-    confirmPassword,
-    confirmPasswordError ?? '',
-    email,
-    emailError ?? '',
-    message,
-  ];
+  List<Object?> get props => [...super.props, message];
 }

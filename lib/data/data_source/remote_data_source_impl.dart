@@ -69,10 +69,25 @@ class RemoteDataSourceImpl implements RemoteDataSource {
     String? deviceName,
   ) async {
     return await _appServiceClient.login({
-      'phoneE164': phone,
+      'phone': phone,
       'password': password,
       if (deviceId != null) 'deviceId': deviceId,
       if (deviceName != null) 'deviceName': deviceName,
+    });
+  }
+
+  @override
+  Future<AuthenticationResponse> register(
+    String phone,
+    String password,
+    String confirmPassword, {
+    String? email,
+  }) async {
+    return await _appServiceClient.register({
+      'phone': phone,
+      'password': password,
+      'confirmPassword': confirmPassword,
+      if (email != null && email.isNotEmpty) 'email': email,
     });
   }
 
@@ -124,6 +139,19 @@ class RemoteDataSourceImpl implements RemoteDataSource {
       'phoneE164': phone,
       'otp': otp,
       'newPassword': newPassword,
+    });
+  }
+
+  @override
+  Future<BaseResponse> changePassword(
+    String currentPassword,
+    String newPassword,
+    String confirmPassword,
+  ) {
+    return _appServiceClient.changePassword({
+      'currentPassword': currentPassword,
+      'newPassword': newPassword,
+      'confirmPassword': confirmPassword,
     });
   }
 

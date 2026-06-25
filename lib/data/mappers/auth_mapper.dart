@@ -22,6 +22,8 @@ extension AuthUserResponseMapper on AuthUserResponse? {
       id: this?.id ?? Constants.empty,
       phoneE164: this?.phoneE164 ?? Constants.empty,
       phoneVerified: this?.phoneVerified ?? Constants.falseValue,
+      forcePasswordChange:
+          this?.forcePasswordChange ?? Constants.falseValue,
     );
   }
 }

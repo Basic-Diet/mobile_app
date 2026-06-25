@@ -297,6 +297,32 @@ class RepositoryImpl implements Repository {
   }
 
   @override
+  Future<Either<Failure, AuthenticationModel>> register(
+    String phone,
+    String password,
+    String confirmPassword, {
+    String? email,
+  }) async {
+    try {
+      final response = await _remoteDataSource.register(
+        phone,
+        password,
+        confirmPassword,
+        email: email,
+      );
+      if (_isSuccessfulResponse(response)) {
+        return Right(response.toDomain());
+      } else {
+        return Left(
+          Failure(ApiInternalStatus.failure, ResponseMessage.defaultError),
+        );
+      }
+    } catch (error) {
+      return _handleError(error);
+    }
+  }
+
+  @override
   Future<Either<Failure, BaseModel>> requestRegistrationOtp(
     String phone,
   ) async {
@@ -397,6 +423,28 @@ class RepositoryImpl implements Repository {
         phone,
         otp,
         newPassword,
+      );
+      if (_isSuccessfulResponse(response)) {
+        return Right(response.toDomain());
+      } else {
+        return Left(_mapFailureFromResponse(response));
+      }
+    } catch (error) {
+      return _handleError(error);
+    }
+  }
+
+  @override
+  Future<Either<Failure, BaseModel>> changePassword(
+    String currentPassword,
+    String newPassword,
+    String confirmPassword,
+  ) async {
+    try {
+      final response = await _remoteDataSource.changePassword(
+        currentPassword,
+        newPassword,
+        confirmPassword,
       );
       if (_isSuccessfulResponse(response)) {
         return Right(response.toDomain());

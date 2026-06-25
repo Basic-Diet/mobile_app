@@ -55,10 +55,10 @@ class DioFactory {
     if (!kReleaseMode) {
       dioInstance.interceptors.add(
         PrettyDioLogger(
-          requestHeader: true,
-          requestBody: true,
+          requestHeader: false,
+          requestBody: false,
           responseHeader: true,
-          responseBody: true,
+          responseBody: false,
         ),
       );
     }
@@ -72,7 +72,6 @@ class DioFactory {
 
       if (_isUserLoggedIn(accessToken)) {
         options.headers[authorization] = "Bearer $accessToken";
-        // options.headers["Authorization"] = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWRjMjI2NThhZDc5N2U2MGVlYjRmNjMiLCJyb2xlIjoiY2xpZW50IiwidG9rZW5UeXBlIjoiYXBwX2FjY2VzcyIsImlhdCI6MTc3NjAzNDQyMiwiZXhwIjoxNzc4NzEyODIyfQ.ulgPpaLhSMHKpDiRXRE6_F4OGVzrzVUkYHuRD3tLbEw";
       } else {
         options.headers.remove(authorization);
       }
@@ -152,5 +151,3 @@ class DioFactory {
     }
   }
 }
-
-

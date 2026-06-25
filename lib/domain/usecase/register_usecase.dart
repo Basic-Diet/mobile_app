@@ -1,22 +1,38 @@
 import 'package:basic_diet/data/network/failure.dart';
-import 'package:basic_diet/domain/model/base__model.dart';
+import 'package:basic_diet/domain/model/auth_model.dart';
 import 'package:basic_diet/domain/repository/repository.dart';
 import 'package:basic_diet/domain/usecase/base_usecase.dart';
 import 'package:dartz/dartz.dart';
 
-class RegisterUseCase implements BaseUseCase<RegisterUseCaseInput, BaseModel> {
+class RegisterUseCase
+    implements BaseUseCase<RegisterUseCaseInput, AuthenticationModel> {
   final Repository _repository;
 
   RegisterUseCase(this._repository);
 
   @override
-  Future<Either<Failure, BaseModel>> execute(RegisterUseCaseInput input) async {
-    return await _repository.requestRegistrationOtp(input.phone);
+  Future<Either<Failure, AuthenticationModel>> execute(
+    RegisterUseCaseInput input,
+  ) async {
+    return await _repository.register(
+      input.phone,
+      input.password,
+      input.confirmPassword,
+      email: input.email,
+    );
   }
 }
 
 class RegisterUseCaseInput {
   final String phone;
+  final String password;
+  final String confirmPassword;
+  final String? email;
 
-  const RegisterUseCaseInput(this.phone);
+  const RegisterUseCaseInput({
+    required this.phone,
+    required this.password,
+    required this.confirmPassword,
+    this.email,
+  });
 }

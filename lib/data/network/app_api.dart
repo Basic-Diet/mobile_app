@@ -56,6 +56,9 @@ abstract class AppServiceClient {
   @POST("/api/auth/login")
   Future<AuthenticationResponse> login(@Body() Map<String, dynamic> body);
 
+  @POST("/api/auth/register")
+  Future<AuthenticationResponse> register(@Body() Map<String, dynamic> body);
+
   @POST("/api/auth/register/request-otp")
   Future<BaseResponse> requestRegistrationOtp(
     @Body() Map<String, dynamic> body,
@@ -78,6 +81,9 @@ abstract class AppServiceClient {
 
   @POST("/api/auth/password/reset")
   Future<BaseResponse> resetPassword(@Body() Map<String, dynamic> body);
+
+  @POST("/api/auth/change-password")
+  Future<BaseResponse> changePassword(@Body() Map<String, dynamic> body);
 
   @GET("/api/auth/me")
   Future<AuthenticationResponse> getCurrentUser();

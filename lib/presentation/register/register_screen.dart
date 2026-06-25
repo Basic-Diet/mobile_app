@@ -10,7 +10,6 @@ import 'package:basic_diet/presentation/widgets/custom_back_button.dart';
 import 'package:basic_diet/presentation/widgets/custom_text_field_style.dart';
 import 'package:basic_diet/presentation/widgets/text_button_widget.dart';
 import 'package:basic_diet/app/dependency_injection.dart';
-import 'package:basic_diet/presentation/verify/verify_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,15 +20,36 @@ import 'register_bloc.dart';
 import 'register_event.dart';
 import 'register_state.dart';
 
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends StatefulWidget {
   static const String registerRoute = "/register";
-  RegisterScreen({super.key});
+  const RegisterScreen({super.key});
 
-  late final TextEditingController _phoneController = TextEditingController();
-  late final TextEditingController _passwordController =
-      TextEditingController();
-  late final TextEditingController _confirmPasswordController =
-      TextEditingController();
+  @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
+  late final TextEditingController _phoneController;
+  late final TextEditingController _passwordController;
+  late final TextEditingController _confirmPasswordController;
+
+  @override
+  void initState() {
+    super.initState();
+    _phoneController = TextEditingController();
+    _passwordController = TextEditingController();
+    _confirmPasswordController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _passwordController.clear();
+    _confirmPasswordController.clear();
+    _phoneController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,15 +59,9 @@ class RegisterScreen extends StatelessWidget {
       create: (_) => instance<RegisterBloc>(),
       child: BlocListener<RegisterBloc, RegisterState>(
         listener: (context, state) {
-          if (state is RegisterSuccessState) {
-            context.push(
-              VerifyScreen.verifyRoute,
-              extra: <String, String>{
-                'phone': state.phone.trim(),
-                'password': state.password,
-              },
-            );
-          } else if (state is RegisterCompletedState) {
+          if (state is RegisterCompletedState) {
+            _passwordController.clear();
+            _confirmPasswordController.clear();
             context.go(MainScreen.mainRoute);
           }
         },
@@ -156,9 +170,12 @@ class RegisterScreen extends StatelessWidget {
               controller: _passwordController,
               errorText: state.passwordError,
               onChanged: (password) {
-                context
-                    .read<RegisterBloc>()
-                    .add(RegisterPasswordChanged(password));
+                context.read<RegisterBloc>().add(
+                  RegisterPasswordChanged(
+                    password: password,
+                    confirmPassword: _confirmPasswordController.text,
+                  ),
+                );
               },
             );
           },
@@ -183,15 +200,17 @@ class RegisterScreen extends StatelessWidget {
               errorText: state.confirmPasswordError,
               hintText: Strings.confirmPasswordHint.tr(),
               onChanged: (confirmPassword) {
-                context
-                    .read<RegisterBloc>()
-                    .add(RegisterConfirmPasswordChanged(confirmPassword));
+                context.read<RegisterBloc>().add(
+                  RegisterConfirmPasswordChanged(
+                    password: _passwordController.text,
+                    confirmPassword: confirmPassword,
+                  ),
+                );
               },
             );
           },
         ),
         Gap(AppSize.s24.h),
-
         BlocBuilder<RegisterBloc, RegisterState>(
           builder: (context, state) {
             final isLoading = state is RegisterLoadingState;
@@ -200,8 +219,8 @@ class RegisterScreen extends StatelessWidget {
                 state.passwordError == null &&
                 state.confirmPasswordError == null &&
                 state.phone.isNotEmpty &&
-                state.password.isNotEmpty &&
-                state.confirmPassword.isNotEmpty;
+                state.isPasswordNotEmpty &&
+                state.isConfirmPasswordNotEmpty;
 
             return ButtonWidget(
               text: Strings.createAccount.tr(),
@@ -217,7 +236,11 @@ class RegisterScreen extends StatelessWidget {
               onTap:
                   isEnabled
                       ? () => context.read<RegisterBloc>().add(
-                        const RegisterSubmitted(),
+                        RegisterSubmitted(
+                          phone: _phoneController.text,
+                          password: _passwordController.text,
+                          confirmPassword: _confirmPasswordController.text,
+                        ),
                       )
                       : null,
               isLoading: isLoading,

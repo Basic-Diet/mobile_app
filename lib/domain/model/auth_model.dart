@@ -22,10 +22,12 @@ class AuthUserModel {
   final String id;
   final String phoneE164;
   final bool phoneVerified;
+  final bool forcePasswordChange;
 
   const AuthUserModel({
     this.id = '',
     this.phoneE164 = '',
     this.phoneVerified = false,
+    this.forcePasswordChange = false,
   });
 }

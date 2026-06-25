@@ -51,6 +51,12 @@ abstract class Repository {
     String phone,
     String password,
   );
+  Future<Either<Failure, AuthenticationModel>> register(
+    String phone,
+    String password,
+    String confirmPassword, {
+    String? email,
+  });
   Future<Either<Failure, BaseModel>> requestRegistrationOtp(String phone);
   Future<Either<Failure, AuthenticationModel>> verifyRegistrationOtp(
     String phone,
@@ -66,6 +72,11 @@ abstract class Repository {
     String phone,
     String otp,
     String newPassword,
+  );
+  Future<Either<Failure, BaseModel>> changePassword(
+    String currentPassword,
+    String newPassword,
+    String confirmPassword,
   );
   Future<Either<Failure, AuthenticationModel>> getCurrentUser();
   Future<Either<Failure, ClientProfileModel>> getClientProfile();
