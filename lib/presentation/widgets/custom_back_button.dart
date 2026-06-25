@@ -10,12 +10,24 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
 class CustomBackButton extends StatelessWidget {
-  const CustomBackButton({super.key});
+  final String? fallbackRoute;
+
+  const CustomBackButton({super.key, this.fallbackRoute});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => context.pop(),
+      onTap: () {
+        if (context.canPop()) {
+          context.pop();
+          return;
+        }
+
+        final route = fallbackRoute;
+        if (route != null) {
+          context.go(route);
+        }
+      },
       borderRadius: BorderRadius.circular(AppSize.s8.r),
       child: Padding(
         padding: EdgeInsetsDirectional.symmetric(

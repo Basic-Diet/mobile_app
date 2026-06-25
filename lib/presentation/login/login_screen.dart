@@ -84,7 +84,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Gap(AppSize.s20.h),
-                  const CustomBackButton(),
+                  const CustomBackButton(
+                    fallbackRoute: MainScreen.mainRoute,
+                  ),
                   Gap(AppSize.s100.h),
                   _buildHeader(),
                   Gap(AppSize.s105.h),
