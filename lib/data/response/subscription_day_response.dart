@@ -3,6 +3,23 @@ import 'package:basic_diet/data/response/current_subscription_overview_response.
 
 part 'subscription_day_response.g.dart';
 
+Object? _readAddonSelectionId(Map json, String key) {
+  return json[key] ?? json['itemId'] ?? json['menuProductId'] ?? json['_id'];
+}
+
+Object? _readAddonSelectionName(Map json, String key) {
+  final value = json[key];
+  if (value is String) return value;
+  if (value is Map) {
+    for (final candidate in [value['en'], value['ar'], ...value.values]) {
+      if (candidate is String && candidate.trim().isNotEmpty) {
+        return candidate;
+      }
+    }
+  }
+  return null;
+}
+
 @JsonSerializable(createFactory: false)
 class SubscriptionDayResponse {
   final bool? status;
@@ -163,7 +180,7 @@ class PlanningResponse {
 
 @JsonSerializable()
 class AddonSelectionResponse {
-  @JsonKey(name: 'addonId')
+  @JsonKey(name: 'addonId', readValue: _readAddonSelectionId)
   final String? addonId;
 
   @JsonKey(name: 'category')
@@ -175,7 +192,7 @@ class AddonSelectionResponse {
   @JsonKey(name: 'source')
   final String? source;
 
-  @JsonKey(name: 'name')
+  @JsonKey(name: 'name', readValue: _readAddonSelectionName)
   final String? name;
 
   @JsonKey(name: 'priceHalala')

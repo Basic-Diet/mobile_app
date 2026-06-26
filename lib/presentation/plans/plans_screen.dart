@@ -132,7 +132,7 @@ class _PlansScreenState extends State<PlansScreen> with WidgetsBindingObserver {
               (_) => MealPlannerScreen(
                 timelineDays: state.timelineDays,
                 addonEntitlements:
-                    state.data?.data?.addonSubscriptions ?? const [],
+                    state.data?.data?.displayAddonEntitlements ?? const [],
                 initialDayIndex: state.initialDayIndex,
                 premiumMealsRemaining: state.premiumMealsRemaining,
                 premiumSummaries: state.premiumSummaries,

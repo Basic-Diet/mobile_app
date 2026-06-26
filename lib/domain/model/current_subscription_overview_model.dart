@@ -236,6 +236,43 @@ class AddonSubscriptionModel {
   );
 }
 
+class AddonBalanceModel {
+  final String addonPlanId;
+  final String addonId;
+  final String name;
+  final String category;
+  final int purchasedDailyQty;
+  final int includedTotalQty;
+  final int purchasedQty;
+  final int consumedQty;
+  final int reservedQty;
+  final int remainingQty;
+  final String currency;
+
+  const AddonBalanceModel({
+    required this.addonPlanId,
+    required this.addonId,
+    required this.name,
+    required this.category,
+    required this.purchasedDailyQty,
+    required this.includedTotalQty,
+    required this.purchasedQty,
+    required this.consumedQty,
+    required this.reservedQty,
+    required this.remainingQty,
+    required this.currency,
+  });
+
+  AddonSubscriptionModel toPlannerEntitlement() {
+    return AddonSubscriptionModel(
+      addonId.isNotEmpty ? addonId : addonPlanId,
+      category,
+      remainingQty,
+      'active',
+    );
+  }
+}
+
 class PremiumSummaryModel {
   String premiumMealId;
   String premiumKey;
@@ -280,6 +317,7 @@ class CurrentSubscriptionOverviewDataModel {
   int remainingMeals;
   int premiumRemaining;
   List<AddonSubscriptionModel> addonSubscriptions;
+  List<AddonBalanceModel> addonBalances;
   int selectedMealsPerDay;
   String deliveryMode;
   List<PremiumSummaryModel> premiumSummary;
@@ -316,6 +354,7 @@ class CurrentSubscriptionOverviewDataModel {
     this.remainingMeals,
     this.premiumRemaining,
     this.addonSubscriptions,
+    this.addonBalances,
     this.selectedMealsPerDay,
     this.deliveryMode,
     this.premiumSummary,
@@ -377,6 +416,16 @@ class CurrentSubscriptionOverviewDataModel {
   /// when [displayDailyMealLimitEnforced] is false.
   int get displayDailyMealsDefault =>
       mealBalance?.dailyMealsDefault ?? selectedMealsPerDay;
+
+  List<AddonSubscriptionModel> get displayAddonEntitlements {
+    if (addonBalances.isNotEmpty) {
+      return addonBalances
+          .where((balance) => balance.remainingQty > 0)
+          .map((balance) => balance.toPlannerEntitlement())
+          .toList();
+    }
+    return addonSubscriptions;
+  }
 }
 
 class CurrentSubscriptionOverviewModel {

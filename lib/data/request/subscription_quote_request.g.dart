@@ -24,11 +24,7 @@ SubscriptionQuoteRequest _$SubscriptionQuoteRequestFromJson(
           .toList(),
   addons:
       (json['addons'] as List<dynamic>)
-          .map(
-            (e) => SubscriptionQuoteAddonRequest.fromJson(
-              e as Map<String, dynamic>,
-            ),
-          )
+          .map((e) => e as String)
           .toList(),
   delivery: SubscriptionQuoteDeliveryRequest.fromJson(
     json['delivery'] as Map<String, dynamic>,
@@ -44,17 +40,9 @@ Map<String, dynamic> _$SubscriptionQuoteRequestToJson(
   'startDate': instance.startDate,
   if (instance.promoCode case final value?) 'promoCode': value,
   'premiumItems': instance.premiumItems.map((e) => e.toJson()).toList(),
-  'addons': instance.addons.map((e) => e.toJson()).toList(),
+  'addons': instance.addons,
   'delivery': instance.delivery.toJson(),
 };
-
-SubscriptionQuoteAddonRequest _$SubscriptionQuoteAddonRequestFromJson(
-  Map<String, dynamic> json,
-) => SubscriptionQuoteAddonRequest(id: json['id'] as String);
-
-Map<String, dynamic> _$SubscriptionQuoteAddonRequestToJson(
-  SubscriptionQuoteAddonRequest instance,
-) => <String, dynamic>{'id': instance.id};
 
 SubscriptionQuotePremiumItemRequest
 _$SubscriptionQuotePremiumItemRequestFromJson(Map<String, dynamic> json) =>

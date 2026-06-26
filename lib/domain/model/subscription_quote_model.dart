@@ -329,8 +329,11 @@ class SubscriptionQuotePremiumItemModel extends Equatable {
 
 class SubscriptionQuoteAddonModel extends Equatable {
   final String id;
+  final String addonPlanId;
   final String name;
   final int qty;
+  final int quantityPerDay;
+  final int includedTotalQty;
   final String type;
   final String pricingModel;
   final String billingUnit;
@@ -345,8 +348,11 @@ class SubscriptionQuoteAddonModel extends Equatable {
 
   const SubscriptionQuoteAddonModel({
     required this.id,
+    required this.addonPlanId,
     required this.name,
     required this.qty,
+    required this.quantityPerDay,
+    required this.includedTotalQty,
     required this.type,
     required this.pricingModel,
     required this.billingUnit,
@@ -363,8 +369,11 @@ class SubscriptionQuoteAddonModel extends Equatable {
   @override
   List<Object?> get props => [
     id,
+    addonPlanId,
     name,
     qty,
+    quantityPerDay,
+    includedTotalQty,
     type,
     pricingModel,
     billingUnit,

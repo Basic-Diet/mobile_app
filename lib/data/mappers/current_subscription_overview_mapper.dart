@@ -132,6 +132,24 @@ extension AddonSubscriptionResponseMapper on AddonSubscriptionResponse? {
   }
 }
 
+extension AddonBalanceResponseMapper on AddonBalanceResponse? {
+  AddonBalanceModel toDomain() {
+    return AddonBalanceModel(
+      addonPlanId: this?.addonPlanId.orEmpty() ?? Constants.empty,
+      addonId: this?.addonId.orEmpty() ?? Constants.empty,
+      name: this?.name.orEmpty() ?? Constants.empty,
+      category: this?.category.orEmpty() ?? Constants.empty,
+      purchasedDailyQty: this?.purchasedDailyQty.orZero() ?? Constants.zero,
+      includedTotalQty: this?.includedTotalQty.orZero() ?? Constants.zero,
+      purchasedQty: this?.purchasedQty.orZero() ?? Constants.zero,
+      consumedQty: this?.consumedQty.orZero() ?? Constants.zero,
+      reservedQty: this?.reservedQty.orZero() ?? Constants.zero,
+      remainingQty: this?.remainingQty.orZero() ?? Constants.zero,
+      currency: this?.currency.orEmpty() ?? Constants.empty,
+    );
+  }
+}
+
 extension PremiumSummaryResponseMapper on PremiumSummaryResponse? {
   PremiumSummaryModel toDomain() {
     return PremiumSummaryModel(
@@ -188,6 +206,10 @@ extension CurrentSubscriptionOverviewDataResponseMapper
       (this?.addonSubscriptions?.map((e) => e.toDomain()) ??
               const Iterable.empty())
           .cast<AddonSubscriptionModel>()
+          .toList(),
+      (this?.addonBalances?.map((e) => e.toDomain()) ??
+              const Iterable.empty())
+          .cast<AddonBalanceModel>()
           .toList(),
       this?.selectedMealsPerDay.orZero() ?? Constants.zero,
       this?.deliveryMode.orEmpty() ?? Constants.empty,

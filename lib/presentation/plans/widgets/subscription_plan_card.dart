@@ -56,7 +56,9 @@ class SubscriptionPlanCard extends StatelessWidget {
           Gap(AppSize.s16.h),
           _buildMealsProgress(progressValue),
           Gap(AppSize.s16.h),
-          if (data.addonSubscriptions.isNotEmpty) _buildAddonsSection(),
+          if (data.addonBalances.isNotEmpty ||
+              data.addonSubscriptions.isNotEmpty)
+            _buildAddonsSection(),
           Gap(AppSize.s16.h),
           Container(height: 1, color: ColorManager.borderDefault),
           Gap(AppSize.s16.h),
@@ -260,27 +262,32 @@ class SubscriptionPlanCard extends StatelessWidget {
   }
 
   Widget _buildAddonsSection() {
+    if (data.addonBalances.isNotEmpty) {
+      return Wrap(
+        spacing: AppSize.s8.w,
+        runSpacing: AppSize.s8.h,
+        children: data.addonBalances.map((addon) {
+          final label =
+              addon.name.isNotEmpty
+                  ? addon.name
+                  : addon.category.isNotEmpty
+                  ? addon.category
+                  : Strings.addOns.tr();
+          return _AddonBalanceChip(
+            label:
+                '$label: ${addon.remainingQty}/${addon.includedTotalQty} ${Strings.available.tr()}',
+          );
+        }).toList(),
+      );
+    }
+
     return Wrap(
       spacing: AppSize.s8.w,
       runSpacing: AppSize.s8.h,
       children: data.addonSubscriptions.map((addon) {
-        return Container(
-          padding: EdgeInsets.symmetric(
-            horizontal: AppPadding.p8.w,
-            vertical: AppPadding.p4.h,
-          ),
-          decoration: BoxDecoration(
-            color: ColorManager.brandAccentSoft,
-            border: Border.all(color: ColorManager.brandAccentBorder),
-            borderRadius: BorderRadius.circular(AppSize.s12.r),
-          ),
-          child: Text(
-            '${addon.includedCount} ${addon.category.isNotEmpty ? addon.category : Strings.addOns.tr()} ${Strings.includedPerDay.tr()}',
-            style: getBoldTextStyle(
-              color: ColorManager.brandAccent,
-              fontSize: FontSizeManager.s10.sp,
-            ),
-          ),
+        return _AddonBalanceChip(
+          label:
+              '${addon.includedCount} ${addon.category.isNotEmpty ? addon.category : Strings.addOns.tr()} ${Strings.includedPerDay.tr()}',
         );
       }).toList(),
     );
@@ -322,4 +329,32 @@ class SubscriptionPlanCard extends StatelessWidget {
     );
   }
 
+}
+
+class _AddonBalanceChip extends StatelessWidget {
+  final String label;
+
+  const _AddonBalanceChip({required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: AppPadding.p8.w,
+        vertical: AppPadding.p4.h,
+      ),
+      decoration: BoxDecoration(
+        color: ColorManager.brandAccentSoft,
+        border: Border.all(color: ColorManager.brandAccentBorder),
+        borderRadius: BorderRadius.circular(AppSize.s12.r),
+      ),
+      child: Text(
+        label,
+        style: getBoldTextStyle(
+          color: ColorManager.brandAccent,
+          fontSize: FontSizeManager.s10.sp,
+        ),
+      ),
+    );
+  }
 }

@@ -65,7 +65,8 @@ class AddonSelectionModel {
 
   bool get isIncluded =>
       status == 'included' || source == 'subscription' || status == 'subscription';
-  bool get isPendingPayment => status == 'pending_payment';
+  bool get isPendingPayment =>
+      status == 'pending_payment' || source == 'pending_payment';
   bool get isPaid => status == 'paid';
 }
 

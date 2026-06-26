@@ -46,7 +46,7 @@ class PlansActionButtons extends StatelessWidget {
                 (_) => TimeLineScreen(
                   subscriptionId: data.id,
                   premiumSummaries: data.premiumSummary,
-                  addonSubscriptions: data.addonSubscriptions,
+                  addonSubscriptions: data.displayAddonEntitlements,
                 ),
           ),
         );

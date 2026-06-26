@@ -244,6 +244,38 @@ Map<String, dynamic> _$AddonSubscriptionResponseToJson(
   'status': instance.status,
 };
 
+AddonBalanceResponse _$AddonBalanceResponseFromJson(
+  Map<String, dynamic> json,
+) => AddonBalanceResponse(
+  json['addonPlanId'] as String?,
+  json['addonId'] as String?,
+  readLocalizedName(json, 'name') as String?,
+  json['category'] as String?,
+  (json['purchasedDailyQty'] as num?)?.toInt(),
+  (json['includedTotalQty'] as num?)?.toInt(),
+  (json['purchasedQty'] as num?)?.toInt(),
+  (json['consumedQty'] as num?)?.toInt(),
+  (json['reservedQty'] as num?)?.toInt(),
+  (json['remainingQty'] as num?)?.toInt(),
+  json['currency'] as String?,
+);
+
+Map<String, dynamic> _$AddonBalanceResponseToJson(
+  AddonBalanceResponse instance,
+) => <String, dynamic>{
+  'addonPlanId': instance.addonPlanId,
+  'addonId': instance.addonId,
+  'name': instance.name,
+  'category': instance.category,
+  'purchasedDailyQty': instance.purchasedDailyQty,
+  'includedTotalQty': instance.includedTotalQty,
+  'purchasedQty': instance.purchasedQty,
+  'consumedQty': instance.consumedQty,
+  'reservedQty': instance.reservedQty,
+  'remainingQty': instance.remainingQty,
+  'currency': instance.currency,
+};
+
 PremiumSummaryResponse _$PremiumSummaryResponseFromJson(
   Map<String, dynamic> json,
 ) => PremiumSummaryResponse(
@@ -302,6 +334,9 @@ _$CurrentSubscriptionOverviewDataResponseFromJson(
       ?.map(
         (e) => AddonSubscriptionResponse.fromJson(e as Map<String, dynamic>),
       )
+      .toList(),
+  (json['addonBalances'] as List<dynamic>?)
+      ?.map((e) => AddonBalanceResponse.fromJson(e as Map<String, dynamic>))
       .toList(),
   (json['selectedMealsPerDay'] as num?)?.toInt(),
   json['deliveryMode'] as String?,
@@ -375,6 +410,7 @@ Map<String, dynamic> _$CurrentSubscriptionOverviewDataResponseToJson(
   'remainingMeals': instance.remainingMeals,
   'premiumRemaining': instance.premiumRemaining,
   'addonSubscriptions': instance.addonSubscriptions,
+  'addonBalances': instance.addonBalances,
   'selectedMealsPerDay': instance.selectedMealsPerDay,
   'deliveryMode': instance.deliveryMode,
   'premiumSummary': instance.premiumSummary,

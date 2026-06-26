@@ -17,7 +17,7 @@ class SubscriptionQuoteRequest {
   @JsonKey(name: 'premiumItems')
   final List<SubscriptionQuotePremiumItemRequest> premiumItems;
   @JsonKey(name: 'addons')
-  final List<SubscriptionQuoteAddonRequest> addons;
+  final List<String> addons;
   @JsonKey(name: 'delivery')
   final SubscriptionQuoteDeliveryRequest delivery;
 
@@ -36,19 +36,6 @@ class SubscriptionQuoteRequest {
       _$SubscriptionQuoteRequestFromJson(json);
 
   Map<String, dynamic> toJson() => _$SubscriptionQuoteRequestToJson(this);
-}
-
-@JsonSerializable()
-class SubscriptionQuoteAddonRequest {
-  @JsonKey(name: 'id')
-  final String id;
-
-  const SubscriptionQuoteAddonRequest({required this.id});
-
-  factory SubscriptionQuoteAddonRequest.fromJson(Map<String, dynamic> json) =>
-      _$SubscriptionQuoteAddonRequestFromJson(json);
-
-  Map<String, dynamic> toJson() => _$SubscriptionQuoteAddonRequestToJson(this);
 }
 
 @JsonSerializable()

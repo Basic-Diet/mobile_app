@@ -53,7 +53,8 @@ extension PlanningResponseMapper on PlanningResponse {
 
 extension AddonSelectionResponseMapper on AddonSelectionResponse {
   AddonSelectionModel toDomain() {
-    final rawStatus = status ?? source ?? 'pending_payment';
+    final rawStatus =
+        source == 'pending_payment' ? 'pending_payment' : status ?? source ?? '';
     return AddonSelectionModel(
       addonId: addonId ?? '',
       category: category ?? '',

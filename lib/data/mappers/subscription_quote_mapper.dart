@@ -12,8 +12,7 @@ extension SubscriptionQuoteRequestMapper on SubscriptionQuoteRequestModel {
       startDate: startDate,
       promoCode: promoCode,
       premiumItems: premiumItems.map((item) => item.toRequest()).toList(),
-      addons:
-          addons.map((id) => SubscriptionQuoteAddonRequest(id: id)).toList(),
+      addons: addons,
       delivery: delivery.toRequest(),
     );
   }
@@ -255,20 +254,33 @@ extension SubscriptionQuotePremiumItemResponseMapper
 extension SubscriptionQuoteAddonResponseMapper
     on SubscriptionQuoteAddonResponse? {
   SubscriptionQuoteAddonModel toDomain() {
+    final id = this?.id ?? this?.addonPlanId ?? this?.addonId ?? Constants.empty;
+    final quantityPerDay = this?.quantityPerDay ?? this?.qty ?? Constants.zero;
+    final totalHalala =
+        this?.totalHalala ?? this?.priceHalala ?? Constants.zero;
+    final unitPriceHalala =
+        this?.unitPriceHalala ??
+        this?.unitPlanPriceHalala ??
+        this?.priceHalala ??
+        Constants.zero;
     return SubscriptionQuoteAddonModel(
-      id: this?.id ?? Constants.empty,
+      id: id,
+      addonPlanId: this?.addonPlanId ?? id,
       name: this?.name ?? Constants.empty,
-      qty: this?.qty ?? Constants.zero,
+      qty: this?.qty ?? quantityPerDay,
+      quantityPerDay: quantityPerDay,
+      includedTotalQty: this?.includedTotalQty ?? Constants.zero,
       type: this?.type ?? Constants.empty,
       pricingModel: this?.pricingModel ?? Constants.empty,
       billingUnit: this?.billingUnit ?? Constants.empty,
-      durationDays: this?.durationDays ?? Constants.zero,
-      unitPriceHalala: this?.unitPriceHalala ?? Constants.zero,
-      unitPriceSar: this?.unitPriceSar ?? Constants.decimalZero,
+      durationDays: this?.durationDays ?? this?.daysCount ?? Constants.zero,
+      unitPriceHalala: unitPriceHalala,
+      unitPriceSar:
+          this?.unitPriceSar ?? unitPriceHalala / 100,
       unitPriceLabel: this?.unitPriceLabel ?? Constants.empty,
       formulaLabel: this?.formulaLabel ?? Constants.empty,
-      totalHalala: this?.totalHalala ?? Constants.zero,
-      totalSar: this?.totalSar ?? Constants.decimalZero,
+      totalHalala: totalHalala,
+      totalSar: this?.totalSar ?? totalHalala / 100,
       totalLabel: this?.totalLabel ?? Constants.empty,
     );
   }

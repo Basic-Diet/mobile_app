@@ -364,6 +364,68 @@ class AddonSubscriptionResponse {
 }
 
 @JsonSerializable()
+class AddonBalanceResponse {
+  @JsonKey(name: "addonPlanId")
+  String? addonPlanId;
+  @JsonKey(name: "addonId")
+  String? addonId;
+  @JsonKey(name: "name", readValue: readLocalizedName)
+  String? name;
+  @JsonKey(name: "category")
+  String? category;
+  @JsonKey(name: "purchasedDailyQty")
+  int? purchasedDailyQty;
+  @JsonKey(name: "includedTotalQty")
+  int? includedTotalQty;
+  @JsonKey(name: "purchasedQty")
+  int? purchasedQty;
+  @JsonKey(name: "consumedQty")
+  int? consumedQty;
+  @JsonKey(name: "reservedQty")
+  int? reservedQty;
+  @JsonKey(name: "remainingQty")
+  int? remainingQty;
+  @JsonKey(name: "currency")
+  String? currency;
+
+  AddonBalanceResponse(
+    this.addonPlanId,
+    this.addonId,
+    this.name,
+    this.category,
+    this.purchasedDailyQty,
+    this.includedTotalQty,
+    this.purchasedQty,
+    this.consumedQty,
+    this.reservedQty,
+    this.remainingQty,
+    this.currency,
+  );
+
+  factory AddonBalanceResponse.fromJson(Map<String, dynamic> json) =>
+      _$AddonBalanceResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AddonBalanceResponseToJson(this);
+}
+
+Object? readLocalizedName(Map json, String key) {
+  final value = json[key];
+  if (value is String) return value;
+  if (value is Map) {
+    final languageCode = json['language']?.toString();
+    if (languageCode != null && value[languageCode] is String) {
+      return value[languageCode];
+    }
+    for (final candidate in [value['en'], value['ar'], ...value.values]) {
+      if (candidate is String && candidate.trim().isNotEmpty) {
+        return candidate;
+      }
+    }
+  }
+  return null;
+}
+
+@JsonSerializable()
 class PremiumSummaryResponse {
   @JsonKey(name: "premiumMealId")
   String? premiumMealId;
@@ -440,6 +502,8 @@ class CurrentSubscriptionOverviewDataResponse {
   int? premiumRemaining;
   @JsonKey(name: "addonSubscriptions")
   List<AddonSubscriptionResponse>? addonSubscriptions;
+  @JsonKey(name: "addonBalances")
+  List<AddonBalanceResponse>? addonBalances;
   @JsonKey(name: "selectedMealsPerDay")
   int? selectedMealsPerDay;
   @JsonKey(name: "deliveryMode")
@@ -493,6 +557,7 @@ class CurrentSubscriptionOverviewDataResponse {
     this.remainingMeals,
     this.premiumRemaining,
     this.addonSubscriptions,
+    this.addonBalances,
     this.selectedMealsPerDay,
     this.deliveryMode,
     this.premiumSummary,

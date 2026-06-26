@@ -84,6 +84,19 @@ Map<String, dynamic>? _readPromoPayload(Map json, String _) {
   return promoMap.isEmpty ? null : promoMap;
 }
 
+Object? _readLocalizedName(Map json, String key) {
+  final value = json[key];
+  if (value is String) return value;
+  if (value is Map) {
+    for (final candidate in [value['en'], value['ar'], ...value.values]) {
+      if (candidate is String && candidate.trim().isNotEmpty) {
+        return candidate;
+      }
+    }
+  }
+  return null;
+}
+
 @JsonSerializable()
 class SubscriptionAppliedPromoResponse {
   @JsonKey(name: 'code')
@@ -225,7 +238,7 @@ class SubscriptionQuoteSummaryResponse {
 class SubscriptionQuotePlanSummaryResponse {
   @JsonKey(name: 'id')
   String? id;
-  @JsonKey(name: 'name')
+  @JsonKey(name: 'name', readValue: _readLocalizedName)
   String? name;
   @JsonKey(name: 'daysCount')
   int? daysCount;
@@ -365,7 +378,7 @@ class SubscriptionQuoteSlotSummaryResponse {
 class SubscriptionQuotePremiumItemResponse {
   @JsonKey(name: 'id')
   String? id;
-  @JsonKey(name: 'name')
+  @JsonKey(name: 'name', readValue: _readLocalizedName)
   String? name;
   @JsonKey(name: 'qty')
   int? qty;
@@ -403,10 +416,20 @@ class SubscriptionQuotePremiumItemResponse {
 class SubscriptionQuoteAddonResponse {
   @JsonKey(name: 'id')
   String? id;
+  @JsonKey(name: 'addonPlanId')
+  String? addonPlanId;
+  @JsonKey(name: 'addonId')
+  String? addonId;
   @JsonKey(name: 'name')
   String? name;
   @JsonKey(name: 'qty')
   int? qty;
+  @JsonKey(name: 'quantityPerDay')
+  int? quantityPerDay;
+  @JsonKey(name: 'daysCount')
+  int? daysCount;
+  @JsonKey(name: 'includedTotalQty')
+  int? includedTotalQty;
   @JsonKey(name: 'type')
   String? type;
   @JsonKey(name: 'pricingModel')
@@ -417,6 +440,10 @@ class SubscriptionQuoteAddonResponse {
   int? durationDays;
   @JsonKey(name: 'unitPriceHalala')
   int? unitPriceHalala;
+  @JsonKey(name: 'unitPlanPriceHalala')
+  int? unitPlanPriceHalala;
+  @JsonKey(name: 'priceHalala')
+  int? priceHalala;
   @JsonKey(name: 'unitPriceSar')
   double? unitPriceSar;
   @JsonKey(name: 'unitPriceLabel')
@@ -429,22 +456,32 @@ class SubscriptionQuoteAddonResponse {
   double? totalSar;
   @JsonKey(name: 'totalLabel')
   String? totalLabel;
+  @JsonKey(name: 'currency')
+  String? currency;
 
   SubscriptionQuoteAddonResponse({
     this.id,
+    this.addonPlanId,
+    this.addonId,
     this.name,
     this.qty,
+    this.quantityPerDay,
+    this.daysCount,
+    this.includedTotalQty,
     this.type,
     this.pricingModel,
     this.billingUnit,
     this.durationDays,
     this.unitPriceHalala,
+    this.unitPlanPriceHalala,
+    this.priceHalala,
     this.unitPriceSar,
     this.unitPriceLabel,
     this.formulaLabel,
     this.totalHalala,
     this.totalSar,
     this.totalLabel,
+    this.currency,
   });
 
   factory SubscriptionQuoteAddonResponse.fromJson(Map<String, dynamic> json) =>

@@ -290,7 +290,9 @@ final class MealPlannerLoaded extends MealPlannerState {
         .cast<AddonSelectionModel?>()
         .firstWhere((selection) => selection != null, orElse: () => null);
     if (backendSelection != null && shouldUseBackendSelection) {
-      return backendSelection.status;
+      return backendSelection.isPendingPayment
+          ? 'pending_payment'
+          : backendSelection.status;
     }
     return _computeLocalAddonStatus(
       addonId,
@@ -579,7 +581,8 @@ final class MealPlannerLoaded extends MealPlannerState {
 
   bool get hasPendingAddonPayment =>
       (selectedDayDetail?.paymentRequirement?.addonPendingPaymentCount ?? 0) >
-      0;
+          0 ||
+      addonSelections.any((selection) => selection.isPendingPayment);
 
   bool get hasPendingPremiumPayment =>
       (selectedDayDetail?.paymentRequirement?.premiumPendingPaymentCount ??

@@ -737,7 +737,7 @@ class _PaymentSummaryCard extends StatelessWidget {
             label: Strings.paymentMethod.tr(),
             value: Strings.paymentMethodCardApplePay.tr(),
           ),
-         
+
           SizedBox(height: AppSize.s10.h),
           _SummaryRow(
             label: Strings.vatIncluded.tr(),

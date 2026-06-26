@@ -128,11 +128,11 @@ Map<String, dynamic> _$PlanningResponseToJson(PlanningResponse instance) =>
 AddonSelectionResponse _$AddonSelectionResponseFromJson(
   Map<String, dynamic> json,
 ) => AddonSelectionResponse(
-  json['addonId'] as String?,
+  _readAddonSelectionId(json, 'addonId') as String?,
   json['category'] as String?,
   json['status'] as String?,
   json['source'] as String?,
-  json['name'] as String?,
+  _readAddonSelectionName(json, 'name') as String?,
   (json['priceHalala'] as num?)?.toInt(),
   json['currency'] as String?,
 );
