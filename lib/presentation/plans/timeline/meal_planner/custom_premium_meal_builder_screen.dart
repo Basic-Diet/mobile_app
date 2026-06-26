@@ -228,12 +228,23 @@ class _CustomPremiumMealBuilderScreenState
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          _groupTitle(group.key),
-          style: getBoldTextStyle(
-            color: ColorManager.textPrimary,
-            fontSize: FontSizeManager.s16.sp,
-          ),
+        Row(
+          children: [
+            Expanded(
+              child: Text(
+                _groupTitle(group.key),
+                style: getBoldTextStyle(
+                  color: ColorManager.textPrimary,
+                  fontSize: FontSizeManager.s16.sp,
+                ),
+              ),
+            ),
+            Gap(AppSize.s8.w),
+            _SelectionLimitBadge(
+              selectedCount: selected.length,
+              maxSelect: group.maxSelect,
+            ),
+          ],
         ),
         if (helper.isNotEmpty) ...[
           Gap(AppSize.s4.h),
@@ -355,6 +366,9 @@ class _CustomPremiumMealBuilderScreenState
   String _groupRuleText(PremiumLargeSaladGroupRuleModel group) {
     if (group.minSelect == 1 && group.maxSelect == 1) {
       return Strings.chooseOneRequired.tr();
+    }
+    if (group.maxSelect > 0) {
+      return '${Strings.chooseUpTo.tr()} ${group.maxSelect}';
     }
     if (group.minSelect > 0) {
       return '${Strings.chooseAtLeast.tr()} ${group.minSelect}';
@@ -551,6 +565,40 @@ class _ReviewRow extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _SelectionLimitBadge extends StatelessWidget {
+  final int selectedCount;
+  final int maxSelect;
+
+  const _SelectionLimitBadge({
+    required this.selectedCount,
+    required this.maxSelect,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final text = maxSelect > 0 ? '$selectedCount / $maxSelect' : '$selectedCount';
+
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: AppPadding.p10.w,
+        vertical: AppPadding.p6.h,
+      ),
+      decoration: BoxDecoration(
+        color: ColorManager.brandAccentSoft,
+        borderRadius: BorderRadius.circular(AppSize.s8.r),
+        border: Border.all(color: ColorManager.brandAccentBorder),
+      ),
+      child: Text(
+        text,
+        style: getBoldTextStyle(
+          color: ColorManager.brandAccent,
+          fontSize: FontSizeManager.s12.sp,
+        ),
       ),
     );
   }
