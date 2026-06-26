@@ -25,6 +25,7 @@ import 'package:basic_diet/presentation/verify/verify_screen.dart';
 import 'package:basic_diet/presentation/forgot_password/forgot_password_screen.dart';
 import 'package:basic_diet/presentation/reset_password/reset_password_screen.dart';
 import 'package:basic_diet/presentation/main/profile/support/support_screen.dart';
+import 'package:basic_diet/presentation/main/profile/manage_account/manage_account_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -285,6 +286,15 @@ class GoRouterConfig {
           return getCustomTransitionPage(
             state: state,
             child: const SupportScreen(),
+          );
+        },
+      ),
+      GoRoute(
+        path: ManageAccountScreen.manageAccountRoute,
+        pageBuilder: (BuildContext context, GoRouterState state) {
+          return getCustomTransitionPage(
+            state: state,
+            child: const ManageAccountScreen(),
           );
         },
       ),

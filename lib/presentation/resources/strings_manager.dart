@@ -572,6 +572,7 @@ class Strings {
   static const String refundPrivacy = 'refundPrivacy';
   static const String privacyPolicy = 'privacyPolicy';
   static const String unavailableNow = 'unavailableNow';
+  static const String manageAccount = 'manageAccount';
   static const String deleteAccount = 'deleteAccount';
   static const String deleteAccountSubtitle = 'deleteAccountSubtitle';
   static const String deleteAccountWarningTitle = 'deleteAccountWarningTitle';

@@ -12,6 +12,7 @@ import 'package:basic_diet/presentation/main/profile/bloc/profile_bloc.dart';
 import 'package:basic_diet/presentation/main/profile/bloc/profile_event.dart';
 import 'package:basic_diet/presentation/main/profile/bloc/profile_state.dart';
 import 'package:basic_diet/presentation/main/profile/support/support_screen.dart';
+import 'package:basic_diet/presentation/main/profile/manage_account/manage_account_screen.dart';
 import 'package:go_router/go_router.dart';
 import 'package:basic_diet/presentation/resources/color_manager.dart';
 import 'package:basic_diet/presentation/resources/font_manager.dart';
@@ -112,8 +113,6 @@ class _ProfileView extends StatelessWidget {
                         _SubscriptionCard(profile: state.profile),
                         Gap(AppSize.s12.h),
                         _ProfileMenuCard(profile: state.profile),
-                        Gap(AppSize.s12.h),
-                        const _AccountDeletionCard(),
                         Gap(AppSize.s12.h),
                         _LogoutButton(
                           onTap:
@@ -470,8 +469,13 @@ class _ProfileMenuCard extends StatelessWidget {
           _MenuRow(
             title: Strings.refundPrivacy.tr(),
             icon: Icons.payments_outlined,
-            showDivider: false,
             onTap: () => openUrl(Constants.refoundPolicyUrl),
+          ),
+          _MenuRow(
+            title: Strings.manageAccount.tr(),
+            icon: Icons.manage_accounts_outlined,
+            showDivider: false,
+            onTap: () => context.push(ManageAccountScreen.manageAccountRoute),
           ),
         ],
       ),
@@ -667,65 +671,6 @@ class _LogoutButton extends StatelessWidget {
   }
 }
 
-class _AccountDeletionCard extends StatelessWidget {
-  const _AccountDeletionCard();
-
-  @override
-  Widget build(BuildContext context) {
-    return _ProfileCard(
-      padding: EdgeInsetsDirectional.fromSTEB(
-        AppPadding.p18.w,
-        AppPadding.p16.h,
-        AppPadding.p18.w,
-        AppPadding.p16.h,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          Text(
-            Strings.deleteAccount.tr(),
-            style: getRegularTextStyle(
-              color: ColorManager.stateError,
-              fontSize: FontSizeManager.s14.sp,
-            ),
-          ),
-          Gap(AppSize.s8.h),
-          Text(
-            Strings.deleteAccountSubtitle.tr(),
-            textAlign: TextAlign.end,
-            style: getRegularTextStyle(
-              color: ColorManager.textSecondary,
-              fontSize: FontSizeManager.s12.sp,
-            ),
-          ),
-          Gap(AppSize.s12.h),
-          SizedBox(
-            width: double.infinity,
-            child: OutlinedButton(
-              onPressed: () => _showDeleteAccountDialog(context),
-              style: OutlinedButton.styleFrom(
-                foregroundColor: ColorManager.stateError,
-                side: const BorderSide(color: ColorManager.stateError),
-                padding: EdgeInsets.symmetric(vertical: AppPadding.p12.h),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(AppSize.s12.r),
-                ),
-              ),
-              child: Text(
-                Strings.openDeletionPage.tr(),
-                style: getRegularTextStyle(
-                  color: ColorManager.stateError,
-                  fontSize: FontSizeManager.s12.sp,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 class _ProfileCard extends StatelessWidget {
   final Widget child;
   final EdgeInsetsGeometry padding;
@@ -757,43 +702,6 @@ class _ProfileCard extends StatelessWidget {
       ),
       child: child,
     );
-  }
-}
-
-Future<void> _showDeleteAccountDialog(BuildContext context) async {
-  final shouldOpen = await showDialog<bool>(
-    context: context,
-    builder:
-        (dialogContext) => AlertDialog(
-          title: Text(Strings.deleteAccountWarningTitle.tr()),
-          content: Text(Strings.deleteAccountWarningBody.tr()),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(dialogContext).pop(false),
-              child: Text(Strings.cancel.tr()),
-            ),
-            TextButton(
-              onPressed: () => Navigator.of(dialogContext).pop(true),
-              child: Text(Strings.openDeletionPage.tr()),
-            ),
-          ],
-        ),
-  );
-
-  if (shouldOpen != true || !context.mounted) {
-    return;
-  }
-
-  try {
-    await openUrl(Constants.accountDeletionUrl);
-  } catch (_) {
-    if (!context.mounted) {
-      return;
-    }
-
-    ScaffoldMessenger.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(SnackBar(content: Text(Strings.defaultError.tr())));
   }
 }
 
