@@ -48,3 +48,7 @@ class VerifyPaymentEvent extends CheckoutEvent {
 class ResetCheckoutEvent extends CheckoutEvent {
   const ResetCheckoutEvent();
 }
+
+class CancelCheckoutPaymentEvent extends CheckoutEvent {
+  const CancelCheckoutPaymentEvent();
+}

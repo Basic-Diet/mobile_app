@@ -20,6 +20,7 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
     on<CreateOrderEvent>(_onCreateOrder);
     on<VerifyPaymentEvent>(_onVerifyPayment);
     on<ResetCheckoutEvent>(_onResetCheckout);
+    on<CancelCheckoutPaymentEvent>(_onCancelCheckoutPayment);
   }
 
   Future<void> _onGetOrderQuote(
@@ -159,5 +160,24 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
 
   void _onResetCheckout(ResetCheckoutEvent event, Emitter<CheckoutState> emit) {
     emit(const CheckoutInitial());
+  }
+
+  void _onCancelCheckoutPayment(
+    CancelCheckoutPaymentEvent event,
+    Emitter<CheckoutState> emit,
+  ) {
+    if (state is! CheckoutLoaded) return;
+    final current = state as CheckoutLoaded;
+    emit(
+      current.copyWith(
+        createStatus: OrderCreateStatus.initial,
+        order: null,
+        createErrorMessage: null,
+        createErrorCode: null,
+        verifyStatus: OrderVerifyStatus.initial,
+        verifyResult: null,
+        verifyErrorMessage: null,
+      ),
+    );
   }
 }

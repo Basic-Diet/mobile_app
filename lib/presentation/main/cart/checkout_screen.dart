@@ -180,6 +180,14 @@ class _CheckoutScreenContentState extends State<_CheckoutScreenContent> {
       return;
     }
 
+    if (result != true) {
+      context.read<CheckoutBloc>().add(const CancelCheckoutPaymentEvent());
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(Strings.paymentCancelled.tr())),
+      );
+      return;
+    }
+
     context.read<CheckoutBloc>().add(
       VerifyPaymentEvent(
         orderId: order.orderId,
