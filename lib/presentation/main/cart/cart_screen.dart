@@ -221,8 +221,6 @@ class CartScreen extends StatelessWidget {
                               Gap(AppSize.s12.h),
                               _SummaryRow(label: Strings.subtotal.tr(), value: _formatPrice(subtotal)),
                               Gap(AppSize.s8.h),
-                              _SummaryRow(label: Strings.pickupFee.tr(), value: Strings.free.tr()),
-                              Gap(AppSize.s8.h),
                               _SummaryRow(label: Strings.tax.tr(), value: Strings.vatIncludedInPrice.tr()),
                               Gap(AppSize.s6.h),
                               Container(
