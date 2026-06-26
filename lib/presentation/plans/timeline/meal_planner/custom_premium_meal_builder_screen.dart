@@ -94,10 +94,20 @@ class _CustomPremiumMealBuilderScreenState
                 duration: const Duration(milliseconds: 200),
                 child:
                     _stepIndex == _totalSteps - 1
-                        ? _buildReviewStep(price)
+                        ? _buildReviewStep()
                         : _buildSelectionStep(),
               ),
             ),
+            if (isLastStep)
+              Padding(
+                padding: EdgeInsets.fromLTRB(
+                  AppPadding.p16.w,
+                  AppPadding.p8.h,
+                  AppPadding.p16.w,
+                  0,
+                ),
+                child: _ReviewPriceCard(price: price),
+              ),
             Padding(
               padding: EdgeInsets.all(AppPadding.p16.w),
               child: Row(
@@ -279,46 +289,42 @@ class _CustomPremiumMealBuilderScreenState
     );
   }
 
-  Widget _buildReviewStep(String price) {
+  Widget _buildReviewStep() {
+    final selectedGroups =
+        _groupOrder
+            .map(
+              (groupKey) => _ReviewGroupData(
+                label: _groupTitle(groupKey),
+                names: _selectedNamesForGroup(groupKey),
+              ),
+            )
+            .where((group) => group.names.isNotEmpty)
+            .toList();
+    final selectedIngredientCount = selectedGroups.fold<int>(
+      0,
+      (count, group) => count + group.names.length,
+    );
+
     return ListView(
       key: const ValueKey<String>('review_step'),
       padding: EdgeInsets.all(AppPadding.p16.w),
       children: [
+        _ReviewHeader(
+          mealName: widget.config.name,
+          proteinName: _proteinNameById(_selectedProteinId),
+          selectedIngredientCount: selectedIngredientCount,
+        ),
+        Gap(AppSize.s16.h),
         Text(
-          Strings.summary.tr(),
+          Strings.selectedIngredients.tr(),
           style: getBoldTextStyle(
             color: ColorManager.textPrimary,
-            fontSize: FontSizeManager.s18.sp,
+            fontSize: FontSizeManager.s15.sp,
           ),
         ),
-        Gap(AppSize.s12.h),
-        _ReviewRow(
-          label: Strings.selectProtein.tr(),
-          value: _proteinNameById(_selectedProteinId),
-        ),
-        ..._groupOrder.map((groupKey) {
-          final names = _selectedNamesForGroup(groupKey);
-          return _ReviewRow(
-            label: _groupTitle(groupKey),
-            value: names.isEmpty ? '-' : names.join(', '),
-          );
-        }),
-        Gap(AppSize.s16.h),
-        Container(
-          padding: EdgeInsets.all(AppPadding.p12.w),
-          decoration: BoxDecoration(
-            color: ColorManager.brandAccentSoft,
-            borderRadius: BorderRadius.circular(AppSize.s12.r),
-            border: Border.all(color: ColorManager.brandAccentBorder),
-          ),
-          child: Text(
-            '${Strings.totalAmount.tr()}: $price ${Strings.sar.tr()}',
-            style: getBoldTextStyle(
-              color: ColorManager.brandAccent,
-              fontSize: FontSizeManager.s14.sp,
-            ),
-          ),
-        ),
+        Gap(AppSize.s10.h),
+        ...selectedGroups.map((group) => _ReviewIngredientGroup(group: group)),
+        Gap(AppSize.s8.h),
       ],
     );
   }
@@ -527,11 +533,159 @@ class _WizardProgress extends StatelessWidget {
   }
 }
 
-class _ReviewRow extends StatelessWidget {
+class _ReviewGroupData {
+  final String label;
+  final List<String> names;
+
+  const _ReviewGroupData({required this.label, required this.names});
+}
+
+class _ReviewHeader extends StatelessWidget {
+  final String mealName;
+  final String proteinName;
+  final int selectedIngredientCount;
+
+  const _ReviewHeader({
+    required this.mealName,
+    required this.proteinName,
+    required this.selectedIngredientCount,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(AppPadding.p16.w),
+      decoration: BoxDecoration(
+        color: ColorManager.brandPrimaryTint,
+        borderRadius: BorderRadius.circular(AppSize.s16.r),
+        border: Border.all(color: ColorManager.borderSubtle),
+        boxShadow: const [
+          BoxShadow(
+            color: ColorManager.brandPrimaryGlow,
+            blurRadius: AppSize.s24,
+            offset: Offset(0, AppSize.s8),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: AppSize.s40.w,
+                height: AppSize.s40.w,
+                decoration: BoxDecoration(
+                  color: ColorManager.brandPrimary,
+                  borderRadius: BorderRadius.circular(AppSize.s12.r),
+                ),
+                child: Icon(
+                  Icons.check_rounded,
+                  color: ColorManager.iconInverse,
+                  size: AppSize.s22.sp,
+                ),
+              ),
+              Gap(AppSize.s12.w),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      Strings.customMealSummaryTitle.tr(),
+                      style: getBoldTextStyle(
+                        color: ColorManager.textPrimary,
+                        fontSize: FontSizeManager.s18.sp,
+                      ),
+                    ),
+                    Gap(AppSize.s4.h),
+                    Text(
+                      mealName,
+                      style: getRegularTextStyle(
+                        color: ColorManager.textSecondary,
+                        fontSize: FontSizeManager.s12.sp,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          Gap(AppSize.s14.h),
+          Wrap(
+            spacing: AppSize.s8.w,
+            runSpacing: AppSize.s8.h,
+            children: [
+              _ReviewMetaPill(
+                label: Strings.selectProtein.tr(),
+                value: proteinName,
+              ),
+              _ReviewMetaPill(
+                label: Strings.ingredients.tr(),
+                value: '$selectedIngredientCount ${Strings.selected.tr()}',
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ReviewMetaPill extends StatelessWidget {
   final String label;
   final String value;
 
-  const _ReviewRow({required this.label, required this.value});
+  const _ReviewMetaPill({required this.label, required this.value});
+
+  @override
+  Widget build(BuildContext context) {
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        maxWidth: MediaQuery.sizeOf(context).width - AppSize.s60.w,
+      ),
+      child: Container(
+        padding: EdgeInsets.symmetric(
+          horizontal: AppPadding.p10.w,
+          vertical: AppPadding.p8.h,
+        ),
+        decoration: BoxDecoration(
+          color: ColorManager.backgroundSurface,
+          borderRadius: BorderRadius.circular(AppSize.s10.r),
+          border: Border.all(color: ColorManager.borderDefault),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              label,
+              style: getRegularTextStyle(
+                color: ColorManager.textSecondary,
+                fontSize: FontSizeManager.s11.sp,
+              ),
+            ),
+            Gap(AppSize.s6.w),
+            Flexible(
+              child: Text(
+                value,
+                overflow: TextOverflow.ellipsis,
+                style: getBoldTextStyle(
+                  color: ColorManager.textPrimary,
+                  fontSize: FontSizeManager.s12.sp,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _ReviewIngredientGroup extends StatelessWidget {
+  final _ReviewGroupData group;
+
+  const _ReviewIngredientGroup({required this.group});
 
   @override
   Widget build(BuildContext context) {
@@ -539,29 +693,112 @@ class _ReviewRow extends StatelessWidget {
       margin: EdgeInsets.only(bottom: AppSize.s10.h),
       padding: EdgeInsets.all(AppPadding.p12.w),
       decoration: BoxDecoration(
+        color: ColorManager.backgroundSurface,
+        borderRadius: BorderRadius.circular(AppSize.s12.r),
         border: Border.all(color: ColorManager.borderDefault),
-        borderRadius: BorderRadius.circular(AppSize.s10.r),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            group.label,
+            style: getBoldTextStyle(
+              color: ColorManager.textPrimary,
+              fontSize: FontSizeManager.s13.sp,
+            ),
+          ),
+          Gap(AppSize.s10.h),
+          Wrap(
+            spacing: AppSize.s8.w,
+            runSpacing: AppSize.s8.h,
+            children:
+                group.names
+                    .map((name) => _ReviewIngredientChip(label: name))
+                    .toList(),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ReviewIngredientChip extends StatelessWidget {
+  final String label;
+
+  const _ReviewIngredientChip({required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        maxWidth: MediaQuery.sizeOf(context).width - AppSize.s60.w,
+      ),
+      child: Container(
+        padding: EdgeInsets.symmetric(
+          horizontal: AppPadding.p10.w,
+          vertical: AppPadding.p6.h,
+        ),
+        decoration: BoxDecoration(
+          color: ColorManager.backgroundSubtle,
+          borderRadius: BorderRadius.circular(AppSize.s8.r),
+        ),
+        child: Text(
+          label,
+          overflow: TextOverflow.ellipsis,
+          style: getRegularTextStyle(
+            color: ColorManager.textPrimary,
+            fontSize: FontSizeManager.s12.sp,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _ReviewPriceCard extends StatelessWidget {
+  final String price;
+
+  const _ReviewPriceCard({required this.price});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(AppPadding.p14.w),
+      decoration: BoxDecoration(
+        color: ColorManager.brandAccentSoft,
+        borderRadius: BorderRadius.circular(AppSize.s14.r),
+        border: Border.all(color: ColorManager.brandAccentBorder),
       ),
       child: Row(
         children: [
-          Expanded(
-            child: Text(
-              label,
-              style: getBoldTextStyle(
-                color: ColorManager.textPrimary,
-                fontSize: FontSizeManager.s14.sp,
-              ),
+          Container(
+            width: AppSize.s36.w,
+            height: AppSize.s36.w,
+            decoration: BoxDecoration(
+              color: ColorManager.backgroundSurface,
+              borderRadius: BorderRadius.circular(AppSize.s10.r),
+            ),
+            child: Icon(
+              Icons.receipt_long_rounded,
+              color: ColorManager.iconAccent,
+              size: AppSize.s20.sp,
             ),
           ),
-          Gap(AppSize.s10.w),
+          Gap(AppSize.s12.w),
           Expanded(
             child: Text(
-              value,
-              textAlign: TextAlign.end,
+              Strings.extraFee.tr(),
               style: getRegularTextStyle(
                 color: ColorManager.textSecondary,
                 fontSize: FontSizeManager.s12.sp,
               ),
+            ),
+          ),
+          Text(
+            '$price ${Strings.sar.tr()}',
+            style: getBoldTextStyle(
+              color: ColorManager.brandAccent,
+              fontSize: FontSizeManager.s18.sp,
             ),
           ),
         ],
