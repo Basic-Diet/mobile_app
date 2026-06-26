@@ -151,19 +151,7 @@ class ManageSubscriptionScreen extends StatelessWidget {
                     );
                   },
                 ),
-                Gap(AppSize.s12.h),
-                _buildActionItem(
-                  icon: IconAssets.delivery,
-                  title: Strings.deliverySettings.tr(),
-                  subtitle: Strings.deliverySettingsDesc.tr(),
-                  onTap: () async {
-                    await Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => const DeliverySettingsScreen(),
-                      ),
-                    );
-                  },
-                ),
+
                 if (Constants.isDebug) ...[
                   Gap(AppSize.s24.h),
                   _buildDangerZone(context, state),
