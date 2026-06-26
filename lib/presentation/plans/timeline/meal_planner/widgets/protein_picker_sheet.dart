@@ -3,6 +3,7 @@ import 'package:basic_diet/presentation/plans/timeline/meal_planner/bloc/meal_pl
 import 'package:basic_diet/presentation/plans/timeline/meal_planner/bloc/meal_planner_event.dart';
 import 'package:basic_diet/presentation/plans/timeline/meal_planner/bloc/meal_planner_state.dart';
 import 'package:basic_diet/presentation/plans/timeline/meal_planner/custom_premium_meal_builder_screen.dart';
+import 'package:basic_diet/presentation/resources/assets_manager.dart';
 import 'package:basic_diet/presentation/resources/color_manager.dart';
 import 'package:basic_diet/presentation/resources/font_manager.dart';
 import 'package:basic_diet/presentation/resources/strings_manager.dart';
@@ -541,91 +542,170 @@ class _CustomBuilderCta extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.fromLTRB(
-        AppPadding.p16.w,
-        0,
-        AppPadding.p16.w,
-        AppPadding.p16.h,
-      ),
-      padding: EdgeInsets.all(AppPadding.p12.w),
-      decoration: BoxDecoration(
-        color:
-            isSelected
-                ? ColorManager.brandPrimary.withValues(alpha: 0.12)
-                : ColorManager.transparent,
-        borderRadius: BorderRadius.circular(AppSize.s16.r),
-        border: Border.all(
-          color:
-              isSelected
-                  ? ColorManager.brandPrimary
-                  : ColorManager.brandAccentBorder,
+    final backgroundImageAsset =
+        context.locale.languageCode == 'ar'
+            ? ImageAssets.oneTimeCustomOrderHero
+            : ImageAssets.oneTimeCustomOrderHeroAr;
+
+    return GestureDetector(
+      onTap: onTap,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        margin: EdgeInsets.fromLTRB(
+          AppPadding.p16.w,
+          0,
+          AppPadding.p16.w,
+          AppPadding.p16.h,
         ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(Icons.star, color: Colors.yellow, size: 30.w),
-              Gap(AppSize.s10.w),
-              Expanded(
-                child: Text(
-                  title,
-                  style: getBoldTextStyle(
-                    color:
-                        isSelected
-                            ? ColorManager.brandPrimary
-                            : ColorManager.brandAccent,
-                    fontSize: FontSizeManager.s14.sp,
+        height: 178.h,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(AppSize.s18.r),
+          image: DecorationImage(
+            image: AssetImage(backgroundImageAsset),
+            fit: BoxFit.cover,
+          ),
+          border: Border.all(
+            color:
+                isSelected
+                    ? ColorManager.brandPrimary
+                    : ColorManager.brandAccentBorder,
+            width: isSelected ? AppSize.s2.w : AppSize.s1.w,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: ColorManager.brandAccent.withValues(alpha: 0.16),
+              blurRadius: AppSize.s18.r,
+              offset: Offset(0, AppSize.s8.h),
+            ),
+          ],
+        ),
+        clipBehavior: Clip.antiAlias,
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: AlignmentDirectional.centerStart,
+                    end: AlignmentDirectional.centerEnd,
+                    colors: [
+                      ColorManager.textPrimary.withValues(alpha: 0.88),
+                      ColorManager.textPrimary.withValues(alpha: 0.52),
+                      ColorManager.textPrimary.withValues(alpha: 0.08),
+                    ],
                   ),
                 ),
               ),
-              if (isSelected)
-                Icon(
-                  Icons.check_circle,
-                  color: ColorManager.brandPrimary,
-                  size: 20.w,
-                ),
-            ],
-          ),
-          Gap(4.h),
-          Text(
-            subtitle,
-            style: getRegularTextStyle(
-              color: ColorManager.textSecondary,
-              fontSize: FontSizeManager.s12.sp,
             ),
-          ),
-          if (isSelected && selectedProteinName != null) ...[
-            Gap(4.h),
-            Text(
-              '${Strings.selectProtein.tr()}: $selectedProteinName',
-              style: getBoldTextStyle(
-                color: ColorManager.brandPrimary,
-                fontSize: FontSizeManager.s12.sp,
+            Positioned.fill(
+              child: Padding(
+                padding: EdgeInsets.all(AppPadding.p16.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: AppSize.s34.w,
+                          height: AppSize.s34.w,
+                          decoration: BoxDecoration(
+                            color: ColorManager.backgroundSurface.withValues(
+                              alpha: 0.92,
+                            ),
+                            borderRadius: BorderRadius.circular(AppSize.s12.r),
+                          ),
+                          child: Icon(
+                            Icons.workspace_premium,
+                            color: ColorManager.brandAccent,
+                            size: AppSize.s20.w,
+                          ),
+                        ),
+                        Gap(AppSize.s10.w),
+                        Expanded(
+                          child: Text(
+                            title,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: getBoldTextStyle(
+                              color: ColorManager.textInverse,
+                              fontSize: FontSizeManager.s18.sp,
+                            ),
+                          ),
+                        ),
+                        if (isSelected)
+                          Icon(
+                            Icons.check_circle,
+                            color: ColorManager.brandPrimary,
+                            size: AppSize.s24.w,
+                          ),
+                      ],
+                    ),
+                    Gap(AppSize.s8.h),
+                    Text(
+                      subtitle,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: getRegularTextStyle(
+                        color: ColorManager.textInverse.withValues(alpha: 0.88),
+                        fontSize: FontSizeManager.s12.sp,
+                      ),
+                    ),
+                    if (isSelected && selectedProteinName != null) ...[
+                      Gap(AppSize.s6.h),
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: AppPadding.p10.w,
+                          vertical: AppPadding.p5.h,
+                        ),
+                        decoration: BoxDecoration(
+                          color: ColorManager.brandPrimary.withValues(
+                            alpha: 0.92,
+                          ),
+                          borderRadius: BorderRadius.circular(AppSize.s99.r),
+                        ),
+                        child: Text(
+                          '${Strings.selectProtein.tr()}: $selectedProteinName',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: getBoldTextStyle(
+                            color: ColorManager.textInverse,
+                            fontSize: FontSizeManager.s10.sp,
+                          ),
+                        ),
+                      ),
+                    ],
+                    const Spacer(),
+                    SizedBox(
+                      width: 148.w,
+                      height: 42.h,
+                      child: ElevatedButton(
+                        onPressed: onTap,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: ColorManager.brandPrimary,
+                          foregroundColor: ColorManager.textInverse,
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(AppSize.s12.r),
+                          ),
+                        ),
+                        child: Text(
+                          buttonLabel,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: getBoldTextStyle(
+                            color: ColorManager.textInverse,
+                            fontSize: FontSizeManager.s13.sp,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
-          Gap(AppSize.s10.h),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: onTap,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: ColorManager.brandPrimary,
-                minimumSize: Size.fromHeight(44.h),
-              ),
-              child: Text(
-                buttonLabel,
-                style: getBoldTextStyle(
-                  color: ColorManager.textInverse,
-                  fontSize: FontSizeManager.s14.sp,
-                ),
-              ),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
