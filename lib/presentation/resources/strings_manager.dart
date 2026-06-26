@@ -288,6 +288,7 @@ class Strings {
   static const String continueText = 'continueText';
   static const String skipStep = 'skipStep';
   static const String getPrice = 'getPrice';
+  static const String premiumLimitExceeded = 'premiumLimitExceeded';
 
   // Add-ons
   static const String addOns = 'addOns';

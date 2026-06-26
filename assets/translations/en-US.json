@@ -138,6 +138,7 @@
     "continueText": "Continue",
     "skipStep": "Skip this step",
     "getPrice": "Get Your Price",
+    "premiumLimitExceeded": "You cannot select more premium meals than your total subscription meals.",
     "addOns": "Add-Ons",
     "enhancePlan": "Enhance Your Plan",
     "optionalAddons": "Add extra items to complement your meals (optional)",

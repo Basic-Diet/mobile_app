@@ -138,6 +138,7 @@
     "continueText": "متابعة",
     "skipStep": "تخطي هذه الخطوة",
     "getPrice": "احصل على السعر",
+    "premiumLimitExceeded": "لا يمكنك اختيار وجبات مميزة أكثر من إجمالي وجبات اشتراكك.",
     "addOns": "إضافات",
     "enhancePlan": "حسّن خطتك",
     "optionalAddons": "أضف عناصر إضافية (اختياري)",
