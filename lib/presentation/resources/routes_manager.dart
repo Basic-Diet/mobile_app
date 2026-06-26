@@ -140,11 +140,15 @@ class GoRouterConfig {
               extra is Map<String, dynamic>
                   ? extra['plansRefreshToken'] as String?
                   : null;
+          final mainRefreshToken =
+              extra is Map<String, dynamic>
+                  ? extra['mainRefreshToken'] as String?
+                  : null;
           return getCustomTransitionPage(
             state: state,
             child: MainScreen(
               key: ValueKey<String>(
-                'main-$initialIndex-${plansRefreshToken ?? 'default'}',
+                'main-$initialIndex-${mainRefreshToken ?? plansRefreshToken ?? 'default'}',
               ),
               initialIndex: initialIndex,
               plansRefreshToken: plansRefreshToken,
