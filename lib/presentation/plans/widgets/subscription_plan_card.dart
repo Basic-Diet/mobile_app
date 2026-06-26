@@ -134,10 +134,34 @@ class SubscriptionPlanCard extends StatelessWidget {
               );
             }
           },
-          child: Icon(
-            Icons.settings_outlined,
-            color: ColorManager.brandPrimary,
-            size: AppSize.s20,
+          borderRadius: BorderRadius.circular(AppSize.s8.r),
+          child: Container(
+            padding: EdgeInsetsDirectional.symmetric(
+              horizontal: AppPadding.p12.w,
+              vertical: AppPadding.p8.h,
+            ),
+            decoration: BoxDecoration(
+              color: ColorManager.brandPrimaryTint,
+              borderRadius: BorderRadius.circular(AppSize.s8.r),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  Strings.manageSubscription.tr(),
+                  style: getBoldTextStyle(
+                    color: ColorManager.brandPrimary,
+                    fontSize: FontSizeManager.s12.sp,
+                  ),
+                ),
+                Gap(AppSize.s6.w),
+                Icon(
+                  Icons.settings_outlined,
+                  color: ColorManager.brandPrimary,
+                  size: AppSize.s18.sp,
+                ),
+              ],
+            ),
           ),
         ),
       ],
