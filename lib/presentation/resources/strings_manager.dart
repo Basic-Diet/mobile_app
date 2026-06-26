@@ -771,6 +771,9 @@ class Strings {
   static const String chooseOneRequired = 'chooseOneRequired';
   static const String chooseAtLeast = 'chooseAtLeast';
   static const String chooseUpTo = 'chooseUpTo';
+  static const String customMealSummaryTitle = 'customMealSummaryTitle';
+  static const String selectedIngredients = 'selectedIngredients';
+  static const String extraFee = 'extraFee';
 
   // Promo Code
   static const String promoCode = 'promoCode';
