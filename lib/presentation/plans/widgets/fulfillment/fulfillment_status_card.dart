@@ -168,8 +168,8 @@ class FulfillmentProgressSteps extends StatelessWidget {
                   )
                 else
                   Container(
-                    width: AppSize.s14.w,
-                    height: AppSize.s14.w,
+                    width: AppSize.s12.w,
+                    height: AppSize.s12.w,
                     decoration: BoxDecoration(
                       color:
                           isHighlighted
@@ -196,7 +196,7 @@ class FulfillmentProgressSteps extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: getBoldTextStyle(
                       color: textColor,
-                      fontSize: FontSizeManager.s10.sp,
+                      fontSize: FontSizeManager.s9.sp,
                     ),
                   ),
                 ),
