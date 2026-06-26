@@ -553,6 +553,8 @@ class Strings {
   static const String addonPayButton = 'addonPayButton';
   static const String addonClearSelection = 'addonClearSelection';
   static const String addonChoosePrompt = 'addonChoosePrompt';
+  static const String addonTapToChoose = 'addonTapToChoose';
+  static const String addonChangeSelection = 'addonChangeSelection';
   static const String addonSelectedCount = 'addonSelectedCount';
   static const String addonApplySelections = 'addonApplySelections';
   static const String addonCalories = 'addonCalories';

@@ -525,6 +525,8 @@
     "addonPayButton": "ادفع الإضافات",
     "addonClearSelection": "إزالة اختيار هذه الفئة",
     "addonChoosePrompt": "اختر إضافاتك",
+    "addonTapToChoose": "اضغط للاختيار",
+    "addonChangeSelection": "تغيير",
     "addonSelectedCount": "تم اختيار {count} إضافة",
     "addonApplySelections": "تطبيق الاختيارات",
     "addonCalories": "{count} سعرة",

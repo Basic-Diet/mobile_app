@@ -525,6 +525,8 @@
     "addonPayButton": "Pay add-ons",
     "addonClearSelection": "Clear this category selection",
     "addonChoosePrompt": "Choose your add-ons",
+    "addonTapToChoose": "Tap to choose",
+    "addonChangeSelection": "Change",
     "addonSelectedCount": "{count} add-ons selected",
     "addonApplySelections": "Apply selections",
     "addonCalories": "{count} calories",

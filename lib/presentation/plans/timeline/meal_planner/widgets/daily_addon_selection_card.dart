@@ -125,6 +125,8 @@ class _AddonSelectorField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final hasSelection = state.selectedAddOnModels.isNotEmpty;
+    final actionLabel =
+        hasSelection ? Strings.addonChangeSelection.tr() : Strings.addonTapToChoose.tr();
     final prompt =
         hasSelection
             ? Strings.addonSelectedCount.tr(
@@ -157,23 +159,13 @@ class _AddonSelectorField extends StatelessWidget {
             ),
           ),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Expanded(
-                child: Text(
-                  prompt,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.end,
-                  style: getBoldTextStyle(
-                    color:
-                        hasSelection
-                            ? ColorManager.textPrimary
-                            : ColorManager.textSecondary,
-                    fontSize: FontSizeManager.s14.sp,
-                  ),
-                ),
+              _SelectorActionChip(
+                label: actionLabel,
+                hasSelection: hasSelection,
               ),
-              Gap(AppSize.s10.w),
+              Gap(AppSize.s8.w),
               Icon(
                 Icons.keyboard_arrow_down_rounded,
                 color: ColorManager.iconSecondary,
@@ -243,6 +235,51 @@ class _AddonSelectorField extends StatelessWidget {
       return '${Strings.addonStatusPendingPayment.tr()} (${_moneyLabel(addon.priceHalala, state.paymentCurrency)})';
     }
     return null;
+  }
+}
+
+class _SelectorActionChip extends StatelessWidget {
+  final String label;
+  final bool hasSelection;
+
+  const _SelectorActionChip({
+    required this.label,
+    required this.hasSelection,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: AppPadding.p10.w,
+        vertical: AppPadding.p6.h,
+      ),
+      decoration: BoxDecoration(
+        color:
+            hasSelection
+                ? ColorManager.backgroundSurface
+                : ColorManager.brandAccent,
+        borderRadius: BorderRadius.circular(AppSize.s20.r),
+        border: Border.all(
+          color:
+              hasSelection
+                  ? ColorManager.brandPrimary.withValues(alpha: 0.22)
+                  : ColorManager.brandAccent,
+        ),
+      ),
+      child: Text(
+        label,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: getBoldTextStyle(
+          color:
+              hasSelection
+                  ? ColorManager.brandPrimaryPressed
+                  : ColorManager.textInverse,
+          fontSize: FontSizeManager.s10.sp,
+        ),
+      ),
+    );
   }
 }
 
