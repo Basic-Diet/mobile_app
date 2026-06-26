@@ -925,6 +925,13 @@ class Strings {
   static const String builderSearchIn = 'builderSearchIn';
   static const String builderQuantity = 'builderQuantity';
   static const String builderSelectFromGroup = 'builderSelectFromGroup';
+  static const String builderShowDetails = 'builderShowDetails';
+  static const String builderReviewOrder = 'builderReviewOrder';
+  static const String builderItemDetails = 'builderItemDetails';
+  static const String builderSelectedOptions = 'builderSelectedOptions';
+  static const String builderNoOptionalSelections =
+      'builderNoOptionalSelections';
+  static const String builderTotal = 'builderTotal';
 
   // One-Time Order Payment
   static const String pendingPaymentRetry = 'pendingPaymentRetry';
