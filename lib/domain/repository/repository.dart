@@ -141,14 +141,22 @@ abstract class Repository {
   );
   Future<Either<Failure, PickupAvailabilityModel>> getPickupAvailability(
     String id,
-    String date,
-  );
+    String date, {
+    bool? includeUnavailable,
+    bool? includeHistory,
+  });
   Future<Either<Failure, PickupRequestModel>> createPickupRequest(
     String id,
     CreatePickupRequest request,
   );
   Future<Either<Failure, List<PickupRequestModel>>> getPickupRequests(
+    String id, {
+    String? date,
+    String? status,
+  });
+  Future<Either<Failure, PickupRequestModel>> getPickupRequestStatus(
     String id,
+    String requestId,
   );
   Future<Either<Failure, PickupAvailabilityModel>> appendMealsToDay(
     String id,

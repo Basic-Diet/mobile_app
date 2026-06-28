@@ -138,7 +138,7 @@ class _DayCard extends StatelessWidget {
   }
 
   _DayStyle _resolveDayStyle(TimelineDayModel day, bool isSelected) {
-    final status = day.displayStatus;
+    final status = day.normalizedStatus;
     Color baseColor;
     Color baseBgColor;
     Color baseBorderColor;

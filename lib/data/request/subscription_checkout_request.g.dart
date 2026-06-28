@@ -63,7 +63,14 @@ _$SubscriptionCheckoutDeliveryRequestFromJson(Map<String, dynamic> json) =>
     SubscriptionCheckoutDeliveryRequest(
       type: json['type'] as String,
       zoneId: json['zoneId'] as String?,
+      pickupLocationId: json['pickupLocationId'] as String?,
       slotId: json['slotId'] as String?,
+      slot:
+          json['slot'] == null
+              ? null
+              : SubscriptionCheckoutSlotRequest.fromJson(
+                json['slot'] as Map<String, dynamic>,
+              ),
       address:
           json['address'] == null
               ? null
@@ -77,8 +84,26 @@ Map<String, dynamic> _$SubscriptionCheckoutDeliveryRequestToJson(
 ) => <String, dynamic>{
   'type': instance.type,
   'zoneId': instance.zoneId,
+  'pickupLocationId': instance.pickupLocationId,
   'slotId': instance.slotId,
+  'slot': instance.slot?.toJson(),
   'address': instance.address?.toJson(),
+};
+
+SubscriptionCheckoutSlotRequest _$SubscriptionCheckoutSlotRequestFromJson(
+  Map<String, dynamic> json,
+) => SubscriptionCheckoutSlotRequest(
+  slotId: json['slotId'] as String,
+  window: json['window'] as String,
+  label: json['label'] as String,
+);
+
+Map<String, dynamic> _$SubscriptionCheckoutSlotRequestToJson(
+  SubscriptionCheckoutSlotRequest instance,
+) => <String, dynamic>{
+  'slotId': instance.slotId,
+  'window': instance.window,
+  'label': instance.label,
 };
 
 SubscriptionCheckoutAddressRequest _$SubscriptionCheckoutAddressRequestFromJson(

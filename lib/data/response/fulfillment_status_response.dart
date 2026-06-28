@@ -15,6 +15,15 @@ class FulfillmentStatusDataResponse {
   @JsonKey(name: "deliveryMode")
   String? deliveryMode;
 
+  @JsonKey(name: "fulfillmentModeOverride")
+  String? fulfillmentModeOverride;
+
+  @JsonKey(name: "pickupLocationIdOverride")
+  String? pickupLocationIdOverride;
+
+  @JsonKey(name: "firstDayFulfillmentOverride")
+  bool? firstDayFulfillmentOverride;
+
   @JsonKey(name: "status")
   String? status;
 
@@ -30,7 +39,7 @@ class FulfillmentStatusDataResponse {
   @JsonKey(name: "consumptionState")
   String? consumptionState;
 
-  @JsonKey(name: "fulfillmentMode")
+  @JsonKey(name: "fulfillmentMode", readValue: _readFulfillmentMode)
   String? fulfillmentMode;
 
   @JsonKey(name: "fulfillmentSummary")
@@ -42,11 +51,32 @@ class FulfillmentStatusDataResponse {
   @JsonKey(name: "deliveryAddress")
   OverviewAddressSummaryResponse? deliveryAddress;
 
-  @JsonKey(name: "deliveryWindow")
+  @JsonKey(name: "deliveryWindow", readValue: readDeliveryWindowSummary)
   OverviewDeliveryWindowSummaryResponse? deliveryWindow;
 
   @JsonKey(name: "pickupCode")
   String? pickupCode;
+
+  @JsonKey(name: "pickupCodeIssuedAt")
+  String? pickupCodeIssuedAt;
+
+  @JsonKey(name: "lockedReason")
+  String? lockedReason;
+
+  @JsonKey(name: "lockedMessage")
+  String? lockedMessage;
+
+  @JsonKey(name: "planningReady")
+  bool? planningReady;
+
+  @JsonKey(name: "fulfillmentReady")
+  bool? fulfillmentReady;
+
+  @JsonKey(name: "isFulfillable")
+  bool? isFulfillable;
+
+  @JsonKey(name: "canBePrepared")
+  bool? canBePrepared;
 
   @JsonKey(name: "isTerminal")
   bool? isTerminal;
@@ -61,6 +91,9 @@ class FulfillmentStatusDataResponse {
     this.subscriptionId,
     this.date,
     this.deliveryMode,
+    this.fulfillmentModeOverride,
+    this.pickupLocationIdOverride,
+    this.firstDayFulfillmentOverride,
     this.status,
     this.statusLabel,
     this.commercialState,
@@ -72,6 +105,13 @@ class FulfillmentStatusDataResponse {
     this.deliveryAddress,
     this.deliveryWindow,
     this.pickupCode,
+    this.pickupCodeIssuedAt,
+    this.lockedReason,
+    this.lockedMessage,
+    this.planningReady,
+    this.fulfillmentReady,
+    this.isFulfillable,
+    this.canBePrepared,
     this.isTerminal,
     this.lastUpdatedAt,
     this.pollingIntervalSeconds,
@@ -81,6 +121,10 @@ class FulfillmentStatusDataResponse {
       _$FulfillmentStatusDataResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$FulfillmentStatusDataResponseToJson(this);
+
+  static Object? _readFulfillmentMode(Map json, String key) {
+    return json['effectiveFulfillmentMode'] ?? json[key];
+  }
 }
 
 @JsonSerializable(explicitToJson: true)

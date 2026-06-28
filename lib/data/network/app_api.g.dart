@@ -964,9 +964,16 @@ class _AppServiceClient implements AppServiceClient {
   Future<PickupAvailabilityResponse> getPickupAvailability(
     String id,
     String date,
+    bool? includeUnavailable,
+    bool? includeHistory,
   ) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'date': date};
+    final queryParameters = <String, dynamic>{
+      r'date': date,
+      r'includeUnavailable': includeUnavailable,
+      r'includeHistory': includeHistory,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<PickupAvailabilityResponse>(
@@ -1022,9 +1029,14 @@ class _AppServiceClient implements AppServiceClient {
   }
 
   @override
-  Future<PickupRequestsResponse> getPickupRequests(String id) async {
+  Future<PickupRequestsResponse> getPickupRequests(
+    String id,
+    String? date,
+    String? status,
+  ) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'date': date, r'status': status};
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<PickupRequestsResponse>(
@@ -1041,6 +1053,36 @@ class _AppServiceClient implements AppServiceClient {
     late PickupRequestsResponse _value;
     try {
       _value = PickupRequestsResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<PickupRequestResponse> getPickupRequestStatus(
+    String id,
+    String requestId,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<PickupRequestResponse>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/subscriptions/${id}/pickup-requests/${requestId}/status',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late PickupRequestResponse _value;
+    try {
+      _value = PickupRequestResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

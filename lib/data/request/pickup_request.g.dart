@@ -9,11 +9,16 @@ part of 'pickup_request.dart';
 CreatePickupRequest _$CreatePickupRequestFromJson(Map<String, dynamic> json) =>
     CreatePickupRequest(
       date: json['date'] as String,
-      selectedPickupItemIds:
-          (json['selectedPickupItemIds'] as List<dynamic>)
-              .map((e) => e as String)
-              .toList(),
       idempotencyKey: json['idempotencyKey'] as String,
+      selectedPickupItemIds:
+          (json['selectedPickupItemIds'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList(),
+      selectedMealSlotIds:
+          (json['selectedMealSlotIds'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList(),
+      mealCount: (json['mealCount'] as num?)?.toInt(),
       subscriptionDayId: json['subscriptionDayId'] as String?,
     );
 
@@ -22,7 +27,11 @@ Map<String, dynamic> _$CreatePickupRequestToJson(
 ) => <String, dynamic>{
   'date': instance.date,
   if (instance.subscriptionDayId case final value?) 'subscriptionDayId': value,
-  'selectedPickupItemIds': instance.selectedPickupItemIds,
+  if (instance.selectedPickupItemIds case final value?)
+    'selectedPickupItemIds': value,
+  if (instance.selectedMealSlotIds case final value?)
+    'selectedMealSlotIds': value,
+  if (instance.mealCount case final value?) 'mealCount': value,
   'idempotencyKey': instance.idempotencyKey,
 };
 

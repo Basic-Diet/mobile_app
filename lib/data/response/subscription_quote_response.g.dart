@@ -302,7 +302,7 @@ SubscriptionQuotePremiumItemResponse
 _$SubscriptionQuotePremiumItemResponseFromJson(Map<String, dynamic> json) =>
     SubscriptionQuotePremiumItemResponse(
       id: json['id'] as String?,
-      name: json['name'] as String?,
+      name: _readLocalizedName(json, 'name') as String?,
       qty: (json['qty'] as num?)?.toInt(),
       unitPriceHalala: (json['unitPriceHalala'] as num?)?.toInt(),
       unitPriceSar: (json['unitPriceSar'] as num?)?.toDouble(),
@@ -330,7 +330,7 @@ SubscriptionQuoteAddonResponse _$SubscriptionQuoteAddonResponseFromJson(
   id: json['id'] as String?,
   addonPlanId: json['addonPlanId'] as String?,
   addonId: json['addonId'] as String?,
-  name: _readLocalizedName(json, 'name') as String?,
+  name: json['name'] as String?,
   qty: (json['qty'] as num?)?.toInt(),
   quantityPerDay: (json['quantityPerDay'] as num?)?.toInt(),
   daysCount: (json['daysCount'] as num?)?.toInt(),

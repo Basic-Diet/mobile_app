@@ -75,6 +75,7 @@ PickupAvailabilitySlotResponse _$PickupAvailabilitySlotResponseFromJson(
   Map<String, dynamic> json,
 ) => PickupAvailabilitySlotResponse(
   slotId: json['slotId'] as String?,
+  slotKey: json['slotKey'] as String?,
   slotIndex: (json['slotIndex'] as num?)?.toInt(),
   title:
       json['title'] == null
@@ -95,6 +96,8 @@ PickupAvailabilitySlotResponse _$PickupAvailabilitySlotResponseFromJson(
             json['product'] as Map<String, dynamic>,
           ),
   productId: json['productId'] as String?,
+  productName: json['productName'] as String?,
+  proteinKey: json['proteinKey'] as String?,
   isAvailableForPickup: json['isAvailableForPickup'] as bool?,
   available: json['available'] as bool?,
   canSelect: json['canSelect'] as bool?,
@@ -131,11 +134,14 @@ Map<String, dynamic> _$PickupAvailabilitySlotResponseToJson(
   PickupAvailabilitySlotResponse instance,
 ) => <String, dynamic>{
   'slotId': instance.slotId,
+  'slotKey': instance.slotKey,
   'slotIndex': instance.slotIndex,
   'title': instance.title,
   'meal': instance.meal,
   'product': instance.product,
   'productId': instance.productId,
+  'productName': instance.productName,
+  'proteinKey': instance.proteinKey,
   'isAvailableForPickup': instance.isAvailableForPickup,
   'available': instance.available,
   'canSelect': instance.canSelect,
@@ -258,6 +264,8 @@ PickupAvailabilityItemResponse _$PickupAvailabilityItemResponseFromJson(
 ) => PickupAvailabilityItemResponse(
   itemId: json['itemId'] as String?,
   itemType: json['itemType'] as String?,
+  label: json['label'] as String?,
+  selectionMode: json['selectionMode'] as String?,
   categoryKey: json['categoryKey'] as String?,
   title:
       json['title'] == null
@@ -296,6 +304,8 @@ Map<String, dynamic> _$PickupAvailabilityItemResponseToJson(
 ) => <String, dynamic>{
   'itemId': instance.itemId,
   'itemType': instance.itemType,
+  'label': instance.label,
+  'selectionMode': instance.selectionMode,
   'categoryKey': instance.categoryKey,
   'title': instance.title,
   'subtitle': instance.subtitle,
@@ -307,6 +317,20 @@ Map<String, dynamic> _$PickupAvailabilityItemResponseToJson(
 PickupAvailabilitySummaryResponse _$PickupAvailabilitySummaryResponseFromJson(
   Map<String, dynamic> json,
 ) => PickupAvailabilitySummaryResponse(
+  availableCount: (json['availableCount'] as num?)?.toInt(),
+  unavailableCount: (json['unavailableCount'] as num?)?.toInt(),
+  availableSelectableCount: (json['availableSelectableCount'] as num?)?.toInt(),
+  paymentBlockedCount: (json['paymentBlockedCount'] as num?)?.toInt(),
+  reservedCount: (json['reservedCount'] as num?)?.toInt(),
+  fulfilledCount: (json['fulfilledCount'] as num?)?.toInt(),
+  noShowCount: (json['noShowCount'] as num?)?.toInt(),
+  hiddenUnavailableCount: (json['hiddenUnavailableCount'] as num?)?.toInt(),
+  availableMealSlotCount: (json['availableMealSlotCount'] as num?)?.toInt(),
+  availableAddonCount: (json['availableAddonCount'] as num?)?.toInt(),
+  availableSaladCount: (json['availableSaladCount'] as num?)?.toInt(),
+  availableProteinExtraCount:
+      (json['availableProteinExtraCount'] as num?)?.toInt(),
+  availableSandwichCount: (json['availableSandwichCount'] as num?)?.toInt(),
   canAppendMeals: json['canAppendMeals'] as bool?,
   appendLimit: (json['appendLimit'] as num?)?.toInt(),
   titleAr: json['titleAr'] as String?,
@@ -319,6 +343,19 @@ PickupAvailabilitySummaryResponse _$PickupAvailabilitySummaryResponseFromJson(
 Map<String, dynamic> _$PickupAvailabilitySummaryResponseToJson(
   PickupAvailabilitySummaryResponse instance,
 ) => <String, dynamic>{
+  'availableCount': instance.availableCount,
+  'unavailableCount': instance.unavailableCount,
+  'availableSelectableCount': instance.availableSelectableCount,
+  'paymentBlockedCount': instance.paymentBlockedCount,
+  'reservedCount': instance.reservedCount,
+  'fulfilledCount': instance.fulfilledCount,
+  'noShowCount': instance.noShowCount,
+  'hiddenUnavailableCount': instance.hiddenUnavailableCount,
+  'availableMealSlotCount': instance.availableMealSlotCount,
+  'availableAddonCount': instance.availableAddonCount,
+  'availableSaladCount': instance.availableSaladCount,
+  'availableProteinExtraCount': instance.availableProteinExtraCount,
+  'availableSandwichCount': instance.availableSandwichCount,
   'canAppendMeals': instance.canAppendMeals,
   'appendLimit': instance.appendLimit,
   'titleAr': instance.titleAr,
@@ -340,6 +377,8 @@ PickupAvailabilityDataResponse _$PickupAvailabilityDataResponseFromJson(
           : PickupWalletResponse.fromJson(
             json['wallet'] as Map<String, dynamic>,
           ),
+  remainingMeals: (json['remainingMeals'] as num?)?.toInt(),
+  paymentReason: json['paymentReason'] as String?,
   plannedSlots:
       (json['plannedSlots'] as List<dynamic>?)
           ?.map(
@@ -372,6 +411,27 @@ PickupAvailabilityDataResponse _$PickupAvailabilityDataResponseFromJson(
             ),
           )
           .toList(),
+  dayAddons:
+      (json['dayAddons'] as List<dynamic>?)
+          ?.map(
+            (e) => PickupAvailabilityAddonResponse.fromJson(
+              e as Map<String, dynamic>,
+            ),
+          )
+          .toList(),
+  addonSummary: json['addonSummary'] as Map<String, dynamic>?,
+  sections:
+      (json['sections'] as List<dynamic>?)
+          ?.map((e) => e as Map<String, dynamic>)
+          .toList(),
+  availableSlotIds:
+      (json['availableSlotIds'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
+  unavailableSlotIds:
+      (json['unavailableSlotIds'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
   canAppendMeals: json['canAppendMeals'] as bool?,
   appendLimit: (json['appendLimit'] as num?)?.toInt(),
   summary:
@@ -389,10 +449,17 @@ Map<String, dynamic> _$PickupAvailabilityDataResponseToJson(
   'date': instance.date,
   'subscriptionDayId': instance.subscriptionDayId,
   'wallet': instance.wallet,
+  'remainingMeals': instance.remainingMeals,
+  'paymentReason': instance.paymentReason,
   'plannedSlots': instance.plannedSlots,
   'slots': instance.slots,
   'unavailableSlots': instance.unavailableSlots,
   'pickupItems': instance.pickupItems,
+  'dayAddons': instance.dayAddons,
+  'addonSummary': instance.addonSummary,
+  'sections': instance.sections,
+  'availableSlotIds': instance.availableSlotIds,
+  'unavailableSlotIds': instance.unavailableSlotIds,
   'canAppendMeals': instance.canAppendMeals,
   'appendLimit': instance.appendLimit,
   'summary': instance.summary,
@@ -440,6 +507,22 @@ Map<String, dynamic> _$PickupRequestMealResponseToJson(
   'title': instance.title,
 };
 
+SelectedPickupItemResponse _$SelectedPickupItemResponseFromJson(
+  Map<String, dynamic> json,
+) => SelectedPickupItemResponse(
+  itemId: json['itemId'] as String?,
+  itemType: json['itemType'] as String?,
+  label: json['label'] as String?,
+);
+
+Map<String, dynamic> _$SelectedPickupItemResponseToJson(
+  SelectedPickupItemResponse instance,
+) => <String, dynamic>{
+  'itemId': instance.itemId,
+  'itemType': instance.itemType,
+  'label': instance.label,
+};
+
 PickupRequestDataResponse _$PickupRequestDataResponseFromJson(
   Map<String, dynamic> json,
 ) => PickupRequestDataResponse(
@@ -457,13 +540,29 @@ PickupRequestDataResponse _$PickupRequestDataResponseFromJson(
       (json['selectedPickupItemIds'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
+  selectedPickupItems:
+      (json['selectedPickupItems'] as List<dynamic>?)
+          ?.map(
+            (e) =>
+                SelectedPickupItemResponse.fromJson(e as Map<String, dynamic>),
+          )
+          .toList(),
   addonCount: (json['addonCount'] as num?)?.toInt(),
   itemCount: (json['itemCount'] as num?)?.toInt(),
   status: json['status'] as String?,
   statusLabel: json['statusLabel'] as String?,
+  message: json['message'] as String?,
   currentStep: (json['currentStep'] as num?)?.toInt(),
+  selectionMode: json['selectionMode'] as String?,
+  isReady: json['isReady'] as bool?,
+  isCompleted: json['isCompleted'] as bool?,
   creditsReserved: json['creditsReserved'] as bool?,
   pickupCode: json['pickupCode'] as String?,
+  pickupCodeIssuedAt: json['pickupCodeIssuedAt'] as String?,
+  fulfilledAt: json['fulfilledAt'] as String?,
+  createdAt: json['createdAt'] as String?,
+  idempotent: json['idempotent'] as bool?,
+  nextAction: json['nextAction'] as String?,
   meals:
       (json['meals'] as List<dynamic>?)
           ?.map(
@@ -484,13 +583,23 @@ Map<String, dynamic> _$PickupRequestDataResponseToJson(
   'mealCount': instance.mealCount,
   'selectedMealSlotIds': instance.selectedMealSlotIds,
   'selectedPickupItemIds': instance.selectedPickupItemIds,
+  'selectedPickupItems': instance.selectedPickupItems,
   'addonCount': instance.addonCount,
   'itemCount': instance.itemCount,
   'status': instance.status,
   'statusLabel': instance.statusLabel,
+  'message': instance.message,
   'currentStep': instance.currentStep,
+  'selectionMode': instance.selectionMode,
+  'isReady': instance.isReady,
+  'isCompleted': instance.isCompleted,
   'creditsReserved': instance.creditsReserved,
   'pickupCode': instance.pickupCode,
+  'pickupCodeIssuedAt': instance.pickupCodeIssuedAt,
+  'fulfilledAt': instance.fulfilledAt,
+  'createdAt': instance.createdAt,
+  'idempotent': instance.idempotent,
+  'nextAction': instance.nextAction,
   'meals': instance.meals,
 };
 

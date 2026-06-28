@@ -96,6 +96,9 @@ class TimelineDayResponse {
   @JsonKey(name: 'hasSelection')
   final bool? hasSelection;
 
+  @JsonKey(name: 'canEdit')
+  final bool? canEdit;
+
   @JsonKey(name: 'deliveryMode')
   final String? deliveryMode;
 
@@ -122,6 +125,12 @@ class TimelineDayResponse {
 
   @JsonKey(name: 'fulfillmentMode')
   final String? fulfillmentMode;
+
+  @JsonKey(name: 'fulfillmentModeOverride')
+  final String? fulfillmentModeOverride;
+
+  @JsonKey(name: 'pickupLocationIdOverride')
+  final String? pickupLocationIdOverride;
 
   @JsonKey(name: 'consumptionState')
   final String? consumptionState;
@@ -199,6 +208,7 @@ class TimelineDayResponse {
     this.canShowAsPlanned,
     this.paymentStatus,
     this.hasSelection,
+    this.canEdit,
     this.deliveryMode,
     this.statusLabel,
     this.commercialState,
@@ -208,6 +218,8 @@ class TimelineDayResponse {
     this.planningReady,
     this.isFulfillable,
     this.fulfillmentMode,
+    this.fulfillmentModeOverride,
+    this.pickupLocationIdOverride,
     this.consumptionState,
     this.selectedMeals,
     this.requiredMeals,

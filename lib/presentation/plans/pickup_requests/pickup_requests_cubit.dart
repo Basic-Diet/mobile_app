@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:basic_diet/domain/model/pickup_request_model.dart';
 import 'package:basic_diet/domain/usecase/create_pickup_request_usecase.dart';
 import 'package:basic_diet/domain/usecase/get_pickup_availability_usecase.dart';
+import 'package:basic_diet/domain/usecase/get_pickup_request_status_usecase.dart';
 import 'package:basic_diet/domain/usecase/get_pickup_requests_usecase.dart';
 import 'package:basic_diet/presentation/plans/pickup_requests/pickup_requests_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,6 +13,7 @@ class PickupRequestsCubit extends Cubit<PickupRequestsState> {
   final GetPickupAvailabilityUseCase _getPickupAvailabilityUseCase;
   final GetPickupRequestsUseCase _getPickupRequestsUseCase;
   final CreatePickupRequestUseCase _createPickupRequestUseCase;
+  final GetPickupRequestStatusUseCase _getPickupRequestStatusUseCase;
   Timer? _pollingTimer;
   bool _isPollingFetchInProgress = false;
 
@@ -19,6 +21,7 @@ class PickupRequestsCubit extends Cubit<PickupRequestsState> {
     this._getPickupAvailabilityUseCase,
     this._getPickupRequestsUseCase,
     this._createPickupRequestUseCase,
+    this._getPickupRequestStatusUseCase,
   ) : super(const PickupRequestsState());
 
   Future<void> load({
@@ -36,7 +39,11 @@ class PickupRequestsCubit extends Cubit<PickupRequestsState> {
     );
 
     final requestsResult = await _getPickupRequestsUseCase.execute(
-      subscriptionId,
+      GetPickupRequestsUseCaseInput(
+        subscriptionId: subscriptionId,
+        date: date,
+        status: 'active',
+      ),
     );
     if (isClosed) return;
 
@@ -147,6 +154,7 @@ class PickupRequestsCubit extends Cubit<PickupRequestsState> {
   Future<bool> confirmSelectedSlots() async {
     final availability = state.availability;
     if (availability == null ||
+        !availability.canCreatePickupRequest ||
         state.selectedPickupItemIds.isEmpty ||
         state.isCreating) {
       return false;
@@ -205,11 +213,15 @@ class PickupRequestsCubit extends Cubit<PickupRequestsState> {
 
     _isPollingFetchInProgress = true;
     try {
-      await load(
-        subscriptionId: subscriptionId,
-        date: date,
-        showLoading: false,
-      );
+      if (state.requests.isEmpty) {
+        await load(
+          subscriptionId: subscriptionId,
+          date: date,
+          showLoading: false,
+        );
+      } else {
+        await _pollVisibleRequestStatuses(subscriptionId);
+      }
     } finally {
       _isPollingFetchInProgress = false;
     }
@@ -222,7 +234,33 @@ class PickupRequestsCubit extends Cubit<PickupRequestsState> {
 
   bool get _allVisibleRequestsCompleted =>
       state.requests.isNotEmpty &&
-      state.requests.every((request) => request.isCompleted);
+      state.requests.every((request) => request.isTerminal);
+
+  Future<void> _pollVisibleRequestStatuses(String subscriptionId) async {
+    final updatedRequests = <PickupRequestModel>[];
+
+    for (final request in state.requests) {
+      if (request.requestId.isEmpty || request.isTerminal) {
+        updatedRequests.add(request);
+        continue;
+      }
+
+      final result = await _getPickupRequestStatusUseCase.execute(
+        GetPickupRequestStatusUseCaseInput(
+          subscriptionId: subscriptionId,
+          requestId: request.requestId,
+        ),
+      );
+      if (isClosed) return;
+
+      result.fold(
+        (_) => updatedRequests.add(request),
+        (updatedRequest) => updatedRequests.add(updatedRequest),
+      );
+    }
+
+    emit(state.copyWith(requests: updatedRequests));
+  }
 
   List<PickupRequestModel> _requestsForDate(
     List<PickupRequestModel> requests,

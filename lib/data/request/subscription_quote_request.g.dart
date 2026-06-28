@@ -22,10 +22,7 @@ SubscriptionQuoteRequest _$SubscriptionQuoteRequestFromJson(
             ),
           )
           .toList(),
-  addons:
-      (json['addons'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
+  addons: (json['addons'] as List<dynamic>).map((e) => e as String).toList(),
   delivery: SubscriptionQuoteDeliveryRequest.fromJson(
     json['delivery'] as Map<String, dynamic>,
   ),
@@ -60,7 +57,14 @@ SubscriptionQuoteDeliveryRequest _$SubscriptionQuoteDeliveryRequestFromJson(
 ) => SubscriptionQuoteDeliveryRequest(
   type: json['type'] as String,
   zoneId: json['zoneId'] as String?,
+  pickupLocationId: json['pickupLocationId'] as String?,
   slotId: json['slotId'] as String?,
+  slot:
+      json['slot'] == null
+          ? null
+          : SubscriptionQuoteSlotRequest.fromJson(
+            json['slot'] as Map<String, dynamic>,
+          ),
   address:
       json['address'] == null
           ? null
@@ -74,8 +78,26 @@ Map<String, dynamic> _$SubscriptionQuoteDeliveryRequestToJson(
 ) => <String, dynamic>{
   'type': instance.type,
   'zoneId': instance.zoneId,
+  'pickupLocationId': instance.pickupLocationId,
   'slotId': instance.slotId,
+  'slot': instance.slot?.toJson(),
   'address': instance.address?.toJson(),
+};
+
+SubscriptionQuoteSlotRequest _$SubscriptionQuoteSlotRequestFromJson(
+  Map<String, dynamic> json,
+) => SubscriptionQuoteSlotRequest(
+  slotId: json['slotId'] as String,
+  window: json['window'] as String,
+  label: json['label'] as String,
+);
+
+Map<String, dynamic> _$SubscriptionQuoteSlotRequestToJson(
+  SubscriptionQuoteSlotRequest instance,
+) => <String, dynamic>{
+  'slotId': instance.slotId,
+  'window': instance.window,
+  'label': instance.label,
 };
 
 SubscriptionQuoteAddressRequest _$SubscriptionQuoteAddressRequestFromJson(

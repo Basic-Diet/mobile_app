@@ -33,6 +33,10 @@ class PickupAvailabilitySheet extends StatelessWidget {
             final isArabic = context.locale.languageCode == 'ar';
             final hasPickupItems =
                 availability != null && availability.pickupItems.isNotEmpty;
+            final canConfirmPickup =
+                availability?.canCreatePickupRequest == true &&
+                state.selectedPickupItemIds.isNotEmpty &&
+                !state.isCreating;
             final sheetTitle =
                 availability == null
                     ? Strings.chooseMealsForPickup.tr()
@@ -167,10 +171,8 @@ class PickupAvailabilitySheet extends StatelessWidget {
                     Expanded(
                       child: ElevatedButton(
                         onPressed:
-                            state.selectedPickupItemIds.isEmpty ||
-                                    state.isCreating
-                                ? null
-                                : () async {
+                            canConfirmPickup
+                                ? () async {
                                   final navigator = Navigator.of(context);
                                   final created =
                                       await context
@@ -179,7 +181,8 @@ class PickupAvailabilitySheet extends StatelessWidget {
                                   if (created && navigator.canPop()) {
                                     navigator.pop();
                                   }
-                                },
+                                }
+                                : null,
                         child:
                             state.isCreating
                                 ? SizedBox(

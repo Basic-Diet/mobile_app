@@ -134,13 +134,23 @@ abstract class RemoteDataSource {
   Future<PickupPrepareResponse> preparePickup(String id, String date);
   Future<PickupAvailabilityResponse> getPickupAvailability(
     String id,
-    String date,
-  );
+    String date, {
+    bool? includeUnavailable,
+    bool? includeHistory,
+  });
   Future<PickupRequestResponse> createPickupRequest(
     String id,
     CreatePickupRequest request,
   );
-  Future<PickupRequestsResponse> getPickupRequests(String id);
+  Future<PickupRequestsResponse> getPickupRequests(
+    String id, {
+    String? date,
+    String? status,
+  });
+  Future<PickupRequestResponse> getPickupRequestStatus(
+    String id,
+    String requestId,
+  );
   Future<PickupAvailabilityResponse> appendMealsToDay(
     String id,
     String date,

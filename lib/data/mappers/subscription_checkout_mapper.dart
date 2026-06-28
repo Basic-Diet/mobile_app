@@ -36,10 +36,25 @@ extension SubscriptionCheckoutPremiumItemRequestMapper
 extension SubscriptionCheckoutDeliveryRequestMapper
     on SubscriptionCheckoutDeliveryRequestModel {
   SubscriptionCheckoutDeliveryRequest toRequest() {
+    final selectedSlotId = slotId;
+    final selectedSlotWindow = slotWindow;
+    final selectedSlotLabel = slotLabel;
+
     return SubscriptionCheckoutDeliveryRequest(
       type: type,
       zoneId: zoneId,
-      slotId: slotId,
+      pickupLocationId: pickupLocationId,
+      slotId: selectedSlotId,
+      slot:
+          selectedSlotId != null &&
+                  selectedSlotWindow != null &&
+                  selectedSlotLabel != null
+              ? SubscriptionCheckoutSlotRequest(
+                slotId: selectedSlotId,
+                window: selectedSlotWindow,
+                label: selectedSlotLabel,
+              )
+              : null,
       address: address?.toCheckoutRequest(),
     );
   }
@@ -84,7 +99,10 @@ extension SubscriptionQuoteToCheckoutRequestMapper
       delivery: SubscriptionCheckoutDeliveryRequestModel(
         type: delivery.type,
         zoneId: delivery.zoneId,
+        pickupLocationId: delivery.pickupLocationId,
         slotId: delivery.slotId,
+        slotWindow: delivery.slotWindow,
+        slotLabel: delivery.slotLabel,
         address: delivery.address,
       ),
       successUrl: successUrl,

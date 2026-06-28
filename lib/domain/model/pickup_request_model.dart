@@ -124,6 +124,8 @@ class PickupAvailabilityAddonModel extends Equatable {
 class PickupAvailabilityItemModel extends Equatable {
   final String itemId;
   final String itemType;
+  final String label;
+  final String selectionMode;
   final String categoryKey;
   final String titleAr;
   final String titleEn;
@@ -141,6 +143,8 @@ class PickupAvailabilityItemModel extends Equatable {
   const PickupAvailabilityItemModel({
     this.itemId = '',
     this.itemType = '',
+    this.label = '',
+    this.selectionMode = '',
     this.categoryKey = '',
     this.titleAr = '',
     this.titleEn = '',
@@ -163,6 +167,8 @@ class PickupAvailabilityItemModel extends Equatable {
   List<Object?> get props => [
     itemId,
     itemType,
+    label,
+    selectionMode,
     categoryKey,
     titleAr,
     titleEn,
@@ -184,6 +190,8 @@ class PickupAvailabilityModel extends Equatable {
   final String date;
   final String subscriptionDayId;
   final PickupWalletModel wallet;
+  final int remainingMeals;
+  final String paymentReason;
   final List<PickupAvailabilitySlotModel> plannedSlots;
   final List<PickupAvailabilitySlotModel> unavailableSlots;
   final List<PickupAvailabilityItemModel> pickupItems;
@@ -191,14 +199,20 @@ class PickupAvailabilityModel extends Equatable {
   final String titleEn;
   final String emptyTextAr;
   final String emptyTextEn;
+  final bool canCreatePickupRequest;
   final bool canAppendMeals;
   final int appendLimit;
+  final List<PickupAvailabilityAddonModel> dayAddons;
+  final List<String> availableSlotIds;
+  final List<String> unavailableSlotIds;
 
   const PickupAvailabilityModel({
     this.subscriptionId = '',
     this.date = '',
     this.subscriptionDayId = '',
     this.wallet = const PickupWalletModel(),
+    this.remainingMeals = 0,
+    this.paymentReason = '',
     this.plannedSlots = const [],
     this.unavailableSlots = const [],
     this.pickupItems = const [],
@@ -206,8 +220,12 @@ class PickupAvailabilityModel extends Equatable {
     this.titleEn = '',
     this.emptyTextAr = '',
     this.emptyTextEn = '',
+    this.canCreatePickupRequest = false,
     this.canAppendMeals = false,
     this.appendLimit = 0,
+    this.dayAddons = const [],
+    this.availableSlotIds = const [],
+    this.unavailableSlotIds = const [],
   });
 
   List<PickupAvailabilitySlotModel> get selectableSlots =>
@@ -222,6 +240,8 @@ class PickupAvailabilityModel extends Equatable {
     date,
     subscriptionDayId,
     wallet,
+    remainingMeals,
+    paymentReason,
     plannedSlots,
     unavailableSlots,
     pickupItems,
@@ -229,8 +249,12 @@ class PickupAvailabilityModel extends Equatable {
     titleEn,
     emptyTextAr,
     emptyTextEn,
+    canCreatePickupRequest,
     canAppendMeals,
     appendLimit,
+    dayAddons,
+    availableSlotIds,
+    unavailableSlotIds,
   ];
 }
 
@@ -249,6 +273,21 @@ class PickupRequestMealModel extends Equatable {
   List<Object?> get props => [slotId, titleAr, titleEn];
 }
 
+class SelectedPickupItemModel extends Equatable {
+  final String itemId;
+  final String itemType;
+  final String label;
+
+  const SelectedPickupItemModel({
+    this.itemId = '',
+    this.itemType = '',
+    this.label = '',
+  });
+
+  @override
+  List<Object?> get props => [itemId, itemType, label];
+}
+
 class PickupRequestModel extends Equatable {
   final String requestId;
   final String subscriptionId;
@@ -257,13 +296,23 @@ class PickupRequestModel extends Equatable {
   final int mealCount;
   final List<String> selectedMealSlotIds;
   final List<String> selectedPickupItemIds;
+  final List<SelectedPickupItemModel> selectedPickupItems;
   final int addonCount;
   final int itemCount;
   final String status;
   final String statusLabel;
+  final String message;
   final int currentStep;
+  final String selectionMode;
   final bool creditsReserved;
   final String pickupCode;
+  final String pickupCodeIssuedAt;
+  final String fulfilledAt;
+  final String createdAt;
+  final bool idempotent;
+  final String nextAction;
+  final bool ready;
+  final bool completed;
   final List<PickupRequestMealModel> meals;
 
   const PickupRequestModel({
@@ -274,24 +323,44 @@ class PickupRequestModel extends Equatable {
     this.mealCount = 0,
     this.selectedMealSlotIds = const [],
     this.selectedPickupItemIds = const [],
+    this.selectedPickupItems = const [],
     this.addonCount = 0,
     this.itemCount = 0,
     this.status = '',
     this.statusLabel = '',
+    this.message = '',
     this.currentStep = 0,
+    this.selectionMode = '',
     this.creditsReserved = false,
     this.pickupCode = '',
+    this.pickupCodeIssuedAt = '',
+    this.fulfilledAt = '',
+    this.createdAt = '',
+    this.idempotent = false,
+    this.nextAction = '',
+    this.ready = false,
+    this.completed = false,
     this.meals = const [],
   });
 
-  bool get isReady => status == 'ready_for_pickup';
+  bool get isReady => ready || status == 'ready_for_pickup';
 
   bool get isCompleted {
     final normalizedStatus = status.trim().toLowerCase();
-    return normalizedStatus == 'completed' || normalizedStatus == 'fulfilled';
+    return completed ||
+        normalizedStatus == 'completed' ||
+        normalizedStatus == 'fulfilled';
   }
 
   bool get isFulfilled => isCompleted;
+
+  bool get isTerminal {
+    final normalizedStatus = status.trim().toLowerCase();
+    return isCompleted ||
+        normalizedStatus == 'no_show' ||
+        normalizedStatus == 'canceled' ||
+        normalizedStatus == 'canceled_at_branch';
+  }
 
   @override
   List<Object?> get props => [
@@ -302,13 +371,23 @@ class PickupRequestModel extends Equatable {
     mealCount,
     selectedMealSlotIds,
     selectedPickupItemIds,
+    selectedPickupItems,
     addonCount,
     itemCount,
     status,
     statusLabel,
+    message,
     currentStep,
+    selectionMode,
     creditsReserved,
     pickupCode,
+    pickupCodeIssuedAt,
+    fulfilledAt,
+    createdAt,
+    idempotent,
+    nextAction,
+    ready,
+    completed,
     meals,
   ];
 }

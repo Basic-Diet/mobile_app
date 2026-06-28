@@ -201,6 +201,8 @@ abstract class AppServiceClient {
   Future<PickupAvailabilityResponse> getPickupAvailability(
     @Path("id") String id,
     @Query("date") String date,
+    @Query("includeUnavailable") bool? includeUnavailable,
+    @Query("includeHistory") bool? includeHistory,
   );
 
   @POST("/api/subscriptions/{id}/pickup-requests")
@@ -210,7 +212,17 @@ abstract class AppServiceClient {
   );
 
   @GET("/api/subscriptions/{id}/pickup-requests")
-  Future<PickupRequestsResponse> getPickupRequests(@Path("id") String id);
+  Future<PickupRequestsResponse> getPickupRequests(
+    @Path("id") String id,
+    @Query("date") String? date,
+    @Query("status") String? status,
+  );
+
+  @GET("/api/subscriptions/{id}/pickup-requests/{requestId}/status")
+  Future<PickupRequestResponse> getPickupRequestStatus(
+    @Path("id") String id,
+    @Path("requestId") String requestId,
+  );
 
   @POST("/api/subscriptions/{id}/days/{date}/meals/append")
   Future<PickupAvailabilityResponse> appendMealsToDay(

@@ -191,7 +191,7 @@ class TimeLineScreen extends StatelessWidget {
     String statusText;
     String? extraTag;
 
-    switch (day.displayStatus) {
+    switch (day.normalizedStatus) {
       case 'locked':
         color = ColorManager.textMuted;
         bgColor = ColorManager.backgroundSubtle;
@@ -528,6 +528,6 @@ class TimeLineScreen extends StatelessWidget {
       return true;
     }
 
-    return day.commercialState.toLowerCase() == 'confirmed';
+    return !day.canEdit;
   }
 }

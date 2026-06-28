@@ -123,6 +123,11 @@ class PickupRequestCard extends StatelessWidget {
         return Strings.pickupReady.tr();
       case 'fulfilled':
         return Strings.pickupCompleted.tr();
+      case 'no_show':
+        return Strings.noShow.tr();
+      case 'canceled':
+      case 'canceled_at_branch':
+        return Strings.canceledAtBranch.tr();
       default:
         return request.status;
     }
@@ -136,6 +141,10 @@ class PickupRequestCard extends StatelessWidget {
       case 'in_preparation':
       case 'locked':
         return ColorManager.blueEmphasis;
+      case 'no_show':
+      case 'canceled':
+      case 'canceled_at_branch':
+        return ColorManager.stateError;
       default:
         return ColorManager.textSecondary;
     }

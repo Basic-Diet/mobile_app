@@ -49,6 +49,7 @@ class TimelineDayModel {
   final bool canShowAsPlanned;
   final String paymentStatus;
   final bool hasSelection;
+  final bool canEdit;
   final String statusLabel;
   final String commercialState;
   final String commercialStateLabel;
@@ -57,6 +58,8 @@ class TimelineDayModel {
   final bool planningReady;
   final bool isFulfillable;
   final String fulfillmentMode;
+  final String fulfillmentModeOverride;
+  final String pickupLocationIdOverride;
   final String consumptionState;
   final int selectedMeals;
   final int requiredMeals;
@@ -91,6 +94,7 @@ class TimelineDayModel {
     this.canShowAsPlanned = false,
     this.paymentStatus = '',
     this.hasSelection = false,
+    this.canEdit = false,
     this.statusLabel = '',
     this.commercialState = '',
     this.commercialStateLabel = '',
@@ -99,6 +103,8 @@ class TimelineDayModel {
     this.planningReady = false,
     this.isFulfillable = false,
     this.fulfillmentMode = '',
+    this.fulfillmentModeOverride = '',
+    this.pickupLocationIdOverride = '',
     required this.consumptionState,
     required this.selectedMeals,
     required this.requiredMeals,

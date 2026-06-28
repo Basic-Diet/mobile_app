@@ -64,15 +64,21 @@ class SubscriptionQuoteDeliveryRequest {
   final String type;
   @JsonKey(name: 'zoneId')
   final String? zoneId;
+  @JsonKey(name: 'pickupLocationId')
+  final String? pickupLocationId;
   @JsonKey(name: 'slotId')
   final String? slotId;
+  @JsonKey(name: 'slot')
+  final SubscriptionQuoteSlotRequest? slot;
   @JsonKey(name: 'address')
   final SubscriptionQuoteAddressRequest? address;
 
   const SubscriptionQuoteDeliveryRequest({
     required this.type,
     this.zoneId,
+    this.pickupLocationId,
     this.slotId,
+    this.slot,
     this.address,
   });
 
@@ -82,6 +88,27 @@ class SubscriptionQuoteDeliveryRequest {
 
   Map<String, dynamic> toJson() =>
       _$SubscriptionQuoteDeliveryRequestToJson(this);
+}
+
+@JsonSerializable()
+class SubscriptionQuoteSlotRequest {
+  @JsonKey(name: 'slotId')
+  final String slotId;
+  @JsonKey(name: 'window')
+  final String window;
+  @JsonKey(name: 'label')
+  final String label;
+
+  const SubscriptionQuoteSlotRequest({
+    required this.slotId,
+    required this.window,
+    required this.label,
+  });
+
+  factory SubscriptionQuoteSlotRequest.fromJson(Map<String, dynamic> json) =>
+      _$SubscriptionQuoteSlotRequestFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SubscriptionQuoteSlotRequestToJson(this);
 }
 
 @JsonSerializable()

@@ -19,19 +19,33 @@ class GetPickupAvailabilityUseCase
   Future<Either<Failure, PickupAvailabilityModel>> execute(
     GetPickupAvailabilityUseCaseInput input,
   ) {
-    return _repository.getPickupAvailability(input.subscriptionId, input.date);
+    return _repository.getPickupAvailability(
+      input.subscriptionId,
+      input.date,
+      includeUnavailable: input.includeUnavailable,
+      includeHistory: input.includeHistory,
+    );
   }
 }
 
 class GetPickupAvailabilityUseCaseInput extends Equatable {
   final String subscriptionId;
   final String date;
+  final bool? includeUnavailable;
+  final bool? includeHistory;
 
   const GetPickupAvailabilityUseCaseInput({
     required this.subscriptionId,
     required this.date,
+    this.includeUnavailable,
+    this.includeHistory,
   });
 
   @override
-  List<Object?> get props => [subscriptionId, date];
+  List<Object?> get props => [
+    subscriptionId,
+    date,
+    includeUnavailable,
+    includeHistory,
+  ];
 }

@@ -5,6 +5,9 @@ class FulfillmentStatusModel extends Equatable {
   final String subscriptionId;
   final String date;
   final String deliveryMode;
+  final String fulfillmentModeOverride;
+  final String pickupLocationIdOverride;
+  final bool firstDayFulfillmentOverride;
   final String status;
   final String statusLabel;
   final String commercialState;
@@ -16,6 +19,13 @@ class FulfillmentStatusModel extends Equatable {
   final AddressSummaryModel? deliveryAddress;
   final DeliveryWindowSummaryModel? deliveryWindow;
   final String? pickupCode;
+  final String? pickupCodeIssuedAt;
+  final String lockedReason;
+  final String lockedMessage;
+  final bool planningReady;
+  final bool fulfillmentReady;
+  final bool isFulfillable;
+  final bool canBePrepared;
   final bool isTerminal;
   final DateTime lastUpdatedAt;
   final int pollingIntervalSeconds;
@@ -24,6 +34,9 @@ class FulfillmentStatusModel extends Equatable {
     required this.subscriptionId,
     required this.date,
     required this.deliveryMode,
+    this.fulfillmentModeOverride = '',
+    this.pickupLocationIdOverride = '',
+    this.firstDayFulfillmentOverride = false,
     required this.status,
     required this.statusLabel,
     required this.commercialState,
@@ -35,6 +48,13 @@ class FulfillmentStatusModel extends Equatable {
     this.deliveryAddress,
     this.deliveryWindow,
     this.pickupCode,
+    this.pickupCodeIssuedAt,
+    this.lockedReason = '',
+    this.lockedMessage = '',
+    this.planningReady = false,
+    this.fulfillmentReady = false,
+    this.isFulfillable = false,
+    this.canBePrepared = false,
     required this.isTerminal,
     required this.lastUpdatedAt,
     this.pollingIntervalSeconds = 60,
@@ -45,6 +65,9 @@ class FulfillmentStatusModel extends Equatable {
         subscriptionId,
         date,
         deliveryMode,
+        fulfillmentModeOverride,
+        pickupLocationIdOverride,
+        firstDayFulfillmentOverride,
         status,
         statusLabel,
         commercialState,
@@ -56,6 +79,13 @@ class FulfillmentStatusModel extends Equatable {
         deliveryAddress,
         deliveryWindow,
         pickupCode,
+        pickupCodeIssuedAt,
+        lockedReason,
+        lockedMessage,
+        planningReady,
+        fulfillmentReady,
+        isFulfillable,
+        canBePrepared,
         isTerminal,
         lastUpdatedAt,
         pollingIntervalSeconds,

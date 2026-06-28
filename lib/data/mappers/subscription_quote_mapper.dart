@@ -31,10 +31,25 @@ extension SubscriptionQuotePremiumItemRequestMapper
 extension SubscriptionQuoteDeliveryRequestMapper
     on SubscriptionQuoteDeliveryRequestModel {
   SubscriptionQuoteDeliveryRequest toRequest() {
+    final selectedSlotId = slotId;
+    final selectedSlotWindow = slotWindow;
+    final selectedSlotLabel = slotLabel;
+
     return SubscriptionQuoteDeliveryRequest(
       type: type,
       zoneId: zoneId,
-      slotId: slotId,
+      pickupLocationId: pickupLocationId,
+      slotId: selectedSlotId,
+      slot:
+          selectedSlotId != null &&
+                  selectedSlotWindow != null &&
+                  selectedSlotLabel != null
+              ? SubscriptionQuoteSlotRequest(
+                slotId: selectedSlotId,
+                window: selectedSlotWindow,
+                label: selectedSlotLabel,
+              )
+              : null,
       address: address?.toRequest(),
     );
   }

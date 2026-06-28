@@ -267,7 +267,7 @@ class DeliveryMethodContentView extends StatelessWidget {
           )
           .toList(),
       addons: subscriptionState.selectedAddOns.map((a) => a.id).toList(),
-      delivery: state.selectedType == DeliveryType.home
+              delivery: state.selectedType == DeliveryType.home
           ? SubscriptionQuoteDeliveryRequestModel(
               type: 'delivery',
               zoneId: state.selectedArea!.zoneId,
@@ -283,7 +283,10 @@ class DeliveryMethodContentView extends StatelessWidget {
                 city: 'Jeddah',
               ),
             )
-          : SubscriptionQuoteDeliveryRequestModel(type: 'pickup'),
+          : SubscriptionQuoteDeliveryRequestModel(
+              type: 'pickup',
+              pickupLocationId: state.selectedPickupLocation?.id,
+            ),
     );
     context.read<SubscriptionBloc>().add(GetSubscriptionQuoteEvent(request));
   }

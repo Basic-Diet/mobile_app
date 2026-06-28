@@ -93,6 +93,8 @@ class PickupSlotTitleResponse {
 class PickupAvailabilitySlotResponse {
   @JsonKey(name: 'slotId')
   final String? slotId;
+  @JsonKey(name: 'slotKey')
+  final String? slotKey;
   @JsonKey(name: 'slotIndex')
   final int? slotIndex;
   @JsonKey(name: 'title')
@@ -103,6 +105,10 @@ class PickupAvailabilitySlotResponse {
   final PickupAvailabilityProductResponse? product;
   @JsonKey(name: 'productId')
   final String? productId;
+  @JsonKey(name: 'productName')
+  final String? productName;
+  @JsonKey(name: 'proteinKey')
+  final String? proteinKey;
   @JsonKey(name: 'isAvailableForPickup')
   final bool? isAvailableForPickup;
   @JsonKey(name: 'available')
@@ -132,11 +138,14 @@ class PickupAvailabilitySlotResponse {
 
   const PickupAvailabilitySlotResponse({
     this.slotId,
+    this.slotKey,
     this.slotIndex,
     this.title,
     this.meal,
     this.product,
     this.productId,
+    this.productName,
+    this.proteinKey,
     this.isAvailableForPickup,
     this.available,
     this.canSelect,
@@ -281,6 +290,10 @@ class PickupAvailabilityItemResponse {
   final String? itemId;
   @JsonKey(name: 'itemType')
   final String? itemType;
+  @JsonKey(name: 'label')
+  final String? label;
+  @JsonKey(name: 'selectionMode')
+  final String? selectionMode;
   @JsonKey(name: 'categoryKey')
   final String? categoryKey;
   @JsonKey(name: 'title')
@@ -297,6 +310,8 @@ class PickupAvailabilityItemResponse {
   const PickupAvailabilityItemResponse({
     this.itemId,
     this.itemType,
+    this.label,
+    this.selectionMode,
     this.categoryKey,
     this.title,
     this.subtitle,
@@ -313,6 +328,32 @@ class PickupAvailabilityItemResponse {
 
 @JsonSerializable()
 class PickupAvailabilitySummaryResponse {
+  @JsonKey(name: 'availableCount')
+  final int? availableCount;
+  @JsonKey(name: 'unavailableCount')
+  final int? unavailableCount;
+  @JsonKey(name: 'availableSelectableCount')
+  final int? availableSelectableCount;
+  @JsonKey(name: 'paymentBlockedCount')
+  final int? paymentBlockedCount;
+  @JsonKey(name: 'reservedCount')
+  final int? reservedCount;
+  @JsonKey(name: 'fulfilledCount')
+  final int? fulfilledCount;
+  @JsonKey(name: 'noShowCount')
+  final int? noShowCount;
+  @JsonKey(name: 'hiddenUnavailableCount')
+  final int? hiddenUnavailableCount;
+  @JsonKey(name: 'availableMealSlotCount')
+  final int? availableMealSlotCount;
+  @JsonKey(name: 'availableAddonCount')
+  final int? availableAddonCount;
+  @JsonKey(name: 'availableSaladCount')
+  final int? availableSaladCount;
+  @JsonKey(name: 'availableProteinExtraCount')
+  final int? availableProteinExtraCount;
+  @JsonKey(name: 'availableSandwichCount')
+  final int? availableSandwichCount;
   @JsonKey(name: 'canAppendMeals')
   final bool? canAppendMeals;
   @JsonKey(name: 'appendLimit')
@@ -329,6 +370,19 @@ class PickupAvailabilitySummaryResponse {
   final bool? canCreatePickupRequest;
 
   const PickupAvailabilitySummaryResponse({
+    this.availableCount,
+    this.unavailableCount,
+    this.availableSelectableCount,
+    this.paymentBlockedCount,
+    this.reservedCount,
+    this.fulfilledCount,
+    this.noShowCount,
+    this.hiddenUnavailableCount,
+    this.availableMealSlotCount,
+    this.availableAddonCount,
+    this.availableSaladCount,
+    this.availableProteinExtraCount,
+    this.availableSandwichCount,
     this.canAppendMeals,
     this.appendLimit,
     this.titleAr,
@@ -356,6 +410,10 @@ class PickupAvailabilityDataResponse {
   final String? subscriptionDayId;
   @JsonKey(name: 'wallet')
   final PickupWalletResponse? wallet;
+  @JsonKey(name: 'remainingMeals')
+  final int? remainingMeals;
+  @JsonKey(name: 'paymentReason')
+  final String? paymentReason;
   @JsonKey(name: 'plannedSlots')
   final List<PickupAvailabilitySlotResponse>? plannedSlots;
   @JsonKey(name: 'slots')
@@ -364,6 +422,16 @@ class PickupAvailabilityDataResponse {
   final List<PickupAvailabilitySlotResponse>? unavailableSlots;
   @JsonKey(name: 'pickupItems')
   final List<PickupAvailabilityItemResponse>? pickupItems;
+  @JsonKey(name: 'dayAddons')
+  final List<PickupAvailabilityAddonResponse>? dayAddons;
+  @JsonKey(name: 'addonSummary')
+  final Map<String, dynamic>? addonSummary;
+  @JsonKey(name: 'sections')
+  final List<Map<String, dynamic>>? sections;
+  @JsonKey(name: 'availableSlotIds')
+  final List<String>? availableSlotIds;
+  @JsonKey(name: 'unavailableSlotIds')
+  final List<String>? unavailableSlotIds;
   @JsonKey(name: 'canAppendMeals')
   final bool? canAppendMeals;
   @JsonKey(name: 'appendLimit')
@@ -376,10 +444,17 @@ class PickupAvailabilityDataResponse {
     this.date,
     this.subscriptionDayId,
     this.wallet,
+    this.remainingMeals,
+    this.paymentReason,
     this.plannedSlots,
     this.slots,
     this.unavailableSlots,
     this.pickupItems,
+    this.dayAddons,
+    this.addonSummary,
+    this.sections,
+    this.availableSlotIds,
+    this.unavailableSlotIds,
     this.canAppendMeals,
     this.appendLimit,
     this.summary,
@@ -424,6 +499,27 @@ class PickupRequestMealResponse {
 }
 
 @JsonSerializable()
+class SelectedPickupItemResponse {
+  @JsonKey(name: 'itemId')
+  final String? itemId;
+  @JsonKey(name: 'itemType')
+  final String? itemType;
+  @JsonKey(name: 'label')
+  final String? label;
+
+  const SelectedPickupItemResponse({
+    this.itemId,
+    this.itemType,
+    this.label,
+  });
+
+  factory SelectedPickupItemResponse.fromJson(Map<String, dynamic> json) =>
+      _$SelectedPickupItemResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SelectedPickupItemResponseToJson(this);
+}
+
+@JsonSerializable()
 class PickupRequestDataResponse {
   @JsonKey(name: 'requestId')
   final String? requestId;
@@ -441,6 +537,8 @@ class PickupRequestDataResponse {
   final List<String>? selectedMealSlotIds;
   @JsonKey(name: 'selectedPickupItemIds')
   final List<String>? selectedPickupItemIds;
+  @JsonKey(name: 'selectedPickupItems')
+  final List<SelectedPickupItemResponse>? selectedPickupItems;
   @JsonKey(name: 'addonCount')
   final int? addonCount;
   @JsonKey(name: 'itemCount')
@@ -449,12 +547,30 @@ class PickupRequestDataResponse {
   final String? status;
   @JsonKey(name: 'statusLabel')
   final String? statusLabel;
+  @JsonKey(name: 'message')
+  final String? message;
   @JsonKey(name: 'currentStep')
   final int? currentStep;
+  @JsonKey(name: 'selectionMode')
+  final String? selectionMode;
+  @JsonKey(name: 'isReady')
+  final bool? isReady;
+  @JsonKey(name: 'isCompleted')
+  final bool? isCompleted;
   @JsonKey(name: 'creditsReserved')
   final bool? creditsReserved;
   @JsonKey(name: 'pickupCode')
   final String? pickupCode;
+  @JsonKey(name: 'pickupCodeIssuedAt')
+  final String? pickupCodeIssuedAt;
+  @JsonKey(name: 'fulfilledAt')
+  final String? fulfilledAt;
+  @JsonKey(name: 'createdAt')
+  final String? createdAt;
+  @JsonKey(name: 'idempotent')
+  final bool? idempotent;
+  @JsonKey(name: 'nextAction')
+  final String? nextAction;
   @JsonKey(name: 'meals')
   final List<PickupRequestMealResponse>? meals;
 
@@ -467,13 +583,23 @@ class PickupRequestDataResponse {
     this.mealCount,
     this.selectedMealSlotIds,
     this.selectedPickupItemIds,
+    this.selectedPickupItems,
     this.addonCount,
     this.itemCount,
     this.status,
     this.statusLabel,
+    this.message,
     this.currentStep,
+    this.selectionMode,
+    this.isReady,
+    this.isCompleted,
     this.creditsReserved,
     this.pickupCode,
+    this.pickupCodeIssuedAt,
+    this.fulfilledAt,
+    this.createdAt,
+    this.idempotent,
+    this.nextAction,
     this.meals,
   });
 

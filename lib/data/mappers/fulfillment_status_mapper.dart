@@ -32,6 +32,11 @@ extension FulfillmentStatusDataResponseMapper on FulfillmentStatusDataResponse? 
       subscriptionId: this?.subscriptionId.orEmpty() ?? Constants.empty,
       date: this?.date.orEmpty() ?? Constants.empty,
       deliveryMode: this?.deliveryMode.orEmpty() ?? Constants.empty,
+      fulfillmentModeOverride:
+          this?.fulfillmentModeOverride.orEmpty() ?? Constants.empty,
+      pickupLocationIdOverride:
+          this?.pickupLocationIdOverride.orEmpty() ?? Constants.empty,
+      firstDayFulfillmentOverride: this?.firstDayFulfillmentOverride ?? false,
       status: statusVal,
       statusLabel: this?.statusLabel.orEmpty() ?? Constants.empty,
       commercialState: this?.commercialState.orEmpty() ?? Constants.empty,
@@ -43,6 +48,26 @@ extension FulfillmentStatusDataResponseMapper on FulfillmentStatusDataResponse? 
       deliveryAddress: this?.deliveryAddress?.toDomain(),
       deliveryWindow: this?.deliveryWindow?.toDomain(),
       pickupCode: this?.pickupCode,
+      pickupCodeIssuedAt: this?.pickupCodeIssuedAt,
+      lockedReason:
+          this?.lockedReason.orEmpty() ??
+          this?.fulfillmentSummary?.lockedReason.orEmpty() ??
+          Constants.empty,
+      lockedMessage:
+          this?.lockedMessage.orEmpty() ??
+          this?.fulfillmentSummary?.lockedMessage.orEmpty() ??
+          Constants.empty,
+      planningReady:
+          this?.planningReady ?? this?.fulfillmentSummary?.planningReady ?? false,
+      fulfillmentReady:
+          this?.fulfillmentReady ??
+          this?.fulfillmentSummary?.fulfillmentReady ??
+          false,
+      isFulfillable:
+          this?.isFulfillable ??
+          this?.fulfillmentSummary?.isFulfillable ??
+          false,
+      canBePrepared: this?.canBePrepared ?? false,
       isTerminal: this?.isTerminal ?? fallbackTerminal,
       lastUpdatedAt: parsedDate,
       pollingIntervalSeconds: this?.pollingIntervalSeconds ?? 60,

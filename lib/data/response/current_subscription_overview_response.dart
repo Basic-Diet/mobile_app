@@ -50,7 +50,7 @@ class MealBalanceResponse {
 }
 
 Object? readDeliveryWindowSummary(Map json, String key) {
-  final value = json[key];
+  final value = json[key] ?? json['deliverySlot'] ?? json['slot'];
   if (value is Map<String, dynamic>) return value;
   if (value is Map) return Map<String, dynamic>.from(value);
   if (value is String && value.trim().isNotEmpty) {

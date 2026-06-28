@@ -16,6 +16,7 @@ import 'package:basic_diet/domain/usecase/prepare_pickup_usecase.dart';
 import 'package:basic_diet/domain/usecase/create_pickup_request_usecase.dart';
 import 'package:basic_diet/domain/usecase/append_meals_to_day_usecase.dart';
 import 'package:basic_diet/domain/usecase/get_pickup_availability_usecase.dart';
+import 'package:basic_diet/domain/usecase/get_pickup_request_status_usecase.dart';
 import 'package:basic_diet/domain/usecase/get_pickup_requests_usecase.dart';
 import 'package:basic_diet/domain/usecase/verify_otp_usecase.dart';
 import 'package:basic_diet/domain/usecase/request_password_reset_otp_usecase.dart';
@@ -386,6 +387,12 @@ void initPickupRequestsModule() {
     );
   }
 
+  if (!GetIt.I.isRegistered<GetPickupRequestStatusUseCase>()) {
+    instance.registerFactory<GetPickupRequestStatusUseCase>(
+      () => GetPickupRequestStatusUseCase(instance<Repository>()),
+    );
+  }
+
   if (!GetIt.I.isRegistered<AppendMealsToDayUseCase>()) {
     instance.registerFactory<AppendMealsToDayUseCase>(
       () => AppendMealsToDayUseCase(instance<Repository>()),
@@ -398,6 +405,7 @@ void initPickupRequestsModule() {
         instance<GetPickupAvailabilityUseCase>(),
         instance<GetPickupRequestsUseCase>(),
         instance<CreatePickupRequestUseCase>(),
+        instance<GetPickupRequestStatusUseCase>(),
       ),
     );
   }

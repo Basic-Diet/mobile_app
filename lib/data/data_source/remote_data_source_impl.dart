@@ -310,9 +310,16 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   @override
   Future<PickupAvailabilityResponse> getPickupAvailability(
     String id,
-    String date,
-  ) {
-    return _appServiceClient.getPickupAvailability(id, date);
+    String date, {
+    bool? includeUnavailable,
+    bool? includeHistory,
+  }) {
+    return _appServiceClient.getPickupAvailability(
+      id,
+      date,
+      includeUnavailable,
+      includeHistory,
+    );
   }
 
   @override
@@ -324,8 +331,20 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   }
 
   @override
-  Future<PickupRequestsResponse> getPickupRequests(String id) {
-    return _appServiceClient.getPickupRequests(id);
+  Future<PickupRequestsResponse> getPickupRequests(
+    String id, {
+    String? date,
+    String? status,
+  }) {
+    return _appServiceClient.getPickupRequests(id, date, status);
+  }
+
+  @override
+  Future<PickupRequestResponse> getPickupRequestStatus(
+    String id,
+    String requestId,
+  ) {
+    return _appServiceClient.getPickupRequestStatus(id, requestId);
   }
 
   @override

@@ -916,10 +916,17 @@ class RepositoryImpl implements Repository {
   @override
   Future<Either<Failure, PickupAvailabilityModel>> getPickupAvailability(
     String id,
-    String date,
-  ) async {
+    String date, {
+    bool? includeUnavailable,
+    bool? includeHistory,
+  }) async {
     try {
-      final response = await _remoteDataSource.getPickupAvailability(id, date);
+      final response = await _remoteDataSource.getPickupAvailability(
+        id,
+        date,
+        includeUnavailable: includeUnavailable,
+        includeHistory: includeHistory,
+      );
       if (_isSuccessfulResponse(response)) {
         return Right(response.toDomain());
       } else {
@@ -949,10 +956,36 @@ class RepositoryImpl implements Repository {
 
   @override
   Future<Either<Failure, List<PickupRequestModel>>> getPickupRequests(
+    String id, {
+    String? date,
+    String? status,
+  }) async {
+    try {
+      final response = await _remoteDataSource.getPickupRequests(
+        id,
+        date: date,
+        status: status,
+      );
+      if (_isSuccessfulResponse(response)) {
+        return Right(response.toDomain());
+      } else {
+        return Left(_mapFailureFromResponse(response));
+      }
+    } catch (error) {
+      return _handleError(error);
+    }
+  }
+
+  @override
+  Future<Either<Failure, PickupRequestModel>> getPickupRequestStatus(
     String id,
+    String requestId,
   ) async {
     try {
-      final response = await _remoteDataSource.getPickupRequests(id);
+      final response = await _remoteDataSource.getPickupRequestStatus(
+        id,
+        requestId,
+      );
       if (_isSuccessfulResponse(response)) {
         return Right(response.toDomain());
       } else {
