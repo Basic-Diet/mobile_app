@@ -677,7 +677,7 @@ class _CustomBuilderCta extends StatelessWidget {
                     ],
                     const Spacer(),
                     SizedBox(
-                      width: 148.w,
+                      width: 150.w,
                       height: 42.h,
                       child: ElevatedButton(
                         onPressed: onTap,
@@ -695,7 +695,7 @@ class _CustomBuilderCta extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           style: getBoldTextStyle(
                             color: ColorManager.textInverse,
-                            fontSize: FontSizeManager.s13.sp,
+                            fontSize: FontSizeManager.s12.sp,
                           ),
                         ),
                       ),
