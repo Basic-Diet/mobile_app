@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:basic_diet/app/constants.dart';
 import 'package:basic_diet/data/request/bulk_selections_request.dart';
 import 'package:basic_diet/data/request/day_selection_request.dart';
 import 'package:basic_diet/data/request/pickup_request.dart';
@@ -108,7 +107,6 @@ class RemoteDataSourceImpl implements RemoteDataSource {
       'phoneE164': phone,
       if (otp.isNotEmpty) 'otp': otp,
       'password': password,
-      if (Constants.skip_otp) 'skip_otp': Constants.skip_otp,
       if (deviceId != null) 'deviceId': deviceId,
       if (deviceName != null) 'deviceName': deviceName,
     });
