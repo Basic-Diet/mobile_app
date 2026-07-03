@@ -309,7 +309,7 @@ class GoRouterConfig {
   );
 
   static CustomTransitionPage getCustomTransitionPage({
-    required GoRouterState,
+    required GoRouterState state,
     required Widget child,
   }) {
     return CustomTransitionPage(
