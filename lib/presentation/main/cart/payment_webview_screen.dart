@@ -48,11 +48,11 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
               },
               onNavigationRequest: (request) {
                 final url = request.url;
-                if (_matchesCallback(url, widget.successUrl)) {
+                if (paymentCallbackMatches(url, widget.successUrl)) {
                   context.pop(true);
                   return NavigationDecision.prevent;
                 }
-                if (_matchesCallback(url, widget.backUrl)) {
+                if (paymentCallbackMatches(url, widget.backUrl)) {
                   context.pop(false);
                   return NavigationDecision.prevent;
                 }
@@ -61,33 +61,6 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
             ),
           )
           ..loadRequest(Uri.parse(widget.paymentUrl));
-  }
-
-  bool _matchesCallback(String currentUrl, String callbackUrl) {
-    final current = Uri.tryParse(currentUrl);
-    final callback = Uri.tryParse(callbackUrl);
-
-    if (current == null || callback == null) {
-      return currentUrl == callbackUrl;
-    }
-
-    final currentPath = current.path.toLowerCase();
-    final callbackPath = callback.path.toLowerCase();
-
-    if (currentPath == callbackPath) {
-      return true;
-    }
-
-    final currentSegments =
-        currentPath.split('/').where((segment) => segment.isNotEmpty).toList();
-    final callbackSegments =
-        callbackPath.split('/').where((segment) => segment.isNotEmpty).toList();
-
-    if (currentSegments.isEmpty || callbackSegments.isEmpty) {
-      return false;
-    }
-
-    return currentSegments.last == callbackSegments.last;
   }
 
   @override
@@ -140,4 +113,33 @@ class _PaymentWebViewScreenState extends State<PaymentWebViewScreen> {
       ),
     );
   }
+}
+
+bool paymentCallbackMatches(String currentUrl, String callbackUrl) {
+  final current = Uri.tryParse(currentUrl);
+  final callback = Uri.tryParse(callbackUrl);
+
+  if (current == null || callback == null) {
+    return currentUrl == callbackUrl;
+  }
+
+  return current.scheme.toLowerCase() == callback.scheme.toLowerCase() &&
+      current.host.toLowerCase() == callback.host.toLowerCase() &&
+      _normalizedPort(current) == _normalizedPort(callback) &&
+      _normalizedPath(current) == _normalizedPath(callback);
+}
+
+int _normalizedPort(Uri uri) {
+  if (uri.hasPort) return uri.port;
+  if (uri.scheme.toLowerCase() == 'https') return 443;
+  if (uri.scheme.toLowerCase() == 'http') return 80;
+  return 0;
+}
+
+String _normalizedPath(Uri uri) {
+  final path = uri.path.toLowerCase();
+  if (path.length > 1 && path.endsWith('/')) {
+    return path.substring(0, path.length - 1);
+  }
+  return path;
 }
