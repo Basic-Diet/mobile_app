@@ -49,7 +49,7 @@ void main() {
       expect(option.menuProducts.single.localizedName('ar'), 'عصير تفاح');
     });
 
-    test('serializes selected add-on IDs as quote objects', () {
+    test('serializes selected add-on IDs for quote requests', () {
       const request = SubscriptionQuoteRequestModel(
         planId: 'plan-7-days',
         grams: 150,
@@ -62,9 +62,7 @@ void main() {
 
       final json = request.toRequest().toJson();
 
-      expect(json['addons'], [
-        {'id': 'juice-addon'},
-      ]);
+      expect(json['addons'], ['juice-addon']);
     });
   });
 }
