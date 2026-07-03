@@ -115,9 +115,12 @@ class GoRouterConfig {
       GoRoute(
         path: ResetPasswordScreen.routeName,
         pageBuilder: (BuildContext context, GoRouterState state) {
+          final phone = resetPasswordPhoneFromExtra(state.extra);
           return getCustomTransitionPage(
             state: state,
-            child: const ForgotPasswordScreen(),
+            child: phone == null || phone.trim().isEmpty
+                ? const ForgotPasswordScreen()
+                : ResetPasswordScreen(phone: phone),
           );
         },
       ),
@@ -306,7 +309,7 @@ class GoRouterConfig {
   );
 
   static CustomTransitionPage getCustomTransitionPage({
-    required GoRouterState state,
+    required GoRouterState,
     required Widget child,
   }) {
     return CustomTransitionPage(
@@ -317,6 +320,12 @@ class GoRouterConfig {
       transitionsBuilder: (context, animation, secondaryAnimation, child) =>
           child,
     );
+  }
+
+  static String? resetPasswordPhoneFromExtra(Object? extra) {
+    if (extra is String) return extra;
+    if (extra is Map<String, String>) return extra['phone'];
+    return null;
   }
 
   static Future<String?> _forcePasswordChangeRedirect(
