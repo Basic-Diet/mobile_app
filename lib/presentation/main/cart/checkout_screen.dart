@@ -180,7 +180,7 @@ class _CheckoutScreenContentState extends State<_CheckoutScreenContent> {
       return;
     }
 
-    if (result != true) {
+    if (!shouldVerifyPaymentAfterWebView(result)) {
       context.read<CheckoutBloc>().add(const CancelCheckoutPaymentEvent());
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(Strings.paymentCancelled.tr())),
@@ -283,6 +283,10 @@ class _CheckoutScreenContentState extends State<_CheckoutScreenContent> {
       ),
     );
   }
+}
+
+bool shouldVerifyPaymentAfterWebView(bool? result) {
+  return result == true;
 }
 
 class _ErrorView extends StatelessWidget {
