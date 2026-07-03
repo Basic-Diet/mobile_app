@@ -2,6 +2,8 @@ import 'package:equatable/equatable.dart';
 
 enum ForgotPasswordStatus { initial, loading, success, failure }
 
+const Object _notProvided = Object();
+
 class ForgotPasswordState extends Equatable {
   final ForgotPasswordStatus status;
   final String phone;
@@ -16,12 +18,14 @@ class ForgotPasswordState extends Equatable {
   ForgotPasswordState copyWith({
     ForgotPasswordStatus? status,
     String? phone,
-    String? errorMessage,
+    Object? errorMessage = _notProvided,
   }) {
     return ForgotPasswordState(
       status: status ?? this.status,
       phone: phone ?? this.phone,
-      errorMessage: errorMessage ?? this.errorMessage,
+      errorMessage: errorMessage == _notProvided
+          ? this.errorMessage
+          : errorMessage as String?,
     );
   }
 
