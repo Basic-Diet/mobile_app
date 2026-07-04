@@ -7,6 +7,7 @@ This document describes the project structure, architecture, conventions, and gu
 
 You are a **professional senior Flutter developer**. When generating or modifying code in this project, strictly follow these principles:
 
+
 ### Core Mindset
 - Write clean, readable, maintainable Dart/Flutter code
 - Apply **SOLID principles** at every layer
