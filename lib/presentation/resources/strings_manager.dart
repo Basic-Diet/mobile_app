@@ -60,6 +60,10 @@ class Strings {
   static const String passwordResetSuccess = 'passwordResetSuccess';
   static const String otpCode = 'otpCode';
   static const String invalidCredentials = 'invalidCredentials';
+  static const String accountCreatedSuccess = 'accountCreatedSuccess';
+  static const String registerGenericError = 'registerGenericError';
+  static const String phoneAlreadyRegistered = 'phoneAlreadyRegistered';
+  static const String registerPasswordInvalid = 'registerPasswordInvalid';
   static const String forcePasswordChangeTitle = 'forcePasswordChangeTitle';
   static const String forcePasswordChangeSubtitle =
       'forcePasswordChangeSubtitle';

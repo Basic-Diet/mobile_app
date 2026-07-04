@@ -1,5 +1,6 @@
 import 'package:basic_diet/app/app_pref.dart';
 import 'package:basic_diet/app/toast_handeller.dart';
+import 'package:basic_diet/data/network/failure.dart';
 import 'package:basic_diet/domain/usecase/register_usecase.dart';
 import 'package:basic_diet/presentation/resources/strings_manager.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -9,8 +10,9 @@ import 'register_state.dart';
 
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   final RegisterUseCase _registerUseCase;
+  final AppPreferences _appPreferences;
 
-  RegisterBloc(this._registerUseCase, AppPreferences _appPreferences)
+  RegisterBloc(this._registerUseCase, this._appPreferences)
     : super(const RegisterFormInitialState()) {
     on<RegisterFullNameChanged>(_onFullNameChanged);
     on<RegisterPhoneChanged>(_onPhoneChanged);
@@ -128,15 +130,19 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     final result = await _registerUseCase.execute(
       RegisterUseCaseInput(
         phone: _buildSaudiPhoneNumber(phone),
+        password: event.password,
+        confirmPassword: event.confirmPassword,
+        email: email,
       ),
     );
 
     await result.fold(
       (failure) async {
+        final message = _localizedFailureMessage(failure);
         if (!isClosed) {
           emit(
             RegisterErrorState(
-              failure.message,
+              message,
               fullName: state.fullName,
               phone: phone,
               isPasswordNotEmpty: event.password.isNotEmpty,
@@ -145,9 +151,33 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
             ),
           );
         }
-        showToast(message: failure.message, state: ToastStates.error);
+        showToast(message: message, state: ToastStates.error);
       },
       (data) async {
+        if (data.accessToken.isEmpty || data.refreshToken.isEmpty) {
+          final message = Strings.registerGenericError.tr();
+          if (!isClosed) {
+            emit(
+              RegisterErrorState(
+                message,
+                fullName: state.fullName,
+                phone: phone,
+                isPasswordNotEmpty: event.password.isNotEmpty,
+                isConfirmPasswordNotEmpty: event.confirmPassword.isNotEmpty,
+                email: email,
+              ),
+            );
+          }
+          showToast(message: message, state: ToastStates.error);
+          return;
+        }
+
+        await _appPreferences.saveSession(
+          accessToken: data.accessToken,
+          refreshToken: data.refreshToken,
+          expiresIn: data.expiresIn,
+        );
+
         if (!isClosed) {
           emit(
             RegisterCompletedState(
@@ -157,7 +187,10 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
             ),
           );
         }
-        showToast(message: Strings.otpSent.tr(), state: ToastStates.success);
+        showToast(
+          message: Strings.accountCreatedSuccess.tr(),
+          state: ToastStates.success,
+        );
       },
     );
   }
@@ -195,6 +228,34 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       return Strings.invalidEmail.tr();
     }
     return null;
+  }
+
+  String _localizedFailureMessage(Failure failure) {
+    final code = failure.code?.toString().toUpperCase() ?? '';
+    final message = failure.message.toLowerCase();
+
+    if (code.contains('PHONE') ||
+        code.contains('ALREADY') ||
+        message.contains('already') ||
+        message.contains('exists') ||
+        message.contains('registered')) {
+      return Strings.phoneAlreadyRegistered.tr();
+    }
+
+    if (code.contains('PASSWORD') ||
+        message.contains('password') ||
+        message.contains('confirm')) {
+      return Strings.registerPasswordInvalid.tr();
+    }
+
+    if (failure.message == Strings.noInternet ||
+        failure.message == Strings.timeout ||
+        failure.message == Strings.unauthorized ||
+        failure.message == Strings.forbidden) {
+      return failure.message.tr();
+    }
+
+    return Strings.registerGenericError.tr();
   }
 
   String _buildSaudiPhoneNumber(String phone) {

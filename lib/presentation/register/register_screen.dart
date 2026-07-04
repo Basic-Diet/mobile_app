@@ -1,4 +1,5 @@
 import 'package:basic_diet/presentation/login/login_screen.dart';
+import 'package:basic_diet/presentation/main/main_screen.dart';
 import 'package:basic_diet/presentation/resources/color_manager.dart';
 import 'package:basic_diet/presentation/resources/font_manager.dart';
 import 'package:basic_diet/presentation/resources/strings_manager.dart';
@@ -9,7 +10,6 @@ import 'package:basic_diet/presentation/widgets/custom_back_button.dart';
 import 'package:basic_diet/presentation/widgets/custom_text_field_style.dart';
 import 'package:basic_diet/presentation/widgets/text_button_widget.dart';
 import 'package:basic_diet/app/dependency_injection.dart';
-import 'package:basic_diet/presentation/verify/verify_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -60,16 +60,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
       child: BlocListener<RegisterBloc, RegisterState>(
         listener: (context, state) {
           if (state is RegisterCompletedState) {
-            final password = _passwordController.text;
             _passwordController.clear();
             _confirmPasswordController.clear();
-            context.go(
-              VerifyScreen.verifyRoute,
-              extra: {
-                'phone': state.phone,
-                'password': password,
-              },
-            );
+            context.go(MainScreen.mainRoute);
           }
         },
         child: Scaffold(
