@@ -1,5 +1,3 @@
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-
 class Constants {
   static const String empty = "";
   static const int zero = 0;
@@ -8,7 +6,10 @@ class Constants {
   static const bool isDebug = bool.fromEnvironment('dart.vm.product') == false;
   static const int timeout = 60 * 1000;
   static const String merchantDisplayName = 'Basic Diet';
-  static String get baseUrl => dotenv.env['BASE_URL']!;
+  static const String baseUrl = String.fromEnvironment(
+    'BASE_URL',
+    defaultValue: 'https://basicdiet145.onrender.com',
+  );
   static const String privacyPolicyUrl =
       'https://basicdiet145.onrender.com/privacy-policy';
   static const String refoundPolicyUrl =
