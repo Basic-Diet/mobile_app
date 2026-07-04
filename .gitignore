@@ -45,6 +45,7 @@ app.*.map.json
 /android/app/release
 
 # Keystore & signing secrets — never commit these
+.env
 android/key.properties
 android/app/*.jks
 android/app/*.keystore

@@ -37,7 +37,6 @@ dependencies:
   url_launcher: ^6.3.2
   uuid: ^4.5.3
   webview_flutter: ^4.10.0
-  flutter_dotenv: ^5.1.0
   shared_preferences: ^2.3.3
 
 dev_dependencies:
@@ -65,7 +64,6 @@ flutter:
     - assets/fonts/
     - assets/json/
     - assets/translations/
-    - .env
 
   fonts:
     - family: Arimo

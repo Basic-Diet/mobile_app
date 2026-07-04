@@ -3,7 +3,6 @@ import 'package:basic_diet/presentation/resources/language_manager.dart';
 import 'package:basic_diet/presentation/splash/splash_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,7 +13,6 @@ void main() {
   testWidgets('splash route renders with app dependencies', (tester) async {
     SharedPreferences.setMockInitialValues({});
     await EasyLocalization.ensureInitialized();
-    await dotenv.load(fileName: '.env');
     await instance.reset();
     await initAppModule();
 
