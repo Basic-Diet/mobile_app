@@ -474,6 +474,7 @@ class _PickupDropdown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField<String>(
+      // ignore: deprecated_member_use
       value: value != null && items.contains(value) ? value : null,
       isExpanded: true,
       decoration: InputDecoration(
