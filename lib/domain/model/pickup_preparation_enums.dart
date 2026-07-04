@@ -61,6 +61,7 @@ enum PickupBlockedReason {
       'ONE_TIME_ADDON_PAYMENT_REQUIRED' =>
         PickupBlockedReason.oneTimeAddonPaymentRequired,
       'PLANNER_UNCONFIRMED' => PickupBlockedReason.plannerUnconfirmed,
+      'PLANNING_UNCONFIRMED' => PickupBlockedReason.plannerUnconfirmed,
       'PLANNING_INCOMPLETE' => PickupBlockedReason.planningIncomplete,
       'PICKUP_ALREADY_REQUESTED' => PickupBlockedReason.pickupAlreadyRequested,
       'PICKUP_ALREADY_COMPLETED' => PickupBlockedReason.pickupAlreadyCompleted,

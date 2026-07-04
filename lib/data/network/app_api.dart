@@ -17,6 +17,7 @@ import 'package:basic_diet/data/response/popular_packages_response.dart';
 import 'package:basic_diet/data/response/premium_meals_response.dart';
 import 'package:basic_diet/data/response/subscription_checkout_response.dart';
 import 'package:basic_diet/data/response/subscription_quote_response.dart';
+import 'package:basic_diet/data/response/subscription_renewal_seed_response.dart';
 import 'package:basic_diet/data/response/current_subscription_overview_response.dart';
 import 'package:basic_diet/data/response/freeze_subscription_response.dart';
 import 'package:basic_diet/data/request/freeze_subscription_request.dart';
@@ -126,6 +127,17 @@ abstract class AppServiceClient {
 
   @POST("/api/subscriptions/checkout")
   Future<SubscriptionCheckoutResponse> checkoutSubscription(
+    @Body() SubscriptionCheckoutRequest request,
+  );
+
+  @GET("/api/subscriptions/{id}/renewal-seed")
+  Future<SubscriptionRenewalSeedResponse> getSubscriptionRenewalSeed(
+    @Path("id") String id,
+  );
+
+  @POST("/api/subscriptions/{id}/renew")
+  Future<SubscriptionCheckoutResponse> renewSubscription(
+    @Path("id") String id,
     @Body() SubscriptionCheckoutRequest request,
   );
 

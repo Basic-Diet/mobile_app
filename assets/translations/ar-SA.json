@@ -687,6 +687,8 @@
     "failed": "فشل",
     "confirmed": "تم التأكيد",
     "inPreparation": "قيد التحضير",
+    "readyForDelivery": "جاهز للتوصيل",
+    "outForDelivery": "خرج للتوصيل",
     "readyForPickup": "جاهز للاستلام",
     "completed": "مكتمل",
     "cancelled": "ملغي",

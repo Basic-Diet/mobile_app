@@ -13,6 +13,7 @@ import 'package:basic_diet/data/mappers/premium_meals_mapper.dart';
 import 'package:basic_diet/data/mappers/delivery_options_mapper.dart';
 import 'package:basic_diet/data/mappers/subscription_checkout_mapper.dart';
 import 'package:basic_diet/data/mappers/subscription_quote_mapper.dart';
+import 'package:basic_diet/data/mappers/subscription_renewal_seed_mapper.dart';
 import 'package:basic_diet/data/mappers/addon_subscription_options_mapper.dart';
 import 'package:basic_diet/data/mappers/error_mapper.dart';
 import 'package:basic_diet/data/mappers/bulk_selections_mapper.dart';
@@ -29,6 +30,7 @@ import 'package:basic_diet/domain/model/popular_packages_model.dart';
 import 'package:basic_diet/domain/model/premium_meals_model.dart';
 import 'package:basic_diet/domain/model/subscription_checkout_model.dart';
 import 'package:basic_diet/domain/model/subscription_quote_model.dart';
+import 'package:basic_diet/domain/model/subscription_renewal_seed_model.dart';
 import 'package:basic_diet/domain/model/addon_subscription_options_model.dart';
 import 'package:basic_diet/domain/model/bulk_selections_model.dart';
 import 'package:basic_diet/domain/model/subscription_day_model.dart';
@@ -640,6 +642,41 @@ class RepositoryImpl implements Repository {
   ) async {
     try {
       final response = await _checkoutWithRetry(request);
+      if (_isSuccessfulResponse(response)) {
+        return Right(response.toDomain());
+      } else {
+        return Left(_mapFailureFromResponse(response));
+      }
+    } catch (error) {
+      return _handleError(error);
+    }
+  }
+
+  @override
+  Future<Either<Failure, SubscriptionRenewalSeedModel>>
+  getSubscriptionRenewalSeed(String id) async {
+    try {
+      final response = await _remoteDataSource.getSubscriptionRenewalSeed(id);
+      if (_isSuccessfulResponse(response)) {
+        return Right(response.toDomain());
+      } else {
+        return Left(_mapFailureFromResponse(response));
+      }
+    } catch (error) {
+      return _handleError(error);
+    }
+  }
+
+  @override
+  Future<Either<Failure, SubscriptionCheckoutModel>> renewSubscription(
+    String id,
+    SubscriptionCheckoutRequestModel request,
+  ) async {
+    try {
+      final response = await _remoteDataSource.renewSubscription(
+        id,
+        request.toRequest(),
+      );
       if (_isSuccessfulResponse(response)) {
         return Right(response.toDomain());
       } else {

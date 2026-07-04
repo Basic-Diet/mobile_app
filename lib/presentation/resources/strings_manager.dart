@@ -887,6 +887,8 @@ class Strings {
   static const String failed = 'failed';
   static const String confirmed = 'confirmed';
   static const String inPreparation = 'inPreparation';
+  static const String readyForDelivery = 'readyForDelivery';
+  static const String outForDelivery = 'outForDelivery';
   static const String readyForPickup = 'readyForPickup';
   static const String completed = 'completed';
   static const String cancelled = 'cancelled';

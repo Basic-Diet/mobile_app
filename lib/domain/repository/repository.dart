@@ -13,6 +13,7 @@ import 'package:basic_diet/domain/model/premium_meals_model.dart';
 import 'package:basic_diet/domain/model/subscription_checkout_model.dart';
 import 'package:basic_diet/domain/model/subscription_day_model.dart';
 import 'package:basic_diet/domain/model/subscription_quote_model.dart';
+import 'package:basic_diet/domain/model/subscription_renewal_seed_model.dart';
 import 'package:dartz/dartz.dart';
 
 import 'package:basic_diet/domain/model/add_ons_model.dart';
@@ -93,6 +94,12 @@ abstract class Repository {
     SubscriptionQuoteRequestModel request,
   );
   Future<Either<Failure, SubscriptionCheckoutModel>> checkoutSubscription(
+    SubscriptionCheckoutRequestModel request,
+  );
+  Future<Either<Failure, SubscriptionRenewalSeedModel>>
+  getSubscriptionRenewalSeed(String id);
+  Future<Either<Failure, SubscriptionCheckoutModel>> renewSubscription(
+    String id,
     SubscriptionCheckoutRequestModel request,
   );
   Future<Either<Failure, CurrentSubscriptionOverviewModel>>

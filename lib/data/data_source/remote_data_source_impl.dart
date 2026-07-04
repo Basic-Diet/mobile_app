@@ -23,6 +23,7 @@ import 'package:basic_diet/data/response/popular_packages_response.dart';
 import 'package:basic_diet/data/response/premium_meals_response.dart';
 import 'package:basic_diet/data/response/subscription_checkout_response.dart';
 import 'package:basic_diet/data/response/subscription_quote_response.dart';
+import 'package:basic_diet/data/response/subscription_renewal_seed_response.dart';
 import 'package:basic_diet/data/response/addon_subscription_options_response.dart';
 import 'package:basic_diet/data/response/current_subscription_overview_response.dart';
 import 'package:basic_diet/data/request/freeze_subscription_request.dart';
@@ -217,6 +218,21 @@ class RemoteDataSourceImpl implements RemoteDataSource {
     SubscriptionCheckoutRequest request,
   ) {
     return _appServiceClient.checkoutSubscription(request);
+  }
+
+  @override
+  Future<SubscriptionRenewalSeedResponse> getSubscriptionRenewalSeed(
+    String id,
+  ) {
+    return _appServiceClient.getSubscriptionRenewalSeed(id);
+  }
+
+  @override
+  Future<SubscriptionCheckoutResponse> renewSubscription(
+    String id,
+    SubscriptionCheckoutRequest request,
+  ) {
+    return _appServiceClient.renewSubscription(id, request);
   }
 
   @override

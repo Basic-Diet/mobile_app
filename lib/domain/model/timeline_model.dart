@@ -162,11 +162,19 @@ class TimelineDayModel {
   bool get showFailed => normalizedTimelineStatus == 'failed';
 
   String get displayStatus {
+    if (normalizedStatus.isNotEmpty) {
+      if (normalizedStatus == 'open') {
+        if (showFailed) return 'failed';
+        if (showPendingPayment) return 'pending_payment';
+        if (showPlanned) return 'planned';
+        if (showDraft) return 'draft';
+      }
+      return normalizedStatus;
+    }
     if (showFailed) return 'failed';
     if (showPendingPayment) return 'pending_payment';
     if (showPlanned) return 'planned';
     if (showDraft) return 'draft';
-    if (normalizedTimelineStatus == 'empty') return 'open';
     return normalizedStatus;
   }
 

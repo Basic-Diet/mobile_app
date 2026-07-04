@@ -687,6 +687,8 @@
     "failed": "Failed",
     "confirmed": "Confirmed",
     "inPreparation": "In Preparation",
+    "readyForDelivery": "Ready for Delivery",
+    "outForDelivery": "Out for Delivery",
     "readyForPickup": "Ready for Pickup",
     "completed": "Completed",
     "cancelled": "Cancelled",

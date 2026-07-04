@@ -200,7 +200,8 @@ class _OrderTrackingView extends StatelessWidget {
   }
 
   bool _shouldShowPickupCodeCard(OrderModel order) {
-    return order.isPickup || order.pickup != null;
+    final pickupCode = order.pickup?.pickupCode?.trim() ?? '';
+    return pickupCode.isNotEmpty && order.status == OrderStatus.readyForPickup;
   }
 }
 

@@ -26,6 +26,8 @@ import 'package:basic_diet/domain/usecase/checkout_subscription_usecase.dart';
 import 'package:basic_diet/domain/usecase/get_plans_usecase.dart';
 import 'package:basic_diet/domain/usecase/get_delivery_options_usecase.dart';
 import 'package:basic_diet/domain/usecase/get_subscription_quote_usecase.dart';
+import 'package:basic_diet/domain/usecase/get_subscription_renewal_seed_usecase.dart';
+import 'package:basic_diet/domain/usecase/renew_subscription_usecase.dart';
 import 'package:basic_diet/presentation/login/login_bloc.dart';
 import 'package:basic_diet/presentation/verify/verify_bloc.dart';
 import 'package:basic_diet/presentation/forgot_password/bloc/forgot_password_bloc.dart';
@@ -226,6 +228,14 @@ void initSubscriptionModule() {
 
     instance.registerFactory<CheckoutSubscriptionUseCase>(
       () => CheckoutSubscriptionUseCase(instance<Repository>()),
+    );
+
+    instance.registerFactory<GetSubscriptionRenewalSeedUseCase>(
+      () => GetSubscriptionRenewalSeedUseCase(instance<Repository>()),
+    );
+
+    instance.registerFactory<RenewSubscriptionUseCase>(
+      () => RenewSubscriptionUseCase(instance<Repository>()),
     );
 
     instance.registerFactory<SubscriptionBloc>(

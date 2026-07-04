@@ -19,6 +19,7 @@ import 'package:basic_diet/data/response/subscription_day_response.dart';
 import 'package:basic_diet/data/response/premium_meals_response.dart';
 import 'package:basic_diet/data/response/subscription_checkout_response.dart';
 import 'package:basic_diet/data/response/subscription_quote_response.dart';
+import 'package:basic_diet/data/response/subscription_renewal_seed_response.dart';
 import 'package:basic_diet/data/response/current_subscription_overview_response.dart';
 import 'package:basic_diet/data/request/freeze_subscription_request.dart';
 import 'package:basic_diet/data/response/freeze_subscription_response.dart';
@@ -100,6 +101,11 @@ abstract class RemoteDataSource {
     SubscriptionQuoteRequest request,
   );
   Future<SubscriptionCheckoutResponse> checkoutSubscription(
+    SubscriptionCheckoutRequest request,
+  );
+  Future<SubscriptionRenewalSeedResponse> getSubscriptionRenewalSeed(String id);
+  Future<SubscriptionCheckoutResponse> renewSubscription(
+    String id,
     SubscriptionCheckoutRequest request,
   );
   Future<CurrentSubscriptionOverviewResponse> getCurrentSubscriptionOverview();

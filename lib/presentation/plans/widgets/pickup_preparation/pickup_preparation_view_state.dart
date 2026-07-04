@@ -146,9 +146,9 @@ class PickupPreparationViewState {
             : PickupJourneyVisualState.progress,
         steps: _steps(_stepStatesForProgress(dayStatus)),
         progressItems: _progressItems(progressStates),
-        pickupCode: pickupStatus?.pickupCode,
+        pickupCode: isReady ? pickupStatus?.pickupCode : null,
         showPickupCode:
-            (pickupStatus?.pickupCode ?? '').isNotEmpty && dayStatus != null,
+            isReady && (pickupStatus?.pickupCode ?? '').isNotEmpty,
         showProgressTimeline: true,
         businessDate: resolvedBusinessDate,
       );

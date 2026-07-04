@@ -191,7 +191,10 @@ class TimeLineScreen extends StatelessWidget {
     String statusText;
     String? extraTag;
 
-    switch (day.normalizedStatus) {
+    final displayStatus = day.displayStatus;
+    final secondaryStatusText = _lockedDayStatusText(day);
+
+    switch (displayStatus) {
       case 'locked':
         color = ColorManager.textMuted;
         bgColor = ColorManager.backgroundSubtle;
@@ -400,6 +403,16 @@ class TimeLineScreen extends StatelessWidget {
                       ),
                     ),
                   ],
+                  if (secondaryStatusText != null) ...[
+                    Gap(AppSize.s4.h),
+                    Text(
+                      secondaryStatusText,
+                      style: getRegularTextStyle(
+                        color: color,
+                        fontSize: FontSizeManager.s12.sp,
+                      ),
+                    ),
+                  ],
                   if (day.selectedMeals > 0) ...[
                     Gap(AppSize.s4.h),
                     Text(
@@ -418,6 +431,33 @@ class TimeLineScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String? _lockedDayStatusText(TimelineDayModel day) {
+    if (day.normalizedStatus != 'locked') return null;
+    final operationalStatus = day.normalizedDayStatus;
+    if (operationalStatus.isEmpty || operationalStatus == 'locked') {
+      return null;
+    }
+
+    if (day.statusLabel.trim().isNotEmpty) {
+      return day.statusLabel.trim();
+    }
+
+    return switch (operationalStatus) {
+      'in_preparation' => Strings.inPreparation.tr(),
+      'ready_for_delivery' => Strings.readyForDelivery.tr(),
+      'out_for_delivery' => Strings.outForDelivery.tr(),
+      _ => _humanizeStatus(operationalStatus),
+    };
+  }
+
+  String _humanizeStatus(String status) {
+    return status
+        .split('_')
+        .where((part) => part.isNotEmpty)
+        .map((part) => '${part[0].toUpperCase()}${part.substring(1)}')
+        .join(' ');
   }
 
   Widget _buildStatusLegend() {
