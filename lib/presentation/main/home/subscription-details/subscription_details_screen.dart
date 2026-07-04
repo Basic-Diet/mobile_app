@@ -102,6 +102,9 @@ class _SubscriptionDetailsState extends State<SubscriptionDetails> {
             successState?.checkoutStatus == SubscriptionCheckoutStatus.loading;
         final canCheckout = successState?.canCheckout ?? true;
         final isPricingStale = successState?.isPricingStale ?? false;
+        final subscriptionCheckout = successState?.subscriptionCheckout;
+        final showDeliveryStartShiftBanner =
+            _shouldShowDeliveryStartShiftBanner(successState);
 
         if (_promoController.text != desiredPromoText) {
           _promoController.value = _promoController.value.copyWith(
@@ -135,27 +138,12 @@ class _SubscriptionDetailsState extends State<SubscriptionDetails> {
             }
 
             if (state.checkoutStatus == SubscriptionCheckoutStatus.success &&
-                state.subscriptionCheckout != null) {
-              final result = await Navigator.push<PaymentWebViewResult>(
+                state.subscriptionCheckout != null &&
+                !_shouldShowDeliveryStartShiftBanner(state)) {
+              await _openSubscriptionPayment(
                 context,
-                MaterialPageRoute(
-                  builder:
-                      (_) => PaymentWebViewScreen(
-                        paymentUrl: state.subscriptionCheckout!.paymentUrl,
-                        draftId: state.subscriptionCheckout!.draftId,
-                        successUrl: _paymentSuccessUrl,
-                        backUrl: _paymentCancelUrl,
-                      ),
-                ),
+                state.subscriptionCheckout!,
               );
-
-              if (!context.mounted) return;
-
-              if (result == PaymentWebViewResult.cancelled) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(Strings.paymentCancelled.tr())),
-                );
-              }
             }
           },
           child: Scaffold(
@@ -172,7 +160,14 @@ class _SubscriptionDetailsState extends State<SubscriptionDetails> {
               onTap:
                   isCheckoutLoading || !canCheckout
                       ? null
-                      : () => _handleConfirmAndPayTap(context, quoteRequest),
+                      : () {
+                        final checkout = subscriptionCheckout;
+                        if (checkout != null) {
+                          _openSubscriptionPayment(context, checkout);
+                          return;
+                        }
+                        _handleConfirmAndPayTap(context, quoteRequest);
+                      },
             ),
             body: SafeArea(
               top: false,
@@ -186,6 +181,14 @@ class _SubscriptionDetailsState extends State<SubscriptionDetails> {
                 child: Column(
                   children: [
                     const _HeroBanner(),
+                    if (showDeliveryStartShiftBanner &&
+                        subscriptionCheckout != null) ...[
+                      Gap(AppSize.s16.h),
+                      _DeliveryStartShiftBanner(
+                        fulfillmentOptions:
+                            subscriptionCheckout.fulfillmentOptions,
+                      ),
+                    ],
                     Gap(AppSize.s16.h),
                     _PlanSection(quote: quote),
                     if (quote.summary.premiumItems.isNotEmpty) ...[
@@ -289,6 +292,43 @@ class _SubscriptionDetailsState extends State<SubscriptionDetails> {
     }
 
     _submitCheckout(context, quoteRequest);
+  }
+
+  bool _shouldShowDeliveryStartShiftBanner(SubscriptionSuccess? state) {
+    final checkout = state?.subscriptionCheckout;
+    if (checkout == null || !checkout.fulfillmentOptions.startDateShifted) {
+      return false;
+    }
+
+    final firstDayOverride =
+        state?.lastCheckoutRequest?.delivery.firstDayFulfillmentOverride;
+    return firstDayOverride == null;
+  }
+
+  Future<void> _openSubscriptionPayment(
+    BuildContext context,
+    SubscriptionCheckoutModel checkout,
+  ) async {
+    final result = await Navigator.push<PaymentWebViewResult>(
+      context,
+      MaterialPageRoute(
+        builder:
+            (_) => PaymentWebViewScreen(
+              paymentUrl: checkout.paymentUrl,
+              draftId: checkout.draftId,
+              successUrl: _paymentSuccessUrl,
+              backUrl: _paymentCancelUrl,
+            ),
+      ),
+    );
+
+    if (!context.mounted) return;
+
+    if (result == PaymentWebViewResult.cancelled) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(Strings.paymentCancelled.tr())),
+      );
+    }
   }
 }
 
@@ -1166,6 +1206,62 @@ class _DeliveryNotesSection extends StatelessWidget {
   }
 }
 
+class _DeliveryStartShiftBanner extends StatelessWidget {
+  final SubscriptionCheckoutFulfillmentOptionsModel fulfillmentOptions;
+
+  const _DeliveryStartShiftBanner({required this.fulfillmentOptions});
+
+  @override
+  Widget build(BuildContext context) {
+    final startDate = _shiftedDeliveryStartDate(fulfillmentOptions);
+
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsetsDirectional.all(AppPadding.p14.w),
+      decoration: BoxDecoration(
+        color: ColorManager.orangeFFF5EC,
+        borderRadius: BorderRadius.circular(AppSize.s16.r),
+        border: Border.all(
+          color: ColorManager.orangePrimary.withValues(alpha: 0.24),
+        ),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(
+            Icons.info_outline_rounded,
+            color: ColorManager.orangePrimary,
+            size: AppSize.s20.sp,
+          ),
+          Gap(AppSize.s10.w),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  Strings.deliveryStartDateUpdatedTitle.tr(),
+                  style: getBoldTextStyle(
+                    color: ColorManager.black101828,
+                    fontSize: FontSizeManager.s13.sp,
+                  ),
+                ),
+                Gap(AppSize.s4.h),
+                Text(
+                  Strings.deliveryStartDateUpdatedBody.tr(args: [startDate]),
+                  style: getRegularTextStyle(
+                    color: ColorManager.grey6A7282,
+                    fontSize: FontSizeManager.s12.sp,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class _BottomActionBar extends StatelessWidget {
   final String totalLabel;
   final bool isLoading;
@@ -1745,6 +1841,23 @@ String _formatNumber(num amount) {
 
 String _joinNonEmpty(List<String> values) {
   return values.where((value) => value.trim().isNotEmpty).join(' - ');
+}
+
+String _shiftedDeliveryStartDate(
+  SubscriptionCheckoutFulfillmentOptionsModel fulfillmentOptions,
+) {
+  final resolvedStartDate = fulfillmentOptions.resolvedStartDate.trim();
+  if (resolvedStartDate.isNotEmpty) {
+    return resolvedStartDate;
+  }
+
+  final deliveryStartDate =
+      fulfillmentOptions.deliveryStartDateIfNoPickup.trim();
+  if (deliveryStartDate.isNotEmpty) {
+    return deliveryStartDate;
+  }
+
+  return fulfillmentOptions.requestedStartDate;
 }
 
 String _buildAddressSummary(SubscriptionAddressModel? address) {

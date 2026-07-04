@@ -636,6 +636,10 @@ class Strings {
   static const String firstDelivery = 'firstDelivery';
   static const String lastDelivery = 'lastDelivery';
   static const String deliverySchedule = 'deliverySchedule';
+  static const String deliveryStartDateUpdatedTitle =
+      'deliveryStartDateUpdatedTitle';
+  static const String deliveryStartDateUpdatedBody =
+      'deliveryStartDateUpdatedBody';
   static const String choosePackageProceed = 'choosePackageProceed';
   static const String chooseDailyMealCount = 'chooseDailyMealCount';
   static const String vatAndDelivery = 'vatAndDelivery';

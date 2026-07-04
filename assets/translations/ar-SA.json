@@ -253,6 +253,8 @@
     "firstDelivery": "أول توصيل",
     "lastDelivery": "آخر توصيل",
     "deliverySchedule": "جدول التوصيل",
+    "deliveryStartDateUpdatedTitle": "تم تحديث تاريخ بداية التوصيل.",
+    "deliveryStartDateUpdatedBody": "التوصيل في نفس اليوم غير متاح، لذلك سيكون أول توصيل يوم {}.",
     "verifyYourPhone": "تأكيد رقم الهاتف",
     "otpSentSubtitle": "لقد أرسلنا رمزًا مكونًا من 6 أرقام إلى",
     "available": "متاح",

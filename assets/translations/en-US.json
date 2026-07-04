@@ -253,6 +253,8 @@
     "firstDelivery": "First Delivery",
     "lastDelivery": "Last Delivery",
     "deliverySchedule": "Delivery Schedule",
+    "deliveryStartDateUpdatedTitle": "Your delivery start date has been updated.",
+    "deliveryStartDateUpdatedBody": "Same-day delivery is unavailable, so your first delivery will be on {}.",
     "verifyYourPhone": "Verify Your Phone",
     "otpSentSubtitle": "We've sent a 6-digit code to",
     "available": "available",
