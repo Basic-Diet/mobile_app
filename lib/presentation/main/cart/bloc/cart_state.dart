@@ -13,9 +13,6 @@ class CartInitial extends CartState {
 }
 
 class CartLoaded extends CartState {
-  static const String defaultBranchId = 'main';
-  static const String defaultPickupWindow = '18:00-20:00';
-
   final List<CartItem> items;
   final String? selectedBranchId;
   final String? selectedPickupWindow;
@@ -35,11 +32,7 @@ class CartLoaded extends CartState {
       return selectedBranchId;
     }
 
-    if (branchIds.isNotEmpty) {
-      return branchIds.first;
-    }
-
-    return defaultBranchId;
+    return null;
   }
 
   String? get resolvedPickupWindow {
@@ -47,12 +40,7 @@ class CartLoaded extends CartState {
       return selectedPickupWindow;
     }
 
-    final windows = availableWindowsForBranch(resolvedBranchId);
-    if (windows.isNotEmpty) {
-      return windows.first;
-    }
-
-    return defaultPickupWindow;
+    return null;
   }
 
   bool get canCheckout {
@@ -77,7 +65,7 @@ class CartLoaded extends CartState {
   }
 
   List<String> get availableWindows {
-    return availableWindowsForBranch(resolvedBranchId);
+    return availableWindowsForBranch(selectedBranchId);
   }
 
   List<String> availableWindowsForBranch(String? branchId) {
@@ -97,11 +85,14 @@ class CartLoaded extends CartState {
     String? selectedBranchId,
     String? selectedPickupWindow,
     Map<String, dynamic>? restaurantHours,
+    bool clearSelectedPickupWindow = false,
   }) {
     return CartLoaded(
       items: items ?? this.items,
       selectedBranchId: selectedBranchId ?? this.selectedBranchId,
-      selectedPickupWindow: selectedPickupWindow ?? this.selectedPickupWindow,
+      selectedPickupWindow: clearSelectedPickupWindow
+          ? null
+          : selectedPickupWindow ?? this.selectedPickupWindow,
       restaurantHours: restaurantHours ?? this.restaurantHours,
     );
   }
