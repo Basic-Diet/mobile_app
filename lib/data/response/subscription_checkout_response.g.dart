@@ -41,6 +41,12 @@ SubscriptionCheckoutDataResponse _$SubscriptionCheckoutDataResponseFromJson(
             json['totals'] as Map<String, dynamic>,
           ),
   reused: json['reused'] as bool?,
+  fulfillmentOptions:
+      json['fulfillmentOptions'] == null
+          ? null
+          : SubscriptionCheckoutFulfillmentOptionsResponse.fromJson(
+            json['fulfillmentOptions'] as Map<String, dynamic>,
+          ),
 );
 
 Map<String, dynamic> _$SubscriptionCheckoutDataResponseToJson(
@@ -52,6 +58,35 @@ Map<String, dynamic> _$SubscriptionCheckoutDataResponseToJson(
   'payment_url': instance.paymentUrl,
   'totals': instance.totals?.toJson(),
   'reused': instance.reused,
+  'fulfillmentOptions': instance.fulfillmentOptions?.toJson(),
+};
+
+SubscriptionCheckoutFulfillmentOptionsResponse
+_$SubscriptionCheckoutFulfillmentOptionsResponseFromJson(
+  Map<String, dynamic> json,
+) => SubscriptionCheckoutFulfillmentOptionsResponse(
+  sameDayDeliveryAllowed: json['sameDayDeliveryAllowed'] as bool?,
+  sameDayPickupAllowed: json['sameDayPickupAllowed'] as bool?,
+  firstDayPickupOverrideAvailable:
+      json['firstDayPickupOverrideAvailable'] as bool?,
+  deliveryStartDateIfNoPickup: json['deliveryStartDateIfNoPickup'] as String?,
+  requestedStartDate: json['requestedStartDate'] as String?,
+  resolvedStartDate: json['resolvedStartDate'] as String?,
+  startDateShifted: json['startDateShifted'] as bool?,
+  reason: json['reason'] as String?,
+);
+
+Map<String, dynamic> _$SubscriptionCheckoutFulfillmentOptionsResponseToJson(
+  SubscriptionCheckoutFulfillmentOptionsResponse instance,
+) => <String, dynamic>{
+  'sameDayDeliveryAllowed': instance.sameDayDeliveryAllowed,
+  'sameDayPickupAllowed': instance.sameDayPickupAllowed,
+  'firstDayPickupOverrideAvailable': instance.firstDayPickupOverrideAvailable,
+  'deliveryStartDateIfNoPickup': instance.deliveryStartDateIfNoPickup,
+  'requestedStartDate': instance.requestedStartDate,
+  'resolvedStartDate': instance.resolvedStartDate,
+  'startDateShifted': instance.startDateShifted,
+  'reason': instance.reason,
 };
 
 SubscriptionCheckoutTotalsResponse _$SubscriptionCheckoutTotalsResponseFromJson(

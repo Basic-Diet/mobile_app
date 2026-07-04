@@ -46,6 +46,8 @@ class TimelineDayModel {
   final int dayNumber;
   final String status;
   final String timelineStatus;
+  final String dayStatus;
+  final String effectiveFulfillmentMode;
   final bool canShowAsPlanned;
   final String paymentStatus;
   final bool hasSelection;
@@ -60,6 +62,7 @@ class TimelineDayModel {
   final String fulfillmentMode;
   final String fulfillmentModeOverride;
   final String pickupLocationIdOverride;
+  final bool firstDayFulfillmentOverride;
   final String consumptionState;
   final int selectedMeals;
   final int requiredMeals;
@@ -91,6 +94,8 @@ class TimelineDayModel {
     required this.dayNumber,
     required this.status,
     this.timelineStatus = '',
+    this.dayStatus = '',
+    this.effectiveFulfillmentMode = '',
     this.canShowAsPlanned = false,
     this.paymentStatus = '',
     this.hasSelection = false,
@@ -105,6 +110,7 @@ class TimelineDayModel {
     this.fulfillmentMode = '',
     this.fulfillmentModeOverride = '',
     this.pickupLocationIdOverride = '',
+    this.firstDayFulfillmentOverride = false,
     required this.consumptionState,
     required this.selectedMeals,
     required this.requiredMeals,
@@ -133,6 +139,10 @@ class TimelineDayModel {
   String get normalizedStatus => status.toLowerCase();
 
   String get normalizedTimelineStatus => timelineStatus.toLowerCase();
+
+  String get normalizedDayStatus => dayStatus.toLowerCase();
+
+  String get normalizedFulfillmentMode => fulfillmentMode.toLowerCase();
 
   String get normalizedPaymentStatus => paymentStatus.toLowerCase();
 

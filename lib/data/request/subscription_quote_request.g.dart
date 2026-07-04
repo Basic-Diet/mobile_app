@@ -71,6 +71,12 @@ SubscriptionQuoteDeliveryRequest _$SubscriptionQuoteDeliveryRequestFromJson(
           : SubscriptionQuoteAddressRequest.fromJson(
             json['address'] as Map<String, dynamic>,
           ),
+  firstDayFulfillmentOverride:
+      json['firstDayFulfillmentOverride'] == null
+          ? null
+          : SubscriptionQuoteFirstDayFulfillmentOverrideRequest.fromJson(
+            json['firstDayFulfillmentOverride'] as Map<String, dynamic>,
+          ),
 );
 
 Map<String, dynamic> _$SubscriptionQuoteDeliveryRequestToJson(
@@ -82,6 +88,23 @@ Map<String, dynamic> _$SubscriptionQuoteDeliveryRequestToJson(
   'slotId': instance.slotId,
   'slot': instance.slot?.toJson(),
   'address': instance.address?.toJson(),
+  'firstDayFulfillmentOverride': instance.firstDayFulfillmentOverride?.toJson(),
+};
+
+SubscriptionQuoteFirstDayFulfillmentOverrideRequest
+_$SubscriptionQuoteFirstDayFulfillmentOverrideRequestFromJson(
+  Map<String, dynamic> json,
+) => SubscriptionQuoteFirstDayFulfillmentOverrideRequest(
+  type: json['type'] as String,
+  pickupLocationId: json['pickupLocationId'] as String,
+);
+
+Map<String, dynamic>
+_$SubscriptionQuoteFirstDayFulfillmentOverrideRequestToJson(
+  SubscriptionQuoteFirstDayFulfillmentOverrideRequest instance,
+) => <String, dynamic>{
+  'type': instance.type,
+  'pickupLocationId': instance.pickupLocationId,
 };
 
 SubscriptionQuoteSlotRequest _$SubscriptionQuoteSlotRequestFromJson(

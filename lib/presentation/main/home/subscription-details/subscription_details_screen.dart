@@ -1788,8 +1788,13 @@ SubscriptionCheckoutRequestModel _buildCheckoutRequest(
     delivery: SubscriptionCheckoutDeliveryRequestModel(
       type: request.delivery.type,
       zoneId: request.delivery.zoneId,
+      pickupLocationId: request.delivery.pickupLocationId,
       slotId: request.delivery.slotId,
+      slotWindow: request.delivery.slotWindow,
+      slotLabel: request.delivery.slotLabel,
       address: request.delivery.address,
+      firstDayFulfillmentOverride:
+          request.delivery.firstDayFulfillmentOverride,
     ),
     successUrl: _paymentSuccessUrl,
     backUrl: _paymentCancelUrl,

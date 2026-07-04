@@ -526,6 +526,9 @@ final class MealPlannerLoaded extends MealPlannerState {
     if (selectedTimelineDay.isHistoricalOnly) {
       return false;
     }
+    if (!selectedTimelineDay.canEdit) {
+      return false;
+    }
 
     final detail = selectedDayDetail;
     final commercialState =
@@ -549,6 +552,7 @@ final class MealPlannerLoaded extends MealPlannerState {
 
   bool get isSelectedDayAppendMode {
     if (selectedTimelineDay.isHistoricalOnly) return false;
+    if (!selectedTimelineDay.canEdit) return false;
     if (!_isSelectedPickupDay) return false;
 
     final detail = selectedDayDetail;
@@ -562,12 +566,7 @@ final class MealPlannerLoaded extends MealPlannerState {
   }
 
   bool get _isSelectedPickupDay {
-    final mode = selectedTimelineDay.fulfillmentMode.toLowerCase();
-    final deliveryMode = selectedTimelineDay.deliveryMode.toLowerCase();
-    return mode == 'pickup' ||
-        deliveryMode == 'pickup' ||
-        selectedTimelineDay.pickupLocation != null ||
-        selectedDayDetail?.pickupLocation != null;
+    return selectedTimelineDay.normalizedFulfillmentMode == 'pickup';
   }
 
   int get savedMealSlotCount => savedSlotsPerDay[selectedDayIndex]?.length ?? 0;

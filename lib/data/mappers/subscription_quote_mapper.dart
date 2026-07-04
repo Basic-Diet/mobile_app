@@ -51,6 +51,18 @@ extension SubscriptionQuoteDeliveryRequestMapper
               )
               : null,
       address: address?.toRequest(),
+      firstDayFulfillmentOverride:
+          firstDayFulfillmentOverride?.toQuoteRequest(),
+    );
+  }
+}
+
+extension SubscriptionFirstDayQuoteRequestMapper
+    on SubscriptionFirstDayFulfillmentOverrideModel {
+  SubscriptionQuoteFirstDayFulfillmentOverrideRequest toQuoteRequest() {
+    return SubscriptionQuoteFirstDayFulfillmentOverrideRequest(
+      type: type,
+      pickupLocationId: pickupLocationId,
     );
   }
 }

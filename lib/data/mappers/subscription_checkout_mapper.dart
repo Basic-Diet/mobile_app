@@ -56,6 +56,18 @@ extension SubscriptionCheckoutDeliveryRequestMapper
               )
               : null,
       address: address?.toCheckoutRequest(),
+      firstDayFulfillmentOverride:
+          firstDayFulfillmentOverride?.toCheckoutRequest(),
+    );
+  }
+}
+
+extension SubscriptionFirstDayCheckoutRequestMapper
+    on SubscriptionFirstDayFulfillmentOverrideModel {
+  SubscriptionCheckoutFirstDayFulfillmentOverrideRequest toCheckoutRequest() {
+    return SubscriptionCheckoutFirstDayFulfillmentOverrideRequest(
+      type: type,
+      pickupLocationId: pickupLocationId,
     );
   }
 }
@@ -104,6 +116,7 @@ extension SubscriptionQuoteToCheckoutRequestMapper
         slotWindow: delivery.slotWindow,
         slotLabel: delivery.slotLabel,
         address: delivery.address,
+        firstDayFulfillmentOverride: delivery.firstDayFulfillmentOverride,
       ),
       successUrl: successUrl,
       backUrl: backUrl,
@@ -130,6 +143,37 @@ extension SubscriptionCheckoutResponseMapper on SubscriptionCheckoutResponse? {
             currency: Constants.empty,
           ),
       reused: this?.data?.reused ?? Constants.falseValue,
+      fulfillmentOptions:
+          this?.data?.fulfillmentOptions.toDomain() ??
+          const SubscriptionCheckoutFulfillmentOptionsModel(
+            sameDayDeliveryAllowed: Constants.falseValue,
+            sameDayPickupAllowed: Constants.falseValue,
+            firstDayPickupOverrideAvailable: Constants.falseValue,
+            deliveryStartDateIfNoPickup: Constants.empty,
+            requestedStartDate: Constants.empty,
+            resolvedStartDate: Constants.empty,
+            startDateShifted: Constants.falseValue,
+            reason: Constants.empty,
+          ),
+    );
+  }
+}
+
+extension SubscriptionCheckoutFulfillmentOptionsResponseMapper
+    on SubscriptionCheckoutFulfillmentOptionsResponse? {
+  SubscriptionCheckoutFulfillmentOptionsModel toDomain() {
+    return SubscriptionCheckoutFulfillmentOptionsModel(
+      sameDayDeliveryAllowed:
+          this?.sameDayDeliveryAllowed ?? Constants.falseValue,
+      sameDayPickupAllowed: this?.sameDayPickupAllowed ?? Constants.falseValue,
+      firstDayPickupOverrideAvailable:
+          this?.firstDayPickupOverrideAvailable ?? Constants.falseValue,
+      deliveryStartDateIfNoPickup:
+          this?.deliveryStartDateIfNoPickup ?? Constants.empty,
+      requestedStartDate: this?.requestedStartDate ?? Constants.empty,
+      resolvedStartDate: this?.resolvedStartDate ?? Constants.empty,
+      startDateShifted: this?.startDateShifted ?? Constants.falseValue,
+      reason: this?.reason ?? Constants.empty,
     );
   }
 }

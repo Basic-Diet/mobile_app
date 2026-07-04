@@ -65,6 +65,8 @@ class SubscriptionCheckoutDeliveryRequestModel extends Equatable {
   final String? slotWindow;
   final String? slotLabel;
   final SubscriptionAddressModel? address;
+  final SubscriptionFirstDayFulfillmentOverrideModel?
+      firstDayFulfillmentOverride;
 
   const SubscriptionCheckoutDeliveryRequestModel({
     required this.type,
@@ -74,6 +76,7 @@ class SubscriptionCheckoutDeliveryRequestModel extends Equatable {
     this.slotWindow,
     this.slotLabel,
     this.address,
+    this.firstDayFulfillmentOverride,
   });
 
   @override
@@ -85,6 +88,7 @@ class SubscriptionCheckoutDeliveryRequestModel extends Equatable {
     slotWindow,
     slotLabel,
     address,
+    firstDayFulfillmentOverride,
   ];
 }
 
@@ -95,6 +99,7 @@ class SubscriptionCheckoutModel extends Equatable {
   final String paymentUrl;
   final SubscriptionCheckoutTotalsModel totals;
   final bool reused;
+  final SubscriptionCheckoutFulfillmentOptionsModel fulfillmentOptions;
 
   const SubscriptionCheckoutModel({
     required this.subscriptionId,
@@ -103,6 +108,7 @@ class SubscriptionCheckoutModel extends Equatable {
     required this.paymentUrl,
     required this.totals,
     required this.reused,
+    required this.fulfillmentOptions,
   });
 
   @override
@@ -113,6 +119,41 @@ class SubscriptionCheckoutModel extends Equatable {
     paymentUrl,
     totals,
     reused,
+    fulfillmentOptions,
+  ];
+}
+
+class SubscriptionCheckoutFulfillmentOptionsModel extends Equatable {
+  final bool sameDayDeliveryAllowed;
+  final bool sameDayPickupAllowed;
+  final bool firstDayPickupOverrideAvailable;
+  final String deliveryStartDateIfNoPickup;
+  final String requestedStartDate;
+  final String resolvedStartDate;
+  final bool startDateShifted;
+  final String reason;
+
+  const SubscriptionCheckoutFulfillmentOptionsModel({
+    required this.sameDayDeliveryAllowed,
+    required this.sameDayPickupAllowed,
+    required this.firstDayPickupOverrideAvailable,
+    required this.deliveryStartDateIfNoPickup,
+    required this.requestedStartDate,
+    required this.resolvedStartDate,
+    required this.startDateShifted,
+    required this.reason,
+  });
+
+  @override
+  List<Object?> get props => [
+    sameDayDeliveryAllowed,
+    sameDayPickupAllowed,
+    firstDayPickupOverrideAvailable,
+    deliveryStartDateIfNoPickup,
+    requestedStartDate,
+    resolvedStartDate,
+    startDateShifted,
+    reason,
   ];
 }
 

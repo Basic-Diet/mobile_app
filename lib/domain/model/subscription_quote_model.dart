@@ -55,6 +55,8 @@ class SubscriptionQuoteDeliveryRequestModel extends Equatable {
   final String? slotWindow;
   final String? slotLabel;
   final SubscriptionAddressModel? address;
+  final SubscriptionFirstDayFulfillmentOverrideModel?
+      firstDayFulfillmentOverride;
 
   const SubscriptionQuoteDeliveryRequestModel({
     required this.type,
@@ -64,6 +66,7 @@ class SubscriptionQuoteDeliveryRequestModel extends Equatable {
     this.slotWindow,
     this.slotLabel,
     this.address,
+    this.firstDayFulfillmentOverride,
   });
 
   @override
@@ -75,7 +78,21 @@ class SubscriptionQuoteDeliveryRequestModel extends Equatable {
     slotWindow,
     slotLabel,
     address,
+    firstDayFulfillmentOverride,
   ];
+}
+
+class SubscriptionFirstDayFulfillmentOverrideModel extends Equatable {
+  final String type;
+  final String pickupLocationId;
+
+  const SubscriptionFirstDayFulfillmentOverrideModel({
+    required this.type,
+    required this.pickupLocationId,
+  });
+
+  @override
+  List<Object?> get props => [type, pickupLocationId];
 }
 
 class SubscriptionAddressModel extends Equatable {

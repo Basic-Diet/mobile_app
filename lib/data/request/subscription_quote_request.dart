@@ -72,6 +72,9 @@ class SubscriptionQuoteDeliveryRequest {
   final SubscriptionQuoteSlotRequest? slot;
   @JsonKey(name: 'address')
   final SubscriptionQuoteAddressRequest? address;
+  @JsonKey(name: 'firstDayFulfillmentOverride')
+  final SubscriptionQuoteFirstDayFulfillmentOverrideRequest?
+      firstDayFulfillmentOverride;
 
   const SubscriptionQuoteDeliveryRequest({
     required this.type,
@@ -80,6 +83,7 @@ class SubscriptionQuoteDeliveryRequest {
     this.slotId,
     this.slot,
     this.address,
+    this.firstDayFulfillmentOverride,
   });
 
   factory SubscriptionQuoteDeliveryRequest.fromJson(
@@ -88,6 +92,26 @@ class SubscriptionQuoteDeliveryRequest {
 
   Map<String, dynamic> toJson() =>
       _$SubscriptionQuoteDeliveryRequestToJson(this);
+}
+
+@JsonSerializable()
+class SubscriptionQuoteFirstDayFulfillmentOverrideRequest {
+  @JsonKey(name: 'type')
+  final String type;
+  @JsonKey(name: 'pickupLocationId')
+  final String pickupLocationId;
+
+  const SubscriptionQuoteFirstDayFulfillmentOverrideRequest({
+    required this.type,
+    required this.pickupLocationId,
+  });
+
+  factory SubscriptionQuoteFirstDayFulfillmentOverrideRequest.fromJson(
+    Map<String, dynamic> json,
+  ) => _$SubscriptionQuoteFirstDayFulfillmentOverrideRequestFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$SubscriptionQuoteFirstDayFulfillmentOverrideRequestToJson(this);
 }
 
 @JsonSerializable()

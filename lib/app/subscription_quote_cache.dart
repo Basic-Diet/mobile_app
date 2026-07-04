@@ -213,9 +213,17 @@ class SubscriptionQuoteCache {
       'delivery': {
         'type': r.delivery.type,
         if (r.delivery.zoneId != null) 'zoneId': r.delivery.zoneId,
+        if (r.delivery.pickupLocationId != null)
+          'pickupLocationId': r.delivery.pickupLocationId,
         if (r.delivery.slotId != null) 'slotId': r.delivery.slotId,
         if (r.delivery.slotWindow != null) 'slotWindow': r.delivery.slotWindow,
         if (r.delivery.slotLabel != null) 'slotLabel': r.delivery.slotLabel,
+        if (r.delivery.firstDayFulfillmentOverride != null)
+          'firstDayFulfillmentOverride': {
+            'type': r.delivery.firstDayFulfillmentOverride!.type,
+            'pickupLocationId':
+                r.delivery.firstDayFulfillmentOverride!.pickupLocationId,
+          },
         if (r.delivery.address != null)
           'address': {
             'street': r.delivery.address!.street,
@@ -232,6 +240,8 @@ class SubscriptionQuoteCache {
   SubscriptionQuoteRequestModel _requestFromJson(Map<String, dynamic> map) {
     final deliveryMap = map['delivery'] as Map<String, dynamic>? ?? {};
     final addressMap = deliveryMap['address'] as Map<String, dynamic>?;
+    final overrideMap =
+        deliveryMap['firstDayFulfillmentOverride'] as Map<String, dynamic>?;
 
     return SubscriptionQuoteRequestModel(
       planId: map['planId'] as String,
@@ -253,9 +263,16 @@ class SubscriptionQuoteCache {
       delivery: SubscriptionQuoteDeliveryRequestModel(
         type: deliveryMap['type'] as String,
         zoneId: deliveryMap['zoneId'] as String?,
+        pickupLocationId: deliveryMap['pickupLocationId'] as String?,
         slotId: deliveryMap['slotId'] as String?,
         slotWindow: deliveryMap['slotWindow'] as String?,
         slotLabel: deliveryMap['slotLabel'] as String?,
+        firstDayFulfillmentOverride: overrideMap == null
+            ? null
+            : SubscriptionFirstDayFulfillmentOverrideModel(
+                type: overrideMap['type'] as String,
+                pickupLocationId: overrideMap['pickupLocationId'] as String,
+              ),
         address: addressMap == null
             ? null
             : SubscriptionAddressModel(

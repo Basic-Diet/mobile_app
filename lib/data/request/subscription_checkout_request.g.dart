@@ -77,6 +77,12 @@ _$SubscriptionCheckoutDeliveryRequestFromJson(Map<String, dynamic> json) =>
               : SubscriptionCheckoutAddressRequest.fromJson(
                 json['address'] as Map<String, dynamic>,
               ),
+      firstDayFulfillmentOverride:
+          json['firstDayFulfillmentOverride'] == null
+              ? null
+              : SubscriptionCheckoutFirstDayFulfillmentOverrideRequest.fromJson(
+                json['firstDayFulfillmentOverride'] as Map<String, dynamic>,
+              ),
     );
 
 Map<String, dynamic> _$SubscriptionCheckoutDeliveryRequestToJson(
@@ -88,6 +94,23 @@ Map<String, dynamic> _$SubscriptionCheckoutDeliveryRequestToJson(
   'slotId': instance.slotId,
   'slot': instance.slot?.toJson(),
   'address': instance.address?.toJson(),
+  'firstDayFulfillmentOverride': instance.firstDayFulfillmentOverride?.toJson(),
+};
+
+SubscriptionCheckoutFirstDayFulfillmentOverrideRequest
+_$SubscriptionCheckoutFirstDayFulfillmentOverrideRequestFromJson(
+  Map<String, dynamic> json,
+) => SubscriptionCheckoutFirstDayFulfillmentOverrideRequest(
+  type: json['type'] as String,
+  pickupLocationId: json['pickupLocationId'] as String,
+);
+
+Map<String, dynamic>
+_$SubscriptionCheckoutFirstDayFulfillmentOverrideRequestToJson(
+  SubscriptionCheckoutFirstDayFulfillmentOverrideRequest instance,
+) => <String, dynamic>{
+  'type': instance.type,
+  'pickupLocationId': instance.pickupLocationId,
 };
 
 SubscriptionCheckoutSlotRequest _$SubscriptionCheckoutSlotRequestFromJson(

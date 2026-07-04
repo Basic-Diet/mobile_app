@@ -33,6 +33,8 @@ class SubscriptionCheckoutDataResponse {
   SubscriptionCheckoutTotalsResponse? totals;
   @JsonKey(name: 'reused')
   bool? reused;
+  @JsonKey(name: 'fulfillmentOptions')
+  SubscriptionCheckoutFulfillmentOptionsResponse? fulfillmentOptions;
 
   SubscriptionCheckoutDataResponse({
     this.subscriptionId,
@@ -41,6 +43,7 @@ class SubscriptionCheckoutDataResponse {
     this.paymentUrl,
     this.totals,
     this.reused,
+    this.fulfillmentOptions,
   });
 
   factory SubscriptionCheckoutDataResponse.fromJson(
@@ -49,6 +52,44 @@ class SubscriptionCheckoutDataResponse {
 
   Map<String, dynamic> toJson() =>
       _$SubscriptionCheckoutDataResponseToJson(this);
+}
+
+@JsonSerializable()
+class SubscriptionCheckoutFulfillmentOptionsResponse {
+  @JsonKey(name: 'sameDayDeliveryAllowed')
+  bool? sameDayDeliveryAllowed;
+  @JsonKey(name: 'sameDayPickupAllowed')
+  bool? sameDayPickupAllowed;
+  @JsonKey(name: 'firstDayPickupOverrideAvailable')
+  bool? firstDayPickupOverrideAvailable;
+  @JsonKey(name: 'deliveryStartDateIfNoPickup')
+  String? deliveryStartDateIfNoPickup;
+  @JsonKey(name: 'requestedStartDate')
+  String? requestedStartDate;
+  @JsonKey(name: 'resolvedStartDate')
+  String? resolvedStartDate;
+  @JsonKey(name: 'startDateShifted')
+  bool? startDateShifted;
+  @JsonKey(name: 'reason')
+  String? reason;
+
+  SubscriptionCheckoutFulfillmentOptionsResponse({
+    this.sameDayDeliveryAllowed,
+    this.sameDayPickupAllowed,
+    this.firstDayPickupOverrideAvailable,
+    this.deliveryStartDateIfNoPickup,
+    this.requestedStartDate,
+    this.resolvedStartDate,
+    this.startDateShifted,
+    this.reason,
+  });
+
+  factory SubscriptionCheckoutFulfillmentOptionsResponse.fromJson(
+    Map<String, dynamic> json,
+  ) => _$SubscriptionCheckoutFulfillmentOptionsResponseFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$SubscriptionCheckoutFulfillmentOptionsResponseToJson(this);
 }
 
 @JsonSerializable()

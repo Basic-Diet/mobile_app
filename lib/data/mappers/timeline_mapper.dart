@@ -14,6 +14,9 @@ extension TimelineDayResponseMapper on TimelineDayResponse? {
       dayNumber: this?.dayNumber.orZero() ?? Constants.zero,
       status: this?.status.orEmpty() ?? Constants.empty,
       timelineStatus: this?.timelineStatus.orEmpty() ?? Constants.empty,
+      dayStatus: this?.dayStatus.orEmpty() ?? Constants.empty,
+      effectiveFulfillmentMode:
+          this?.effectiveFulfillmentMode.orEmpty() ?? Constants.empty,
       canShowAsPlanned: this?.canShowAsPlanned ?? false,
       paymentStatus: this?.paymentStatus.orEmpty() ?? Constants.empty,
       hasSelection: this?.hasSelection ?? false,
@@ -35,6 +38,8 @@ extension TimelineDayResponseMapper on TimelineDayResponse? {
           this?.fulfillmentModeOverride.orEmpty() ?? Constants.empty,
       pickupLocationIdOverride:
           this?.pickupLocationIdOverride.orEmpty() ?? Constants.empty,
+      firstDayFulfillmentOverride:
+          this?.firstDayFulfillmentOverride ?? Constants.falseValue,
       consumptionState: this?.consumptionState.orEmpty() ?? Constants.empty,
       selectedMeals: this?.selectedMeals.orZero() ?? Constants.zero,
       requiredMeals: this?.requiredMeals.orZero() ?? Constants.zero,
