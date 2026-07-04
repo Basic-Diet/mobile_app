@@ -60,7 +60,15 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   void _onSelectBranch(SelectBranchEvent event, Emitter<CartState> emit) {
     if (state is! CartLoaded) return;
     final current = state as CartLoaded;
-    emit(current.copyWith(selectedBranchId: event.branchId));
+    final currentWindow = current.selectedPickupWindow;
+    final branchWindows = current.availableWindowsForBranch(event.branchId);
+    emit(
+      current.copyWith(
+        selectedBranchId: event.branchId,
+        clearSelectedPickupWindow:
+            currentWindow != null && !branchWindows.contains(currentWindow),
+      ),
+    );
   }
 
   void _onSelectPickupWindow(

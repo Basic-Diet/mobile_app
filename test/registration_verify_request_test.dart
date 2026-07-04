@@ -1,10 +1,22 @@
 import 'package:basic_diet/data/data_source/remote_data_source_impl.dart';
 import 'package:basic_diet/data/network/app_api.dart';
 import 'package:basic_diet/data/response/auth_response.dart';
+import 'package:basic_diet/data/response/base_response/base_response.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('registration verification request', () {
+    test('requests registration OTP with phoneE164 only', () async {
+      final appServiceClient = _CapturingAppServiceClient();
+      final dataSource = RemoteDataSourceImpl(appServiceClient);
+
+      await dataSource.requestRegistrationOtp('+966500000001');
+
+      expect(appServiceClient.requestRegistrationOtpBody, {
+        'phoneE164': '+966500000001',
+      });
+    });
+
     test('does not send skip_otp in the mobile payload', () async {
       final appServiceClient = _CapturingAppServiceClient();
       final dataSource = RemoteDataSourceImpl(appServiceClient);
@@ -33,7 +45,14 @@ void main() {
 }
 
 class _CapturingAppServiceClient implements AppServiceClient {
+  late Map<String, dynamic> requestRegistrationOtpBody;
   late Map<String, dynamic> verifyRegistrationOtpBody;
+
+  @override
+  Future<BaseResponse> requestRegistrationOtp(Map<String, dynamic> body) async {
+    requestRegistrationOtpBody = body;
+    return BaseResponse(ok: true, status: 'success');
+  }
 
   @override
   Future<AuthenticationResponse> verifyRegistrationOtp(

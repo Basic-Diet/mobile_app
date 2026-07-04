@@ -1,7 +1,5 @@
-import 'package:basic_diet/app/app_pref.dart';
 import 'package:basic_diet/app/dependency_injection.dart';
 import 'package:basic_diet/app/functions.dart';
-import 'package:basic_diet/domain/usecase/get_current_user_usecase.dart';
 import 'package:basic_diet/domain/model/subscription_quote_model.dart';
 import 'package:basic_diet/presentation/language_selection/language_selection_screen.dart';
 import 'package:basic_diet/presentation/login/login_screen.dart';
@@ -34,7 +32,6 @@ class GoRouterConfig {
   static GoRouter get router => _router;
   static final GoRouter _router = GoRouter(
     navigatorKey: navigatorKey,
-    redirect: _forcePasswordChangeRedirect,
     routes: <RouteBase>[
       GoRoute(
         path: SplashScreen.splashRoute,
@@ -326,42 +323,5 @@ class GoRouterConfig {
     if (extra is String) return extra;
     if (extra is Map<String, String>) return extra['phone'];
     return null;
-  }
-
-  static Future<String?> _forcePasswordChangeRedirect(
-    BuildContext context,
-    GoRouterState state,
-  ) async {
-    if (state.uri.path == ChangePasswordScreen.routeName) {
-      return null;
-    }
-
-    final hasSession = await instance<AppPreferences>().hasSessionTokens();
-    if (!hasSession) {
-      return null;
-    }
-
-    final currentUserResult = await instance<GetCurrentUserUseCase>().execute(
-      null,
-    );
-
-    return currentUserResult.fold((failure) async {
-      if (_shouldClearSession(failure.code)) {
-        await instance<AppPreferences>().clearSession();
-      }
-      return null;
-    }, (data) async {
-      if (data.user?.forcePasswordChange == true) {
-        return ChangePasswordScreen.routeName;
-      }
-      return null;
-    });
-  }
-
-  static bool _shouldClearSession(dynamic code) {
-    return code == 401 ||
-        code == 'TOKEN_INVALID' ||
-        code == 'REFRESH_TOKEN_INVALID' ||
-        code == 'SESSION_REVOKED';
   }
 }
