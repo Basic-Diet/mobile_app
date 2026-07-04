@@ -9,9 +9,8 @@ import 'register_state.dart';
 
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   final RegisterUseCase _registerUseCase;
-  final AppPreferences _appPreferences;
 
-  RegisterBloc(this._registerUseCase, this._appPreferences)
+  RegisterBloc(this._registerUseCase, AppPreferences _appPreferences)
     : super(const RegisterFormInitialState()) {
     on<RegisterFullNameChanged>(_onFullNameChanged);
     on<RegisterPhoneChanged>(_onPhoneChanged);
@@ -129,9 +128,6 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     final result = await _registerUseCase.execute(
       RegisterUseCaseInput(
         phone: _buildSaudiPhoneNumber(phone),
-        password: event.password,
-        confirmPassword: event.confirmPassword,
-        email: email.isEmpty ? null : email,
       ),
     );
 
@@ -152,30 +148,6 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         showToast(message: failure.message, state: ToastStates.error);
       },
       (data) async {
-        if (data.accessToken.isEmpty || data.refreshToken.isEmpty) {
-          final message = Strings.defaultError.tr();
-          if (!isClosed) {
-            emit(
-              RegisterErrorState(
-                message,
-                fullName: state.fullName,
-                phone: phone,
-                isPasswordNotEmpty: event.password.isNotEmpty,
-                isConfirmPasswordNotEmpty: event.confirmPassword.isNotEmpty,
-                email: email,
-              ),
-            );
-          }
-          showToast(message: message, state: ToastStates.error);
-          return;
-        }
-
-        await _appPreferences.saveSession(
-          accessToken: data.accessToken,
-          refreshToken: data.refreshToken,
-          expiresIn: data.expiresIn,
-        );
-
         if (!isClosed) {
           emit(
             RegisterCompletedState(
@@ -185,7 +157,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
             ),
           );
         }
-        showToast(message: Strings.success.tr(), state: ToastStates.success);
+        showToast(message: Strings.otpSent.tr(), state: ToastStates.success);
       },
     );
   }
