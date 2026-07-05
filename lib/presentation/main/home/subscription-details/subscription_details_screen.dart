@@ -138,8 +138,7 @@ class _SubscriptionDetailsState extends State<SubscriptionDetails> {
             }
 
             if (state.checkoutStatus == SubscriptionCheckoutStatus.success &&
-                state.subscriptionCheckout != null &&
-                !_shouldShowDeliveryStartShiftBanner(state)) {
+                state.subscriptionCheckout != null) {
               await _openSubscriptionPayment(
                 context,
                 state.subscriptionCheckout!,
