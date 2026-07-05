@@ -36,7 +36,7 @@ class MealPlannerMenuDataResponse {
   @JsonKey(name: 'currency')
   final String? currency;
 
-  @JsonKey(name: 'builderCatalog')
+  @JsonKey(name: 'builderCatalog', readValue: _readBuilderOrPlannerCatalog)
   final BuilderCatalogV2Response? builderCatalog;
 
   @JsonKey(
@@ -51,6 +51,10 @@ class MealPlannerMenuDataResponse {
     this.builderCatalog,
     this.addons,
   });
+
+  static Object? _readBuilderOrPlannerCatalog(Map json, String key) {
+    return json[key] ?? json['plannerCatalog'];
+  }
 
   static Object? _readAddonsOrCatalog(Map json, String key) {
     return json[key] ?? json['addonCatalog'];
@@ -258,6 +262,9 @@ class BuilderCatalogV2ProductResponse {
   @JsonKey(name: 'optionSections')
   final List<BuilderCatalogV2OptionSectionResponse>? optionSections;
 
+  @JsonKey(name: 'action')
+  final BuilderItemActionResponse? action;
+
   const BuilderCatalogV2ProductResponse({
     this.id,
     this.key,
@@ -279,6 +286,7 @@ class BuilderCatalogV2ProductResponse {
     this.sortOrder,
     this.optionGroups,
     this.optionSections,
+    this.action,
   });
 
   factory BuilderCatalogV2ProductResponse.fromJson(Map<String, dynamic> json) =>
@@ -318,6 +326,12 @@ class BuilderCatalogV2ProductResponse {
                 ?.whereType<Map<String, dynamic>>()
                 .map(BuilderCatalogV2OptionSectionResponse.fromJson)
                 .toList(),
+        action:
+            json['action'] is Map<String, dynamic>
+                ? BuilderItemActionResponse.fromJson(
+                  json['action'] as Map<String, dynamic>,
+                )
+                : null,
       );
 
   Map<String, dynamic> toJson() => <String, dynamic>{
@@ -342,6 +356,38 @@ class BuilderCatalogV2ProductResponse {
     'optionGroups': optionGroups?.map((group) => group.toJson()).toList(),
     'optionSections':
         optionSections?.map((section) => section.toJson()).toList(),
+    'action': action?.toJson(),
+  };
+}
+
+@JsonSerializable()
+class BuilderItemActionResponse {
+  @JsonKey(name: 'type')
+  final String? type;
+
+  @JsonKey(name: 'requiresBuilder')
+  final bool? requiresBuilder;
+
+  @JsonKey(name: 'treatAsFullMeal')
+  final bool? treatAsFullMeal;
+
+  const BuilderItemActionResponse({
+    this.type,
+    this.requiresBuilder,
+    this.treatAsFullMeal,
+  });
+
+  factory BuilderItemActionResponse.fromJson(Map<String, dynamic> json) =>
+      BuilderItemActionResponse(
+        type: json['type'] as String?,
+        requiresBuilder: json['requiresBuilder'] as bool?,
+        treatAsFullMeal: json['treatAsFullMeal'] as bool?,
+      );
+
+  Map<String, dynamic> toJson() => <String, dynamic>{
+    'type': type,
+    'requiresBuilder': requiresBuilder,
+    'treatAsFullMeal': treatAsFullMeal,
   };
 }
 

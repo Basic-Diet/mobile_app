@@ -44,13 +44,13 @@ class _ProteinPickerSheetState extends State<ProteinPickerSheet> {
         widget.selectedProteinId == null
             ? null
             : _proteinById(widget.selectedProteinId!);
-    final selectedSandwich =
+    final selectedDirectItem =
         widget.selectedProteinId == null
             ? null
-            : _sandwichById(widget.selectedProteinId!);
+            : _directItemById(widget.selectedProteinId!);
 
-    if (selectedSandwich != null) {
-      _activeTabKey = 'sandwich';
+    if (selectedDirectItem != null) {
+      _activeTabKey = _directTabKey(selectedDirectItem);
     } else if (selectedProtein != null && selectedProtein.isPremium) {
       _activeTabKey = 'premium';
     } else if (selectedProtein != null) {
@@ -65,11 +65,16 @@ class _ProteinPickerSheetState extends State<ProteinPickerSheet> {
     return null;
   }
 
-  BuilderSandwichModel? _sandwichById(String id) {
-    for (final sandwich in widget.state.menu.builderCatalog.sandwiches) {
-      if (sandwich.id == id) return sandwich;
+  BuilderSandwichModel? _directItemById(String id) {
+    for (final item in widget.state.menu.builderCatalog.directFullMealItems) {
+      if (item.id == id) return item;
     }
     return null;
+  }
+
+  String _directTabKey(BuilderSandwichModel item) {
+    if (item.sectionKey.isNotEmpty) return item.sectionKey;
+    return item.selectionType;
   }
 
   String _iconForTabKey(String key) {
@@ -86,8 +91,6 @@ class _ProteinPickerSheetState extends State<ProteinPickerSheet> {
         return '🥚';
       case 'premium':
         return '⭐';
-      case 'sandwich':
-        return '🥪';
       case 'other':
         return '🍽️';
       default:
@@ -115,7 +118,11 @@ class _ProteinPickerSheetState extends State<ProteinPickerSheet> {
             .toList()
           ..sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
 
-    if (allCategories.isEmpty) {
+    final directTabs = _directMealTabs(
+      widget.state.menu.builderCatalog.directFullMealItems,
+    );
+
+    if (allCategories.isEmpty && directTabs.isEmpty) {
       return _EmptySheet();
     }
 
@@ -152,10 +159,13 @@ class _ProteinPickerSheetState extends State<ProteinPickerSheet> {
 
     final tabs = [
       _ProteinTab(key: 'premium', label: Strings.premium.tr()),
-      if (widget.state.menu.builderCatalog.sandwiches.isNotEmpty)
-        _ProteinTab(key: 'sandwich', label: Strings.sandwich.tr()),
+      ...directTabs,
       ...allCategories.map((c) => _ProteinTab(key: c.key, label: c.name)),
     ];
+    final activeTabKey =
+        tabs.any((tab) => tab.key == _activeTabKey)
+            ? _activeTabKey
+            : tabs.first.key;
 
     return DraggableScrollableSheet(
       initialChildSize: 0.85,
@@ -178,7 +188,7 @@ class _ProteinPickerSheetState extends State<ProteinPickerSheet> {
               Gap(AppSize.s4.h),
               _CategoryTabs(
                 tabs: tabs,
-                activeTabKey: _activeTabKey,
+                activeTabKey: activeTabKey,
                 beefRuleKey: beefRule.proteinFamilyKey,
                 isBeefDisabled: isBeefDisabled,
                 iconForTabKey: _iconForTabKey,
@@ -187,12 +197,13 @@ class _ProteinPickerSheetState extends State<ProteinPickerSheet> {
               Gap(AppSize.s12.h),
               Expanded(
                 child: _ProteinList(
-                  proteins: _filteredProteins(_activeTabKey),
-                  sandwiches: widget.state.menu.builderCatalog.sandwiches,
+                  proteins: _filteredProteins(activeTabKey),
+                  directMealItems:
+                      widget.state.menu.builderCatalog.directFullMealItems,
                   selectedProteinId: widget.selectedProteinId,
                   slotIndex: widget.slotIndex,
                   state: widget.state,
-                  activeTabKey: _activeTabKey,
+                  activeTabKey: activeTabKey,
                   isBeefDisabled: isBeefDisabled,
                   beefFamilyKey: beefRule.proteinFamilyKey,
                   currentIsBeef: currentIsBeef,
@@ -204,6 +215,19 @@ class _ProteinPickerSheetState extends State<ProteinPickerSheet> {
         );
       },
     );
+  }
+
+  List<_ProteinTab> _directMealTabs(List<BuilderSandwichModel> items) {
+    final tabsByKey = <String, _ProteinTab>{};
+    for (final item in items) {
+      final key = _directTabKey(item);
+      if (key.isEmpty || tabsByKey.containsKey(key)) continue;
+      tabsByKey[key] = _ProteinTab(
+        key: key,
+        label: item.sectionName.isNotEmpty ? item.sectionName : item.name,
+      );
+    }
+    return tabsByKey.values.toList();
   }
 }
 
@@ -304,7 +328,7 @@ class _CategoryTabs extends StatelessWidget {
 
 class _ProteinList extends StatelessWidget {
   final List<BuilderProteinModel> proteins;
-  final List<BuilderSandwichModel> sandwiches;
+  final List<BuilderSandwichModel> directMealItems;
   final String? selectedProteinId;
   final int slotIndex;
   final MealPlannerLoaded state;
@@ -316,7 +340,7 @@ class _ProteinList extends StatelessWidget {
 
   const _ProteinList({
     required this.proteins,
-    required this.sandwiches,
+    required this.directMealItems,
     required this.selectedProteinId,
     required this.slotIndex,
     required this.state,
@@ -339,7 +363,14 @@ class _ProteinList extends StatelessWidget {
         .firstWhere((slot) => slot != null, orElse: () => null);
     final isCustomSelected =
         currentSlot?.selectionType == 'premium_large_salad';
-    final showSandwiches = activeTabKey == 'sandwich';
+    final visibleDirectItems =
+        directMealItems.where((item) {
+          final key =
+              item.sectionKey.isNotEmpty ? item.sectionKey : item.selectionType;
+          return key == activeTabKey;
+        }).toList()
+          ..sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
+    final showDirectItems = visibleDirectItems.isNotEmpty;
 
     return SafeArea(
       child: Column(
@@ -353,21 +384,21 @@ class _ProteinList extends StatelessWidget {
                 bottom: 12.h,
               ),
               children: [
-                if (showSandwiches)
-                  ...sandwiches.map((sandwich) {
+                if (showDirectItems)
+                  ...visibleDirectItems.map((item) {
                     final isSelected =
-                        currentSlot?.selectionType == 'sandwich' &&
-                        currentSlot?.sandwichId == sandwich.id;
+                        currentSlot?.selectionType == item.selectionType &&
+                        currentSlot?.sandwichId == item.id;
                     return Padding(
                       padding: EdgeInsets.only(bottom: AppSize.s10.h),
-                      child: _SandwichItem(
-                        sandwich: sandwich,
+                      child: _DirectMealItem(
+                        item: item,
                         isSelected: isSelected,
                         slotIndex: slotIndex,
                       ),
                     );
                   }),
-                if (!showSandwiches)
+                if (!showDirectItems)
                   ...proteins.map((protein) {
                     final isSelected =
                         !isCustomSelected && selectedProteinId == protein.id;
@@ -461,13 +492,13 @@ class _ProteinList extends StatelessWidget {
   }
 }
 
-class _SandwichItem extends StatelessWidget {
-  final BuilderSandwichModel sandwich;
+class _DirectMealItem extends StatelessWidget {
+  final BuilderSandwichModel item;
   final bool isSelected;
   final int slotIndex;
 
-  const _SandwichItem({
-    required this.sandwich,
+  const _DirectMealItem({
+    required this.item,
     required this.isSelected,
     required this.slotIndex,
   });
@@ -477,7 +508,7 @@ class _SandwichItem extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         context.read<MealPlannerBloc>().add(
-          SetMealSlotProteinEvent(slotIndex: slotIndex, proteinId: sandwich.id),
+          SetMealSlotProteinEvent(slotIndex: slotIndex, proteinId: item.id),
         );
         Navigator.pop(context);
       },
@@ -500,16 +531,16 @@ class _SandwichItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              sandwich.name,
+              item.name,
               style: getBoldTextStyle(
                 color: ColorManager.textPrimary,
                 fontSize: FontSizeManager.s14.sp,
               ),
             ),
-            if (sandwich.description.isNotEmpty) ...[
+            if (item.description.isNotEmpty) ...[
               Gap(4.h),
               Text(
-                sandwich.description,
+                item.description,
                 style: getRegularTextStyle(
                   color: ColorManager.textSecondary,
                   fontSize: FontSizeManager.s12.sp,

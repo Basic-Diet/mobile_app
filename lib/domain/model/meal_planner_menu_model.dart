@@ -77,6 +77,7 @@ class BuilderCatalogV2ProductModel {
   final String proteinFamilyKey;
   final int sortOrder;
   final BuilderCatalogV2UiModel ui;
+  final BuilderItemActionModel action;
   final List<BuilderCatalogV2OptionSectionModel> optionSections;
   final List<BuilderCatalogV2OptionGroupModel> optionGroups;
 
@@ -99,9 +100,26 @@ class BuilderCatalogV2ProductModel {
     this.proteinFamilyKey = '',
     required this.sortOrder,
     required this.ui,
+    this.action = const BuilderItemActionModel(),
     this.optionSections = const [],
     this.optionGroups = const [],
   });
+}
+
+class BuilderItemActionModel {
+  final String type;
+  final bool requiresBuilder;
+  final bool treatAsFullMeal;
+
+  const BuilderItemActionModel({
+    this.type = '',
+    this.requiresBuilder = false,
+    this.treatAsFullMeal = false,
+  });
+
+  bool get isDirectAdd => type == 'direct_add' && !requiresBuilder;
+
+  bool get opensBuilder => type == 'open_builder' && requiresBuilder;
 }
 
 class BuilderCatalogV2OptionGroupModel {
@@ -217,6 +235,7 @@ class BuilderCatalogV2UiModel {
 }
 
 class BuilderCatalogModel {
+  final List<BuilderCatalogV2SectionModel> sections;
   final List<BuilderCategoryModel> categories;
   final List<BuilderProteinModel> proteins;
   final List<BuilderProteinModel> premiumProteins;
@@ -226,6 +245,7 @@ class BuilderCatalogModel {
   final PremiumLargeSaladModel? premiumLargeSalad;
 
   BuilderCatalogModel({
+    this.sections = const [],
     required this.categories,
     required this.proteins,
     required this.premiumProteins,
@@ -238,6 +258,8 @@ class BuilderCatalogModel {
   List<BuilderProteinModel> get allProteins => [...proteins, ...premiumProteins];
 
   List<BuilderProteinModel> get allSaladProteins => allProteins;
+
+  List<BuilderSandwichModel> get directFullMealItems => sandwiches;
 }
 
 class BuilderCategoryModel {
@@ -312,18 +334,32 @@ class BuilderCarbModel {
 
 class BuilderSandwichModel {
   final String id;
+  final String key;
   final String selectionType;
   final String name;
   final String description;
   final int sortOrder;
+  final BuilderItemActionModel action;
+  final String sectionKey;
+  final String sectionName;
 
   BuilderSandwichModel({
     required this.id,
+    this.key = '',
     required this.selectionType,
     required this.name,
     required this.description,
     required this.sortOrder,
+    this.action = const BuilderItemActionModel(),
+    this.sectionKey = '',
+    this.sectionName = '',
   });
+
+  bool get isDirectFullMeal =>
+      action.isDirectAdd &&
+      (action.treatAsFullMeal ||
+          selectionType == 'full_meal_product' ||
+          selectionType == 'sandwich');
 }
 
 class BuilderRulesModel {

@@ -908,7 +908,7 @@ String _normalizePremiumMealName(String value) {
 }
 
 bool _isCompletedMealSelection(MealPlannerSlotSelection slot) {
-  if (slot.selectionType == 'sandwich') {
+  if (slot.sandwichId != null && slot.sandwichId!.isNotEmpty) {
     return slot.sandwichId != null && slot.sandwichId!.isNotEmpty;
   }
   if (slot.selectionType == 'premium_large_salad') {

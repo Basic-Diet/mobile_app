@@ -32,10 +32,18 @@ MealPlannerMenuDataResponse _$MealPlannerMenuDataResponseFromJson(
 ) => MealPlannerMenuDataResponse(
   currency: json['currency'] as String?,
   builderCatalog:
-      json['builderCatalog'] == null
+      MealPlannerMenuDataResponse._readBuilderOrPlannerCatalog(
+                json,
+                'builderCatalog',
+              ) ==
+              null
           ? null
           : BuilderCatalogV2Response.fromJson(
-            json['builderCatalog'] as Map<String, dynamic>,
+            MealPlannerMenuDataResponse._readBuilderOrPlannerCatalog(
+                  json,
+                  'builderCatalog',
+                )
+                as Map<String, dynamic>,
           ),
   addons: MealPlannerMenuDataResponse._addonsFromJson(
     MealPlannerMenuDataResponse._readAddonsOrCatalog(json, 'addons'),
@@ -53,8 +61,7 @@ Map<String, dynamic> _$MealPlannerMenuDataResponseToJson(
 BuilderCatalogV2Response _$BuilderCatalogV2ResponseFromJson(
   Map<String, dynamic> json,
 ) => BuilderCatalogV2Response(
-  catalogVersion:
-      (json['contractVersion'] ?? json['catalogVersion']) as String?,
+  catalogVersion: json['contractVersion'] as String?,
   currency: json['currency'] as String?,
   sections:
       (json['sections'] as List<dynamic>?)
@@ -165,6 +172,12 @@ BuilderCatalogV2ProductResponse _$BuilderCatalogV2ProductResponseFromJson(
             ),
           )
           .toList(),
+  action:
+      json['action'] == null
+          ? null
+          : BuilderItemActionResponse.fromJson(
+            json['action'] as Map<String, dynamic>,
+          ),
 );
 
 Map<String, dynamic> _$BuilderCatalogV2ProductResponseToJson(
@@ -190,6 +203,23 @@ Map<String, dynamic> _$BuilderCatalogV2ProductResponseToJson(
   'sortOrder': instance.sortOrder,
   'optionGroups': instance.optionGroups,
   'optionSections': instance.optionSections,
+  'action': instance.action,
+};
+
+BuilderItemActionResponse _$BuilderItemActionResponseFromJson(
+  Map<String, dynamic> json,
+) => BuilderItemActionResponse(
+  type: json['type'] as String?,
+  requiresBuilder: json['requiresBuilder'] as bool?,
+  treatAsFullMeal: json['treatAsFullMeal'] as bool?,
+);
+
+Map<String, dynamic> _$BuilderItemActionResponseToJson(
+  BuilderItemActionResponse instance,
+) => <String, dynamic>{
+  'type': instance.type,
+  'requiresBuilder': instance.requiresBuilder,
+  'treatAsFullMeal': instance.treatAsFullMeal,
 };
 
 BuilderCatalogV2OptionGroupResponse

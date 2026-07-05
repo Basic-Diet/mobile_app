@@ -219,10 +219,10 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
         event.proteinId == null
             ? null
             : _findProteinById(current.menu, event.proteinId!);
-    final selectedSandwich =
+    final selectedDirectMeal =
         event.proteinId == null
             ? null
-            : _findSandwichById(current.menu, event.proteinId!);
+            : _findDirectFullMealById(current.menu, event.proteinId!);
 
     MealPlannerSlotSelection updated;
     if (event.proteinId == null) {
@@ -233,10 +233,10 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
         clearSandwichId: true,
         clearSalad: true,
       );
-    } else if (selectedSandwich != null) {
+    } else if (selectedDirectMeal != null) {
       updated = previous.copyWith(
-        selectionType: 'sandwich',
-        sandwichId: selectedSandwich.id,
+        selectionType: selectedDirectMeal.selectionType,
+        sandwichId: selectedDirectMeal.id,
         clearProteinId: true,
         clearCarbs: true,
         clearSalad: true,
@@ -260,7 +260,7 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
         showSavedBanner: event.proteinId != null,
         lastAddedMealName:
             selectedProtein?.name ??
-            selectedSandwich?.name ??
+            selectedDirectMeal?.name ??
             current.lastAddedMealName,
         premiumMealsPendingPayment: _calculatePendingPaymentCount(
           current,
@@ -1420,7 +1420,7 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
   }
 
   bool _isCompleteSlot(MealPlannerSlotSelection slot) {
-    if (slot.selectionType == 'sandwich') {
+    if (_isDirectFullMealSlot(slot)) {
       return slot.sandwichId != null && slot.sandwichId!.isNotEmpty;
     }
     if (slot.selectionType == 'premium_large_salad') {
@@ -1443,14 +1443,28 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
     return null;
   }
 
-  BuilderSandwichModel? _findSandwichById(
+  BuilderSandwichModel? _findDirectFullMealById(
     MealPlannerMenuModel menu,
     String id,
   ) {
-    for (final sandwich in menu.builderCatalog.sandwiches) {
-      if (sandwich.id == id) return sandwich;
+    for (final item in menu.builderCatalog.directFullMealItems) {
+      if (item.id == id) return item;
     }
     return null;
+  }
+
+  bool _isDirectFullMealSlot(MealPlannerSlotSelection slot) {
+    if (state is! MealPlannerLoaded) {
+      return slot.sandwichId != null && slot.carbs.isEmpty;
+    }
+    final current = state as MealPlannerLoaded;
+    final item =
+        slot.sandwichId == null
+            ? null
+            : _findDirectFullMealById(current.menu, slot.sandwichId!);
+    return item != null &&
+        item.selectionType == slot.selectionType &&
+        item.isDirectFullMeal;
   }
 
   String _resolvePlateSelectionType(
@@ -1498,11 +1512,11 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
     MealPlannerLoaded current,
     MealPlannerSlotSelection slot,
   ) {
-    if (slot.selectionType == 'sandwich') {
+    if (_isDirectFullMealSlot(slot)) {
       return MealSlotRequest(
         slotIndex: slot.slotIndex,
         slotKey: slot.slotKey,
-        selectionType: 'sandwich',
+        selectionType: slot.selectionType,
         sandwichId: slot.sandwichId,
       );
     }
@@ -1586,7 +1600,7 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
   String? _validateCurrentCarbSelections(MealPlannerLoaded current) {
     final rules = current.menu.builderCatalog.rules;
     for (final slot in _currentSlots(current)) {
-      if (slot.selectionType == 'sandwich' ||
+      if (_isDirectFullMealSlot(slot) ||
           slot.selectionType == 'premium_large_salad' ||
           slot.proteinId == null) {
         continue;

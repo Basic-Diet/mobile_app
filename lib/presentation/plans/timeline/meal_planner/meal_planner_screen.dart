@@ -433,21 +433,22 @@ class _MealPlannerBody extends StatelessWidget {
         slot?.proteinId == null
             ? null
             : _findProteinById(state.menu, slot!.proteinId!);
-    final sandwich =
+    final directMeal =
         slot?.sandwichId == null
             ? null
-            : _findSandwichById(state.menu, slot!.sandwichId!);
-    final isSandwichSelection = slot?.selectionType == 'sandwich';
+            : _findDirectFullMealById(state.menu, slot!.sandwichId!);
+    final isDirectMealSelection =
+        directMeal != null && directMeal.selectionType == slot?.selectionType;
     final isPremiumLargeSaladSelection =
         slot?.selectionType == 'premium_large_salad';
     final proteinLabel =
         isPremiumLargeSaladSelection
             ? _premiumLargeSaladName(state.menu)
-            : isSandwichSelection
-            ? (sandwich?.name ?? '')
+            : isDirectMealSelection
+            ? (directMeal.name)
             : (protein?.name ?? '');
     final selectedProteinId =
-        isSandwichSelection ? slot?.sandwichId : slot?.proteinId;
+        isDirectMealSelection ? slot?.sandwichId : slot?.proteinId;
     final maxCarbItems =
         state.menu.builderCatalog.rules.maxCarbItemsPerMeal <= 0
             ? 2
@@ -466,7 +467,7 @@ class _MealPlannerBody extends StatelessWidget {
       carbSelections: slot?.carbs ?? const [],
       hasCarbSelection: (slot?.carbs ?? const []).isNotEmpty,
       isProteinPremium: protein?.isPremium ?? false,
-      showCarbField: !isSandwichSelection && !isPremiumLargeSaladSelection,
+      showCarbField: !isDirectMealSelection && !isPremiumLargeSaladSelection,
       maxCarbItems: maxCarbItems,
       maxCarbTotalGrams: maxCarbTotalGrams,
       isRemovable: !isReadOnly && index >= state.initialRequiredMeals,
@@ -478,7 +479,9 @@ class _MealPlannerBody extends StatelessWidget {
               ),
       onClear:
           isReadOnly ||
-                  (!isSandwichSelection && protein == null && sandwich == null)
+                  (!isDirectMealSelection &&
+                      protein == null &&
+                      directMeal == null)
               ? null
               : () => context.read<MealPlannerBloc>().add(
                 SetMealSlotProteinEvent(slotIndex: index, proteinId: null),
@@ -495,8 +498,8 @@ class _MealPlannerBody extends StatelessWidget {
       carbOptions: _sortedCarbs(state.menu),
       onCarbSelected:
           isReadOnly ||
-                  (!isSandwichSelection && protein == null) ||
-                  isSandwichSelection
+                  (!isDirectMealSelection && protein == null) ||
+                  isDirectMealSelection
               ? null
               : (carbIndex, carbId) => context.read<MealPlannerBloc>().add(
                 SetMealSlotCarbEvent(
@@ -507,8 +510,8 @@ class _MealPlannerBody extends StatelessWidget {
               ),
       onCarbGramsChanged:
           isReadOnly ||
-                  (!isSandwichSelection && protein == null) ||
-                  isSandwichSelection
+                  (!isDirectMealSelection && protein == null) ||
+                  isDirectMealSelection
               ? null
               : (carbIndex, grams) => context.read<MealPlannerBloc>().add(
                 SetMealSlotCarbEvent(
@@ -523,8 +526,8 @@ class _MealPlannerBody extends StatelessWidget {
               ),
       onRemoveCarb:
           isReadOnly ||
-                  (!isSandwichSelection && protein == null) ||
-                  isSandwichSelection
+                  (!isDirectMealSelection && protein == null) ||
+                  isDirectMealSelection
               ? null
               : (carbIndex) => context.read<MealPlannerBloc>().add(
                 SetMealSlotCarbEvent(
@@ -617,12 +620,12 @@ class _MealPlannerBody extends StatelessWidget {
     return null;
   }
 
-  BuilderSandwichModel? _findSandwichById(
+  BuilderSandwichModel? _findDirectFullMealById(
     MealPlannerMenuModel menu,
     String id,
   ) {
-    for (final sandwich in menu.builderCatalog.sandwiches) {
-      if (sandwich.id == id) return sandwich;
+    for (final item in menu.builderCatalog.directFullMealItems) {
+      if (item.id == id) return item;
     }
     return null;
   }

@@ -57,10 +57,16 @@ extension BuilderSandwichResponseMapper on BuilderSandwichResponse? {
   BuilderSandwichModel toDomain() {
     return BuilderSandwichModel(
       id: this?.id.orEmpty() ?? Constants.empty,
+      key: this?.id.orEmpty() ?? Constants.empty,
       selectionType: this?.selectionType.orEmpty() ?? 'sandwich',
       name: this?.name.orEmpty() ?? Constants.empty,
       description: this?.description.orEmpty() ?? Constants.empty,
       sortOrder: this?.sortOrder.orZero() ?? Constants.zero,
+      action: const BuilderItemActionModel(
+        type: 'direct_add',
+        requiresBuilder: false,
+        treatAsFullMeal: true,
+      ),
     );
   }
 }
@@ -175,7 +181,6 @@ extension BuilderCatalogV2ResponseMapper on BuilderCatalogV2Response? {
     final premiumSection =
         _sectionBySelectionType(sections, 'premium_meal') ??
         _sectionBySelectionType(sections, 'premium');
-    final sandwichSection = _sectionBySelectionType(sections, 'sandwich');
     final saladSection =
         _sectionBySelectionType(sections, 'premium_large_salad') ??
         premiumSection;
@@ -216,6 +221,7 @@ extension BuilderCatalogV2ResponseMapper on BuilderCatalogV2Response? {
     final carbOptions = _carbOptions(carbGroup);
 
     return BuilderCatalogModel(
+      sections: sections.map((section) => section.toRawDomain()).toList(),
       categories: _proteinCategories(
         resolvedProteins,
         categoryNamesByKey: _sectionNamesByKey(sections),
@@ -223,7 +229,7 @@ extension BuilderCatalogV2ResponseMapper on BuilderCatalogV2Response? {
       proteins: resolvedProteins,
       premiumProteins: resolvedPremiumProteins,
       carbs: carbOptions.isNotEmpty ? carbOptions : _sectionCarbs(carbSection),
-      sandwiches: _sandwiches(sandwichSection),
+      sandwiches: _directFullMealItems(sections),
       rules: (self.rules).toDomain(),
       premiumLargeSalad: _premiumLargeSalad(
         saladSection,
@@ -378,6 +384,7 @@ extension BuilderCatalogV2ProductRawMapper on BuilderCatalogV2ProductResponse {
         imageRatio: ui?.imageRatio ?? '',
         displayStyle: ui?.displayStyle ?? '',
       ),
+      action: (action).toDomain(),
       optionSections:
           (optionSections ?? const <BuilderCatalogV2OptionSectionResponse>[])
               .map((section) => section.toRawDomain())
@@ -386,6 +393,17 @@ extension BuilderCatalogV2ProductRawMapper on BuilderCatalogV2ProductResponse {
           (optionGroups ?? const <BuilderCatalogV2OptionGroupResponse>[])
               .map((group) => group.toRawDomain())
               .toList(),
+    );
+  }
+}
+
+extension BuilderItemActionResponseMapper on BuilderItemActionResponse? {
+  BuilderItemActionModel toDomain() {
+    return BuilderItemActionModel(
+      type: this?.type.orEmpty() ?? Constants.empty,
+      requiresBuilder: this?.requiresBuilder.orFalse() ?? Constants.falseValue,
+      treatAsFullMeal:
+          this?.treatAsFullMeal.orFalse() ?? Constants.falseValue,
     );
   }
 }
@@ -700,22 +718,41 @@ Map<String, String> _sectionNamesByKey(
   };
 }
 
-List<BuilderSandwichModel> _sandwiches(
-  BuilderCatalogV2SectionResponse? section,
+List<BuilderSandwichModel> _directFullMealItems(
+  List<BuilderCatalogV2SectionResponse> sections,
 ) {
-  final products = List<BuilderCatalogV2ProductResponse>.from(
-    section?.products ?? const <BuilderCatalogV2ProductResponse>[],
-  )..sort((a, b) => (a.sortOrder ?? 0).compareTo(b.sortOrder ?? 0));
-
-  return products.map((product) {
-    return BuilderSandwichModel(
-      id: product.id.orEmpty(),
-      selectionType: section?.selectionType.orEmpty() ?? 'sandwich',
-      name: product.name.orEmpty(),
-      description: product.description.orEmpty(),
-      sortOrder: product.sortOrder.orZero(),
-    );
-  }).toList();
+  final items = <BuilderSandwichModel>[];
+  for (final section in sections) {
+    for (final product
+        in section.products ?? const <BuilderCatalogV2ProductResponse>[]) {
+      final action = product.action.toDomain();
+      final selectionType = _fallbackString(
+        product.selectionType,
+        section.selectionType.orEmpty(),
+      );
+      final isDirectFullMeal =
+          action.isDirectAdd &&
+          (action.treatAsFullMeal ||
+              selectionType == 'full_meal_product' ||
+              selectionType == 'sandwich');
+      if (!isDirectFullMeal) continue;
+      items.add(
+        BuilderSandwichModel(
+          id: product.id.orEmpty(),
+          key: product.key.orEmpty(),
+          selectionType: selectionType,
+          name: product.name.orEmpty(),
+          description: product.description.orEmpty(),
+          sortOrder: product.sortOrder.orZero(),
+          action: action,
+          sectionKey: section.key.orEmpty(),
+          sectionName: section.name.orEmpty(),
+        ),
+      );
+    }
+  }
+  items.sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
+  return items;
 }
 
 PremiumLargeSaladModel? _premiumLargeSalad(

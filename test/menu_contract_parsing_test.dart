@@ -389,6 +389,68 @@ void main() {
 
       expect(menu.builderCatalog.premiumLargeSalad, isNull);
     });
+
+    test('maps V3 direct full meal products from dynamic sections', () {
+      final response = MealPlannerMenuResponse.fromJson({
+        'status': true,
+        'data': {
+          'plannerCatalog': {
+            'contractVersion': 'meal_planner_menu.v3',
+            'currency': 'SAR',
+            'sections': [
+              {
+                'id': 'section:ready-meals',
+                'key': 'ready_meals',
+                'type': 'product_section',
+                'selectionType': 'full_meal_product',
+                'name': 'Ready meals',
+                'products': [
+                  {
+                    'id': 'moussaka_with_minced_meat',
+                    'key': 'moussaka_with_minced_meat',
+                    'name': 'Moussaka with minced meat',
+                    'selectionType': 'full_meal_product',
+                    'sortOrder': 10,
+                    'action': {
+                      'type': 'direct_add',
+                      'requiresBuilder': false,
+                      'treatAsFullMeal': true,
+                    },
+                  },
+                  {
+                    'id': 'lasagna_with_minced_meat',
+                    'key': 'lasagna_with_minced_meat',
+                    'name': 'Lasagna with minced meat',
+                    'selectionType': 'full_meal_product',
+                    'sortOrder': 20,
+                    'action': {
+                      'type': 'direct_add',
+                      'requiresBuilder': false,
+                      'treatAsFullMeal': true,
+                    },
+                  },
+                ],
+              },
+            ],
+            'rules': {},
+          },
+        },
+      });
+
+      final menu = response.toDomain();
+      final directItems = menu.builderCatalog.directFullMealItems;
+
+      expect(menu.builderCatalog.sections.single.key, 'ready_meals');
+      expect(directItems.map((item) => item.id), [
+        'moussaka_with_minced_meat',
+        'lasagna_with_minced_meat',
+      ]);
+      expect(directItems.every((item) => item.selectionType == 'full_meal_product'), isTrue);
+      expect(directItems.every((item) => item.action.type == 'direct_add'), isTrue);
+      expect(directItems.every((item) => item.action.requiresBuilder == false), isTrue);
+      expect(directItems.every((item) => item.action.treatAsFullMeal), isTrue);
+      expect(directItems.every((item) => item.isDirectFullMeal), isTrue);
+    });
   });
 
   group('order menu parsing', () {
