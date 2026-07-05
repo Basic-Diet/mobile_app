@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:basic_diet/app/constants.dart';
 import 'package:basic_diet/app/dependency_injection.dart';
 import 'package:basic_diet/domain/model/current_subscription_overview_model.dart';
 import 'package:basic_diet/domain/model/meal_planner_menu_model.dart';
@@ -195,9 +196,8 @@ class MealPlannerScreen extends StatelessWidget {
 }
 
 const String _unifiedDayPaymentSuccessUrl =
-    'https://app.example.com/payments/day-planning/success';
-const String _unifiedDayPaymentCancelUrl =
-    'https://app.example.com/payments/day-planning/cancel';
+    Constants.unifiedDayPaymentSuccessUrl;
+const String _unifiedDayPaymentCancelUrl = Constants.unifiedDayPaymentCancelUrl;
 
 class MealPlannerView extends StatelessWidget {
   final bool readOnly;

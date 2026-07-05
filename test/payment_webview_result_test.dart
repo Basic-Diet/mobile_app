@@ -1,10 +1,11 @@
+import 'package:basic_diet/app/constants.dart';
 import 'package:basic_diet/presentation/main/cart/payment_webview_screen.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('paymentCallbackMatches', () {
-    const successUrl = 'https://basicdiet145.onrender.com/payment-success';
-    const cancelUrl = 'https://basicdiet145.onrender.com/payment-cancel';
+    const successUrl = Constants.paymentSuccessUrl;
+    const cancelUrl = Constants.paymentCancelUrl;
 
     test('matches configured success callback with query parameters', () {
       expect(
@@ -27,7 +28,7 @@ void main() {
       );
       expect(
         paymentCallbackMatches(
-          'https://basicdiet145.onrender.com/other/payment-success',
+          '${Constants.debugBaseUrl}/other/payment-success',
           successUrl,
         ),
         isFalse,

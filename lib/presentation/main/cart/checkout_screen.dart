@@ -49,10 +49,8 @@ class _CheckoutScreenContent extends StatefulWidget {
 }
 
 class _CheckoutScreenContentState extends State<_CheckoutScreenContent> {
-  static const String _paymentSuccessUrl =
-      'https://basicdiet145.onrender.com/payment-success';
-  static const String _paymentCancelUrl =
-      'https://basicdiet145.onrender.com/payment-cancel';
+  static const String _paymentSuccessUrl = Constants.paymentSuccessUrl;
+  static const String _paymentCancelUrl = Constants.paymentCancelUrl;
 
   late String _idempotencyKey;
 

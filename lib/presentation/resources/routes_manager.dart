@@ -1,3 +1,4 @@
+import 'package:basic_diet/app/constants.dart';
 import 'package:basic_diet/app/dependency_injection.dart';
 import 'package:basic_diet/app/functions.dart';
 import 'package:basic_diet/domain/model/subscription_quote_model.dart';
@@ -251,8 +252,8 @@ class GoRouterConfig {
 
           if (extra is String) {
             paymentUrl = extra;
-            successUrl = 'https://basicdiet145.onrender.com/payment-success';
-            backUrl = 'https://basicdiet145.onrender.com/payment-cancel';
+            successUrl = Constants.paymentSuccessUrl;
+            backUrl = Constants.paymentCancelUrl;
           } else if (extra is Map<String, dynamic>) {
             paymentUrl = extra['paymentUrl'] as String;
             successUrl = extra['successUrl'] as String;

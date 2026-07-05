@@ -1,5 +1,6 @@
 import 'package:basic_diet/data/mappers/create_order_request_mapper.dart';
 import 'package:basic_diet/data/mappers/order_quote_request_mapper.dart';
+import 'package:basic_diet/app/constants.dart';
 import 'package:basic_diet/domain/model/create_order_request_model.dart';
 import 'package:basic_diet/domain/model/order_quote_request_model.dart';
 import 'package:basic_diet/presentation/main/cart/bloc/cart_bloc.dart';
@@ -73,8 +74,8 @@ void main() {
           pickupWindow: '12:00-14:00',
         ),
         items: [],
-        successUrl: 'https://basicdiet145.onrender.com/payment-success',
-        backUrl: 'https://basicdiet145.onrender.com/payment-cancel',
+        successUrl: Constants.paymentSuccessUrl,
+        backUrl: Constants.paymentCancelUrl,
       );
 
       expect(quoteRequest.toRequest().toJson()['pickup'], {

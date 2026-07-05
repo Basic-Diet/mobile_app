@@ -1874,8 +1874,8 @@ String _buildAddressSummary(SubscriptionAddressModel? address) {
   ]);
 }
 
-const String _paymentSuccessUrl = 'https://app.example.com/payments/success';
-const String _paymentCancelUrl = 'https://app.example.com/payments/cancel';
+const String _paymentSuccessUrl = Constants.paymentSuccessUrl;
+const String _paymentCancelUrl = Constants.paymentCancelUrl;
 const Uuid _uuid = Uuid();
 
 SubscriptionCheckoutRequestModel _buildCheckoutRequest(

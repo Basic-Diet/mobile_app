@@ -1,4 +1,5 @@
 import 'package:basic_diet/data/network/failure.dart';
+import 'package:basic_diet/app/constants.dart';
 import 'package:basic_diet/domain/model/create_order_request_model.dart';
 import 'package:basic_diet/domain/model/one_time_order_model.dart';
 import 'package:basic_diet/domain/model/order_quote_model.dart';
@@ -123,8 +124,8 @@ CreateOrderEvent _createOrderEvent() {
     CreateOrderRequestModel(
       fulfillmentMethod: 'pickup',
       items: [],
-      successUrl: 'https://basicdiet145.onrender.com/payment-success',
-      backUrl: 'https://basicdiet145.onrender.com/payment-cancel',
+      successUrl: Constants.paymentSuccessUrl,
+      backUrl: Constants.paymentCancelUrl,
     ),
     idempotencyKey: 'test-key',
   );
