@@ -551,8 +551,6 @@ final class MealPlannerLoaded extends MealPlannerState {
       isSelectedDayEditable || isSelectedDayAppendMode;
 
   bool get isSelectedDayAppendMode {
-    if (selectedTimelineDay.isHistoricalOnly) return false;
-    if (!selectedTimelineDay.canEdit) return false;
     if (!_isSelectedPickupDay) return false;
 
     final detail = selectedDayDetail;
@@ -561,8 +559,22 @@ final class MealPlannerLoaded extends MealPlannerState {
     final blockingReason =
         detail?.paymentRequirement?.blockingReason?.toUpperCase();
 
-    return commercialState.toLowerCase() == 'confirmed' ||
+    final isConfirmedOrLocked =
+        commercialState.toLowerCase() == 'confirmed' ||
         blockingReason == 'DAY_ALREADY_CONFIRMED';
+
+    // Allow appending meals if the user has balance and the day is not past.
+    // This supports appending to current fulfilled pickup days.
+    if (mealBalance?.canConsumeNow == true && !selectedTimelineDay.isPast) {
+      if (selectedTimelineDay.isTerminalStatus || isConfirmedOrLocked) {
+        return true;
+      }
+    }
+
+    if (selectedTimelineDay.isHistoricalOnly) return false;
+    if (!selectedTimelineDay.canEdit) return false;
+
+    return isConfirmedOrLocked;
   }
 
   bool get _isSelectedPickupDay {
