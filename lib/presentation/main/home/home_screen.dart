@@ -110,12 +110,12 @@ class _HomeHeader extends StatelessWidget {
             ),
           ),
         ),
-        Gap(AppSize.s10.w),
-        _HeaderButton(
-          icon: Icons.notifications_none_rounded,
-          hasIndicator: true,
-          onTap: () {},
-        ),
+        // Gap(AppSize.s10.w),
+        // _HeaderButton(
+        //   icon: Icons.notifications_none_rounded,
+        //   hasIndicator: true,
+        //   onTap: () {},
+        // ),
         Gap(AppSize.s10.w),
         _HeaderButton(
           icon: Icons.shopping_cart_outlined,
