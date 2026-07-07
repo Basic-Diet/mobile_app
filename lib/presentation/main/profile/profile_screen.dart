@@ -424,16 +424,16 @@ class _ProfileMenuCard extends StatelessWidget {
               context.read<MainBloc>().add(const ChangeBottomNavIndexEvent(3));
             },
           ),
-          _MenuRow(
-            title: _labelOrFallback(
-              isArabic: isArabic,
-              labelAr: menu?.addresses.labelAr,
-              labelEn: menu?.addresses.labelEn,
-              fallback: Strings.myAddresses.tr(),
-            ),
-            value: '${menu?.addresses.count ?? 0}',
-            icon: Icons.location_on_outlined,
-          ),
+          // _MenuRow(
+          //   title: _labelOrFallback(
+          //     isArabic: isArabic,
+          //     labelAr: menu?.addresses.labelAr,
+          //     labelEn: menu?.addresses.labelEn,
+          //     fallback: Strings.myAddresses.tr(),
+          //   ),
+          //   value: '${menu?.addresses.count ?? 0}',
+          //   icon: Icons.location_on_outlined,
+          // ),
           _MenuRow(
             title: _labelOrFallback(
               isArabic: isArabic,
