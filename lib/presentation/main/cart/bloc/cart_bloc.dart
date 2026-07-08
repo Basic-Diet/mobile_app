@@ -17,7 +17,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     if (state is! CartLoaded) return;
     final current = state as CartLoaded;
     final existingIndex = current.items.indexWhere(
-      (item) => item.compositeKey == event.item.compositeKey,
+          (item) => item.compositeKey == event.item.compositeKey,
     );
 
     List<CartItem> newItems;
@@ -60,15 +60,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   void _onSelectBranch(SelectBranchEvent event, Emitter<CartState> emit) {
     if (state is! CartLoaded) return;
     final current = state as CartLoaded;
-    final currentWindow = current.selectedPickupWindow;
-    final branchWindows = current.availableWindowsForBranch(event.branchId);
-    emit(
-      current.copyWith(
-        selectedBranchId: event.branchId,
-        clearSelectedPickupWindow:
-            currentWindow != null && !branchWindows.contains(currentWindow),
-      ),
-    );
+    emit(current.copyWith(selectedBranchId: event.branchId));
   }
 
   void _onSelectPickupWindow(
