@@ -264,11 +264,18 @@ void initHomeModule() {
     );
   }
 
+  if (!GetIt.I.isRegistered<GetOrderMenuUseCase>()) {
+    instance.registerFactory<GetOrderMenuUseCase>(
+      () => GetOrderMenuUseCase(instance<Repository>()),
+    );
+  }
+
   if (!GetIt.I.isRegistered<HomeBloc>()) {
     instance.registerFactory<HomeBloc>(
       () => HomeBloc(
         instance<GetPopularPackagesUseCase>(),
         instance<GetCurrentSubscriptionOverviewUseCase>(),
+        instance<GetOrderMenuUseCase>(),
       ),
     );
   }

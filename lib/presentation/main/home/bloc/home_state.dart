@@ -1,3 +1,4 @@
+import 'package:basic_diet/domain/model/order_menu_model.dart';
 import 'package:basic_diet/domain/model/popular_packages_model.dart';
 
 abstract class HomeState {}
@@ -19,3 +20,13 @@ class HomeErrorState extends HomeState {
 class HomeNavigateToSubscriptionState extends HomeState {}
 
 class HomeNavigateToPlansState extends HomeState {}
+
+class HomeOpenOrderProductState extends HomeState {
+  final OrderMenuProductModel product;
+  final String currency;
+
+  HomeOpenOrderProductState({
+    required this.product,
+    required this.currency,
+  });
+}

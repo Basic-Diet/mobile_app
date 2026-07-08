@@ -1,4 +1,6 @@
 import 'package:basic_diet/app/auth_gate.dart';
+import 'package:basic_diet/presentation/main/cart/bloc/cart_bloc.dart';
+import 'package:basic_diet/presentation/main/cart/bloc/cart_event.dart';
 import 'package:basic_diet/presentation/main/home/bloc/home_bloc.dart';
 import 'package:basic_diet/presentation/main/home/bloc/home_event.dart';
 import 'package:basic_diet/presentation/main/home/bloc/home_state.dart';
@@ -6,6 +8,7 @@ import 'package:basic_diet/presentation/main/bloc/main_bloc.dart';
 import 'package:basic_diet/presentation/main/bloc/main_event.dart';
 import 'package:basic_diet/presentation/main/main_screen.dart';
 import 'package:basic_diet/presentation/main/menu/menu_navigation_intent.dart';
+import 'package:basic_diet/presentation/main/menu/widgets/builder/builder_screen.dart';
 import 'package:basic_diet/presentation/main/home/subscription/subscription_screen.dart';
 import 'package:basic_diet/presentation/resources/assets_manager.dart';
 import 'package:basic_diet/presentation/resources/color_manager.dart';
@@ -33,6 +36,8 @@ class HomeScreen extends StatelessWidget {
           context.read<MainBloc>().add(
             ChangeBottomNavIndexEvent(MainScreen.plansTabIndex),
           );
+        } else if (state is HomeOpenOrderProductState) {
+          _openOrderProduct(context, state);
         }
       },
       child: Scaffold(
@@ -1025,8 +1030,7 @@ void _openMenuSection(BuildContext context, String sectionKey) {
 }
 
 void _openBuilderShortcut(BuildContext context, String productKey) {
-  OneTimeMenuCoordinator.openProduct(productKey);
-  context.read<MainBloc>().add(ChangeBottomNavIndexEvent(1));
+  context.read<HomeBloc>().add(OpenBuilderShortcutRequestedEvent(productKey));
 }
 
 Future<void> _openCart(BuildContext context) async {
@@ -1039,4 +1043,52 @@ Future<void> _openCart(BuildContext context) async {
   }
 
   context.push('/cart');
+}
+
+Future<void> _openOrderProduct(
+  BuildContext context,
+  HomeOpenOrderProductState state,
+) async {
+  final product = state.product;
+
+  if (product.resolvedRequiresBuilder) {
+    if (!await requireAuthenticated(context)) {
+      return;
+    }
+
+    if (!context.mounted) {
+      return;
+    }
+
+    final cartItem = await Navigator.of(context).push<CartItem>(
+      MaterialPageRoute(
+        builder: (_) => BuilderScreen(
+          product: product,
+          currency: state.currency,
+        ),
+      ),
+    );
+
+    if (!context.mounted || cartItem == null) {
+      return;
+    }
+
+    context.read<CartBloc>().add(AddItemEvent(cartItem));
+    return;
+  }
+
+  if (!product.resolvedCanAddDirectly) {
+    return;
+  }
+
+  context.read<CartBloc>().add(
+    AddItemEvent(
+      CartItem(
+        productId: product.id,
+        name: product.displayName(context.locale.toString()),
+        qty: 1,
+        unitPriceHalala: product.priceHalala,
+      ),
+    ),
+  );
 }
