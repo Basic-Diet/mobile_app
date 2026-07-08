@@ -178,19 +178,22 @@ class DeliveryMethodContentView extends StatelessWidget {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      useSafeArea: true,
       shape: _modalShape(),
-      builder: (context) => SelectionModal<DeliveryAreaModel>(
-        title: Strings.selectYourArea.tr(),
-        items: areas,
-        initialSelection: state.selectedArea,
-        itemBuilder: (item, current, onSelected) => RadioSelectionTile(
-          label: item.label,
-          isSelected: current?.id == item.id,
-          isAvailable: item.isAvailable,
-          trailing: item.feeLabel,
-          onTap: () => onSelected(item),
+      builder: (context) => SafeArea(
+        child: SelectionModal<DeliveryAreaModel>(
+          title: Strings.selectYourArea.tr(),
+          items: areas,
+          initialSelection: state.selectedArea,
+          itemBuilder: (item, current, onSelected) => RadioSelectionTile(
+            label: item.label,
+            isSelected: current?.id == item.id,
+            isAvailable: item.isAvailable,
+            trailing: item.feeLabel,
+            onTap: () => onSelected(item),
+          ),
+          onConfirm: (selected) => bloc.add(SelectAreaEvent(selected)),
         ),
-        onConfirm: (selected) => bloc.add(SelectAreaEvent(selected)),
       ),
     );
   }
@@ -200,17 +203,20 @@ class DeliveryMethodContentView extends StatelessWidget {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      useSafeArea: true,
       shape: _modalShape(),
-      builder: (context) => SelectionModal<DeliverySlotModel>(
-        title: Strings.chooseDeliveryTime.tr(),
-        items: slots,
-        initialSelection: state.selectedTime,
-        itemBuilder: (item, current, onSelected) => RadioSelectionTile(
-          label: item.window,
-          isSelected: current?.id == item.id,
-          onTap: () => onSelected(item),
+      builder: (context) => SafeArea(
+        child: SelectionModal<DeliverySlotModel>(
+          title: Strings.chooseDeliveryTime.tr(),
+          items: slots,
+          initialSelection: state.selectedTime,
+          itemBuilder: (item, current, onSelected) => RadioSelectionTile(
+            label: item.window,
+            isSelected: current?.id == item.id,
+            onTap: () => onSelected(item),
+          ),
+          onConfirm: (selected) => bloc.add(SelectTimeEvent(selected)),
         ),
-        onConfirm: (selected) => bloc.add(SelectTimeEvent(selected)),
       ),
     );
   }
