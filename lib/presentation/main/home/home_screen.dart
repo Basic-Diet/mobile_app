@@ -1,6 +1,7 @@
 import 'package:basic_diet/app/auth_gate.dart';
 import 'package:basic_diet/presentation/main/cart/bloc/cart_bloc.dart';
 import 'package:basic_diet/presentation/main/cart/bloc/cart_event.dart';
+import 'package:basic_diet/presentation/main/cart/bloc/cart_state.dart';
 import 'package:basic_diet/presentation/main/home/bloc/home_bloc.dart';
 import 'package:basic_diet/presentation/main/home/bloc/home_event.dart';
 import 'package:basic_diet/presentation/main/home/bloc/home_state.dart';
@@ -122,9 +123,15 @@ class _HomeHeader extends StatelessWidget {
         //   onTap: () {},
         // ),
         Gap(AppSize.s10.w),
-        _HeaderButton(
-          icon: Icons.shopping_cart_outlined,
-          onTap: () => _openCart(context),
+        BlocBuilder<CartBloc, CartState>(
+          builder: (context, state) {
+            final count = state is CartLoaded ? state.totalQty : 0;
+            return _HeaderButton(
+              icon: Icons.shopping_cart_outlined,
+              badgeCount: count,
+              onTap: () => _openCart(context),
+            );
+          },
         ),
       ],
     );
@@ -135,16 +142,21 @@ class _HeaderButton extends StatelessWidget {
   final IconData icon;
   final VoidCallback onTap;
   final bool hasIndicator;
+  final int badgeCount;
 
   const _HeaderButton({
     required this.icon,
     required this.onTap,
     this.hasIndicator = false,
+    this.badgeCount = 0,
   });
 
   @override
   Widget build(BuildContext context) {
+    final badgeLabel = badgeCount > 99 ? '99+' : '$badgeCount';
+
     return Stack(
+      clipBehavior: Clip.none,
       children: [
         Material(
           color: ColorManager.backgroundSurface,
@@ -163,6 +175,30 @@ class _HeaderButton extends StatelessWidget {
             ),
           ),
         ),
+        if (badgeCount > 0)
+          PositionedDirectional(
+            top: 0,
+            end: 0,
+            child: Container(
+              constraints: BoxConstraints(minWidth: AppSize.s18.w),
+              height: AppSize.s18.w,
+              padding: EdgeInsetsDirectional.symmetric(
+                horizontal: AppPadding.p4.w,
+              ),
+              decoration: BoxDecoration(
+                color: ColorManager.brandPrimary,
+                borderRadius: BorderRadius.circular(AppSize.s99.r),
+              ),
+              alignment: Alignment.center,
+              child: Text(
+                badgeLabel,
+                style: getBoldTextStyle(
+                  fontSize: FontSizeManager.s9.sp,
+                  color: ColorManager.backgroundSurface,
+                ),
+              ),
+            ),
+          ),
         if (hasIndicator)
           PositionedDirectional(
             top: AppSize.s10.h,

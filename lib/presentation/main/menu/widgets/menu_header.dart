@@ -79,27 +79,34 @@ class CircleActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      clipBehavior: Clip.none,
+    final badgeLabel = badgeCount > 99 ? '99+' : '$badgeCount';
+
+    return SizedBox(
+      width: AppSize.s42.w,
+      height: AppSize.s42.w,
+      child: Stack(
       children: [
-        Material(
-          color: Colors.white.withValues(alpha: 0.9),
-          borderRadius: BorderRadius.circular(AppSize.s12.r),
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(AppSize.s12.r),
-              border: Border.all(color: Colors.white.withValues(alpha: 0.78)),
-            ),
-            child: InkWell(
-              onTap: onTap,
-              borderRadius: BorderRadius.circular(AppSize.s12.r),
-              child: SizedBox(
-                width: AppSize.s36.w,
-                height: AppSize.s36.w,
-                child: Icon(
-                  icon,
-                  color: const Color(0xFF112B22),
-                  size: AppSize.s18.w,
+        Align(
+          alignment: Alignment.center,
+          child: Material(
+            color: Colors.white.withValues(alpha: 0.9),
+            borderRadius: BorderRadius.circular(AppSize.s12.r),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(AppSize.s12.r),
+                border: Border.all(color: Colors.white.withValues(alpha: 0.78)),
+              ),
+              child: InkWell(
+                onTap: onTap,
+                borderRadius: BorderRadius.circular(AppSize.s12.r),
+                child: SizedBox(
+                  width: AppSize.s36.w,
+                  height: AppSize.s36.w,
+                  child: Icon(
+                    icon,
+                    color: const Color(0xFF112B22),
+                    size: AppSize.s18.w,
+                  ),
                 ),
               ),
             ),
@@ -107,11 +114,11 @@ class CircleActionButton extends StatelessWidget {
         ),
         if (badgeCount > 0)
           PositionedDirectional(
-            top: (-4).h,
-            end: (-4).w,
+            top: 0,
+            end: 0,
             child: Container(
-              constraints: BoxConstraints(minWidth: AppSize.s16.w),
-              height: AppSize.s16.w,
+              constraints: BoxConstraints(minWidth: AppSize.s18.w),
+              height: AppSize.s18.w,
               padding: EdgeInsetsDirectional.symmetric(
                 horizontal: AppPadding.p4.w,
               ),
@@ -121,15 +128,16 @@ class CircleActionButton extends StatelessWidget {
               ),
               alignment: Alignment.center,
               child: Text(
-                '$badgeCount',
+                badgeLabel,
                 style: getBoldTextStyle(
-                  fontSize: FontSizeManager.s8.sp,
+                  fontSize: FontSizeManager.s9.sp,
                   color: ColorManager.backgroundSurface,
                 ),
               ),
             ),
           ),
       ],
+      ),
     );
   }
 }
