@@ -20,10 +20,10 @@ class MenuHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const Spacer(),
         Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               Strings.menu.tr(),
@@ -42,23 +42,27 @@ class MenuHeader extends StatelessWidget {
             ),
           ],
         ),
-        Gap(AppSize.s14.w),
-        CircleActionButton(
-          icon: Icons.home_outlined,
-          onTap: () {
-            context.read<MainBloc>().add(const ChangeBottomNavIndexEvent(0));
-          },
-        ),
-        Gap(AppSize.s10.w),
-        BlocBuilder<CartBloc, CartState>(
-          builder: (context, state) {
-            final count = state is CartLoaded ? state.totalQty : 0;
-            return CircleActionButton(
-              icon: Icons.shopping_cart_outlined,
-              badgeCount: count,
-              onTap: () => openCart(context),
-            );
-          },
+
+        Row(
+          children: [
+            CircleActionButton(
+              icon: Icons.home_outlined,
+              onTap: () {
+                context.read<MainBloc>().add(const ChangeBottomNavIndexEvent(0));
+              },
+            ),
+            Gap(AppSize.s10.w),
+            BlocBuilder<CartBloc, CartState>(
+              builder: (context, state) {
+                final count = state is CartLoaded ? state.totalQty : 0;
+                return CircleActionButton(
+                  icon: Icons.shopping_cart_outlined,
+                  badgeCount: count,
+                  onTap: () => openCart(context),
+                );
+              },
+            ),
+          ],
         ),
       ],
     );
