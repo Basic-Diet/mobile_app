@@ -42,7 +42,20 @@ class HomeScreen extends StatelessWidget {
         }
       },
       child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          backgroundColor: ColorManager.backgroundApp,
+          toolbarHeight: AppSize.s66.h,
+          titleSpacing: AppSize.s0,
+          title: Padding(
+            padding: EdgeInsetsDirectional.symmetric(
+              horizontal: AppPadding.p16.w,
+            ),
+            child: const _HomeHeader(),
+          ),
+        ),
         body: SafeArea(
+          top: false,
           child: SingleChildScrollView(
             padding: EdgeInsetsDirectional.fromSTEB(
               AppPadding.p16.w,
@@ -53,8 +66,6 @@ class HomeScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const _HomeHeader(),
-                Gap(AppSize.s18.h),
                 const _SubscriptionHeroCard(),
                 Gap(AppSize.s24.h),
                 const _QuickOrderSection(),
