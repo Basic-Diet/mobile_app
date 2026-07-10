@@ -21,6 +21,7 @@ import 'package:basic_diet/data/mappers/subscription_day_mapper.dart';
 import 'package:basic_diet/data/network/exception_handler.dart';
 import 'package:basic_diet/data/network/failure.dart';
 import 'package:basic_diet/data/response/subscription_checkout_response.dart';
+import 'package:basic_diet/data/response/subscription_day_response.dart';
 import 'package:basic_diet/domain/model/auth_model.dart';
 import 'package:basic_diet/domain/model/base__model.dart';
 import 'package:basic_diet/domain/model/client_profile_model.dart';
@@ -228,6 +229,19 @@ class RepositoryImpl implements Repository {
       }
     } catch (_) {}
     return Left(ExceptionHandler.handle(error).failure);
+  }
+
+  SubscriptionDayResponse? _readSavedDayFromPaymentRequiredResponse(
+    dynamic error,
+  ) {
+    if (error is! DioException || error.response?.statusCode != 402) {
+      return null;
+    }
+    final rawData = error.response?.data;
+    if (rawData is! Map) return null;
+    final data = Map<String, dynamic>.from(rawData);
+    if (data['status'] != true || data['data'] is! Map) return null;
+    return SubscriptionDayResponse.fromJson(data);
   }
 
   bool _isCheckoutInProgressError(DioException error) {
@@ -895,6 +909,10 @@ class RepositoryImpl implements Repository {
         return Left(Failure(0, 'Failed to save day selection'));
       }
     } catch (error) {
+      final paymentRequiredDay = _readSavedDayFromPaymentRequiredResponse(error);
+      if (paymentRequiredDay != null) {
+        return Right(paymentRequiredDay.toDomain());
+      }
       return _handleError(error);
     }
   }
