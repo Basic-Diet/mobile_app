@@ -20,6 +20,7 @@ class SubscriptionDayModel {
   final String lockedReason;
   final String lockedMessage;
   final MealBalanceModel? mealBalance;
+  final List<AddonBalanceModel> addonBalance;
 
   SubscriptionDayModel({
     required this.date,
@@ -40,6 +41,7 @@ class SubscriptionDayModel {
     this.lockedReason = '',
     this.lockedMessage = '',
     this.mealBalance,
+    this.addonBalance = const [],
   });
 
 }

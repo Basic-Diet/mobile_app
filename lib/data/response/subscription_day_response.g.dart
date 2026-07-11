@@ -10,74 +10,78 @@ Map<String, dynamic> _$SubscriptionDayResponseToJson(
   SubscriptionDayResponse instance,
 ) => <String, dynamic>{'status': instance.status, 'data': instance.data};
 
-SubscriptionDayData _$SubscriptionDayDataFromJson(Map<String, dynamic> json) =>
-    SubscriptionDayData(
-      json['date'] as String,
-      json['status'] as String,
-      json['plannerState'] as String?,
-      json['commercialState'] as String?,
-      json['plannerRevisionHash'] as String?,
-      (json['mealSlots'] as List<dynamic>?)
-              ?.map((e) => MealSlotResponse.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          [],
-      (json['addonSelections'] as List<dynamic>?)
-              ?.map(
-                (e) =>
-                    AddonSelectionResponse.fromJson(e as Map<String, dynamic>),
-              )
-              .toList() ??
-          [],
-      json['plannerMeta'] == null
-          ? null
-          : PlannerMetaResponse.fromJson(
-            json['plannerMeta'] as Map<String, dynamic>,
-          ),
-      json['planning'] == null
-          ? null
-          : PlanningResponse.fromJson(json['planning'] as Map<String, dynamic>),
-      json['paymentRequirement'] == null
-          ? null
-          : PaymentRequirementResponse.fromJson(
-            json['paymentRequirement'] as Map<String, dynamic>,
-          ),
-      json['premiumExtraPayment'] == null
-          ? null
-          : PremiumExtraPaymentResponse.fromJson(
-            json['premiumExtraPayment'] as Map<String, dynamic>,
-          ),
-      json['rules'] == null
-          ? null
-          : DayRulesResponse.fromJson(json['rules'] as Map<String, dynamic>),
-      json['pickupLocation'] == null
-          ? null
-          : OverviewPickupLocationSummaryResponse.fromJson(
-            json['pickupLocation'] as Map<String, dynamic>,
-          ),
-      json['deliveryAddress'] == null
-          ? null
-          : OverviewAddressSummaryResponse.fromJson(
-            json['deliveryAddress'] as Map<String, dynamic>,
-          ),
-      readDeliveryWindowSummary(json, 'deliveryWindow') == null
-          ? null
-          : OverviewDeliveryWindowSummaryResponse.fromJson(
-            readDeliveryWindowSummary(json, 'deliveryWindow')
-                as Map<String, dynamic>,
-          ),
-      json['fulfillmentSummary'] == null
-          ? null
-          : OverviewFulfillmentSummaryResponse.fromJson(
-            json['fulfillmentSummary'] as Map<String, dynamic>,
-          ),
-      json['lockedReason'] as String?,
-      json['lockedMessage'] as String?,
-      json['mealBalance'] == null
-          ? null
-          : MealBalanceResponse.fromJson(
-            json['mealBalance'] as Map<String, dynamic>,
-          ),
-    );
+SubscriptionDayData _$SubscriptionDayDataFromJson(
+  Map<String, dynamic> json,
+) => SubscriptionDayData(
+  json['date'] as String,
+  json['status'] as String,
+  json['plannerState'] as String?,
+  json['commercialState'] as String?,
+  json['plannerRevisionHash'] as String?,
+  (json['mealSlots'] as List<dynamic>?)
+          ?.map((e) => MealSlotResponse.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
+  (json['addonSelections'] as List<dynamic>?)
+          ?.map(
+            (e) => AddonSelectionResponse.fromJson(e as Map<String, dynamic>),
+          )
+          .toList() ??
+      [],
+  json['plannerMeta'] == null
+      ? null
+      : PlannerMetaResponse.fromJson(
+        json['plannerMeta'] as Map<String, dynamic>,
+      ),
+  json['planning'] == null
+      ? null
+      : PlanningResponse.fromJson(json['planning'] as Map<String, dynamic>),
+  json['paymentRequirement'] == null
+      ? null
+      : PaymentRequirementResponse.fromJson(
+        json['paymentRequirement'] as Map<String, dynamic>,
+      ),
+  json['premiumExtraPayment'] == null
+      ? null
+      : PremiumExtraPaymentResponse.fromJson(
+        json['premiumExtraPayment'] as Map<String, dynamic>,
+      ),
+  json['rules'] == null
+      ? null
+      : DayRulesResponse.fromJson(json['rules'] as Map<String, dynamic>),
+  json['pickupLocation'] == null
+      ? null
+      : OverviewPickupLocationSummaryResponse.fromJson(
+        json['pickupLocation'] as Map<String, dynamic>,
+      ),
+  json['deliveryAddress'] == null
+      ? null
+      : OverviewAddressSummaryResponse.fromJson(
+        json['deliveryAddress'] as Map<String, dynamic>,
+      ),
+  readDeliveryWindowSummary(json, 'deliveryWindow') == null
+      ? null
+      : OverviewDeliveryWindowSummaryResponse.fromJson(
+        readDeliveryWindowSummary(json, 'deliveryWindow')
+            as Map<String, dynamic>,
+      ),
+  json['fulfillmentSummary'] == null
+      ? null
+      : OverviewFulfillmentSummaryResponse.fromJson(
+        json['fulfillmentSummary'] as Map<String, dynamic>,
+      ),
+  json['lockedReason'] as String?,
+  json['lockedMessage'] as String?,
+  json['mealBalance'] == null
+      ? null
+      : MealBalanceResponse.fromJson(
+        json['mealBalance'] as Map<String, dynamic>,
+      ),
+  (_readAddonBalance(json, 'addonBalance') as List<dynamic>?)
+          ?.map((e) => AddonBalanceResponse.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
+);
 
 Map<String, dynamic> _$SubscriptionDayDataToJson(
   SubscriptionDayData instance,
@@ -101,6 +105,7 @@ Map<String, dynamic> _$SubscriptionDayDataToJson(
   'lockedReason': instance.lockedReason,
   'lockedMessage': instance.lockedMessage,
   'mealBalance': instance.mealBalance,
+  'addonBalance': instance.addonBalance,
 };
 
 PlanningResponse _$PlanningResponseFromJson(Map<String, dynamic> json) =>
