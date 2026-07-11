@@ -33,12 +33,14 @@ class CustomPremiumMealBuilderScreen extends StatefulWidget {
   final PremiumLargeSaladModel config;
   final List<BuilderProteinModel> proteins;
   final String? initialProteinId;
+  final bool isIncludedInSubscription;
 
   const CustomPremiumMealBuilderScreen({
     super.key,
     required this.config,
     required this.proteins,
     this.initialProteinId,
+    this.isIncludedInSubscription = false,
   });
 
   @override
@@ -71,7 +73,10 @@ class _CustomPremiumMealBuilderScreenState
   Widget build(BuildContext context) {
     final isLastStep = _stepIndex == _totalSteps - 1;
     final canContinue = isLastStep ? _isFormValid : _isCurrentStepValid;
-    final price = (widget.config.extraFeeHalala / 100.0).toStringAsFixed(2);
+    final price =
+        widget.isIncludedInSubscription
+            ? Strings.free.tr()
+            : '${(widget.config.extraFeeHalala / 100.0).toStringAsFixed(2)} ${Strings.sar.tr()}';
 
     return Scaffold(
       backgroundColor: ColorManager.backgroundSurface,
@@ -106,7 +111,10 @@ class _CustomPremiumMealBuilderScreenState
                   AppPadding.p16.w,
                   0,
                 ),
-                child: _ReviewPriceCard(price: price),
+                child: _ReviewPriceCard(
+                  price: price,
+                  isIncludedInSubscription: widget.isIncludedInSubscription,
+                ),
               ),
             Padding(
               padding: EdgeInsets.all(AppPadding.p16.w),
@@ -757,8 +765,12 @@ class _ReviewIngredientChip extends StatelessWidget {
 
 class _ReviewPriceCard extends StatelessWidget {
   final String price;
+  final bool isIncludedInSubscription;
 
-  const _ReviewPriceCard({required this.price});
+  const _ReviewPriceCard({
+    required this.price,
+    required this.isIncludedInSubscription,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -795,9 +807,12 @@ class _ReviewPriceCard extends StatelessWidget {
             ),
           ),
           Text(
-            '$price ${Strings.sar.tr()}',
+            price,
             style: getBoldTextStyle(
-              color: ColorManager.brandAccent,
+              color:
+                  isIncludedInSubscription
+                      ? ColorManager.brandPrimary
+                      : ColorManager.brandAccent,
               fontSize: FontSizeManager.s18.sp,
             ),
           ),

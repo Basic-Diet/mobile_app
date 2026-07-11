@@ -445,6 +445,11 @@ class _ProteinList extends StatelessWidget {
                               config: premiumLargeSalad,
                               proteins: builderProteins,
                               initialProteinId: currentSlot?.proteinId,
+                              isIncludedInSubscription:
+                                  _isCustomPremiumMealIncluded(
+                                    state: state,
+                                    slotIndex: slotIndex,
+                                  ),
                             ),
                       ),
                     );
@@ -476,6 +481,60 @@ class _ProteinList extends StatelessWidget {
       if (protein.id == id) return protein.name;
     }
     return null;
+  }
+
+  bool _isCustomPremiumMealIncluded({
+    required MealPlannerLoaded state,
+    required int slotIndex,
+  }) {
+    final slots = state.selectedSlotsPerDay[state.selectedDayIndex];
+    if (slots == null || slotIndex < 0 || slotIndex >= slots.length) {
+      return false;
+    }
+
+    final withoutCurrentSlot = List<MealPlannerSlotSelection>.from(slots);
+    withoutCurrentSlot[slotIndex] = withoutCurrentSlot[slotIndex].copyWith(
+      selectionType: 'standard_meal',
+      proteinId: null,
+      carbs: const [],
+      clearProteinId: true,
+      clearCarbs: true,
+      clearSandwichId: true,
+      clearSalad: true,
+    );
+
+    final withCustomPremiumMeal = List<MealPlannerSlotSelection>.from(
+      withoutCurrentSlot,
+    );
+    withCustomPremiumMeal[slotIndex] = withCustomPremiumMeal[slotIndex]
+        .copyWith(
+          selectionType: 'premium_large_salad',
+          proteinId: state.menu.builderCatalog.premiumLargeSalad?.id,
+          carbs: const [],
+          clearCarbs: true,
+          clearSandwichId: true,
+          clearSalad: true,
+        );
+
+    final baselineSlotsPerDay =
+        Map<int, List<MealPlannerSlotSelection>>.from(
+          state.selectedSlotsPerDay,
+        )..[state.selectedDayIndex] = withoutCurrentSlot;
+    final customSlotsPerDay =
+        Map<int, List<MealPlannerSlotSelection>>.from(
+          state.selectedSlotsPerDay,
+        )..[state.selectedDayIndex] = withCustomPremiumMeal;
+
+    final baselinePendingAmount =
+        state
+            .evaluatePremiumUsage(selectedSlotsPerDay: baselineSlotsPerDay)
+            .pendingAmountHalala;
+    final customPendingAmount =
+        state
+            .evaluatePremiumUsage(selectedSlotsPerDay: customSlotsPerDay)
+            .pendingAmountHalala;
+
+    return customPendingAmount <= baselinePendingAmount;
   }
 
   List<BuilderProteinModel> _customBuilderProteins(BuilderCatalogModel catalog) {
