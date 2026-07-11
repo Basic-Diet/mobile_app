@@ -529,6 +529,7 @@ class Strings {
       'fulfillmentPrepareActionNow';
 
   // Add-on Entitlements
+  static const String included = 'included';
   static const String includedPerDay = 'includedPerDay';
   static const String usedThisWeek = 'usedThisWeek';
   static const String dayAddonsTitle = 'dayAddonsTitle';

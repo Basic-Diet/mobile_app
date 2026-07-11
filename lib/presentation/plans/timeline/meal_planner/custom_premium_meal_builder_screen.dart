@@ -75,7 +75,7 @@ class _CustomPremiumMealBuilderScreenState
     final canContinue = isLastStep ? _isFormValid : _isCurrentStepValid;
     final price =
         widget.isIncludedInSubscription
-            ? Strings.free.tr()
+            ? Strings.included.tr()
             : '${(widget.config.extraFeeHalala / 100.0).toStringAsFixed(2)} ${Strings.sar.tr()}';
 
     return Scaffold(
