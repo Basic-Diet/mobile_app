@@ -5,6 +5,19 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('DaySelectionRequest serialization', () {
+    test('keeps all one-time addon ids without a local category cap', () {
+      final juiceAddonIds = List.generate(8, (index) => 'juice-addon-$index');
+      final request = DaySelectionRequest(
+        const [],
+        addonsOneTime: juiceAddonIds,
+      );
+
+      final json = request.toJson();
+
+      expect(json['addonsOneTime'], juiceAddonIds);
+      expect(json['addonsOneTime'], hasLength(8));
+    });
+
     test('encodes premium large salad groups as JSON map', () {
       final request = DaySelectionRequest([
         MealSlotRequest(

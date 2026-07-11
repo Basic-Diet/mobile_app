@@ -20,6 +20,13 @@ Object? _readAddonSelectionName(Map json, String key) {
   return null;
 }
 
+Object? _readAddonBalance(Map json, String key) {
+  final value = json[key] ?? json['addonBalances'];
+  if (value is List) return value;
+  if (value is Map) return [value];
+  return null;
+}
+
 @JsonSerializable(createFactory: false)
 class SubscriptionDayResponse {
   final bool? status;
@@ -110,6 +117,9 @@ class SubscriptionDayData {
   @JsonKey(name: 'mealBalance')
   final MealBalanceResponse? mealBalance;
 
+  @JsonKey(name: 'addonBalance', readValue: _readAddonBalance, defaultValue: [])
+  final List<AddonBalanceResponse> addonBalance;
+
   SubscriptionDayData(
     this.date,
     this.status,
@@ -130,6 +140,7 @@ class SubscriptionDayData {
     this.lockedReason,
     this.lockedMessage,
     this.mealBalance,
+    this.addonBalance,
   );
 
 

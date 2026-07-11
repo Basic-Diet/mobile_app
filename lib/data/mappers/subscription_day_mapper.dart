@@ -30,6 +30,9 @@ extension SubscriptionDayResponseMapper on SubscriptionDayResponse {
       lockedReason: data?.lockedReason ?? '',
       lockedMessage: data?.lockedMessage ?? '',
       mealBalance: data?.mealBalance?.toDomain(),
+      addonBalance:
+          data?.addonBalance.map((balance) => balance.toDomain()).toList() ??
+          const [],
     );
 
   }
