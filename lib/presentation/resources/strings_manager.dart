@@ -53,6 +53,8 @@ class Strings {
   static const String forgotPasswordSubtitle = 'forgotPasswordSubtitle';
   static const String forgotPasswordSupportPrompt =
       'forgotPasswordSupportPrompt';
+  static const String forgotPasswordContactAdminMessage =
+      'forgotPasswordContactAdminMessage';
   static const String backToLogin = 'backToLogin';
   static const String resetPassword = 'resetPassword';
   static const String resetPasswordTitle = 'resetPasswordTitle';

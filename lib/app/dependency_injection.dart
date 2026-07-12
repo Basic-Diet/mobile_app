@@ -19,8 +19,6 @@ import 'package:basic_diet/domain/usecase/get_pickup_availability_usecase.dart';
 import 'package:basic_diet/domain/usecase/get_pickup_request_status_usecase.dart';
 import 'package:basic_diet/domain/usecase/get_pickup_requests_usecase.dart';
 import 'package:basic_diet/domain/usecase/verify_otp_usecase.dart';
-import 'package:basic_diet/domain/usecase/request_password_reset_otp_usecase.dart';
-import 'package:basic_diet/domain/usecase/reset_password_usecase.dart';
 import 'package:basic_diet/domain/usecase/change_password_usecase.dart';
 import 'package:basic_diet/domain/usecase/checkout_subscription_usecase.dart';
 import 'package:basic_diet/domain/usecase/get_plans_usecase.dart';
@@ -30,8 +28,6 @@ import 'package:basic_diet/domain/usecase/get_subscription_renewal_seed_usecase.
 import 'package:basic_diet/domain/usecase/renew_subscription_usecase.dart';
 import 'package:basic_diet/presentation/login/login_bloc.dart';
 import 'package:basic_diet/presentation/verify/verify_bloc.dart';
-import 'package:basic_diet/presentation/forgot_password/bloc/forgot_password_bloc.dart';
-import 'package:basic_diet/presentation/reset_password/bloc/reset_password_bloc.dart';
 import 'package:basic_diet/presentation/change_password/change_password_bloc.dart';
 import 'package:basic_diet/presentation/main/home/subscription/bloc/subscription_bloc.dart';
 import 'package:basic_diet/domain/usecase/register_usecase.dart';
@@ -173,31 +169,6 @@ void initVerifyModule() {
     instance.registerFactory<VerifyBloc>(
       () =>
           VerifyBloc(instance<VerifyOtpUseCase>(), instance<AppPreferences>()),
-    );
-  }
-}
-
-void initForgotPasswordModule() {
-  if (!GetIt.I.isRegistered<RequestPasswordResetOtpUseCase>()) {
-    instance.registerFactory<RequestPasswordResetOtpUseCase>(
-      () => RequestPasswordResetOtpUseCase(instance<Repository>()),
-    );
-
-    instance.registerFactory<ForgotPasswordBloc>(
-      () => ForgotPasswordBloc(instance<RequestPasswordResetOtpUseCase>()),
-    );
-  }
-}
-
-void initResetPasswordModule() {
-  if (!GetIt.I.isRegistered<ResetPasswordUseCase>()) {
-    instance.registerFactory<ResetPasswordUseCase>(
-      () => ResetPasswordUseCase(instance<Repository>()),
-    );
-
-    instance.registerFactoryParam<ResetPasswordBloc, String, void>(
-      (phone, _) =>
-          ResetPasswordBloc(instance<ResetPasswordUseCase>(), phone: phone),
     );
   }
 }

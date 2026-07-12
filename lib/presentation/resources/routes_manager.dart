@@ -22,7 +22,6 @@ import 'package:basic_diet/presentation/register/register_screen.dart';
 import 'package:basic_diet/presentation/splash/splash_screen.dart';
 import 'package:basic_diet/presentation/verify/verify_screen.dart';
 import 'package:basic_diet/presentation/forgot_password/forgot_password_screen.dart';
-import 'package:basic_diet/presentation/reset_password/reset_password_screen.dart';
 import 'package:basic_diet/presentation/main/profile/support/support_screen.dart';
 import 'package:basic_diet/presentation/main/profile/manage_account/manage_account_screen.dart';
 import 'package:flutter/material.dart';
@@ -107,18 +106,6 @@ class GoRouterConfig {
           return getCustomTransitionPage(
             state: state,
             child: ChangePasswordScreen(phone: phone),
-          );
-        },
-      ),
-      GoRoute(
-        path: ResetPasswordScreen.routeName,
-        pageBuilder: (BuildContext context, GoRouterState state) {
-          final phone = resetPasswordPhoneFromExtra(state.extra);
-          return getCustomTransitionPage(
-            state: state,
-            child: phone == null || phone.trim().isEmpty
-                ? const ForgotPasswordScreen()
-                : ResetPasswordScreen(phone: phone),
           );
         },
       ),
@@ -318,11 +305,5 @@ class GoRouterConfig {
       transitionsBuilder: (context, animation, secondaryAnimation, child) =>
           child,
     );
-  }
-
-  static String? resetPasswordPhoneFromExtra(Object? extra) {
-    if (extra is String) return extra;
-    if (extra is Map<String, String>) return extra['phone'];
-    return null;
   }
 }
