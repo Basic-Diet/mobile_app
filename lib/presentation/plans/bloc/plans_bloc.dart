@@ -1,4 +1,5 @@
 import 'package:basic_diet/domain/usecase/get_current_subscription_overview_usecase.dart';
+import 'package:basic_diet/domain/model/current_subscription_overview_model.dart';
 import 'package:basic_diet/domain/model/timeline_model.dart';
 import 'package:basic_diet/domain/usecase/get_timeline_usecase.dart';
 import 'package:basic_diet/domain/usecase/prepare_pickup_usecase.dart';
@@ -153,51 +154,83 @@ class PlansBloc extends Bloc<PlansEvent, PlansState> {
       ),
     );
     final result = await _getTimelineUseCase.execute(event.subscriptionId);
-    result.fold(
-      (failure) => emit(PlansError(failure.message, data: currentData)),
-      (timeline) {
-        final days = timeline.data.days;
-        final availableStatuses = ['open', 'planned', 'extension'];
-        final today = event.preferredDate.isNotEmpty
-            ? event.preferredDate
-            : _resolveOperationalDayFromTimeline(timeline);
-        int index = -1;
+    final failure = result.fold((failure) => failure, (_) => null);
+    if (failure != null) {
+      emit(PlansError(failure.message, data: currentData));
+      return;
+    }
 
-        if (event.openCurrentDay) {
-          index = days.indexWhere(
-            (day) =>
-                day.date.startsWith(today) &&
-                availableStatuses.contains(day.status.toLowerCase()),
-          );
-        }
+    final timeline = result.getOrElse(() => throw Exception());
+    final days = timeline.data.days;
+    final availableStatuses = ['open', 'planned', 'extension'];
+    final today = event.preferredDate.isNotEmpty
+        ? event.preferredDate
+        : _resolveOperationalDayFromTimeline(timeline);
+    int index = -1;
 
-        index = index == -1
-            ? days.indexWhere(
-                (day) => availableStatuses.contains(day.status.toLowerCase()),
-              )
-            : index;
+    if (event.openCurrentDay) {
+      index = days.indexWhere(
+        (day) =>
+            day.date.startsWith(today) &&
+            availableStatuses.contains(day.status.toLowerCase()),
+      );
+    }
 
-        if (index != -1) {
-          emit(
-            NavigateToMealPlannerState(
-              timelineDays: days,
-              initialDayIndex: index,
-              premiumMealsRemaining: timeline.data.premiumMealsRemaining,
-              premiumSummaries: state.data?.data?.premiumSummary ?? const [],
-              subscriptionId: event.subscriptionId,
-              data: currentData,
-              fulfillmentDay: state.fulfillmentDay,
-            ),
-          );
-        } else {
-          emit(
-            PlansError(
-              Strings.noAvailableDaysForPlanning.tr(),
-              data: currentData,
-              fulfillmentDay: state.fulfillmentDay,
-            ),
-          );
-        }
+    index = index == -1
+        ? days.indexWhere(
+            (day) => availableStatuses.contains(day.status.toLowerCase()),
+          )
+        : index;
+
+    if (index != -1) {
+      final freshOverview = await _getFreshOverviewData(event.subscriptionId);
+      final plannerData =
+          freshOverview == null
+              ? currentData
+              : CurrentSubscriptionOverviewModel(freshOverview);
+      final addonSubscriptions =
+          freshOverview != null
+              ? freshOverview.displayAddonEntitlements
+              : const <AddonSubscriptionModel>[];
+      emit(
+        NavigateToMealPlannerState(
+          timelineDays: days,
+          initialDayIndex: index,
+          premiumMealsRemaining: timeline.data.premiumMealsRemaining,
+          premiumSummaries:
+              freshOverview?.premiumSummary ??
+              state.data?.data?.premiumSummary ??
+              const [],
+          addonSubscriptions:
+              addonSubscriptions.isNotEmpty
+                  ? addonSubscriptions
+                  : timeline.data.addonSubscriptions,
+          subscriptionId: event.subscriptionId,
+          data: plannerData,
+          fulfillmentDay: state.fulfillmentDay,
+        ),
+      );
+    } else {
+      emit(
+        PlansError(
+          Strings.noAvailableDaysForPlanning.tr(),
+          data: currentData,
+          fulfillmentDay: state.fulfillmentDay,
+        ),
+      );
+    }
+  }
+
+  Future<CurrentSubscriptionOverviewDataModel?> _getFreshOverviewData(
+    String subscriptionId,
+  ) async {
+    final result = await _getCurrentSubscriptionOverviewUseCase.execute(null);
+    return result.fold(
+      (_) => null,
+      (overview) {
+        final data = overview.data;
+        if (data == null || data.id != subscriptionId) return null;
+        return data;
       },
     );
   }

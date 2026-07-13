@@ -34,6 +34,7 @@ class NavigateToMealPlannerState extends PlansState {
   final int initialDayIndex;
   final int premiumMealsRemaining;
   final List<PremiumSummaryModel> premiumSummaries;
+  final List<AddonSubscriptionModel> addonSubscriptions;
   final String subscriptionId;
 
   const NavigateToMealPlannerState({
@@ -41,6 +42,7 @@ class NavigateToMealPlannerState extends PlansState {
     required this.initialDayIndex,
     required this.premiumMealsRemaining,
     required this.premiumSummaries,
+    required this.addonSubscriptions,
     required this.subscriptionId,
     super.data,
     super.fulfillmentDay,
@@ -52,6 +54,7 @@ class NavigateToMealPlannerState extends PlansState {
     initialDayIndex,
     premiumMealsRemaining,
     premiumSummaries,
+    addonSubscriptions,
     subscriptionId,
     data,
     fulfillmentDay,

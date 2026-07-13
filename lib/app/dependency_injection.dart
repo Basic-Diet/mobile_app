@@ -462,7 +462,10 @@ void initTimelineModule() {
 
   if (!GetIt.I.isRegistered<TimelineBloc>()) {
     instance.registerFactory<TimelineBloc>(
-      () => TimelineBloc(instance<GetTimelineUseCase>()),
+      () => TimelineBloc(
+        instance<GetTimelineUseCase>(),
+        instance<GetCurrentSubscriptionOverviewUseCase>(),
+      ),
     );
   }
 }
