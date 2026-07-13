@@ -15,9 +15,9 @@ class TimelineLoading extends TimelineState {}
 
 class TimelineLoaded extends TimelineState {
   final TimelineModel timeline;
-  final List<AddonSubscriptionModel> addonSubscriptions;
+  final List<AddonSubscriptionModel>? addonSubscriptions;
 
-  const TimelineLoaded(this.timeline, {this.addonSubscriptions = const []});
+  const TimelineLoaded(this.timeline, {this.addonSubscriptions});
 
   @override
   List<Object?> get props => [timeline, addonSubscriptions];

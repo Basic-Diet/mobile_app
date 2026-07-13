@@ -66,9 +66,7 @@ class TimeLineScreen extends StatelessWidget {
             } else if (state is TimelineLoaded) {
               final days = state.timeline.data.days;
               final freshAddonSubscriptions =
-                  state.addonSubscriptions.isNotEmpty
-                      ? state.addonSubscriptions
-                      : addonSubscriptions;
+                  state.addonSubscriptions ?? addonSubscriptions;
 
               return SingleChildScrollView(
                 padding: EdgeInsets.symmetric(
