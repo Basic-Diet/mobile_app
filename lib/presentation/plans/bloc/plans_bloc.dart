@@ -189,9 +189,7 @@ class PlansBloc extends Bloc<PlansEvent, PlansState> {
               ? currentData
               : CurrentSubscriptionOverviewModel(freshOverview);
       final addonSubscriptions =
-          freshOverview != null
-              ? freshOverview.displayAddonEntitlements
-              : const <AddonSubscriptionModel>[];
+          freshOverview?.displayAddonEntitlements;
       emit(
         NavigateToMealPlannerState(
           timelineDays: days,
@@ -202,9 +200,7 @@ class PlansBloc extends Bloc<PlansEvent, PlansState> {
               state.data?.data?.premiumSummary ??
               const [],
           addonSubscriptions:
-              addonSubscriptions.isNotEmpty
-                  ? addonSubscriptions
-                  : timeline.data.addonSubscriptions,
+              addonSubscriptions ?? timeline.data.addonSubscriptions,
           subscriptionId: event.subscriptionId,
           data: plannerData,
           fulfillmentDay: state.fulfillmentDay,

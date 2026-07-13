@@ -33,16 +33,14 @@ class TimelineBloc extends Bloc<TimelineEvent, TimelineState> {
           TimelineLoaded(
             timeline,
             addonSubscriptions:
-                addonSubscriptions.isNotEmpty
-                    ? addonSubscriptions
-                    : timeline.data.addonSubscriptions,
+                addonSubscriptions ?? timeline.data.addonSubscriptions,
           ),
         );
       },
     );
   }
 
-  Future<List<AddonSubscriptionModel>> _getFreshAddonSubscriptions(
+  Future<List<AddonSubscriptionModel>?> _getFreshAddonSubscriptions(
     String subscriptionId,
   ) async {
     final overviewResult = await _getCurrentSubscriptionOverviewUseCase.execute(
@@ -50,10 +48,10 @@ class TimelineBloc extends Bloc<TimelineEvent, TimelineState> {
     );
 
     return overviewResult.fold(
-      (_) => const [],
+      (_) => null,
       (overview) {
         final data = overview.data;
-        if (data == null || data.id != subscriptionId) return const [];
+        if (data == null || data.id != subscriptionId) return null;
         return data.displayAddonEntitlements;
       },
     );
