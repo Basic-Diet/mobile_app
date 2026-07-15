@@ -53,6 +53,8 @@ class Strings {
   static const String forgotPasswordSubtitle = 'forgotPasswordSubtitle';
   static const String forgotPasswordSupportPrompt =
       'forgotPasswordSupportPrompt';
+  static const String forgotPasswordContactAdminMessage =
+      'forgotPasswordContactAdminMessage';
   static const String backToLogin = 'backToLogin';
   static const String resetPassword = 'resetPassword';
   static const String resetPasswordTitle = 'resetPasswordTitle';
@@ -67,6 +69,16 @@ class Strings {
   static const String forcePasswordChangeTitle = 'forcePasswordChangeTitle';
   static const String forcePasswordChangeSubtitle =
       'forcePasswordChangeSubtitle';
+  static const String completePasswordChangeTitle =
+      'completePasswordChangeTitle';
+  static const String completePasswordChangeSubtitle =
+      'completePasswordChangeSubtitle';
+  static const String completePasswordChangeButton =
+      'completePasswordChangeButton';
+  static const String account = 'account';
+  static const String weakPassword = 'weakPassword';
+  static const String passwordChangeChallengeInvalid =
+      'passwordChangeChallengeInvalid';
   static const String passwordMismatch = 'passwordMismatch';
   static const String passwordChangedSuccess = 'passwordChangedSuccess';
   static const String fullNameRequired = 'fullNameRequired';
@@ -529,6 +541,7 @@ class Strings {
       'fulfillmentPrepareActionNow';
 
   // Add-on Entitlements
+  static const String included = 'included';
   static const String includedPerDay = 'includedPerDay';
   static const String usedThisWeek = 'usedThisWeek';
   static const String dayAddonsTitle = 'dayAddonsTitle';

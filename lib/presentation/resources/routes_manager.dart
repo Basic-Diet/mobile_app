@@ -5,6 +5,7 @@ import 'package:basic_diet/domain/model/subscription_quote_model.dart';
 import 'package:basic_diet/presentation/language_selection/language_selection_screen.dart';
 import 'package:basic_diet/presentation/login/login_screen.dart';
 import 'package:basic_diet/presentation/change_password/change_password_screen.dart';
+import 'package:basic_diet/presentation/complete_password_change/complete_password_change_screen.dart';
 import 'package:basic_diet/presentation/main/main_screen.dart';
 import 'package:basic_diet/presentation/main/home/delivery/delivery_method_screen.dart';
 import 'package:basic_diet/presentation/main/home/add-ons/add_ons_screen.dart';
@@ -22,7 +23,6 @@ import 'package:basic_diet/presentation/register/register_screen.dart';
 import 'package:basic_diet/presentation/splash/splash_screen.dart';
 import 'package:basic_diet/presentation/verify/verify_screen.dart';
 import 'package:basic_diet/presentation/forgot_password/forgot_password_screen.dart';
-import 'package:basic_diet/presentation/reset_password/reset_password_screen.dart';
 import 'package:basic_diet/presentation/main/profile/support/support_screen.dart';
 import 'package:basic_diet/presentation/main/profile/manage_account/manage_account_screen.dart';
 import 'package:flutter/material.dart';
@@ -111,14 +111,21 @@ class GoRouterConfig {
         },
       ),
       GoRoute(
-        path: ResetPasswordScreen.routeName,
+        path: CompletePasswordChangeScreen.routeName,
         pageBuilder: (BuildContext context, GoRouterState state) {
-          final phone = resetPasswordPhoneFromExtra(state.extra);
+          final extra = state.extra;
+          if (extra is! PasswordChangeChallengeArgs) {
+            initLoginModule();
+            return getCustomTransitionPage(
+              state: state,
+              child: LoginScreen(),
+            );
+          }
+
+          initCompletePasswordChangeModule();
           return getCustomTransitionPage(
             state: state,
-            child: phone == null || phone.trim().isEmpty
-                ? const ForgotPasswordScreen()
-                : ResetPasswordScreen(phone: phone),
+            child: CompletePasswordChangeScreen(args: extra),
           );
         },
       ),
@@ -318,11 +325,5 @@ class GoRouterConfig {
       transitionsBuilder: (context, animation, secondaryAnimation, child) =>
           child,
     );
-  }
-
-  static String? resetPasswordPhoneFromExtra(Object? extra) {
-    if (extra is String) return extra;
-    if (extra is Map<String, String>) return extra['phone'];
-    return null;
   }
 }

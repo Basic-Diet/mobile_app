@@ -1,3 +1,4 @@
+import 'package:basic_diet/domain/model/current_subscription_overview_model.dart';
 import 'package:basic_diet/domain/model/timeline_model.dart';
 import 'package:equatable/equatable.dart';
 
@@ -14,11 +15,12 @@ class TimelineLoading extends TimelineState {}
 
 class TimelineLoaded extends TimelineState {
   final TimelineModel timeline;
+  final List<AddonSubscriptionModel>? addonSubscriptions;
 
-  const TimelineLoaded(this.timeline);
+  const TimelineLoaded(this.timeline, {this.addonSubscriptions});
 
   @override
-  List<Object?> get props => [timeline];
+  List<Object?> get props => [timeline, addonSubscriptions];
 }
 
 class TimelineError extends TimelineState {

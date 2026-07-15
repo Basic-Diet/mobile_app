@@ -65,6 +65,8 @@ class TimeLineScreen extends StatelessWidget {
               return Center(child: Text(state.message));
             } else if (state is TimelineLoaded) {
               final days = state.timeline.data.days;
+              final freshAddonSubscriptions =
+                  state.addonSubscriptions ?? addonSubscriptions;
 
               return SingleChildScrollView(
                 padding: EdgeInsets.symmetric(
@@ -78,7 +80,7 @@ class TimeLineScreen extends StatelessWidget {
                       context,
                       days,
                       state.timeline.data.premiumMealsRemaining,
-                      addonSubscriptions,
+                      freshAddonSubscriptions,
                       premiumSummaries,
                       state.timeline.data.mealBalance,
                     ),

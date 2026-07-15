@@ -429,6 +429,34 @@ class RepositoryImpl implements Repository {
   }
 
   @override
+  Future<Either<Failure, AuthenticationModel>> completePasswordChange(
+    String passwordChangeToken,
+    String newPassword,
+    String confirmPassword,
+    String? deviceId,
+    String? deviceName,
+  ) async {
+    try {
+      final response = await _remoteDataSource.completePasswordChange(
+        passwordChangeToken,
+        newPassword,
+        confirmPassword,
+        deviceId,
+        deviceName,
+      );
+      if (_isSuccessfulResponse(response)) {
+        return Right(response.toDomain());
+      } else {
+        return Left(
+          Failure(ApiInternalStatus.failure, ResponseMessage.defaultError),
+        );
+      }
+    } catch (error) {
+      return _handleError(error);
+    }
+  }
+
+  @override
   Future<Either<Failure, BaseModel>> resetPassword(
     String phone,
     String otp,

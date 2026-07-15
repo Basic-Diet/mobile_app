@@ -48,9 +48,17 @@ class _OrderTrackingContent extends StatefulWidget {
 }
 
 class _OrderTrackingContentState extends State<_OrderTrackingContent> {
+  late OrderTrackingBloc _orderTrackingBloc;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _orderTrackingBloc = context.read<OrderTrackingBloc>();
+  }
+
   @override
   void dispose() {
-    context.read<OrderTrackingBloc>().add(const StopPollingEvent());
+    _orderTrackingBloc.add(const StopPollingEvent());
     super.dispose();
   }
 

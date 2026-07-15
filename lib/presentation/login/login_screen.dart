@@ -1,5 +1,5 @@
 import 'package:basic_diet/app/dependency_injection.dart';
-import 'package:basic_diet/presentation/change_password/change_password_screen.dart';
+import 'package:basic_diet/presentation/complete_password_change/complete_password_change_screen.dart';
 import 'package:basic_diet/presentation/register/register_screen.dart';
 import 'package:basic_diet/presentation/forgot_password/forgot_password_screen.dart';
 import 'package:basic_diet/presentation/main/main_screen.dart';
@@ -62,14 +62,22 @@ class _LoginScreenState extends State<LoginScreen> {
         listenWhen:
             (previous, current) =>
         current is LoginSuccessState ||
-            current is LoginForcePasswordChangeRequiredState,
+            current is LoginPasswordChangeRequiredState,
         listener: (context, state) {
           if (state is LoginSuccessState) {
             _passwordController.clear();
             context.go(MainScreen.mainRoute);
-          } else if (state is LoginForcePasswordChangeRequiredState) {
+          } else if (state is LoginPasswordChangeRequiredState) {
             _passwordController.clear();
-            context.go(ChangePasswordScreen.routeName, extra: state.phone);
+            context.go(
+              CompletePasswordChangeScreen.routeName,
+              extra: PasswordChangeChallengeArgs(
+                passwordChangeToken: state.passwordChangeToken,
+                phoneE164: state.phoneE164,
+                fullName: state.fullName,
+                expiresIn: state.expiresIn,
+              ),
+            );
           }
         },
         child: PopScope(
