@@ -85,6 +85,13 @@ abstract class RemoteDataSource {
     String newPassword,
     String confirmPassword,
   );
+  Future<AuthenticationResponse> completePasswordChange(
+    String passwordChangeToken,
+    String newPassword,
+    String confirmPassword,
+    String? deviceId,
+    String? deviceName,
+  );
   Future<AuthenticationResponse> getCurrentUser();
   Future<ClientProfileResponse> getClientProfile();
   Future<PlansResponse> getPlans();

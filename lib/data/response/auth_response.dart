@@ -12,6 +12,10 @@ class AuthenticationResponse {
   final String? accessToken;
   @JsonKey(name: "refreshToken")
   final String? refreshToken;
+  @JsonKey(name: "mustChangePassword")
+  final bool? mustChangePassword;
+  @JsonKey(name: "passwordChangeToken")
+  final String? passwordChangeToken;
   @JsonKey(name: "expiresIn")
   final int? expiresIn;
   @JsonKey(name: "refreshExpiresIn")
@@ -24,6 +28,8 @@ class AuthenticationResponse {
     this.status,
     this.accessToken,
     this.refreshToken,
+    this.mustChangePassword,
+    this.passwordChangeToken,
     this.expiresIn,
     this.refreshExpiresIn,
     this.user,
@@ -41,6 +47,8 @@ class AuthUserResponse {
   final String? id;
   @JsonKey(name: "phoneE164")
   final String? phoneE164;
+  @JsonKey(name: "fullName")
+  final String? fullName;
   @JsonKey(name: "phoneVerified")
   final bool? phoneVerified;
   @JsonKey(name: "forcePasswordChange")
@@ -49,6 +57,7 @@ class AuthUserResponse {
   const AuthUserResponse({
     this.id,
     this.phoneE164,
+    this.fullName,
     this.phoneVerified,
     this.forcePasswordChange,
   });

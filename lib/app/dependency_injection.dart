@@ -20,6 +20,7 @@ import 'package:basic_diet/domain/usecase/get_pickup_request_status_usecase.dart
 import 'package:basic_diet/domain/usecase/get_pickup_requests_usecase.dart';
 import 'package:basic_diet/domain/usecase/verify_otp_usecase.dart';
 import 'package:basic_diet/domain/usecase/change_password_usecase.dart';
+import 'package:basic_diet/domain/usecase/complete_password_change_usecase.dart';
 import 'package:basic_diet/domain/usecase/checkout_subscription_usecase.dart';
 import 'package:basic_diet/domain/usecase/get_plans_usecase.dart';
 import 'package:basic_diet/domain/usecase/get_delivery_options_usecase.dart';
@@ -29,6 +30,7 @@ import 'package:basic_diet/domain/usecase/renew_subscription_usecase.dart';
 import 'package:basic_diet/presentation/login/login_bloc.dart';
 import 'package:basic_diet/presentation/verify/verify_bloc.dart';
 import 'package:basic_diet/presentation/change_password/change_password_bloc.dart';
+import 'package:basic_diet/presentation/complete_password_change/complete_password_change_bloc.dart';
 import 'package:basic_diet/presentation/main/home/subscription/bloc/subscription_bloc.dart';
 import 'package:basic_diet/domain/usecase/register_usecase.dart';
 import 'package:basic_diet/domain/usecase/get_popular_packages_usecase.dart';
@@ -183,6 +185,24 @@ void initChangePasswordModule() {
   if (!GetIt.I.isRegistered<ChangePasswordBloc>()) {
     instance.registerFactory<ChangePasswordBloc>(
       () => ChangePasswordBloc(instance<ChangePasswordUseCase>()),
+    );
+  }
+}
+
+void initCompletePasswordChangeModule() {
+  if (!GetIt.I.isRegistered<CompletePasswordChangeUseCase>()) {
+    instance.registerFactory<CompletePasswordChangeUseCase>(
+      () => CompletePasswordChangeUseCase(instance<Repository>()),
+    );
+  }
+
+  if (!GetIt.I.isRegistered<CompletePasswordChangeBloc>()) {
+    instance.registerFactoryParam<CompletePasswordChangeBloc, String, void>(
+      (passwordChangeToken, _) => CompletePasswordChangeBloc(
+        instance<CompletePasswordChangeUseCase>(),
+        instance<AppPreferences>(),
+        passwordChangeToken,
+      ),
     );
   }
 }

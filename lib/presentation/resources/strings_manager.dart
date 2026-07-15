@@ -69,6 +69,16 @@ class Strings {
   static const String forcePasswordChangeTitle = 'forcePasswordChangeTitle';
   static const String forcePasswordChangeSubtitle =
       'forcePasswordChangeSubtitle';
+  static const String completePasswordChangeTitle =
+      'completePasswordChangeTitle';
+  static const String completePasswordChangeSubtitle =
+      'completePasswordChangeSubtitle';
+  static const String completePasswordChangeButton =
+      'completePasswordChangeButton';
+  static const String account = 'account';
+  static const String weakPassword = 'weakPassword';
+  static const String passwordChangeChallengeInvalid =
+      'passwordChangeChallengeInvalid';
   static const String passwordMismatch = 'passwordMismatch';
   static const String passwordChangedSuccess = 'passwordChangedSuccess';
   static const String fullNameRequired = 'fullNameRequired';

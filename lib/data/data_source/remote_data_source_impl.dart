@@ -155,6 +155,25 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   }
 
   @override
+  Future<AuthenticationResponse> completePasswordChange(
+    String passwordChangeToken,
+    String newPassword,
+    String confirmPassword,
+    String? deviceId,
+    String? deviceName,
+  ) {
+    return _appServiceClient.completePasswordChange(
+      'Bearer $passwordChangeToken',
+      {
+        'newPassword': newPassword,
+        'confirmPassword': confirmPassword,
+        if (deviceId != null) 'deviceId': deviceId,
+        if (deviceName != null) 'deviceName': deviceName,
+      },
+    );
+  }
+
+  @override
   Future<AuthenticationResponse> getCurrentUser() {
     return _appServiceClient.getCurrentUser();
   }

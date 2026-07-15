@@ -81,7 +81,35 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         showToast(message: message, state: ToastStates.error);
       },
       (data) async {
-        if (data.accessToken.isEmpty || data.refreshToken.isEmpty) {
+        final isPasswordChangeRequired =
+            data.isPasswordChangeRequired ||
+            (data.status == 'password_change_required' &&
+                data.passwordChangeToken.isNotEmpty) ||
+            (data.user?.forcePasswordChange == true &&
+                data.passwordChangeToken.isNotEmpty);
+
+        if (isPasswordChangeRequired) {
+          if (!isClosed) {
+            emit(
+              LoginPasswordChangeRequiredState(
+                passwordChangeToken: data.passwordChangeToken,
+                phoneE164:
+                    data.user?.phoneE164.isNotEmpty == true
+                        ? data.user!.phoneE164
+                        : fullPhone,
+                fullName:
+                    data.user?.fullName.isNotEmpty == true
+                        ? data.user!.fullName
+                        : null,
+                expiresIn: data.expiresIn,
+                phone: state.phone,
+              ),
+            );
+          }
+          return;
+        }
+
+        if (!data.hasNormalSession) {
           final message = Strings.defaultError.tr();
           if (!isClosed) {
             emit(
@@ -103,12 +131,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         );
 
         if (!isClosed) {
-          if (data.user?.forcePasswordChange == true) {
-            emit(LoginForcePasswordChangeRequiredState(phone: state.phone));
-          } else {
-            emit(LoginSuccessState(phone: state.phone));
-            showToast(message: Strings.success.tr(), state: ToastStates.success);
-          }
+          emit(LoginSuccessState(phone: state.phone));
+          showToast(message: Strings.success.tr(), state: ToastStates.success);
         }
       },
     );

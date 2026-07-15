@@ -86,6 +86,12 @@ abstract class AppServiceClient {
   @POST("/api/auth/change-password")
   Future<BaseResponse> changePassword(@Body() Map<String, dynamic> body);
 
+  @POST("/api/auth/complete-password-change")
+  Future<AuthenticationResponse> completePasswordChange(
+    @Header("Authorization") String authorization,
+    @Body() Map<String, dynamic> body,
+  );
+
   @GET("/api/auth/me")
   Future<AuthenticationResponse> getCurrentUser();
 

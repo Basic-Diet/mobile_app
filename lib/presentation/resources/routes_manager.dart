@@ -5,6 +5,7 @@ import 'package:basic_diet/domain/model/subscription_quote_model.dart';
 import 'package:basic_diet/presentation/language_selection/language_selection_screen.dart';
 import 'package:basic_diet/presentation/login/login_screen.dart';
 import 'package:basic_diet/presentation/change_password/change_password_screen.dart';
+import 'package:basic_diet/presentation/complete_password_change/complete_password_change_screen.dart';
 import 'package:basic_diet/presentation/main/main_screen.dart';
 import 'package:basic_diet/presentation/main/home/delivery/delivery_method_screen.dart';
 import 'package:basic_diet/presentation/main/home/add-ons/add_ons_screen.dart';
@@ -106,6 +107,25 @@ class GoRouterConfig {
           return getCustomTransitionPage(
             state: state,
             child: ChangePasswordScreen(phone: phone),
+          );
+        },
+      ),
+      GoRoute(
+        path: CompletePasswordChangeScreen.routeName,
+        pageBuilder: (BuildContext context, GoRouterState state) {
+          final extra = state.extra;
+          if (extra is! PasswordChangeChallengeArgs) {
+            initLoginModule();
+            return getCustomTransitionPage(
+              state: state,
+              child: LoginScreen(),
+            );
+          }
+
+          initCompletePasswordChangeModule();
+          return getCustomTransitionPage(
+            state: state,
+            child: CompletePasswordChangeScreen(args: extra),
           );
         },
       ),

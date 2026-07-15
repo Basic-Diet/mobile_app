@@ -13,6 +13,8 @@ AuthenticationResponse _$AuthenticationResponseFromJson(
   status: json['status'] as String?,
   accessToken: json['accessToken'] as String?,
   refreshToken: json['refreshToken'] as String?,
+  mustChangePassword: json['mustChangePassword'] as bool?,
+  passwordChangeToken: json['passwordChangeToken'] as String?,
   expiresIn: (json['expiresIn'] as num?)?.toInt(),
   refreshExpiresIn: (json['refreshExpiresIn'] as num?)?.toInt(),
   user:
@@ -28,6 +30,8 @@ Map<String, dynamic> _$AuthenticationResponseToJson(
   'status': instance.status,
   'accessToken': instance.accessToken,
   'refreshToken': instance.refreshToken,
+  'mustChangePassword': instance.mustChangePassword,
+  'passwordChangeToken': instance.passwordChangeToken,
   'expiresIn': instance.expiresIn,
   'refreshExpiresIn': instance.refreshExpiresIn,
   'user': instance.user,
@@ -37,6 +41,7 @@ AuthUserResponse _$AuthUserResponseFromJson(Map<String, dynamic> json) =>
     AuthUserResponse(
       id: json['id'] as String?,
       phoneE164: json['phoneE164'] as String?,
+      fullName: json['fullName'] as String?,
       phoneVerified: json['phoneVerified'] as bool?,
       forcePasswordChange: json['forcePasswordChange'] as bool?,
     );
@@ -45,6 +50,7 @@ Map<String, dynamic> _$AuthUserResponseToJson(AuthUserResponse instance) =>
     <String, dynamic>{
       'id': instance.id,
       'phoneE164': instance.phoneE164,
+      'fullName': instance.fullName,
       'phoneVerified': instance.phoneVerified,
       'forcePasswordChange': instance.forcePasswordChange,
     };

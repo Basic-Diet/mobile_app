@@ -55,10 +55,10 @@ class DioFactory {
     if (!kReleaseMode) {
       dioInstance.interceptors.add(
         PrettyDioLogger(
-          requestHeader: true,
-          requestBody: true,
+          requestHeader: false,
+          requestBody: false,
           responseHeader: true,
-          responseBody: true,
+          responseBody: false,
         ),
       );
     }
@@ -68,6 +68,16 @@ class DioFactory {
 
   Future<void> _addAuthorizationHeaderIfLoggedIn(RequestOptions options) async {
     try {
+      final explicitAuthorization = options.headers.entries.any(
+        (entry) =>
+            entry.key.toLowerCase() == authorization &&
+            entry.value is String &&
+            (entry.value as String).isNotEmpty,
+      );
+      if (explicitAuthorization) {
+        return;
+      }
+
       final accessToken = await _appPreferences.getAccessToken();
 
       if (_isUserLoggedIn(accessToken)) {

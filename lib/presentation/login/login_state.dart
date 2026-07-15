@@ -101,8 +101,17 @@ class LoginSuccessState extends LoginState {
   }
 }
 
-class LoginForcePasswordChangeRequiredState extends LoginState {
-  const LoginForcePasswordChangeRequiredState({
+class LoginPasswordChangeRequiredState extends LoginState {
+  final String passwordChangeToken;
+  final String phoneE164;
+  final String? fullName;
+  final int expiresIn;
+
+  const LoginPasswordChangeRequiredState({
+    required this.passwordChangeToken,
+    required this.phoneE164,
+    this.fullName,
+    this.expiresIn = 0,
     super.phone = '',
     super.phoneError,
     super.isPasswordNotEmpty = false,
@@ -116,13 +125,25 @@ class LoginForcePasswordChangeRequiredState extends LoginState {
     bool? isPasswordNotEmpty,
     String? passwordError,
   }) {
-    return LoginForcePasswordChangeRequiredState(
+    return LoginPasswordChangeRequiredState(
+      passwordChangeToken: passwordChangeToken,
+      phoneE164: phoneE164,
+      fullName: fullName,
+      expiresIn: expiresIn,
       phone: phone ?? this.phone,
       phoneError: phoneError,
       isPasswordNotEmpty: isPasswordNotEmpty ?? this.isPasswordNotEmpty,
       passwordError: passwordError,
     );
   }
+
+  @override
+  List<Object?> get props => [
+    ...super.props,
+    phoneE164,
+    fullName ?? '',
+    expiresIn,
+  ];
 }
 
 class LoginErrorState extends LoginState {

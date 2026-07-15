@@ -79,6 +79,13 @@ abstract class Repository {
     String newPassword,
     String confirmPassword,
   );
+  Future<Either<Failure, AuthenticationModel>> completePasswordChange(
+    String passwordChangeToken,
+    String newPassword,
+    String confirmPassword,
+    String? deviceId,
+    String? deviceName,
+  );
   Future<Either<Failure, AuthenticationModel>> getCurrentUser();
   Future<Either<Failure, ClientProfileModel>> getClientProfile();
   Future<Either<Failure, PlansModel>> getPlans();
