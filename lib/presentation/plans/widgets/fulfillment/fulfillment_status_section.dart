@@ -156,10 +156,14 @@ class FulfillmentStatusSection extends StatelessWidget {
     return data.businessDate;
   }
 
-  void _openPlanner(BuildContext context) {
+  void _openPlanner(
+    BuildContext context, {
+    bool openCurrentDay = false,
+  }) {
     context.read<PlansBloc>().add(
       FetchTimelineAndOpenPlannerEvent(
         data.id,
+        openCurrentDay: openCurrentDay,
         preferredDate: _pickupBusinessDate,
       ),
     );
@@ -181,7 +185,7 @@ class FulfillmentStatusSection extends StatelessWidget {
           child: PickupAvailabilitySheet(
             onAppendMeals: () {
               Navigator.of(parentContext).pop();
-              _openPlanner(parentContext);
+              _openPlanner(parentContext, openCurrentDay: true);
             },
           ),
         );
