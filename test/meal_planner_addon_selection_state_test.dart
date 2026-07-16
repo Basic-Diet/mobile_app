@@ -50,12 +50,41 @@ void main() {
       expect(state.addonSelectionStatusFor('berry-product'), 'pending_payment');
       expect(state.localAddonPendingAmountHalala, 1100);
     });
+
+    test('marks locally selected add-ons over the allowance as pending payment', () {
+      final juiceAddonIds = List.generate(8, (index) => 'juice-addon-$index');
+      final state = _loadedState(
+        juiceAddonIds,
+        includedCount: 7,
+        choices:
+            juiceAddonIds
+                .map(
+                  (id) => _juiceChoice(
+                    id,
+                    pricingMode: 'allowance_covered',
+                    unitPriceHalala: 1000,
+                  ),
+                )
+                .toList(),
+      );
+
+      expect(
+        state.addonSelectionStatusFor(
+          'juice-addon-7',
+          selectedAddonIdsOverride: juiceAddonIds,
+        ),
+        'pending_payment',
+      );
+      expect(state.localAddonPendingCount, 1);
+      expect(state.localAddonPendingAmountHalala, 1000);
+    });
   });
 }
 
 MealPlannerLoaded _loadedState(
   List<String> juiceAddonIds, {
   List<AddonChoiceModel>? choices,
+  int includedCount = 20,
 }) {
   return MealPlannerLoaded(
     timelineDays: [
@@ -97,7 +126,7 @@ MealPlannerLoaded _loadedState(
       ],
     ),
     addonEntitlements: [
-      AddonSubscriptionModel('', 'juice', 20, 'active'),
+      AddonSubscriptionModel('', 'juice', includedCount, 'active'),
     ],
     premiumSummaries: const [],
     selectedDayIndex: 0,
@@ -110,7 +139,11 @@ MealPlannerLoaded _loadedState(
   );
 }
 
-AddonChoiceModel _juiceChoice(String id) {
+AddonChoiceModel _juiceChoice(
+  String id, {
+  String pricingMode = '',
+  int unitPriceHalala = 0,
+}) {
   return AddonChoiceModel(
     id: id,
     key: id,
@@ -127,6 +160,8 @@ AddonChoiceModel _juiceChoice(String id) {
     type: 'flat_once',
     available: true,
     active: true,
+    pricingMode: pricingMode,
+    unitPriceHalala: unitPriceHalala,
     ui: const {},
   );
 }

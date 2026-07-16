@@ -300,12 +300,14 @@ final class MealPlannerLoaded extends MealPlannerState {
     return _computeLocalAddonStatus(
       addonId,
       selectedAddonIds: selectedAddonIdsOverride ?? selectedAddOnIds,
+      trustBackendIncluded: shouldUseBackendSelection,
     );
   }
 
   String _computeLocalAddonStatus(
     String addonId, {
     required List<String> selectedAddonIds,
+    required bool trustBackendIncluded,
   }) {
     final targetAddon = _catalogById[addonId];
 
@@ -314,10 +316,14 @@ final class MealPlannerLoaded extends MealPlannerState {
     }
 
     if (targetAddon.hasAuthoritativePricing) {
-      if (targetAddon.isIncludedByBackend) return 'subscription';
       if (targetAddon.isPayableByBackend) return 'pending_payment';
-      if (targetAddon.source == 'subscription') return 'subscription';
       if (targetAddon.source == 'pending_payment') return 'pending_payment';
+      if (trustBackendIncluded && targetAddon.isIncludedByBackend) {
+        return 'subscription';
+      }
+      if (trustBackendIncluded && targetAddon.source == 'subscription') {
+        return 'subscription';
+      }
     }
 
     final allowances = _localAddonAllowancesByCategory();

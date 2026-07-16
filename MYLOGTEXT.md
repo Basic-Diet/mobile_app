@@ -1,4 +1,197 @@
-isplayCategoryKey": "standard_carbs"
+b"
+I/flutter ( 4951): ║                                                 "optionId": "6a522e6ab3fb649917aee2ab"
+I/flutter ( 4951): ║                                                 "key": "meatballs"
+I/flutter ( 4951): ║                                                 "name": "كرات لحم"
+I/flutter ( 4951): ║                                                 "nameI18n": {ar: كرات لحم, en: Meatballs},
+I/flutter ( 4951): ║                                                 "description": ""
+I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
+I/flutter ( 4951): ║                                                 "imageUrl": ""
+I/flutter ( 4951): ║                                                 "nutrition": {calories: 280, proteinGrams: 0, carbGrams: 0, fatGrams: 0},
+I/flutter ( 4951): ║                                                 "extraPriceHalala": 0
+I/flutter ( 4951): ║                                                 "extraFeeHalala": 0
+I/flutter ( 4951): ║                                                 "extraWeightUnitGrams": 0
+I/flutter ( 4951): ║                                                 "extraWeightPriceHalala": 0
+I/flutter ( 4951): ║                                                 "currency": "SAR"
+I/flutter ( 4951): ║                                                 "proteinFamilyKey": "beef"
+I/flutter ( 4951): ║                                                 "proteinFamilyNameI18n": {ar: لحم, en: Beef},
+I/flutter ( 4951): ║                                                 "displayCategoryKey": "beef"
+I/flutter ( 4951): ║                                                 "isPremium": false
+I/flutter ( 4951): ║                                                 "premiumKey": "meatballs"
+I/flutter ( 4951): ║                                                 "ruleTags": []
+I/flutter ( 4951): ║                                                 "sortOrder": 190
+I/flutter ( 4951): ║                                            },
+I/flutter ( 4951): ║                                            {
+I/flutter ( 4951): ║                                                 "id": "6a522e6bb3fb649917aee2ae"
+I/flutter ( 4951): ║                                                 "optionId": "6a522e6bb3fb649917aee2ae"
+I/flutter ( 4951): ║                                                 "key": "beef_stroganoff"
+I/flutter ( 4951): ║                                                 "name": "لحم استرغانوف"
+I/flutter ( 4951): ║                                                 "nameI18n": {ar: لحم استرغانوف, en: Beef Stroganoff},
+I/flutter ( 4951): ║                                                 "description": ""
+I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
+I/flutter ( 4951): ║                                                 "imageUrl": ""
+I/flutter ( 4951): ║                                                 "nutrition": {calories: 250, proteinGrams: 0, carbGrams: 0, fatGrams: 0},
+I/flutter ( 4951): ║                                                 "extraPriceHalala": 0
+I/flutter ( 4951): ║                                                 "extraFeeHalala": 0
+I/flutter ( 4951): ║                                                 "extraWeightUnitGrams": 0
+I/flutter ( 4951): ║                                                 "extraWeightPriceHalala": 0
+I/flutter ( 4951): ║                                                 "currency": "SAR"
+I/flutter ( 4951): ║                                                 "proteinFamilyKey": "beef"
+I/flutter ( 4951): ║                                                 "proteinFamilyNameI18n": {ar: لحم, en: Beef},
+I/flutter ( 4951): ║                                                 "displayCategoryKey": "beef"
+I/flutter ( 4951): ║                                                 "isPremium": false
+I/flutter ( 4951): ║                                                 "premiumKey": "beef_stroganoff"
+I/flutter ( 4951): ║                                                 "ruleTags": []
+I/flutter ( 4951): ║                                                 "sortOrder": 200
+I/flutter ( 4951): ║                                            },
+I/flutter ( 4951): ║                                            {
+I/flutter ( 4951): ║                                                 "id": "6a522e6cb3fb649917aee2b1"
+I/flutter ( 4951): ║                                                 "optionId": "6a522e6cb3fb649917aee2b1"
+I/flutter ( 4951): ║                                                 "key": "fish_fillet"
+I/flutter ( 4951): ║                                                 "name": "سمك فيليه"
+I/flutter ( 4951): ║                                                 "nameI18n": {ar: سمك فيليه, en: Fish Fillet},
+I/flutter ( 4951): ║                                                 "description": ""
+I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
+I/flutter ( 4951): ║                                                 "imageUrl": ""
+I/flutter ( 4951): ║                                                 "nutrition": {calories: 130, proteinGrams: 0, carbGrams: 0, fatGrams: 0},
+I/flutter ( 4951): ║                                                 "extraPriceHalala": 0
+I/flutter ( 4951): ║                                                 "extraFeeHalala": 0
+I/flutter ( 4951): ║                                                 "extraWeightUnitGrams": 0
+I/flutter ( 4951): ║                                                 "extraWeightPriceHalala": 0
+I/flutter ( 4951): ║                                                 "currency": "SAR"
+I/flutter ( 4951): ║                                                 "proteinFamilyKey": "fish"
+I/flutter ( 4951): ║                                                 "proteinFamilyNameI18n": {ar: سمك, en: Fish},
+I/flutter ( 4951): ║                                                 "displayCategoryKey": "fish"
+I/flutter ( 4951): ║                                                 "isPremium": false
+I/flutter ( 4951): ║                                                 "premiumKey": "fish_fillet"
+I/flutter ( 4951): ║                                                 "ruleTags": []
+I/flutter ( 4951): ║                                                 "sortOrder": 210
+I/flutter ( 4951): ║                                            }
+I/flutter ( 4951): ║                                         ]
+I/flutter ( 4951): ║                                    }
+I/flutter ( 4951): ║                                 ],
+I/flutter ( 4951): ║                                 "sortOrder": 20
+I/flutter ( 4951): ║                            }
+I/flutter ( 4951): ║                         ]
+I/flutter ( 4951): ║                    },
+I/flutter ( 4951): ║                    {
+I/flutter ( 4951): ║                         "id": "section:premium_meal",
+I/flutter ( 4951): ║                         "key": "premium_meal",
+I/flutter ( 4951): ║                         "type": "configurable_product",
+I/flutter ( 4951): ║                         "name": "وجبة مميزة",
+I/flutter ( 4951): ║                         "nameI18n": {ar: وجبة مميزة, en: Premium Meal},
+I/flutter ( 4951): ║                         "ui": {cardVariant: premium, layout: vertical_hero_list},
+I/flutter ( 4951): ║                         "products": [
+I/flutter ( 4951): ║                            {
+I/flutter ( 4951): ║                                 "id": "6a522efeb3fb649917aee56f",
+I/flutter ( 4951): ║                                 "key": "basic_meal",
+I/flutter ( 4951): ║                                 "selectionType": "premium_meal",
+I/flutter ( 4951): ║                                 "itemType": "basic_meal",
+I/flutter ( 4951): ║                                 "name": "وجبة بيسك",
+I/flutter ( 4951): ║                                 "nameI18n": {ar: وجبة بيسك, en: Basic Meal},
+I/flutter ( 4951): ║                                 "description": "",
+I/flutter ( 4951): ║                                 "descriptionI18n": {ar: , en: },
+I/flutter ( 4951): ║                                 "imageUrl": "",
+I/flutter ( 4951): ║                                 "pricing": {model: per_100g, basePriceHalala: 1900, extraFeeHalala: 0, currency: SAR},
+I/flutter ( 4951): ║                                 "nutrition": {calories: 0, proteinGrams: 0, carbGrams: 0, fatGrams: 0},
+I/flutter ( 4951): ║                                 "action": {type: open_builder, requiresBuilder: true},
+I/flutter ( 4951): ║                                 "ui": {cardVariant: hero_builder, cardSize: large, badge: , ctaLabel: , imageRatio: wide},
+I/flutter ( 4951): ║                                 "optionGroups": [
+I/flutter ( 4951): ║                                    {
+I/flutter ( 4951): ║                                         "id": "6a522e6cb3fb649917aee2b4"
+I/flutter ( 4951): ║                                         "groupId": "6a522e6cb3fb649917aee2b4"
+I/flutter ( 4951): ║                                         "key": "carbs",
+I/flutter ( 4951): ║                                         "sourceKey": "carbs",
+I/flutter ( 4951): ║                                         "name": "كارب",
+I/flutter ( 4951): ║                                         "nameI18n": {ar: كارب, en: Carbs},
+I/flutter ( 4951): ║                                         "minSelections": 1,
+I/flutter ( 4951): ║                                         "maxSelections": 2,
+I/flutter ( 4951): ║                                         "isRequired": true,
+I/flutter ( 4951): ║                                         "sortOrder": 10,
+I/flutter ( 4951): ║                                         "ui": {displayStyle: chips},
+I/flutter ( 4951): ║                                         "options": [
+I/flutter ( 4951): ║                                            {
+I/flutter ( 4951): ║                                                 "id": "6a522e6db3fb649917aee2b7"
+I/flutter ( 4951): ║                                                 "optionId": "6a522e6db3fb649917aee2b7"
+I/flutter ( 4951): ║                                                 "key": "white_rice"
+I/flutter ( 4951): ║                                                 "name": "رز أبيض"
+I/flutter ( 4951): ║                                                 "nameI18n": {ar: رز أبيض, en: White Rice},
+I/flutter ( 4951): ║                                                 "description": ""
+I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
+I/flutter ( 4951): ║                                                 "imageUrl": ""
+I/flutter ( 4951): ║                                                 "nutrition": {calories: 190, proteinGrams: 0, carbGrams: 0, fatGrams: 0},
+I/flutter ( 4951): ║                                                 "extraPriceHalala": 0
+I/flutter ( 4951): ║                                                 "extraFeeHalala": 0
+I/flutter ( 4951): ║                                                 "extraWeightUnitGrams": 0
+I/flutter ( 4951): ║                                                 "extraWeightPriceHalala": 0
+I/flutter ( 4951): ║                                                 "currency": "SAR"
+I/flutter ( 4951): ║                                                 "proteinFamilyKey": ""
+I/flutter ( 4951): ║                                                 "displayCategoryKey": "standard_carbs"
+I/flutter ( 4951): ║                                                 "isPremium": false
+I/flutter ( 4951): ║                                                 "premiumKey": "white_rice"
+I/flutter ( 4951): ║                                                 "ruleTags": []
+I/flutter ( 4951): ║                                                 "sortOrder": 10
+I/flutter ( 4951): ║                                            },
+I/flutter ( 4951): ║                                            {
+I/flutter ( 4951): ║                                                 "id": "6a522e6db3fb649917aee2ba"
+I/flutter ( 4951): ║                                                 "optionId": "6a522e6db3fb649917aee2ba"
+I/flutter ( 4951): ║                                                 "key": "turmeric_rice"
+I/flutter ( 4951): ║                                                 "name": "رز بالكركم"
+I/flutter ( 4951): ║                                                 "nameI18n": {ar: رز بالكركم, en: Turmeric Rice},
+I/flutter ( 4951): ║                                                 "description": ""
+I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
+I/flutter ( 4951): ║                                                 "imageUrl": ""
+I/flutter ( 4951): ║                                                 "nutrition": {calories: 200, proteinGrams: 0, carbGrams: 0, fatGrams: 0},
+I/flutter ( 4951): ║                                                 "extraPriceHalala": 0
+I/flutter ( 4951): ║                                                 "extraFeeHalala": 0
+I/flutter ( 4951): ║                                                 "extraWeightUnitGrams": 0
+I/flutter ( 4951): ║                                                 "extraWeightPriceHalala": 0
+I/flutter ( 4951): ║                                                 "currency": "SAR"
+I/flutter ( 4951): ║                                                 "proteinFamilyKey": ""
+I/flutter ( 4951): ║                                                 "displayCategoryKey": "standard_carbs"
+I/flutter ( 4951): ║                                                 "isPremium": false
+I/flutter ( 4951): ║                                                 "premiumKey": "turmeric_rice"
+I/flutter ( 4951): ║                                                 "ruleTags": []
+I/flutter ( 4951): ║                                                 "sortOrder": 20
+I/flutter ( 4951): ║                                            },
+I/flutter ( 4951): ║                                            {
+I/flutter ( 4951): ║                                                 "id": "6a522e6eb3fb649917aee2bd"
+I/flutter ( 4951): ║                                                 "optionId": "6a522e6eb3fb649917aee2bd"
+I/flutter ( 4951): ║                                                 "key": "alfredo_pasta"
+I/flutter ( 4951): ║                                                 "name": "باستا الفريدو"
+I/flutter ( 4951): ║                                                 "nameI18n": {ar: باستا الفريدو, en: Alfredo Pasta},
+I/flutter ( 4951): ║                                                 "description": ""
+I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
+I/flutter ( 4951): ║                                                 "imageUrl": ""
+I/flutter ( 4951): ║                                                 "nutrition": {calories: 300, proteinGrams: 0, carbGrams: 0, fatGrams: 0},
+I/flutter ( 4951): ║                                                 "extraPriceHalala": 0
+I/flutter ( 4951): ║                                                 "extraFeeHalala": 0
+I/flutter ( 4951): ║                                                 "extraWeightUnitGrams": 0
+I/flutter ( 4951): ║                                                 "extraWeightPriceHalala": 0
+I/flutter ( 4951): ║                                                 "currency": "SAR"
+I/flutter ( 4951): ║                                                 "proteinFamilyKey": ""
+I/flutter ( 4951): ║                                                 "displayCategoryKey": "standard_carbs"
+I/flutter ( 4951): ║                                                 "isPremium": false
+I/flutter ( 4951): ║                                                 "premiumKey": "alfredo_pasta"
+I/flutter ( 4951): ║                                                 "ruleTags": []
+I/flutter ( 4951): ║                                                 "sortOrder": 30
+I/flutter ( 4951): ║                                            },
+I/flutter ( 4951): ║                                            {
+I/flutter ( 4951): ║                                                 "id": "6a522e6fb3fb649917aee2c0"
+I/flutter ( 4951): ║                                                 "optionId": "6a522e6fb3fb649917aee2c0"
+I/flutter ( 4951): ║                                                 "key": "red_sauce_pasta"
+I/flutter ( 4951): ║                                                 "name": "باستا صوص احمر"
+I/flutter ( 4951): ║                                                 "nameI18n": {ar: باستا صوص احمر, en: Red Sauce Pasta},
+I/flutter ( 4951): ║                                                 "description": ""
+I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
+I/flutter ( 4951): ║                                                 "imageUrl": ""
+I/flutter ( 4951): ║                                                 "nutrition": {calories: 180, proteinGrams: 0, carbGrams: 0, fatGrams: 0},
+I/flutter ( 4951): ║                                                 "extraPriceHalala": 0
+I/flutter ( 4951): ║                                                 "extraFeeHalala": 0
+I/flutter ( 4951): ║                                                 "extraWeightUnitGrams": 0
+I/flutter ( 4951): ║                                                 "extraWeightPriceHalala": 0
+I/flutter ( 4951): ║                                                 "currency": "SAR"
+I/flutter ( 4951): ║                                                 "proteinFamilyKey": ""
+I/flutter ( 4951): ║                                                 "displayCategoryKey": "standard_carbs"
 I/flutter ( 4951): ║                                                 "isPremium": false
 I/flutter ( 4951): ║                                                 "premiumKey": "red_sauce_pasta"
 I/flutter ( 4951): ║                                                 "ruleTags": []
@@ -8,7 +201,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e6fb3fb649917aee2c3"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e6fb3fb649917aee2c3"
 I/flutter ( 4951): ║                                                 "key": "roasted_potato"
-I/flutter ( 4951): ║                                                 "name": "Roasted Potato"
+I/flutter ( 4951): ║                                                 "name": "بطاطا مشوية"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: بطاطا مشوية, en: Roasted Potato},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -30,7 +223,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e70b3fb649917aee2c6"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e70b3fb649917aee2c6"
 I/flutter ( 4951): ║                                                 "key": "sweet_potato"
-I/flutter ( 4951): ║                                                 "name": "Sweet Potato"
+I/flutter ( 4951): ║                                                 "name": "بطاطا حلوة"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: بطاطا حلوة, en: Sweet Potato},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -52,7 +245,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e70b3fb649917aee2c9"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e70b3fb649917aee2c9"
 I/flutter ( 4951): ║                                                 "key": "grilled_mixed_vegetables"
-I/flutter ( 4951): ║                                                 "name": "Grilled Mixed Vegetables"
+I/flutter ( 4951): ║                                                 "name": "خضار مشكلة مشوية"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: خضار مشكلة مشوية, en: Grilled Mixed Vegetables},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -77,7 +270,7 @@ I/flutter ( 4951): ║                                         "id": "6a522e5cb3
 I/flutter ( 4951): ║                                         "groupId": "6a522e5cb3fb649917aee272"
 I/flutter ( 4951): ║                                         "key": "proteins",
 I/flutter ( 4951): ║                                         "sourceKey": "proteins",
-I/flutter ( 4951): ║                                         "name": "Proteins",
+I/flutter ( 4951): ║                                         "name": "بروتينات",
 I/flutter ( 4951): ║                                         "nameI18n": {ar: بروتينات, en: Proteins},
 I/flutter ( 4951): ║                                         "minSelections": 1,
 I/flutter ( 4951): ║                                         "maxSelections": 1,
@@ -87,67 +280,23 @@ I/flutter ( 4951): ║                                         "ui": {displaySty
 I/flutter ( 4951): ║                                         "optionSections": [
 I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "key": "premium"
-I/flutter ( 4951): ║                                                 "name": "Premium"
+I/flutter ( 4951): ║                                                 "name": "بريميوم"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: بريميوم, en: Premium},
-I/flutter ( 4951): ║                                                 "optionKeys": [beef_steak, salmon, shrimp, chicken_fajita]
+I/flutter ( 4951): ║                                                 "optionKeys": [shrimp, salmon, beef_steak, chicken_fajita]
 I/flutter ( 4951): ║                                                 "optionIds": [
-I/flutter ( 4951): ║                                                         6a522e5fb3fb649917aee281,
-I/flutter ( 4951): ║                                                         6a522e61b3fb649917aee287,
 I/flutter ( 4951): ║                                                         6a522e60b3fb649917aee284,
+I/flutter ( 4951): ║                                                         6a522e61b3fb649917aee287,
+I/flutter ( 4951): ║                                                         6a522e5fb3fb649917aee281,
 I/flutter ( 4951): ║                                                         6a522e64b3fb649917aee293
 I/flutter ( 4951): ║                                                 ]
 I/flutter ( 4951): ║                                            }
 I/flutter ( 4951): ║                                         ],
 I/flutter ( 4951): ║                                         "options": [
 I/flutter ( 4951): ║                                            {
-I/flutter ( 4951): ║                                                 "id": "6a522e5fb3fb649917aee281"
-I/flutter ( 4951): ║                                                 "optionId": "6a522e5fb3fb649917aee281"
-I/flutter ( 4951): ║                                                 "key": "beef_steak"
-I/flutter ( 4951): ║                                                 "name": "Beef Steak"
-I/flutter ( 4951): ║                                                 "nameI18n": {ar: ستيك لحم, en: Beef Steak},
-I/flutter ( 4951): ║                                                 "description": ""
-I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
-I/flutter ( 4951): ║                                                 "imageUrl": ""
-I/flutter ( 4951): ║                                                 "nutrition": {calories: 0, proteinGrams: 0, carbGrams: 0, fatGrams: 0},
-I/flutter ( 4951): ║                                                 "extraPriceHalala": 2000
-I/flutter ( 4951): ║                                                 "extraFeeHalala": 2000
-I/flutter ( 4951): ║                                                 "currency": "SAR"
-I/flutter ( 4951): ║                                                 "proteinFamilyKey": "premium"
-I/flutter ( 4951): ║                                                 "proteinFamilyNameI18n": {ar: بريميوم, en: Premium},
-I/flutter ( 4951): ║                                                 "displayCategoryKey": "premium"
-I/flutter ( 4951): ║                                                 "isPremium": true
-I/flutter ( 4951): ║                                                 "premiumKey": "beef_steak"
-I/flutter ( 4951): ║                                                 "ruleTags": []
-I/flutter ( 4951): ║                                                 "sortOrder": 0
-I/flutter ( 4951): ║                                                 "selectionType": "premium_meal"
-I/flutter ( 4951): ║                                            },
-I/flutter ( 4951): ║                                            {
-I/flutter ( 4951): ║                                                 "id": "6a522e61b3fb649917aee287"
-I/flutter ( 4951): ║                                                 "optionId": "6a522e61b3fb649917aee287"
-I/flutter ( 4951): ║                                                 "key": "salmon"
-I/flutter ( 4951): ║                                                 "name": "Salmon"
-I/flutter ( 4951): ║                                                 "nameI18n": {ar: سالمون, en: Salmon},
-I/flutter ( 4951): ║                                                 "description": ""
-I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
-I/flutter ( 4951): ║                                                 "imageUrl": ""
-I/flutter ( 4951): ║                                                 "nutrition": {calories: 0, proteinGrams: 0, carbGrams: 0, fatGrams: 0},
-I/flutter ( 4951): ║                                                 "extraPriceHalala": 2000
-I/flutter ( 4951): ║                                                 "extraFeeHalala": 2000
-I/flutter ( 4951): ║                                                 "currency": "SAR"
-I/flutter ( 4951): ║                                                 "proteinFamilyKey": "premium"
-I/flutter ( 4951): ║                                                 "proteinFamilyNameI18n": {ar: بريميوم, en: Premium},
-I/flutter ( 4951): ║                                                 "displayCategoryKey": "premium"
-I/flutter ( 4951): ║                                                 "isPremium": true
-I/flutter ( 4951): ║                                                 "premiumKey": "salmon"
-I/flutter ( 4951): ║                                                 "ruleTags": []
-I/flutter ( 4951): ║                                                 "sortOrder": 0
-I/flutter ( 4951): ║                                                 "selectionType": "premium_meal"
-I/flutter ( 4951): ║                                            },
-I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e60b3fb649917aee284"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e60b3fb649917aee284"
 I/flutter ( 4951): ║                                                 "key": "shrimp"
-I/flutter ( 4951): ║                                                 "name": "Shrimp"
+I/flutter ( 4951): ║                                                 "name": "جمبري"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: جمبري, en: Shrimp},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -166,10 +315,54 @@ I/flutter ( 4951): ║                                                 "sortOrde
 I/flutter ( 4951): ║                                                 "selectionType": "premium_meal"
 I/flutter ( 4951): ║                                            },
 I/flutter ( 4951): ║                                            {
+I/flutter ( 4951): ║                                                 "id": "6a522e61b3fb649917aee287"
+I/flutter ( 4951): ║                                                 "optionId": "6a522e61b3fb649917aee287"
+I/flutter ( 4951): ║                                                 "key": "salmon"
+I/flutter ( 4951): ║                                                 "name": "سالمون"
+I/flutter ( 4951): ║                                                 "nameI18n": {ar: سالمون, en: Salmon},
+I/flutter ( 4951): ║                                                 "description": ""
+I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
+I/flutter ( 4951): ║                                                 "imageUrl": ""
+I/flutter ( 4951): ║                                                 "nutrition": {calories: 0, proteinGrams: 0, carbGrams: 0, fatGrams: 0},
+I/flutter ( 4951): ║                                                 "extraPriceHalala": 2000
+I/flutter ( 4951): ║                                                 "extraFeeHalala": 2000
+I/flutter ( 4951): ║                                                 "currency": "SAR"
+I/flutter ( 4951): ║                                                 "proteinFamilyKey": "premium"
+I/flutter ( 4951): ║                                                 "proteinFamilyNameI18n": {ar: بريميوم, en: Premium},
+I/flutter ( 4951): ║                                                 "displayCategoryKey": "premium"
+I/flutter ( 4951): ║                                                 "isPremium": true
+I/flutter ( 4951): ║                                                 "premiumKey": "salmon"
+I/flutter ( 4951): ║                                                 "ruleTags": []
+I/flutter ( 4951): ║                                                 "sortOrder": 0
+I/flutter ( 4951): ║                                                 "selectionType": "premium_meal"
+I/flutter ( 4951): ║                                            },
+I/flutter ( 4951): ║                                            {
+I/flutter ( 4951): ║                                                 "id": "6a522e5fb3fb649917aee281"
+I/flutter ( 4951): ║                                                 "optionId": "6a522e5fb3fb649917aee281"
+I/flutter ( 4951): ║                                                 "key": "beef_steak"
+I/flutter ( 4951): ║                                                 "name": "ستيك لحم"
+I/flutter ( 4951): ║                                                 "nameI18n": {ar: ستيك لحم, en: Beef Steak},
+I/flutter ( 4951): ║                                                 "description": ""
+I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
+I/flutter ( 4951): ║                                                 "imageUrl": ""
+I/flutter ( 4951): ║                                                 "nutrition": {calories: 0, proteinGrams: 0, carbGrams: 0, fatGrams: 0},
+I/flutter ( 4951): ║                                                 "extraPriceHalala": 2000
+I/flutter ( 4951): ║                                                 "extraFeeHalala": 2000
+I/flutter ( 4951): ║                                                 "currency": "SAR"
+I/flutter ( 4951): ║                                                 "proteinFamilyKey": "premium"
+I/flutter ( 4951): ║                                                 "proteinFamilyNameI18n": {ar: بريميوم, en: Premium},
+I/flutter ( 4951): ║                                                 "displayCategoryKey": "premium"
+I/flutter ( 4951): ║                                                 "isPremium": true
+I/flutter ( 4951): ║                                                 "premiumKey": "beef_steak"
+I/flutter ( 4951): ║                                                 "ruleTags": []
+I/flutter ( 4951): ║                                                 "sortOrder": 0
+I/flutter ( 4951): ║                                                 "selectionType": "premium_meal"
+I/flutter ( 4951): ║                                            },
+I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e64b3fb649917aee293"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e64b3fb649917aee293"
 I/flutter ( 4951): ║                                                 "key": "chicken_fajita"
-I/flutter ( 4951): ║                                                 "name": "Chicken Fajita"
+I/flutter ( 4951): ║                                                 "name": "فاهيتا"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: فاهيتا, en: Chicken Fajita},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -199,7 +392,7 @@ I/flutter ( 4951): ║                    {
 I/flutter ( 4951): ║                         "id": "section:sandwich",
 I/flutter ( 4951): ║                         "key": "sandwich",
 I/flutter ( 4951): ║                         "type": "product_list",
-I/flutter ( 4951): ║                         "name": "Sandwiches",
+I/flutter ( 4951): ║                         "name": "ساندويتشات",
 I/flutter ( 4951): ║                         "nameI18n": {ar: ساندويتشات, en: Sandwiches},
 I/flutter ( 4951): ║                         "ui": {cardVariant: sandwich_card, layout: vertical_compact_cards},
 I/flutter ( 4951): ║                         "products": [
@@ -208,7 +401,7 @@ I/flutter ( 4951): ║                                 "id": "6a522f64b3fb649917
 I/flutter ( 4951): ║                                 "key": "chicken_sandwich",
 I/flutter ( 4951): ║                                 "selectionType": "sandwich",
 I/flutter ( 4951): ║                                 "itemType": "cold_sandwich",
-I/flutter ( 4951): ║                                 "name": "Chicken Sandwich",
+I/flutter ( 4951): ║                                 "name": "ساندويتش دجاج",
 I/flutter ( 4951): ║                                 "nameI18n": {ar: ساندويتش دجاج, en: Chicken Sandwich},
 I/flutter ( 4951): ║                                 "description": "",
 I/flutter ( 4951): ║                                 "descriptionI18n": {ar: , en: },
@@ -225,10 +418,12 @@ I/flutter ( 4951): ║                                 "id": "6a522f6ab3fb649917
 I/flutter ( 4951): ║                                 "key": "beef_burger_sandwich",
 I/flutter ( 4951): ║                                 "selectionType": "sandwich",
 I/flutter ( 4951): ║                                 "itemType": "cold_sandwich",
-I/flutter ( 4951): ║                                 "name": "Beef Burger",
+I/flutter ( 4951): ║                                 "name": "برجر لحم",
 I/flutter ( 4951): ║                                 "nameI18n": {ar: برجر لحم, en: Beef Burger},
-I/flutter ( 4951): ║                                 "description": "Juicy grilled beef patty in a healthy burger bun with fre
-I/flutter ( 4951): ║                                  sh vegetables and fat-free cheese."
+I/flutter ( 4951): ║                                 "description": "شريحة لحم مشوية وغنية بالعصارة، داخل خبز البرجر الصحي مع
+I/flutter ( 4951): ║                                  الخضار الطازجة والجبن الخالي من الدسم. الوجبة المثالية لتس
+I/flutter ( 4951): ║                                  تمتع بطعم البرجر الكلاسيكي وتحافظ على نظامك الصحي في نفس ا
+I/flutter ( 4951): ║                                  لوقت."
 I/flutter ( 4951): ║                                 "descriptionI18n": {
 I/flutter ( 4951): ║                                     "ar": "شريحة لحم مشوية وغنية بالعصارة، داخل خبز البرجر الصحي
 I/flutter ( 4951): ║                                       مع الخضار الطازجة والجبن الخالي من الدسم. الوجبة المث
@@ -250,7 +445,7 @@ I/flutter ( 4951): ║                                 "id": "6a522f6bb3fb649917
 I/flutter ( 4951): ║                                 "key": "turkey_cold_sandwich",
 I/flutter ( 4951): ║                                 "selectionType": "sandwich",
 I/flutter ( 4951): ║                                 "itemType": "cold_sandwich",
-I/flutter ( 4951): ║                                 "name": "Turkey",
+I/flutter ( 4951): ║                                 "name": "تركي",
 I/flutter ( 4951): ║                                 "nameI18n": {ar: تركي, en: Turkey},
 I/flutter ( 4951): ║                                 "description": "",
 I/flutter ( 4951): ║                                 "descriptionI18n": {ar: , en: },
@@ -267,7 +462,7 @@ I/flutter ( 4951): ║                                 "id": "6a522f6cb3fb649917
 I/flutter ( 4951): ║                                 "key": "boiled_egg_cold_sandwich",
 I/flutter ( 4951): ║                                 "selectionType": "sandwich",
 I/flutter ( 4951): ║                                 "itemType": "cold_sandwich",
-I/flutter ( 4951): ║                                 "name": "Boiled Egg",
+I/flutter ( 4951): ║                                 "name": "بيض مسلوق",
 I/flutter ( 4951): ║                                 "nameI18n": {ar: بيض مسلوق, en: Boiled Egg},
 I/flutter ( 4951): ║                                 "description": "",
 I/flutter ( 4951): ║                                 "descriptionI18n": {ar: , en: },
@@ -284,7 +479,7 @@ I/flutter ( 4951): ║                                 "id": "6a522f6cb3fb649917
 I/flutter ( 4951): ║                                 "key": "tuna_cold_sandwich",
 I/flutter ( 4951): ║                                 "selectionType": "sandwich",
 I/flutter ( 4951): ║                                 "itemType": "cold_sandwich",
-I/flutter ( 4951): ║                                 "name": "Tuna",
+I/flutter ( 4951): ║                                 "name": "تونا",
 I/flutter ( 4951): ║                                 "nameI18n": {ar: تونا, en: Tuna},
 I/flutter ( 4951): ║                                 "description": "",
 I/flutter ( 4951): ║                                 "descriptionI18n": {ar: , en: },
@@ -301,7 +496,7 @@ I/flutter ( 4951): ║                                 "id": "6a522f6db3fb649917
 I/flutter ( 4951): ║                                 "key": "scrambled_egg_cold_sandwich"
 I/flutter ( 4951): ║                                 "selectionType": "sandwich",
 I/flutter ( 4951): ║                                 "itemType": "cold_sandwich",
-I/flutter ( 4951): ║                                 "name": "Scrambled Egg",
+I/flutter ( 4951): ║                                 "name": "بيض مخفوق",
 I/flutter ( 4951): ║                                 "nameI18n": {ar: بيض مخفوق, en: Scrambled Egg},
 I/flutter ( 4951): ║                                 "description": "",
 I/flutter ( 4951): ║                                 "descriptionI18n": {ar: , en: },
@@ -318,7 +513,7 @@ I/flutter ( 4951): ║                                 "id": "6a522f6eb3fb649917
 I/flutter ( 4951): ║                                 "key": "classic_halloumi_cold_sandwich"
 I/flutter ( 4951): ║                                 "selectionType": "sandwich",
 I/flutter ( 4951): ║                                 "itemType": "cold_sandwich",
-I/flutter ( 4951): ║                                 "name": "Classic Halloumi",
+I/flutter ( 4951): ║                                 "name": "حلوم كلاسيك",
 I/flutter ( 4951): ║                                 "nameI18n": {ar: حلوم كلاسيك, en: Classic Halloumi},
 I/flutter ( 4951): ║                                 "description": "",
 I/flutter ( 4951): ║                                 "descriptionI18n": {ar: , en: },
@@ -335,7 +530,7 @@ I/flutter ( 4951): ║                                 "id": "6a522f6eb3fb649917
 I/flutter ( 4951): ║                                 "key": "chicken_fajita_cold_sandwich"
 I/flutter ( 4951): ║                                 "selectionType": "sandwich",
 I/flutter ( 4951): ║                                 "itemType": "cold_sandwich",
-I/flutter ( 4951): ║                                 "name": "Chicken Fajita",
+I/flutter ( 4951): ║                                 "name": "دجاج فاهيتا",
 I/flutter ( 4951): ║                                 "nameI18n": {ar: دجاج فاهيتا, en: Chicken Fajita},
 I/flutter ( 4951): ║                                 "description": "",
 I/flutter ( 4951): ║                                 "descriptionI18n": {ar: , en: },
@@ -352,7 +547,7 @@ I/flutter ( 4951): ║                                 "id": "6a522f6fb3fb649917
 I/flutter ( 4951): ║                                 "key": "mexican_chicken_cold_sandwich"
 I/flutter ( 4951): ║                                 "selectionType": "sandwich",
 I/flutter ( 4951): ║                                 "itemType": "cold_sandwich",
-I/flutter ( 4951): ║                                 "name": "Mexican Chicken",
+I/flutter ( 4951): ║                                 "name": "دجاج مكسيكي",
 I/flutter ( 4951): ║                                 "nameI18n": {ar: دجاج مكسيكي, en: Mexican Chicken},
 I/flutter ( 4951): ║                                 "description": "",
 I/flutter ( 4951): ║                                 "descriptionI18n": {ar: , en: },
@@ -369,7 +564,7 @@ I/flutter ( 4951): ║                                 "id": "6a522f70b3fb649917
 I/flutter ( 4951): ║                                 "key": "grilled_chicken_cold_sandwich"
 I/flutter ( 4951): ║                                 "selectionType": "sandwich",
 I/flutter ( 4951): ║                                 "itemType": "cold_sandwich",
-I/flutter ( 4951): ║                                 "name": "Grilled Chicken",
+I/flutter ( 4951): ║                                 "name": "دجاج مشوي",
 I/flutter ( 4951): ║                                 "nameI18n": {ar: دجاج مشوي, en: Grilled Chicken},
 I/flutter ( 4951): ║                                 "description": "",
 I/flutter ( 4951): ║                                 "descriptionI18n": {ar: , en: },
@@ -387,7 +582,7 @@ I/flutter ( 4951): ║                    {
 I/flutter ( 4951): ║                         "id": "section:premium_large_salad",
 I/flutter ( 4951): ║                         "key": "premium_large_salad",
 I/flutter ( 4951): ║                         "type": "configurable_product",
-I/flutter ( 4951): ║                         "name": "Premium Large Salad",
+I/flutter ( 4951): ║                         "name": "سلطة كبيرة مميزة",
 I/flutter ( 4951): ║                         "nameI18n": {ar: سلطة كبيرة مميزة, en: Premium Large Salad},
 I/flutter ( 4951): ║                         "ui": {cardVariant: large_salad, layout: vertical_hero_list},
 I/flutter ( 4951): ║                         "products": [
@@ -396,7 +591,7 @@ I/flutter ( 4951): ║                                 "id": "6a522f12b3fb649917
 I/flutter ( 4951): ║                                 "key": "premium_large_salad",
 I/flutter ( 4951): ║                                 "selectionType": "premium_large_salad",
 I/flutter ( 4951): ║                                 "itemType": "basic_salad",
-I/flutter ( 4951): ║                                 "name": "Premium Large Salad",
+I/flutter ( 4951): ║                                 "name": "سلطة كبيرة مميزة",
 I/flutter ( 4951): ║                                 "nameI18n": {ar: سلطة كبيرة مميزة, en: Premium Large Salad},
 I/flutter ( 4951): ║                                 "description": "",
 I/flutter ( 4951): ║                                 "descriptionI18n": {ar: , en: },
@@ -411,7 +606,7 @@ I/flutter ( 4951): ║                                         "id": "6a522e73b3
 I/flutter ( 4951): ║                                         "groupId": "6a522e73b3fb649917aee2d5"
 I/flutter ( 4951): ║                                         "key": "leafy_greens"
 I/flutter ( 4951): ║                                         "sourceKey": "leafy_greens"
-I/flutter ( 4951): ║                                         "name": "Leafy Greens"
+I/flutter ( 4951): ║                                         "name": "ورقيات",
 I/flutter ( 4951): ║                                         "nameI18n": {ar: ورقيات, en: Leafy Greens},
 I/flutter ( 4951): ║                                         "minSelections": 0,
 I/flutter ( 4951): ║                                         "maxSelections": 2,
@@ -425,7 +620,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e73b3fb649917aee2d8"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e73b3fb649917aee2d8"
 I/flutter ( 4951): ║                                                 "key": "lettuce"
-I/flutter ( 4951): ║                                                 "name": "Lettuce"
+I/flutter ( 4951): ║                                                 "name": "خس"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: خس, en: Lettuce},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -447,7 +642,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e74b3fb649917aee2db"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e74b3fb649917aee2db"
 I/flutter ( 4951): ║                                                 "key": "arugula"
-I/flutter ( 4951): ║                                                 "name": "Arugula"
+I/flutter ( 4951): ║                                                 "name": "جرجير"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: جرجير, en: Arugula},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -469,7 +664,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e75b3fb649917aee2de"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e75b3fb649917aee2de"
 I/flutter ( 4951): ║                                                 "key": "cabbage"
-I/flutter ( 4951): ║                                                 "name": "Cabbage"
+I/flutter ( 4951): ║                                                 "name": "ملفوف"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: ملفوف, en: Cabbage},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -495,7 +690,7 @@ I/flutter ( 4951): ║                                         "groupId": "6a522
 I/flutter ( 4951): ║                                         "key": "vegetables"
 I/flutter ( 4951): ║                                         "canonicalGroupKey": "vegetables"
 I/flutter ( 4951): ║                                         "sourceKey": "vegetables_legumes"
-I/flutter ( 4951): ║                                         "name": "Vegetables"
+I/flutter ( 4951): ║                                         "name": "خضار",
 I/flutter ( 4951): ║                                         "nameI18n": {ar: خضار, en: Vegetables},
 I/flutter ( 4951): ║                                         "minSelections": 0,
 I/flutter ( 4951): ║                                         "maxSelections": 19,
@@ -509,7 +704,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e76b3fb649917aee2e7"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e76b3fb649917aee2e7"
 I/flutter ( 4951): ║                                                 "key": "tomato"
-I/flutter ( 4951): ║                                                 "name": "Tomato"
+I/flutter ( 4951): ║                                                 "name": "طماطم"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: طماطم, en: Tomato},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -531,7 +726,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e77b3fb649917aee2ea"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e77b3fb649917aee2ea"
 I/flutter ( 4951): ║                                                 "key": "carrot"
-I/flutter ( 4951): ║                                                 "name": "Carrot"
+I/flutter ( 4951): ║                                                 "name": "جزر"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: جزر, en: Carrot},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -553,7 +748,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e78b3fb649917aee2ed"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e78b3fb649917aee2ed"
 I/flutter ( 4951): ║                                                 "key": "cucumber"
-I/flutter ( 4951): ║                                                 "name": "Cucumber"
+I/flutter ( 4951): ║                                                 "name": "خيار"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: خيار, en: Cucumber},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -575,7 +770,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e78b3fb649917aee2f0"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e78b3fb649917aee2f0"
 I/flutter ( 4951): ║                                                 "key": "corn"
-I/flutter ( 4951): ║                                                 "name": "Corn"
+I/flutter ( 4951): ║                                                 "name": "ذرة"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: ذرة, en: Corn},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -597,7 +792,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e79b3fb649917aee2f3"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e79b3fb649917aee2f3"
 I/flutter ( 4951): ║                                                 "key": "hummus"
-I/flutter ( 4951): ║                                                 "name": "Hummus"
+I/flutter ( 4951): ║                                                 "name": "حمص"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: حمص, en: Hummus},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -619,7 +814,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e79b3fb649917aee2f6"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e79b3fb649917aee2f6"
 I/flutter ( 4951): ║                                                 "key": "jalapeno"
-I/flutter ( 4951): ║                                                 "name": "Jalapeno"
+I/flutter ( 4951): ║                                                 "name": "هالبينو"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: هالبينو, en: Jalapeno},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -641,7 +836,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e7ab3fb649917aee2f9"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e7ab3fb649917aee2f9"
 I/flutter ( 4951): ║                                                 "key": "red_beans"
-I/flutter ( 4951): ║                                                 "name": "Red Beans"
+I/flutter ( 4951): ║                                                 "name": "فاصوليا حمراء"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: فاصوليا حمراء, en: Red Beans},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -663,7 +858,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e7bb3fb649917aee2fc"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e7bb3fb649917aee2fc"
 I/flutter ( 4951): ║                                                 "key": "beetroot"
-I/flutter ( 4951): ║                                                 "name": "Beetroot"
+I/flutter ( 4951): ║                                                 "name": "بنجر"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: بنجر, en: Beetroot},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -685,7 +880,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e7bb3fb649917aee2ff"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e7bb3fb649917aee2ff"
 I/flutter ( 4951): ║                                                 "key": "hot_pepper"
-I/flutter ( 4951): ║                                                 "name": "Hot Pepper"
+I/flutter ( 4951): ║                                                 "name": "فلفل حار"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: فلفل حار, en: Hot Pepper},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -707,7 +902,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e7cb3fb649917aee302"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e7cb3fb649917aee302"
 I/flutter ( 4951): ║                                                 "key": "coriander"
-I/flutter ( 4951): ║                                                 "name": "Coriander"
+I/flutter ( 4951): ║                                                 "name": "كزبرة"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: كزبرة, en: Coriander},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -729,7 +924,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e7db3fb649917aee305"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e7db3fb649917aee305"
 I/flutter ( 4951): ║                                                 "key": "mushroom"
-I/flutter ( 4951): ║                                                 "name": "Mushroom"
+I/flutter ( 4951): ║                                                 "name": "فطر"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: فطر, en: Mushroom},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -751,7 +946,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e7db3fb649917aee308"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e7db3fb649917aee308"
 I/flutter ( 4951): ║                                                 "key": "broccoli"
-I/flutter ( 4951): ║                                                 "name": "Broccoli"
+I/flutter ( 4951): ║                                                 "name": "بروكلي"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: بروكلي, en: Broccoli},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -773,7 +968,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e7eb3fb649917aee30b"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e7eb3fb649917aee30b"
 I/flutter ( 4951): ║                                                 "key": "salad_grilled_mixed_vegetables"
-I/flutter ( 4951): ║                                                 "name": "Grilled Mixed Vegetables"
+I/flutter ( 4951): ║                                                 "name": "خضار مشكل مشوي"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: خضار مشكل مشوي, en: Grilled Mixed Vegetables},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -795,7 +990,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e7eb3fb649917aee30e"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e7eb3fb649917aee30e"
 I/flutter ( 4951): ║                                                 "key": "red_onion"
-I/flutter ( 4951): ║                                                 "name": "Red Onion"
+I/flutter ( 4951): ║                                                 "name": "بصل احمر"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: بصل احمر, en: Red Onion},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -817,7 +1012,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e7fb3fb649917aee311"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e7fb3fb649917aee311"
 I/flutter ( 4951): ║                                                 "key": "green_onion"
-I/flutter ( 4951): ║                                                 "name": "Green Onion"
+I/flutter ( 4951): ║                                                 "name": "بصل اخضر"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: بصل اخضر, en: Green Onion},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -839,7 +1034,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e80b3fb649917aee314"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e80b3fb649917aee314"
 I/flutter ( 4951): ║                                                 "key": "green_olives"
-I/flutter ( 4951): ║                                                 "name": "Green Olives"
+I/flutter ( 4951): ║                                                 "name": "زيتون اخضر"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: زيتون اخضر, en: Green Olives},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -861,7 +1056,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e80b3fb649917aee317"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e80b3fb649917aee317"
 I/flutter ( 4951): ║                                                 "key": "black_olives"
-I/flutter ( 4951): ║                                                 "name": "Black Olives"
+I/flutter ( 4951): ║                                                 "name": "زيتون اسود"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: زيتون اسود, en: Black Olives},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -883,7 +1078,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e81b3fb649917aee31a"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e81b3fb649917aee31a"
 I/flutter ( 4951): ║                                                 "key": "mint"
-I/flutter ( 4951): ║                                                 "name": "Mint"
+I/flutter ( 4951): ║                                                 "name": "نعناع"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: نعناع, en: Mint},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -905,7 +1100,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e81b3fb649917aee31d"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e81b3fb649917aee31d"
 I/flutter ( 4951): ║                                                 "key": "pickled_onion"
-I/flutter ( 4951): ║                                                 "name": "Pickled Onion"
+I/flutter ( 4951): ║                                                 "name": "بصل مخلل"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: بصل مخلل, en: Pickled Onion},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -931,7 +1126,7 @@ I/flutter ( 4951): ║                                         "groupId": "6a522
 I/flutter ( 4951): ║                                         "key": "protein",
 I/flutter ( 4951): ║                                         "canonicalGroupKey": "protein",
 I/flutter ( 4951): ║                                         "sourceKey": "proteins",
-I/flutter ( 4951): ║                                         "name": "Protein",
+I/flutter ( 4951): ║                                         "name": "بروتين",
 I/flutter ( 4951): ║                                         "nameI18n": {ar: بروتين, en: Protein},
 I/flutter ( 4951): ║                                         "minSelections": 1,
 I/flutter ( 4951): ║                                         "maxSelections": 1,
@@ -943,7 +1138,7 @@ I/flutter ( 4951): ║                                         "rules": {minSele
 I/flutter ( 4951): ║                                         "optionSections": [
 I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "key": "chicken"
-I/flutter ( 4951): ║                                                 "name": "Chicken"
+I/flutter ( 4951): ║                                                 "name": "دجاج"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: دجاج, en: Chicken},
 I/flutter ( 4951): ║                                                 "optionKeys": [
 I/flutter ( 4951): ║                                                         chicken_fajita,
@@ -968,14 +1163,14 @@ I/flutter ( 4951): ║                                                 ]
 I/flutter ( 4951): ║                                            },
 I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "key": "fish"
-I/flutter ( 4951): ║                                                 "name": "Fish"
+I/flutter ( 4951): ║                                                 "name": "سمك"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: سمك, en: Fish},
 I/flutter ( 4951): ║                                                 "optionKeys": [tuna, fish_fillet]
 I/flutter ( 4951): ║                                                 "optionIds": [6a522e63b3fb649917aee290, 6a522e6cb3fb649917aee2b1]
 I/flutter ( 4951): ║                                            },
 I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "key": "eggs"
-I/flutter ( 4951): ║                                                 "name": "Eggs"
+I/flutter ( 4951): ║                                                 "name": "بيض"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: بيض, en: Eggs},
 I/flutter ( 4951): ║                                                 "optionKeys": [boiled_eggs]
 I/flutter ( 4951): ║                                                 "optionIds": [6a522e62b3fb649917aee28d]
@@ -986,7 +1181,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e62b3fb649917aee28d"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e62b3fb649917aee28d"
 I/flutter ( 4951): ║                                                 "key": "boiled_eggs"
-I/flutter ( 4951): ║                                                 "name": "Boiled Eggs"
+I/flutter ( 4951): ║                                                 "name": "بيض مسلوق"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: بيض مسلوق, en: Boiled Eggs},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -1009,7 +1204,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e63b3fb649917aee290"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e63b3fb649917aee290"
 I/flutter ( 4951): ║                                                 "key": "tuna"
-I/flutter ( 4951): ║                                                 "name": "Tuna"
+I/flutter ( 4951): ║                                                 "name": "تونا"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: تونا, en: Tuna},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -1032,7 +1227,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e64b3fb649917aee293"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e64b3fb649917aee293"
 I/flutter ( 4951): ║                                                 "key": "chicken_fajita"
-I/flutter ( 4951): ║                                                 "name": "Chicken Fajita"
+I/flutter ( 4951): ║                                                 "name": "فاهيتا"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: فاهيتا, en: Chicken Fajita},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -1055,7 +1250,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e64b3fb649917aee296"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e64b3fb649917aee296"
 I/flutter ( 4951): ║                                                 "key": "spicy_chicken"
-I/flutter ( 4951): ║                                                 "name": "Spicy Chicken"
+I/flutter ( 4951): ║                                                 "name": "دجاج سبايسي"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: دجاج سبايسي, en: Spicy Chicken},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -1078,7 +1273,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e65b3fb649917aee299"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e65b3fb649917aee299"
 I/flutter ( 4951): ║                                                 "key": "italian_spiced_chicken"
-I/flutter ( 4951): ║                                                 "name": "Italian Spiced Chicken"
+I/flutter ( 4951): ║                                                 "name": "دجاج توابل إيطالية"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: دجاج توابل إيطالية, en: Italian Spiced Chicken},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -1101,7 +1296,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e66b3fb649917aee29c"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e66b3fb649917aee29c"
 I/flutter ( 4951): ║                                                 "key": "chicken_tikka"
-I/flutter ( 4951): ║                                                 "name": "Chicken Tikka"
+I/flutter ( 4951): ║                                                 "name": "دجاج تكا"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: دجاج تكا, en: Chicken Tikka},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -1124,7 +1319,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e67b3fb649917aee29f"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e67b3fb649917aee29f"
 I/flutter ( 4951): ║                                                 "key": "asian_chicken"
-I/flutter ( 4951): ║                                                 "name": "Asian Chicken"
+I/flutter ( 4951): ║                                                 "name": "دجاج آسيوي"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: دجاج آسيوي, en: Asian Chicken},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -1147,7 +1342,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e67b3fb649917aee2a2"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e67b3fb649917aee2a2"
 I/flutter ( 4951): ║                                                 "key": "chicken_strips"
-I/flutter ( 4951): ║                                                 "name": "Chicken Strips"
+I/flutter ( 4951): ║                                                 "name": "استربس"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: استربس, en: Chicken Strips},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -1170,7 +1365,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e68b3fb649917aee2a5"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e68b3fb649917aee2a5"
 I/flutter ( 4951): ║                                                 "key": "grilled_chicken"
-I/flutter ( 4951): ║                                                 "name": "Grilled Chicken"
+I/flutter ( 4951): ║                                                 "name": "دجاج مشوي"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: دجاج مشوي, en: Grilled Chicken},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -1193,7 +1388,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e6ab3fb649917aee2a8"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e6ab3fb649917aee2a8"
 I/flutter ( 4951): ║                                                 "key": "mexican_chicken"
-I/flutter ( 4951): ║                                                 "name": "Mexican Chicken"
+I/flutter ( 4951): ║                                                 "name": "دجاج مكسيكي"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: دجاج مكسيكي, en: Mexican Chicken},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -1216,7 +1411,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e6cb3fb649917aee2b1"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e6cb3fb649917aee2b1"
 I/flutter ( 4951): ║                                                 "key": "fish_fillet"
-I/flutter ( 4951): ║                                                 "name": "Fish Fillet"
+I/flutter ( 4951): ║                                                 "name": "سمك فيليه"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: سمك فيليه, en: Fish Fillet},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -1242,7 +1437,7 @@ I/flutter ( 4951): ║                                         "id": "6a522e82b3
 I/flutter ( 4951): ║                                         "groupId": "6a522e82b3fb649917aee320"
 I/flutter ( 4951): ║                                         "key": "cheese_nuts"
 I/flutter ( 4951): ║                                         "sourceKey": "cheese_nuts"
-I/flutter ( 4951): ║                                         "name": "Cheese & Nuts"
+I/flutter ( 4951): ║                                         "name": "أجبان ومكسرات"
 I/flutter ( 4951): ║                                         "nameI18n": {ar: أجبان ومكسرات, en: Cheese & Nuts},
 I/flutter ( 4951): ║                                         "minSelections": 0,
 I/flutter ( 4951): ║                                         "maxSelections": 2,
@@ -1256,7 +1451,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e83b3fb649917aee323"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e83b3fb649917aee323"
 I/flutter ( 4951): ║                                                 "key": "cashew"
-I/flutter ( 4951): ║                                                 "name": "Cashew"
+I/flutter ( 4951): ║                                                 "name": "كاجو"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: كاجو, en: Cashew},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -1278,7 +1473,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e83b3fb649917aee326"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e83b3fb649917aee326"
 I/flutter ( 4951): ║                                                 "key": "walnut"
-I/flutter ( 4951): ║                                                 "name": "Walnut"
+I/flutter ( 4951): ║                                                 "name": "عين الجمل"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: عين الجمل, en: Walnut},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -1300,7 +1495,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e84b3fb649917aee329"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e84b3fb649917aee329"
 I/flutter ( 4951): ║                                                 "key": "sesame"
-I/flutter ( 4951): ║                                                 "name": "Sesame"
+I/flutter ( 4951): ║                                                 "name": "سمسم"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: سمسم, en: Sesame},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -1322,7 +1517,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e84b3fb649917aee32c"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e84b3fb649917aee32c"
 I/flutter ( 4951): ║                                                 "key": "feta"
-I/flutter ( 4951): ║                                                 "name": "Feta"
+I/flutter ( 4951): ║                                                 "name": "فيتا"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: فيتا, en: Feta},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -1344,7 +1539,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e85b3fb649917aee32f"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e85b3fb649917aee32f"
 I/flutter ( 4951): ║                                                 "key": "parmesan"
-I/flutter ( 4951): ║                                                 "name": "Parmesan"
+I/flutter ( 4951): ║                                                 "name": "بارميزان"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: بارميزان, en: Parmesan},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -1369,7 +1564,7 @@ I/flutter ( 4951): ║                                         "id": "6a522e87b3
 I/flutter ( 4951): ║                                         "groupId": "6a522e87b3fb649917aee338"
 I/flutter ( 4951): ║                                         "key": "fruits",
 I/flutter ( 4951): ║                                         "sourceKey": "fruits",
-I/flutter ( 4951): ║                                         "name": "Fruits",
+I/flutter ( 4951): ║                                         "name": "فواكه",
 I/flutter ( 4951): ║                                         "nameI18n": {ar: فواكه, en: Fruits},
 I/flutter ( 4951): ║                                         "minSelections": 0,
 I/flutter ( 4951): ║                                         "maxSelections": 4,
@@ -1383,7 +1578,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e88b3fb649917aee33b"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e88b3fb649917aee33b"
 I/flutter ( 4951): ║                                                 "key": "mango"
-I/flutter ( 4951): ║                                                 "name": "Mango"
+I/flutter ( 4951): ║                                                 "name": "مانجا"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: مانجا, en: Mango},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -1405,7 +1600,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e88b3fb649917aee33e"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e88b3fb649917aee33e"
 I/flutter ( 4951): ║                                                 "key": "green_apple"
-I/flutter ( 4951): ║                                                 "name": "Green Apple"
+I/flutter ( 4951): ║                                                 "name": "تفاح اخضر"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: تفاح اخضر, en: Green Apple},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -1427,7 +1622,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e89b3fb649917aee341"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e89b3fb649917aee341"
 I/flutter ( 4951): ║                                                 "key": "pomegranate"
-I/flutter ( 4951): ║                                                 "name": "Pomegranate"
+I/flutter ( 4951): ║                                                 "name": "رمان"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: رمان, en: Pomegranate},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -1449,7 +1644,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e8ab3fb649917aee344"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e8ab3fb649917aee344"
 I/flutter ( 4951): ║                                                 "key": "strawberry"
-I/flutter ( 4951): ║                                                 "name": "Strawberry"
+I/flutter ( 4951): ║                                                 "name": "فراولة"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: فراولة, en: Strawberry},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -1471,7 +1666,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e8ab3fb649917aee347"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e8ab3fb649917aee347"
 I/flutter ( 4951): ║                                                 "key": "blueberry"
-I/flutter ( 4951): ║                                                 "name": "Blueberry"
+I/flutter ( 4951): ║                                                 "name": "توت ازرق"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: توت ازرق, en: Blueberry},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -1493,7 +1688,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e8bb3fb649917aee34a"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e8bb3fb649917aee34a"
 I/flutter ( 4951): ║                                                 "key": "raspberry"
-I/flutter ( 4951): ║                                                 "name": "Raspberry"
+I/flutter ( 4951): ║                                                 "name": "توت احمر"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: توت احمر, en: Raspberry},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -1515,7 +1710,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e8bb3fb649917aee34d"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e8bb3fb649917aee34d"
 I/flutter ( 4951): ║                                                 "key": "watermelon"
-I/flutter ( 4951): ║                                                 "name": "Watermelon"
+I/flutter ( 4951): ║                                                 "name": "بطيخ"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: بطيخ, en: Watermelon},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -1537,7 +1732,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e8cb3fb649917aee350"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e8cb3fb649917aee350"
 I/flutter ( 4951): ║                                                 "key": "cantaloupe"
-I/flutter ( 4951): ║                                                 "name": "Cantaloupe"
+I/flutter ( 4951): ║                                                 "name": "شمام"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: شمام, en: Cantaloupe},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -1559,7 +1754,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e8db3fb649917aee353"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e8db3fb649917aee353"
 I/flutter ( 4951): ║                                                 "key": "dates"
-I/flutter ( 4951): ║                                                 "name": "Dates"
+I/flutter ( 4951): ║                                                 "name": "تمر"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: تمر, en: Dates},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -1585,7 +1780,7 @@ I/flutter ( 4951): ║                                         "groupId": "6a522
 I/flutter ( 4951): ║                                         "key": "sauce",
 I/flutter ( 4951): ║                                         "canonicalGroupKey": "sauce",
 I/flutter ( 4951): ║                                         "sourceKey": "sauces",
-I/flutter ( 4951): ║                                         "name": "Sauce",
+I/flutter ( 4951): ║                                         "name": "صوص",
 I/flutter ( 4951): ║                                         "nameI18n": {ar: صوص, en: Sauce},
 I/flutter ( 4951): ║                                         "minSelections": 1,
 I/flutter ( 4951): ║                                         "maxSelections": 1,
@@ -1599,7 +1794,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e8fb3fb649917aee35c"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e8fb3fb649917aee35c"
 I/flutter ( 4951): ║                                                 "key": "ranch"
-I/flutter ( 4951): ║                                                 "name": "Ranch"
+I/flutter ( 4951): ║                                                 "name": "رانش"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: رانش, en: Ranch},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -1621,7 +1816,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e8fb3fb649917aee35f"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e8fb3fb649917aee35f"
 I/flutter ( 4951): ║                                                 "key": "spicy_ranch"
-I/flutter ( 4951): ║                                                 "name": "Spicy Ranch"
+I/flutter ( 4951): ║                                                 "name": "سبايسي رانش"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: سبايسي رانش, en: Spicy Ranch},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -1643,7 +1838,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e90b3fb649917aee362"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e90b3fb649917aee362"
 I/flutter ( 4951): ║                                                 "key": "pesto_sauce"
-I/flutter ( 4951): ║                                                 "name": "Pesto Sauce"
+I/flutter ( 4951): ║                                                 "name": "صوص بيستو"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: صوص بيستو, en: Pesto Sauce},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -1665,7 +1860,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e90b3fb649917aee365"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e90b3fb649917aee365"
 I/flutter ( 4951): ║                                                 "key": "balsamic"
-I/flutter ( 4951): ║                                                 "name": "Balsamic"
+I/flutter ( 4951): ║                                                 "name": "بالسميك"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: بالسميك, en: Balsamic},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -1687,7 +1882,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e91b3fb649917aee368"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e91b3fb649917aee368"
 I/flutter ( 4951): ║                                                 "key": "caesar"
-I/flutter ( 4951): ║                                                 "name": "Caesar"
+I/flutter ( 4951): ║                                                 "name": "سيزر"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: سيزر, en: Caesar},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -1709,7 +1904,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e92b3fb649917aee36b"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e92b3fb649917aee36b"
 I/flutter ( 4951): ║                                                 "key": "honey_mustard"
-I/flutter ( 4951): ║                                                 "name": "Honey Mustard"
+I/flutter ( 4951): ║                                                 "name": "هاني ماستر"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: هاني ماستر, en: Honey Mustard},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -1731,7 +1926,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e92b3fb649917aee36e"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e92b3fb649917aee36e"
 I/flutter ( 4951): ║                                                 "key": "yogurt_mint"
-I/flutter ( 4951): ║                                                 "name": "Yogurt Mint"
+I/flutter ( 4951): ║                                                 "name": "زبادي بالنعناع"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: زبادي بالنعناع, en: Yogurt Mint},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -1753,7 +1948,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e93b3fb649917aee371"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e93b3fb649917aee371"
 I/flutter ( 4951): ║                                                 "key": "honey_garlic"
-I/flutter ( 4951): ║                                                 "name": "Honey Garlic"
+I/flutter ( 4951): ║                                                 "name": "عسل بالثوم"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: عسل بالثوم, en: Honey Garlic},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -1847,7 +2042,7 @@ I/flutter ( 4951): ║                         ],
 I/flutter ( 4951): ║                         "excludedGroupKeys": [extra_protein_50g]
 I/flutter ( 4951): ║                    }
 I/flutter ( 4951): ║                }
-I/flutter ( 4951): ║                 "catalogHash": "sha256:3ac3a30b0af9c1c803166d1bc6761e40792272ed89b28d2c49055dcb0f0dcea8"
+I/flutter ( 4951): ║                 "catalogHash": "sha256:b28ada7cc8e0c038ce65db4a960d21d78a3006d73246cb4dfb5528e773e99942"
 I/flutter ( 4951): ║                 "publishedVersionId": null
 I/flutter ( 4951): ║            }
 I/flutter ( 4951): ║             "addonChoices": {
@@ -1857,11 +2052,11 @@ I/flutter ( 4951): ║                     "displayKey": "ice_cream",
 I/flutter ( 4951): ║                     "displayCategory": "ice_cream",
 I/flutter ( 4951): ║                     "groupId": "6a57860863e85fba4f858b52",
 I/flutter ( 4951): ║                     "addonPlanId": "6a57860863e85fba4f858b52",
-I/flutter ( 4951): ║                     "addonPlanName": "ice cream",
+I/flutter ( 4951): ║                     "addonPlanName": "ايس كريم",
 I/flutter ( 4951): ║                     "allowanceCategory": "snack",
 I/flutter ( 4951): ║                     "entitlementCategory": "snack",
-I/flutter ( 4951): ║                     "label": "ice cream",
-I/flutter ( 4951): ║                     "labelText": "ice cream",
+I/flutter ( 4951): ║                     "label": "ايس كريم",
+I/flutter ( 4951): ║                     "labelText": "ايس كريم",
 I/flutter ( 4951): ║                     "labelAr": "ايس كريم",
 I/flutter ( 4951): ║                     "labelEn": "ice cream",
 I/flutter ( 4951): ║                     "labelI18n": {ar: ايس كريم, en: ice cream},
@@ -1875,7 +2070,7 @@ I/flutter ( 4951): ║                             "id": "6a522f79b3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f79b3fb649917aee7af",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f79b3fb649917aee7af",
 I/flutter ( 4951): ║                             "key": "vanilla_ice_cream",
-I/flutter ( 4951): ║                             "name": "Vanilla Ice Cream",
+I/flutter ( 4951): ║                             "name": "ايس كريم فانيليا",
 I/flutter ( 4951): ║                             "nameAr": "ايس كريم فانيليا",
 I/flutter ( 4951): ║                             "nameEn": "Vanilla Ice Cream",
 I/flutter ( 4951): ║                             "nameI18n": {ar: ايس كريم فانيليا, en: Vanilla Ice Cream},
@@ -1935,7 +2130,7 @@ I/flutter ( 4951): ║                             "id": "6a522f7ab3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f7ab3fb649917aee7b2",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f7ab3fb649917aee7b2",
 I/flutter ( 4951): ║                             "key": "chocolate_ice_cream",
-I/flutter ( 4951): ║                             "name": "Chocolate Ice Cream",
+I/flutter ( 4951): ║                             "name": "ايس كريم شوكولا",
 I/flutter ( 4951): ║                             "nameAr": "ايس كريم شوكولا",
 I/flutter ( 4951): ║                             "nameEn": "Chocolate Ice Cream",
 I/flutter ( 4951): ║                             "nameI18n": {ar: ايس كريم شوكولا, en: Chocolate Ice Cream},
@@ -1995,7 +2190,7 @@ I/flutter ( 4951): ║                             "id": "6a522f7bb3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f7bb3fb649917aee7b5",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f7bb3fb649917aee7b5",
 I/flutter ( 4951): ║                             "key": "ice_cream_addon",
-I/flutter ( 4951): ║                             "name": "Ice Cream Add-on",
+I/flutter ( 4951): ║                             "name": "اضافة ايس كريم",
 I/flutter ( 4951): ║                             "nameAr": "اضافة ايس كريم",
 I/flutter ( 4951): ║                             "nameEn": "Ice Cream Add-on",
 I/flutter ( 4951): ║                             "nameI18n": {ar: اضافة ايس كريم, en: Ice Cream Add-on},
@@ -2069,11 +2264,11 @@ I/flutter ( 4951): ║                     "displayKey": "snack",
 I/flutter ( 4951): ║                     "displayCategory": "snack",
 I/flutter ( 4951): ║                     "groupId": "6a5905a03259cebdc82b8832",
 I/flutter ( 4951): ║                     "addonPlanId": "6a5905a03259cebdc82b8832",
-I/flutter ( 4951): ║                     "addonPlanName": "test",
+I/flutter ( 4951): ║                     "addonPlanName": "test-sub",
 I/flutter ( 4951): ║                     "allowanceCategory": "snack",
 I/flutter ( 4951): ║                     "entitlementCategory": "snack",
-I/flutter ( 4951): ║                     "label": "test",
-I/flutter ( 4951): ║                     "labelText": "test",
+I/flutter ( 4951): ║                     "label": "test-sub",
+I/flutter ( 4951): ║                     "labelText": "test-sub",
 I/flutter ( 4951): ║                     "labelAr": "test-sub",
 I/flutter ( 4951): ║                     "labelEn": "test",
 I/flutter ( 4951): ║                     "labelI18n": {ar: test-sub, en: test},
@@ -2087,7 +2282,7 @@ I/flutter ( 4951): ║                             "id": "6a522f7bb3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f7bb3fb649917aee7b8",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f7bb3fb649917aee7b8",
 I/flutter ( 4951): ║                             "key": "protein_drink",
-I/flutter ( 4951): ║                             "name": "Protein Drink",
+I/flutter ( 4951): ║                             "name": "مشروب بروتين",
 I/flutter ( 4951): ║                             "nameAr": "مشروب بروتين",
 I/flutter ( 4951): ║                             "nameEn": "Protein Drink",
 I/flutter ( 4951): ║                             "nameI18n": {ar: مشروب بروتين, en: Protein Drink},
@@ -2147,7 +2342,7 @@ I/flutter ( 4951): ║                             "id": "6a522f7cb3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f7cb3fb649917aee7bb",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f7cb3fb649917aee7bb",
 I/flutter ( 4951): ║                             "key": "diet_iced_tea",
-I/flutter ( 4951): ║                             "name": "Diet Iced Tea",
+I/flutter ( 4951): ║                             "name": "ايس تى دايت",
 I/flutter ( 4951): ║                             "nameAr": "ايس تى دايت",
 I/flutter ( 4951): ║                             "nameEn": "Diet Iced Tea",
 I/flutter ( 4951): ║                             "nameI18n": {ar: ايس تى دايت, en: Diet Iced Tea},
@@ -2207,7 +2402,7 @@ I/flutter ( 4951): ║                             "id": "6a522f7db3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f7db3fb649917aee7be",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f7db3fb649917aee7be",
 I/flutter ( 4951): ║                             "key": "diet_soda",
-I/flutter ( 4951): ║                             "name": "Diet Soda",
+I/flutter ( 4951): ║                             "name": "صودا دايت",
 I/flutter ( 4951): ║                             "nameAr": "صودا دايت",
 I/flutter ( 4951): ║                             "nameEn": "Diet Soda",
 I/flutter ( 4951): ║                             "nameI18n": {ar: صودا دايت, en: Diet Soda},
@@ -2267,7 +2462,7 @@ I/flutter ( 4951): ║                             "id": "6a522f7db3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f7db3fb649917aee7c1",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f7db3fb649917aee7c1",
 I/flutter ( 4951): ║                             "key": "water",
-I/flutter ( 4951): ║                             "name": "Water",
+I/flutter ( 4951): ║                             "name": "مياه عادية",
 I/flutter ( 4951): ║                             "nameAr": "مياه عادية",
 I/flutter ( 4951): ║                             "nameEn": "Water",
 I/flutter ( 4951): ║                             "nameI18n": {ar: مياه عادية, en: Water},
@@ -2341,11 +2536,11 @@ I/flutter ( 4951): ║                     "displayKey": "juice",
 I/flutter ( 4951): ║                     "displayCategory": "juice",
 I/flutter ( 4951): ║                     "groupId": "6a4958e8991f8d73bc7a2605",
 I/flutter ( 4951): ║                     "addonPlanId": "6a4958e8991f8d73bc7a2605",
-I/flutter ( 4951): ║                     "addonPlanName": "Juice Subscription",
+I/flutter ( 4951): ║                     "addonPlanName": "اشتراك العصير",
 I/flutter ( 4951): ║                     "allowanceCategory": "juice",
 I/flutter ( 4951): ║                     "entitlementCategory": "juice",
-I/flutter ( 4951): ║                     "label": "Juice Subscription",
-I/flutter ( 4951): ║                     "labelText": "Juice Subscription",
+I/flutter ( 4951): ║                     "label": "اشتراك العصير",
+I/flutter ( 4951): ║                     "labelText": "اشتراك العصير",
 I/flutter ( 4951): ║                     "labelAr": "اشتراك العصير",
 I/flutter ( 4951): ║                     "labelEn": "Juice Subscription",
 I/flutter ( 4951): ║                     "labelI18n": {ar: اشتراك العصير, en: Juice Subscription},
@@ -2359,7 +2554,7 @@ I/flutter ( 4951): ║                             "id": "6a522f65b3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f65b3fb649917aee74f",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f65b3fb649917aee74f",
 I/flutter ( 4951): ║                             "key": "orange_juice",
-I/flutter ( 4951): ║                             "name": "Orange Juice",
+I/flutter ( 4951): ║                             "name": "عصير برتقال",
 I/flutter ( 4951): ║                             "nameAr": "عصير برتقال",
 I/flutter ( 4951): ║                             "nameEn": "Orange Juice",
 I/flutter ( 4951): ║                             "nameI18n": {ar: عصير برتقال, en: Orange Juice},
@@ -2419,7 +2614,7 @@ I/flutter ( 4951): ║                             "id": "6a522f65b3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f65b3fb649917aee752",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f65b3fb649917aee752",
 I/flutter ( 4951): ║                             "key": "apple_juice",
-I/flutter ( 4951): ║                             "name": "Apple Juice",
+I/flutter ( 4951): ║                             "name": "عصير تفاح",
 I/flutter ( 4951): ║                             "nameAr": "عصير تفاح",
 I/flutter ( 4951): ║                             "nameEn": "Apple Juice",
 I/flutter ( 4951): ║                             "nameI18n": {ar: عصير تفاح, en: Apple Juice},
@@ -2479,7 +2674,7 @@ I/flutter ( 4951): ║                             "id": "6a522f66b3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f66b3fb649917aee755",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f66b3fb649917aee755",
 I/flutter ( 4951): ║                             "key": "mango_juice",
-I/flutter ( 4951): ║                             "name": "Mango Juice",
+I/flutter ( 4951): ║                             "name": "عصير مانجو",
 I/flutter ( 4951): ║                             "nameAr": "عصير مانجو",
 I/flutter ( 4951): ║                             "nameEn": "Mango Juice",
 I/flutter ( 4951): ║                             "nameI18n": {ar: عصير مانجو, en: Mango Juice},
@@ -2539,7 +2734,7 @@ I/flutter ( 4951): ║                             "id": "6a522f75b3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f75b3fb649917aee79d",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f75b3fb649917aee79d",
 I/flutter ( 4951): ║                             "key": "berry_blast",
-I/flutter ( 4951): ║                             "name": "Berry Blast",
+I/flutter ( 4951): ║                             "name": "بيري بلاست",
 I/flutter ( 4951): ║                             "nameAr": "بيري بلاست",
 I/flutter ( 4951): ║                             "nameEn": "Berry Blast",
 I/flutter ( 4951): ║                             "nameI18n": {ar: بيري بلاست, en: Berry Blast},
@@ -2599,7 +2794,7 @@ I/flutter ( 4951): ║                             "id": "6a522f76b3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f76b3fb649917aee7a0",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f76b3fb649917aee7a0",
 I/flutter ( 4951): ║                             "key": "berry_prot",
-I/flutter ( 4951): ║                             "name": "Berry Prot",
+I/flutter ( 4951): ║                             "name": "بيري بروت",
 I/flutter ( 4951): ║                             "nameAr": "بيري بروت",
 I/flutter ( 4951): ║                             "nameEn": "Berry Prot",
 I/flutter ( 4951): ║                             "nameI18n": {ar: بيري بروت, en: Berry Prot},
@@ -2659,7 +2854,7 @@ I/flutter ( 4951): ║                             "id": "6a522f77b3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f77b3fb649917aee7a3",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f77b3fb649917aee7a3",
 I/flutter ( 4951): ║                             "key": "classic_green",
-I/flutter ( 4951): ║                             "name": "Classic Green",
+I/flutter ( 4951): ║                             "name": "كلاسيك جرين",
 I/flutter ( 4951): ║                             "nameAr": "كلاسيك جرين",
 I/flutter ( 4951): ║                             "nameEn": "Classic Green",
 I/flutter ( 4951): ║                             "nameI18n": {ar: كلاسيك جرين, en: Classic Green},
@@ -2719,7 +2914,7 @@ I/flutter ( 4951): ║                             "id": "6a522f77b3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f77b3fb649917aee7a6",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f77b3fb649917aee7a6",
 I/flutter ( 4951): ║                             "key": "beet_punch",
-I/flutter ( 4951): ║                             "name": "Beet Punch",
+I/flutter ( 4951): ║                             "name": "بيت بنش",
 I/flutter ( 4951): ║                             "nameAr": "بيت بنش",
 I/flutter ( 4951): ║                             "nameEn": "Beet Punch",
 I/flutter ( 4951): ║                             "nameI18n": {ar: بيت بنش, en: Beet Punch},
@@ -2779,7 +2974,7 @@ I/flutter ( 4951): ║                             "id": "6a522f78b3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f78b3fb649917aee7a9",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f78b3fb649917aee7a9",
 I/flutter ( 4951): ║                             "key": "orange_carrot",
-I/flutter ( 4951): ║                             "name": "Orange Carrot",
+I/flutter ( 4951): ║                             "name": "برتقال وجزر",
 I/flutter ( 4951): ║                             "nameAr": "برتقال وجزر",
 I/flutter ( 4951): ║                             "nameEn": "Orange Carrot",
 I/flutter ( 4951): ║                             "nameI18n": {ar: برتقال وجزر, en: Orange Carrot},
@@ -2839,7 +3034,7 @@ I/flutter ( 4951): ║                             "id": "6a522f79b3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f79b3fb649917aee7ac",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f79b3fb649917aee7ac",
 I/flutter ( 4951): ║                             "key": "watermelon_mint",
-I/flutter ( 4951): ║                             "name": "Watermelon Mint",
+I/flutter ( 4951): ║                             "name": "بطيخ بالنعناع",
 I/flutter ( 4951): ║                             "nameAr": "بطيخ بالنعناع",
 I/flutter ( 4951): ║                             "nameEn": "Watermelon Mint",
 I/flutter ( 4951): ║                             "nameI18n": {ar: بطيخ بالنعناع, en: Watermelon Mint},
@@ -2913,11 +3108,11 @@ I/flutter ( 4951): ║                     "displayKey": "snack",
 I/flutter ( 4951): ║                     "displayCategory": "snack",
 I/flutter ( 4951): ║                     "groupId": "6a4958e8991f8d73bc7a2608",
 I/flutter ( 4951): ║                     "addonPlanId": "6a4958e8991f8d73bc7a2608",
-I/flutter ( 4951): ║                     "addonPlanName": "Snack Subscription",
+I/flutter ( 4951): ║                     "addonPlanName": "اشتراك السناك",
 I/flutter ( 4951): ║                     "allowanceCategory": "snack",
 I/flutter ( 4951): ║                     "entitlementCategory": "snack",
-I/flutter ( 4951): ║                     "label": "Snack Subscription",
-I/flutter ( 4951): ║                     "labelText": "Snack Subscription",
+I/flutter ( 4951): ║                     "label": "اشتراك السناك",
+I/flutter ( 4951): ║                     "labelText": "اشتراك السناك",
 I/flutter ( 4951): ║                     "labelAr": "اشتراك السناك",
 I/flutter ( 4951): ║                     "labelEn": "Snack Subscription",
 I/flutter ( 4951): ║                     "labelI18n": {ar: اشتراك السناك, en: Snack Subscription},
@@ -2931,7 +3126,7 @@ I/flutter ( 4951): ║                             "id": "6a522f69b3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f69b3fb649917aee761",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f69b3fb649917aee761",
 I/flutter ( 4951): ║                             "key": "protein_snack",
-I/flutter ( 4951): ║                             "name": "Protein Snack",
+I/flutter ( 4951): ║                             "name": "سناك بروتين",
 I/flutter ( 4951): ║                             "nameAr": "سناك بروتين",
 I/flutter ( 4951): ║                             "nameEn": "Protein Snack",
 I/flutter ( 4951): ║                             "nameI18n": {ar: سناك بروتين, en: Protein Snack},
@@ -2991,7 +3186,7 @@ I/flutter ( 4951): ║                             "id": "6a522f69b3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f69b3fb649917aee764",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f69b3fb649917aee764",
 I/flutter ( 4951): ║                             "key": "healthy_dessert",
-I/flutter ( 4951): ║                             "name": "Healthy Dessert",
+I/flutter ( 4951): ║                             "name": "حلوى صحية",
 I/flutter ( 4951): ║                             "nameAr": "حلوى صحية",
 I/flutter ( 4951): ║                             "nameEn": "Healthy Dessert",
 I/flutter ( 4951): ║                             "nameI18n": {ar: حلوى صحية, en: Healthy Dessert},
@@ -3051,7 +3246,7 @@ I/flutter ( 4951): ║                             "id": "6a522f6ab3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f6ab3fb649917aee767",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f6ab3fb649917aee767",
 I/flutter ( 4951): ║                             "key": "snack_box",
-I/flutter ( 4951): ║                             "name": "Snack Box",
+I/flutter ( 4951): ║                             "name": "صندوق سناك",
 I/flutter ( 4951): ║                             "nameAr": "صندوق سناك",
 I/flutter ( 4951): ║                             "nameEn": "Snack Box",
 I/flutter ( 4951): ║                             "nameI18n": {ar: صندوق سناك, en: Snack Box},
@@ -3111,12 +3306,12 @@ I/flutter ( 4951): ║                             "id": "6a522f70b3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f70b3fb649917aee785",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f70b3fb649917aee785",
 I/flutter ( 4951): ║                             "key": "orange_cake",
-I/flutter ( 4951): ║                             "name": "Orange Cake",
+I/flutter ( 4951): ║                             "name": "كيكة البرتقال",
 I/flutter ( 4951): ║                             "nameAr": "كيكة البرتقال",
 I/flutter ( 4951): ║                             "nameEn": "Orange Cake",
 I/flutter ( 4951): ║                             "nameI18n": {ar: كيكة البرتقال, en: Orange Cake},
-I/flutter ( 4951): ║                             "description": "Healthy orange cake made with light ingredients, natural refr
-I/flutter ( 4951): ║                              eshing orange flavor, soft texture, and no sugar."
+I/flutter ( 4951): ║                             "description": "كيكة برتقال صحية محضرة بمكونات خفيفة، بطعم برتقال طبيعي منعش
+I/flutter ( 4951): ║                              وقوام ناعم، بدون سكر."
 I/flutter ( 4951): ║                             "descriptionI18n": {
 I/flutter ( 4951): ║                                 "ar": "كيكة برتقال صحية محضرة بمكونات خفيفة، بطعم برتقال طبيعي م
 I/flutter ( 4951): ║                                  نعش وقوام ناعم، بدون سكر."
@@ -3177,7 +3372,7 @@ I/flutter ( 4951): ║                             "id": "6a522f71b3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f71b3fb649917aee788",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f71b3fb649917aee788",
 I/flutter ( 4951): ║                             "key": "apple_cinnamon_muffin_2pcs",
-I/flutter ( 4951): ║                             "name": "Apple Cinnamon Muffin - 2 Pieces",
+I/flutter ( 4951): ║                             "name": "مافن التفاح بالقرفة قطعتين",
 I/flutter ( 4951): ║                             "nameAr": "مافن التفاح بالقرفة قطعتين",
 I/flutter ( 4951): ║                             "nameEn": "Apple Cinnamon Muffin - 2 Pieces",
 I/flutter ( 4951): ║                             "nameI18n": {ar: مافن التفاح بالقرفة قطعتين, en: Apple Cinnamon Muffin - 2 Pieces},
@@ -3237,7 +3432,7 @@ I/flutter ( 4951): ║                             "id": "6a522f72b3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f72b3fb649917aee78b",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f72b3fb649917aee78b",
 I/flutter ( 4951): ║                             "key": "berry_cheesecake",
-I/flutter ( 4951): ║                             "name": "Berry Cheesecake",
+I/flutter ( 4951): ║                             "name": "تشيز كيك بالتوت",
 I/flutter ( 4951): ║                             "nameAr": "تشيز كيك بالتوت",
 I/flutter ( 4951): ║                             "nameEn": "Berry Cheesecake",
 I/flutter ( 4951): ║                             "nameI18n": {ar: تشيز كيك بالتوت, en: Berry Cheesecake},
@@ -3297,7 +3492,7 @@ I/flutter ( 4951): ║                             "id": "6a522f72b3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f72b3fb649917aee78e",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f72b3fb649917aee78e",
 I/flutter ( 4951): ║                             "key": "strawberry_cheesecake",
-I/flutter ( 4951): ║                             "name": "Strawberry Cheesecake",
+I/flutter ( 4951): ║                             "name": "تشيز كيك بالفراولة",
 I/flutter ( 4951): ║                             "nameAr": "تشيز كيك بالفراولة",
 I/flutter ( 4951): ║                             "nameEn": "Strawberry Cheesecake",
 I/flutter ( 4951): ║                             "nameI18n": {ar: تشيز كيك بالفراولة, en: Strawberry Cheesecake},
@@ -3357,7 +3552,7 @@ I/flutter ( 4951): ║                             "id": "6a522f73b3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f73b3fb649917aee791",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f73b3fb649917aee791",
 I/flutter ( 4951): ║                             "key": "dark_brownies",
-I/flutter ( 4951): ║                             "name": "Dark Brownies",
+I/flutter ( 4951): ║                             "name": "براونيز داكن",
 I/flutter ( 4951): ║                             "nameAr": "براونيز داكن",
 I/flutter ( 4951): ║                             "nameEn": "Dark Brownies",
 I/flutter ( 4951): ║                             "nameI18n": {ar: براونيز داكن, en: Dark Brownies},
@@ -3417,7 +3612,7 @@ I/flutter ( 4951): ║                             "id": "6a522f74b3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f74b3fb649917aee794",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f74b3fb649917aee794",
 I/flutter ( 4951): ║                             "key": "protein_bar",
-I/flutter ( 4951): ║                             "name": "Protein Bar",
+I/flutter ( 4951): ║                             "name": "بروتين بار",
 I/flutter ( 4951): ║                             "nameAr": "بروتين بار",
 I/flutter ( 4951): ║                             "nameEn": "Protein Bar",
 I/flutter ( 4951): ║                             "nameI18n": {ar: بروتين بار, en: Protein Bar},
@@ -3477,7 +3672,7 @@ I/flutter ( 4951): ║                             "id": "6a522f74b3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f74b3fb649917aee797",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f74b3fb649917aee797",
 I/flutter ( 4951): ║                             "key": "basic_classic",
-I/flutter ( 4951): ║                             "name": "Basic Classic",
+I/flutter ( 4951): ║                             "name": "بيسك كلاسيك",
 I/flutter ( 4951): ║                             "nameAr": "بيسك كلاسيك",
 I/flutter ( 4951): ║                             "nameEn": "Basic Classic",
 I/flutter ( 4951): ║                             "nameI18n": {ar: بيسك كلاسيك, en: Basic Classic},
@@ -3537,7 +3732,7 @@ I/flutter ( 4951): ║                             "id": "6a522f75b3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f75b3fb649917aee79a",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f75b3fb649917aee79a",
 I/flutter ( 4951): ║                             "key": "protein_chocolate_cake",
-I/flutter ( 4951): ║                             "name": "Protein Chocolate Cake",
+I/flutter ( 4951): ║                             "name": "كيك شوكولاتة بروتين",
 I/flutter ( 4951): ║                             "nameAr": "كيك شوكولاتة بروتين",
 I/flutter ( 4951): ║                             "nameEn": "Protein Chocolate Cake",
 I/flutter ( 4951): ║                             "nameI18n": {ar: كيك شوكولاتة بروتين, en: Protein Chocolate Cake},
@@ -3611,11 +3806,11 @@ I/flutter ( 4951): ║                     "displayKey": "small_salad",
 I/flutter ( 4951): ║                     "displayCategory": "small_salad",
 I/flutter ( 4951): ║                     "groupId": "6a4958e9991f8d73bc7a260b",
 I/flutter ( 4951): ║                     "addonPlanId": "6a4958e9991f8d73bc7a260b",
-I/flutter ( 4951): ║                     "addonPlanName": "Small Salad Subscription",
+I/flutter ( 4951): ║                     "addonPlanName": "اشتراك السلطة الصغيرة",
 I/flutter ( 4951): ║                     "allowanceCategory": "small_salad",
 I/flutter ( 4951): ║                     "entitlementCategory": "small_salad",
-I/flutter ( 4951): ║                     "label": "Small Salad Subscription",
-I/flutter ( 4951): ║                     "labelText": "Small Salad Subscription",
+I/flutter ( 4951): ║                     "label": "اشتراك السلطة الصغيرة",
+I/flutter ( 4951): ║                     "labelText": "اشتراك السلطة الصغيرة",
 I/flutter ( 4951): ║                     "labelAr": "اشتراك السلطة الصغيرة",
 I/flutter ( 4951): ║                     "labelEn": "Small Salad Subscription",
 I/flutter ( 4951): ║                     "labelI18n": {ar: اشتراك السلطة الصغيرة, en: Small Salad Subscription},
@@ -3629,7 +3824,7 @@ I/flutter ( 4951): ║                             "id": "6a522f67b3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f67b3fb649917aee75b",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f67b3fb649917aee75b",
 I/flutter ( 4951): ║                             "key": "fruit_salad_addon",
-I/flutter ( 4951): ║                             "name": "Fruit Salad",
+I/flutter ( 4951): ║                             "name": "سلطة فواكه",
 I/flutter ( 4951): ║                             "nameAr": "سلطة فواكه",
 I/flutter ( 4951): ║                             "nameEn": "Fruit Salad",
 I/flutter ( 4951): ║                             "nameI18n": {ar: سلطة فواكه, en: Fruit Salad},
@@ -3689,7 +3884,7 @@ I/flutter ( 4951): ║                             "id": "6a522f67b3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f67b3fb649917aee758",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f67b3fb649917aee758",
 I/flutter ( 4951): ║                             "key": "greek_salad",
-I/flutter ( 4951): ║                             "name": "Greek Salad",
+I/flutter ( 4951): ║                             "name": "سلطة يونانية",
 I/flutter ( 4951): ║                             "nameAr": "سلطة يونانية",
 I/flutter ( 4951): ║                             "nameEn": "Greek Salad",
 I/flutter ( 4951): ║                             "nameI18n": {ar: سلطة يونانية, en: Greek Salad},
@@ -3749,7 +3944,7 @@ I/flutter ( 4951): ║                             "id": "6a522f68b3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f68b3fb649917aee75e",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f68b3fb649917aee75e",
 I/flutter ( 4951): ║                             "key": "vegetable_salad",
-I/flutter ( 4951): ║                             "name": "Vegetable Salad",
+I/flutter ( 4951): ║                             "name": "سلطة خضار",
 I/flutter ( 4951): ║                             "nameAr": "سلطة خضار",
 I/flutter ( 4951): ║                             "nameEn": "Vegetable Salad",
 I/flutter ( 4951): ║                             "nameI18n": {ar: سلطة خضار, en: Vegetable Salad},
@@ -3822,12 +4017,12 @@ I/flutter ( 4951): ║             "addonChoiceGroups": [
 I/flutter ( 4951): ║                {
 I/flutter ( 4951): ║                     "groupId": "6a57860863e85fba4f858b52",
 I/flutter ( 4951): ║                     "addonPlanId": "6a57860863e85fba4f858b52",
-I/flutter ( 4951): ║                     "label": "ice cream",
-I/flutter ( 4951): ║                     "labelText": "ice cream",
+I/flutter ( 4951): ║                     "label": "ايس كريم",
+I/flutter ( 4951): ║                     "labelText": "ايس كريم",
 I/flutter ( 4951): ║                     "labelAr": "ايس كريم",
 I/flutter ( 4951): ║                     "labelEn": "ice cream",
 I/flutter ( 4951): ║                     "labelI18n": {ar: ايس كريم, en: ice cream},
-I/flutter ( 4951): ║                     "addonPlanName": "ice cream",
+I/flutter ( 4951): ║                     "addonPlanName": "ايس كريم",
 I/flutter ( 4951): ║                     "nameAr": "ايس كريم",
 I/flutter ( 4951): ║                     "nameEn": "ice cream",
 I/flutter ( 4951): ║                     "nameI18n": {ar: ايس كريم, en: ice cream},
@@ -3849,7 +4044,7 @@ I/flutter ( 4951): ║                             "id": "6a522f79b3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f79b3fb649917aee7af",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f79b3fb649917aee7af",
 I/flutter ( 4951): ║                             "key": "vanilla_ice_cream",
-I/flutter ( 4951): ║                             "name": "Vanilla Ice Cream",
+I/flutter ( 4951): ║                             "name": "ايس كريم فانيليا",
 I/flutter ( 4951): ║                             "nameAr": "ايس كريم فانيليا",
 I/flutter ( 4951): ║                             "nameEn": "Vanilla Ice Cream",
 I/flutter ( 4951): ║                             "nameI18n": {ar: ايس كريم فانيليا, en: Vanilla Ice Cream},
@@ -3909,7 +4104,7 @@ I/flutter ( 4951): ║                             "id": "6a522f7ab3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f7ab3fb649917aee7b2",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f7ab3fb649917aee7b2",
 I/flutter ( 4951): ║                             "key": "chocolate_ice_cream",
-I/flutter ( 4951): ║                             "name": "Chocolate Ice Cream",
+I/flutter ( 4951): ║                             "name": "ايس كريم شوكولا",
 I/flutter ( 4951): ║                             "nameAr": "ايس كريم شوكولا",
 I/flutter ( 4951): ║                             "nameEn": "Chocolate Ice Cream",
 I/flutter ( 4951): ║                             "nameI18n": {ar: ايس كريم شوكولا, en: Chocolate Ice Cream},
@@ -3969,7 +4164,7 @@ I/flutter ( 4951): ║                             "id": "6a522f7bb3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f7bb3fb649917aee7b5",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f7bb3fb649917aee7b5",
 I/flutter ( 4951): ║                             "key": "ice_cream_addon",
-I/flutter ( 4951): ║                             "name": "Ice Cream Add-on",
+I/flutter ( 4951): ║                             "name": "اضافة ايس كريم",
 I/flutter ( 4951): ║                             "nameAr": "اضافة ايس كريم",
 I/flutter ( 4951): ║                             "nameEn": "Ice Cream Add-on",
 I/flutter ( 4951): ║                             "nameI18n": {ar: اضافة ايس كريم, en: Ice Cream Add-on},
@@ -4039,12 +4234,12 @@ I/flutter ( 4951): ║                },
 I/flutter ( 4951): ║                {
 I/flutter ( 4951): ║                     "groupId": "6a5905a03259cebdc82b8832",
 I/flutter ( 4951): ║                     "addonPlanId": "6a5905a03259cebdc82b8832",
-I/flutter ( 4951): ║                     "label": "test",
-I/flutter ( 4951): ║                     "labelText": "test",
+I/flutter ( 4951): ║                     "label": "test-sub",
+I/flutter ( 4951): ║                     "labelText": "test-sub",
 I/flutter ( 4951): ║                     "labelAr": "test-sub",
 I/flutter ( 4951): ║                     "labelEn": "test",
 I/flutter ( 4951): ║                     "labelI18n": {ar: test-sub, en: test},
-I/flutter ( 4951): ║                     "addonPlanName": "test",
+I/flutter ( 4951): ║                     "addonPlanName": "test-sub",
 I/flutter ( 4951): ║                     "nameAr": "test-sub",
 I/flutter ( 4951): ║                     "nameEn": "test",
 I/flutter ( 4951): ║                     "nameI18n": {ar: test-sub, en: test},
@@ -4066,7 +4261,7 @@ I/flutter ( 4951): ║                             "id": "6a522f7bb3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f7bb3fb649917aee7b8",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f7bb3fb649917aee7b8",
 I/flutter ( 4951): ║                             "key": "protein_drink",
-I/flutter ( 4951): ║                             "name": "Protein Drink",
+I/flutter ( 4951): ║                             "name": "مشروب بروتين",
 I/flutter ( 4951): ║                             "nameAr": "مشروب بروتين",
 I/flutter ( 4951): ║                             "nameEn": "Protein Drink",
 I/flutter ( 4951): ║                             "nameI18n": {ar: مشروب بروتين, en: Protein Drink},
@@ -4126,7 +4321,7 @@ I/flutter ( 4951): ║                             "id": "6a522f7cb3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f7cb3fb649917aee7bb",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f7cb3fb649917aee7bb",
 I/flutter ( 4951): ║                             "key": "diet_iced_tea",
-I/flutter ( 4951): ║                             "name": "Diet Iced Tea",
+I/flutter ( 4951): ║                             "name": "ايس تى دايت",
 I/flutter ( 4951): ║                             "nameAr": "ايس تى دايت",
 I/flutter ( 4951): ║                             "nameEn": "Diet Iced Tea",
 I/flutter ( 4951): ║                             "nameI18n": {ar: ايس تى دايت, en: Diet Iced Tea},
@@ -4186,7 +4381,7 @@ I/flutter ( 4951): ║                             "id": "6a522f7db3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f7db3fb649917aee7be",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f7db3fb649917aee7be",
 I/flutter ( 4951): ║                             "key": "diet_soda",
-I/flutter ( 4951): ║                             "name": "Diet Soda",
+I/flutter ( 4951): ║                             "name": "صودا دايت",
 I/flutter ( 4951): ║                             "nameAr": "صودا دايت",
 I/flutter ( 4951): ║                             "nameEn": "Diet Soda",
 I/flutter ( 4951): ║                             "nameI18n": {ar: صودا دايت, en: Diet Soda},
@@ -4246,7 +4441,7 @@ I/flutter ( 4951): ║                             "id": "6a522f7db3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f7db3fb649917aee7c1",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f7db3fb649917aee7c1",
 I/flutter ( 4951): ║                             "key": "water",
-I/flutter ( 4951): ║                             "name": "Water",
+I/flutter ( 4951): ║                             "name": "مياه عادية",
 I/flutter ( 4951): ║                             "nameAr": "مياه عادية",
 I/flutter ( 4951): ║                             "nameEn": "Water",
 I/flutter ( 4951): ║                             "nameI18n": {ar: مياه عادية, en: Water},
@@ -4316,12 +4511,12 @@ I/flutter ( 4951): ║                },
 I/flutter ( 4951): ║                {
 I/flutter ( 4951): ║                     "groupId": "6a4958e8991f8d73bc7a2605",
 I/flutter ( 4951): ║                     "addonPlanId": "6a4958e8991f8d73bc7a2605",
-I/flutter ( 4951): ║                     "label": "Juice Subscription",
-I/flutter ( 4951): ║                     "labelText": "Juice Subscription",
+I/flutter ( 4951): ║                     "label": "اشتراك العصير",
+I/flutter ( 4951): ║                     "labelText": "اشتراك العصير",
 I/flutter ( 4951): ║                     "labelAr": "اشتراك العصير",
 I/flutter ( 4951): ║                     "labelEn": "Juice Subscription",
 I/flutter ( 4951): ║                     "labelI18n": {ar: اشتراك العصير, en: Juice Subscription},
-I/flutter ( 4951): ║                     "addonPlanName": "Juice Subscription",
+I/flutter ( 4951): ║                     "addonPlanName": "اشتراك العصير",
 I/flutter ( 4951): ║                     "nameAr": "اشتراك العصير",
 I/flutter ( 4951): ║                     "nameEn": "Juice Subscription",
 I/flutter ( 4951): ║                     "nameI18n": {ar: اشتراك العصير, en: Juice Subscription},
@@ -4343,7 +4538,7 @@ I/flutter ( 4951): ║                             "id": "6a522f65b3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f65b3fb649917aee74f",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f65b3fb649917aee74f",
 I/flutter ( 4951): ║                             "key": "orange_juice",
-I/flutter ( 4951): ║                             "name": "Orange Juice",
+I/flutter ( 4951): ║                             "name": "عصير برتقال",
 I/flutter ( 4951): ║                             "nameAr": "عصير برتقال",
 I/flutter ( 4951): ║                             "nameEn": "Orange Juice",
 I/flutter ( 4951): ║                             "nameI18n": {ar: عصير برتقال, en: Orange Juice},
@@ -4403,7 +4598,7 @@ I/flutter ( 4951): ║                             "id": "6a522f65b3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f65b3fb649917aee752",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f65b3fb649917aee752",
 I/flutter ( 4951): ║                             "key": "apple_juice",
-I/flutter ( 4951): ║                             "name": "Apple Juice",
+I/flutter ( 4951): ║                             "name": "عصير تفاح",
 I/flutter ( 4951): ║                             "nameAr": "عصير تفاح",
 I/flutter ( 4951): ║                             "nameEn": "Apple Juice",
 I/flutter ( 4951): ║                             "nameI18n": {ar: عصير تفاح, en: Apple Juice},
@@ -4463,7 +4658,7 @@ I/flutter ( 4951): ║                             "id": "6a522f66b3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f66b3fb649917aee755",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f66b3fb649917aee755",
 I/flutter ( 4951): ║                             "key": "mango_juice",
-I/flutter ( 4951): ║                             "name": "Mango Juice",
+I/flutter ( 4951): ║                             "name": "عصير مانجو",
 I/flutter ( 4951): ║                             "nameAr": "عصير مانجو",
 I/flutter ( 4951): ║                             "nameEn": "Mango Juice",
 I/flutter ( 4951): ║                             "nameI18n": {ar: عصير مانجو, en: Mango Juice},
@@ -4523,7 +4718,7 @@ I/flutter ( 4951): ║                             "id": "6a522f75b3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f75b3fb649917aee79d",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f75b3fb649917aee79d",
 I/flutter ( 4951): ║                             "key": "berry_blast",
-I/flutter ( 4951): ║                             "name": "Berry Blast",
+I/flutter ( 4951): ║                             "name": "بيري بلاست",
 I/flutter ( 4951): ║                             "nameAr": "بيري بلاست",
 I/flutter ( 4951): ║                             "nameEn": "Berry Blast",
 I/flutter ( 4951): ║                             "nameI18n": {ar: بيري بلاست, en: Berry Blast},
@@ -4583,7 +4778,7 @@ I/flutter ( 4951): ║                             "id": "6a522f76b3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f76b3fb649917aee7a0",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f76b3fb649917aee7a0",
 I/flutter ( 4951): ║                             "key": "berry_prot",
-I/flutter ( 4951): ║                             "name": "Berry Prot",
+I/flutter ( 4951): ║                             "name": "بيري بروت",
 I/flutter ( 4951): ║                             "nameAr": "بيري بروت",
 I/flutter ( 4951): ║                             "nameEn": "Berry Prot",
 I/flutter ( 4951): ║                             "nameI18n": {ar: بيري بروت, en: Berry Prot},
@@ -4643,7 +4838,7 @@ I/flutter ( 4951): ║                             "id": "6a522f77b3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f77b3fb649917aee7a3",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f77b3fb649917aee7a3",
 I/flutter ( 4951): ║                             "key": "classic_green",
-I/flutter ( 4951): ║                             "name": "Classic Green",
+I/flutter ( 4951): ║                             "name": "كلاسيك جرين",
 I/flutter ( 4951): ║                             "nameAr": "كلاسيك جرين",
 I/flutter ( 4951): ║                             "nameEn": "Classic Green",
 I/flutter ( 4951): ║                             "nameI18n": {ar: كلاسيك جرين, en: Classic Green},
@@ -4703,7 +4898,7 @@ I/flutter ( 4951): ║                             "id": "6a522f77b3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f77b3fb649917aee7a6",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f77b3fb649917aee7a6",
 I/flutter ( 4951): ║                             "key": "beet_punch",
-I/flutter ( 4951): ║                             "name": "Beet Punch",
+I/flutter ( 4951): ║                             "name": "بيت بنش",
 I/flutter ( 4951): ║                             "nameAr": "بيت بنش",
 I/flutter ( 4951): ║                             "nameEn": "Beet Punch",
 I/flutter ( 4951): ║                             "nameI18n": {ar: بيت بنش, en: Beet Punch},
@@ -4763,7 +4958,7 @@ I/flutter ( 4951): ║                             "id": "6a522f78b3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f78b3fb649917aee7a9",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f78b3fb649917aee7a9",
 I/flutter ( 4951): ║                             "key": "orange_carrot",
-I/flutter ( 4951): ║                             "name": "Orange Carrot",
+I/flutter ( 4951): ║                             "name": "برتقال وجزر",
 I/flutter ( 4951): ║                             "nameAr": "برتقال وجزر",
 I/flutter ( 4951): ║                             "nameEn": "Orange Carrot",
 I/flutter ( 4951): ║                             "nameI18n": {ar: برتقال وجزر, en: Orange Carrot},
@@ -4823,7 +5018,7 @@ I/flutter ( 4951): ║                             "id": "6a522f79b3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f79b3fb649917aee7ac",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f79b3fb649917aee7ac",
 I/flutter ( 4951): ║                             "key": "watermelon_mint",
-I/flutter ( 4951): ║                             "name": "Watermelon Mint",
+I/flutter ( 4951): ║                             "name": "بطيخ بالنعناع",
 I/flutter ( 4951): ║                             "nameAr": "بطيخ بالنعناع",
 I/flutter ( 4951): ║                             "nameEn": "Watermelon Mint",
 I/flutter ( 4951): ║                             "nameI18n": {ar: بطيخ بالنعناع, en: Watermelon Mint},
@@ -4893,12 +5088,12 @@ I/flutter ( 4951): ║                },
 I/flutter ( 4951): ║                {
 I/flutter ( 4951): ║                     "groupId": "6a4958e8991f8d73bc7a2608",
 I/flutter ( 4951): ║                     "addonPlanId": "6a4958e8991f8d73bc7a2608",
-I/flutter ( 4951): ║                     "label": "Snack Subscription",
-I/flutter ( 4951): ║                     "labelText": "Snack Subscription",
+I/flutter ( 4951): ║                     "label": "اشتراك السناك",
+I/flutter ( 4951): ║                     "labelText": "اشتراك السناك",
 I/flutter ( 4951): ║                     "labelAr": "اشتراك السناك",
 I/flutter ( 4951): ║                     "labelEn": "Snack Subscription",
 I/flutter ( 4951): ║                     "labelI18n": {ar: اشتراك السناك, en: Snack Subscription},
-I/flutter ( 4951): ║                     "addonPlanName": "Snack Subscription",
+I/flutter ( 4951): ║                     "addonPlanName": "اشتراك السناك",
 I/flutter ( 4951): ║                     "nameAr": "اشتراك السناك",
 I/flutter ( 4951): ║                     "nameEn": "Snack Subscription",
 I/flutter ( 4951): ║                     "nameI18n": {ar: اشتراك السناك, en: Snack Subscription},
@@ -4920,7 +5115,7 @@ I/flutter ( 4951): ║                             "id": "6a522f69b3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f69b3fb649917aee761",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f69b3fb649917aee761",
 I/flutter ( 4951): ║                             "key": "protein_snack",
-I/flutter ( 4951): ║                             "name": "Protein Snack",
+I/flutter ( 4951): ║                             "name": "سناك بروتين",
 I/flutter ( 4951): ║                             "nameAr": "سناك بروتين",
 I/flutter ( 4951): ║                             "nameEn": "Protein Snack",
 I/flutter ( 4951): ║                             "nameI18n": {ar: سناك بروتين, en: Protein Snack},
@@ -4980,7 +5175,7 @@ I/flutter ( 4951): ║                             "id": "6a522f69b3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f69b3fb649917aee764",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f69b3fb649917aee764",
 I/flutter ( 4951): ║                             "key": "healthy_dessert",
-I/flutter ( 4951): ║                             "name": "Healthy Dessert",
+I/flutter ( 4951): ║                             "name": "حلوى صحية",
 I/flutter ( 4951): ║                             "nameAr": "حلوى صحية",
 I/flutter ( 4951): ║                             "nameEn": "Healthy Dessert",
 I/flutter ( 4951): ║                             "nameI18n": {ar: حلوى صحية, en: Healthy Dessert},
@@ -5040,7 +5235,7 @@ I/flutter ( 4951): ║                             "id": "6a522f6ab3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f6ab3fb649917aee767",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f6ab3fb649917aee767",
 I/flutter ( 4951): ║                             "key": "snack_box",
-I/flutter ( 4951): ║                             "name": "Snack Box",
+I/flutter ( 4951): ║                             "name": "صندوق سناك",
 I/flutter ( 4951): ║                             "nameAr": "صندوق سناك",
 I/flutter ( 4951): ║                             "nameEn": "Snack Box",
 I/flutter ( 4951): ║                             "nameI18n": {ar: صندوق سناك, en: Snack Box},
@@ -5100,12 +5295,12 @@ I/flutter ( 4951): ║                             "id": "6a522f70b3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f70b3fb649917aee785",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f70b3fb649917aee785",
 I/flutter ( 4951): ║                             "key": "orange_cake",
-I/flutter ( 4951): ║                             "name": "Orange Cake",
+I/flutter ( 4951): ║                             "name": "كيكة البرتقال",
 I/flutter ( 4951): ║                             "nameAr": "كيكة البرتقال",
 I/flutter ( 4951): ║                             "nameEn": "Orange Cake",
 I/flutter ( 4951): ║                             "nameI18n": {ar: كيكة البرتقال, en: Orange Cake},
-I/flutter ( 4951): ║                             "description": "Healthy orange cake made with light ingredients, natural refr
-I/flutter ( 4951): ║                              eshing orange flavor, soft texture, and no sugar."
+I/flutter ( 4951): ║                             "description": "كيكة برتقال صحية محضرة بمكونات خفيفة، بطعم برتقال طبيعي منعش
+I/flutter ( 4951): ║                              وقوام ناعم، بدون سكر."
 I/flutter ( 4951): ║                             "descriptionI18n": {
 I/flutter ( 4951): ║                                 "ar": "كيكة برتقال صحية محضرة بمكونات خفيفة، بطعم برتقال طبيعي م
 I/flutter ( 4951): ║                                  نعش وقوام ناعم، بدون سكر."
@@ -5166,7 +5361,7 @@ I/flutter ( 4951): ║                             "id": "6a522f71b3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f71b3fb649917aee788",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f71b3fb649917aee788",
 I/flutter ( 4951): ║                             "key": "apple_cinnamon_muffin_2pcs",
-I/flutter ( 4951): ║                             "name": "Apple Cinnamon Muffin - 2 Pieces",
+I/flutter ( 4951): ║                             "name": "مافن التفاح بالقرفة قطعتين",
 I/flutter ( 4951): ║                             "nameAr": "مافن التفاح بالقرفة قطعتين",
 I/flutter ( 4951): ║                             "nameEn": "Apple Cinnamon Muffin - 2 Pieces",
 I/flutter ( 4951): ║                             "nameI18n": {ar: مافن التفاح بالقرفة قطعتين, en: Apple Cinnamon Muffin - 2 Pieces},
@@ -5226,7 +5421,7 @@ I/flutter ( 4951): ║                             "id": "6a522f72b3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f72b3fb649917aee78b",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f72b3fb649917aee78b",
 I/flutter ( 4951): ║                             "key": "berry_cheesecake",
-I/flutter ( 4951): ║                             "name": "Berry Cheesecake",
+I/flutter ( 4951): ║                             "name": "تشيز كيك بالتوت",
 I/flutter ( 4951): ║                             "nameAr": "تشيز كيك بالتوت",
 I/flutter ( 4951): ║                             "nameEn": "Berry Cheesecake",
 I/flutter ( 4951): ║                             "nameI18n": {ar: تشيز كيك بالتوت, en: Berry Cheesecake},
@@ -5286,7 +5481,7 @@ I/flutter ( 4951): ║                             "id": "6a522f72b3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f72b3fb649917aee78e",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f72b3fb649917aee78e",
 I/flutter ( 4951): ║                             "key": "strawberry_cheesecake",
-I/flutter ( 4951): ║                             "name": "Strawberry Cheesecake",
+I/flutter ( 4951): ║                             "name": "تشيز كيك بالفراولة",
 I/flutter ( 4951): ║                             "nameAr": "تشيز كيك بالفراولة",
 I/flutter ( 4951): ║                             "nameEn": "Strawberry Cheesecake",
 I/flutter ( 4951): ║                             "nameI18n": {ar: تشيز كيك بالفراولة, en: Strawberry Cheesecake},
@@ -5346,7 +5541,7 @@ I/flutter ( 4951): ║                             "id": "6a522f73b3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f73b3fb649917aee791",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f73b3fb649917aee791",
 I/flutter ( 4951): ║                             "key": "dark_brownies",
-I/flutter ( 4951): ║                             "name": "Dark Brownies",
+I/flutter ( 4951): ║                             "name": "براونيز داكن",
 I/flutter ( 4951): ║                             "nameAr": "براونيز داكن",
 I/flutter ( 4951): ║                             "nameEn": "Dark Brownies",
 I/flutter ( 4951): ║                             "nameI18n": {ar: براونيز داكن, en: Dark Brownies},
@@ -5406,7 +5601,7 @@ I/flutter ( 4951): ║                             "id": "6a522f74b3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f74b3fb649917aee794",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f74b3fb649917aee794",
 I/flutter ( 4951): ║                             "key": "protein_bar",
-I/flutter ( 4951): ║                             "name": "Protein Bar",
+I/flutter ( 4951): ║                             "name": "بروتين بار",
 I/flutter ( 4951): ║                             "nameAr": "بروتين بار",
 I/flutter ( 4951): ║                             "nameEn": "Protein Bar",
 I/flutter ( 4951): ║                             "nameI18n": {ar: بروتين بار, en: Protein Bar},
@@ -5466,7 +5661,7 @@ I/flutter ( 4951): ║                             "id": "6a522f74b3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f74b3fb649917aee797",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f74b3fb649917aee797",
 I/flutter ( 4951): ║                             "key": "basic_classic",
-I/flutter ( 4951): ║                             "name": "Basic Classic",
+I/flutter ( 4951): ║                             "name": "بيسك كلاسيك",
 I/flutter ( 4951): ║                             "nameAr": "بيسك كلاسيك",
 I/flutter ( 4951): ║                             "nameEn": "Basic Classic",
 I/flutter ( 4951): ║                             "nameI18n": {ar: بيسك كلاسيك, en: Basic Classic},
@@ -5526,7 +5721,7 @@ I/flutter ( 4951): ║                             "id": "6a522f75b3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f75b3fb649917aee79a",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f75b3fb649917aee79a",
 I/flutter ( 4951): ║                             "key": "protein_chocolate_cake",
-I/flutter ( 4951): ║                             "name": "Protein Chocolate Cake",
+I/flutter ( 4951): ║                             "name": "كيك شوكولاتة بروتين",
 I/flutter ( 4951): ║                             "nameAr": "كيك شوكولاتة بروتين",
 I/flutter ( 4951): ║                             "nameEn": "Protein Chocolate Cake",
 I/flutter ( 4951): ║                             "nameI18n": {ar: كيك شوكولاتة بروتين, en: Protein Chocolate Cake},
@@ -5596,12 +5791,12 @@ I/flutter ( 4951): ║                },
 I/flutter ( 4951): ║                {
 I/flutter ( 4951): ║                     "groupId": "6a4958e9991f8d73bc7a260b",
 I/flutter ( 4951): ║                     "addonPlanId": "6a4958e9991f8d73bc7a260b",
-I/flutter ( 4951): ║                     "label": "Small Salad Subscription",
-I/flutter ( 4951): ║                     "labelText": "Small Salad Subscription",
+I/flutter ( 4951): ║                     "label": "اشتراك السلطة الصغيرة",
+I/flutter ( 4951): ║                     "labelText": "اشتراك السلطة الصغيرة",
 I/flutter ( 4951): ║                     "labelAr": "اشتراك السلطة الصغيرة",
 I/flutter ( 4951): ║                     "labelEn": "Small Salad Subscription",
 I/flutter ( 4951): ║                     "labelI18n": {ar: اشتراك السلطة الصغيرة, en: Small Salad Subscription},
-I/flutter ( 4951): ║                     "addonPlanName": "Small Salad Subscription",
+I/flutter ( 4951): ║                     "addonPlanName": "اشتراك السلطة الصغيرة",
 I/flutter ( 4951): ║                     "nameAr": "اشتراك السلطة الصغيرة",
 I/flutter ( 4951): ║                     "nameEn": "Small Salad Subscription",
 I/flutter ( 4951): ║                     "nameI18n": {ar: اشتراك السلطة الصغيرة, en: Small Salad Subscription},
@@ -5623,7 +5818,7 @@ I/flutter ( 4951): ║                             "id": "6a522f67b3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f67b3fb649917aee75b",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f67b3fb649917aee75b",
 I/flutter ( 4951): ║                             "key": "fruit_salad_addon",
-I/flutter ( 4951): ║                             "name": "Fruit Salad",
+I/flutter ( 4951): ║                             "name": "سلطة فواكه",
 I/flutter ( 4951): ║                             "nameAr": "سلطة فواكه",
 I/flutter ( 4951): ║                             "nameEn": "Fruit Salad",
 I/flutter ( 4951): ║                             "nameI18n": {ar: سلطة فواكه, en: Fruit Salad},
@@ -5683,7 +5878,7 @@ I/flutter ( 4951): ║                             "id": "6a522f67b3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f67b3fb649917aee758",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f67b3fb649917aee758",
 I/flutter ( 4951): ║                             "key": "greek_salad",
-I/flutter ( 4951): ║                             "name": "Greek Salad",
+I/flutter ( 4951): ║                             "name": "سلطة يونانية",
 I/flutter ( 4951): ║                             "nameAr": "سلطة يونانية",
 I/flutter ( 4951): ║                             "nameEn": "Greek Salad",
 I/flutter ( 4951): ║                             "nameI18n": {ar: سلطة يونانية, en: Greek Salad},
@@ -5743,7 +5938,7 @@ I/flutter ( 4951): ║                             "id": "6a522f68b3fb649917aee7
 I/flutter ( 4951): ║                             "productId": "6a522f68b3fb649917aee75e",
 I/flutter ( 4951): ║                             "menuProductId": "6a522f68b3fb649917aee75e",
 I/flutter ( 4951): ║                             "key": "vegetable_salad",
-I/flutter ( 4951): ║                             "name": "Vegetable Salad",
+I/flutter ( 4951): ║                             "name": "سلطة خضار",
 I/flutter ( 4951): ║                             "nameAr": "سلطة خضار",
 I/flutter ( 4951): ║                             "nameEn": "Vegetable Salad",
 I/flutter ( 4951): ║                             "nameI18n": {ar: سلطة خضار, en: Vegetable Salad},
@@ -5815,7 +6010,7 @@ I/flutter ( 4951): ║             "legacyAddonCatalog": {
 I/flutter ( 4951): ║                 "items": [
 I/flutter ( 4951): ║                    {
 I/flutter ( 4951): ║                         "id": "6a522faab3fb649917aee887",
-I/flutter ( 4951): ║                         "name": "Snack Box",
+I/flutter ( 4951): ║                         "name": "صندوق سناك",
 I/flutter ( 4951): ║                         "description": "",
 I/flutter ( 4951): ║                         "imageUrl": "",
 I/flutter ( 4951): ║                         "currency": "SAR",
@@ -5828,11 +6023,11 @@ I/flutter ( 4951): ║                         "type": "one_time",
 I/flutter ( 4951): ║                         "billingMode": "flat_once",
 I/flutter ( 4951): ║                         "pricingModel": "one_time",
 I/flutter ( 4951): ║                         "billingUnit": "item",
-I/flutter ( 4951): ║                         "ui": {title: Snack Box, subtitle: , ctaLabel: Add, badge: One-time add-on}
+I/flutter ( 4951): ║                         "ui": {title: صندوق سناك, subtitle: , ctaLabel: أضف, badge: إضافة مرة واحدة}
 I/flutter ( 4951): ║                    },
 I/flutter ( 4951): ║                    {
 I/flutter ( 4951): ║                         "id": "6a522fa9b3fb649917aee884",
-I/flutter ( 4951): ║                         "name": "Healthy Dessert",
+I/flutter ( 4951): ║                         "name": "حلوى صحية",
 I/flutter ( 4951): ║                         "description": "",
 I/flutter ( 4951): ║                         "imageUrl": "",
 I/flutter ( 4951): ║                         "currency": "SAR",
@@ -5845,11 +6040,11 @@ I/flutter ( 4951): ║                         "type": "one_time",
 I/flutter ( 4951): ║                         "billingMode": "flat_once",
 I/flutter ( 4951): ║                         "pricingModel": "one_time",
 I/flutter ( 4951): ║                         "billingUnit": "item",
-I/flutter ( 4951): ║                         "ui": {title: Healthy Dessert, subtitle: , ctaLabel: Add, badge: One-time add-on}
+I/flutter ( 4951): ║                         "ui": {title: حلوى صحية, subtitle: , ctaLabel: أضف, badge: إضافة مرة واحدة}
 I/flutter ( 4951): ║                    },
 I/flutter ( 4951): ║                    {
 I/flutter ( 4951): ║                         "id": "6a522fa8b3fb649917aee881",
-I/flutter ( 4951): ║                         "name": "Protein Snack",
+I/flutter ( 4951): ║                         "name": "سناك بروتين",
 I/flutter ( 4951): ║                         "description": "",
 I/flutter ( 4951): ║                         "imageUrl": "",
 I/flutter ( 4951): ║                         "currency": "SAR",
@@ -5862,11 +6057,11 @@ I/flutter ( 4951): ║                         "type": "one_time",
 I/flutter ( 4951): ║                         "billingMode": "flat_once",
 I/flutter ( 4951): ║                         "pricingModel": "one_time",
 I/flutter ( 4951): ║                         "billingUnit": "item",
-I/flutter ( 4951): ║                         "ui": {title: Protein Snack, subtitle: , ctaLabel: Add, badge: One-time add-on}
+I/flutter ( 4951): ║                         "ui": {title: سناك بروتين, subtitle: , ctaLabel: أضف, badge: إضافة مرة واحدة}
 I/flutter ( 4951): ║                    },
 I/flutter ( 4951): ║                    {
 I/flutter ( 4951): ║                         "id": "6a522fa8b3fb649917aee87e",
-I/flutter ( 4951): ║                         "name": "Mango Juice",
+I/flutter ( 4951): ║                         "name": "عصير مانجو",
 I/flutter ( 4951): ║                         "description": "",
 I/flutter ( 4951): ║                         "imageUrl": "",
 I/flutter ( 4951): ║                         "currency": "SAR",
@@ -5879,11 +6074,11 @@ I/flutter ( 4951): ║                         "type": "one_time",
 I/flutter ( 4951): ║                         "billingMode": "flat_once",
 I/flutter ( 4951): ║                         "pricingModel": "one_time",
 I/flutter ( 4951): ║                         "billingUnit": "item",
-I/flutter ( 4951): ║                         "ui": {title: Mango Juice, subtitle: , ctaLabel: Add, badge: One-time add-on}
+I/flutter ( 4951): ║                         "ui": {title: عصير مانجو, subtitle: , ctaLabel: أضف, badge: إضافة مرة واحدة}
 I/flutter ( 4951): ║                    },
 I/flutter ( 4951): ║                    {
 I/flutter ( 4951): ║                         "id": "6a522fa7b3fb649917aee87b",
-I/flutter ( 4951): ║                         "name": "Apple Juice",
+I/flutter ( 4951): ║                         "name": "عصير تفاح",
 I/flutter ( 4951): ║                         "description": "",
 I/flutter ( 4951): ║                         "imageUrl": "",
 I/flutter ( 4951): ║                         "currency": "SAR",
@@ -5896,11 +6091,11 @@ I/flutter ( 4951): ║                         "type": "one_time",
 I/flutter ( 4951): ║                         "billingMode": "flat_once",
 I/flutter ( 4951): ║                         "pricingModel": "one_time",
 I/flutter ( 4951): ║                         "billingUnit": "item",
-I/flutter ( 4951): ║                         "ui": {title: Apple Juice, subtitle: , ctaLabel: Add, badge: One-time add-on}
+I/flutter ( 4951): ║                         "ui": {title: عصير تفاح, subtitle: , ctaLabel: أضف, badge: إضافة مرة واحدة}
 I/flutter ( 4951): ║                    },
 I/flutter ( 4951): ║                    {
 I/flutter ( 4951): ║                         "id": "6a522fa7b3fb649917aee878",
-I/flutter ( 4951): ║                         "name": "Orange Juice",
+I/flutter ( 4951): ║                         "name": "عصير برتقال",
 I/flutter ( 4951): ║                         "description": "",
 I/flutter ( 4951): ║                         "imageUrl": "",
 I/flutter ( 4951): ║                         "currency": "SAR",
@@ -5913,14 +6108,14 @@ I/flutter ( 4951): ║                         "type": "one_time",
 I/flutter ( 4951): ║                         "billingMode": "flat_once",
 I/flutter ( 4951): ║                         "pricingModel": "one_time",
 I/flutter ( 4951): ║                         "billingUnit": "item",
-I/flutter ( 4951): ║                         "ui": {title: Orange Juice, subtitle: , ctaLabel: Add, badge: One-time add-on}
+I/flutter ( 4951): ║                         "ui": {title: عصير برتقال, subtitle: , ctaLabel: أضف, badge: إضافة مرة واحدة}
 I/flutter ( 4951): ║                    }
 I/flutter ( 4951): ║                 ],
 I/flutter ( 4951): ║                 "byCategory": {
 I/flutter ( 4951): ║                     "snack": [
 I/flutter ( 4951): ║                        {
 I/flutter ( 4951): ║                             "id": "6a522faab3fb649917aee887",
-I/flutter ( 4951): ║                             "name": "Snack Box",
+I/flutter ( 4951): ║                             "name": "صندوق سناك",
 I/flutter ( 4951): ║                             "description": "",
 I/flutter ( 4951): ║                             "imageUrl": "",
 I/flutter ( 4951): ║                             "currency": "SAR",
@@ -5933,11 +6128,11 @@ I/flutter ( 4951): ║                             "type": "one_time",
 I/flutter ( 4951): ║                             "billingMode": "flat_once",
 I/flutter ( 4951): ║                             "pricingModel": "one_time",
 I/flutter ( 4951): ║                             "billingUnit": "item",
-I/flutter ( 4951): ║                             "ui": {title: Snack Box, subtitle: , ctaLabel: Add, badge: One-time add-on}
+I/flutter ( 4951): ║                             "ui": {title: صندوق سناك, subtitle: , ctaLabel: أضف, badge: إضافة مرة واحدة}
 I/flutter ( 4951): ║                        },
 I/flutter ( 4951): ║                        {
 I/flutter ( 4951): ║                             "id": "6a522fa9b3fb649917aee884",
-I/flutter ( 4951): ║                             "name": "Healthy Dessert",
+I/flutter ( 4951): ║                             "name": "حلوى صحية",
 I/flutter ( 4951): ║                             "description": "",
 I/flutter ( 4951): ║                             "imageUrl": "",
 I/flutter ( 4951): ║                             "currency": "SAR",
@@ -5950,11 +6145,11 @@ I/flutter ( 4951): ║                             "type": "one_time",
 I/flutter ( 4951): ║                             "billingMode": "flat_once",
 I/flutter ( 4951): ║                             "pricingModel": "one_time",
 I/flutter ( 4951): ║                             "billingUnit": "item",
-I/flutter ( 4951): ║                             "ui": {title: Healthy Dessert, subtitle: , ctaLabel: Add, badge: One-time add-on}
+I/flutter ( 4951): ║                             "ui": {title: حلوى صحية, subtitle: , ctaLabel: أضف, badge: إضافة مرة واحدة}
 I/flutter ( 4951): ║                        },
 I/flutter ( 4951): ║                        {
 I/flutter ( 4951): ║                             "id": "6a522fa8b3fb649917aee881",
-I/flutter ( 4951): ║                             "name": "Protein Snack",
+I/flutter ( 4951): ║                             "name": "سناك بروتين",
 I/flutter ( 4951): ║                             "description": "",
 I/flutter ( 4951): ║                             "imageUrl": "",
 I/flutter ( 4951): ║                             "currency": "SAR",
@@ -5967,13 +6162,13 @@ I/flutter ( 4951): ║                             "type": "one_time",
 I/flutter ( 4951): ║                             "billingMode": "flat_once",
 I/flutter ( 4951): ║                             "pricingModel": "one_time",
 I/flutter ( 4951): ║                             "billingUnit": "item",
-I/flutter ( 4951): ║                             "ui": {title: Protein Snack, subtitle: , ctaLabel: Add, badge: One-time add-on}
+I/flutter ( 4951): ║                             "ui": {title: سناك بروتين, subtitle: , ctaLabel: أضف, badge: إضافة مرة واحدة}
 I/flutter ( 4951): ║                        }
 I/flutter ( 4951): ║                     ],
 I/flutter ( 4951): ║                     "juice": [
 I/flutter ( 4951): ║                        {
 I/flutter ( 4951): ║                             "id": "6a522fa8b3fb649917aee87e",
-I/flutter ( 4951): ║                             "name": "Mango Juice",
+I/flutter ( 4951): ║                             "name": "عصير مانجو",
 I/flutter ( 4951): ║                             "description": "",
 I/flutter ( 4951): ║                             "imageUrl": "",
 I/flutter ( 4951): ║                             "currency": "SAR",
@@ -5986,11 +6181,11 @@ I/flutter ( 4951): ║                             "type": "one_time",
 I/flutter ( 4951): ║                             "billingMode": "flat_once",
 I/flutter ( 4951): ║                             "pricingModel": "one_time",
 I/flutter ( 4951): ║                             "billingUnit": "item",
-I/flutter ( 4951): ║                             "ui": {title: Mango Juice, subtitle: , ctaLabel: Add, badge: One-time add-on}
+I/flutter ( 4951): ║                             "ui": {title: عصير مانجو, subtitle: , ctaLabel: أضف, badge: إضافة مرة واحدة}
 I/flutter ( 4951): ║                        },
 I/flutter ( 4951): ║                        {
 I/flutter ( 4951): ║                             "id": "6a522fa7b3fb649917aee87b",
-I/flutter ( 4951): ║                             "name": "Apple Juice",
+I/flutter ( 4951): ║                             "name": "عصير تفاح",
 I/flutter ( 4951): ║                             "description": "",
 I/flutter ( 4951): ║                             "imageUrl": "",
 I/flutter ( 4951): ║                             "currency": "SAR",
@@ -6003,11 +6198,11 @@ I/flutter ( 4951): ║                             "type": "one_time",
 I/flutter ( 4951): ║                             "billingMode": "flat_once",
 I/flutter ( 4951): ║                             "pricingModel": "one_time",
 I/flutter ( 4951): ║                             "billingUnit": "item",
-I/flutter ( 4951): ║                             "ui": {title: Apple Juice, subtitle: , ctaLabel: Add, badge: One-time add-on}
+I/flutter ( 4951): ║                             "ui": {title: عصير تفاح, subtitle: , ctaLabel: أضف, badge: إضافة مرة واحدة}
 I/flutter ( 4951): ║                        },
 I/flutter ( 4951): ║                        {
 I/flutter ( 4951): ║                             "id": "6a522fa7b3fb649917aee878",
-I/flutter ( 4951): ║                             "name": "Orange Juice",
+I/flutter ( 4951): ║                             "name": "عصير برتقال",
 I/flutter ( 4951): ║                             "description": "",
 I/flutter ( 4951): ║                             "imageUrl": "",
 I/flutter ( 4951): ║                             "currency": "SAR",
@@ -6020,7 +6215,7 @@ I/flutter ( 4951): ║                             "type": "one_time",
 I/flutter ( 4951): ║                             "billingMode": "flat_once",
 I/flutter ( 4951): ║                             "pricingModel": "one_time",
 I/flutter ( 4951): ║                             "billingUnit": "item",
-I/flutter ( 4951): ║                             "ui": {title: Orange Juice, subtitle: , ctaLabel: Add, badge: One-time add-on}
+I/flutter ( 4951): ║                             "ui": {title: عصير برتقال, subtitle: , ctaLabel: أضف, badge: إضافة مرة واحدة}
 I/flutter ( 4951): ║                        }
 I/flutter ( 4951): ║                     ]
 I/flutter ( 4951): ║                }
@@ -6208,7 +6403,7 @@ I/flutter ( 4951): ║                    {
 I/flutter ( 4951): ║                         "id": "section:standard_meal",
 I/flutter ( 4951): ║                         "key": "standard_meal",
 I/flutter ( 4951): ║                         "type": "meal_builder",
-I/flutter ( 4951): ║                         "name": "Standard Meal",
+I/flutter ( 4951): ║                         "name": "وجبة عادية",
 I/flutter ( 4951): ║                         "ui": {cardVariant: standard},
 I/flutter ( 4951): ║                         "products": [
 I/flutter ( 4951): ║                            {
@@ -6224,7 +6419,7 @@ I/flutter ( 4951): ║                                         "id": "6a522e5cb3
 I/flutter ( 4951): ║                                         "groupId": "6a522e5cb3fb649917aee272"
 I/flutter ( 4951): ║                                         "key": "protein",
 I/flutter ( 4951): ║                                         "sourceKey": "proteins",
-I/flutter ( 4951): ║                                         "name": "Proteins",
+I/flutter ( 4951): ║                                         "name": "بروتينات",
 I/flutter ( 4951): ║                                         "nameI18n": {ar: بروتينات, en: Proteins},
 I/flutter ( 4951): ║                                         "minSelections": 1,
 I/flutter ( 4951): ║                                         "maxSelections": 1,
@@ -6239,7 +6434,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e5cb3fb649917aee275"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e5cb3fb649917aee275"
 I/flutter ( 4951): ║                                                 "key": "chicken"
-I/flutter ( 4951): ║                                                 "name": "Chicken"
+I/flutter ( 4951): ║                                                 "name": "دجاج"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: دجاج, en: Chicken},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -6257,7 +6452,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e5db3fb649917aee278"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e5db3fb649917aee278"
 I/flutter ( 4951): ║                                                 "key": "beef"
-I/flutter ( 4951): ║                                                 "name": "Beef"
+I/flutter ( 4951): ║                                                 "name": "لحم"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: لحم, en: Beef},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -6275,7 +6470,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e5eb3fb649917aee27b"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e5eb3fb649917aee27b"
 I/flutter ( 4951): ║                                                 "key": "fish"
-I/flutter ( 4951): ║                                                 "name": "Fish"
+I/flutter ( 4951): ║                                                 "name": "سمك"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: سمك, en: Fish},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -6293,7 +6488,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e5fb3fb649917aee27e"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e5fb3fb649917aee27e"
 I/flutter ( 4951): ║                                                 "key": "eggs"
-I/flutter ( 4951): ║                                                 "name": "Eggs"
+I/flutter ( 4951): ║                                                 "name": "بيض"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: بيض, en: Eggs},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -6311,7 +6506,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e62b3fb649917aee28a"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e62b3fb649917aee28a"
 I/flutter ( 4951): ║                                                 "key": "qa_premium_protein"
-I/flutter ( 4951): ║                                                 "name": "QA Premium Protein (Safe to Mutate)"
+I/flutter ( 4951): ║                                                 "name": "بروتين فحص الجودة آمن للتعديل"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: بروتين فحص الجودة آمن للتعديل, en: QA Premium Protein (Safe to Mutate)},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -6329,7 +6524,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e62b3fb649917aee28d"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e62b3fb649917aee28d"
 I/flutter ( 4951): ║                                                 "key": "boiled_eggs"
-I/flutter ( 4951): ║                                                 "name": "Boiled Eggs"
+I/flutter ( 4951): ║                                                 "name": "بيض مسلوق"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: بيض مسلوق, en: Boiled Eggs},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -6347,7 +6542,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e63b3fb649917aee290"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e63b3fb649917aee290"
 I/flutter ( 4951): ║                                                 "key": "tuna"
-I/flutter ( 4951): ║                                                 "name": "Tuna"
+I/flutter ( 4951): ║                                                 "name": "تونا"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: تونا, en: Tuna},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -6365,7 +6560,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e64b3fb649917aee296"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e64b3fb649917aee296"
 I/flutter ( 4951): ║                                                 "key": "spicy_chicken"
-I/flutter ( 4951): ║                                                 "name": "Spicy Chicken"
+I/flutter ( 4951): ║                                                 "name": "دجاج سبايسي"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: دجاج سبايسي, en: Spicy Chicken},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -6383,7 +6578,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e65b3fb649917aee299"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e65b3fb649917aee299"
 I/flutter ( 4951): ║                                                 "key": "italian_spiced_chicken"
-I/flutter ( 4951): ║                                                 "name": "Italian Spiced Chicken"
+I/flutter ( 4951): ║                                                 "name": "دجاج توابل إيطالية"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: دجاج توابل إيطالية, en: Italian Spiced Chicken},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -6401,7 +6596,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e66b3fb649917aee29c"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e66b3fb649917aee29c"
 I/flutter ( 4951): ║                                                 "key": "chicken_tikka"
-I/flutter ( 4951): ║                                                 "name": "Chicken Tikka"
+I/flutter ( 4951): ║                                                 "name": "دجاج تكا"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: دجاج تكا, en: Chicken Tikka},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -6419,7 +6614,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e67b3fb649917aee29f"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e67b3fb649917aee29f"
 I/flutter ( 4951): ║                                                 "key": "asian_chicken"
-I/flutter ( 4951): ║                                                 "name": "Asian Chicken"
+I/flutter ( 4951): ║                                                 "name": "دجاج آسيوي"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: دجاج آسيوي, en: Asian Chicken},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -6437,7 +6632,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e67b3fb649917aee2a2"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e67b3fb649917aee2a2"
 I/flutter ( 4951): ║                                                 "key": "chicken_strips"
-I/flutter ( 4951): ║                                                 "name": "Chicken Strips"
+I/flutter ( 4951): ║                                                 "name": "استربس"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: استربس, en: Chicken Strips},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -6455,7 +6650,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e68b3fb649917aee2a5"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e68b3fb649917aee2a5"
 I/flutter ( 4951): ║                                                 "key": "grilled_chicken"
-I/flutter ( 4951): ║                                                 "name": "Grilled Chicken"
+I/flutter ( 4951): ║                                                 "name": "دجاج مشوي"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: دجاج مشوي, en: Grilled Chicken},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -6473,7 +6668,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e6ab3fb649917aee2a8"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e6ab3fb649917aee2a8"
 I/flutter ( 4951): ║                                                 "key": "mexican_chicken"
-I/flutter ( 4951): ║                                                 "name": "Mexican Chicken"
+I/flutter ( 4951): ║                                                 "name": "دجاج مكسيكي"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: دجاج مكسيكي, en: Mexican Chicken},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -6491,7 +6686,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e6ab3fb649917aee2ab"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e6ab3fb649917aee2ab"
 I/flutter ( 4951): ║                                                 "key": "meatballs"
-I/flutter ( 4951): ║                                                 "name": "Meatballs"
+I/flutter ( 4951): ║                                                 "name": "كرات لحم"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: كرات لحم, en: Meatballs},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -6509,7 +6704,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e6bb3fb649917aee2ae"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e6bb3fb649917aee2ae"
 I/flutter ( 4951): ║                                                 "key": "beef_stroganoff"
-I/flutter ( 4951): ║                                                 "name": "Beef Stroganoff"
+I/flutter ( 4951): ║                                                 "name": "لحم استرغانوف"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: لحم استرغانوف, en: Beef Stroganoff},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -6527,7 +6722,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e6cb3fb649917aee2b1"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e6cb3fb649917aee2b1"
 I/flutter ( 4951): ║                                                 "key": "fish_fillet"
-I/flutter ( 4951): ║                                                 "name": "Fish Fillet"
+I/flutter ( 4951): ║                                                 "name": "سمك فيليه"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: سمك فيليه, en: Fish Fillet},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -6545,7 +6740,7 @@ I/flutter ( 4951): ║                                         ],
 I/flutter ( 4951): ║                                         "optionSections": [
 I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "key": "chicken"
-I/flutter ( 4951): ║                                                 "name": "Chicken"
+I/flutter ( 4951): ║                                                 "name": "دجاج"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: دجاج, en: Chicken},
 I/flutter ( 4951): ║                                                 "optionKeys": [
 I/flutter ( 4951): ║                                                         chicken,
@@ -6570,7 +6765,7 @@ I/flutter ( 4951): ║                                                 ]
 I/flutter ( 4951): ║                                            },
 I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "key": "beef"
-I/flutter ( 4951): ║                                                 "name": "Beef"
+I/flutter ( 4951): ║                                                 "name": "لحم"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: لحم, en: Beef},
 I/flutter ( 4951): ║                                                 "optionKeys": [beef, qa_premium_protein, meatballs, beef_stroganoff]
 I/flutter ( 4951): ║                                                 "optionIds": [
@@ -6582,14 +6777,14 @@ I/flutter ( 4951): ║                                                 ]
 I/flutter ( 4951): ║                                            },
 I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "key": "fish"
-I/flutter ( 4951): ║                                                 "name": "Fish"
+I/flutter ( 4951): ║                                                 "name": "سمك"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: سمك, en: Fish},
 I/flutter ( 4951): ║                                                 "optionKeys": [fish, tuna, fish_fillet]
 I/flutter ( 4951): ║                                                 "optionIds": [6a522e5eb3fb649917aee27b, 6a522e63b3fb649917aee290, 6a522e6cb3fb649917aee2b1]
 I/flutter ( 4951): ║                                            },
 I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "key": "eggs"
-I/flutter ( 4951): ║                                                 "name": "Eggs"
+I/flutter ( 4951): ║                                                 "name": "بيض"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: بيض, en: Eggs},
 I/flutter ( 4951): ║                                                 "optionKeys": [eggs, boiled_eggs]
 I/flutter ( 4951): ║                                                 "optionIds": [6a522e5fb3fb649917aee27e, 6a522e62b3fb649917aee28d]
@@ -6601,7 +6796,7 @@ I/flutter ( 4951): ║                                         "id": "6a522e6cb3
 I/flutter ( 4951): ║                                         "groupId": "6a522e6cb3fb649917aee2b4"
 I/flutter ( 4951): ║                                         "key": "carb",
 I/flutter ( 4951): ║                                         "sourceKey": "carbs",
-I/flutter ( 4951): ║                                         "name": "Carbs",
+I/flutter ( 4951): ║                                         "name": "كارب",
 I/flutter ( 4951): ║                                         "nameI18n": {ar: كارب, en: Carbs},
 I/flutter ( 4951): ║                                         "minSelections": 1,
 I/flutter ( 4951): ║                                         "maxSelections": 2,
@@ -6614,7 +6809,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e6db3fb649917aee2b7"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e6db3fb649917aee2b7"
 I/flutter ( 4951): ║                                                 "key": "white_rice"
-I/flutter ( 4951): ║                                                 "name": "White Rice"
+I/flutter ( 4951): ║                                                 "name": "رز أبيض"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: رز أبيض, en: White Rice},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -6631,7 +6826,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e6db3fb649917aee2ba"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e6db3fb649917aee2ba"
 I/flutter ( 4951): ║                                                 "key": "turmeric_rice"
-I/flutter ( 4951): ║                                                 "name": "Turmeric Rice"
+I/flutter ( 4951): ║                                                 "name": "رز بالكركم"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: رز بالكركم, en: Turmeric Rice},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -6648,7 +6843,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e6eb3fb649917aee2bd"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e6eb3fb649917aee2bd"
 I/flutter ( 4951): ║                                                 "key": "alfredo_pasta"
-I/flutter ( 4951): ║                                                 "name": "Alfredo Pasta"
+I/flutter ( 4951): ║                                                 "name": "باستا الفريدو"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: باستا الفريدو, en: Alfredo Pasta},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -6665,7 +6860,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e6fb3fb649917aee2c0"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e6fb3fb649917aee2c0"
 I/flutter ( 4951): ║                                                 "key": "red_sauce_pasta"
-I/flutter ( 4951): ║                                                 "name": "Red Sauce Pasta"
+I/flutter ( 4951): ║                                                 "name": "باستا صوص احمر"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: باستا صوص احمر, en: Red Sauce Pasta},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -6682,7 +6877,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e6fb3fb649917aee2c3"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e6fb3fb649917aee2c3"
 I/flutter ( 4951): ║                                                 "key": "roasted_potato"
-I/flutter ( 4951): ║                                                 "name": "Roasted Potato"
+I/flutter ( 4951): ║                                                 "name": "بطاطا مشوية"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: بطاطا مشوية, en: Roasted Potato},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -6699,7 +6894,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e70b3fb649917aee2c6"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e70b3fb649917aee2c6"
 I/flutter ( 4951): ║                                                 "key": "sweet_potato"
-I/flutter ( 4951): ║                                                 "name": "Sweet Potato"
+I/flutter ( 4951): ║                                                 "name": "بطاطا حلوة"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: بطاطا حلوة, en: Sweet Potato},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -6716,7 +6911,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e70b3fb649917aee2c9"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e70b3fb649917aee2c9"
 I/flutter ( 4951): ║                                                 "key": "grilled_mixed_vegetables"
-I/flutter ( 4951): ║                                                 "name": "Grilled Mixed Vegetables"
+I/flutter ( 4951): ║                                                 "name": "خضار مشكلة مشوية"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: خضار مشكلة مشوية, en: Grilled Mixed Vegetables},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -6739,7 +6934,7 @@ I/flutter ( 4951): ║                    {
 I/flutter ( 4951): ║                         "id": "section:premium_meal",
 I/flutter ( 4951): ║                         "key": "premium_meal",
 I/flutter ( 4951): ║                         "type": "meal_builder",
-I/flutter ( 4951): ║                         "name": "Premium Meal",
+I/flutter ( 4951): ║                         "name": "وجبة مميزة",
 I/flutter ( 4951): ║                         "ui": {cardVariant: premium},
 I/flutter ( 4951): ║                         "products": [
 I/flutter ( 4951): ║                            {
@@ -6755,7 +6950,7 @@ I/flutter ( 4951): ║                                         "id": "6a522e5cb3
 I/flutter ( 4951): ║                                         "groupId": "6a522e5cb3fb649917aee272"
 I/flutter ( 4951): ║                                         "key": "protein",
 I/flutter ( 4951): ║                                         "sourceKey": "proteins",
-I/flutter ( 4951): ║                                         "name": "Proteins",
+I/flutter ( 4951): ║                                         "name": "بروتينات",
 I/flutter ( 4951): ║                                         "nameI18n": {ar: بروتينات, en: Proteins},
 I/flutter ( 4951): ║                                         "minSelections": 1,
 I/flutter ( 4951): ║                                         "maxSelections": 1,
@@ -6765,50 +6960,10 @@ I/flutter ( 4951): ║                                         "ui": {displaySty
 I/flutter ( 4951): ║                                         "rules": {},
 I/flutter ( 4951): ║                                         "options": [
 I/flutter ( 4951): ║                                            {
-I/flutter ( 4951): ║                                                 "id": "6a522e5fb3fb649917aee281"
-I/flutter ( 4951): ║                                                 "optionId": "6a522e5fb3fb649917aee281"
-I/flutter ( 4951): ║                                                 "key": "beef_steak"
-I/flutter ( 4951): ║                                                 "name": "Beef Steak"
-I/flutter ( 4951): ║                                                 "nameI18n": {ar: ستيك لحم, en: Beef Steak},
-I/flutter ( 4951): ║                                                 "description": ""
-I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
-I/flutter ( 4951): ║                                                 "imageUrl": ""
-I/flutter ( 4951): ║                                                 "sortOrder": 0
-I/flutter ( 4951): ║                                                 "displayCategoryKey": "premium"
-I/flutter ( 4951): ║                                                 "proteinFamilyKey": "premium"
-I/flutter ( 4951): ║                                                 "proteinFamilyNameI18n": {ar: بريميوم, en: Premium},
-I/flutter ( 4951): ║                                                 "premiumKey": "beef_steak"
-I/flutter ( 4951): ║                                                 "extraFeeHalala": 2000
-I/flutter ( 4951): ║                                                 "extraPriceHalala": 2000
-I/flutter ( 4951): ║                                                 "selectionType": "premium_meal"
-I/flutter ( 4951): ║                                                 "isPremium": true
-I/flutter ( 4951): ║                                                 "ui": {}
-I/flutter ( 4951): ║                                            },
-I/flutter ( 4951): ║                                            {
-I/flutter ( 4951): ║                                                 "id": "6a522e61b3fb649917aee287"
-I/flutter ( 4951): ║                                                 "optionId": "6a522e61b3fb649917aee287"
-I/flutter ( 4951): ║                                                 "key": "salmon"
-I/flutter ( 4951): ║                                                 "name": "Salmon"
-I/flutter ( 4951): ║                                                 "nameI18n": {ar: سالمون, en: Salmon},
-I/flutter ( 4951): ║                                                 "description": ""
-I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
-I/flutter ( 4951): ║                                                 "imageUrl": ""
-I/flutter ( 4951): ║                                                 "sortOrder": 0
-I/flutter ( 4951): ║                                                 "displayCategoryKey": "premium"
-I/flutter ( 4951): ║                                                 "proteinFamilyKey": "premium"
-I/flutter ( 4951): ║                                                 "proteinFamilyNameI18n": {ar: بريميوم, en: Premium},
-I/flutter ( 4951): ║                                                 "premiumKey": "salmon"
-I/flutter ( 4951): ║                                                 "extraFeeHalala": 2000
-I/flutter ( 4951): ║                                                 "extraPriceHalala": 2000
-I/flutter ( 4951): ║                                                 "selectionType": "premium_meal"
-I/flutter ( 4951): ║                                                 "isPremium": true
-I/flutter ( 4951): ║                                                 "ui": {}
-I/flutter ( 4951): ║                                            },
-I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e60b3fb649917aee284"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e60b3fb649917aee284"
 I/flutter ( 4951): ║                                                 "key": "shrimp"
-I/flutter ( 4951): ║                                                 "name": "Shrimp"
+I/flutter ( 4951): ║                                                 "name": "جمبري"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: جمبري, en: Shrimp},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -6825,10 +6980,50 @@ I/flutter ( 4951): ║                                                 "isPremiu
 I/flutter ( 4951): ║                                                 "ui": {}
 I/flutter ( 4951): ║                                            },
 I/flutter ( 4951): ║                                            {
+I/flutter ( 4951): ║                                                 "id": "6a522e61b3fb649917aee287"
+I/flutter ( 4951): ║                                                 "optionId": "6a522e61b3fb649917aee287"
+I/flutter ( 4951): ║                                                 "key": "salmon"
+I/flutter ( 4951): ║                                                 "name": "سالمون"
+I/flutter ( 4951): ║                                                 "nameI18n": {ar: سالمون, en: Salmon},
+I/flutter ( 4951): ║                                                 "description": ""
+I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
+I/flutter ( 4951): ║                                                 "imageUrl": ""
+I/flutter ( 4951): ║                                                 "sortOrder": 0
+I/flutter ( 4951): ║                                                 "displayCategoryKey": "premium"
+I/flutter ( 4951): ║                                                 "proteinFamilyKey": "premium"
+I/flutter ( 4951): ║                                                 "proteinFamilyNameI18n": {ar: بريميوم, en: Premium},
+I/flutter ( 4951): ║                                                 "premiumKey": "salmon"
+I/flutter ( 4951): ║                                                 "extraFeeHalala": 2000
+I/flutter ( 4951): ║                                                 "extraPriceHalala": 2000
+I/flutter ( 4951): ║                                                 "selectionType": "premium_meal"
+I/flutter ( 4951): ║                                                 "isPremium": true
+I/flutter ( 4951): ║                                                 "ui": {}
+I/flutter ( 4951): ║                                            },
+I/flutter ( 4951): ║                                            {
+I/flutter ( 4951): ║                                                 "id": "6a522e5fb3fb649917aee281"
+I/flutter ( 4951): ║                                                 "optionId": "6a522e5fb3fb649917aee281"
+I/flutter ( 4951): ║                                                 "key": "beef_steak"
+I/flutter ( 4951): ║                                                 "name": "ستيك لحم"
+I/flutter ( 4951): ║                                                 "nameI18n": {ar: ستيك لحم, en: Beef Steak},
+I/flutter ( 4951): ║                                                 "description": ""
+I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
+I/flutter ( 4951): ║                                                 "imageUrl": ""
+I/flutter ( 4951): ║                                                 "sortOrder": 0
+I/flutter ( 4951): ║                                                 "displayCategoryKey": "premium"
+I/flutter ( 4951): ║                                                 "proteinFamilyKey": "premium"
+I/flutter ( 4951): ║                                                 "proteinFamilyNameI18n": {ar: بريميوم, en: Premium},
+I/flutter ( 4951): ║                                                 "premiumKey": "beef_steak"
+I/flutter ( 4951): ║                                                 "extraFeeHalala": 2000
+I/flutter ( 4951): ║                                                 "extraPriceHalala": 2000
+I/flutter ( 4951): ║                                                 "selectionType": "premium_meal"
+I/flutter ( 4951): ║                                                 "isPremium": true
+I/flutter ( 4951): ║                                                 "ui": {}
+I/flutter ( 4951): ║                                            },
+I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e64b3fb649917aee293"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e64b3fb649917aee293"
 I/flutter ( 4951): ║                                                 "key": "chicken_fajita"
-I/flutter ( 4951): ║                                                 "name": "Chicken Fajita"
+I/flutter ( 4951): ║                                                 "name": "فاهيتا"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: فاهيتا, en: Chicken Fajita},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -6848,13 +7043,13 @@ I/flutter ( 4951): ║                                         ],
 I/flutter ( 4951): ║                                         "optionSections": [
 I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "key": "premium"
-I/flutter ( 4951): ║                                                 "name": "Premium"
+I/flutter ( 4951): ║                                                 "name": "بريميوم"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: بريميوم, en: Premium},
-I/flutter ( 4951): ║                                                 "optionKeys": [beef_steak, salmon, shrimp, chicken_fajita]
+I/flutter ( 4951): ║                                                 "optionKeys": [shrimp, salmon, beef_steak, chicken_fajita]
 I/flutter ( 4951): ║                                                 "optionIds": [
-I/flutter ( 4951): ║                                                         6a522e5fb3fb649917aee281,
-I/flutter ( 4951): ║                                                         6a522e61b3fb649917aee287,
 I/flutter ( 4951): ║                                                         6a522e60b3fb649917aee284,
+I/flutter ( 4951): ║                                                         6a522e61b3fb649917aee287,
+I/flutter ( 4951): ║                                                         6a522e5fb3fb649917aee281,
 I/flutter ( 4951): ║                                                         6a522e64b3fb649917aee293
 I/flutter ( 4951): ║                                                 ]
 I/flutter ( 4951): ║                                            }
@@ -6865,7 +7060,7 @@ I/flutter ( 4951): ║                                         "id": "6a522e6cb3
 I/flutter ( 4951): ║                                         "groupId": "6a522e6cb3fb649917aee2b4"
 I/flutter ( 4951): ║                                         "key": "carb",
 I/flutter ( 4951): ║                                         "sourceKey": "carbs",
-I/flutter ( 4951): ║                                         "name": "Carbs",
+I/flutter ( 4951): ║                                         "name": "كارب",
 I/flutter ( 4951): ║                                         "nameI18n": {ar: كارب, en: Carbs},
 I/flutter ( 4951): ║                                         "minSelections": 1,
 I/flutter ( 4951): ║                                         "maxSelections": 2,
@@ -6878,7 +7073,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e6db3fb649917aee2b7"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e6db3fb649917aee2b7"
 I/flutter ( 4951): ║                                                 "key": "white_rice"
-I/flutter ( 4951): ║                                                 "name": "White Rice"
+I/flutter ( 4951): ║                                                 "name": "رز أبيض"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: رز أبيض, en: White Rice},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -6895,7 +7090,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e6db3fb649917aee2ba"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e6db3fb649917aee2ba"
 I/flutter ( 4951): ║                                                 "key": "turmeric_rice"
-I/flutter ( 4951): ║                                                 "name": "Turmeric Rice"
+I/flutter ( 4951): ║                                                 "name": "رز بالكركم"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: رز بالكركم, en: Turmeric Rice},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -6912,7 +7107,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e6eb3fb649917aee2bd"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e6eb3fb649917aee2bd"
 I/flutter ( 4951): ║                                                 "key": "alfredo_pasta"
-I/flutter ( 4951): ║                                                 "name": "Alfredo Pasta"
+I/flutter ( 4951): ║                                                 "name": "باستا الفريدو"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: باستا الفريدو, en: Alfredo Pasta},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -6929,7 +7124,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e6fb3fb649917aee2c0"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e6fb3fb649917aee2c0"
 I/flutter ( 4951): ║                                                 "key": "red_sauce_pasta"
-I/flutter ( 4951): ║                                                 "name": "Red Sauce Pasta"
+I/flutter ( 4951): ║                                                 "name": "باستا صوص احمر"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: باستا صوص احمر, en: Red Sauce Pasta},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -6946,7 +7141,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e6fb3fb649917aee2c3"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e6fb3fb649917aee2c3"
 I/flutter ( 4951): ║                                                 "key": "roasted_potato"
-I/flutter ( 4951): ║                                                 "name": "Roasted Potato"
+I/flutter ( 4951): ║                                                 "name": "بطاطا مشوية"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: بطاطا مشوية, en: Roasted Potato},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -6963,7 +7158,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e70b3fb649917aee2c6"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e70b3fb649917aee2c6"
 I/flutter ( 4951): ║                                                 "key": "sweet_potato"
-I/flutter ( 4951): ║                                                 "name": "Sweet Potato"
+I/flutter ( 4951): ║                                                 "name": "بطاطا حلوة"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: بطاطا حلوة, en: Sweet Potato},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -6980,7 +7175,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e70b3fb649917aee2c9"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e70b3fb649917aee2c9"
 I/flutter ( 4951): ║                                                 "key": "grilled_mixed_vegetables"
-I/flutter ( 4951): ║                                                 "name": "Grilled Mixed Vegetables"
+I/flutter ( 4951): ║                                                 "name": "خضار مشكلة مشوية"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: خضار مشكلة مشوية, en: Grilled Mixed Vegetables},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -7003,7 +7198,7 @@ I/flutter ( 4951): ║                    {
 I/flutter ( 4951): ║                         "id": "section:sandwich",
 I/flutter ( 4951): ║                         "key": "sandwich",
 I/flutter ( 4951): ║                         "type": "product_list",
-I/flutter ( 4951): ║                         "name": "Sandwiches",
+I/flutter ( 4951): ║                         "name": "ساندويتشات",
 I/flutter ( 4951): ║                         "ui": {cardVariant: standard},
 I/flutter ( 4951): ║                         "products": [
 I/flutter ( 4951): ║                            {
@@ -7012,7 +7207,7 @@ I/flutter ( 4951): ║                                 "key": "chicken_sandwich"
 I/flutter ( 4951): ║                                 "type": "menu_product",
 I/flutter ( 4951): ║                                 "isVirtual": false,
 I/flutter ( 4951): ║                                 "selectionType": "sandwich",
-I/flutter ( 4951): ║                                 "name": "Chicken Sandwich",
+I/flutter ( 4951): ║                                 "name": "ساندويتش دجاج",
 I/flutter ( 4951): ║                                 "nameI18n": {ar: ساندويتش دجاج, en: Chicken Sandwich},
 I/flutter ( 4951): ║                                 "description": "",
 I/flutter ( 4951): ║                                 "descriptionI18n": {ar: , en: },
@@ -7031,10 +7226,12 @@ I/flutter ( 4951): ║                                 "key": "beef_burger_sandw
 I/flutter ( 4951): ║                                 "type": "menu_product",
 I/flutter ( 4951): ║                                 "isVirtual": false,
 I/flutter ( 4951): ║                                 "selectionType": "sandwich",
-I/flutter ( 4951): ║                                 "name": "Beef Burger",
+I/flutter ( 4951): ║                                 "name": "برجر لحم",
 I/flutter ( 4951): ║                                 "nameI18n": {ar: برجر لحم, en: Beef Burger},
-I/flutter ( 4951): ║                                 "description": "Juicy grilled beef patty in a healthy burger bun with fre
-I/flutter ( 4951): ║                                  sh vegetables and fat-free cheese."
+I/flutter ( 4951): ║                                 "description": "شريحة لحم مشوية وغنية بالعصارة، داخل خبز البرجر الصحي مع
+I/flutter ( 4951): ║                                  الخضار الطازجة والجبن الخالي من الدسم. الوجبة المثالية لتس
+I/flutter ( 4951): ║                                  تمتع بطعم البرجر الكلاسيكي وتحافظ على نظامك الصحي في نفس ا
+I/flutter ( 4951): ║                                  لوقت."
 I/flutter ( 4951): ║                                 "descriptionI18n": {
 I/flutter ( 4951): ║                                     "ar": "شريحة لحم مشوية وغنية بالعصارة، داخل خبز البرجر الصحي
 I/flutter ( 4951): ║                                       مع الخضار الطازجة والجبن الخالي من الدسم. الوجبة المث
@@ -7058,7 +7255,7 @@ I/flutter ( 4951): ║                                 "key": "turkey_cold_sandw
 I/flutter ( 4951): ║                                 "type": "menu_product",
 I/flutter ( 4951): ║                                 "isVirtual": false,
 I/flutter ( 4951): ║                                 "selectionType": "sandwich",
-I/flutter ( 4951): ║                                 "name": "Turkey",
+I/flutter ( 4951): ║                                 "name": "تركي",
 I/flutter ( 4951): ║                                 "nameI18n": {ar: تركي, en: Turkey},
 I/flutter ( 4951): ║                                 "description": "",
 I/flutter ( 4951): ║                                 "descriptionI18n": {ar: , en: },
@@ -7079,7 +7276,7 @@ I/flutter ( 4951): ║                                 "key": "boiled_egg_cold_s
 I/flutter ( 4951): ║                                 "type": "menu_product",
 I/flutter ( 4951): ║                                 "isVirtual": false,
 I/flutter ( 4951): ║                                 "selectionType": "sandwich",
-I/flutter ( 4951): ║                                 "name": "Boiled Egg",
+I/flutter ( 4951): ║                                 "name": "بيض مسلوق",
 I/flutter ( 4951): ║                                 "nameI18n": {ar: بيض مسلوق, en: Boiled Egg},
 I/flutter ( 4951): ║                                 "description": "",
 I/flutter ( 4951): ║                                 "descriptionI18n": {ar: , en: },
@@ -7100,7 +7297,7 @@ I/flutter ( 4951): ║                                 "key": "tuna_cold_sandwic
 I/flutter ( 4951): ║                                 "type": "menu_product",
 I/flutter ( 4951): ║                                 "isVirtual": false,
 I/flutter ( 4951): ║                                 "selectionType": "sandwich",
-I/flutter ( 4951): ║                                 "name": "Tuna",
+I/flutter ( 4951): ║                                 "name": "تونا",
 I/flutter ( 4951): ║                                 "nameI18n": {ar: تونا, en: Tuna},
 I/flutter ( 4951): ║                                 "description": "",
 I/flutter ( 4951): ║                                 "descriptionI18n": {ar: , en: },
@@ -7121,7 +7318,7 @@ I/flutter ( 4951): ║                                 "key": "scrambled_egg_col
 I/flutter ( 4951): ║                                 "type": "menu_product",
 I/flutter ( 4951): ║                                 "isVirtual": false,
 I/flutter ( 4951): ║                                 "selectionType": "sandwich",
-I/flutter ( 4951): ║                                 "name": "Scrambled Egg",
+I/flutter ( 4951): ║                                 "name": "بيض مخفوق",
 I/flutter ( 4951): ║                                 "nameI18n": {ar: بيض مخفوق, en: Scrambled Egg},
 I/flutter ( 4951): ║                                 "description": "",
 I/flutter ( 4951): ║                                 "descriptionI18n": {ar: , en: },
@@ -7142,7 +7339,7 @@ I/flutter ( 4951): ║                                 "key": "classic_halloumi_
 I/flutter ( 4951): ║                                 "type": "menu_product",
 I/flutter ( 4951): ║                                 "isVirtual": false,
 I/flutter ( 4951): ║                                 "selectionType": "sandwich",
-I/flutter ( 4951): ║                                 "name": "Classic Halloumi",
+I/flutter ( 4951): ║                                 "name": "حلوم كلاسيك",
 I/flutter ( 4951): ║                                 "nameI18n": {ar: حلوم كلاسيك, en: Classic Halloumi},
 I/flutter ( 4951): ║                                 "description": "",
 I/flutter ( 4951): ║                                 "descriptionI18n": {ar: , en: },
@@ -7163,7 +7360,7 @@ I/flutter ( 4951): ║                                 "key": "chicken_fajita_co
 I/flutter ( 4951): ║                                 "type": "menu_product",
 I/flutter ( 4951): ║                                 "isVirtual": false,
 I/flutter ( 4951): ║                                 "selectionType": "sandwich",
-I/flutter ( 4951): ║                                 "name": "Chicken Fajita",
+I/flutter ( 4951): ║                                 "name": "دجاج فاهيتا",
 I/flutter ( 4951): ║                                 "nameI18n": {ar: دجاج فاهيتا, en: Chicken Fajita},
 I/flutter ( 4951): ║                                 "description": "",
 I/flutter ( 4951): ║                                 "descriptionI18n": {ar: , en: },
@@ -7184,7 +7381,7 @@ I/flutter ( 4951): ║                                 "key": "mexican_chicken_c
 I/flutter ( 4951): ║                                 "type": "menu_product",
 I/flutter ( 4951): ║                                 "isVirtual": false,
 I/flutter ( 4951): ║                                 "selectionType": "sandwich",
-I/flutter ( 4951): ║                                 "name": "Mexican Chicken",
+I/flutter ( 4951): ║                                 "name": "دجاج مكسيكي",
 I/flutter ( 4951): ║                                 "nameI18n": {ar: دجاج مكسيكي, en: Mexican Chicken},
 I/flutter ( 4951): ║                                 "description": "",
 I/flutter ( 4951): ║                                 "descriptionI18n": {ar: , en: },
@@ -7205,7 +7402,7 @@ I/flutter ( 4951): ║                                 "key": "grilled_chicken_c
 I/flutter ( 4951): ║                                 "type": "menu_product",
 I/flutter ( 4951): ║                                 "isVirtual": false,
 I/flutter ( 4951): ║                                 "selectionType": "sandwich",
-I/flutter ( 4951): ║                                 "name": "Grilled Chicken",
+I/flutter ( 4951): ║                                 "name": "دجاج مشوي",
 I/flutter ( 4951): ║                                 "nameI18n": {ar: دجاج مشوي, en: Grilled Chicken},
 I/flutter ( 4951): ║                                 "description": "",
 I/flutter ( 4951): ║                                 "descriptionI18n": {ar: , en: },
@@ -7226,7 +7423,7 @@ I/flutter ( 4951): ║                    {
 I/flutter ( 4951): ║                         "id": "section:premium_large_salad",
 I/flutter ( 4951): ║                         "key": "premium_large_salad",
 I/flutter ( 4951): ║                         "type": "configurable_product",
-I/flutter ( 4951): ║                         "name": "Premium Large Salad",
+I/flutter ( 4951): ║                         "name": "سلطة كبيرة مميزة",
 I/flutter ( 4951): ║                         "ui": {cardVariant: large_salad},
 I/flutter ( 4951): ║                         "products": [
 I/flutter ( 4951): ║                            {
@@ -7235,7 +7432,7 @@ I/flutter ( 4951): ║                                 "key": "premium_large_sal
 I/flutter ( 4951): ║                                 "type": "menu_product",
 I/flutter ( 4951): ║                                 "isVirtual": false,
 I/flutter ( 4951): ║                                 "selectionType": "premium_large_salad",
-I/flutter ( 4951): ║                                 "name": "Premium Large Salad",
+I/flutter ( 4951): ║                                 "name": "سلطة كبيرة مميزة",
 I/flutter ( 4951): ║                                 "nameI18n": {ar: سلطة كبيرة مميزة, en: Premium Large Salad},
 I/flutter ( 4951): ║                                 "description": "",
 I/flutter ( 4951): ║                                 "descriptionI18n": {ar: , en: },
@@ -7252,7 +7449,7 @@ I/flutter ( 4951): ║                                         "id": "6a522e73b3
 I/flutter ( 4951): ║                                         "groupId": "6a522e73b3fb649917aee2d5"
 I/flutter ( 4951): ║                                         "key": "leafy_greens"
 I/flutter ( 4951): ║                                         "sourceKey": "leafy_greens"
-I/flutter ( 4951): ║                                         "name": "Leafy Greens"
+I/flutter ( 4951): ║                                         "name": "ورقيات",
 I/flutter ( 4951): ║                                         "nameI18n": {ar: ورقيات, en: Leafy Greens},
 I/flutter ( 4951): ║                                         "minSelections": 0,
 I/flutter ( 4951): ║                                         "maxSelections": 2,
@@ -7265,7 +7462,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e73b3fb649917aee2d8"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e73b3fb649917aee2d8"
 I/flutter ( 4951): ║                                                 "key": "lettuce"
-I/flutter ( 4951): ║                                                 "name": "Lettuce"
+I/flutter ( 4951): ║                                                 "name": "خس"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: خس, en: Lettuce},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -7283,7 +7480,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e74b3fb649917aee2db"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e74b3fb649917aee2db"
 I/flutter ( 4951): ║                                                 "key": "arugula"
-I/flutter ( 4951): ║                                                 "name": "Arugula"
+I/flutter ( 4951): ║                                                 "name": "جرجير"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: جرجير, en: Arugula},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -7301,7 +7498,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e75b3fb649917aee2de"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e75b3fb649917aee2de"
 I/flutter ( 4951): ║                                                 "key": "cabbage"
-I/flutter ( 4951): ║                                                 "name": "Cabbage"
+I/flutter ( 4951): ║                                                 "name": "ملفوف"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: ملفوف, en: Cabbage},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -7322,7 +7519,7 @@ I/flutter ( 4951): ║                                         "id": "6a522e76b3
 I/flutter ( 4951): ║                                         "groupId": "6a522e76b3fb649917aee2e4"
 I/flutter ( 4951): ║                                         "key": "vegetables"
 I/flutter ( 4951): ║                                         "sourceKey": "vegetables_legumes"
-I/flutter ( 4951): ║                                         "name": "Vegetables"
+I/flutter ( 4951): ║                                         "name": "خضار",
 I/flutter ( 4951): ║                                         "nameI18n": {ar: خضار, en: Vegetables},
 I/flutter ( 4951): ║                                         "minSelections": 0,
 I/flutter ( 4951): ║                                         "maxSelections": 19,
@@ -7335,7 +7532,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e76b3fb649917aee2e7"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e76b3fb649917aee2e7"
 I/flutter ( 4951): ║                                                 "key": "tomato"
-I/flutter ( 4951): ║                                                 "name": "Tomato"
+I/flutter ( 4951): ║                                                 "name": "طماطم"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: طماطم, en: Tomato},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -7353,7 +7550,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e77b3fb649917aee2ea"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e77b3fb649917aee2ea"
 I/flutter ( 4951): ║                                                 "key": "carrot"
-I/flutter ( 4951): ║                                                 "name": "Carrot"
+I/flutter ( 4951): ║                                                 "name": "جزر"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: جزر, en: Carrot},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -7371,7 +7568,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e78b3fb649917aee2ed"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e78b3fb649917aee2ed"
 I/flutter ( 4951): ║                                                 "key": "cucumber"
-I/flutter ( 4951): ║                                                 "name": "Cucumber"
+I/flutter ( 4951): ║                                                 "name": "خيار"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: خيار, en: Cucumber},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -7389,7 +7586,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e78b3fb649917aee2f0"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e78b3fb649917aee2f0"
 I/flutter ( 4951): ║                                                 "key": "corn"
-I/flutter ( 4951): ║                                                 "name": "Corn"
+I/flutter ( 4951): ║                                                 "name": "ذرة"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: ذرة, en: Corn},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -7407,7 +7604,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e79b3fb649917aee2f3"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e79b3fb649917aee2f3"
 I/flutter ( 4951): ║                                                 "key": "hummus"
-I/flutter ( 4951): ║                                                 "name": "Hummus"
+I/flutter ( 4951): ║                                                 "name": "حمص"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: حمص, en: Hummus},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -7425,7 +7622,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e79b3fb649917aee2f6"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e79b3fb649917aee2f6"
 I/flutter ( 4951): ║                                                 "key": "jalapeno"
-I/flutter ( 4951): ║                                                 "name": "Jalapeno"
+I/flutter ( 4951): ║                                                 "name": "هالبينو"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: هالبينو, en: Jalapeno},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -7443,7 +7640,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e7ab3fb649917aee2f9"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e7ab3fb649917aee2f9"
 I/flutter ( 4951): ║                                                 "key": "red_beans"
-I/flutter ( 4951): ║                                                 "name": "Red Beans"
+I/flutter ( 4951): ║                                                 "name": "فاصوليا حمراء"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: فاصوليا حمراء, en: Red Beans},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -7461,7 +7658,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e7bb3fb649917aee2fc"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e7bb3fb649917aee2fc"
 I/flutter ( 4951): ║                                                 "key": "beetroot"
-I/flutter ( 4951): ║                                                 "name": "Beetroot"
+I/flutter ( 4951): ║                                                 "name": "بنجر"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: بنجر, en: Beetroot},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -7479,7 +7676,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e7bb3fb649917aee2ff"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e7bb3fb649917aee2ff"
 I/flutter ( 4951): ║                                                 "key": "hot_pepper"
-I/flutter ( 4951): ║                                                 "name": "Hot Pepper"
+I/flutter ( 4951): ║                                                 "name": "فلفل حار"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: فلفل حار, en: Hot Pepper},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -7497,7 +7694,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e7cb3fb649917aee302"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e7cb3fb649917aee302"
 I/flutter ( 4951): ║                                                 "key": "coriander"
-I/flutter ( 4951): ║                                                 "name": "Coriander"
+I/flutter ( 4951): ║                                                 "name": "كزبرة"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: كزبرة, en: Coriander},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -7515,7 +7712,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e7db3fb649917aee305"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e7db3fb649917aee305"
 I/flutter ( 4951): ║                                                 "key": "mushroom"
-I/flutter ( 4951): ║                                                 "name": "Mushroom"
+I/flutter ( 4951): ║                                                 "name": "فطر"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: فطر, en: Mushroom},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -7533,7 +7730,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e7db3fb649917aee308"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e7db3fb649917aee308"
 I/flutter ( 4951): ║                                                 "key": "broccoli"
-I/flutter ( 4951): ║                                                 "name": "Broccoli"
+I/flutter ( 4951): ║                                                 "name": "بروكلي"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: بروكلي, en: Broccoli},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -7551,7 +7748,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e7eb3fb649917aee30b"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e7eb3fb649917aee30b"
 I/flutter ( 4951): ║                                                 "key": "salad_grilled_mixed_vegetables"
-I/flutter ( 4951): ║                                                 "name": "Grilled Mixed Vegetables"
+I/flutter ( 4951): ║                                                 "name": "خضار مشكل مشوي"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: خضار مشكل مشوي, en: Grilled Mixed Vegetables},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -7569,7 +7766,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e7eb3fb649917aee30e"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e7eb3fb649917aee30e"
 I/flutter ( 4951): ║                                                 "key": "red_onion"
-I/flutter ( 4951): ║                                                 "name": "Red Onion"
+I/flutter ( 4951): ║                                                 "name": "بصل احمر"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: بصل احمر, en: Red Onion},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -7587,7 +7784,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e7fb3fb649917aee311"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e7fb3fb649917aee311"
 I/flutter ( 4951): ║                                                 "key": "green_onion"
-I/flutter ( 4951): ║                                                 "name": "Green Onion"
+I/flutter ( 4951): ║                                                 "name": "بصل اخضر"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: بصل اخضر, en: Green Onion},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -7605,7 +7802,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e80b3fb649917aee314"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e80b3fb649917aee314"
 I/flutter ( 4951): ║                                                 "key": "green_olives"
-I/flutter ( 4951): ║                                                 "name": "Green Olives"
+I/flutter ( 4951): ║                                                 "name": "زيتون اخضر"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: زيتون اخضر, en: Green Olives},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -7623,7 +7820,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e80b3fb649917aee317"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e80b3fb649917aee317"
 I/flutter ( 4951): ║                                                 "key": "black_olives"
-I/flutter ( 4951): ║                                                 "name": "Black Olives"
+I/flutter ( 4951): ║                                                 "name": "زيتون اسود"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: زيتون اسود, en: Black Olives},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -7641,7 +7838,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e81b3fb649917aee31a"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e81b3fb649917aee31a"
 I/flutter ( 4951): ║                                                 "key": "mint"
-I/flutter ( 4951): ║                                                 "name": "Mint"
+I/flutter ( 4951): ║                                                 "name": "نعناع"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: نعناع, en: Mint},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -7659,7 +7856,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e81b3fb649917aee31d"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e81b3fb649917aee31d"
 I/flutter ( 4951): ║                                                 "key": "pickled_onion"
-I/flutter ( 4951): ║                                                 "name": "Pickled Onion"
+I/flutter ( 4951): ║                                                 "name": "بصل مخلل"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: بصل مخلل, en: Pickled Onion},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -7680,7 +7877,7 @@ I/flutter ( 4951): ║                                         "id": "6a522e5cb3
 I/flutter ( 4951): ║                                         "groupId": "6a522e5cb3fb649917aee272"
 I/flutter ( 4951): ║                                         "key": "protein",
 I/flutter ( 4951): ║                                         "sourceKey": "proteins",
-I/flutter ( 4951): ║                                         "name": "Protein",
+I/flutter ( 4951): ║                                         "name": "بروتين",
 I/flutter ( 4951): ║                                         "nameI18n": {ar: بروتين, en: Protein},
 I/flutter ( 4951): ║                                         "minSelections": 1,
 I/flutter ( 4951): ║                                         "maxSelections": 1,
@@ -7693,7 +7890,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e62b3fb649917aee28d"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e62b3fb649917aee28d"
 I/flutter ( 4951): ║                                                 "key": "boiled_eggs"
-I/flutter ( 4951): ║                                                 "name": "Boiled Eggs"
+I/flutter ( 4951): ║                                                 "name": "بيض مسلوق"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: بيض مسلوق, en: Boiled Eggs},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -7713,7 +7910,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e63b3fb649917aee290"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e63b3fb649917aee290"
 I/flutter ( 4951): ║                                                 "key": "tuna"
-I/flutter ( 4951): ║                                                 "name": "Tuna"
+I/flutter ( 4951): ║                                                 "name": "تونا"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: تونا, en: Tuna},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -7733,7 +7930,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e64b3fb649917aee293"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e64b3fb649917aee293"
 I/flutter ( 4951): ║                                                 "key": "chicken_fajita"
-I/flutter ( 4951): ║                                                 "name": "Chicken Fajita"
+I/flutter ( 4951): ║                                                 "name": "فاهيتا"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: فاهيتا, en: Chicken Fajita},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -7753,7 +7950,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e64b3fb649917aee296"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e64b3fb649917aee296"
 I/flutter ( 4951): ║                                                 "key": "spicy_chicken"
-I/flutter ( 4951): ║                                                 "name": "Spicy Chicken"
+I/flutter ( 4951): ║                                                 "name": "دجاج سبايسي"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: دجاج سبايسي, en: Spicy Chicken},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -7773,7 +7970,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e65b3fb649917aee299"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e65b3fb649917aee299"
 I/flutter ( 4951): ║                                                 "key": "italian_spiced_chicken"
-I/flutter ( 4951): ║                                                 "name": "Italian Spiced Chicken"
+I/flutter ( 4951): ║                                                 "name": "دجاج توابل إيطالية"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: دجاج توابل إيطالية, en: Italian Spiced Chicken},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -7793,7 +7990,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e66b3fb649917aee29c"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e66b3fb649917aee29c"
 I/flutter ( 4951): ║                                                 "key": "chicken_tikka"
-I/flutter ( 4951): ║                                                 "name": "Chicken Tikka"
+I/flutter ( 4951): ║                                                 "name": "دجاج تكا"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: دجاج تكا, en: Chicken Tikka},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -7813,7 +8010,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e67b3fb649917aee29f"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e67b3fb649917aee29f"
 I/flutter ( 4951): ║                                                 "key": "asian_chicken"
-I/flutter ( 4951): ║                                                 "name": "Asian Chicken"
+I/flutter ( 4951): ║                                                 "name": "دجاج آسيوي"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: دجاج آسيوي, en: Asian Chicken},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -7833,7 +8030,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e67b3fb649917aee2a2"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e67b3fb649917aee2a2"
 I/flutter ( 4951): ║                                                 "key": "chicken_strips"
-I/flutter ( 4951): ║                                                 "name": "Chicken Strips"
+I/flutter ( 4951): ║                                                 "name": "استربس"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: استربس, en: Chicken Strips},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -7853,7 +8050,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e68b3fb649917aee2a5"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e68b3fb649917aee2a5"
 I/flutter ( 4951): ║                                                 "key": "grilled_chicken"
-I/flutter ( 4951): ║                                                 "name": "Grilled Chicken"
+I/flutter ( 4951): ║                                                 "name": "دجاج مشوي"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: دجاج مشوي, en: Grilled Chicken},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -7873,7 +8070,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e6ab3fb649917aee2a8"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e6ab3fb649917aee2a8"
 I/flutter ( 4951): ║                                                 "key": "mexican_chicken"
-I/flutter ( 4951): ║                                                 "name": "Mexican Chicken"
+I/flutter ( 4951): ║                                                 "name": "دجاج مكسيكي"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: دجاج مكسيكي, en: Mexican Chicken},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -7893,7 +8090,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e6cb3fb649917aee2b1"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e6cb3fb649917aee2b1"
 I/flutter ( 4951): ║                                                 "key": "fish_fillet"
-I/flutter ( 4951): ║                                                 "name": "Fish Fillet"
+I/flutter ( 4951): ║                                                 "name": "سمك فيليه"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: سمك فيليه, en: Fish Fillet},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -7913,7 +8110,7 @@ I/flutter ( 4951): ║                                         ],
 I/flutter ( 4951): ║                                         "optionSections": [
 I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "key": "chicken"
-I/flutter ( 4951): ║                                                 "name": "Chicken"
+I/flutter ( 4951): ║                                                 "name": "دجاج"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: دجاج, en: Chicken},
 I/flutter ( 4951): ║                                                 "optionKeys": [
 I/flutter ( 4951): ║                                                         chicken_fajita,
@@ -7938,14 +8135,14 @@ I/flutter ( 4951): ║                                                 ]
 I/flutter ( 4951): ║                                            },
 I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "key": "fish"
-I/flutter ( 4951): ║                                                 "name": "Fish"
+I/flutter ( 4951): ║                                                 "name": "سمك"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: سمك, en: Fish},
 I/flutter ( 4951): ║                                                 "optionKeys": [tuna, fish_fillet]
 I/flutter ( 4951): ║                                                 "optionIds": [6a522e63b3fb649917aee290, 6a522e6cb3fb649917aee2b1]
 I/flutter ( 4951): ║                                            },
 I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "key": "eggs"
-I/flutter ( 4951): ║                                                 "name": "Eggs"
+I/flutter ( 4951): ║                                                 "name": "بيض"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: بيض, en: Eggs},
 I/flutter ( 4951): ║                                                 "optionKeys": [boiled_eggs]
 I/flutter ( 4951): ║                                                 "optionIds": [6a522e62b3fb649917aee28d]
@@ -7957,7 +8154,7 @@ I/flutter ( 4951): ║                                         "id": "6a522e82b3
 I/flutter ( 4951): ║                                         "groupId": "6a522e82b3fb649917aee320"
 I/flutter ( 4951): ║                                         "key": "cheese_nuts"
 I/flutter ( 4951): ║                                         "sourceKey": "cheese_nuts"
-I/flutter ( 4951): ║                                         "name": "Cheese & Nuts"
+I/flutter ( 4951): ║                                         "name": "أجبان ومكسرات"
 I/flutter ( 4951): ║                                         "nameI18n": {ar: أجبان ومكسرات, en: Cheese & Nuts},
 I/flutter ( 4951): ║                                         "minSelections": 0,
 I/flutter ( 4951): ║                                         "maxSelections": 2,
@@ -7970,7 +8167,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e83b3fb649917aee323"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e83b3fb649917aee323"
 I/flutter ( 4951): ║                                                 "key": "cashew"
-I/flutter ( 4951): ║                                                 "name": "Cashew"
+I/flutter ( 4951): ║                                                 "name": "كاجو"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: كاجو, en: Cashew},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -7988,7 +8185,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e83b3fb649917aee326"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e83b3fb649917aee326"
 I/flutter ( 4951): ║                                                 "key": "walnut"
-I/flutter ( 4951): ║                                                 "name": "Walnut"
+I/flutter ( 4951): ║                                                 "name": "عين الجمل"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: عين الجمل, en: Walnut},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -8006,7 +8203,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e84b3fb649917aee329"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e84b3fb649917aee329"
 I/flutter ( 4951): ║                                                 "key": "sesame"
-I/flutter ( 4951): ║                                                 "name": "Sesame"
+I/flutter ( 4951): ║                                                 "name": "سمسم"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: سمسم, en: Sesame},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -8024,7 +8221,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e84b3fb649917aee32c"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e84b3fb649917aee32c"
 I/flutter ( 4951): ║                                                 "key": "feta"
-I/flutter ( 4951): ║                                                 "name": "Feta"
+I/flutter ( 4951): ║                                                 "name": "فيتا"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: فيتا, en: Feta},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -8042,7 +8239,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e85b3fb649917aee32f"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e85b3fb649917aee32f"
 I/flutter ( 4951): ║                                                 "key": "parmesan"
-I/flutter ( 4951): ║                                                 "name": "Parmesan"
+I/flutter ( 4951): ║                                                 "name": "بارميزان"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: بارميزان, en: Parmesan},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -8063,7 +8260,7 @@ I/flutter ( 4951): ║                                         "id": "6a522e87b3
 I/flutter ( 4951): ║                                         "groupId": "6a522e87b3fb649917aee338"
 I/flutter ( 4951): ║                                         "key": "fruits",
 I/flutter ( 4951): ║                                         "sourceKey": "fruits",
-I/flutter ( 4951): ║                                         "name": "Fruits",
+I/flutter ( 4951): ║                                         "name": "فواكه",
 I/flutter ( 4951): ║                                         "nameI18n": {ar: فواكه, en: Fruits},
 I/flutter ( 4951): ║                                         "minSelections": 0,
 I/flutter ( 4951): ║                                         "maxSelections": 4,
@@ -8076,7 +8273,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e88b3fb649917aee33b"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e88b3fb649917aee33b"
 I/flutter ( 4951): ║                                                 "key": "mango"
-I/flutter ( 4951): ║                                                 "name": "Mango"
+I/flutter ( 4951): ║                                                 "name": "مانجا"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: مانجا, en: Mango},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -8094,7 +8291,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e88b3fb649917aee33e"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e88b3fb649917aee33e"
 I/flutter ( 4951): ║                                                 "key": "green_apple"
-I/flutter ( 4951): ║                                                 "name": "Green Apple"
+I/flutter ( 4951): ║                                                 "name": "تفاح اخضر"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: تفاح اخضر, en: Green Apple},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -8112,7 +8309,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e89b3fb649917aee341"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e89b3fb649917aee341"
 I/flutter ( 4951): ║                                                 "key": "pomegranate"
-I/flutter ( 4951): ║                                                 "name": "Pomegranate"
+I/flutter ( 4951): ║                                                 "name": "رمان"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: رمان, en: Pomegranate},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -8130,7 +8327,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e8ab3fb649917aee344"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e8ab3fb649917aee344"
 I/flutter ( 4951): ║                                                 "key": "strawberry"
-I/flutter ( 4951): ║                                                 "name": "Strawberry"
+I/flutter ( 4951): ║                                                 "name": "فراولة"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: فراولة, en: Strawberry},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -8148,7 +8345,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e8ab3fb649917aee347"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e8ab3fb649917aee347"
 I/flutter ( 4951): ║                                                 "key": "blueberry"
-I/flutter ( 4951): ║                                                 "name": "Blueberry"
+I/flutter ( 4951): ║                                                 "name": "توت ازرق"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: توت ازرق, en: Blueberry},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -8166,7 +8363,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e8bb3fb649917aee34a"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e8bb3fb649917aee34a"
 I/flutter ( 4951): ║                                                 "key": "raspberry"
-I/flutter ( 4951): ║                                                 "name": "Raspberry"
+I/flutter ( 4951): ║                                                 "name": "توت احمر"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: توت احمر, en: Raspberry},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -8184,7 +8381,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e8bb3fb649917aee34d"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e8bb3fb649917aee34d"
 I/flutter ( 4951): ║                                                 "key": "watermelon"
-I/flutter ( 4951): ║                                                 "name": "Watermelon"
+I/flutter ( 4951): ║                                                 "name": "بطيخ"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: بطيخ, en: Watermelon},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -8202,7 +8399,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e8cb3fb649917aee350"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e8cb3fb649917aee350"
 I/flutter ( 4951): ║                                                 "key": "cantaloupe"
-I/flutter ( 4951): ║                                                 "name": "Cantaloupe"
+I/flutter ( 4951): ║                                                 "name": "شمام"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: شمام, en: Cantaloupe},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -8220,7 +8417,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e8db3fb649917aee353"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e8db3fb649917aee353"
 I/flutter ( 4951): ║                                                 "key": "dates"
-I/flutter ( 4951): ║                                                 "name": "Dates"
+I/flutter ( 4951): ║                                                 "name": "تمر"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: تمر, en: Dates},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -8241,7 +8438,7 @@ I/flutter ( 4951): ║                                         "id": "6a522e8eb3
 I/flutter ( 4951): ║                                         "groupId": "6a522e8eb3fb649917aee359"
 I/flutter ( 4951): ║                                         "key": "sauce",
 I/flutter ( 4951): ║                                         "sourceKey": "sauces",
-I/flutter ( 4951): ║                                         "name": "Sauce",
+I/flutter ( 4951): ║                                         "name": "صوص",
 I/flutter ( 4951): ║                                         "nameI18n": {ar: صوص, en: Sauce},
 I/flutter ( 4951): ║                                         "minSelections": 1,
 I/flutter ( 4951): ║                                         "maxSelections": 1,
@@ -8254,7 +8451,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e8fb3fb649917aee35c"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e8fb3fb649917aee35c"
 I/flutter ( 4951): ║                                                 "key": "ranch"
-I/flutter ( 4951): ║                                                 "name": "Ranch"
+I/flutter ( 4951): ║                                                 "name": "رانش"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: رانش, en: Ranch},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -8272,7 +8469,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e8fb3fb649917aee35f"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e8fb3fb649917aee35f"
 I/flutter ( 4951): ║                                                 "key": "spicy_ranch"
-I/flutter ( 4951): ║                                                 "name": "Spicy Ranch"
+I/flutter ( 4951): ║                                                 "name": "سبايسي رانش"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: سبايسي رانش, en: Spicy Ranch},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -8290,7 +8487,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e90b3fb649917aee362"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e90b3fb649917aee362"
 I/flutter ( 4951): ║                                                 "key": "pesto_sauce"
-I/flutter ( 4951): ║                                                 "name": "Pesto Sauce"
+I/flutter ( 4951): ║                                                 "name": "صوص بيستو"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: صوص بيستو, en: Pesto Sauce},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -8308,7 +8505,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e90b3fb649917aee365"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e90b3fb649917aee365"
 I/flutter ( 4951): ║                                                 "key": "balsamic"
-I/flutter ( 4951): ║                                                 "name": "Balsamic"
+I/flutter ( 4951): ║                                                 "name": "بالسميك"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: بالسميك, en: Balsamic},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -8326,7 +8523,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e91b3fb649917aee368"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e91b3fb649917aee368"
 I/flutter ( 4951): ║                                                 "key": "caesar"
-I/flutter ( 4951): ║                                                 "name": "Caesar"
+I/flutter ( 4951): ║                                                 "name": "سيزر"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: سيزر, en: Caesar},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -8344,7 +8541,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e92b3fb649917aee36b"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e92b3fb649917aee36b"
 I/flutter ( 4951): ║                                                 "key": "honey_mustard"
-I/flutter ( 4951): ║                                                 "name": "Honey Mustard"
+I/flutter ( 4951): ║                                                 "name": "هاني ماستر"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: هاني ماستر, en: Honey Mustard},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -8362,7 +8559,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e92b3fb649917aee36e"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e92b3fb649917aee36e"
 I/flutter ( 4951): ║                                                 "key": "yogurt_mint"
-I/flutter ( 4951): ║                                                 "name": "Yogurt Mint"
+I/flutter ( 4951): ║                                                 "name": "زبادي بالنعناع"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: زبادي بالنعناع, en: Yogurt Mint},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -8380,7 +8577,7 @@ I/flutter ( 4951): ║                                            {
 I/flutter ( 4951): ║                                                 "id": "6a522e93b3fb649917aee371"
 I/flutter ( 4951): ║                                                 "optionId": "6a522e93b3fb649917aee371"
 I/flutter ( 4951): ║                                                 "key": "honey_garlic"
-I/flutter ( 4951): ║                                                 "name": "Honey Garlic"
+I/flutter ( 4951): ║                                                 "name": "عسل بالثوم"
 I/flutter ( 4951): ║                                                 "nameI18n": {ar: عسل بالثوم, en: Honey Garlic},
 I/flutter ( 4951): ║                                                 "description": ""
 I/flutter ( 4951): ║                                                 "descriptionI18n": {ar: , en: },
@@ -8481,27 +8678,27 @@ I/flutter ( 4951): ╔╣ Request ║ GET
 I/flutter ( 4951): ║  https://basicdiet145-production-51e9.up.railway.app/api/subscriptions/addon-choices
 I/flutter ( 4951): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
 I/flutter ( 4951):
-I/flutter ( 4951): ╔╣ Response ║ GET ║ Status: 200 OK  ║ Time: 484 ms
+I/flutter ( 4951): ╔╣ Response ║ GET ║ Status: 200 OK  ║ Time: 412 ms
 I/flutter ( 4951): ║  https://basicdiet145-production-51e9.up.railway.app/api/subscriptions/addon-choices
 I/flutter ( 4951): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
 I/flutter ( 4951): ╔ Headers
 I/flutter ( 4951): ╟ x-dns-prefetch-control: [off]
-I/flutter ( 4951): ╟ date: [Thu, 16 Jul 2026 17:27:45 GMT]
+I/flutter ( 4951): ╟ date: [Thu, 16 Jul 2026 17:56:57 GMT]
 I/flutter ( 4951): ╟ transfer-encoding: [chunked]
 I/flutter ( 4951): ╟ vary: [Origin, accept-encoding]
 I/flutter ( 4951): ╟ origin-agent-cluster: [?1]
 I/flutter ( 4951): ╟ content-encoding: [gzip]
-I/flutter ( 4951): ╟ x-hikari-trace: [cdg1.e9jw]
+I/flutter ( 4951): ╟ x-hikari-trace: [cdg1.8vsn]
 I/flutter ( 4951): ╟ server: [railway-hikari]
-I/flutter ( 4951): ╟ x-request-id: [c4a97ede-90ed-406c-9b65-1e683ae96f35]
+I/flutter ( 4951): ╟ x-request-id: [2a187514-a47d-4b30-bc50-c31a53b7261c]
 I/flutter ( 4951): ╟ cross-origin-resource-policy: [same-origin]
-I/flutter ( 4951): ╟ etag: [W/"1aae2-rHOSPZl1XEnSMsj7+Dx8cv9P0tk"]
+I/flutter ( 4951): ╟ etag: [W/"1ae72-KgvNLYrvDGHfhFBVa7FUdklan9E"]
 I/flutter ( 4951): ╟ x-frame-options: [SAMEORIGIN]
 I/flutter ( 4951): ╟ content-security-policy:
 I/flutter ( 4951): ║ [default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-
 I/flutter ( 4951): ║ ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr
 I/flutter ( 4951): ║ 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests]
-I/flutter ( 4951): ╟ x-railway-request-id: [w0SxRKrCQFmPfKlsV7rehQ]
+I/flutter ( 4951): ╟ x-railway-request-id: [WX_Pm0xPTFihqHqvoB_USg]
 I/flutter ( 4951): ╟ connection: [keep-alive]
 I/flutter ( 4951): ╟ strict-transport-security: [max-age=15552000; includeSubDomains]
 I/flutter ( 4951): ╟ referrer-policy: [no-referrer]
@@ -8526,11 +8723,11 @@ I/flutter ( 4951): ║                 "displayKey": "ice_cream",
 I/flutter ( 4951): ║                 "displayCategory": "ice_cream",
 I/flutter ( 4951): ║                 "groupId": "6a57860863e85fba4f858b52",
 I/flutter ( 4951): ║                 "addonPlanId": "6a57860863e85fba4f858b52",
-I/flutter ( 4951): ║                 "addonPlanName": "ice cream",
+I/flutter ( 4951): ║                 "addonPlanName": "ايس كريم",
 I/flutter ( 4951): ║                 "allowanceCategory": "snack",
 I/flutter ( 4951): ║                 "entitlementCategory": "snack",
-I/flutter ( 4951): ║                 "label": "ice cream",
-I/flutter ( 4951): ║                 "labelText": "ice cream",
+I/flutter ( 4951): ║                 "label": "ايس كريم",
+I/flutter ( 4951): ║                 "labelText": "ايس كريم",
 I/flutter ( 4951): ║                 "labelAr": "ايس كريم",
 I/flutter ( 4951): ║                 "labelEn": "ice cream",
 I/flutter ( 4951): ║                 "labelI18n": {ar: ايس كريم, en: ice cream},
@@ -8544,7 +8741,7 @@ I/flutter ( 4951): ║                         "id": "6a522f79b3fb649917aee7af",
 I/flutter ( 4951): ║                         "productId": "6a522f79b3fb649917aee7af",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f79b3fb649917aee7af",
 I/flutter ( 4951): ║                         "key": "vanilla_ice_cream",
-I/flutter ( 4951): ║                         "name": "Vanilla Ice Cream",
+I/flutter ( 4951): ║                         "name": "ايس كريم فانيليا",
 I/flutter ( 4951): ║                         "nameAr": "ايس كريم فانيليا",
 I/flutter ( 4951): ║                         "nameEn": "Vanilla Ice Cream",
 I/flutter ( 4951): ║                         "nameI18n": {ar: ايس كريم فانيليا, en: Vanilla Ice Cream},
@@ -8606,7 +8803,7 @@ I/flutter ( 4951): ║                         "id": "6a522f7ab3fb649917aee7b2",
 I/flutter ( 4951): ║                         "productId": "6a522f7ab3fb649917aee7b2",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f7ab3fb649917aee7b2",
 I/flutter ( 4951): ║                         "key": "chocolate_ice_cream",
-I/flutter ( 4951): ║                         "name": "Chocolate Ice Cream",
+I/flutter ( 4951): ║                         "name": "ايس كريم شوكولا",
 I/flutter ( 4951): ║                         "nameAr": "ايس كريم شوكولا",
 I/flutter ( 4951): ║                         "nameEn": "Chocolate Ice Cream",
 I/flutter ( 4951): ║                         "nameI18n": {ar: ايس كريم شوكولا, en: Chocolate Ice Cream},
@@ -8668,7 +8865,7 @@ I/flutter ( 4951): ║                         "id": "6a522f7bb3fb649917aee7b5",
 I/flutter ( 4951): ║                         "productId": "6a522f7bb3fb649917aee7b5",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f7bb3fb649917aee7b5",
 I/flutter ( 4951): ║                         "key": "ice_cream_addon",
-I/flutter ( 4951): ║                         "name": "Ice Cream Add-on",
+I/flutter ( 4951): ║                         "name": "اضافة ايس كريم",
 I/flutter ( 4951): ║                         "nameAr": "اضافة ايس كريم",
 I/flutter ( 4951): ║                         "nameEn": "Ice Cream Add-on",
 I/flutter ( 4951): ║                         "nameI18n": {ar: اضافة ايس كريم, en: Ice Cream Add-on},
@@ -8744,11 +8941,11 @@ I/flutter ( 4951): ║                 "displayKey": "snack",
 I/flutter ( 4951): ║                 "displayCategory": "snack",
 I/flutter ( 4951): ║                 "groupId": "6a5905a03259cebdc82b8832",
 I/flutter ( 4951): ║                 "addonPlanId": "6a5905a03259cebdc82b8832",
-I/flutter ( 4951): ║                 "addonPlanName": "test",
+I/flutter ( 4951): ║                 "addonPlanName": "test-sub",
 I/flutter ( 4951): ║                 "allowanceCategory": "snack",
 I/flutter ( 4951): ║                 "entitlementCategory": "snack",
-I/flutter ( 4951): ║                 "label": "test",
-I/flutter ( 4951): ║                 "labelText": "test",
+I/flutter ( 4951): ║                 "label": "test-sub",
+I/flutter ( 4951): ║                 "labelText": "test-sub",
 I/flutter ( 4951): ║                 "labelAr": "test-sub",
 I/flutter ( 4951): ║                 "labelEn": "test",
 I/flutter ( 4951): ║                 "labelI18n": {ar: test-sub, en: test},
@@ -8762,7 +8959,7 @@ I/flutter ( 4951): ║                         "id": "6a522f7bb3fb649917aee7b8",
 I/flutter ( 4951): ║                         "productId": "6a522f7bb3fb649917aee7b8",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f7bb3fb649917aee7b8",
 I/flutter ( 4951): ║                         "key": "protein_drink",
-I/flutter ( 4951): ║                         "name": "Protein Drink",
+I/flutter ( 4951): ║                         "name": "مشروب بروتين",
 I/flutter ( 4951): ║                         "nameAr": "مشروب بروتين",
 I/flutter ( 4951): ║                         "nameEn": "Protein Drink",
 I/flutter ( 4951): ║                         "nameI18n": {ar: مشروب بروتين, en: Protein Drink},
@@ -8824,7 +9021,7 @@ I/flutter ( 4951): ║                         "id": "6a522f7cb3fb649917aee7bb",
 I/flutter ( 4951): ║                         "productId": "6a522f7cb3fb649917aee7bb",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f7cb3fb649917aee7bb",
 I/flutter ( 4951): ║                         "key": "diet_iced_tea",
-I/flutter ( 4951): ║                         "name": "Diet Iced Tea",
+I/flutter ( 4951): ║                         "name": "ايس تى دايت",
 I/flutter ( 4951): ║                         "nameAr": "ايس تى دايت",
 I/flutter ( 4951): ║                         "nameEn": "Diet Iced Tea",
 I/flutter ( 4951): ║                         "nameI18n": {ar: ايس تى دايت, en: Diet Iced Tea},
@@ -8886,7 +9083,7 @@ I/flutter ( 4951): ║                         "id": "6a522f7db3fb649917aee7be",
 I/flutter ( 4951): ║                         "productId": "6a522f7db3fb649917aee7be",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f7db3fb649917aee7be",
 I/flutter ( 4951): ║                         "key": "diet_soda",
-I/flutter ( 4951): ║                         "name": "Diet Soda",
+I/flutter ( 4951): ║                         "name": "صودا دايت",
 I/flutter ( 4951): ║                         "nameAr": "صودا دايت",
 I/flutter ( 4951): ║                         "nameEn": "Diet Soda",
 I/flutter ( 4951): ║                         "nameI18n": {ar: صودا دايت, en: Diet Soda},
@@ -8948,7 +9145,7 @@ I/flutter ( 4951): ║                         "id": "6a522f7db3fb649917aee7c1",
 I/flutter ( 4951): ║                         "productId": "6a522f7db3fb649917aee7c1",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f7db3fb649917aee7c1",
 I/flutter ( 4951): ║                         "key": "water",
-I/flutter ( 4951): ║                         "name": "Water",
+I/flutter ( 4951): ║                         "name": "مياه عادية",
 I/flutter ( 4951): ║                         "nameAr": "مياه عادية",
 I/flutter ( 4951): ║                         "nameEn": "Water",
 I/flutter ( 4951): ║                         "nameI18n": {ar: مياه عادية, en: Water},
@@ -9024,11 +9221,11 @@ I/flutter ( 4951): ║                 "displayKey": "juice",
 I/flutter ( 4951): ║                 "displayCategory": "juice",
 I/flutter ( 4951): ║                 "groupId": "6a4958e8991f8d73bc7a2605",
 I/flutter ( 4951): ║                 "addonPlanId": "6a4958e8991f8d73bc7a2605",
-I/flutter ( 4951): ║                 "addonPlanName": "Juice Subscription",
+I/flutter ( 4951): ║                 "addonPlanName": "اشتراك العصير",
 I/flutter ( 4951): ║                 "allowanceCategory": "juice",
 I/flutter ( 4951): ║                 "entitlementCategory": "juice",
-I/flutter ( 4951): ║                 "label": "Juice Subscription",
-I/flutter ( 4951): ║                 "labelText": "Juice Subscription",
+I/flutter ( 4951): ║                 "label": "اشتراك العصير",
+I/flutter ( 4951): ║                 "labelText": "اشتراك العصير",
 I/flutter ( 4951): ║                 "labelAr": "اشتراك العصير",
 I/flutter ( 4951): ║                 "labelEn": "Juice Subscription",
 I/flutter ( 4951): ║                 "labelI18n": {ar: اشتراك العصير, en: Juice Subscription},
@@ -9042,7 +9239,7 @@ I/flutter ( 4951): ║                         "id": "6a522f65b3fb649917aee74f",
 I/flutter ( 4951): ║                         "productId": "6a522f65b3fb649917aee74f",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f65b3fb649917aee74f",
 I/flutter ( 4951): ║                         "key": "orange_juice",
-I/flutter ( 4951): ║                         "name": "Orange Juice",
+I/flutter ( 4951): ║                         "name": "عصير برتقال",
 I/flutter ( 4951): ║                         "nameAr": "عصير برتقال",
 I/flutter ( 4951): ║                         "nameEn": "Orange Juice",
 I/flutter ( 4951): ║                         "nameI18n": {ar: عصير برتقال, en: Orange Juice},
@@ -9104,7 +9301,7 @@ I/flutter ( 4951): ║                         "id": "6a522f65b3fb649917aee752",
 I/flutter ( 4951): ║                         "productId": "6a522f65b3fb649917aee752",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f65b3fb649917aee752",
 I/flutter ( 4951): ║                         "key": "apple_juice",
-I/flutter ( 4951): ║                         "name": "Apple Juice",
+I/flutter ( 4951): ║                         "name": "عصير تفاح",
 I/flutter ( 4951): ║                         "nameAr": "عصير تفاح",
 I/flutter ( 4951): ║                         "nameEn": "Apple Juice",
 I/flutter ( 4951): ║                         "nameI18n": {ar: عصير تفاح, en: Apple Juice},
@@ -9166,7 +9363,7 @@ I/flutter ( 4951): ║                         "id": "6a522f66b3fb649917aee755",
 I/flutter ( 4951): ║                         "productId": "6a522f66b3fb649917aee755",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f66b3fb649917aee755",
 I/flutter ( 4951): ║                         "key": "mango_juice",
-I/flutter ( 4951): ║                         "name": "Mango Juice",
+I/flutter ( 4951): ║                         "name": "عصير مانجو",
 I/flutter ( 4951): ║                         "nameAr": "عصير مانجو",
 I/flutter ( 4951): ║                         "nameEn": "Mango Juice",
 I/flutter ( 4951): ║                         "nameI18n": {ar: عصير مانجو, en: Mango Juice},
@@ -9228,7 +9425,7 @@ I/flutter ( 4951): ║                         "id": "6a522f75b3fb649917aee79d",
 I/flutter ( 4951): ║                         "productId": "6a522f75b3fb649917aee79d",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f75b3fb649917aee79d",
 I/flutter ( 4951): ║                         "key": "berry_blast",
-I/flutter ( 4951): ║                         "name": "Berry Blast",
+I/flutter ( 4951): ║                         "name": "بيري بلاست",
 I/flutter ( 4951): ║                         "nameAr": "بيري بلاست",
 I/flutter ( 4951): ║                         "nameEn": "Berry Blast",
 I/flutter ( 4951): ║                         "nameI18n": {ar: بيري بلاست, en: Berry Blast},
@@ -9290,7 +9487,7 @@ I/flutter ( 4951): ║                         "id": "6a522f76b3fb649917aee7a0",
 I/flutter ( 4951): ║                         "productId": "6a522f76b3fb649917aee7a0",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f76b3fb649917aee7a0",
 I/flutter ( 4951): ║                         "key": "berry_prot",
-I/flutter ( 4951): ║                         "name": "Berry Prot",
+I/flutter ( 4951): ║                         "name": "بيري بروت",
 I/flutter ( 4951): ║                         "nameAr": "بيري بروت",
 I/flutter ( 4951): ║                         "nameEn": "Berry Prot",
 I/flutter ( 4951): ║                         "nameI18n": {ar: بيري بروت, en: Berry Prot},
@@ -9352,7 +9549,7 @@ I/flutter ( 4951): ║                         "id": "6a522f77b3fb649917aee7a3",
 I/flutter ( 4951): ║                         "productId": "6a522f77b3fb649917aee7a3",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f77b3fb649917aee7a3",
 I/flutter ( 4951): ║                         "key": "classic_green",
-I/flutter ( 4951): ║                         "name": "Classic Green",
+I/flutter ( 4951): ║                         "name": "كلاسيك جرين",
 I/flutter ( 4951): ║                         "nameAr": "كلاسيك جرين",
 I/flutter ( 4951): ║                         "nameEn": "Classic Green",
 I/flutter ( 4951): ║                         "nameI18n": {ar: كلاسيك جرين, en: Classic Green},
@@ -9414,7 +9611,7 @@ I/flutter ( 4951): ║                         "id": "6a522f77b3fb649917aee7a6",
 I/flutter ( 4951): ║                         "productId": "6a522f77b3fb649917aee7a6",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f77b3fb649917aee7a6",
 I/flutter ( 4951): ║                         "key": "beet_punch",
-I/flutter ( 4951): ║                         "name": "Beet Punch",
+I/flutter ( 4951): ║                         "name": "بيت بنش",
 I/flutter ( 4951): ║                         "nameAr": "بيت بنش",
 I/flutter ( 4951): ║                         "nameEn": "Beet Punch",
 I/flutter ( 4951): ║                         "nameI18n": {ar: بيت بنش, en: Beet Punch},
@@ -9476,7 +9673,7 @@ I/flutter ( 4951): ║                         "id": "6a522f78b3fb649917aee7a9",
 I/flutter ( 4951): ║                         "productId": "6a522f78b3fb649917aee7a9",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f78b3fb649917aee7a9",
 I/flutter ( 4951): ║                         "key": "orange_carrot",
-I/flutter ( 4951): ║                         "name": "Orange Carrot",
+I/flutter ( 4951): ║                         "name": "برتقال وجزر",
 I/flutter ( 4951): ║                         "nameAr": "برتقال وجزر",
 I/flutter ( 4951): ║                         "nameEn": "Orange Carrot",
 I/flutter ( 4951): ║                         "nameI18n": {ar: برتقال وجزر, en: Orange Carrot},
@@ -9538,7 +9735,7 @@ I/flutter ( 4951): ║                         "id": "6a522f79b3fb649917aee7ac",
 I/flutter ( 4951): ║                         "productId": "6a522f79b3fb649917aee7ac",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f79b3fb649917aee7ac",
 I/flutter ( 4951): ║                         "key": "watermelon_mint",
-I/flutter ( 4951): ║                         "name": "Watermelon Mint",
+I/flutter ( 4951): ║                         "name": "بطيخ بالنعناع",
 I/flutter ( 4951): ║                         "nameAr": "بطيخ بالنعناع",
 I/flutter ( 4951): ║                         "nameEn": "Watermelon Mint",
 I/flutter ( 4951): ║                         "nameI18n": {ar: بطيخ بالنعناع, en: Watermelon Mint},
@@ -9614,11 +9811,11 @@ I/flutter ( 4951): ║                 "displayKey": "snack",
 I/flutter ( 4951): ║                 "displayCategory": "snack",
 I/flutter ( 4951): ║                 "groupId": "6a4958e8991f8d73bc7a2608",
 I/flutter ( 4951): ║                 "addonPlanId": "6a4958e8991f8d73bc7a2608",
-I/flutter ( 4951): ║                 "addonPlanName": "Snack Subscription",
+I/flutter ( 4951): ║                 "addonPlanName": "اشتراك السناك",
 I/flutter ( 4951): ║                 "allowanceCategory": "snack",
 I/flutter ( 4951): ║                 "entitlementCategory": "snack",
-I/flutter ( 4951): ║                 "label": "Snack Subscription",
-I/flutter ( 4951): ║                 "labelText": "Snack Subscription",
+I/flutter ( 4951): ║                 "label": "اشتراك السناك",
+I/flutter ( 4951): ║                 "labelText": "اشتراك السناك",
 I/flutter ( 4951): ║                 "labelAr": "اشتراك السناك",
 I/flutter ( 4951): ║                 "labelEn": "Snack Subscription",
 I/flutter ( 4951): ║                 "labelI18n": {ar: اشتراك السناك, en: Snack Subscription},
@@ -9632,7 +9829,7 @@ I/flutter ( 4951): ║                         "id": "6a522f69b3fb649917aee761",
 I/flutter ( 4951): ║                         "productId": "6a522f69b3fb649917aee761",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f69b3fb649917aee761",
 I/flutter ( 4951): ║                         "key": "protein_snack",
-I/flutter ( 4951): ║                         "name": "Protein Snack",
+I/flutter ( 4951): ║                         "name": "سناك بروتين",
 I/flutter ( 4951): ║                         "nameAr": "سناك بروتين",
 I/flutter ( 4951): ║                         "nameEn": "Protein Snack",
 I/flutter ( 4951): ║                         "nameI18n": {ar: سناك بروتين, en: Protein Snack},
@@ -9694,7 +9891,7 @@ I/flutter ( 4951): ║                         "id": "6a522f69b3fb649917aee764",
 I/flutter ( 4951): ║                         "productId": "6a522f69b3fb649917aee764",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f69b3fb649917aee764",
 I/flutter ( 4951): ║                         "key": "healthy_dessert",
-I/flutter ( 4951): ║                         "name": "Healthy Dessert",
+I/flutter ( 4951): ║                         "name": "حلوى صحية",
 I/flutter ( 4951): ║                         "nameAr": "حلوى صحية",
 I/flutter ( 4951): ║                         "nameEn": "Healthy Dessert",
 I/flutter ( 4951): ║                         "nameI18n": {ar: حلوى صحية, en: Healthy Dessert},
@@ -9756,7 +9953,7 @@ I/flutter ( 4951): ║                         "id": "6a522f6ab3fb649917aee767",
 I/flutter ( 4951): ║                         "productId": "6a522f6ab3fb649917aee767",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f6ab3fb649917aee767",
 I/flutter ( 4951): ║                         "key": "snack_box",
-I/flutter ( 4951): ║                         "name": "Snack Box",
+I/flutter ( 4951): ║                         "name": "صندوق سناك",
 I/flutter ( 4951): ║                         "nameAr": "صندوق سناك",
 I/flutter ( 4951): ║                         "nameEn": "Snack Box",
 I/flutter ( 4951): ║                         "nameI18n": {ar: صندوق سناك, en: Snack Box},
@@ -9818,12 +10015,12 @@ I/flutter ( 4951): ║                         "id": "6a522f70b3fb649917aee785",
 I/flutter ( 4951): ║                         "productId": "6a522f70b3fb649917aee785",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f70b3fb649917aee785",
 I/flutter ( 4951): ║                         "key": "orange_cake",
-I/flutter ( 4951): ║                         "name": "Orange Cake",
+I/flutter ( 4951): ║                         "name": "كيكة البرتقال",
 I/flutter ( 4951): ║                         "nameAr": "كيكة البرتقال",
 I/flutter ( 4951): ║                         "nameEn": "Orange Cake",
 I/flutter ( 4951): ║                         "nameI18n": {ar: كيكة البرتقال, en: Orange Cake},
-I/flutter ( 4951): ║                         "description": "Healthy orange cake made with light ingredients, natural refreshi
-I/flutter ( 4951): ║                          ng orange flavor, soft texture, and no sugar."
+I/flutter ( 4951): ║                         "description": "كيكة برتقال صحية محضرة بمكونات خفيفة، بطعم برتقال طبيعي منعش وقوا
+I/flutter ( 4951): ║                          م ناعم، بدون سكر."
 I/flutter ( 4951): ║                         "descriptionI18n": {
 I/flutter ( 4951): ║                             "ar": "كيكة برتقال صحية محضرة بمكونات خفيفة، بطعم برتقال طبيعي منعش
 I/flutter ( 4951): ║                              وقوام ناعم، بدون سكر."
@@ -9888,7 +10085,7 @@ I/flutter ( 4951): ║                         "id": "6a522f71b3fb649917aee788",
 I/flutter ( 4951): ║                         "productId": "6a522f71b3fb649917aee788",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f71b3fb649917aee788",
 I/flutter ( 4951): ║                         "key": "apple_cinnamon_muffin_2pcs",
-I/flutter ( 4951): ║                         "name": "Apple Cinnamon Muffin - 2 Pieces",
+I/flutter ( 4951): ║                         "name": "مافن التفاح بالقرفة قطعتين",
 I/flutter ( 4951): ║                         "nameAr": "مافن التفاح بالقرفة قطعتين",
 I/flutter ( 4951): ║                         "nameEn": "Apple Cinnamon Muffin - 2 Pieces",
 I/flutter ( 4951): ║                         "nameI18n": {ar: مافن التفاح بالقرفة قطعتين, en: Apple Cinnamon Muffin - 2 Pieces},
@@ -9950,7 +10147,7 @@ I/flutter ( 4951): ║                         "id": "6a522f72b3fb649917aee78b",
 I/flutter ( 4951): ║                         "productId": "6a522f72b3fb649917aee78b",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f72b3fb649917aee78b",
 I/flutter ( 4951): ║                         "key": "berry_cheesecake",
-I/flutter ( 4951): ║                         "name": "Berry Cheesecake",
+I/flutter ( 4951): ║                         "name": "تشيز كيك بالتوت",
 I/flutter ( 4951): ║                         "nameAr": "تشيز كيك بالتوت",
 I/flutter ( 4951): ║                         "nameEn": "Berry Cheesecake",
 I/flutter ( 4951): ║                         "nameI18n": {ar: تشيز كيك بالتوت, en: Berry Cheesecake},
@@ -10012,7 +10209,7 @@ I/flutter ( 4951): ║                         "id": "6a522f72b3fb649917aee78e",
 I/flutter ( 4951): ║                         "productId": "6a522f72b3fb649917aee78e",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f72b3fb649917aee78e",
 I/flutter ( 4951): ║                         "key": "strawberry_cheesecake",
-I/flutter ( 4951): ║                         "name": "Strawberry Cheesecake",
+I/flutter ( 4951): ║                         "name": "تشيز كيك بالفراولة",
 I/flutter ( 4951): ║                         "nameAr": "تشيز كيك بالفراولة",
 I/flutter ( 4951): ║                         "nameEn": "Strawberry Cheesecake",
 I/flutter ( 4951): ║                         "nameI18n": {ar: تشيز كيك بالفراولة, en: Strawberry Cheesecake},
@@ -10074,7 +10271,7 @@ I/flutter ( 4951): ║                         "id": "6a522f73b3fb649917aee791",
 I/flutter ( 4951): ║                         "productId": "6a522f73b3fb649917aee791",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f73b3fb649917aee791",
 I/flutter ( 4951): ║                         "key": "dark_brownies",
-I/flutter ( 4951): ║                         "name": "Dark Brownies",
+I/flutter ( 4951): ║                         "name": "براونيز داكن",
 I/flutter ( 4951): ║                         "nameAr": "براونيز داكن",
 I/flutter ( 4951): ║                         "nameEn": "Dark Brownies",
 I/flutter ( 4951): ║                         "nameI18n": {ar: براونيز داكن, en: Dark Brownies},
@@ -10136,7 +10333,7 @@ I/flutter ( 4951): ║                         "id": "6a522f74b3fb649917aee794",
 I/flutter ( 4951): ║                         "productId": "6a522f74b3fb649917aee794",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f74b3fb649917aee794",
 I/flutter ( 4951): ║                         "key": "protein_bar",
-I/flutter ( 4951): ║                         "name": "Protein Bar",
+I/flutter ( 4951): ║                         "name": "بروتين بار",
 I/flutter ( 4951): ║                         "nameAr": "بروتين بار",
 I/flutter ( 4951): ║                         "nameEn": "Protein Bar",
 I/flutter ( 4951): ║                         "nameI18n": {ar: بروتين بار, en: Protein Bar},
@@ -10198,7 +10395,7 @@ I/flutter ( 4951): ║                         "id": "6a522f74b3fb649917aee797",
 I/flutter ( 4951): ║                         "productId": "6a522f74b3fb649917aee797",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f74b3fb649917aee797",
 I/flutter ( 4951): ║                         "key": "basic_classic",
-I/flutter ( 4951): ║                         "name": "Basic Classic",
+I/flutter ( 4951): ║                         "name": "بيسك كلاسيك",
 I/flutter ( 4951): ║                         "nameAr": "بيسك كلاسيك",
 I/flutter ( 4951): ║                         "nameEn": "Basic Classic",
 I/flutter ( 4951): ║                         "nameI18n": {ar: بيسك كلاسيك, en: Basic Classic},
@@ -10260,7 +10457,7 @@ I/flutter ( 4951): ║                         "id": "6a522f75b3fb649917aee79a",
 I/flutter ( 4951): ║                         "productId": "6a522f75b3fb649917aee79a",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f75b3fb649917aee79a",
 I/flutter ( 4951): ║                         "key": "protein_chocolate_cake",
-I/flutter ( 4951): ║                         "name": "Protein Chocolate Cake",
+I/flutter ( 4951): ║                         "name": "كيك شوكولاتة بروتين",
 I/flutter ( 4951): ║                         "nameAr": "كيك شوكولاتة بروتين",
 I/flutter ( 4951): ║                         "nameEn": "Protein Chocolate Cake",
 I/flutter ( 4951): ║                         "nameI18n": {ar: كيك شوكولاتة بروتين, en: Protein Chocolate Cake},
@@ -10336,11 +10533,11 @@ I/flutter ( 4951): ║                 "displayKey": "small_salad",
 I/flutter ( 4951): ║                 "displayCategory": "small_salad",
 I/flutter ( 4951): ║                 "groupId": "6a4958e9991f8d73bc7a260b",
 I/flutter ( 4951): ║                 "addonPlanId": "6a4958e9991f8d73bc7a260b",
-I/flutter ( 4951): ║                 "addonPlanName": "Small Salad Subscription",
+I/flutter ( 4951): ║                 "addonPlanName": "اشتراك السلطة الصغيرة",
 I/flutter ( 4951): ║                 "allowanceCategory": "small_salad",
 I/flutter ( 4951): ║                 "entitlementCategory": "small_salad",
-I/flutter ( 4951): ║                 "label": "Small Salad Subscription",
-I/flutter ( 4951): ║                 "labelText": "Small Salad Subscription",
+I/flutter ( 4951): ║                 "label": "اشتراك السلطة الصغيرة",
+I/flutter ( 4951): ║                 "labelText": "اشتراك السلطة الصغيرة",
 I/flutter ( 4951): ║                 "labelAr": "اشتراك السلطة الصغيرة",
 I/flutter ( 4951): ║                 "labelEn": "Small Salad Subscription",
 I/flutter ( 4951): ║                 "labelI18n": {ar: اشتراك السلطة الصغيرة, en: Small Salad Subscription},
@@ -10354,7 +10551,7 @@ I/flutter ( 4951): ║                         "id": "6a522f67b3fb649917aee75b",
 I/flutter ( 4951): ║                         "productId": "6a522f67b3fb649917aee75b",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f67b3fb649917aee75b",
 I/flutter ( 4951): ║                         "key": "fruit_salad_addon",
-I/flutter ( 4951): ║                         "name": "Fruit Salad",
+I/flutter ( 4951): ║                         "name": "سلطة فواكه",
 I/flutter ( 4951): ║                         "nameAr": "سلطة فواكه",
 I/flutter ( 4951): ║                         "nameEn": "Fruit Salad",
 I/flutter ( 4951): ║                         "nameI18n": {ar: سلطة فواكه, en: Fruit Salad},
@@ -10416,7 +10613,7 @@ I/flutter ( 4951): ║                         "id": "6a522f67b3fb649917aee758",
 I/flutter ( 4951): ║                         "productId": "6a522f67b3fb649917aee758",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f67b3fb649917aee758",
 I/flutter ( 4951): ║                         "key": "greek_salad",
-I/flutter ( 4951): ║                         "name": "Greek Salad",
+I/flutter ( 4951): ║                         "name": "سلطة يونانية",
 I/flutter ( 4951): ║                         "nameAr": "سلطة يونانية",
 I/flutter ( 4951): ║                         "nameEn": "Greek Salad",
 I/flutter ( 4951): ║                         "nameI18n": {ar: سلطة يونانية, en: Greek Salad},
@@ -10478,7 +10675,7 @@ I/flutter ( 4951): ║                         "id": "6a522f68b3fb649917aee75e",
 I/flutter ( 4951): ║                         "productId": "6a522f68b3fb649917aee75e",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f68b3fb649917aee75e",
 I/flutter ( 4951): ║                         "key": "vegetable_salad",
-I/flutter ( 4951): ║                         "name": "Vegetable Salad",
+I/flutter ( 4951): ║                         "name": "سلطة خضار",
 I/flutter ( 4951): ║                         "nameAr": "سلطة خضار",
 I/flutter ( 4951): ║                         "nameEn": "Vegetable Salad",
 I/flutter ( 4951): ║                         "nameI18n": {ar: سلطة خضار, en: Vegetable Salad},
@@ -10553,12 +10750,12 @@ I/flutter ( 4951): ║         "addonChoiceGroups": [
 I/flutter ( 4951): ║            {
 I/flutter ( 4951): ║                 "groupId": "6a57860863e85fba4f858b52",
 I/flutter ( 4951): ║                 "addonPlanId": "6a57860863e85fba4f858b52",
-I/flutter ( 4951): ║                 "label": "ice cream",
-I/flutter ( 4951): ║                 "labelText": "ice cream",
+I/flutter ( 4951): ║                 "label": "ايس كريم",
+I/flutter ( 4951): ║                 "labelText": "ايس كريم",
 I/flutter ( 4951): ║                 "labelAr": "ايس كريم",
 I/flutter ( 4951): ║                 "labelEn": "ice cream",
 I/flutter ( 4951): ║                 "labelI18n": {ar: ايس كريم, en: ice cream},
-I/flutter ( 4951): ║                 "addonPlanName": "ice cream",
+I/flutter ( 4951): ║                 "addonPlanName": "ايس كريم",
 I/flutter ( 4951): ║                 "nameAr": "ايس كريم",
 I/flutter ( 4951): ║                 "nameEn": "ice cream",
 I/flutter ( 4951): ║                 "nameI18n": {ar: ايس كريم, en: ice cream},
@@ -10580,7 +10777,7 @@ I/flutter ( 4951): ║                         "id": "6a522f79b3fb649917aee7af",
 I/flutter ( 4951): ║                         "productId": "6a522f79b3fb649917aee7af",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f79b3fb649917aee7af",
 I/flutter ( 4951): ║                         "key": "vanilla_ice_cream",
-I/flutter ( 4951): ║                         "name": "Vanilla Ice Cream",
+I/flutter ( 4951): ║                         "name": "ايس كريم فانيليا",
 I/flutter ( 4951): ║                         "nameAr": "ايس كريم فانيليا",
 I/flutter ( 4951): ║                         "nameEn": "Vanilla Ice Cream",
 I/flutter ( 4951): ║                         "nameI18n": {ar: ايس كريم فانيليا, en: Vanilla Ice Cream},
@@ -10642,7 +10839,7 @@ I/flutter ( 4951): ║                         "id": "6a522f7ab3fb649917aee7b2",
 I/flutter ( 4951): ║                         "productId": "6a522f7ab3fb649917aee7b2",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f7ab3fb649917aee7b2",
 I/flutter ( 4951): ║                         "key": "chocolate_ice_cream",
-I/flutter ( 4951): ║                         "name": "Chocolate Ice Cream",
+I/flutter ( 4951): ║                         "name": "ايس كريم شوكولا",
 I/flutter ( 4951): ║                         "nameAr": "ايس كريم شوكولا",
 I/flutter ( 4951): ║                         "nameEn": "Chocolate Ice Cream",
 I/flutter ( 4951): ║                         "nameI18n": {ar: ايس كريم شوكولا, en: Chocolate Ice Cream},
@@ -10704,7 +10901,7 @@ I/flutter ( 4951): ║                         "id": "6a522f7bb3fb649917aee7b5",
 I/flutter ( 4951): ║                         "productId": "6a522f7bb3fb649917aee7b5",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f7bb3fb649917aee7b5",
 I/flutter ( 4951): ║                         "key": "ice_cream_addon",
-I/flutter ( 4951): ║                         "name": "Ice Cream Add-on",
+I/flutter ( 4951): ║                         "name": "اضافة ايس كريم",
 I/flutter ( 4951): ║                         "nameAr": "اضافة ايس كريم",
 I/flutter ( 4951): ║                         "nameEn": "Ice Cream Add-on",
 I/flutter ( 4951): ║                         "nameI18n": {ar: اضافة ايس كريم, en: Ice Cream Add-on},
@@ -10772,17 +10969,17 @@ I/flutter ( 4951): ║                         "includedTotalQty": 7,
 I/flutter ( 4951): ║                         "remainingQty": 7
 I/flutter ( 4951): ║                    }
 I/flutter ( 4951): ║                 ],
-I/flutter ( 4951): ║                 "name": "ice cream"
+I/flutter ( 4951): ║                 "name": "ايس كريم"
 I/flutter ( 4951): ║            },
 I/flutter ( 4951): ║            {
 I/flutter ( 4951): ║                 "groupId": "6a5905a03259cebdc82b8832",
 I/flutter ( 4951): ║                 "addonPlanId": "6a5905a03259cebdc82b8832",
-I/flutter ( 4951): ║                 "label": "test",
-I/flutter ( 4951): ║                 "labelText": "test",
+I/flutter ( 4951): ║                 "label": "test-sub",
+I/flutter ( 4951): ║                 "labelText": "test-sub",
 I/flutter ( 4951): ║                 "labelAr": "test-sub",
 I/flutter ( 4951): ║                 "labelEn": "test",
 I/flutter ( 4951): ║                 "labelI18n": {ar: test-sub, en: test},
-I/flutter ( 4951): ║                 "addonPlanName": "test",
+I/flutter ( 4951): ║                 "addonPlanName": "test-sub",
 I/flutter ( 4951): ║                 "nameAr": "test-sub",
 I/flutter ( 4951): ║                 "nameEn": "test",
 I/flutter ( 4951): ║                 "nameI18n": {ar: test-sub, en: test},
@@ -10804,7 +11001,7 @@ I/flutter ( 4951): ║                         "id": "6a522f7bb3fb649917aee7b8",
 I/flutter ( 4951): ║                         "productId": "6a522f7bb3fb649917aee7b8",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f7bb3fb649917aee7b8",
 I/flutter ( 4951): ║                         "key": "protein_drink",
-I/flutter ( 4951): ║                         "name": "Protein Drink",
+I/flutter ( 4951): ║                         "name": "مشروب بروتين",
 I/flutter ( 4951): ║                         "nameAr": "مشروب بروتين",
 I/flutter ( 4951): ║                         "nameEn": "Protein Drink",
 I/flutter ( 4951): ║                         "nameI18n": {ar: مشروب بروتين, en: Protein Drink},
@@ -10866,7 +11063,7 @@ I/flutter ( 4951): ║                         "id": "6a522f7cb3fb649917aee7bb",
 I/flutter ( 4951): ║                         "productId": "6a522f7cb3fb649917aee7bb",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f7cb3fb649917aee7bb",
 I/flutter ( 4951): ║                         "key": "diet_iced_tea",
-I/flutter ( 4951): ║                         "name": "Diet Iced Tea",
+I/flutter ( 4951): ║                         "name": "ايس تى دايت",
 I/flutter ( 4951): ║                         "nameAr": "ايس تى دايت",
 I/flutter ( 4951): ║                         "nameEn": "Diet Iced Tea",
 I/flutter ( 4951): ║                         "nameI18n": {ar: ايس تى دايت, en: Diet Iced Tea},
@@ -10928,7 +11125,7 @@ I/flutter ( 4951): ║                         "id": "6a522f7db3fb649917aee7be",
 I/flutter ( 4951): ║                         "productId": "6a522f7db3fb649917aee7be",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f7db3fb649917aee7be",
 I/flutter ( 4951): ║                         "key": "diet_soda",
-I/flutter ( 4951): ║                         "name": "Diet Soda",
+I/flutter ( 4951): ║                         "name": "صودا دايت",
 I/flutter ( 4951): ║                         "nameAr": "صودا دايت",
 I/flutter ( 4951): ║                         "nameEn": "Diet Soda",
 I/flutter ( 4951): ║                         "nameI18n": {ar: صودا دايت, en: Diet Soda},
@@ -10990,7 +11187,7 @@ I/flutter ( 4951): ║                         "id": "6a522f7db3fb649917aee7c1",
 I/flutter ( 4951): ║                         "productId": "6a522f7db3fb649917aee7c1",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f7db3fb649917aee7c1",
 I/flutter ( 4951): ║                         "key": "water",
-I/flutter ( 4951): ║                         "name": "Water",
+I/flutter ( 4951): ║                         "name": "مياه عادية",
 I/flutter ( 4951): ║                         "nameAr": "مياه عادية",
 I/flutter ( 4951): ║                         "nameEn": "Water",
 I/flutter ( 4951): ║                         "nameI18n": {ar: مياه عادية, en: Water},
@@ -11058,17 +11255,17 @@ I/flutter ( 4951): ║                         "includedTotalQty": 7,
 I/flutter ( 4951): ║                         "remainingQty": 7
 I/flutter ( 4951): ║                    }
 I/flutter ( 4951): ║                 ],
-I/flutter ( 4951): ║                 "name": "test"
+I/flutter ( 4951): ║                 "name": "test-sub"
 I/flutter ( 4951): ║            },
 I/flutter ( 4951): ║            {
 I/flutter ( 4951): ║                 "groupId": "6a4958e8991f8d73bc7a2605",
 I/flutter ( 4951): ║                 "addonPlanId": "6a4958e8991f8d73bc7a2605",
-I/flutter ( 4951): ║                 "label": "Juice Subscription",
-I/flutter ( 4951): ║                 "labelText": "Juice Subscription",
+I/flutter ( 4951): ║                 "label": "اشتراك العصير",
+I/flutter ( 4951): ║                 "labelText": "اشتراك العصير",
 I/flutter ( 4951): ║                 "labelAr": "اشتراك العصير",
 I/flutter ( 4951): ║                 "labelEn": "Juice Subscription",
 I/flutter ( 4951): ║                 "labelI18n": {ar: اشتراك العصير, en: Juice Subscription},
-I/flutter ( 4951): ║                 "addonPlanName": "Juice Subscription",
+I/flutter ( 4951): ║                 "addonPlanName": "اشتراك العصير",
 I/flutter ( 4951): ║                 "nameAr": "اشتراك العصير",
 I/flutter ( 4951): ║                 "nameEn": "Juice Subscription",
 I/flutter ( 4951): ║                 "nameI18n": {ar: اشتراك العصير, en: Juice Subscription},
@@ -11090,7 +11287,7 @@ I/flutter ( 4951): ║                         "id": "6a522f65b3fb649917aee74f",
 I/flutter ( 4951): ║                         "productId": "6a522f65b3fb649917aee74f",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f65b3fb649917aee74f",
 I/flutter ( 4951): ║                         "key": "orange_juice",
-I/flutter ( 4951): ║                         "name": "Orange Juice",
+I/flutter ( 4951): ║                         "name": "عصير برتقال",
 I/flutter ( 4951): ║                         "nameAr": "عصير برتقال",
 I/flutter ( 4951): ║                         "nameEn": "Orange Juice",
 I/flutter ( 4951): ║                         "nameI18n": {ar: عصير برتقال, en: Orange Juice},
@@ -11152,7 +11349,7 @@ I/flutter ( 4951): ║                         "id": "6a522f65b3fb649917aee752",
 I/flutter ( 4951): ║                         "productId": "6a522f65b3fb649917aee752",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f65b3fb649917aee752",
 I/flutter ( 4951): ║                         "key": "apple_juice",
-I/flutter ( 4951): ║                         "name": "Apple Juice",
+I/flutter ( 4951): ║                         "name": "عصير تفاح",
 I/flutter ( 4951): ║                         "nameAr": "عصير تفاح",
 I/flutter ( 4951): ║                         "nameEn": "Apple Juice",
 I/flutter ( 4951): ║                         "nameI18n": {ar: عصير تفاح, en: Apple Juice},
@@ -11214,7 +11411,7 @@ I/flutter ( 4951): ║                         "id": "6a522f66b3fb649917aee755",
 I/flutter ( 4951): ║                         "productId": "6a522f66b3fb649917aee755",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f66b3fb649917aee755",
 I/flutter ( 4951): ║                         "key": "mango_juice",
-I/flutter ( 4951): ║                         "name": "Mango Juice",
+I/flutter ( 4951): ║                         "name": "عصير مانجو",
 I/flutter ( 4951): ║                         "nameAr": "عصير مانجو",
 I/flutter ( 4951): ║                         "nameEn": "Mango Juice",
 I/flutter ( 4951): ║                         "nameI18n": {ar: عصير مانجو, en: Mango Juice},
@@ -11276,7 +11473,7 @@ I/flutter ( 4951): ║                         "id": "6a522f75b3fb649917aee79d",
 I/flutter ( 4951): ║                         "productId": "6a522f75b3fb649917aee79d",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f75b3fb649917aee79d",
 I/flutter ( 4951): ║                         "key": "berry_blast",
-I/flutter ( 4951): ║                         "name": "Berry Blast",
+I/flutter ( 4951): ║                         "name": "بيري بلاست",
 I/flutter ( 4951): ║                         "nameAr": "بيري بلاست",
 I/flutter ( 4951): ║                         "nameEn": "Berry Blast",
 I/flutter ( 4951): ║                         "nameI18n": {ar: بيري بلاست, en: Berry Blast},
@@ -11338,7 +11535,7 @@ I/flutter ( 4951): ║                         "id": "6a522f76b3fb649917aee7a0",
 I/flutter ( 4951): ║                         "productId": "6a522f76b3fb649917aee7a0",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f76b3fb649917aee7a0",
 I/flutter ( 4951): ║                         "key": "berry_prot",
-I/flutter ( 4951): ║                         "name": "Berry Prot",
+I/flutter ( 4951): ║                         "name": "بيري بروت",
 I/flutter ( 4951): ║                         "nameAr": "بيري بروت",
 I/flutter ( 4951): ║                         "nameEn": "Berry Prot",
 I/flutter ( 4951): ║                         "nameI18n": {ar: بيري بروت, en: Berry Prot},
@@ -11400,7 +11597,7 @@ I/flutter ( 4951): ║                         "id": "6a522f77b3fb649917aee7a3",
 I/flutter ( 4951): ║                         "productId": "6a522f77b3fb649917aee7a3",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f77b3fb649917aee7a3",
 I/flutter ( 4951): ║                         "key": "classic_green",
-I/flutter ( 4951): ║                         "name": "Classic Green",
+I/flutter ( 4951): ║                         "name": "كلاسيك جرين",
 I/flutter ( 4951): ║                         "nameAr": "كلاسيك جرين",
 I/flutter ( 4951): ║                         "nameEn": "Classic Green",
 I/flutter ( 4951): ║                         "nameI18n": {ar: كلاسيك جرين, en: Classic Green},
@@ -11462,7 +11659,7 @@ I/flutter ( 4951): ║                         "id": "6a522f77b3fb649917aee7a6",
 I/flutter ( 4951): ║                         "productId": "6a522f77b3fb649917aee7a6",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f77b3fb649917aee7a6",
 I/flutter ( 4951): ║                         "key": "beet_punch",
-I/flutter ( 4951): ║                         "name": "Beet Punch",
+I/flutter ( 4951): ║                         "name": "بيت بنش",
 I/flutter ( 4951): ║                         "nameAr": "بيت بنش",
 I/flutter ( 4951): ║                         "nameEn": "Beet Punch",
 I/flutter ( 4951): ║                         "nameI18n": {ar: بيت بنش, en: Beet Punch},
@@ -11524,7 +11721,7 @@ I/flutter ( 4951): ║                         "id": "6a522f78b3fb649917aee7a9",
 I/flutter ( 4951): ║                         "productId": "6a522f78b3fb649917aee7a9",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f78b3fb649917aee7a9",
 I/flutter ( 4951): ║                         "key": "orange_carrot",
-I/flutter ( 4951): ║                         "name": "Orange Carrot",
+I/flutter ( 4951): ║                         "name": "برتقال وجزر",
 I/flutter ( 4951): ║                         "nameAr": "برتقال وجزر",
 I/flutter ( 4951): ║                         "nameEn": "Orange Carrot",
 I/flutter ( 4951): ║                         "nameI18n": {ar: برتقال وجزر, en: Orange Carrot},
@@ -11586,7 +11783,7 @@ I/flutter ( 4951): ║                         "id": "6a522f79b3fb649917aee7ac",
 I/flutter ( 4951): ║                         "productId": "6a522f79b3fb649917aee7ac",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f79b3fb649917aee7ac",
 I/flutter ( 4951): ║                         "key": "watermelon_mint",
-I/flutter ( 4951): ║                         "name": "Watermelon Mint",
+I/flutter ( 4951): ║                         "name": "بطيخ بالنعناع",
 I/flutter ( 4951): ║                         "nameAr": "بطيخ بالنعناع",
 I/flutter ( 4951): ║                         "nameEn": "Watermelon Mint",
 I/flutter ( 4951): ║                         "nameI18n": {ar: بطيخ بالنعناع, en: Watermelon Mint},
@@ -11654,17 +11851,17 @@ I/flutter ( 4951): ║                         "includedTotalQty": 7,
 I/flutter ( 4951): ║                         "remainingQty": 7
 I/flutter ( 4951): ║                    }
 I/flutter ( 4951): ║                 ],
-I/flutter ( 4951): ║                 "name": "Juice Subscription"
+I/flutter ( 4951): ║                 "name": "اشتراك العصير"
 I/flutter ( 4951): ║            },
 I/flutter ( 4951): ║            {
 I/flutter ( 4951): ║                 "groupId": "6a4958e8991f8d73bc7a2608",
 I/flutter ( 4951): ║                 "addonPlanId": "6a4958e8991f8d73bc7a2608",
-I/flutter ( 4951): ║                 "label": "Snack Subscription",
-I/flutter ( 4951): ║                 "labelText": "Snack Subscription",
+I/flutter ( 4951): ║                 "label": "اشتراك السناك",
+I/flutter ( 4951): ║                 "labelText": "اشتراك السناك",
 I/flutter ( 4951): ║                 "labelAr": "اشتراك السناك",
 I/flutter ( 4951): ║                 "labelEn": "Snack Subscription",
 I/flutter ( 4951): ║                 "labelI18n": {ar: اشتراك السناك, en: Snack Subscription},
-I/flutter ( 4951): ║                 "addonPlanName": "Snack Subscription",
+I/flutter ( 4951): ║                 "addonPlanName": "اشتراك السناك",
 I/flutter ( 4951): ║                 "nameAr": "اشتراك السناك",
 I/flutter ( 4951): ║                 "nameEn": "Snack Subscription",
 I/flutter ( 4951): ║                 "nameI18n": {ar: اشتراك السناك, en: Snack Subscription},
@@ -11686,7 +11883,7 @@ I/flutter ( 4951): ║                         "id": "6a522f69b3fb649917aee761",
 I/flutter ( 4951): ║                         "productId": "6a522f69b3fb649917aee761",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f69b3fb649917aee761",
 I/flutter ( 4951): ║                         "key": "protein_snack",
-I/flutter ( 4951): ║                         "name": "Protein Snack",
+I/flutter ( 4951): ║                         "name": "سناك بروتين",
 I/flutter ( 4951): ║                         "nameAr": "سناك بروتين",
 I/flutter ( 4951): ║                         "nameEn": "Protein Snack",
 I/flutter ( 4951): ║                         "nameI18n": {ar: سناك بروتين, en: Protein Snack},
@@ -11748,7 +11945,7 @@ I/flutter ( 4951): ║                         "id": "6a522f69b3fb649917aee764",
 I/flutter ( 4951): ║                         "productId": "6a522f69b3fb649917aee764",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f69b3fb649917aee764",
 I/flutter ( 4951): ║                         "key": "healthy_dessert",
-I/flutter ( 4951): ║                         "name": "Healthy Dessert",
+I/flutter ( 4951): ║                         "name": "حلوى صحية",
 I/flutter ( 4951): ║                         "nameAr": "حلوى صحية",
 I/flutter ( 4951): ║                         "nameEn": "Healthy Dessert",
 I/flutter ( 4951): ║                         "nameI18n": {ar: حلوى صحية, en: Healthy Dessert},
@@ -11810,7 +12007,7 @@ I/flutter ( 4951): ║                         "id": "6a522f6ab3fb649917aee767",
 I/flutter ( 4951): ║                         "productId": "6a522f6ab3fb649917aee767",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f6ab3fb649917aee767",
 I/flutter ( 4951): ║                         "key": "snack_box",
-I/flutter ( 4951): ║                         "name": "Snack Box",
+I/flutter ( 4951): ║                         "name": "صندوق سناك",
 I/flutter ( 4951): ║                         "nameAr": "صندوق سناك",
 I/flutter ( 4951): ║                         "nameEn": "Snack Box",
 I/flutter ( 4951): ║                         "nameI18n": {ar: صندوق سناك, en: Snack Box},
@@ -11872,12 +12069,12 @@ I/flutter ( 4951): ║                         "id": "6a522f70b3fb649917aee785",
 I/flutter ( 4951): ║                         "productId": "6a522f70b3fb649917aee785",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f70b3fb649917aee785",
 I/flutter ( 4951): ║                         "key": "orange_cake",
-I/flutter ( 4951): ║                         "name": "Orange Cake",
+I/flutter ( 4951): ║                         "name": "كيكة البرتقال",
 I/flutter ( 4951): ║                         "nameAr": "كيكة البرتقال",
 I/flutter ( 4951): ║                         "nameEn": "Orange Cake",
 I/flutter ( 4951): ║                         "nameI18n": {ar: كيكة البرتقال, en: Orange Cake},
-I/flutter ( 4951): ║                         "description": "Healthy orange cake made with light ingredients, natural refreshi
-I/flutter ( 4951): ║                          ng orange flavor, soft texture, and no sugar."
+I/flutter ( 4951): ║                         "description": "كيكة برتقال صحية محضرة بمكونات خفيفة، بطعم برتقال طبيعي منعش وقوا
+I/flutter ( 4951): ║                          م ناعم، بدون سكر."
 I/flutter ( 4951): ║                         "descriptionI18n": {
 I/flutter ( 4951): ║                             "ar": "كيكة برتقال صحية محضرة بمكونات خفيفة، بطعم برتقال طبيعي منعش
 I/flutter ( 4951): ║                              وقوام ناعم، بدون سكر."
@@ -11942,7 +12139,7 @@ I/flutter ( 4951): ║                         "id": "6a522f71b3fb649917aee788",
 I/flutter ( 4951): ║                         "productId": "6a522f71b3fb649917aee788",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f71b3fb649917aee788",
 I/flutter ( 4951): ║                         "key": "apple_cinnamon_muffin_2pcs",
-I/flutter ( 4951): ║                         "name": "Apple Cinnamon Muffin - 2 Pieces",
+I/flutter ( 4951): ║                         "name": "مافن التفاح بالقرفة قطعتين",
 I/flutter ( 4951): ║                         "nameAr": "مافن التفاح بالقرفة قطعتين",
 I/flutter ( 4951): ║                         "nameEn": "Apple Cinnamon Muffin - 2 Pieces",
 I/flutter ( 4951): ║                         "nameI18n": {ar: مافن التفاح بالقرفة قطعتين, en: Apple Cinnamon Muffin - 2 Pieces},
@@ -12004,7 +12201,7 @@ I/flutter ( 4951): ║                         "id": "6a522f72b3fb649917aee78b",
 I/flutter ( 4951): ║                         "productId": "6a522f72b3fb649917aee78b",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f72b3fb649917aee78b",
 I/flutter ( 4951): ║                         "key": "berry_cheesecake",
-I/flutter ( 4951): ║                         "name": "Berry Cheesecake",
+I/flutter ( 4951): ║                         "name": "تشيز كيك بالتوت",
 I/flutter ( 4951): ║                         "nameAr": "تشيز كيك بالتوت",
 I/flutter ( 4951): ║                         "nameEn": "Berry Cheesecake",
 I/flutter ( 4951): ║                         "nameI18n": {ar: تشيز كيك بالتوت, en: Berry Cheesecake},
@@ -12066,7 +12263,7 @@ I/flutter ( 4951): ║                         "id": "6a522f72b3fb649917aee78e",
 I/flutter ( 4951): ║                         "productId": "6a522f72b3fb649917aee78e",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f72b3fb649917aee78e",
 I/flutter ( 4951): ║                         "key": "strawberry_cheesecake",
-I/flutter ( 4951): ║                         "name": "Strawberry Cheesecake",
+I/flutter ( 4951): ║                         "name": "تشيز كيك بالفراولة",
 I/flutter ( 4951): ║                         "nameAr": "تشيز كيك بالفراولة",
 I/flutter ( 4951): ║                         "nameEn": "Strawberry Cheesecake",
 I/flutter ( 4951): ║                         "nameI18n": {ar: تشيز كيك بالفراولة, en: Strawberry Cheesecake},
@@ -12128,7 +12325,7 @@ I/flutter ( 4951): ║                         "id": "6a522f73b3fb649917aee791",
 I/flutter ( 4951): ║                         "productId": "6a522f73b3fb649917aee791",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f73b3fb649917aee791",
 I/flutter ( 4951): ║                         "key": "dark_brownies",
-I/flutter ( 4951): ║                         "name": "Dark Brownies",
+I/flutter ( 4951): ║                         "name": "براونيز داكن",
 I/flutter ( 4951): ║                         "nameAr": "براونيز داكن",
 I/flutter ( 4951): ║                         "nameEn": "Dark Brownies",
 I/flutter ( 4951): ║                         "nameI18n": {ar: براونيز داكن, en: Dark Brownies},
@@ -12190,7 +12387,7 @@ I/flutter ( 4951): ║                         "id": "6a522f74b3fb649917aee794",
 I/flutter ( 4951): ║                         "productId": "6a522f74b3fb649917aee794",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f74b3fb649917aee794",
 I/flutter ( 4951): ║                         "key": "protein_bar",
-I/flutter ( 4951): ║                         "name": "Protein Bar",
+I/flutter ( 4951): ║                         "name": "بروتين بار",
 I/flutter ( 4951): ║                         "nameAr": "بروتين بار",
 I/flutter ( 4951): ║                         "nameEn": "Protein Bar",
 I/flutter ( 4951): ║                         "nameI18n": {ar: بروتين بار, en: Protein Bar},
@@ -12252,7 +12449,7 @@ I/flutter ( 4951): ║                         "id": "6a522f74b3fb649917aee797",
 I/flutter ( 4951): ║                         "productId": "6a522f74b3fb649917aee797",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f74b3fb649917aee797",
 I/flutter ( 4951): ║                         "key": "basic_classic",
-I/flutter ( 4951): ║                         "name": "Basic Classic",
+I/flutter ( 4951): ║                         "name": "بيسك كلاسيك",
 I/flutter ( 4951): ║                         "nameAr": "بيسك كلاسيك",
 I/flutter ( 4951): ║                         "nameEn": "Basic Classic",
 I/flutter ( 4951): ║                         "nameI18n": {ar: بيسك كلاسيك, en: Basic Classic},
@@ -12314,7 +12511,7 @@ I/flutter ( 4951): ║                         "id": "6a522f75b3fb649917aee79a",
 I/flutter ( 4951): ║                         "productId": "6a522f75b3fb649917aee79a",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f75b3fb649917aee79a",
 I/flutter ( 4951): ║                         "key": "protein_chocolate_cake",
-I/flutter ( 4951): ║                         "name": "Protein Chocolate Cake",
+I/flutter ( 4951): ║                         "name": "كيك شوكولاتة بروتين",
 I/flutter ( 4951): ║                         "nameAr": "كيك شوكولاتة بروتين",
 I/flutter ( 4951): ║                         "nameEn": "Protein Chocolate Cake",
 I/flutter ( 4951): ║                         "nameI18n": {ar: كيك شوكولاتة بروتين, en: Protein Chocolate Cake},
@@ -12382,17 +12579,17 @@ I/flutter ( 4951): ║                         "includedTotalQty": 7,
 I/flutter ( 4951): ║                         "remainingQty": 7
 I/flutter ( 4951): ║                    }
 I/flutter ( 4951): ║                 ],
-I/flutter ( 4951): ║                 "name": "Snack Subscription"
+I/flutter ( 4951): ║                 "name": "اشتراك السناك"
 I/flutter ( 4951): ║            },
 I/flutter ( 4951): ║            {
 I/flutter ( 4951): ║                 "groupId": "6a4958e9991f8d73bc7a260b",
 I/flutter ( 4951): ║                 "addonPlanId": "6a4958e9991f8d73bc7a260b",
-I/flutter ( 4951): ║                 "label": "Small Salad Subscription",
-I/flutter ( 4951): ║                 "labelText": "Small Salad Subscription",
+I/flutter ( 4951): ║                 "label": "اشتراك السلطة الصغيرة",
+I/flutter ( 4951): ║                 "labelText": "اشتراك السلطة الصغيرة",
 I/flutter ( 4951): ║                 "labelAr": "اشتراك السلطة الصغيرة",
 I/flutter ( 4951): ║                 "labelEn": "Small Salad Subscription",
 I/flutter ( 4951): ║                 "labelI18n": {ar: اشتراك السلطة الصغيرة, en: Small Salad Subscription},
-I/flutter ( 4951): ║                 "addonPlanName": "Small Salad Subscription",
+I/flutter ( 4951): ║                 "addonPlanName": "اشتراك السلطة الصغيرة",
 I/flutter ( 4951): ║                 "nameAr": "اشتراك السلطة الصغيرة",
 I/flutter ( 4951): ║                 "nameEn": "Small Salad Subscription",
 I/flutter ( 4951): ║                 "nameI18n": {ar: اشتراك السلطة الصغيرة, en: Small Salad Subscription},
@@ -12414,7 +12611,7 @@ I/flutter ( 4951): ║                         "id": "6a522f67b3fb649917aee75b",
 I/flutter ( 4951): ║                         "productId": "6a522f67b3fb649917aee75b",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f67b3fb649917aee75b",
 I/flutter ( 4951): ║                         "key": "fruit_salad_addon",
-I/flutter ( 4951): ║                         "name": "Fruit Salad",
+I/flutter ( 4951): ║                         "name": "سلطة فواكه",
 I/flutter ( 4951): ║                         "nameAr": "سلطة فواكه",
 I/flutter ( 4951): ║                         "nameEn": "Fruit Salad",
 I/flutter ( 4951): ║                         "nameI18n": {ar: سلطة فواكه, en: Fruit Salad},
@@ -12476,7 +12673,7 @@ I/flutter ( 4951): ║                         "id": "6a522f67b3fb649917aee758",
 I/flutter ( 4951): ║                         "productId": "6a522f67b3fb649917aee758",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f67b3fb649917aee758",
 I/flutter ( 4951): ║                         "key": "greek_salad",
-I/flutter ( 4951): ║                         "name": "Greek Salad",
+I/flutter ( 4951): ║                         "name": "سلطة يونانية",
 I/flutter ( 4951): ║                         "nameAr": "سلطة يونانية",
 I/flutter ( 4951): ║                         "nameEn": "Greek Salad",
 I/flutter ( 4951): ║                         "nameI18n": {ar: سلطة يونانية, en: Greek Salad},
@@ -12538,7 +12735,7 @@ I/flutter ( 4951): ║                         "id": "6a522f68b3fb649917aee75e",
 I/flutter ( 4951): ║                         "productId": "6a522f68b3fb649917aee75e",
 I/flutter ( 4951): ║                         "menuProductId": "6a522f68b3fb649917aee75e",
 I/flutter ( 4951): ║                         "key": "vegetable_salad",
-I/flutter ( 4951): ║                         "name": "Vegetable Salad",
+I/flutter ( 4951): ║                         "name": "سلطة خضار",
 I/flutter ( 4951): ║                         "nameAr": "سلطة خضار",
 I/flutter ( 4951): ║                         "nameEn": "Vegetable Salad",
 I/flutter ( 4951): ║                         "nameI18n": {ar: سلطة خضار, en: Vegetable Salad},
@@ -12606,7 +12803,7 @@ I/flutter ( 4951): ║                         "includedTotalQty": 7,
 I/flutter ( 4951): ║                         "remainingQty": 7
 I/flutter ( 4951): ║                    }
 I/flutter ( 4951): ║                 ],
-I/flutter ( 4951): ║                 "name": "Small Salad Subscription"
+I/flutter ( 4951): ║                 "name": "اشتراك السلطة الصغيرة"
 I/flutter ( 4951): ║            }
 I/flutter ( 4951): ║         ],
 I/flutter ( 4951): ║         "addonCategoryAllowances": [
@@ -12785,34 +12982,34 @@ I/flutter ( 4951): ║         ]
 I/flutter ( 4951): ║    }
 I/flutter ( 4951): ║
 I/flutter ( 4951): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter ( 4951): onChange -- MealPlannerBloc, Change { currentState: MealPlannerLoading(), nextState: MealPlannerLoaded([Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel'], Instance of 'MealPlannerMenuModel', AddonChoicesModel([AddonChoiceCategoryModel(ice_cream, [], [AddonChoiceModel(6a522f79b3fb649917aee7af, 6a522f79b3fb649917aee7af, 6a522f79b3fb649917aee7af, 6a522f79b3fb649917aee7af, vanilla_ice_cream, Vanilla Ice Cream, ايس كريم فانيليا, {ar: ايس كريم فانيليا, en: Vanilla Ice Cream}, 1300, 13.0, SAR, null, null, ice_cream, ice_cream, ice_cream, menu_product, true, true, subscription, true, 7, 7, 7, 1, 1, 0, 7, 6, 0, 1300, allowance_covered, false, false, snack:6a57860863e85fba4f858b52, 6a59137fbc0f5ee5b77cf5b1, 6a57860863e85fba4f858b52, 1, {cardVariant: standard, cardSize: medium, badge: , ctaLabel: , imageRatio: square}),
+I/flutter ( 4951): onChange -- MealPlannerBloc, Change { currentState: MealPlannerLoading(), nextState: MealPlannerLoaded([Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel'], Instance of 'MealPlannerMenuModel', AddonChoicesModel([AddonChoiceCategoryModel(6a57860863e85fba4f858b52, 6a57860863e85fba4f858b52, 6a57860863e85fba4f858b52, ايس كريم, ice_cream, snack, ice_cream, [], [AddonChoiceModel(6a522f79b3fb649917aee7af, 6a522f79b3fb649917aee7af, 6a522f79b3fb649917aee7af, 6a522f79b3fb649917aee7af, vanilla_ice_cream, ايس كريم فانيليا, ايس كريم فانيليا, {ar: ايس كريم فانيليا, en: Vanilla Ice Cream}, 1300, 13.0, SAR, null, null, ice_cream, ice_cream, , ice_cream, menu_product, true, true, subscription, true, 7, 7, 7, 1, 1, 0, 7, 6, 0, 1300, allowance_covered, false, false, snack:6a57860863e85fba4f858b52, 6a59137fbc0f
 I/flutter ( 4951): [🌎 Easy Localization] [WARNING] Localization key [dailyLimitEnforced] not found
 I/flutter ( 4951):
 I/flutter ( 4951): ╔╣ Request ║ GET
 I/flutter ( 4951): ║  https://basicdiet145-production-51e9.up.railway.app/api/subscriptions/6a59137fbc0f5ee5b77cf5ab/days/2026-07-16
 I/flutter ( 4951): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
 I/flutter ( 4951):
-I/flutter ( 4951): ╔╣ Response ║ GET ║ Status: 200 OK  ║ Time: 249 ms
+I/flutter ( 4951): ╔╣ Response ║ GET ║ Status: 200 OK  ║ Time: 295 ms
 I/flutter ( 4951): ║  https://basicdiet145-production-51e9.up.railway.app/api/subscriptions/6a59137fbc0f5ee5b77cf5ab/days/2026-07-16
 I/flutter ( 4951): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
 I/flutter ( 4951): ╔ Headers
 I/flutter ( 4951): ╟ x-dns-prefetch-control: [off]
-I/flutter ( 4951): ╟ date: [Thu, 16 Jul 2026 17:27:46 GMT]
+I/flutter ( 4951): ╟ date: [Thu, 16 Jul 2026 17:56:58 GMT]
 I/flutter ( 4951): ╟ transfer-encoding: [chunked]
 I/flutter ( 4951): ╟ vary: [Origin, accept-encoding]
 I/flutter ( 4951): ╟ origin-agent-cluster: [?1]
 I/flutter ( 4951): ╟ content-encoding: [gzip]
-I/flutter ( 4951): ╟ x-hikari-trace: [cdg1.e9jw]
+I/flutter ( 4951): ╟ x-hikari-trace: [cdg1.8vsn]
 I/flutter ( 4951): ╟ server: [railway-hikari]
-I/flutter ( 4951): ╟ x-request-id: [395e9cfa-5681-458b-ace3-fe0aca4e895e]
+I/flutter ( 4951): ╟ x-request-id: [7a5cc1e2-f4d4-497c-937d-e441f3a7736d]
 I/flutter ( 4951): ╟ cross-origin-resource-policy: [same-origin]
-I/flutter ( 4951): ╟ etag: [W/"2945-5rcd3kfDvTUYIsPQgZhNxXAwOx8"]
+I/flutter ( 4951): ╟ etag: [W/"29a0-Sl8DhxtPlNfDBKBcPaFzzR2gwro"]
 I/flutter ( 4951): ╟ x-frame-options: [SAMEORIGIN]
 I/flutter ( 4951): ╟ content-security-policy:
 I/flutter ( 4951): ║ [default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-
 I/flutter ( 4951): ║ ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr
 I/flutter ( 4951): ║ 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests]
-I/flutter ( 4951): ╟ x-railway-request-id: [qDX1mh3WScWwiyT3JH0Vcg]
+I/flutter ( 4951): ╟ x-railway-request-id: [cJlh6i7WQwaRFAlfacI7Nw]
 I/flutter ( 4951): ╟ connection: [keep-alive]
 I/flutter ( 4951): ╟ strict-transport-security: [max-age=15552000; includeSubDomains]
 I/flutter ( 4951): ╟ referrer-policy: [no-referrer]
@@ -12919,10 +13116,10 @@ I/flutter ( 4951): ║                 "confirmedByRole": null,
 I/flutter ( 4951): ║                 "baseMealSlots": []
 I/flutter ( 4951): ║                 "premiumOverageCount": 0,
 I/flutter ( 4951): ║                 "premiumOverageStatus": null,
-I/flutter ( 4951): ║                 "stateLabel": "Draft",
+I/flutter ( 4951): ║                 "stateLabel": "مسودة",
 I/flutter ( 4951): ║                 "premiumOverageStatusLabel": ""
 I/flutter ( 4951): ║            }
-I/flutter ( 4951): ║             "statusLabel": "Open",
+I/flutter ( 4951): ║             "statusLabel": "مفتوح",
 I/flutter ( 4951): ║             "premiumSummary": {
 I/flutter ( 4951): ║                 "selectedCount": 0,
 I/flutter ( 4951): ║                 "coveredByBalanceCount": 0,
@@ -13124,7 +13321,7 @@ I/flutter ( 4951): ║                 "revisionHash": "b0ddd7e6b9051b1c961aa465
 I/flutter ( 4951): ║                 "createdAt": null,
 I/flutter ( 4951): ║                 "paidAt": null,
 I/flutter ( 4951): ║                 "extraPremiumCount": 0,
-I/flutter ( 4951): ║                 "statusLabel": "No payment"
+I/flutter ( 4951): ║                 "statusLabel": "لا يوجد دفع"
 I/flutter ( 4951): ║            }
 I/flutter ( 4951): ║             "paymentRequirement": {
 I/flutter ( 4951): ║                 "status": "satisfied",
@@ -13139,7 +13336,7 @@ I/flutter ( 4951): ║                 "addonPendingPaymentCount": 0,
 I/flutter ( 4951): ║                 "pendingAmountHalala": 0,
 I/flutter ( 4951): ║                 "amountHalala": 0,
 I/flutter ( 4951): ║                 "currency": "SAR",
-I/flutter ( 4951): ║                 "pricingStatusLabel": "Not required",
+I/flutter ( 4951): ║                 "pricingStatusLabel": "غير مطلوب",
 I/flutter ( 4951): ║                 "blockingReasonLabel": ""
 I/flutter ( 4951): ║            }
 I/flutter ( 4951): ║             "commercialState": "draft",
@@ -13162,8 +13359,8 @@ I/flutter ( 4951): ║             "effectiveFulfillmentMode": "pickup",
 I/flutter ( 4951): ║             "firstDayFulfillmentOverride": false,
 I/flutter ( 4951): ║             "pickupLocation": {
 I/flutter ( 4951): ║                 "id": "branch_1",
-I/flutter ( 4951): ║                 "name": "Riyadh Branch",
-I/flutter ( 4951): ║                 "address": "Address 1",
+I/flutter ( 4951): ║                 "name": "فرع جده",
+I/flutter ( 4951): ║                 "address": "العنوان 1",
 I/flutter ( 4951): ║                 "phone": "",
 I/flutter ( 4951): ║                 "city": "",
 I/flutter ( 4951): ║                 "district": "",
@@ -13177,10 +13374,10 @@ I/flutter ( 4951): ║             "deliveryWindow": null,
 I/flutter ( 4951): ║             "deliverySlot": {type: pickup, slotId: , window: , label: },
 I/flutter ( 4951): ║             "fulfillmentSummary": {
 I/flutter ( 4951): ║                 "mode": "pickup",
-I/flutter ( 4951): ║                 "title": "Pickup from branch",
+I/flutter ( 4951): ║                 "title": "الاستلام من الفرع",
 I/flutter ( 4951): ║                 "status": "open",
-I/flutter ( 4951): ║                 "statusLabel": "Open",
-I/flutter ( 4951): ║                 "message": "Review today's selections and request preparation when ready"
+I/flutter ( 4951): ║                 "statusLabel": "مفتوح",
+I/flutter ( 4951): ║                 "message": "راجع اختيارات اليوم واطلب التجهيز عندما تكون جاهزا",
 I/flutter ( 4951): ║                 "nextAction": "",
 I/flutter ( 4951): ║                 "isEditable": true,
 I/flutter ( 4951): ║                 "isFulfillable": false,
@@ -13290,127 +13487,12 @@ I/flutter ( 4951): ║                     ],
 I/flutter ( 4951): ║                     "excludedGroupKeys": [extra_protein_50g]
 I/flutter ( 4951): ║                }
 I/flutter ( 4951): ║            }
-I/flutter ( 4951): ║             "commercialStateLabel": "Draft"
+I/flutter ( 4951): ║             "commercialStateLabel": "مسودة"
 I/flutter ( 4951): ║        }
 I/flutter ( 4951): ║    }
 I/flutter ( 4951): ║
 I/flutter ( 4951): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter ( 4951):
-I/flutter ( 4951): ╔╣ Request ║ GET
-I/flutter ( 4951): ║  https://basicdiet145-production-51e9.up.railway.app/api/subscriptions/6a59137fbc0f5ee5b77cf5ab/pickup-requests?date=2026-07-16&status=active
-I/flutter ( 4951): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter ( 4951):
-I/flutter ( 4951): ╔╣ Response ║ GET ║ Status: 200 OK  ║ Time: 231 ms
-I/flutter ( 4951): ║  https://basicdiet145-production-51e9.up.railway.app/api/subscriptions/6a59137fbc0f5ee5b77cf5ab/pickup-requests?date=2026-07-16&status=active
-I/flutter ( 4951): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter ( 4951): ╔ Headers
-I/flutter ( 4951): ╟ connection: [keep-alive]
-I/flutter ( 4951): ╟ x-dns-prefetch-control: [off]
-I/flutter ( 4951): ╟ date: [Thu, 16 Jul 2026 17:27:46 GMT]
-I/flutter ( 4951): ╟ origin-agent-cluster: [?1]
-I/flutter ( 4951): ╟ vary: [Origin]
-I/flutter ( 4951): ╟ strict-transport-security: [max-age=15552000; includeSubDomains]
-I/flutter ( 4951): ╟ referrer-policy: [no-referrer]
-I/flutter ( 4951): ╟ x-permitted-cross-domain-policies: [none]
-I/flutter ( 4951): ╟ cross-origin-opener-policy: [same-origin]
-I/flutter ( 4951): ╟ content-type: [application/json; charset=utf-8]
-I/flutter ( 4951): ╟ x-xss-protection: [0]
-I/flutter ( 4951): ╟ x-hikari-trace: [cdg1.e9jw]
-I/flutter ( 4951): ╟ x-railway-edge: [cdg1]
-I/flutter ( 4951): ╟ server: [railway-hikari]
-I/flutter ( 4951): ╟ x-request-id: [17525058-4668-4d2b-a643-682a0c48b454]
-I/flutter ( 4951): ╟ cross-origin-resource-policy: [same-origin]
-I/flutter ( 4951): ╟ access-control-allow-credentials: [true]
-I/flutter ( 4951): ╟ content-length: [38]
-I/flutter ( 4951): ╟ x-download-options: [noopen]
-I/flutter ( 4951): ╟ etag: [W/"26-vUJLOZzgmo3420bhPQar8b5PMRI"]
-I/flutter ( 4951): ╟ x-frame-options: [SAMEORIGIN]
-I/flutter ( 4951): ╟ x-content-type-options: [nosniff]
-I/flutter ( 4951): ╟ content-security-policy:
-I/flutter ( 4951): ║ [default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-
-I/flutter ( 4951): ║ ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr
-I/flutter ( 4951): ║ 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests]
-I/flutter ( 4951): ╟ x-railway-request-id: [JKfKzi_6QXiI8GyP-8Y8hA]
-I/flutter ( 4951): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter ( 4951): ╔ Body
-I/flutter ( 4951): ║
-I/flutter ( 4951): ║    {
-I/flutter ( 4951): ║         "status": true,
-I/flutter ( 4951): ║         "data": {
-I/flutter ( 4951): ║             "requests": []
-I/flutter ( 4951): ║        }
-I/flutter ( 4951): ║    }
-I/flutter ( 4951): ║
-I/flutter ( 4951): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter ( 4951): onChange -- MealPlannerBloc, Change { currentState: MealPlannerLoaded([Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel'], Instance of 'MealPlannerMenuModel', AddonChoicesModel([AddonChoiceCategoryModel(ice_cream, [], [AddonChoiceModel(6a522f79b3fb649917aee7af, 6a522f79b3fb649917aee7af, 6a522f79b3fb649917aee7af, 6a522f79b3fb649917aee7af, vanilla_ice_cream, Vanilla Ice Cream, ايس كريم فانيليا, {ar: ايس كريم فانيليا, en: Vanilla Ice Cream}, 1300, 13.0, SAR, null, null, ice_cream, ice_cream, ice_cream, menu_product, true, true, subscription, true, 7, 7, 7, 1, 1, 0, 7, 6, 0, 1300, allowance_covered, false, false, snack:6a57860863e85fba4f858b52, 6a59137fbc0f5ee5b77cf5b1, 6a57860863e85fba4f858b52, 1, {cardVariant: standard, cardSize: medium, badge: , ctaLabel: , imageRatio: square}), AddonChoiceModel(6a522f7ab3fb6499
 E/libEGL  ( 4951): called unimplemented OpenGL ES API
-E/libEGL  ( 4951): called unimplemented OpenGL ES API
-I/flutter ( 4951):
-I/flutter ( 4951): ╔╣ Request ║ GET
-I/flutter ( 4951): ║  https://basicdiet145-production-51e9.up.railway.app/api/subscriptions/6a59137fbc0f5ee5b77cf5ab/pickup-requests?date=2026-07-16&status=active
-I/flutter ( 4951): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter ( 4951):
-I/flutter ( 4951): ╔╣ Response ║ GET ║ Status: 200 OK  ║ Time: 375 ms
-I/flutter ( 4951): ║  https://basicdiet145-production-51e9.up.railway.app/api/subscriptions/6a59137fbc0f5ee5b77cf5ab/pickup-requests?date=2026-07-16&status=active
-I/flutter ( 4951): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter ( 4951): ╔ Headers
-I/flutter ( 4951): ╟ connection: [keep-alive]
-I/flutter ( 4951): ╟ x-dns-prefetch-control: [off]
-I/flutter ( 4951): ╟ date: [Thu, 16 Jul 2026 17:27:56 GMT]
-I/flutter ( 4951): ╟ origin-agent-cluster: [?1]
-I/flutter ( 4951): ╟ vary: [Origin]
-I/flutter ( 4951): ╟ strict-transport-security: [max-age=15552000; includeSubDomains]
-I/flutter ( 4951): ╟ referrer-policy: [no-referrer]
-I/flutter ( 4951): ╟ x-permitted-cross-domain-policies: [none]
-I/flutter ( 4951): ╟ cross-origin-opener-policy: [same-origin]
-I/flutter ( 4951): ╟ content-type: [application/json; charset=utf-8]
-I/flutter ( 4951): ╟ x-xss-protection: [0]
-I/flutter ( 4951): ╟ x-hikari-trace: [cdg1.8vsn]
-I/flutter ( 4951): ╟ x-railway-edge: [cdg1]
-I/flutter ( 4951): ╟ server: [railway-hikari]
-I/flutter ( 4951): ╟ x-request-id: [6ec96b05-26e0-4f1b-a988-3ab86bdfddf5]
-I/flutter ( 4951): ╟ cross-origin-resource-policy: [same-origin]
-I/flutter ( 4951): ╟ access-control-allow-credentials: [true]
-I/flutter ( 4951): ╟ content-length: [38]
-I/flutter ( 4951): ╟ x-download-options: [noopen]
-I/flutter ( 4951): ╟ etag: [W/"26-vUJLOZzgmo3420bhPQar8b5PMRI"]
-I/flutter ( 4951): ╟ x-frame-options: [SAMEORIGIN]
-I/flutter ( 4951): ╟ x-content-type-options: [nosniff]
-I/flutter ( 4951): ╟ content-security-policy:
-I/flutter ( 4951): ║ [default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-
-I/flutter ( 4951): ║ ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr
-I/flutter ( 4951): ║ 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests]
-I/flutter ( 4951): ╟ x-railway-request-id: [52BoZCNpSrSKCToXVOLIQQ]
-I/flutter ( 4951): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter ( 4951): ╔ Body
-I/flutter ( 4951): ║
-I/flutter ( 4951): ║    {
-I/flutter ( 4951): ║         "status": true,
-I/flutter ( 4951): ║         "data": {
-I/flutter ( 4951): ║             "requests": []
-I/flutter ( 4951): ║        }
-I/flutter ( 4951): ║    }
-I/flutter ( 4951): ║
-I/flutter ( 4951): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-The overflowing RenderFlex has an orientation of Axis.vertical.
-The edge of the RenderFlex that is overflowing has been marked in the rendering with a yellow and black striped pattern. This is usually caused by the contents being too big for the RenderFlex.
-
-Consider applying a flex factor (e.g. using an Expanded widget) to force the children of the RenderFlex to fit within the available space instead of being sized to their natural size.
-This is considered an error condition because it indicates that there is content that cannot be seen. If the content is legitimately bigger than the available space, consider clipping it with a ClipRect widget before putting it in the flex, or using a scrollable container rather than a Flex, like a ListView.
-
-The specific RenderFlex in question is: RenderFlex#3d48d relayoutBoundary=up1 OVERFLOWING
-...  parentData: offset=Offset(0.0, 0.0); flex=1; fit=FlexFit.tight (can use size)
-...  constraints: BoxConstraints(w=294.0, 0.0<=h<=53.9)
-...  size: Size(294.0, 53.9)
-...  direction: vertical
-...  mainAxisAlignment: center
-...  mainAxisSize: max
-...  crossAxisAlignment: end
-...  textDirection: ltr
-...  verticalDirection: down
-...  spacing: 0.0
-◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤
-====================================================================================================
 
 ======== Exception caught by rendering library =====================================================
 The following assertion was thrown during layout:
@@ -13418,170 +13500,4 @@ A RenderFlex overflowed by 14 pixels on the right.
 
 The relevant error-causing widget was:
 Row Row:file:///Users/moali/AndroidStudioProjects/basic/mobile_app/lib/presentation/plans/timeline/meal_planner/widgets/meal_planner_progress_indicator.dart:71:25
-I/flutter ( 4951):
-I/flutter ( 4951): ╔╣ Request ║ GET
-I/flutter ( 4951): ║  https://basicdiet145-production-51e9.up.railway.app/api/subscriptions/6a59137fbc0f5ee5b77cf5ab/pickup-requests?date=2026-07-16&status=active
-I/flutter ( 4951): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter ( 4951):
-I/flutter ( 4951): ╔╣ Response ║ GET ║ Status: 200 OK  ║ Time: 386 ms
-I/flutter ( 4951): ║  https://basicdiet145-production-51e9.up.railway.app/api/subscriptions/6a59137fbc0f5ee5b77cf5ab/pickup-requests?date=2026-07-16&status=active
-I/flutter ( 4951): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter ( 4951): ╔ Headers
-I/flutter ( 4951): ╟ connection: [keep-alive]
-I/flutter ( 4951): ╟ x-dns-prefetch-control: [off]
-I/flutter ( 4951): ╟ date: [Thu, 16 Jul 2026 17:28:06 GMT]
-I/flutter ( 4951): ╟ origin-agent-cluster: [?1]
-I/flutter ( 4951): ╟ vary: [Origin]
-I/flutter ( 4951): ╟ strict-transport-security: [max-age=15552000; includeSubDomains]
-I/flutter ( 4951): ╟ referrer-policy: [no-referrer]
-I/flutter ( 4951): ╟ x-permitted-cross-domain-policies: [none]
-I/flutter ( 4951): ╟ cross-origin-opener-policy: [same-origin]
-I/flutter ( 4951): ╟ content-type: [application/json; charset=utf-8]
-I/flutter ( 4951): ╟ x-xss-protection: [0]
-I/flutter ( 4951): ╟ x-hikari-trace: [cdg1.e9jw]
-I/flutter ( 4951): ╟ x-railway-edge: [cdg1]
-I/flutter ( 4951): ╟ server: [railway-hikari]
-I/flutter ( 4951): ╟ x-request-id: [76e149fe-8444-41a0-a7a8-f328a6266ebc]
-I/flutter ( 4951): ╟ cross-origin-resource-policy: [same-origin]
-I/flutter ( 4951): ╟ access-control-allow-credentials: [true]
-I/flutter ( 4951): ╟ content-length: [38]
-I/flutter ( 4951): ╟ x-download-options: [noopen]
-I/flutter ( 4951): ╟ etag: [W/"26-vUJLOZzgmo3420bhPQar8b5PMRI"]
-I/flutter ( 4951): ╟ x-frame-options: [SAMEORIGIN]
-I/flutter ( 4951): ╟ x-content-type-options: [nosniff]
-I/flutter ( 4951): ╟ content-security-policy:
-I/flutter ( 4951): ║ [default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-
-I/flutter ( 4951): ║ ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr
-I/flutter ( 4951): ║ 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests]
-I/flutter ( 4951): ╟ x-railway-request-id: [_uXszqdjQpuzKm37oB_USg]
-I/flutter ( 4951): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter ( 4951): ╔ Body
-I/flutter ( 4951): ║
-I/flutter ( 4951): ║    {
-I/flutter ( 4951): ║         "status": true,
-I/flutter ( 4951): ║         "data": {
-I/flutter ( 4951): ║             "requests": []
-I/flutter ( 4951): ║        }
-I/flutter ( 4951): ║    }
-I/flutter ( 4951): ║
-I/flutter ( 4951): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter ( 4951):
-I/flutter ( 4951): ╔╣ Request ║ GET
-I/flutter ( 4951): ║  https://basicdiet145-production-51e9.up.railway.app/api/subscriptions/6a59137fbc0f5ee5b77cf5ab/pickup-requests?date=2026-07-16&status=active
-I/flutter ( 4951): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter ( 4951):
-I/flutter ( 4951): ╔╣ Response ║ GET ║ Status: 200 OK  ║ Time: 390 ms
-I/flutter ( 4951): ║  https://basicdiet145-production-51e9.up.railway.app/api/subscriptions/6a59137fbc0f5ee5b77cf5ab/pickup-requests?date=2026-07-16&status=active
-I/flutter ( 4951): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter ( 4951): ╔ Headers
-I/flutter ( 4951): ╟ connection: [keep-alive]
-I/flutter ( 4951): ╟ x-dns-prefetch-control: [off]
-I/flutter ( 4951): ╟ date: [Thu, 16 Jul 2026 17:28:16 GMT]
-I/flutter ( 4951): ╟ origin-agent-cluster: [?1]
-I/flutter ( 4951): ╟ vary: [Origin]
-I/flutter ( 4951): ╟ strict-transport-security: [max-age=15552000; includeSubDomains]
-I/flutter ( 4951): ╟ referrer-policy: [no-referrer]
-I/flutter ( 4951): ╟ x-permitted-cross-domain-policies: [none]
-I/flutter ( 4951): ╟ cross-origin-opener-policy: [same-origin]
-I/flutter ( 4951): ╟ content-type: [application/json; charset=utf-8]
-I/flutter ( 4951): ╟ x-xss-protection: [0]
-I/flutter ( 4951): ╟ x-hikari-trace: [cdg1.e9jw]
-I/flutter ( 4951): ╟ x-railway-edge: [cdg1]
-I/flutter ( 4951): ╟ server: [railway-hikari]
-I/flutter ( 4951): ╟ x-request-id: [23061ec7-cbb2-4249-b7ab-2ae8dd37d99b]
-I/flutter ( 4951): ╟ cross-origin-resource-policy: [same-origin]
-I/flutter ( 4951): ╟ access-control-allow-credentials: [true]
-I/flutter ( 4951): ╟ content-length: [38]
-I/flutter ( 4951): ╟ x-download-options: [noopen]
-I/flutter ( 4951): ╟ etag: [W/"26-vUJLOZzgmo3420bhPQar8b5PMRI"]
-I/flutter ( 4951): ╟ x-frame-options: [SAMEORIGIN]
-I/flutter ( 4951): ╟ x-content-type-options: [nosniff]
-I/flutter ( 4951): ╟ content-security-policy:
-I/flutter ( 4951): ║ [default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-
-I/flutter ( 4951): ║ ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr
-I/flutter ( 4951): ║ 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests]
-I/flutter ( 4951): ╟ x-railway-request-id: [nlYvzUNySKCuSscp-8Y8hA]
-I/flutter ( 4951): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter ( 4951): ╔ Body
-I/flutter ( 4951): ║
-I/flutter ( 4951): ║    {
-I/flutter ( 4951): ║         "status": true,
-I/flutter ( 4951): ║         "data": {
-I/flutter ( 4951): ║             "requests": []
-I/flutter ( 4951): ║        }
-I/flutter ( 4951): ║    }
-I/flutter ( 4951): ║
-I/flutter ( 4951): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-The overflowing RenderFlex has an orientation of Axis.horizontal.
-The edge of the RenderFlex that is overflowing has been marked in the rendering with a yellow and black striped pattern. This is usually caused by the contents being too big for the RenderFlex.
-
-Consider applying a flex factor (e.g. using an Expanded widget) to force the children of the RenderFlex to fit within the available space instead of being sized to their natural size.
-This is considered an error condition because it indicates that there is content that cannot be seen. If the content is legitimately bigger than the available space, consider clipping it with a ClipRect widget before putting it in the flex, or using a scrollable container rather than a Flex, like a ListView.
-
-The specific RenderFlex in question is: RenderFlex#0a4a8 relayoutBoundary=up8 OVERFLOWING
-...  parentData: offset=Offset(0.0, 50.6); flex=null; fit=null (can use size)
-...  constraints: BoxConstraints(0.0<=w<=150.3, 0.0<=h<=Infinity)
-...  size: Size(150.3, 18.0)
-...  direction: horizontal
-...  mainAxisAlignment: start
-...  mainAxisSize: max
-...  crossAxisAlignment: center
-...  textDirection: ltr
-...  verticalDirection: down
-...  spacing: 0.0
-◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤◢◤
-====================================================================================================
-I/flutter ( 4951):
-I/flutter ( 4951): ╔╣ Request ║ GET
-I/flutter ( 4951): ║  https://basicdiet145-production-51e9.up.railway.app/api/subscriptions/6a59137fbc0f5ee5b77cf5ab/pickup-requests?date=2026-07-16&status=active
-I/flutter ( 4951): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter ( 4951):
-I/flutter ( 4951): ╔╣ Response ║ GET ║ Status: 200 OK  ║ Time: 375 ms
-I/flutter ( 4951): ║  https://basicdiet145-production-51e9.up.railway.app/api/subscriptions/6a59137fbc0f5ee5b77cf5ab/pickup-requests?date=2026-07-16&status=active
-I/flutter ( 4951): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter ( 4951): ╔ Headers
-I/flutter ( 4951): ╟ connection: [keep-alive]
-I/flutter ( 4951): ╟ x-dns-prefetch-control: [off]
-I/flutter ( 4951): ╟ date: [Thu, 16 Jul 2026 17:28:26 GMT]
-I/flutter ( 4951): ╟ origin-agent-cluster: [?1]
-I/flutter ( 4951): ╟ vary: [Origin]
-I/flutter ( 4951): ╟ strict-transport-security: [max-age=15552000; includeSubDomains]
-I/flutter ( 4951): ╟ referrer-policy: [no-referrer]
-I/flutter ( 4951): ╟ x-permitted-cross-domain-policies: [none]
-I/flutter ( 4951): ╟ cross-origin-opener-policy: [same-origin]
-I/flutter ( 4951): ╟ content-type: [application/json; charset=utf-8]
-I/flutter ( 4951): ╟ x-xss-protection: [0]
-I/flutter ( 4951): ╟ x-hikari-trace: [cdg1.e9jw]
-I/flutter ( 4951): ╟ x-railway-edge: [cdg1]
-I/flutter ( 4951): ╟ server: [railway-hikari]
-I/flutter ( 4951): ╟ x-request-id: [30cdfa11-ee7d-462f-88bd-5bf92c523ccb]
-I/flutter ( 4951): ╟ cross-origin-resource-policy: [same-origin]
-I/flutter ( 4951): ╟ access-control-allow-credentials: [true]
-I/flutter ( 4951): ╟ content-length: [38]
-I/flutter ( 4951): ╟ x-download-options: [noopen]
-I/flutter ( 4951): ╟ etag: [W/"26-vUJLOZzgmo3420bhPQar8b5PMRI"]
-I/flutter ( 4951): ╟ x-frame-options: [SAMEORIGIN]
-I/flutter ( 4951): ╟ x-content-type-options: [nosniff]
-I/flutter ( 4951): ╟ content-security-policy:
-I/flutter ( 4951): ║ [default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-
-I/flutter ( 4951): ║ ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr
-I/flutter ( 4951): ║ 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests]
-I/flutter ( 4951): ╟ x-railway-request-id: [s_1GbLvKS6Ck0k_8-8Y8hA]
-I/flutter ( 4951): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-I/flutter ( 4951): ╔ Body
-I/flutter ( 4951): ║
-I/flutter ( 4951): ║    {
-I/flutter ( 4951): ║         "status": true,
-I/flutter ( 4951): ║         "data": {
-I/flutter ( 4951): ║             "requests": []
-I/flutter ( 4951): ║        }
-I/flutter ( 4951): ║    }
-I/flutter ( 4951): ║
-I/flutter ( 4951): ╚══════════════════════════════════════════════════════════════════════════════════════════╝
-
-Meal planner add-ons note:
-- The add-ons shown in the meal planner come from `state.groupedAddons`, which is built from `addonChoices.categories`.
-- In fallback parsing, only menu add-ons with `isItem == true` and `isFlatOnce == true` are included.
-- The add-ons selection bottom sheet shows only categories that actually contain choices, and it lists the items for the currently active category.
-- There is no special merged `All` view in the bottom sheet. If the backend sends an `all` category, the sheet will show only the choices inside that `all` category, not every add-on from every category.
-- Add-ons covered by an entitlement show as `Included`/`subscription`, while uncovered ones show as `Paid` or `Pending payment` depending on their pricing status.
+I/flutter ( 4951): onChange -- MealPlannerBloc, Change { currentState: MealPlannerLoaded([Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel', Instance of 'TimelineDayModel'], Instance of 'MealPlannerMenuModel', AddonChoicesModel([AddonChoiceCategoryModel(6a57860863e85fba4f858b52, 6a57860863e85fba4f858b52, 6a57860863e85fba4f858b52, ايس كريم, ice_cream, snack, ice_cream, [], [AddonChoiceModel(6a522f79b3fb649917aee7af, 6a522f79b3fb649917aee7af, 6a522f79b3fb649917aee7af, 6a522f79b3fb649917aee7af, vanilla_ice_cream, ايس كريم فانيليا, ايس كريم فانيليا, {ar: ايس كريم فانيليا, en: Vanilla Ice Cream}, 1300, 13.0, SAR, null, null, ice_cream, ice_cream, , ice_cream, menu_product, true, true, subscription, true, 7, 7, 7, 1, 1, 0, 7, 6, 0, 1300, allowance_covered, false, false, snack:6a57860863e85fba4f858b52, 6a59137fbc0f5ee5b77cf5b1, 6a57860863e85fba4f8
