@@ -452,7 +452,11 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
           grouped.entries
               .map(
                 (entry) => AddonChoiceCategoryModel(
+                  groupKey: entry.key,
                   category: entry.key,
+                  displayCategory: entry.key,
+                  allowanceCategory: entry.key,
+                  label: entry.key,
                   choices: entry.value,
                 ),
               )

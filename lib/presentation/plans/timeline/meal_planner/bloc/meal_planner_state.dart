@@ -287,7 +287,7 @@ final class MealPlannerLoaded extends MealPlannerState {
     List<String>? selectedAddonIdsOverride,
   }) {
     final shouldUseBackendSelection =
-        selectedAddonIdsOverride == null && !hasSelectedDayUnsavedChanges;
+        selectedAddonIdsOverride == null && !_hasSelectedDayAddonUnsavedChanges;
     final backendSelection = addonSelections
         .where((selection) => selection.addonId == addonId)
         .cast<AddonSelectionModel?>()
@@ -314,21 +314,13 @@ final class MealPlannerLoaded extends MealPlannerState {
     }
 
     if (targetAddon.hasAuthoritativePricing) {
-      if (targetAddon.isIncludedByBackend) return 'included';
+      if (targetAddon.isIncludedByBackend) return 'subscription';
       if (targetAddon.isPayableByBackend) return 'pending_payment';
-      if (targetAddon.source == 'subscription') return 'included';
+      if (targetAddon.source == 'subscription') return 'subscription';
       if (targetAddon.source == 'pending_payment') return 'pending_payment';
     }
 
-    final allowances = <String, int>{};
-    for (final entitlement in addonEntitlements) {
-      if ((entitlement.status == 'active' || entitlement.status.isEmpty) &&
-          entitlement.includedCount > 0) {
-        final category = entitlement.category;
-        allowances[category] =
-            (allowances[category] ?? 0) + entitlement.includedCount;
-      }
-    }
+    final allowances = _localAddonAllowancesByCategory();
 
     for (final id in selectedAddonIds) {
       final addon = _catalogById[id];
@@ -347,10 +339,34 @@ final class MealPlannerLoaded extends MealPlannerState {
     return remaining > 0 ? 'subscription' : 'pending_payment';
   }
 
+  bool get _hasSelectedDayAddonUnsavedChanges {
+    final savedAddons = savedAddOnIdsByDay[selectedDayIndex] ?? const [];
+    return !listEquals(selectedAddOnIds, savedAddons);
+  }
+
+  Map<String, int> _localAddonAllowancesByCategory() {
+    final allowances = <String, int>{};
+    for (final entitlement in addonEntitlements) {
+      if ((entitlement.status == 'active' || entitlement.status.isEmpty) &&
+          entitlement.includedCount > 0) {
+        final category = entitlement.category;
+        allowances[category] =
+            (allowances[category] ?? 0) + entitlement.includedCount;
+      }
+    }
+    return allowances;
+  }
+
   String _categoryForAddon(AddonChoiceModel addon) {
+    if (addon.allowanceCategory.isNotEmpty) return addon.allowanceCategory;
     for (final category in addonChoices.categories) {
       if (category.choices.any((choice) => choice.id == addon.id)) {
-        return category.category;
+        if (category.allowanceCategory.isNotEmpty) {
+          return category.allowanceCategory;
+        }
+        return category.displayCategory.isNotEmpty
+            ? category.displayCategory
+            : category.category;
       }
     }
     if (addon.category.isNotEmpty) return addon.category;

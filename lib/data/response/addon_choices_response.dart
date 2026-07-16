@@ -23,7 +23,15 @@ class AddonChoicesResponse {
   @JsonKey(name: 'data')
   final Map<String, AddonChoiceCategoryResponse>? data;
 
-  const AddonChoicesResponse(this.status, this.message, this.data);
+  @JsonKey(name: 'addonChoiceGroups', defaultValue: [])
+  final List<AddonChoiceCategoryResponse> addonChoiceGroups;
+
+  const AddonChoicesResponse(
+    this.status,
+    this.message,
+    this.data, [
+    this.addonChoiceGroups = const [],
+  ]);
 
   factory AddonChoicesResponse.fromJson(Map<String, dynamic> json) {
     dynamic topStatus;
@@ -50,10 +58,27 @@ class AddonChoicesResponse {
       }
     }
 
+    final rawGroups = json['addonChoiceGroups'];
+    final parsedGroups = <AddonChoiceCategoryResponse>[];
+    if (rawGroups is List) {
+      for (final item in rawGroups) {
+        if (item is Map<String, dynamic>) {
+          parsedGroups.add(AddonChoiceCategoryResponse.fromJson(item));
+        } else if (item is Map) {
+          parsedGroups.add(
+            AddonChoiceCategoryResponse.fromJson(
+              Map<String, dynamic>.from(item),
+            ),
+          );
+        }
+      }
+    }
+
     return AddonChoicesResponse(
       topStatus ?? false,
       json['message'] as String?,
       parsedData.isEmpty ? null : parsedData,
+      parsedGroups,
     );
   }
 
@@ -62,8 +87,53 @@ class AddonChoicesResponse {
 
 @JsonSerializable()
 class AddonChoiceCategoryResponse {
+  @JsonKey(name: 'groupId')
+  final String? groupId;
+
+  @JsonKey(name: 'addonPlanId')
+  final String? addonPlanId;
+
+  @JsonKey(name: 'label')
+  final String? label;
+
+  @JsonKey(name: 'labelText')
+  final String? labelText;
+
+  @JsonKey(name: 'addonPlanName')
+  final String? addonPlanName;
+
+  @JsonKey(name: 'displayKey')
+  final String? displayKey;
+
+  @JsonKey(name: 'displayCategory')
+  final String? displayCategory;
+
   @JsonKey(name: 'category')
   final String? category;
+
+  @JsonKey(name: 'allowanceCategory')
+  final String? allowanceCategory;
+
+  @JsonKey(name: 'entitlementCategory')
+  final String? entitlementCategory;
+
+  @JsonKey(name: 'source')
+  final String? source;
+
+  @JsonKey(name: 'isPurchased')
+  final bool? isPurchased;
+
+  @JsonKey(name: 'includedTotalQty')
+  final int? includedTotalQty;
+
+  @JsonKey(name: 'remainingIncludedQty')
+  final int? remainingIncludedQty;
+
+  @JsonKey(name: 'balanceBucketId')
+  final String? balanceBucketId;
+
+  @JsonKey(name: 'sortOrder')
+  final int? sortOrder;
 
   @JsonKey(name: 'sourceCategories', defaultValue: [])
   final List<String> sourceCategories;
@@ -72,7 +142,22 @@ class AddonChoiceCategoryResponse {
   final List<AddonChoiceResponse> choices;
 
   const AddonChoiceCategoryResponse({
+    this.groupId,
+    this.addonPlanId,
+    this.label,
+    this.labelText,
+    this.addonPlanName,
+    this.displayKey,
+    this.displayCategory,
     this.category,
+    this.allowanceCategory,
+    this.entitlementCategory,
+    this.source,
+    this.isPurchased,
+    this.includedTotalQty,
+    this.remainingIncludedQty,
+    this.balanceBucketId,
+    this.sortOrder,
     this.sourceCategories = const [],
     this.choices = const [],
   });
@@ -126,6 +211,9 @@ class AddonChoiceResponse {
 
   @JsonKey(name: 'category')
   final String? category;
+
+  @JsonKey(name: 'allowanceCategory')
+  final String? allowanceCategory;
 
   @JsonKey(name: 'itemType')
   final String? itemType;
@@ -214,6 +302,7 @@ class AddonChoiceResponse {
     this.prepTimeMinutes,
     this.categoryKey,
     this.category,
+    this.allowanceCategory,
     this.itemType,
     this.type,
     this.available,

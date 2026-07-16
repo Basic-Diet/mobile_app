@@ -6,6 +6,15 @@ extension AddonChoicesResponseMapper on AddonChoicesResponse? {
   AddonChoicesModel toDomain() {
     final rawCategories = this?.data ?? const <String, AddonChoiceCategoryResponse>{};
     final orderedCategories = <AddonChoiceCategoryModel>[];
+    final groupedResponses = this?.addonChoiceGroups ?? const <AddonChoiceCategoryResponse>[];
+
+    if (groupedResponses.isNotEmpty) {
+      for (final response in groupedResponses) {
+        orderedCategories.add(response.toDomain());
+      }
+      return AddonChoicesModel(categories: orderedCategories);
+    }
+
     for (final entry in rawCategories.entries) {
       orderedCategories.add(entry.value.toDomain(categoryKey: entry.key));
     }
@@ -15,10 +24,41 @@ extension AddonChoicesResponseMapper on AddonChoicesResponse? {
 
 extension AddonChoiceCategoryResponseMapper on AddonChoiceCategoryResponse? {
   AddonChoiceCategoryModel toDomain({String? categoryKey}) {
+    final resolvedGroupKey =
+        this?.groupId.orEmpty().isNotEmpty == true
+            ? this!.groupId!.trim()
+            : this?.addonPlanId.orEmpty().isNotEmpty == true
+            ? this!.addonPlanId!.trim()
+            : categoryKey.orEmpty();
+    final resolvedLabel =
+        this?.label.orEmpty().isNotEmpty == true
+            ? this!.label!.trim()
+            : this?.addonPlanName.orEmpty().isNotEmpty == true
+            ? this!.addonPlanName!.trim()
+            : this?.displayCategory.orEmpty().isNotEmpty == true
+            ? this!.displayCategory!.trim()
+            : this?.category.orEmpty() ?? categoryKey.orEmpty();
+    final resolvedDisplayCategory =
+        this?.displayCategory.orEmpty().isNotEmpty == true
+            ? this!.displayCategory!.trim()
+            : this?.category.orEmpty() ?? categoryKey.orEmpty();
+    final resolvedAllowanceCategory =
+        this?.allowanceCategory.orEmpty().isNotEmpty == true
+            ? this!.allowanceCategory!.trim()
+            : resolvedDisplayCategory;
+
     return AddonChoiceCategoryModel(
-      category: this?.category.orEmpty() ?? categoryKey.orEmpty(),
+      groupKey: resolvedGroupKey,
+      groupId: this?.groupId.orEmpty() ?? '',
+      addonPlanId: this?.addonPlanId.orEmpty() ?? '',
+      label: resolvedLabel,
+      displayCategory: resolvedDisplayCategory,
+      allowanceCategory: resolvedAllowanceCategory,
+      category: resolvedDisplayCategory,
       sourceCategories: this?.sourceCategories ?? const [],
-      choices: this?.choices.map((choice) => choice.toDomain()).toList() ?? const [],
+      choices:
+          this?.choices.map((choice) => choice.toDomain()).toList() ??
+          const [],
     );
   }
 }
@@ -54,6 +94,7 @@ extension AddonChoiceResponseMapper on AddonChoiceResponse? {
       prepTimeMinutes: this?.prepTimeMinutes,
       categoryKey: this?.categoryKey.orEmpty() ?? '',
       category: this?.category.orEmpty() ?? '',
+      allowanceCategory: this?.allowanceCategory.orEmpty() ?? '',
       itemType: this?.itemType.orEmpty() ?? '',
       type: this?.type.orEmpty() ?? '',
       available: this?.available ?? true,

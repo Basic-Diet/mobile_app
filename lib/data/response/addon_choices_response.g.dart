@@ -12,12 +12,28 @@ Map<String, dynamic> _$AddonChoicesResponseToJson(
   'status': instance.status,
   'message': instance.message,
   'data': instance.data,
+  'addonChoiceGroups': instance.addonChoiceGroups,
 };
 
 AddonChoiceCategoryResponse _$AddonChoiceCategoryResponseFromJson(
   Map<String, dynamic> json,
 ) => AddonChoiceCategoryResponse(
+  groupId: json['groupId'] as String?,
+  addonPlanId: json['addonPlanId'] as String?,
+  label: json['label'] as String?,
+  labelText: json['labelText'] as String?,
+  addonPlanName: json['addonPlanName'] as String?,
+  displayKey: json['displayKey'] as String?,
+  displayCategory: json['displayCategory'] as String?,
   category: json['category'] as String?,
+  allowanceCategory: json['allowanceCategory'] as String?,
+  entitlementCategory: json['entitlementCategory'] as String?,
+  source: json['source'] as String?,
+  isPurchased: json['isPurchased'] as bool?,
+  includedTotalQty: (json['includedTotalQty'] as num?)?.toInt(),
+  remainingIncludedQty: (json['remainingIncludedQty'] as num?)?.toInt(),
+  balanceBucketId: json['balanceBucketId'] as String?,
+  sortOrder: (json['sortOrder'] as num?)?.toInt(),
   sourceCategories:
       (json['sourceCategories'] as List<dynamic>?)
           ?.map((e) => e as String)
@@ -33,7 +49,22 @@ AddonChoiceCategoryResponse _$AddonChoiceCategoryResponseFromJson(
 Map<String, dynamic> _$AddonChoiceCategoryResponseToJson(
   AddonChoiceCategoryResponse instance,
 ) => <String, dynamic>{
+  'groupId': instance.groupId,
+  'addonPlanId': instance.addonPlanId,
+  'label': instance.label,
+  'labelText': instance.labelText,
+  'addonPlanName': instance.addonPlanName,
+  'displayKey': instance.displayKey,
+  'displayCategory': instance.displayCategory,
   'category': instance.category,
+  'allowanceCategory': instance.allowanceCategory,
+  'entitlementCategory': instance.entitlementCategory,
+  'source': instance.source,
+  'isPurchased': instance.isPurchased,
+  'includedTotalQty': instance.includedTotalQty,
+  'remainingIncludedQty': instance.remainingIncludedQty,
+  'balanceBucketId': instance.balanceBucketId,
+  'sortOrder': instance.sortOrder,
   'sourceCategories': instance.sourceCategories,
   'choices': instance.choices,
 };

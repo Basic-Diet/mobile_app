@@ -37,9 +37,9 @@ class AddonSelectionBottomSheet extends StatefulWidget {
 }
 
 class _AddonSelectionBottomSheetState extends State<AddonSelectionBottomSheet> {
-  late final List<String> _categories;
+  late final List<AddonChoiceCategoryModel> _categories;
   late final Map<String, List<String>> _localSelections;
-  late String _activeCategory;
+  late String _activeCategoryKey;
 
   @override
   void initState() {
@@ -49,18 +49,18 @@ class _AddonSelectionBottomSheetState extends State<AddonSelectionBottomSheet> {
       for (final entry in widget.selectedAddonIdsByCategory.entries)
         entry.key: List<String>.from(entry.value),
     };
-    _activeCategory = _categories.isNotEmpty ? _categories.first : 'juice';
+    _activeCategoryKey = _categories.isNotEmpty ? _categories.first.groupKey : 'juice';
   }
 
   List<AddonChoiceModel> get _activeItems =>
-      widget.groupedItems[_activeCategory]?.choices ?? const [];
+      widget.groupedItems[_activeCategoryKey]?.choices ?? const [];
 
   void _applySelections() {
     for (final category in _categories) {
       widget.bloc.add(
         SelectAddonForCategoryEvent(
-          category: category,
-          addonIds: _localSelections[category] ?? const [],
+          category: category.groupKey,
+          addonIds: _localSelections[category.groupKey] ?? const [],
         ),
       );
     }
@@ -91,9 +91,9 @@ class _AddonSelectionBottomSheetState extends State<AddonSelectionBottomSheet> {
               if (_categories.isNotEmpty) ...[
                 _CategoryTabs(
                   categories: _categories,
-                  activeCategory: _activeCategory,
+                  activeCategoryKey: _activeCategoryKey,
                   onCategorySelected: (category) {
-                    setState(() => _activeCategory = category);
+                    setState(() => _activeCategoryKey = category.groupKey);
                   },
                 ),
                 Gap(AppSize.s12.h),
@@ -115,7 +115,7 @@ class _AddonSelectionBottomSheetState extends State<AddonSelectionBottomSheet> {
                           itemBuilder: (context, index) {
                             final addon = _activeItems[index];
                             final isSelected =
-                                _localSelections[_activeCategory]?.contains(
+                                _localSelections[_activeCategoryKey]?.contains(
                                   addon.id,
                                 ) ??
                                 false;
@@ -129,7 +129,7 @@ class _AddonSelectionBottomSheetState extends State<AddonSelectionBottomSheet> {
                               onTap: () {
                                 setState(() {
                                   final selectedIds = List<String>.from(
-                                    _localSelections[_activeCategory] ??
+                                    _localSelections[_activeCategoryKey] ??
                                         const [],
                                   );
                                   if (isSelected) {
@@ -137,7 +137,7 @@ class _AddonSelectionBottomSheetState extends State<AddonSelectionBottomSheet> {
                                   } else {
                                     selectedIds.add(addon.id);
                                   }
-                                  _localSelections[_activeCategory] =
+                                  _localSelections[_activeCategoryKey] =
                                       selectedIds;
                                 });
                               },
@@ -148,11 +148,11 @@ class _AddonSelectionBottomSheetState extends State<AddonSelectionBottomSheet> {
               _ApplyBar(
                 onApply: _applySelections,
                 onClear:
-                    (_localSelections[_activeCategory]?.isEmpty ?? true)
+                    (_localSelections[_activeCategoryKey]?.isEmpty ?? true)
                         ? null
                         : () {
                           setState(() {
-                            _localSelections[_activeCategory] = const [];
+                            _localSelections[_activeCategoryKey] = const [];
                           });
                         },
               ),
@@ -163,24 +163,24 @@ class _AddonSelectionBottomSheetState extends State<AddonSelectionBottomSheet> {
     );
   }
 
-  List<String> _resolveOrderedCategories(
+  List<AddonChoiceCategoryModel> _resolveOrderedCategories(
     Map<String, AddonChoiceCategoryModel> groupedItems,
   ) {
     return groupedItems.entries
         .where((entry) => entry.value.choices.isNotEmpty)
-        .map((entry) => entry.key)
+        .map((entry) => entry.value)
         .toList();
   }
 }
 
 class _CategoryTabs extends StatelessWidget {
-  final List<String> categories;
-  final String activeCategory;
-  final ValueChanged<String> onCategorySelected;
+  final List<AddonChoiceCategoryModel> categories;
+  final String activeCategoryKey;
+  final ValueChanged<AddonChoiceCategoryModel> onCategorySelected;
 
   const _CategoryTabs({
     required this.categories,
-    required this.activeCategory,
+    required this.activeCategoryKey,
     required this.onCategorySelected,
   });
 
@@ -195,7 +195,7 @@ class _CategoryTabs extends StatelessWidget {
           for (var index = 0; index < categories.length; index++) ...[
             _CategoryTabItem(
               category: categories[index],
-              isSelected: categories[index] == activeCategory,
+              isSelected: categories[index].groupKey == activeCategoryKey,
               onTap: () => onCategorySelected(categories[index]),
             ),
             if (index != categories.length - 1) Gap(AppSize.s12.w),
@@ -207,7 +207,7 @@ class _CategoryTabs extends StatelessWidget {
 }
 
 class _CategoryTabItem extends StatelessWidget {
-  final String category;
+  final AddonChoiceCategoryModel category;
   final bool isSelected;
   final VoidCallback onTap;
 
@@ -243,13 +243,13 @@ class _CategoryTabItem extends StatelessWidget {
                         : Border.all(color: ColorManager.borderDefault),
               ),
               child: Text(
-                _categoryIcon(category),
+                _categoryIcon(_categoryDisplayKey(category)),
                 style: TextStyle(fontSize: 26.sp),
               ),
             ),
             Gap(6.h),
             Text(
-              _categoryLabel(category),
+              _categoryTitle(category),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.center,
@@ -589,17 +589,26 @@ class _EmptySheetBody extends StatelessWidget {
   }
 }
 
-String _categoryLabel(String category) {
-  switch (category) {
-    case 'juice':
-      return Strings.addonSelectJuice.tr();
-    case 'snack':
-      return Strings.addonSelectSnack.tr();
-    case 'small_salad':
-      return Strings.addonSelectSalad.tr();
-    default:
-      return category;
+String _categoryTitle(AddonChoiceCategoryModel category) {
+  if (category.label.isNotEmpty) return category.label;
+  if (category.displayCategory.isNotEmpty) {
+    switch (category.displayCategory) {
+      case 'juice':
+        return Strings.addonSelectJuice.tr();
+      case 'snack':
+        return Strings.addonSelectSnack.tr();
+      case 'small_salad':
+        return Strings.addonSelectSalad.tr();
+      default:
+        return category.displayCategory;
+    }
   }
+  return category.category;
+}
+
+String _categoryDisplayKey(AddonChoiceCategoryModel category) {
+  if (category.displayCategory.isNotEmpty) return category.displayCategory;
+  return category.category;
 }
 
 String _categoryIcon(String category) {

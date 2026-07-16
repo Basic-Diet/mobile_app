@@ -9,7 +9,9 @@ class AddonChoicesModel extends Equatable {
 
   Map<String, AddonChoiceCategoryModel> get categoriesByKey {
     return {
-      for (final category in categories) category.category: category,
+      for (final category in categories)
+        (category.groupKey.isNotEmpty ? category.groupKey : category.category):
+            category,
     };
   }
 
@@ -18,18 +20,40 @@ class AddonChoicesModel extends Equatable {
 }
 
 class AddonChoiceCategoryModel extends Equatable {
+  final String groupKey;
+  final String groupId;
+  final String addonPlanId;
+  final String label;
+  final String displayCategory;
+  final String allowanceCategory;
   final String category;
   final List<String> sourceCategories;
   final List<AddonChoiceModel> choices;
 
   const AddonChoiceCategoryModel({
+    this.groupKey = '',
+    this.groupId = '',
+    this.addonPlanId = '',
+    this.label = '',
+    this.displayCategory = '',
+    this.allowanceCategory = '',
     required this.category,
     this.sourceCategories = const [],
     this.choices = const [],
   });
 
   @override
-  List<Object?> get props => [category, sourceCategories, choices];
+  List<Object?> get props => [
+    groupKey,
+    groupId,
+    addonPlanId,
+    label,
+    displayCategory,
+    allowanceCategory,
+    category,
+    sourceCategories,
+    choices,
+  ];
 }
 
 class AddonChoiceModel extends Equatable {
@@ -48,6 +72,7 @@ class AddonChoiceModel extends Equatable {
   final int? prepTimeMinutes;
   final String categoryKey;
   final String category;
+  final String allowanceCategory;
   final String itemType;
   final String type;
   final bool available;
@@ -89,6 +114,7 @@ class AddonChoiceModel extends Equatable {
     required this.prepTimeMinutes,
     required this.categoryKey,
     this.category = '',
+    this.allowanceCategory = '',
     required this.itemType,
     required this.type,
     required this.available,
@@ -173,6 +199,7 @@ class AddonChoiceModel extends Equatable {
     prepTimeMinutes,
     categoryKey,
     category,
+    allowanceCategory,
     itemType,
     type,
     available,
