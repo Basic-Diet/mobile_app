@@ -1,3 +1,5 @@
+import 'package:basic_diet/domain/model/localized_text_resolver.dart';
+
 class PremiumMealsModel {
   List<PremiumMealModel> meals;
 
@@ -8,6 +10,13 @@ class PremiumMealModel {
   String id;
   String name;
   String description;
+  String nameAr;
+  String nameEn;
+  String descriptionAr;
+  String descriptionEn;
+  String sourceName;
+  String sourceNameAr;
+  String sourceNameEn;
   String imageUrl;
   String currency;
   int extraFeeHalala;
@@ -25,6 +34,13 @@ class PremiumMealModel {
     required this.id,
     required this.name,
     required this.description,
+    required this.nameAr,
+    required this.nameEn,
+    required this.descriptionAr,
+    required this.descriptionEn,
+    required this.sourceName,
+    required this.sourceNameAr,
+    required this.sourceNameEn,
     required this.imageUrl,
     required this.currency,
     required this.extraFeeHalala,
@@ -38,6 +54,24 @@ class PremiumMealModel {
     required this.premiumKey,
     required this.ui,
   });
+
+  String displayName(String localeCode) => LocalizedTextValue(
+    ar: nameAr,
+    en: nameEn,
+    scalar: name,
+  ).resolve(localeCode);
+
+  String displayDescription(String localeCode) => LocalizedTextValue(
+    ar: descriptionAr,
+    en: descriptionEn,
+    scalar: description,
+  ).resolve(localeCode);
+
+  String displaySourceName(String localeCode) => LocalizedTextValue(
+    ar: sourceNameAr,
+    en: sourceNameEn,
+    scalar: sourceName,
+  ).resolve(localeCode);
 }
 
 class PremiumMealUiModel {

@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:basic_diet/domain/model/localized_text_resolver.dart';
 
 part 'premium_meals_response.g.dart';
 
@@ -25,6 +26,20 @@ class PremiumMealResponse {
   String? name;
   @JsonKey(name: "description")
   String? description;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  String? nameAr;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  String? nameEn;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  String? descriptionAr;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  String? descriptionEn;
+  @JsonKey(name: "sourceName")
+  String? sourceName;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  String? sourceNameAr;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  String? sourceNameEn;
   @JsonKey(name: "imageUrl")
   String? imageUrl;
   @JsonKey(name: "currency")
@@ -54,6 +69,13 @@ class PremiumMealResponse {
     this.id,
     this.name,
     this.description,
+    this.nameAr,
+    this.nameEn,
+    this.descriptionAr,
+    this.descriptionEn,
+    this.sourceName,
+    this.sourceNameAr,
+    this.sourceNameEn,
     this.imageUrl,
     this.currency,
     this.extraFeeHalala,
@@ -68,8 +90,51 @@ class PremiumMealResponse {
     this.ui,
   });
 
-  factory PremiumMealResponse.fromJson(Map<String, dynamic> json) =>
-      _$PremiumMealResponseFromJson(json);
+  factory PremiumMealResponse.fromJson(Map<String, dynamic> json) {
+    final name = LocalizedTextResolver.fromJsonValue(json['name'], json);
+    final description = LocalizedTextResolver.fromJsonValue(
+      json['description'],
+      json,
+      arFallbackKey: 'descriptionAr',
+      enFallbackKey: 'descriptionEn',
+    );
+    final sourceName = LocalizedTextResolver.fromJsonValue(
+      json['sourceName'],
+      json,
+      arFallbackKey: 'sourceNameAr',
+      enFallbackKey: 'sourceNameEn',
+    );
+
+    return PremiumMealResponse(
+      id: json['id'] as String?,
+      name: name.resolve('ar'),
+      description: description.resolve('ar'),
+      nameAr: name.ar,
+      nameEn: name.en,
+      descriptionAr: description.ar,
+      descriptionEn: description.en,
+      sourceName: sourceName.resolve('ar'),
+      sourceNameAr: sourceName.ar,
+      sourceNameEn: sourceName.en,
+      imageUrl: json['imageUrl'] as String?,
+      currency: json['currency'] as String?,
+      extraFeeHalala: (json['extraFeeHalala'] as num?)?.toInt(),
+      extraFeeSar: (json['extraFeeSar'] as num?)?.toDouble(),
+      priceHalala: (json['priceHalala'] as num?)?.toInt(),
+      priceSar: (json['priceSar'] as num?)?.toDouble(),
+      priceLabel: json['priceLabel'] as String?,
+      proteinGrams: (json['proteinGrams'] as num?)?.toInt(),
+      carbGrams: (json['carbGrams'] as num?)?.toInt(),
+      fatGrams: (json['fatGrams'] as num?)?.toInt(),
+      premiumKey: json['premiumKey'] as String?,
+      ui:
+          json['ui'] == null
+              ? null
+              : PremiumMealUiResponse.fromJson(
+                json['ui'] as Map<String, dynamic>,
+              ),
+    );
+  }
 
   Map<String, dynamic> toJson() => _$PremiumMealResponseToJson(this);
 }

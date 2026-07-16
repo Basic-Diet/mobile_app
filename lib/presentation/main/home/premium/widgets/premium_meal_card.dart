@@ -25,6 +25,10 @@ class PremiumMealCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localeCode = Localizations.localeOf(context).languageCode;
+    final title = meal.displayName(localeCode);
+    final subtitle = meal.displayDescription(localeCode);
+
     return Container(
       decoration: BoxDecoration(
         color: ColorManager.backgroundSurface,
@@ -41,40 +45,57 @@ class PremiumMealCard extends StatelessWidget {
         ],
       ),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           MealImage(imageUrl: meal.imageUrl),
           Padding(
             padding: EdgeInsetsDirectional.all(AppPadding.p16.w),
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  meal.ui.title,
+                  title.isNotEmpty ? title : meal.ui.title,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.start,
                   style: getBoldTextStyle(
                     color: ColorManager.textPrimary,
                     fontSize: FontSizeManager.s16.sp,
                   ).copyWith(height: 24 / 16),
                 ),
-                Gap(AppSize.s8.h),
-                Text(
-                  meal.ui.subtitle,
-                  style: getRegularTextStyle(
-                    color: ColorManager.textSecondary,
-                    fontSize: FontSizeManager.s14.sp,
-                  ).copyWith(height: 22.75 / 14),
-                ),
+                if ((subtitle.isNotEmpty ? subtitle : meal.ui.subtitle).isNotEmpty) ...[
+                  Gap(AppSize.s8.h),
+                  Text(
+                    subtitle.isNotEmpty ? subtitle : meal.ui.subtitle,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.start,
+                    style: getRegularTextStyle(
+                      color: ColorManager.textSecondary,
+                      fontSize: FontSizeManager.s14.sp,
+                    ).copyWith(height: 22.75 / 14),
+                  ),
+                ],
                 Gap(AppSize.s16.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(
-                      meal.priceLabel,
-                      style: getBoldTextStyle(
-                        color: ColorManager.brandAccent,
-                        fontSize: FontSizeManager.s24.sp,
-                      ).copyWith(height: 32 / 24),
+                    Flexible(
+                      child: Text(
+                        meal.priceLabel,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.start,
+                        style: getBoldTextStyle(
+                          color: ColorManager.brandAccent,
+                          fontSize: FontSizeManager.s24.sp,
+                        ).copyWith(height: 32 / 24),
+                      ),
                     ),
+                    Gap(AppSize.s12.w),
                     MealCounter(
                       quantity: quantity,
                       onIncrement: onIncrement,
