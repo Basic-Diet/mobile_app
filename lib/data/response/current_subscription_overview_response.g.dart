@@ -276,6 +276,74 @@ Map<String, dynamic> _$AddonBalanceResponseToJson(
   'currency': instance.currency,
 };
 
+AddonSubscriptionAllowanceResponse _$AddonSubscriptionAllowanceResponseFromJson(
+  Map<String, dynamic> json,
+) => AddonSubscriptionAllowanceResponse(
+  entitlementIndex: (json['entitlementIndex'] as num?)?.toInt(),
+  entitlementKey: json['entitlementKey'] as String?,
+  addonPlanId: json['addonPlanId'] as String?,
+  addonPlanName: readLocalizedName(json, 'addonPlanName') as String?,
+  displayCategory: json['displayCategory'] as String?,
+  allowanceCategory: json['allowanceCategory'] as String?,
+  includedTotalQty: (json['includedTotalQty'] as num?)?.toInt(),
+  consumedQty: (json['consumedQty'] as num?)?.toInt(),
+  reservedQty: (json['reservedQty'] as num?)?.toInt(),
+  remainingIncludedQty: (json['remainingIncludedQty'] as num?)?.toInt(),
+  overageUnitPriceHalala: (json['overageUnitPriceHalala'] as num?)?.toInt(),
+  currency: json['currency'] as String?,
+  choicesCount: (json['choicesCount'] as num?)?.toInt(),
+  menuProductIds:
+      (json['menuProductIds'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList() ??
+      [],
+  source: json['source'] as String?,
+);
+
+Map<String, dynamic> _$AddonSubscriptionAllowanceResponseToJson(
+  AddonSubscriptionAllowanceResponse instance,
+) => <String, dynamic>{
+  'entitlementIndex': instance.entitlementIndex,
+  'entitlementKey': instance.entitlementKey,
+  'addonPlanId': instance.addonPlanId,
+  'addonPlanName': instance.addonPlanName,
+  'displayCategory': instance.displayCategory,
+  'allowanceCategory': instance.allowanceCategory,
+  'includedTotalQty': instance.includedTotalQty,
+  'consumedQty': instance.consumedQty,
+  'reservedQty': instance.reservedQty,
+  'remainingIncludedQty': instance.remainingIncludedQty,
+  'overageUnitPriceHalala': instance.overageUnitPriceHalala,
+  'currency': instance.currency,
+  'choicesCount': instance.choicesCount,
+  'menuProductIds': instance.menuProductIds,
+  'source': instance.source,
+};
+
+AddonCategoryAllowanceResponse _$AddonCategoryAllowanceResponseFromJson(
+  Map<String, dynamic> json,
+) => AddonCategoryAllowanceResponse(
+  category: json['category'] as String?,
+  includedTotalQty: (json['includedTotalQty'] as num?)?.toInt(),
+  consumedQty: (json['consumedQty'] as num?)?.toInt(),
+  reservedQty: (json['reservedQty'] as num?)?.toInt(),
+  remainingIncludedQty: (json['remainingIncludedQty'] as num?)?.toInt(),
+  overageUnitPriceHalala: (json['overageUnitPriceHalala'] as num?)?.toInt(),
+  currency: json['currency'] as String?,
+);
+
+Map<String, dynamic> _$AddonCategoryAllowanceResponseToJson(
+  AddonCategoryAllowanceResponse instance,
+) => <String, dynamic>{
+  'category': instance.category,
+  'includedTotalQty': instance.includedTotalQty,
+  'consumedQty': instance.consumedQty,
+  'reservedQty': instance.reservedQty,
+  'remainingIncludedQty': instance.remainingIncludedQty,
+  'overageUnitPriceHalala': instance.overageUnitPriceHalala,
+  'currency': instance.currency,
+};
+
 PremiumSummaryResponse _$PremiumSummaryResponseFromJson(
   Map<String, dynamic> json,
 ) => PremiumSummaryResponse(
@@ -338,6 +406,22 @@ _$CurrentSubscriptionOverviewDataResponseFromJson(
   (json['addonBalances'] as List<dynamic>?)
       ?.map((e) => AddonBalanceResponse.fromJson(e as Map<String, dynamic>))
       .toList(),
+  (json['addonSubscriptionAllowances'] as List<dynamic>?)
+          ?.map(
+            (e) => AddonSubscriptionAllowanceResponse.fromJson(
+              e as Map<String, dynamic>,
+            ),
+          )
+          .toList() ??
+      [],
+  (json['addonCategoryAllowances'] as List<dynamic>?)
+          ?.map(
+            (e) => AddonCategoryAllowanceResponse.fromJson(
+              e as Map<String, dynamic>,
+            ),
+          )
+          .toList() ??
+      [],
   (json['selectedMealsPerDay'] as num?)?.toInt(),
   json['deliveryMode'] as String?,
   (json['premiumSummary'] as List<dynamic>?)
@@ -411,6 +495,8 @@ Map<String, dynamic> _$CurrentSubscriptionOverviewDataResponseToJson(
   'premiumRemaining': instance.premiumRemaining,
   'addonSubscriptions': instance.addonSubscriptions,
   'addonBalances': instance.addonBalances,
+  'addonSubscriptionAllowances': instance.addonSubscriptionAllowances,
+  'addonCategoryAllowances': instance.addonCategoryAllowances,
   'selectedMealsPerDay': instance.selectedMealsPerDay,
   'deliveryMode': instance.deliveryMode,
   'premiumSummary': instance.premiumSummary,

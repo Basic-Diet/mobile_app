@@ -408,6 +408,99 @@ class AddonBalanceResponse {
   Map<String, dynamic> toJson() => _$AddonBalanceResponseToJson(this);
 }
 
+@JsonSerializable()
+class AddonSubscriptionAllowanceResponse {
+  @JsonKey(name: "entitlementIndex")
+  final int? entitlementIndex;
+  @JsonKey(name: "entitlementKey")
+  final String? entitlementKey;
+  @JsonKey(name: "addonPlanId")
+  final String? addonPlanId;
+  @JsonKey(name: "addonPlanName", readValue: readLocalizedName)
+  final String? addonPlanName;
+  @JsonKey(name: "displayCategory")
+  final String? displayCategory;
+  @JsonKey(name: "allowanceCategory")
+  final String? allowanceCategory;
+  @JsonKey(name: "includedTotalQty")
+  final int? includedTotalQty;
+  @JsonKey(name: "consumedQty")
+  final int? consumedQty;
+  @JsonKey(name: "reservedQty")
+  final int? reservedQty;
+  @JsonKey(name: "remainingIncludedQty")
+  final int? remainingIncludedQty;
+  @JsonKey(name: "overageUnitPriceHalala")
+  final int? overageUnitPriceHalala;
+  @JsonKey(name: "currency")
+  final String? currency;
+  @JsonKey(name: "choicesCount")
+  final int? choicesCount;
+  @JsonKey(name: "menuProductIds", defaultValue: [])
+  final List<String> menuProductIds;
+  @JsonKey(name: "source")
+  final String? source;
+
+  const AddonSubscriptionAllowanceResponse({
+    this.entitlementIndex,
+    this.entitlementKey,
+    this.addonPlanId,
+    this.addonPlanName,
+    this.displayCategory,
+    this.allowanceCategory,
+    this.includedTotalQty,
+    this.consumedQty,
+    this.reservedQty,
+    this.remainingIncludedQty,
+    this.overageUnitPriceHalala,
+    this.currency,
+    this.choicesCount,
+    this.menuProductIds = const [],
+    this.source,
+  });
+
+  factory AddonSubscriptionAllowanceResponse.fromJson(
+    Map<String, dynamic> json,
+  ) => _$AddonSubscriptionAllowanceResponseFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$AddonSubscriptionAllowanceResponseToJson(this);
+}
+
+@JsonSerializable()
+class AddonCategoryAllowanceResponse {
+  @JsonKey(name: "category")
+  final String? category;
+  @JsonKey(name: "includedTotalQty")
+  final int? includedTotalQty;
+  @JsonKey(name: "consumedQty")
+  final int? consumedQty;
+  @JsonKey(name: "reservedQty")
+  final int? reservedQty;
+  @JsonKey(name: "remainingIncludedQty")
+  final int? remainingIncludedQty;
+  @JsonKey(name: "overageUnitPriceHalala")
+  final int? overageUnitPriceHalala;
+  @JsonKey(name: "currency")
+  final String? currency;
+
+  const AddonCategoryAllowanceResponse({
+    this.category,
+    this.includedTotalQty,
+    this.consumedQty,
+    this.reservedQty,
+    this.remainingIncludedQty,
+    this.overageUnitPriceHalala,
+    this.currency,
+  });
+
+  factory AddonCategoryAllowanceResponse.fromJson(Map<String, dynamic> json) =>
+      _$AddonCategoryAllowanceResponseFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$AddonCategoryAllowanceResponseToJson(this);
+}
+
 Object? readLocalizedName(Map json, String key) {
   final value = json[key];
   if (value is String) return value;
@@ -504,6 +597,10 @@ class CurrentSubscriptionOverviewDataResponse {
   List<AddonSubscriptionResponse>? addonSubscriptions;
   @JsonKey(name: "addonBalances")
   List<AddonBalanceResponse>? addonBalances;
+  @JsonKey(name: "addonSubscriptionAllowances", defaultValue: [])
+  List<AddonSubscriptionAllowanceResponse> addonSubscriptionAllowances;
+  @JsonKey(name: "addonCategoryAllowances", defaultValue: [])
+  List<AddonCategoryAllowanceResponse> addonCategoryAllowances;
   @JsonKey(name: "selectedMealsPerDay")
   int? selectedMealsPerDay;
   @JsonKey(name: "deliveryMode")
@@ -558,6 +655,8 @@ class CurrentSubscriptionOverviewDataResponse {
     this.premiumRemaining,
     this.addonSubscriptions,
     this.addonBalances,
+    this.addonSubscriptionAllowances,
+    this.addonCategoryAllowances,
     this.selectedMealsPerDay,
     this.deliveryMode,
     this.premiumSummary,

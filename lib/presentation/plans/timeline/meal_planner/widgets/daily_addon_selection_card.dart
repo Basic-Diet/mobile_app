@@ -232,7 +232,7 @@ class _AddonSelectorField extends StatelessWidget {
       return Strings.addonStatusPaid.tr();
     }
     if (status == 'pending_payment') {
-      return '${Strings.addonStatusPendingPayment.tr()} (${_moneyLabel(addon.priceHalala, state.paymentCurrency)})';
+      return '${Strings.addonStatusPendingPayment.tr()} (${_moneyLabel(addon.displayPriceHalala, state.paymentCurrency)})';
     }
     return null;
   }
@@ -482,7 +482,7 @@ class _SelectedAddonRow extends StatelessWidget {
             ? Strings.addonStatusIncluded.tr()
             : status == 'paid'
             ? Strings.addonStatusPaid.tr()
-            : '${Strings.addonStatusPendingPayment.tr()} ${_moneyLabel(addon.priceHalala, state.paymentCurrency)}';
+            : '${Strings.addonStatusPendingPayment.tr()} ${_moneyLabel(addon.displayPriceHalala, state.paymentCurrency)}';
 
     return Row(
       children: [

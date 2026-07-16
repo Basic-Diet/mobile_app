@@ -21,6 +21,8 @@ class SubscriptionDayModel {
   final String lockedMessage;
   final MealBalanceModel? mealBalance;
   final List<AddonBalanceModel> addonBalance;
+  final List<AddonSubscriptionAllowanceModel> addonSubscriptionAllowances;
+  final List<AddonCategoryAllowanceModel> addonCategoryAllowances;
 
   SubscriptionDayModel({
     required this.date,
@@ -42,6 +44,8 @@ class SubscriptionDayModel {
     this.lockedMessage = '',
     this.mealBalance,
     this.addonBalance = const [],
+    this.addonSubscriptionAllowances = const [],
+    this.addonCategoryAllowances = const [],
   });
 
 }
@@ -53,6 +57,10 @@ class AddonSelectionModel {
   final String source;
   final String name;
   final int priceHalala;
+  final int coveredQty;
+  final int paidQty;
+  final int payableTotalHalala;
+  final String pricingMode;
   final String currency;
 
   const AddonSelectionModel({
@@ -62,13 +70,27 @@ class AddonSelectionModel {
     this.source = '',
     this.name = '',
     this.priceHalala = 0,
+    this.coveredQty = 0,
+    this.paidQty = 0,
+    this.payableTotalHalala = 0,
+    this.pricingMode = '',
     this.currency = 'SAR',
   });
 
   bool get isIncluded =>
-      status == 'included' || source == 'subscription' || status == 'subscription';
+      coveredQty > 0 ||
+      pricingMode == 'allowance_covered' ||
+      status == 'included' ||
+      source == 'subscription' ||
+      status == 'subscription';
   bool get isPendingPayment =>
-      status == 'pending_payment' || source == 'pending_payment';
+      paidQty > 0 ||
+      payableTotalHalala > 0 ||
+      pricingMode == 'paid_no_entitlement' ||
+      pricingMode == 'paid_overage' ||
+      pricingMode == 'allowance_partial' ||
+      status == 'pending_payment' ||
+      source == 'pending_payment';
   bool get isPaid => status == 'paid';
 }
 

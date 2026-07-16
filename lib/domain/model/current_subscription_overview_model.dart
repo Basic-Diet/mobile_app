@@ -273,6 +273,71 @@ class AddonBalanceModel {
   }
 }
 
+class AddonSubscriptionAllowanceModel {
+  final int entitlementIndex;
+  final String entitlementKey;
+  final String addonPlanId;
+  final String addonPlanName;
+  final String displayCategory;
+  final String allowanceCategory;
+  final int includedTotalQty;
+  final int consumedQty;
+  final int reservedQty;
+  final int remainingIncludedQty;
+  final int overageUnitPriceHalala;
+  final String currency;
+  final int choicesCount;
+  final List<String> menuProductIds;
+  final String source;
+
+  const AddonSubscriptionAllowanceModel({
+    required this.entitlementIndex,
+    required this.entitlementKey,
+    required this.addonPlanId,
+    required this.addonPlanName,
+    required this.displayCategory,
+    required this.allowanceCategory,
+    required this.includedTotalQty,
+    required this.consumedQty,
+    required this.reservedQty,
+    required this.remainingIncludedQty,
+    required this.overageUnitPriceHalala,
+    required this.currency,
+    required this.choicesCount,
+    required this.menuProductIds,
+    required this.source,
+  });
+
+  AddonSubscriptionModel toPlannerEntitlement() {
+    return AddonSubscriptionModel(
+      entitlementKey.isNotEmpty ? entitlementKey : addonPlanId,
+      displayCategory.isNotEmpty ? displayCategory : allowanceCategory,
+      remainingIncludedQty,
+      source == 'inactive' ? 'inactive' : 'active',
+    );
+  }
+}
+
+class AddonCategoryAllowanceModel {
+  final String category;
+  final int includedTotalQty;
+  final int consumedQty;
+  final int reservedQty;
+  final int remainingIncludedQty;
+  final int overageUnitPriceHalala;
+  final String currency;
+
+  const AddonCategoryAllowanceModel({
+    required this.category,
+    required this.includedTotalQty,
+    required this.consumedQty,
+    required this.reservedQty,
+    required this.remainingIncludedQty,
+    required this.overageUnitPriceHalala,
+    required this.currency,
+  });
+}
+
 class PremiumSummaryModel {
   String premiumMealId;
   String premiumKey;
@@ -318,6 +383,8 @@ class CurrentSubscriptionOverviewDataModel {
   int premiumRemaining;
   List<AddonSubscriptionModel> addonSubscriptions;
   List<AddonBalanceModel> addonBalances;
+  List<AddonSubscriptionAllowanceModel> addonSubscriptionAllowances;
+  List<AddonCategoryAllowanceModel> addonCategoryAllowances;
   int selectedMealsPerDay;
   String deliveryMode;
   List<PremiumSummaryModel> premiumSummary;
@@ -355,6 +422,8 @@ class CurrentSubscriptionOverviewDataModel {
     this.premiumRemaining,
     this.addonSubscriptions,
     this.addonBalances,
+    this.addonSubscriptionAllowances,
+    this.addonCategoryAllowances,
     this.selectedMealsPerDay,
     this.deliveryMode,
     this.premiumSummary,
@@ -418,6 +487,12 @@ class CurrentSubscriptionOverviewDataModel {
       mealBalance?.dailyMealsDefault ?? selectedMealsPerDay;
 
   List<AddonSubscriptionModel> get displayAddonEntitlements {
+    if (addonSubscriptionAllowances.isNotEmpty) {
+      return addonSubscriptionAllowances
+          .where((allowance) => allowance.remainingIncludedQty > 0)
+          .map((allowance) => allowance.toPlannerEntitlement())
+          .toList();
+    }
     if (addonBalances.isNotEmpty) {
       return addonBalances
           .where((balance) => balance.remainingQty > 0)

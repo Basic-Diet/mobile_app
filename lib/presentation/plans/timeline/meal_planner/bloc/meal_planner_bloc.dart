@@ -1234,9 +1234,14 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
       updatedTimelineDays[selectedIndex],
       updatedDay,
     );
+    final updatedEntitlements = _addonEntitlementsFromDay(
+      updatedDay,
+      state.addonEntitlements,
+    );
 
     return state.copyWith(
       timelineDays: updatedTimelineDays,
+      addonEntitlements: updatedEntitlements,
       selectedSlotsPerDay: Map<int, List<MealPlannerSlotSelection>>.from(
         state.selectedSlotsPerDay,
       )..[selectedIndex] = newSlots,
@@ -1257,6 +1262,25 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
       clearPaymentError: true,
       clearPendingAddonPrompt: true,
     );
+  }
+
+  List<AddonSubscriptionModel> _addonEntitlementsFromDay(
+    SubscriptionDayModel day,
+    List<AddonSubscriptionModel> fallback,
+  ) {
+    if (day.addonSubscriptionAllowances.isNotEmpty) {
+      return day.addonSubscriptionAllowances
+          .where((allowance) => allowance.remainingIncludedQty > 0)
+          .map((allowance) => allowance.toPlannerEntitlement())
+          .toList();
+    }
+    if (day.addonBalance.isNotEmpty) {
+      return day.addonBalance
+          .where((balance) => balance.remainingQty > 0)
+          .map((balance) => balance.toPlannerEntitlement())
+          .toList();
+    }
+    return fallback;
   }
 
   TimelineDayModel _mergeTimelineDayWithDetail(

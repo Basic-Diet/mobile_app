@@ -150,6 +150,48 @@ extension AddonBalanceResponseMapper on AddonBalanceResponse? {
   }
 }
 
+extension AddonSubscriptionAllowanceResponseMapper
+    on AddonSubscriptionAllowanceResponse? {
+  AddonSubscriptionAllowanceModel toDomain() {
+    return AddonSubscriptionAllowanceModel(
+      entitlementIndex: this?.entitlementIndex.orZero() ?? Constants.zero,
+      entitlementKey: this?.entitlementKey.orEmpty() ?? Constants.empty,
+      addonPlanId: this?.addonPlanId.orEmpty() ?? Constants.empty,
+      addonPlanName: this?.addonPlanName.orEmpty() ?? Constants.empty,
+      displayCategory: this?.displayCategory.orEmpty() ?? Constants.empty,
+      allowanceCategory: this?.allowanceCategory.orEmpty() ?? Constants.empty,
+      includedTotalQty: this?.includedTotalQty.orZero() ?? Constants.zero,
+      consumedQty: this?.consumedQty.orZero() ?? Constants.zero,
+      reservedQty: this?.reservedQty.orZero() ?? Constants.zero,
+      remainingIncludedQty:
+          this?.remainingIncludedQty.orZero() ?? Constants.zero,
+      overageUnitPriceHalala:
+          this?.overageUnitPriceHalala.orZero() ?? Constants.zero,
+      currency: this?.currency.orEmpty() ?? Constants.empty,
+      choicesCount: this?.choicesCount.orZero() ?? Constants.zero,
+      menuProductIds: this?.menuProductIds ?? const [],
+      source: this?.source.orEmpty() ?? Constants.empty,
+    );
+  }
+}
+
+extension AddonCategoryAllowanceResponseMapper
+    on AddonCategoryAllowanceResponse? {
+  AddonCategoryAllowanceModel toDomain() {
+    return AddonCategoryAllowanceModel(
+      category: this?.category.orEmpty() ?? Constants.empty,
+      includedTotalQty: this?.includedTotalQty.orZero() ?? Constants.zero,
+      consumedQty: this?.consumedQty.orZero() ?? Constants.zero,
+      reservedQty: this?.reservedQty.orZero() ?? Constants.zero,
+      remainingIncludedQty:
+          this?.remainingIncludedQty.orZero() ?? Constants.zero,
+      overageUnitPriceHalala:
+          this?.overageUnitPriceHalala.orZero() ?? Constants.zero,
+      currency: this?.currency.orEmpty() ?? Constants.empty,
+    );
+  }
+}
+
 extension PremiumSummaryResponseMapper on PremiumSummaryResponse? {
   PremiumSummaryModel toDomain() {
     return PremiumSummaryModel(
@@ -210,6 +252,14 @@ extension CurrentSubscriptionOverviewDataResponseMapper
       (this?.addonBalances?.map((e) => e.toDomain()) ??
               const Iterable.empty())
           .cast<AddonBalanceModel>()
+          .toList(),
+      (this?.addonSubscriptionAllowances.map((e) => e.toDomain()) ??
+              const Iterable.empty())
+          .cast<AddonSubscriptionAllowanceModel>()
+          .toList(),
+      (this?.addonCategoryAllowances.map((e) => e.toDomain()) ??
+              const Iterable.empty())
+          .cast<AddonCategoryAllowanceModel>()
           .toList(),
       this?.selectedMealsPerDay.orZero() ?? Constants.zero,
       this?.deliveryMode.orEmpty() ?? Constants.empty,

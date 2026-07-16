@@ -62,5 +62,51 @@ void main() {
       expect(day.addonBalance, hasLength(1));
       expect(day.addonBalance.first.remainingQty, 8);
     });
+
+    test('maps day allowance arrays and add-on pricing fields', () {
+      final response = SubscriptionDayResponse.fromJson({
+        'status': true,
+        'data': {
+          'date': '2026-07-11',
+          'status': 'draft',
+          'mealSlots': [],
+          'addonSelections': [
+            {
+              'addonId': 'berry-product',
+              'source': 'pending_payment',
+              'coveredQty': 0,
+              'paidQty': 1,
+              'payableTotalHalala': 1100,
+              'pricingMode': 'paid_no_entitlement',
+              'currency': 'SAR',
+            },
+          ],
+          'addonSubscriptionAllowances': [
+            {
+              'entitlementKey': 'juice:juice-plan',
+              'addonPlanId': 'juice-plan',
+              'displayCategory': 'juice',
+              'allowanceCategory': 'juice',
+              'includedTotalQty': 7,
+              'remainingIncludedQty': 6,
+            },
+          ],
+          'addonCategoryAllowances': [
+            {
+              'category': 'juice',
+              'includedTotalQty': 7,
+              'remainingIncludedQty': 6,
+            },
+          ],
+        },
+      });
+
+      final day = response.toDomain();
+
+      expect(day.addonSelections.single.isPendingPayment, isTrue);
+      expect(day.addonSelections.single.payableTotalHalala, 1100);
+      expect(day.addonSubscriptionAllowances.single.addonPlanId, 'juice-plan');
+      expect(day.addonCategoryAllowances.single.remainingIncludedQty, 6);
+    });
   });
 }

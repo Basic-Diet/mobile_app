@@ -120,6 +120,12 @@ class SubscriptionDayData {
   @JsonKey(name: 'addonBalance', readValue: _readAddonBalance, defaultValue: [])
   final List<AddonBalanceResponse> addonBalance;
 
+  @JsonKey(name: 'addonSubscriptionAllowances', defaultValue: [])
+  final List<AddonSubscriptionAllowanceResponse> addonSubscriptionAllowances;
+
+  @JsonKey(name: 'addonCategoryAllowances', defaultValue: [])
+  final List<AddonCategoryAllowanceResponse> addonCategoryAllowances;
+
   SubscriptionDayData(
     this.date,
     this.status,
@@ -140,7 +146,10 @@ class SubscriptionDayData {
     this.lockedReason,
     this.lockedMessage,
     this.mealBalance,
-    this.addonBalance,
+    this.addonBalance, [
+    this.addonSubscriptionAllowances = const [],
+    this.addonCategoryAllowances = const [],
+  ]
   );
 
 
@@ -209,6 +218,18 @@ class AddonSelectionResponse {
   @JsonKey(name: 'priceHalala')
   final int? priceHalala;
 
+  @JsonKey(name: 'coveredQty')
+  final int? coveredQty;
+
+  @JsonKey(name: 'paidQty')
+  final int? paidQty;
+
+  @JsonKey(name: 'payableTotalHalala')
+  final int? payableTotalHalala;
+
+  @JsonKey(name: 'pricingMode')
+  final String? pricingMode;
+
   @JsonKey(name: 'currency')
   final String? currency;
 
@@ -219,6 +240,10 @@ class AddonSelectionResponse {
     this.source,
     this.name,
     this.priceHalala,
+    this.coveredQty,
+    this.paidQty,
+    this.payableTotalHalala,
+    this.pricingMode,
     this.currency,
   );
 

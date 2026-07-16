@@ -244,6 +244,9 @@ final class MealPlannerLoaded extends MealPlannerState {
     for (final category in addonChoices.categories) {
       for (final addon in category.choices) {
         map[addon.id] = addon;
+        if (addon.rawId.isNotEmpty) map[addon.rawId] = addon;
+        if (addon.productId.isNotEmpty) map[addon.productId] = addon;
+        if (addon.menuProductId.isNotEmpty) map[addon.menuProductId] = addon;
       }
     }
     return map;
@@ -310,6 +313,13 @@ final class MealPlannerLoaded extends MealPlannerState {
       return 'pending_payment';
     }
 
+    if (targetAddon.hasAuthoritativePricing) {
+      if (targetAddon.isIncludedByBackend) return 'included';
+      if (targetAddon.isPayableByBackend) return 'pending_payment';
+      if (targetAddon.source == 'subscription') return 'included';
+      if (targetAddon.source == 'pending_payment') return 'pending_payment';
+    }
+
     final allowances = <String, int>{};
     for (final entitlement in addonEntitlements) {
       if ((entitlement.status == 'active' || entitlement.status.isEmpty) &&
@@ -343,6 +353,7 @@ final class MealPlannerLoaded extends MealPlannerState {
         return category.category;
       }
     }
+    if (addon.category.isNotEmpty) return addon.category;
     return addon.categoryKey;
   }
 
@@ -351,7 +362,7 @@ final class MealPlannerLoaded extends MealPlannerState {
     var total = 0;
     for (final addon in selectedAddOnModels) {
       if (addonSelectionStatusFor(addon.id) == 'pending_payment') {
-        total += addon.priceHalala;
+        total += addon.displayPriceHalala;
       }
     }
     return total;

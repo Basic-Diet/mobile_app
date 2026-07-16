@@ -15,10 +15,48 @@ void main() {
       expect(state.selectedAddonsForCategory('juice'), hasLength(8));
       expect(state.selectedAddOnIdForCategory('juice'), juiceAddonIds.first);
     });
+
+    test('uses backend add-on pricing status before local allowance math', () {
+      final state = _loadedState(
+        const ['berry-product'],
+        choices: const [
+          AddonChoiceModel(
+            id: 'berry-product',
+            rawId: 'choice-row',
+            productId: 'berry-product',
+            key: 'berry',
+            name: 'Berry',
+            nameAr: '',
+            nameI18n: {},
+            priceHalala: 0,
+            priceSar: 0,
+            currency: 'SAR',
+            calories: null,
+            prepTimeMinutes: null,
+            categoryKey: 'juice',
+            itemType: 'addon',
+            type: 'flat_once',
+            available: true,
+            active: true,
+            source: 'pending_payment',
+            paidQty: 1,
+            payableTotalHalala: 1100,
+            pricingMode: 'paid_no_entitlement',
+            ui: {},
+          ),
+        ],
+      );
+
+      expect(state.addonSelectionStatusFor('berry-product'), 'pending_payment');
+      expect(state.localAddonPendingAmountHalala, 1100);
+    });
   });
 }
 
-MealPlannerLoaded _loadedState(List<String> juiceAddonIds) {
+MealPlannerLoaded _loadedState(
+  List<String> juiceAddonIds, {
+  List<AddonChoiceModel>? choices,
+}) {
   return MealPlannerLoaded(
     timelineDays: [
       TimelineDayModel(
@@ -54,7 +92,7 @@ MealPlannerLoaded _loadedState(List<String> juiceAddonIds) {
       categories: [
         AddonChoiceCategoryModel(
           category: 'juice',
-          choices: juiceAddonIds.map(_juiceChoice).toList(),
+          choices: choices ?? juiceAddonIds.map(_juiceChoice).toList(),
         ),
       ],
     ),

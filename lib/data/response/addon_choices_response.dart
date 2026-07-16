@@ -2,6 +2,16 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'addon_choices_response.g.dart';
 
+const Set<String> _addonChoicesMetadataKeys = {
+  'addonSubscriptionAllowances',
+  'addonCategoryAllowances',
+  'paymentRequirement',
+  'commercialState',
+  'contractVersion',
+  'currency',
+  'meta',
+};
+
 @JsonSerializable(createFactory: false)
 class AddonChoicesResponse {
   @JsonKey(name: 'status')
@@ -27,22 +37,23 @@ class AddonChoicesResponse {
     }
 
     final rawData = json['data'];
-    final parsedData =
-        rawData is Map<String, dynamic>
-            ? rawData.map(
-              (key, value) => MapEntry(
-                key,
-                AddonChoiceCategoryResponse.fromJson(
-                  Map<String, dynamic>.from(value as Map),
-                ),
-              ),
-            )
-            : null;
+    final parsedData = <String, AddonChoiceCategoryResponse>{};
+    if (rawData is Map<String, dynamic>) {
+      for (final entry in rawData.entries) {
+        final value = entry.value;
+        if (_addonChoicesMetadataKeys.contains(entry.key) || value is! Map) {
+          continue;
+        }
+        parsedData[entry.key] = AddonChoiceCategoryResponse.fromJson(
+          Map<String, dynamic>.from(value),
+        );
+      }
+    }
 
     return AddonChoicesResponse(
       topStatus ?? false,
       json['message'] as String?,
-      parsedData,
+      parsedData.isEmpty ? null : parsedData,
     );
   }
 
@@ -77,6 +88,12 @@ class AddonChoiceResponse {
   @JsonKey(name: 'id')
   final String? id;
 
+  @JsonKey(name: 'productId')
+  final String? productId;
+
+  @JsonKey(name: 'menuProductId')
+  final String? menuProductId;
+
   @JsonKey(name: 'key')
   final String? key;
 
@@ -107,6 +124,9 @@ class AddonChoiceResponse {
   @JsonKey(name: 'categoryKey')
   final String? categoryKey;
 
+  @JsonKey(name: 'category')
+  final String? category;
+
   @JsonKey(name: 'itemType')
   final String? itemType;
 
@@ -119,11 +139,70 @@ class AddonChoiceResponse {
   @JsonKey(name: 'active')
   final bool? active;
 
+  @JsonKey(name: 'source')
+  final String? source;
+
+  @JsonKey(name: 'isEligibleForAllowance')
+  final bool? isEligibleForAllowance;
+
+  @JsonKey(name: 'includedTotalQty')
+  final int? includedTotalQty;
+
+  @JsonKey(name: 'remainingQty')
+  final int? remainingQty;
+
+  @JsonKey(name: 'freeQtyAvailable')
+  final int? freeQtyAvailable;
+
+  @JsonKey(name: 'requestedQty')
+  final int? requestedQty;
+
+  @JsonKey(name: 'coveredQty')
+  final int? coveredQty;
+
+  @JsonKey(name: 'paidQty')
+  final int? paidQty;
+
+  @JsonKey(name: 'remainingBefore')
+  final int? remainingBefore;
+
+  @JsonKey(name: 'remainingAfter')
+  final int? remainingAfter;
+
+  @JsonKey(name: 'payableTotalHalala')
+  final int? payableTotalHalala;
+
+  @JsonKey(name: 'unitPriceHalala')
+  final int? unitPriceHalala;
+
+  @JsonKey(name: 'pricingMode')
+  final String? pricingMode;
+
+  @JsonKey(name: 'availableForNewSale')
+  final bool? availableForNewSale;
+
+  @JsonKey(name: 'legacyRecovered')
+  final bool? legacyRecovered;
+
+  @JsonKey(name: 'entitlementKey')
+  final String? entitlementKey;
+
+  @JsonKey(name: 'balanceBucketId')
+  final String? balanceBucketId;
+
+  @JsonKey(name: 'addonPlanId')
+  final String? addonPlanId;
+
+  @JsonKey(name: 'maxPerDay')
+  final int? maxPerDay;
+
   @JsonKey(name: 'ui')
   final Map<String, dynamic>? ui;
 
   const AddonChoiceResponse({
     this.id,
+    this.productId,
+    this.menuProductId,
     this.key,
     this.name,
     this.nameAr,
@@ -134,10 +213,30 @@ class AddonChoiceResponse {
     this.calories,
     this.prepTimeMinutes,
     this.categoryKey,
+    this.category,
     this.itemType,
     this.type,
     this.available,
     this.active,
+    this.source,
+    this.isEligibleForAllowance,
+    this.includedTotalQty,
+    this.remainingQty,
+    this.freeQtyAvailable,
+    this.requestedQty,
+    this.coveredQty,
+    this.paidQty,
+    this.remainingBefore,
+    this.remainingAfter,
+    this.payableTotalHalala,
+    this.unitPriceHalala,
+    this.pricingMode,
+    this.availableForNewSale,
+    this.legacyRecovered,
+    this.entitlementKey,
+    this.balanceBucketId,
+    this.addonPlanId,
+    this.maxPerDay,
     this.ui,
   });
 

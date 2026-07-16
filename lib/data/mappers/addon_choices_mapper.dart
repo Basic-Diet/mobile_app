@@ -29,8 +29,20 @@ extension AddonChoiceResponseMapper on AddonChoiceResponse? {
         (this?.nameI18n ?? const <String, dynamic>{}).map(
           (key, value) => MapEntry(key, value?.toString() ?? ''),
         );
+    final rawId = this?.id.orEmpty() ?? '';
+    final productId = this?.productId.orEmpty() ?? '';
+    final menuProductId = this?.menuProductId.orEmpty() ?? '';
+    final selectionId =
+        productId.isNotEmpty
+            ? productId
+            : menuProductId.isNotEmpty
+                ? menuProductId
+                : rawId;
     return AddonChoiceModel(
-      id: this?.id.orEmpty() ?? '',
+      id: selectionId,
+      rawId: rawId,
+      productId: productId,
+      menuProductId: menuProductId,
       key: this?.key.orEmpty() ?? '',
       name: this?.name.orEmpty() ?? '',
       nameAr: this?.nameAr.orEmpty() ?? '',
@@ -41,10 +53,30 @@ extension AddonChoiceResponseMapper on AddonChoiceResponse? {
       calories: this?.calories,
       prepTimeMinutes: this?.prepTimeMinutes,
       categoryKey: this?.categoryKey.orEmpty() ?? '',
+      category: this?.category.orEmpty() ?? '',
       itemType: this?.itemType.orEmpty() ?? '',
       type: this?.type.orEmpty() ?? '',
-      available: this?.available ?? false,
-      active: this?.active ?? false,
+      available: this?.available ?? true,
+      active: this?.active ?? true,
+      source: this?.source.orEmpty() ?? '',
+      isEligibleForAllowance: this?.isEligibleForAllowance,
+      includedTotalQty: this?.includedTotalQty.orZero() ?? 0,
+      remainingQty: this?.remainingQty.orZero() ?? 0,
+      freeQtyAvailable: this?.freeQtyAvailable.orZero() ?? 0,
+      requestedQty: this?.requestedQty.orZero() ?? 0,
+      coveredQty: this?.coveredQty.orZero() ?? 0,
+      paidQty: this?.paidQty.orZero() ?? 0,
+      remainingBefore: this?.remainingBefore.orZero() ?? 0,
+      remainingAfter: this?.remainingAfter.orZero() ?? 0,
+      payableTotalHalala: this?.payableTotalHalala.orZero() ?? 0,
+      unitPriceHalala: this?.unitPriceHalala.orZero() ?? 0,
+      pricingMode: this?.pricingMode.orEmpty() ?? '',
+      availableForNewSale: this?.availableForNewSale,
+      legacyRecovered: this?.legacyRecovered ?? false,
+      entitlementKey: this?.entitlementKey.orEmpty() ?? '',
+      balanceBucketId: this?.balanceBucketId.orEmpty() ?? '',
+      addonPlanId: this?.addonPlanId.orEmpty() ?? '',
+      maxPerDay: this?.maxPerDay,
       ui: this?.ui ?? const {},
     );
   }

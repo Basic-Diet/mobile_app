@@ -81,6 +81,22 @@ SubscriptionDayData _$SubscriptionDayDataFromJson(
           ?.map((e) => AddonBalanceResponse.fromJson(e as Map<String, dynamic>))
           .toList() ??
       [],
+  (json['addonSubscriptionAllowances'] as List<dynamic>?)
+          ?.map(
+            (e) => AddonSubscriptionAllowanceResponse.fromJson(
+              e as Map<String, dynamic>,
+            ),
+          )
+          .toList() ??
+      [],
+  (json['addonCategoryAllowances'] as List<dynamic>?)
+          ?.map(
+            (e) => AddonCategoryAllowanceResponse.fromJson(
+              e as Map<String, dynamic>,
+            ),
+          )
+          .toList() ??
+      [],
 );
 
 Map<String, dynamic> _$SubscriptionDayDataToJson(
@@ -106,6 +122,8 @@ Map<String, dynamic> _$SubscriptionDayDataToJson(
   'lockedMessage': instance.lockedMessage,
   'mealBalance': instance.mealBalance,
   'addonBalance': instance.addonBalance,
+  'addonSubscriptionAllowances': instance.addonSubscriptionAllowances,
+  'addonCategoryAllowances': instance.addonCategoryAllowances,
 };
 
 PlanningResponse _$PlanningResponseFromJson(Map<String, dynamic> json) =>
@@ -139,6 +157,10 @@ AddonSelectionResponse _$AddonSelectionResponseFromJson(
   json['source'] as String?,
   _readAddonSelectionName(json, 'name') as String?,
   (json['priceHalala'] as num?)?.toInt(),
+  (json['coveredQty'] as num?)?.toInt(),
+  (json['paidQty'] as num?)?.toInt(),
+  (json['payableTotalHalala'] as num?)?.toInt(),
+  json['pricingMode'] as String?,
   json['currency'] as String?,
 );
 
@@ -151,6 +173,10 @@ Map<String, dynamic> _$AddonSelectionResponseToJson(
   'source': instance.source,
   'name': instance.name,
   'priceHalala': instance.priceHalala,
+  'coveredQty': instance.coveredQty,
+  'paidQty': instance.paidQty,
+  'payableTotalHalala': instance.payableTotalHalala,
+  'pricingMode': instance.pricingMode,
   'currency': instance.currency,
 };
 

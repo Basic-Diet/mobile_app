@@ -33,6 +33,16 @@ extension SubscriptionDayResponseMapper on SubscriptionDayResponse {
       addonBalance:
           data?.addonBalance.map((balance) => balance.toDomain()).toList() ??
           const [],
+      addonSubscriptionAllowances:
+          data?.addonSubscriptionAllowances
+              .map((allowance) => allowance.toDomain())
+              .toList() ??
+          const [],
+      addonCategoryAllowances:
+          data?.addonCategoryAllowances
+              .map((allowance) => allowance.toDomain())
+              .toList() ??
+          const [],
     );
 
   }
@@ -56,8 +66,24 @@ extension PlanningResponseMapper on PlanningResponse {
 
 extension AddonSelectionResponseMapper on AddonSelectionResponse {
   AddonSelectionModel toDomain() {
+    final coveredQty = this.coveredQty ?? 0;
+    final paidQty = this.paidQty ?? 0;
+    final payableTotalHalala = this.payableTotalHalala ?? 0;
+    final pricingMode = this.pricingMode ?? '';
+    final isIncluded =
+        coveredQty > 0 || pricingMode == 'allowance_covered';
+    final isPayable =
+        paidQty > 0 ||
+        payableTotalHalala > 0 ||
+        pricingMode == 'paid_no_entitlement' ||
+        pricingMode == 'paid_overage' ||
+        pricingMode == 'allowance_partial';
     final rawStatus =
-        source == 'pending_payment' ? 'pending_payment' : status ?? source ?? '';
+        isIncluded
+            ? 'included'
+            : isPayable || source == 'pending_payment'
+                ? 'pending_payment'
+                : status ?? source ?? '';
     return AddonSelectionModel(
       addonId: addonId ?? '',
       category: category ?? '',
@@ -68,6 +94,10 @@ extension AddonSelectionResponseMapper on AddonSelectionResponse {
       source: source ?? '',
       name: name ?? '',
       priceHalala: priceHalala ?? 0,
+      coveredQty: coveredQty,
+      paidQty: paidQty,
+      payableTotalHalala: payableTotalHalala,
+      pricingMode: pricingMode,
       currency: currency ?? 'SAR',
     );
   }
