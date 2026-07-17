@@ -1,3 +1,5 @@
+import 'dart:ui' as ui;
+
 import 'package:basic_diet/domain/model/order_menu_model.dart';
 import 'package:basic_diet/presentation/main/cart/bloc/cart_event.dart';
 import 'package:basic_diet/presentation/main/menu/utils/menu_utils.dart';
@@ -801,6 +803,7 @@ class _BuilderProductHeader extends StatelessWidget {
               product.pricingModel == 'per_100g'
                   ? '${formatHalala(product.priceHalala, currency)} / ${Strings.grams.tr(args: ['100'])}'
                   : formatHalala(unitPriceHalala, currency),
+              textDirection: ui.TextDirection.ltr,
               style: getBoldTextStyle(
                 fontSize: FontSizeManager.s11.sp,
                 color: const Color(0xFF12382C),
