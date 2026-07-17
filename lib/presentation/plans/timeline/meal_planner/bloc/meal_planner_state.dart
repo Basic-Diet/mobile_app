@@ -326,22 +326,22 @@ final class MealPlannerLoaded extends MealPlannerState {
       }
     }
 
-    final allowances = _localAddonAllowancesByCategory();
+    final allowances = _localAddonAllowancesByEntitlement();
 
     for (final id in selectedAddonIds) {
       final addon = _catalogById[id];
       if (addon == null) continue;
-      final category = _categoryForAddon(addon);
-      final remaining = allowances[category] ?? 0;
+      final allowanceKey = _allowanceKeyForAddon(addon);
+      final remaining = allowances[allowanceKey] ?? 0;
       if (addon.id == targetAddon.id) {
         return remaining > 0 ? 'subscription' : 'pending_payment';
       }
       if (remaining > 0) {
-        allowances[category] = remaining - 1;
+        allowances[allowanceKey] = remaining - 1;
       }
     }
 
-    final remaining = allowances[_categoryForAddon(targetAddon)] ?? 0;
+    final remaining = allowances[_allowanceKeyForAddon(targetAddon)] ?? 0;
     return remaining > 0 ? 'subscription' : 'pending_payment';
   }
 
@@ -350,17 +350,35 @@ final class MealPlannerLoaded extends MealPlannerState {
     return !listEquals(selectedAddOnIds, savedAddons);
   }
 
-  Map<String, int> _localAddonAllowancesByCategory() {
+  Map<String, int> _localAddonAllowancesByEntitlement() {
     final allowances = <String, int>{};
     for (final entitlement in addonEntitlements) {
       if ((entitlement.status == 'active' || entitlement.status.isEmpty) &&
           entitlement.includedCount > 0) {
-        final category = entitlement.category;
-        allowances[category] =
-            (allowances[category] ?? 0) + entitlement.includedCount;
+        final key = _allowanceKeyForEntitlement(entitlement);
+        allowances[key] = (allowances[key] ?? 0) + entitlement.includedCount;
       }
     }
     return allowances;
+  }
+
+  String _allowanceKeyForEntitlement(AddonSubscriptionModel entitlement) {
+    if (entitlement.addonId.isNotEmpty) {
+      return 'entitlement:${entitlement.addonId}';
+    }
+    return 'category:${entitlement.category}';
+  }
+
+  String _allowanceKeyForAddon(AddonChoiceModel addon) {
+    for (final entitlement in addonEntitlements) {
+      if (entitlement.addonId.isEmpty) continue;
+      if (entitlement.addonId == addon.entitlementKey ||
+          entitlement.addonId == addon.addonPlanId ||
+          entitlement.addonId == addon.balanceBucketId) {
+        return _allowanceKeyForEntitlement(entitlement);
+      }
+    }
+    return 'category:${_categoryForAddon(addon)}';
   }
 
   String _categoryForAddon(AddonChoiceModel addon) {

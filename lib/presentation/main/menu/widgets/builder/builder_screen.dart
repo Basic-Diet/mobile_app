@@ -529,6 +529,28 @@ class _BuilderScreenState extends State<BuilderScreen> {
           },
         ),
       ),
+      if (product.pricingModel == 'per_100g') ...[
+        Gap(AppSize.s12.h),
+        BuilderCardContainer(
+          child: WeightSelector(
+            value: _weightGrams,
+            min: product.minWeightGrams,
+            max:
+                product.maxWeightGrams > 0
+                    ? product.maxWeightGrams
+                    : 600,
+            step:
+                product.weightStepGrams > 0
+                    ? product.weightStepGrams
+                    : 50,
+            onChanged: (value) {
+              setState(() {
+                _weightGrams = value;
+              });
+            },
+          ),
+        ),
+      ],
       if (product.pricingModel == 'per_100g') Gap(AppSize.s12.h),
       for (final group in product.optionGroups)
         Padding(
@@ -823,6 +845,7 @@ class _BuilderProductHeader extends StatelessWidget {
               ),
             ],
           ),
+
           if (product.pricingModel == 'per_100g') ...[
             Gap(AppSize.s12.h),
             Wrap(

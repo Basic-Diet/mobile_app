@@ -78,6 +78,58 @@ void main() {
       expect(state.localAddonPendingCount, 1);
       expect(state.localAddonPendingAmountHalala, 1000);
     });
+
+    test('does not combine balances from different plans in one category', () {
+      final snackAddonIds = List.generate(8, (index) => 'snack-addon-$index');
+      final state = _loadedState(
+        snackAddonIds,
+        choices: [
+          ...snackAddonIds.map(
+            (id) => _juiceChoice(
+              id,
+              category: 'snack',
+              addonPlanId: 'snack-plan',
+              entitlementKey: 'snack:snack-plan',
+            ),
+          ),
+          _juiceChoice(
+            'ice-cream-addon',
+            category: 'snack',
+            addonPlanId: 'ice-cream-plan',
+            entitlementKey: 'snack:ice-cream-plan',
+          ),
+        ],
+        entitlements: [
+          AddonSubscriptionModel(
+            'snack:snack-plan',
+            'snack',
+            7,
+            'active',
+          ),
+          AddonSubscriptionModel(
+            'snack:ice-cream-plan',
+            'snack',
+            7,
+            'active',
+          ),
+        ],
+      );
+
+      expect(
+        state.addonSelectionStatusFor(
+          'snack-addon-6',
+          selectedAddonIdsOverride: snackAddonIds,
+        ),
+        'subscription',
+      );
+      expect(
+        state.addonSelectionStatusFor(
+          'snack-addon-7',
+          selectedAddonIdsOverride: snackAddonIds,
+        ),
+        'pending_payment',
+      );
+    });
   });
 }
 
@@ -85,6 +137,7 @@ MealPlannerLoaded _loadedState(
   List<String> juiceAddonIds, {
   List<AddonChoiceModel>? choices,
   int includedCount = 20,
+  List<AddonSubscriptionModel>? entitlements,
 }) {
   return MealPlannerLoaded(
     timelineDays: [
@@ -125,9 +178,9 @@ MealPlannerLoaded _loadedState(
         ),
       ],
     ),
-    addonEntitlements: [
-      AddonSubscriptionModel('', 'juice', includedCount, 'active'),
-    ],
+    addonEntitlements:
+        entitlements ??
+        [AddonSubscriptionModel('', 'juice', includedCount, 'active')],
     premiumSummaries: const [],
     selectedDayIndex: 0,
     selectedSlotsPerDay: const {0: []},
@@ -143,6 +196,9 @@ AddonChoiceModel _juiceChoice(
   String id, {
   String pricingMode = '',
   int unitPriceHalala = 0,
+  String category = 'juice',
+  String addonPlanId = '',
+  String entitlementKey = '',
 }) {
   return AddonChoiceModel(
     id: id,
@@ -155,13 +211,16 @@ AddonChoiceModel _juiceChoice(
     currency: 'SAR',
     calories: null,
     prepTimeMinutes: null,
-    categoryKey: 'juice',
+    categoryKey: category,
+    category: category,
     itemType: 'addon',
     type: 'flat_once',
     available: true,
     active: true,
     pricingMode: pricingMode,
     unitPriceHalala: unitPriceHalala,
+    addonPlanId: addonPlanId,
+    entitlementKey: entitlementKey,
     ui: const {},
   );
 }
