@@ -54,6 +54,7 @@ class MealPlannerScreen extends StatelessWidget {
   final String subscriptionId;
   final MealBalanceModel? mealBalance;
   final bool readOnly;
+  final bool hideAddMealForPlannedTimelineDay;
 
   const MealPlannerScreen({
     super.key,
@@ -65,6 +66,7 @@ class MealPlannerScreen extends StatelessWidget {
     required this.subscriptionId,
     this.mealBalance,
     this.readOnly = false,
+    this.hideAddMealForPlannedTimelineDay = false,
   });
 
   @override
@@ -86,7 +88,11 @@ class MealPlannerScreen extends StatelessWidget {
       },
       child:
           readOnly
-              ? const MealPlannerView(readOnly: true)
+              ? MealPlannerView(
+                readOnly: true,
+                hideAddMealForPlannedTimelineDay:
+                    hideAddMealForPlannedTimelineDay,
+              )
               : BlocListener<MealPlannerBloc, MealPlannerState>(
                 listenWhen: (previous, current) {
                   if (previous is! MealPlannerLoaded ||
@@ -140,7 +146,10 @@ class MealPlannerScreen extends StatelessWidget {
                     );
                   }
                 },
-                child: const MealPlannerView(),
+                child: MealPlannerView(
+                  hideAddMealForPlannedTimelineDay:
+                      hideAddMealForPlannedTimelineDay,
+                ),
               ),
     );
   }
@@ -201,8 +210,13 @@ const String _unifiedDayPaymentCancelUrl = Constants.unifiedDayPaymentCancelUrl;
 
 class MealPlannerView extends StatelessWidget {
   final bool readOnly;
+  final bool hideAddMealForPlannedTimelineDay;
 
-  const MealPlannerView({super.key, this.readOnly = false});
+  const MealPlannerView({
+    super.key,
+    this.readOnly = false,
+    this.hideAddMealForPlannedTimelineDay = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -262,7 +276,12 @@ class MealPlannerView extends StatelessWidget {
           bottomNavigationBar:
               !isViewOnly ? MealPlannerBottomAction(state: state) : null,
           body: SafeArea(
-            child: _MealPlannerBody(state: state, readOnly: readOnly),
+            child: _MealPlannerBody(
+              state: state,
+              readOnly: readOnly,
+              hideAddMealForPlannedTimelineDay:
+                  hideAddMealForPlannedTimelineDay,
+            ),
           ),
         );
       },
@@ -273,12 +292,20 @@ class MealPlannerView extends StatelessWidget {
 class _MealPlannerBody extends StatelessWidget {
   final MealPlannerLoaded state;
   final bool readOnly;
+  final bool hideAddMealForPlannedTimelineDay;
 
-  const _MealPlannerBody({required this.state, required this.readOnly});
+  const _MealPlannerBody({
+    required this.state,
+    required this.readOnly,
+    required this.hideAddMealForPlannedTimelineDay,
+  });
 
   @override
   Widget build(BuildContext context) {
     final areAddonsReadOnly = readOnly || !state.canChangeAddons;
+    final hideAddMealAction =
+        hideAddMealForPlannedTimelineDay &&
+        state.selectedTimelineDay.showPlanned;
 
     return Stack(
       children: [
@@ -348,7 +375,7 @@ class _MealPlannerBody extends StatelessWidget {
                     ),
               ),
             ),
-            if (state.canAddMoreMeals)
+            if (state.canAddMoreMeals && !hideAddMealAction)
               SliverPadding(
                 padding: EdgeInsets.symmetric(horizontal: AppPadding.p16.w),
                 sliver: SliverToBoxAdapter(

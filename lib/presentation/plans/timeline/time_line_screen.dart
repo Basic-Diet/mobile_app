@@ -313,6 +313,7 @@ class TimeLineScreen extends StatelessWidget {
                   subscriptionId: subscriptionId,
                   mealBalance: mealBalance,
                   readOnly: isReadOnly,
+                  hideAddMealForPlannedTimelineDay: true,
                 ),
           ),
         );
