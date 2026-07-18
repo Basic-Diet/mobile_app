@@ -187,6 +187,12 @@ class OrderMenuProductResponse {
   @JsonKey(name: 'weightStepGrams')
   final int? weightStepGrams;
 
+  @JsonKey(name: 'weightStepPriceHalala')
+  final int? weightStepPriceHalala;
+
+  @JsonKey(name: 'weightPricing')
+  final OrderMenuWeightPricingResponse? weightPricing;
+
   @JsonKey(name: 'sortOrder')
   final int? sortOrder;
 
@@ -224,6 +230,8 @@ class OrderMenuProductResponse {
     this.minWeightGrams,
     this.maxWeightGrams,
     this.weightStepGrams,
+    this.weightStepPriceHalala,
+    this.weightPricing,
     this.sortOrder,
     this.requiresBuilder,
     this.canAddDirectly,
@@ -252,6 +260,14 @@ class OrderMenuProductResponse {
         minWeightGrams: (json['minWeightGrams'] as num?)?.toInt(),
         maxWeightGrams: (json['maxWeightGrams'] as num?)?.toInt(),
         weightStepGrams: (json['weightStepGrams'] as num?)?.toInt(),
+        weightStepPriceHalala:
+            (json['weightStepPriceHalala'] as num?)?.toInt(),
+        weightPricing:
+            json['weightPricing'] is Map<String, dynamic>
+                ? OrderMenuWeightPricingResponse.fromJson(
+                  json['weightPricing'] as Map<String, dynamic>,
+                )
+                : null,
         sortOrder: (json['sortOrder'] as num?)?.toInt(),
         requiresBuilder: json['requiresBuilder'] as bool?,
         canAddDirectly: json['canAddDirectly'] as bool?,
@@ -292,6 +308,8 @@ class OrderMenuProductResponse {
     'minWeightGrams': minWeightGrams,
     'maxWeightGrams': maxWeightGrams,
     'weightStepGrams': weightStepGrams,
+    'weightStepPriceHalala': weightStepPriceHalala,
+    'weightPricing': weightPricing?.toJson(),
     'sortOrder': sortOrder,
     'requiresBuilder': requiresBuilder,
     'canAddDirectly': canAddDirectly,
@@ -299,6 +317,105 @@ class OrderMenuProductResponse {
     'optionSections':
         optionSections?.map((section) => section.toJson()).toList(),
     'optionGroups': optionGroups?.map((group) => group.toJson()).toList(),
+  };
+}
+
+class OrderMenuWeightPricingResponse {
+  final String? contractVersion;
+  final String? strategy;
+  final bool? requiresWeightSelection;
+  final int? basePriceHalala;
+  final int? baseWeightGrams;
+  final int? defaultWeightGrams;
+  final int? minWeightGrams;
+  final int? maxWeightGrams;
+  final int? stepGrams;
+  final int? stepPriceHalala;
+  final List<OrderMenuWeightPricingChoiceResponse>? choices;
+
+  const OrderMenuWeightPricingResponse({
+    this.contractVersion,
+    this.strategy,
+    this.requiresWeightSelection,
+    this.basePriceHalala,
+    this.baseWeightGrams,
+    this.defaultWeightGrams,
+    this.minWeightGrams,
+    this.maxWeightGrams,
+    this.stepGrams,
+    this.stepPriceHalala,
+    this.choices,
+  });
+
+  factory OrderMenuWeightPricingResponse.fromJson(Map<String, dynamic> json) {
+    final rawChoices = json['choices'] ?? json['weightChoices'];
+    return OrderMenuWeightPricingResponse(
+      contractVersion:
+          json['contractVersion'] as String? ??
+          json['weightPricingContractVersion'] as String?,
+      strategy: json['strategy'] as String?,
+      requiresWeightSelection: json['requiresWeightSelection'] as bool?,
+      basePriceHalala:
+          (json['basePriceHalala'] as num?)?.toInt() ??
+          (json['priceHalala'] as num?)?.toInt(),
+      baseWeightGrams:
+          (json['baseWeightGrams'] as num?)?.toInt() ??
+          (json['baseUnitGrams'] as num?)?.toInt(),
+      defaultWeightGrams: (json['defaultWeightGrams'] as num?)?.toInt(),
+      minWeightGrams: (json['minWeightGrams'] as num?)?.toInt(),
+      maxWeightGrams: (json['maxWeightGrams'] as num?)?.toInt(),
+      stepGrams:
+          (json['stepGrams'] as num?)?.toInt() ??
+          (json['weightStepGrams'] as num?)?.toInt(),
+      stepPriceHalala:
+          (json['stepPriceHalala'] as num?)?.toInt() ??
+          (json['weightStepPriceHalala'] as num?)?.toInt(),
+      choices:
+          rawChoices is List
+              ? rawChoices
+                  .whereType<Map<String, dynamic>>()
+                  .map(OrderMenuWeightPricingChoiceResponse.fromJson)
+                  .toList()
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() => <String, dynamic>{
+    'contractVersion': contractVersion,
+    'strategy': strategy,
+    'requiresWeightSelection': requiresWeightSelection,
+    'basePriceHalala': basePriceHalala,
+    'baseWeightGrams': baseWeightGrams,
+    'defaultWeightGrams': defaultWeightGrams,
+    'minWeightGrams': minWeightGrams,
+    'maxWeightGrams': maxWeightGrams,
+    'stepGrams': stepGrams,
+    'stepPriceHalala': stepPriceHalala,
+    'choices': choices?.map((choice) => choice.toJson()).toList(),
+  };
+}
+
+class OrderMenuWeightPricingChoiceResponse {
+  final int? weightGrams;
+  final int? priceHalala;
+
+  const OrderMenuWeightPricingChoiceResponse({
+    this.weightGrams,
+    this.priceHalala,
+  });
+
+  factory OrderMenuWeightPricingChoiceResponse.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    return OrderMenuWeightPricingChoiceResponse(
+      weightGrams: (json['weightGrams'] as num?)?.toInt(),
+      priceHalala: (json['priceHalala'] as num?)?.toInt(),
+    );
+  }
+
+  Map<String, dynamic> toJson() => <String, dynamic>{
+    'weightGrams': weightGrams,
+    'priceHalala': priceHalala,
   };
 }
 

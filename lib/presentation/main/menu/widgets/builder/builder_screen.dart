@@ -47,10 +47,7 @@ class _BuilderScreenState extends State<BuilderScreen> {
   void initState() {
     super.initState();
     _qty = 1;
-    _weightGrams =
-        widget.product.defaultWeightGrams > 0
-            ? widget.product.defaultWeightGrams
-            : widget.product.minWeightGrams;
+    _weightGrams = _initialWeightGrams(widget.product);
 
     if (widget.product.optionGroups.isNotEmpty) {
       final firstRequiredIndex = widget.product.optionGroups.indexWhere(
@@ -65,8 +62,36 @@ class _BuilderScreenState extends State<BuilderScreen> {
     }
   }
 
+  @override
+  void didUpdateWidget(covariant BuilderScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.product.id != widget.product.id ||
+        widget.product.weightPricing?.choiceForWeight(_weightGrams) == null &&
+            widget.product.hasBackendWeightChoices) {
+      _weightGrams = _initialWeightGrams(widget.product);
+    }
+  }
+
+  int _initialWeightGrams(OrderMenuProductModel product) {
+    final initialChoice = product.weightPricing?.initialChoice;
+    if (initialChoice != null) {
+      return initialChoice.weightGrams;
+    }
+
+    return product.defaultWeightGrams > 0
+        ? product.defaultWeightGrams
+        : product.minWeightGrams;
+  }
+
+  OrderMenuWeightPricingChoiceModel? get _selectedWeightChoice =>
+      widget.product.weightPricing?.choiceForWeight(_weightGrams);
+
   bool get _isValid {
     if (_qty < 1) {
+      return false;
+    }
+
+    if (widget.product.hasInvalidWeightPricingContract) {
       return false;
     }
 
@@ -87,14 +112,19 @@ class _BuilderScreenState extends State<BuilderScreen> {
   }
 
   int get _estimatedUnitPriceHalala {
-    int unitPrice =
-        widget.product.pricingModel == 'per_100g'
-            ? ((widget.product.priceHalala * _weightGrams) /
-                    (widget.product.baseUnitGrams == 0
-                        ? 100
-                        : widget.product.baseUnitGrams))
-                .round()
-            : widget.product.priceHalala;
+    int unitPrice;
+    if (widget.product.hasBackendWeightChoices) {
+      unitPrice = _selectedWeightChoice?.priceHalala ?? widget.product.priceHalala;
+    } else if (widget.product.pricingModel == 'per_100g') {
+      unitPrice =
+          ((widget.product.priceHalala * _weightGrams) /
+                  (widget.product.baseUnitGrams == 0
+                      ? 100
+                      : widget.product.baseUnitGrams))
+              .round();
+    } else {
+      unitPrice = widget.product.priceHalala;
+    }
 
     for (final group in widget.product.optionGroups) {
       final selected = _selectedOptionIds[group.groupId] ?? <String>{};
@@ -261,7 +291,7 @@ class _BuilderScreenState extends State<BuilderScreen> {
         name: widget.product.displayName(context.locale.toString()),
         qty: _qty,
         weightGrams:
-            widget.product.pricingModel == 'per_100g' ? _weightGrams : null,
+            widget.product.requiresWeightSelection ? _weightGrams : null,
         selectedOptions: selectedOptions,
         unitPriceHalala: _estimatedUnitPriceHalala,
       ),
@@ -531,21 +561,29 @@ class _BuilderScreenState extends State<BuilderScreen> {
           },
         ),
       ),
-      if (product.pricingModel == 'per_100g') ...[
+      if (product.requiresWeightSelection &&
+          !product.hasInvalidWeightPricingContract) ...[
         Gap(AppSize.s12.h),
         BuilderCardContainer(
           child: WeightSelector(
             value: _weightGrams,
-            min: product.minWeightGrams,
+            min:
+                product.weightPricing?.minWeightGrams ?? product.minWeightGrams,
             max:
-                product.maxWeightGrams > 0
-                    ? product.maxWeightGrams
+                (product.weightPricing?.maxWeightGrams ?? product.maxWeightGrams) > 0
+                    ? product.weightPricing?.maxWeightGrams ?? product.maxWeightGrams
                     : 600,
             step:
-                product.weightStepGrams > 0
-                    ? product.weightStepGrams
+                (product.weightPricing?.stepGrams ?? product.weightStepGrams) > 0
+                    ? product.weightPricing?.stepGrams ?? product.weightStepGrams
                     : 50,
+            choices: product.weightPricing?.choices ?? const [],
+            priceFormatter: (halala) => formatHalala(halala, widget.currency),
             onChanged: (value) {
+              if (product.hasBackendWeightChoices &&
+                  product.weightPricing?.choiceForWeight(value) == null) {
+                return;
+              }
               setState(() {
                 _weightGrams = value;
               });
@@ -553,7 +591,9 @@ class _BuilderScreenState extends State<BuilderScreen> {
           ),
         ),
       ],
-      if (product.pricingModel == 'per_100g') Gap(AppSize.s12.h),
+      if (product.requiresWeightSelection &&
+          !product.hasInvalidWeightPricingContract)
+        Gap(AppSize.s12.h),
       for (final group in product.optionGroups)
         Padding(
           padding: EdgeInsetsDirectional.only(bottom: AppPadding.p12.h),
@@ -650,7 +690,7 @@ class _BuilderScreenState extends State<BuilderScreen> {
         productName: product.displayName(context.locale.toString()),
         quantity: _qty,
         total: formatHalala(_estimatedUnitPriceHalala * _qty, widget.currency),
-        weight: product.pricingModel == 'per_100g' ? weightLabel(_weightGrams) : null,
+        weight: product.requiresWeightSelection ? weightLabel(_weightGrams) : null,
       ),
       Gap(AppSize.s12.h),
       BuilderCardContainer(
@@ -800,8 +840,8 @@ class _BuilderProductHeader extends StatelessWidget {
               borderRadius: BorderRadius.circular(AppSize.s12.r),
             ),
             child: Text(
-              product.pricingModel == 'per_100g'
-                  ? '${formatHalala(product.priceHalala, currency)} / ${Strings.grams.tr(args: ['100'])}'
+              product.requiresWeightSelection
+                  ? '${formatHalala(unitPriceHalala, currency)} / ${Strings.grams.tr(args: [weightGrams.toString()])}'
                   : formatHalala(unitPriceHalala, currency),
               textDirection: ui.TextDirection.ltr,
               style: getBoldTextStyle(
@@ -849,7 +889,7 @@ class _BuilderProductHeader extends StatelessWidget {
             ],
           ),
 
-          if (product.pricingModel == 'per_100g') ...[
+          if (product.requiresWeightSelection) ...[
             Gap(AppSize.s12.h),
             Wrap(
               alignment: WrapAlignment.end,
@@ -861,8 +901,8 @@ class _BuilderProductHeader extends StatelessWidget {
                   value: weightLabel(weightGrams),
                 ),
                 BuilderHeroPill(
-                  label: Strings.per100g.tr(),
-                  value: formatHalala(product.priceHalala, currency),
+                  label: Strings.builderTotal.tr(),
+                  value: formatHalala(unitPriceHalala, currency),
                 ),
               ],
             ),

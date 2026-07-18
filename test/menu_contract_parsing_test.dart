@@ -1,8 +1,10 @@
 import 'package:basic_diet/data/mappers/order_menu_mapper.dart';
 import 'package:basic_diet/data/mappers/meal_planner_menu_mapper.dart';
+import 'package:basic_diet/data/mappers/order_quote_request_mapper.dart';
 import 'package:basic_diet/data/response/meal_planner_menu_response.dart';
 import 'package:basic_diet/data/response/order_menu_response.dart';
 import 'package:basic_diet/domain/model/order_menu_model.dart';
+import 'package:basic_diet/domain/model/order_quote_request_model.dart';
 import 'package:basic_diet/presentation/main/cart/checkout_screen.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -492,6 +494,163 @@ void main() {
       expect(product.ctaLabel, 'startCustomization');
     });
 
+    test('parses backend weight pricing choices and step price', () {
+      final response = OrderMenuProductResponse.fromJson({
+        'id': 'product-1',
+        'key': 'custom_salad_100g',
+        'categoryId': 'category-1',
+        'name': 'Custom Salad',
+        'itemType': 'product',
+        'pricingModel': 'per_100g',
+        'priceHalala': 2900,
+        'baseUnitGrams': 100,
+        'defaultWeightGrams': 100,
+        'minWeightGrams': 100,
+        'maxWeightGrams': 600,
+        'weightStepGrams': 50,
+        'weightStepPriceHalala': 500,
+        'weightPricing': {
+          'contractVersion': 'weight_pricing.v1',
+          'strategy': 'base_plus_steps',
+          'requiresWeightSelection': true,
+          'basePriceHalala': 2900,
+          'baseWeightGrams': 100,
+          'defaultWeightGrams': 100,
+          'minWeightGrams': 100,
+          'maxWeightGrams': 600,
+          'stepGrams': 50,
+          'stepPriceHalala': 500,
+          'choices': [
+            {'weightGrams': 100, 'priceHalala': 2900},
+            {'weightGrams': 150, 'priceHalala': 3400},
+            {'weightGrams': 200, 'priceHalala': 3900},
+            {'weightGrams': 250, 'priceHalala': 4400},
+            {'weightGrams': 300, 'priceHalala': 4900},
+          ],
+        },
+      });
+
+      final product = response.toDomain();
+
+      expect(product.weightStepPriceHalala, 500);
+      expect(product.requiresWeightSelection, isTrue);
+      expect(product.hasBackendWeightChoices, isTrue);
+      expect(product.weightPricing?.contractVersion, 'weight_pricing.v1');
+      expect(product.weightPricing?.strategy, 'base_plus_steps');
+      expect(product.weightPricing?.stepPriceHalala, 500);
+      expect(product.weightPricing?.initialChoice?.weightGrams, 100);
+      expect(product.weightPricing?.choices.map((choice) => choice.weightGrams), [
+        100,
+        150,
+        200,
+        250,
+        300,
+      ]);
+      expect(product.weightPricing?.choiceForWeight(150)?.priceHalala, 3400);
+      expect(product.weightPricing?.choiceForWeight(300)?.priceHalala, 4900);
+      expect(product.weightPricing?.choiceForWeight(150)?.priceHalala, isNot(4350));
+    });
+
+    test('supports public V2 pricing names without inventing local prices', () {
+      final response = OrderMenuProductResponse.fromJson({
+        'id': 'product-2',
+        'key': 'spicy_chicken_meal_100g',
+        'name': 'Spicy chicken',
+        'pricingModel': 'per_100g',
+        'priceHalala': 1900,
+        'weightPricing': {
+          'weightPricingContractVersion': 'weight_pricing.v1',
+          'strategy': 'base_plus_steps',
+          'requiresWeightSelection': true,
+          'baseUnitGrams': 100,
+          'defaultWeightGrams': 100,
+          'weightStepGrams': 50,
+          'weightStepPriceHalala': 500,
+          'weightChoices': [
+            {'weightGrams': 100, 'priceHalala': 1900},
+            {'weightGrams': 150, 'priceHalala': 2400},
+            {'weightGrams': 200, 'priceHalala': 2900},
+            {'weightGrams': 250, 'priceHalala': 3400},
+            {'weightGrams': 300, 'priceHalala': 3900},
+          ],
+        },
+      });
+
+      final product = response.toDomain();
+
+      expect(product.weightPricing?.contractVersion, 'weight_pricing.v1');
+      expect(product.weightPricing?.choices.map((choice) => choice.priceHalala), [
+        1900,
+        2400,
+        2900,
+        3400,
+        3900,
+      ]);
+      expect(product.weightPricing?.choiceForWeight(150)?.priceHalala, 2400);
+      expect(product.weightPricing?.choiceForWeight(200)?.priceHalala, 2900);
+      expect(product.weightPricing?.choiceForWeight(300)?.priceHalala, 3900);
+    });
+
+    test('falls back to first backend choice when default weight is unavailable', () {
+      final product = OrderMenuProductResponse.fromJson({
+        'id': 'product-3',
+        'key': 'custom_salad_100g',
+        'name': 'Custom Salad',
+        'pricingModel': 'per_100g',
+        'defaultWeightGrams': 175,
+        'weightPricing': {
+          'requiresWeightSelection': true,
+          'defaultWeightGrams': 175,
+          'choices': [
+            {'weightGrams': 100, 'priceHalala': 2900},
+            {'weightGrams': 150, 'priceHalala': 3400},
+          ],
+        },
+      }).toDomain();
+
+      expect(product.weightPricing?.initialChoice?.weightGrams, 100);
+      expect(product.weightPricing?.choiceForWeight(175), isNull);
+    });
+
+    test('preserves legacy per-unit behavior when choices are absent', () {
+      final product = OrderMenuProductResponse.fromJson({
+        'id': 'product-4',
+        'key': 'legacy',
+        'name': 'Legacy',
+        'pricingModel': 'per_100g',
+        'priceHalala': 1000,
+        'baseUnitGrams': 100,
+        'defaultWeightGrams': 100,
+        'minWeightGrams': 100,
+        'maxWeightGrams': 300,
+        'weightStepGrams': 50,
+      }).toDomain();
+
+      expect(product.weightPricing, isNull);
+      expect(product.requiresWeightSelection, isTrue);
+      expect(product.hasBackendWeightChoices, isFalse);
+      expect(product.hasInvalidWeightPricingContract, isFalse);
+    });
+
+    test('treats required weight pricing with empty choices as invalid contract', () {
+      final product = OrderMenuProductResponse.fromJson({
+        'id': 'product-5',
+        'key': 'invalid',
+        'name': 'Invalid',
+        'pricingModel': 'per_100g',
+        'weightPricing': {
+          'requiresWeightSelection': true,
+          'strategy': 'base_plus_steps',
+          'choices': [],
+        },
+      }).toDomain();
+
+      expect(product.requiresWeightSelection, isTrue);
+      expect(product.hasBackendWeightChoices, isFalse);
+      expect(product.hasInvalidWeightPricingContract, isTrue);
+      expect(product.resolvedRequiresBuilder, isTrue);
+    });
+
     test('uses backend description before generic fallback', () {
       const product = OrderMenuProductModel(
         id: 'product-2',
@@ -522,6 +681,45 @@ void main() {
   });
 
   group('checkout helpers', () {
+    test('serializes selected weight and options into order quote payload', () {
+      const request = OrderQuoteRequestModel(
+        fulfillmentMethod: 'pickup',
+        pickup: OrderQuotePickupRequestModel(
+          branchId: 'main',
+          pickupWindow: '12:00-13:00',
+        ),
+        items: [
+          OrderQuoteItemRequestModel(
+            productId: 'product-1',
+            qty: 1,
+            weightGrams: 250,
+            selectedOptions: [
+              OrderQuoteSelectedOptionRequestModel(
+                groupId: 'group-1',
+                optionId: 'option-1',
+                extraWeightGrams: 50,
+              ),
+            ],
+          ),
+        ],
+      );
+
+      expect(request.toRequest().toJson()['items'], [
+        {
+          'productId': 'product-1',
+          'qty': 1,
+          'weightGrams': 250,
+          'selectedOptions': [
+            {
+              'groupId': 'group-1',
+              'optionId': 'option-1',
+              'extraWeightGrams': 50,
+            },
+          ],
+        },
+      ]);
+    });
+
     test('detects catalog unavailable codes', () {
       expect(isCatalogItemUnavailableCode('CATALOG_ITEM_UNAVAILABLE'), isTrue);
       expect(isCatalogItemUnavailableCode('something-else'), isFalse);

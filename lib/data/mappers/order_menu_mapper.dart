@@ -81,6 +81,11 @@ extension OrderMenuProductResponseMapper on OrderMenuProductResponse? {
       minWeightGrams: this?.minWeightGrams ?? Constants.zero,
       maxWeightGrams: this?.maxWeightGrams ?? Constants.zero,
       weightStepGrams: this?.weightStepGrams ?? Constants.zero,
+      weightStepPriceHalala:
+          this?.weightStepPriceHalala ??
+          this?.weightPricing?.stepPriceHalala ??
+          Constants.zero,
+      weightPricing: this?.weightPricing.toDomain(),
       sortOrder: this?.sortOrder ?? Constants.zero,
       requiresBuilder: this?.requiresBuilder,
       canAddDirectly: this?.canAddDirectly,
@@ -94,6 +99,48 @@ extension OrderMenuProductResponseMapper on OrderMenuProductResponse? {
           this?.optionSections?.map((e) => e.toDomain()).toList() ?? const [],
       optionGroups:
           this?.optionGroups?.map((e) => e.toDomain()).toList() ?? const [],
+    );
+  }
+}
+
+extension OrderMenuWeightPricingResponseMapper
+    on OrderMenuWeightPricingResponse? {
+  OrderMenuWeightPricingModel? toDomain() {
+    if (this == null) {
+      return null;
+    }
+
+    return OrderMenuWeightPricingModel(
+      contractVersion: this?.contractVersion ?? Constants.empty,
+      strategy: this?.strategy ?? Constants.empty,
+      requiresWeightSelection: this?.requiresWeightSelection,
+      basePriceHalala: this?.basePriceHalala ?? Constants.zero,
+      baseWeightGrams: this?.baseWeightGrams ?? Constants.zero,
+      defaultWeightGrams: this?.defaultWeightGrams ?? Constants.zero,
+      minWeightGrams: this?.minWeightGrams ?? Constants.zero,
+      maxWeightGrams: this?.maxWeightGrams ?? Constants.zero,
+      stepGrams: this?.stepGrams ?? Constants.zero,
+      stepPriceHalala: this?.stepPriceHalala ?? Constants.zero,
+      choices:
+          this?.choices
+              ?.map((choice) => choice.toDomain())
+              .where(
+                (choice) =>
+                    choice.weightGrams > Constants.zero &&
+                    choice.priceHalala >= Constants.zero,
+              )
+              .toList() ??
+          const [],
+    );
+  }
+}
+
+extension OrderMenuWeightPricingChoiceResponseMapper
+    on OrderMenuWeightPricingChoiceResponse? {
+  OrderMenuWeightPricingChoiceModel toDomain() {
+    return OrderMenuWeightPricingChoiceModel(
+      weightGrams: this?.weightGrams ?? Constants.zero,
+      priceHalala: this?.priceHalala ?? Constants.zero,
     );
   }
 }

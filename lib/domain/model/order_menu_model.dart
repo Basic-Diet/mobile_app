@@ -83,6 +83,8 @@ class OrderMenuProductModel {
   final int minWeightGrams;
   final int maxWeightGrams;
   final int weightStepGrams;
+  final int weightStepPriceHalala;
+  final OrderMenuWeightPricingModel? weightPricing;
   final int sortOrder;
   final bool? requiresBuilder;
   final bool? canAddDirectly;
@@ -93,8 +95,22 @@ class OrderMenuProductModel {
   final List<OrderMenuOptionSectionModel> optionSections;
   final List<OrderMenuOptionGroupModel> optionGroups;
 
+  bool get hasBackendWeightChoices =>
+      weightPricing != null && weightPricing!.choices.isNotEmpty;
+
+  bool get hasInvalidWeightPricingContract =>
+      weightPricing?.requiresWeightSelection == true && !hasBackendWeightChoices;
+
+  bool get requiresWeightSelection {
+    final explicit = weightPricing?.requiresWeightSelection;
+    if (explicit != null) {
+      return explicit;
+    }
+    return pricingModel == 'per_100g';
+  }
+
   bool get resolvedRequiresBuilder =>
-      requiresBuilder ?? optionGroups.isNotEmpty || pricingModel == 'per_100g';
+      requiresBuilder ?? optionGroups.isNotEmpty || requiresWeightSelection;
 
   bool get resolvedCanAddDirectly =>
       canAddDirectly ??
@@ -120,6 +136,8 @@ class OrderMenuProductModel {
     required this.minWeightGrams,
     required this.maxWeightGrams,
     required this.weightStepGrams,
+    this.weightStepPriceHalala = 0,
+    this.weightPricing,
     required this.sortOrder,
     this.requiresBuilder,
     this.canAddDirectly,
@@ -143,6 +161,62 @@ class OrderMenuProductModel {
     );
     return localized.isNotEmpty ? localized : fallback;
   }
+}
+
+class OrderMenuWeightPricingModel {
+  final String contractVersion;
+  final String strategy;
+  final bool? requiresWeightSelection;
+  final int basePriceHalala;
+  final int baseWeightGrams;
+  final int defaultWeightGrams;
+  final int minWeightGrams;
+  final int maxWeightGrams;
+  final int stepGrams;
+  final int stepPriceHalala;
+  final List<OrderMenuWeightPricingChoiceModel> choices;
+
+  const OrderMenuWeightPricingModel({
+    this.contractVersion = '',
+    this.strategy = '',
+    this.requiresWeightSelection,
+    this.basePriceHalala = 0,
+    this.baseWeightGrams = 0,
+    this.defaultWeightGrams = 0,
+    this.minWeightGrams = 0,
+    this.maxWeightGrams = 0,
+    this.stepGrams = 0,
+    this.stepPriceHalala = 0,
+    this.choices = const [],
+  });
+
+  OrderMenuWeightPricingChoiceModel? choiceForWeight(int weightGrams) {
+    for (final choice in choices) {
+      if (choice.weightGrams == weightGrams) {
+        return choice;
+      }
+    }
+    return null;
+  }
+
+  OrderMenuWeightPricingChoiceModel? get initialChoice {
+    if (choices.isEmpty) {
+      return null;
+    }
+
+    final defaultChoice = choiceForWeight(defaultWeightGrams);
+    return defaultChoice ?? choices.first;
+  }
+}
+
+class OrderMenuWeightPricingChoiceModel {
+  final int weightGrams;
+  final int priceHalala;
+
+  const OrderMenuWeightPricingChoiceModel({
+    required this.weightGrams,
+    required this.priceHalala,
+  });
 }
 
 class OrderMenuOptionGroupModel {

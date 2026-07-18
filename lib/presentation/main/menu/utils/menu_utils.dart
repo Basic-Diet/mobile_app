@@ -49,9 +49,19 @@ String formatHalala(int halala, String currency) {
 }
 
 String productPriceLabel(OrderMenuProductModel product, String currency) {
-  final price = formatHalala(product.priceHalala, currency);
-  if (product.pricingModel == 'per_100g') {
-    return '$price / ${Strings.grams.tr(args: ['100'])}';
+  final initialChoice =
+      product.requiresWeightSelection ? product.weightPricing?.initialChoice : null;
+  final price = formatHalala(
+    initialChoice?.priceHalala ?? product.priceHalala,
+    currency,
+  );
+  if (product.requiresWeightSelection) {
+    final weightGrams =
+        initialChoice?.weightGrams ??
+        (product.defaultWeightGrams > 0
+            ? product.defaultWeightGrams
+            : product.minWeightGrams);
+    return '$price / ${Strings.grams.tr(args: [weightGrams.toString()])}';
   }
   return price;
 }

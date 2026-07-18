@@ -144,6 +144,13 @@ OrderMenuProductResponse _$OrderMenuProductResponseFromJson(
   minWeightGrams: (json['minWeightGrams'] as num?)?.toInt(),
   maxWeightGrams: (json['maxWeightGrams'] as num?)?.toInt(),
   weightStepGrams: (json['weightStepGrams'] as num?)?.toInt(),
+  weightStepPriceHalala: (json['weightStepPriceHalala'] as num?)?.toInt(),
+  weightPricing:
+      json['weightPricing'] == null
+          ? null
+          : OrderMenuWeightPricingResponse.fromJson(
+            json['weightPricing'] as Map<String, dynamic>,
+          ),
   sortOrder: (json['sortOrder'] as num?)?.toInt(),
   requiresBuilder: json['requiresBuilder'] as bool?,
   canAddDirectly: json['canAddDirectly'] as bool?,
@@ -190,6 +197,8 @@ Map<String, dynamic> _$OrderMenuProductResponseToJson(
   'minWeightGrams': instance.minWeightGrams,
   'maxWeightGrams': instance.maxWeightGrams,
   'weightStepGrams': instance.weightStepGrams,
+  'weightStepPriceHalala': instance.weightStepPriceHalala,
+  'weightPricing': instance.weightPricing?.toJson(),
   'sortOrder': instance.sortOrder,
   'requiresBuilder': instance.requiresBuilder,
   'canAddDirectly': instance.canAddDirectly,
