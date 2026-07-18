@@ -332,16 +332,6 @@ class _AddOnCard extends StatelessWidget {
                       fontSize: FontSizeManager.s16.sp,
                     ),
                   ),
-                  Gap(AppSize.s6.h),
-                  Text(
-                    Strings.addonMaxPerDay.tr(
-                      namedArgs: {'count': addOn.maxPerDay.toString()},
-                    ),
-                    style: getRegularTextStyle(
-                      color: ColorManager.textSecondary,
-                      fontSize: FontSizeManager.s12.sp,
-                    ),
-                  ),
                   if (productNames.isNotEmpty) ...[
                     Gap(AppSize.s6.h),
                     Text(
