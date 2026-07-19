@@ -4,13 +4,20 @@ part 'day_selection_request.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class DaySelectionRequest {
-  @JsonKey(name: "mealSlots")
+  @JsonKey(name: 'contractVersion')
+  final String contractVersion;
+
+  @JsonKey(name: 'mealSlots')
   final List<MealSlotRequest> mealSlots;
 
-  @JsonKey(name: "addonsOneTime")
+  @JsonKey(name: 'addonsOneTime')
   final List<String> addonsOneTime;
 
-  DaySelectionRequest(this.mealSlots, {this.addonsOneTime = const []});
+  const DaySelectionRequest(
+    this.mealSlots, {
+    this.contractVersion = 'meal_planner_menu.v3',
+    this.addonsOneTime = const [],
+  });
 
   factory DaySelectionRequest.fromJson(Map<String, dynamic> json) =>
       _$DaySelectionRequestFromJson(json);
@@ -20,37 +27,48 @@ class DaySelectionRequest {
 
 @JsonSerializable(includeIfNull: false, explicitToJson: true)
 class MealSlotRequest {
-  @JsonKey(name: "slotIndex")
+  @JsonKey(name: 'slotIndex')
   final int slotIndex;
 
-  @JsonKey(name: "slotKey")
+  @JsonKey(name: 'slotKey')
   final String? slotKey;
 
-  @JsonKey(name: "selectionType")
+  @JsonKey(name: 'selectionType')
   final String? selectionType;
 
-  @JsonKey(name: "proteinId")
+  @JsonKey(name: 'productId')
+  final String? productId;
+
+  @JsonKey(name: 'selectedOptions')
+  final List<MealPlannerSelectedOptionRequest>? selectedOptions;
+
+  // Compatibility fields are intentionally retained for previously saved
+  // standard/premium/salad selections. New V3 product selections use the
+  // canonical productId + selectedOptions shape above.
+  @JsonKey(name: 'proteinId')
   final String? proteinId;
 
-  @JsonKey(name: "proteinKey")
+  @JsonKey(name: 'proteinKey')
   final String? proteinKey;
 
-  @JsonKey(name: "premiumKey")
+  @JsonKey(name: 'premiumKey')
   final String? premiumKey;
 
-  @JsonKey(name: "carbs")
+  @JsonKey(name: 'carbs')
   final List<MealSlotCarbRequest>? carbs;
 
-  @JsonKey(name: "sandwichId")
+  @JsonKey(name: 'sandwichId')
   final String? sandwichId;
 
-  @JsonKey(name: "salad")
+  @JsonKey(name: 'salad')
   final SaladRequest? salad;
 
-  MealSlotRequest({
+  const MealSlotRequest({
     required this.slotIndex,
     this.slotKey,
     this.selectionType,
+    this.productId,
+    this.selectedOptions,
     this.proteinId,
     this.proteinKey,
     this.premiumKey,
@@ -65,12 +83,41 @@ class MealSlotRequest {
   Map<String, dynamic> toJson() => _$MealSlotRequestToJson(this);
 }
 
+@JsonSerializable(includeIfNull: false)
+class MealPlannerSelectedOptionRequest {
+  @JsonKey(name: 'groupId')
+  final String groupId;
+
+  @JsonKey(name: 'optionId')
+  final String optionId;
+
+  @JsonKey(name: 'quantity')
+  final int quantity;
+
+  @JsonKey(name: 'grams')
+  final int? grams;
+
+  const MealPlannerSelectedOptionRequest({
+    required this.groupId,
+    required this.optionId,
+    this.quantity = 1,
+    this.grams,
+  });
+
+  factory MealPlannerSelectedOptionRequest.fromJson(
+    Map<String, dynamic> json,
+  ) => _$MealPlannerSelectedOptionRequestFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$MealPlannerSelectedOptionRequestToJson(this);
+}
+
 @JsonSerializable()
 class MealSlotCarbRequest {
-  @JsonKey(name: "carbId")
+  @JsonKey(name: 'carbId')
   final String carbId;
 
-  @JsonKey(name: "grams")
+  @JsonKey(name: 'grams')
   final int grams;
 
   const MealSlotCarbRequest({required this.carbId, required this.grams});
