@@ -17,7 +17,10 @@ class CompletePasswordChangeNewChanged extends CompletePasswordChangeEvent {
   });
 
   @override
-  List<Object?> get props => [newPassword.isNotEmpty, confirmPassword.isNotEmpty];
+  List<Object?> get props => [
+    newPassword.isNotEmpty,
+    confirmPassword.isNotEmpty,
+  ];
 }
 
 class CompletePasswordChangeConfirmChanged extends CompletePasswordChangeEvent {
@@ -30,7 +33,10 @@ class CompletePasswordChangeConfirmChanged extends CompletePasswordChangeEvent {
   });
 
   @override
-  List<Object?> get props => [newPassword.isNotEmpty, confirmPassword.isNotEmpty];
+  List<Object?> get props => [
+    newPassword.isNotEmpty,
+    confirmPassword.isNotEmpty,
+  ];
 }
 
 class CompletePasswordChangeSubmitted extends CompletePasswordChangeEvent {
@@ -43,5 +49,8 @@ class CompletePasswordChangeSubmitted extends CompletePasswordChangeEvent {
   });
 
   @override
-  List<Object?> get props => [newPassword.isNotEmpty, confirmPassword.isNotEmpty];
+  List<Object?> get props => [
+    newPassword.isNotEmpty,
+    confirmPassword.isNotEmpty,
+  ];
 }

@@ -74,8 +74,7 @@ class NoSubscriptionView extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
-        onPressed: () =>
-            context.push(SubscriptionScreen.subscriptionRoute),
+        onPressed: () => context.push(SubscriptionScreen.subscriptionRoute),
         style: ElevatedButton.styleFrom(
           backgroundColor: ColorManager.brandPrimary,
           padding: const EdgeInsets.symmetric(vertical: AppPadding.p18),

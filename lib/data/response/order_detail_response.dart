@@ -152,7 +152,11 @@ class OrderDetailPickupResponse {
   @JsonKey(name: 'pickupCode')
   final String? pickupCode;
 
-  OrderDetailPickupResponse({this.branchId, this.pickupWindow, this.pickupCode});
+  OrderDetailPickupResponse({
+    this.branchId,
+    this.pickupWindow,
+    this.pickupCode,
+  });
 
   factory OrderDetailPickupResponse.fromJson(Map<String, dynamic> json) =>
       _$OrderDetailPickupResponseFromJson(json);
@@ -259,8 +263,10 @@ class OrderDetailSelectedOptionResponse {
     this.extraWeightGrams,
   });
 
-  factory OrderDetailSelectedOptionResponse.fromJson(Map<String, dynamic> json) =>
-      _$OrderDetailSelectedOptionResponseFromJson(json);
+  factory OrderDetailSelectedOptionResponse.fromJson(
+    Map<String, dynamic> json,
+  ) => _$OrderDetailSelectedOptionResponseFromJson(json);
 
-  Map<String, dynamic> toJson() => _$OrderDetailSelectedOptionResponseToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$OrderDetailSelectedOptionResponseToJson(this);
 }

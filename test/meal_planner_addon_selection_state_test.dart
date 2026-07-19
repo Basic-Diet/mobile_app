@@ -51,33 +51,36 @@ void main() {
       expect(state.localAddonPendingAmountHalala, 1100);
     });
 
-    test('marks locally selected add-ons over the allowance as pending payment', () {
-      final juiceAddonIds = List.generate(8, (index) => 'juice-addon-$index');
-      final state = _loadedState(
-        juiceAddonIds,
-        includedCount: 7,
-        choices:
-            juiceAddonIds
-                .map(
-                  (id) => _juiceChoice(
-                    id,
-                    pricingMode: 'allowance_covered',
-                    unitPriceHalala: 1000,
-                  ),
-                )
-                .toList(),
-      );
+    test(
+      'marks locally selected add-ons over the allowance as pending payment',
+      () {
+        final juiceAddonIds = List.generate(8, (index) => 'juice-addon-$index');
+        final state = _loadedState(
+          juiceAddonIds,
+          includedCount: 7,
+          choices:
+              juiceAddonIds
+                  .map(
+                    (id) => _juiceChoice(
+                      id,
+                      pricingMode: 'allowance_covered',
+                      unitPriceHalala: 1000,
+                    ),
+                  )
+                  .toList(),
+        );
 
-      expect(
-        state.addonSelectionStatusFor(
-          'juice-addon-7',
-          selectedAddonIdsOverride: juiceAddonIds,
-        ),
-        'pending_payment',
-      );
-      expect(state.localAddonPendingCount, 1);
-      expect(state.localAddonPendingAmountHalala, 1000);
-    });
+        expect(
+          state.addonSelectionStatusFor(
+            'juice-addon-7',
+            selectedAddonIdsOverride: juiceAddonIds,
+          ),
+          'pending_payment',
+        );
+        expect(state.localAddonPendingCount, 1);
+        expect(state.localAddonPendingAmountHalala, 1000);
+      },
+    );
 
     test('does not combine balances from different plans in one category', () {
       final snackAddonIds = List.generate(8, (index) => 'snack-addon-$index');
@@ -100,18 +103,8 @@ void main() {
           ),
         ],
         entitlements: [
-          AddonSubscriptionModel(
-            'snack:snack-plan',
-            'snack',
-            7,
-            'active',
-          ),
-          AddonSubscriptionModel(
-            'snack:ice-cream-plan',
-            'snack',
-            7,
-            'active',
-          ),
+          AddonSubscriptionModel('snack:snack-plan', 'snack', 7, 'active'),
+          AddonSubscriptionModel('snack:ice-cream-plan', 'snack', 7, 'active'),
         ],
       );
 

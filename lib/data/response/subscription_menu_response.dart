@@ -65,8 +65,8 @@ class SubscriptionMenuMealPlannerResponse {
   SubscriptionMenuMealPlannerResponse({this.addons});
 
   factory SubscriptionMenuMealPlannerResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$SubscriptionMenuMealPlannerResponseFromJson(json);
+    Map<String, dynamic> json,
+  ) => _$SubscriptionMenuMealPlannerResponseFromJson(json);
   Map<String, dynamic> toJson() =>
       _$SubscriptionMenuMealPlannerResponseToJson(this);
 }
@@ -82,8 +82,8 @@ class SubscriptionMenuMealPlannerAddonsResponse {
   SubscriptionMenuMealPlannerAddonsResponse({this.items, this.byType});
 
   factory SubscriptionMenuMealPlannerAddonsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$SubscriptionMenuMealPlannerAddonsResponseFromJson(json);
+    Map<String, dynamic> json,
+  ) => _$SubscriptionMenuMealPlannerAddonsResponseFromJson(json);
   Map<String, dynamic> toJson() =>
       _$SubscriptionMenuMealPlannerAddonsResponseToJson(this);
 }

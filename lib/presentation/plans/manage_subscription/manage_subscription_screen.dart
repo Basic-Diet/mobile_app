@@ -78,88 +78,94 @@ class ManageSubscriptionScreen extends StatelessWidget {
             );
           }
         },
-        builder: (context, state) => Scaffold(
-          backgroundColor: ColorManager.backgroundApp,
-          appBar: AppBar(
-            backgroundColor: ColorManager.backgroundSurface,
-            elevation: 0,
-            centerTitle: true,
-            leading: IconButton(
-              icon: const Icon(
-                Icons.arrow_back,
-                color: ColorManager.textPrimary,
-              ),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-            title: Text(
-              Strings.manageSubscription.tr(),
-              style: getRegularTextStyle(
-                color: ColorManager.textPrimary,
-                fontSize: FontSizeManager.s18.sp,
-              ),
-            ),
-            bottom: PreferredSize(
-              preferredSize: const Size.fromHeight(1.0),
-              child: Container(color: ColorManager.borderDefault, height: 1.0),
-            ),
-          ),
-          body: SingleChildScrollView(
-            padding: const EdgeInsets.all(AppPadding.p16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildPlanCard(formattedDate),
-                Gap(AppSize.s24.h),
-                Text(
-                  Strings.subscriptionActions.tr(),
+        builder:
+            (context, state) => Scaffold(
+              backgroundColor: ColorManager.backgroundApp,
+              appBar: AppBar(
+                backgroundColor: ColorManager.backgroundSurface,
+                elevation: 0,
+                centerTitle: true,
+                leading: IconButton(
+                  icon: const Icon(
+                    Icons.arrow_back,
+                    color: ColorManager.textPrimary,
+                  ),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+                title: Text(
+                  Strings.manageSubscription.tr(),
                   style: getRegularTextStyle(
                     color: ColorManager.textPrimary,
-                    fontSize: FontSizeManager.s16.sp,
+                    fontSize: FontSizeManager.s18.sp,
                   ),
                 ),
-                Gap(AppSize.s12.h),
-                _buildActionItem(
-                  icon: IconAssets.freeze,
-                  title: Strings.freezeSubscription.tr(),
-                  subtitle: Strings.freezeSubscriptionDesc.tr(),
-                  onTap: () async {
-                    await Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => FreezeSubscriptionScreen(
-                          subscriptionId: subscriptionId,
-                          validityEndDate: validityEndDate,
-                        ),
-                      ),
-                    );
-                  },
+                bottom: PreferredSize(
+                  preferredSize: const Size.fromHeight(1.0),
+                  child: Container(
+                    color: ColorManager.borderDefault,
+                    height: 1.0,
+                  ),
                 ),
-                Gap(AppSize.s12.h),
-                _buildActionItem(
-                  icon: IconAssets.skip,
-                  title: Strings.skipDays.tr(),
-                  subtitle: Strings.skipDaysDesc.tr(),
-                  onTap: () async {
-                    await Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => SkipDaysScreen(
-                          subscriptionId: subscriptionId,
-                          skipDaysUsed: skipDaysUsed,
-                          skipDaysLimit: skipDaysLimit,
-                          remainingSkipDays: remainingSkipDays,
-                        ),
+              ),
+              body: SingleChildScrollView(
+                padding: const EdgeInsets.all(AppPadding.p16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildPlanCard(formattedDate),
+                    Gap(AppSize.s24.h),
+                    Text(
+                      Strings.subscriptionActions.tr(),
+                      style: getRegularTextStyle(
+                        color: ColorManager.textPrimary,
+                        fontSize: FontSizeManager.s16.sp,
                       ),
-                    );
-                  },
-                ),
+                    ),
+                    Gap(AppSize.s12.h),
+                    _buildActionItem(
+                      icon: IconAssets.freeze,
+                      title: Strings.freezeSubscription.tr(),
+                      subtitle: Strings.freezeSubscriptionDesc.tr(),
+                      onTap: () async {
+                        await Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder:
+                                (context) => FreezeSubscriptionScreen(
+                                  subscriptionId: subscriptionId,
+                                  validityEndDate: validityEndDate,
+                                ),
+                          ),
+                        );
+                      },
+                    ),
+                    Gap(AppSize.s12.h),
+                    _buildActionItem(
+                      icon: IconAssets.skip,
+                      title: Strings.skipDays.tr(),
+                      subtitle: Strings.skipDaysDesc.tr(),
+                      onTap: () async {
+                        await Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder:
+                                (context) => SkipDaysScreen(
+                                  subscriptionId: subscriptionId,
+                                  skipDaysUsed: skipDaysUsed,
+                                  skipDaysLimit: skipDaysLimit,
+                                  remainingSkipDays: remainingSkipDays,
+                                ),
+                          ),
+                        );
+                      },
+                    ),
 
-                if (Constants.isDebug) ...[
-                  Gap(AppSize.s24.h),
-                  _buildDangerZone(context, state),
-                ],
-              ],
+                    if (Constants.isDebug) ...[
+                      Gap(AppSize.s24.h),
+                      _buildDangerZone(context, state),
+                    ],
+                  ],
+                ),
+              ),
             ),
-          ),
-        ),
       ),
     );
   }
@@ -356,24 +362,25 @@ class ManageSubscriptionScreen extends StatelessWidget {
             width: double.infinity,
             child: OutlinedButton.icon(
               onPressed: isLoading ? null : () => _showCancelWarning(context),
-              icon: isLoading
-                  ? SizedBox(
-                      width: AppSize.s20,
-                      height: AppSize.s20,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        color: ColorManager.stateError,
+              icon:
+                  isLoading
+                      ? SizedBox(
+                        width: AppSize.s20,
+                        height: AppSize.s20,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: ColorManager.stateError,
+                        ),
+                      )
+                      : SvgPicture.asset(
+                        IconAssets.cancel,
+                        width: AppSize.s20,
+                        height: AppSize.s20,
+                        colorFilter: const ColorFilter.mode(
+                          ColorManager.stateError,
+                          BlendMode.srcIn,
+                        ),
                       ),
-                    )
-                  : SvgPicture.asset(
-                      IconAssets.cancel,
-                      width: AppSize.s20,
-                      height: AppSize.s20,
-                      colorFilter: const ColorFilter.mode(
-                        ColorManager.stateError,
-                        BlendMode.srcIn,
-                      ),
-                    ),
               label: Text(
                 Strings.cancelSubscription.tr(),
                 style: getRegularTextStyle(
@@ -398,17 +405,18 @@ class ManageSubscriptionScreen extends StatelessWidget {
   void _showCancelWarning(BuildContext context) {
     showDialog<void>(
       context: context,
-      builder: (_) => ConfirmationDialog(
-        title: Strings.cancelSubscriptionWarningTitle.tr(),
-        body: Strings.cancelSubscriptionWarningBody.tr(),
-        confirmLabel: Strings.cancelSubscriptionConfirm.tr(),
-        cancelLabel: Strings.cancel.tr(),
-        onConfirm: () {
-          context.read<CancelSubscriptionBloc>().add(
-            SubmitCancelSubscriptionEvent(subscriptionId: subscriptionId),
-          );
-        },
-      ),
+      builder:
+          (_) => ConfirmationDialog(
+            title: Strings.cancelSubscriptionWarningTitle.tr(),
+            body: Strings.cancelSubscriptionWarningBody.tr(),
+            confirmLabel: Strings.cancelSubscriptionConfirm.tr(),
+            cancelLabel: Strings.cancel.tr(),
+            onConfirm: () {
+              context.read<CancelSubscriptionBloc>().add(
+                SubmitCancelSubscriptionEvent(subscriptionId: subscriptionId),
+              );
+            },
+          ),
     );
   }
 }

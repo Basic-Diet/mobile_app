@@ -25,8 +25,5 @@ class HomeOpenOrderProductState extends HomeState {
   final OrderMenuProductModel product;
   final String currency;
 
-  HomeOpenOrderProductState({
-    required this.product,
-    required this.currency,
-  });
+  HomeOpenOrderProductState({required this.product, required this.currency});
 }

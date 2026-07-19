@@ -135,51 +135,54 @@ class SubscriptionQuoteCache {
               'label': q.summary.delivery.slot!.label,
             },
         },
-        'premiumItems': q.summary.premiumItems
-            .map(
-              (p) => {
-                'id': p.id,
-                'name': p.name,
-                'qty': p.qty,
-                'unitPriceHalala': p.unitPriceHalala,
-                'unitPriceSar': p.unitPriceSar,
-                'totalHalala': p.totalHalala,
-                'totalSar': p.totalSar,
-                'totalLabel': p.totalLabel,
-              },
-            )
-            .toList(),
-        'addons': q.summary.addons
-            .map(
-              (a) => {
-                'id': a.id,
-                'name': a.name,
-                'qty': a.qty,
-                'type': a.type,
-                'pricingModel': a.pricingModel,
-                'billingUnit': a.billingUnit,
-                'durationDays': a.durationDays,
-                'unitPriceHalala': a.unitPriceHalala,
-                'unitPriceSar': a.unitPriceSar,
-                'unitPriceLabel': a.unitPriceLabel,
-                'formulaLabel': a.formulaLabel,
-                'totalHalala': a.totalHalala,
-                'totalSar': a.totalSar,
-                'totalLabel': a.totalLabel,
-              },
-            )
-            .toList(),
-        'lineItems': q.summary.lineItems
-            .map(
-              (l) => {
-                'kind': l.kind,
-                'label': l.label,
-                'amountHalala': l.amountHalala,
-                'amountSar': l.amountSar,
-                'amountLabel': l.amountLabel,
-              },
-            )
-            .toList(),
+        'premiumItems':
+            q.summary.premiumItems
+                .map(
+                  (p) => {
+                    'id': p.id,
+                    'name': p.name,
+                    'qty': p.qty,
+                    'unitPriceHalala': p.unitPriceHalala,
+                    'unitPriceSar': p.unitPriceSar,
+                    'totalHalala': p.totalHalala,
+                    'totalSar': p.totalSar,
+                    'totalLabel': p.totalLabel,
+                  },
+                )
+                .toList(),
+        'addons':
+            q.summary.addons
+                .map(
+                  (a) => {
+                    'id': a.id,
+                    'name': a.name,
+                    'qty': a.qty,
+                    'type': a.type,
+                    'pricingModel': a.pricingModel,
+                    'billingUnit': a.billingUnit,
+                    'durationDays': a.durationDays,
+                    'unitPriceHalala': a.unitPriceHalala,
+                    'unitPriceSar': a.unitPriceSar,
+                    'unitPriceLabel': a.unitPriceLabel,
+                    'formulaLabel': a.formulaLabel,
+                    'totalHalala': a.totalHalala,
+                    'totalSar': a.totalSar,
+                    'totalLabel': a.totalLabel,
+                  },
+                )
+                .toList(),
+        'lineItems':
+            q.summary.lineItems
+                .map(
+                  (l) => {
+                    'kind': l.kind,
+                    'label': l.label,
+                    'amountHalala': l.amountHalala,
+                    'amountSar': l.amountSar,
+                    'amountLabel': l.amountLabel,
+                  },
+                )
+                .toList(),
       },
       if (q.appliedPromo != null)
         'promoCode': {
@@ -206,9 +209,10 @@ class SubscriptionQuoteCache {
       'mealsPerDay': r.mealsPerDay,
       'startDate': r.startDate,
       if (r.promoCode != null) 'promoCode': r.promoCode,
-      'premiumItems': r.premiumItems
-          .map((p) => {'premiumKey': p.premiumKey, 'qty': p.qty})
-          .toList(),
+      'premiumItems':
+          r.premiumItems
+              .map((p) => {'premiumKey': p.premiumKey, 'qty': p.qty})
+              .toList(),
       'addons': r.addons,
       'delivery': {
         'type': r.delivery.type,
@@ -249,17 +253,19 @@ class SubscriptionQuoteCache {
       mealsPerDay: map['mealsPerDay'] as int,
       startDate: map['startDate'] as String,
       promoCode: map['promoCode'] as String?,
-      premiumItems: (map['premiumItems'] as List<dynamic>? ?? [])
-          .map(
-            (e) => SubscriptionQuotePremiumItemRequestModel(
-              premiumKey: e['premiumKey'] as String,
-              qty: e['qty'] as int,
-            ),
-          )
-          .toList(),
-      addons: (map['addons'] as List<dynamic>? ?? [])
-          .map((e) => e as String)
-          .toList(),
+      premiumItems:
+          (map['premiumItems'] as List<dynamic>? ?? [])
+              .map(
+                (e) => SubscriptionQuotePremiumItemRequestModel(
+                  premiumKey: e['premiumKey'] as String,
+                  qty: e['qty'] as int,
+                ),
+              )
+              .toList(),
+      addons:
+          (map['addons'] as List<dynamic>? ?? [])
+              .map((e) => e as String)
+              .toList(),
       delivery: SubscriptionQuoteDeliveryRequestModel(
         type: deliveryMap['type'] as String,
         zoneId: deliveryMap['zoneId'] as String?,
@@ -267,22 +273,24 @@ class SubscriptionQuoteCache {
         slotId: deliveryMap['slotId'] as String?,
         slotWindow: deliveryMap['slotWindow'] as String?,
         slotLabel: deliveryMap['slotLabel'] as String?,
-        firstDayFulfillmentOverride: overrideMap == null
-            ? null
-            : SubscriptionFirstDayFulfillmentOverrideModel(
-                type: overrideMap['type'] as String,
-                pickupLocationId: overrideMap['pickupLocationId'] as String,
-              ),
-        address: addressMap == null
-            ? null
-            : SubscriptionAddressModel(
-                street: addressMap['street'] as String,
-                building: addressMap['building'] as String,
-                apartment: addressMap['apartment'] as String,
-                notes: addressMap['notes'] as String,
-                district: addressMap['district'] as String,
-                city: addressMap['city'] as String,
-              ),
+        firstDayFulfillmentOverride:
+            overrideMap == null
+                ? null
+                : SubscriptionFirstDayFulfillmentOverrideModel(
+                  type: overrideMap['type'] as String,
+                  pickupLocationId: overrideMap['pickupLocationId'] as String,
+                ),
+        address:
+            addressMap == null
+                ? null
+                : SubscriptionAddressModel(
+                  street: addressMap['street'] as String,
+                  building: addressMap['building'] as String,
+                  apartment: addressMap['apartment'] as String,
+                  notes: addressMap['notes'] as String,
+                  district: addressMap['district'] as String,
+                  city: addressMap['city'] as String,
+                ),
       ),
     );
   }

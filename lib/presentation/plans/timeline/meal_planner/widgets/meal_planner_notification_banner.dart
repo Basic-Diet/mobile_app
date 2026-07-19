@@ -78,9 +78,10 @@ class MealPlannerNotificationBanner extends StatelessWidget {
                 ),
               ),
               IconButton(
-                onPressed: () => context.read<MealPlannerBloc>().add(
-                  const HideBannerEvent(),
-                ),
+                onPressed:
+                    () => context.read<MealPlannerBloc>().add(
+                      const HideBannerEvent(),
+                    ),
                 icon: const Icon(
                   Icons.close,
                   color: ColorManager.stateSuccessEmphasis,

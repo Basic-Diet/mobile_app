@@ -6,8 +6,7 @@ import 'package:basic_diet/domain/usecase/base_usecase.dart';
 import 'package:dartz/dartz.dart';
 
 class VerifyOrderPaymentUseCase
-    implements
-        BaseUseCase<VerifyOrderPaymentInput, VerifyPaymentModel> {
+    implements BaseUseCase<VerifyOrderPaymentInput, VerifyPaymentModel> {
   final Repository _repository;
 
   VerifyOrderPaymentUseCase(this._repository);

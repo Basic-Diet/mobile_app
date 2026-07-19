@@ -22,15 +22,17 @@ class PickupTerminalCard extends StatelessWidget {
     final dayStatus = PickupDayStatus.fromString(data.status);
     final isNoShow = dayStatus == PickupDayStatus.noShow;
 
-    final title = isNoShow
-        ? Strings.noShowTitle.tr()
-        : Strings.consumedWithoutPrepTitle.tr();
+    final title =
+        isNoShow
+            ? Strings.noShowTitle.tr()
+            : Strings.consumedWithoutPrepTitle.tr();
 
-    final message = data.message.isNotEmpty
-        ? data.message
-        : (isNoShow
-              ? Strings.noShowMessage.tr()
-              : Strings.consumedWithoutPrepMessage.tr());
+    final message =
+        data.message.isNotEmpty
+            ? data.message
+            : (isNoShow
+                ? Strings.noShowMessage.tr()
+                : Strings.consumedWithoutPrepMessage.tr());
 
     return Container(
       width: double.infinity,

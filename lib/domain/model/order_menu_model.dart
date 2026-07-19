@@ -99,7 +99,8 @@ class OrderMenuProductModel {
       weightPricing != null && weightPricing!.choices.isNotEmpty;
 
   bool get hasInvalidWeightPricingContract =>
-      weightPricing?.requiresWeightSelection == true && !hasBackendWeightChoices;
+      weightPricing?.requiresWeightSelection == true &&
+      !hasBackendWeightChoices;
 
   bool get requiresWeightSelection {
     final explicit = weightPricing?.requiresWeightSelection;

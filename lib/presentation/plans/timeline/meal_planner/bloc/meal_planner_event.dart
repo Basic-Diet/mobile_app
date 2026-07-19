@@ -8,7 +8,12 @@ sealed class MealPlannerEvent extends Equatable {
 }
 
 final class GetMealPlannerDataEvent extends MealPlannerEvent {
-  const GetMealPlannerDataEvent();
+  final String languageCode;
+
+  const GetMealPlannerDataEvent({this.languageCode = 'ar'});
+
+  @override
+  List<Object?> get props => [languageCode];
 }
 
 final class ChangeDateEvent extends MealPlannerEvent {

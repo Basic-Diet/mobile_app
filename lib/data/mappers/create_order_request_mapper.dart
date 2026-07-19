@@ -33,7 +33,8 @@ extension CreateOrderItemRequestModelMapper on CreateOrderItemRequestModel {
   }
 }
 
-extension CreateOrderSelectedOptionRequestModelMapper on CreateOrderSelectedOptionRequestModel {
+extension CreateOrderSelectedOptionRequestModelMapper
+    on CreateOrderSelectedOptionRequestModel {
   CreateOrderSelectedOptionRequest toRequest() {
     return CreateOrderSelectedOptionRequest(
       groupId: groupId,

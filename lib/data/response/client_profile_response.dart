@@ -138,7 +138,11 @@ class ClientProfileCounterItemResponse {
   @JsonKey(name: 'count')
   final int? count;
 
-  const ClientProfileCounterItemResponse({this.labelAr, this.labelEn, this.count});
+  const ClientProfileCounterItemResponse({
+    this.labelAr,
+    this.labelEn,
+    this.count,
+  });
 
   factory ClientProfileCounterItemResponse.fromJson(
     Map<String, dynamic> json,

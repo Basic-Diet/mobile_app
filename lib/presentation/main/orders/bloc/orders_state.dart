@@ -48,7 +48,13 @@ class OrdersSuccess extends OrdersState {
   }
 
   @override
-  List<Object?> get props => [orders, hasMore, isRefreshing, isLoadingMore, currentPage];
+  List<Object?> get props => [
+    orders,
+    hasMore,
+    isRefreshing,
+    isLoadingMore,
+    currentPage,
+  ];
 }
 
 class OrdersError extends OrdersState {

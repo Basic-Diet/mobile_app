@@ -10,10 +10,7 @@ class VerifyPaymentRequest {
   @JsonKey(name: 'providerInvoiceId')
   final String? providerInvoiceId;
 
-  const VerifyPaymentRequest({
-    this.providerPaymentId,
-    this.providerInvoiceId,
-  });
+  const VerifyPaymentRequest({this.providerPaymentId, this.providerInvoiceId});
 
   factory VerifyPaymentRequest.fromJson(Map<String, dynamic> json) =>
       _$VerifyPaymentRequestFromJson(json);

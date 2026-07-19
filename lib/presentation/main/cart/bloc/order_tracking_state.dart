@@ -50,8 +50,10 @@ class OrderTrackingSuccess extends OrderTrackingState {
   final OrderModel order;
   final OrderTimelineModel? _timeline;
 
-  const OrderTrackingSuccess({required this.order, OrderTimelineModel? timeline})
-    : _timeline = timeline;
+  const OrderTrackingSuccess({
+    required this.order,
+    OrderTimelineModel? timeline,
+  }) : _timeline = timeline;
 
   @override
   OrderModel? get orderOrNull => order;
@@ -66,8 +68,10 @@ class OrderTrackingVerifying extends OrderTrackingState {
   final OrderModel order;
   final OrderTimelineModel? _timeline;
 
-  const OrderTrackingVerifying({required this.order, OrderTimelineModel? timeline})
-    : _timeline = timeline;
+  const OrderTrackingVerifying({
+    required this.order,
+    OrderTimelineModel? timeline,
+  }) : _timeline = timeline;
 
   @override
   OrderModel? get orderOrNull => order;

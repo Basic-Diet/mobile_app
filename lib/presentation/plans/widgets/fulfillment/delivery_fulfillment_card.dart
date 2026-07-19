@@ -6,7 +6,6 @@ import 'package:basic_diet/presentation/resources/strings_manager.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-
 class DeliveryFulfillmentCard extends StatelessWidget {
   final CurrentSubscriptionOverviewDataModel overview;
   final TimelineDayModel? fulfillmentDay;
@@ -49,11 +48,12 @@ class DeliveryFulfillmentCard extends StatelessWidget {
                     ? _addressSummary
                     : Strings.fulfillmentAddressMissing.tr(),
             icon: Icons.place_outlined,
-            customContent: _addressSummary.isEmpty
-                ? FulfillmentWarningTile(
-                    message: Strings.fulfillmentAddressMissing.tr(),
-                  )
-                : null,
+            customContent:
+                _addressSummary.isEmpty
+                    ? FulfillmentWarningTile(
+                      message: Strings.fulfillmentAddressMissing.tr(),
+                    )
+                    : null,
           ),
           FulfillmentInfoItem(
             label: Strings.fulfillmentWindowLabel.tr(),
@@ -62,11 +62,12 @@ class DeliveryFulfillmentCard extends StatelessWidget {
                     ? _windowSummary
                     : Strings.fulfillmentWindowMissing.tr(),
             icon: Icons.schedule_rounded,
-            customContent: _windowSummary.isEmpty
-                ? FulfillmentWarningTile(
-                    message: Strings.fulfillmentWindowMissing.tr(),
-                  )
-                : null,
+            customContent:
+                _windowSummary.isEmpty
+                    ? FulfillmentWarningTile(
+                      message: Strings.fulfillmentWindowMissing.tr(),
+                    )
+                    : null,
           ),
           FulfillmentInfoItem(
             label: Strings.fulfillmentLockedLabel.tr(),
@@ -88,11 +89,13 @@ class DeliveryFulfillmentCard extends StatelessWidget {
                 : null,
         onPressed: showPlannerAction ? onOpenPlanner : null,
       ),
-      footer: fulfillmentStatus?.isTerminal == false
-          ? FulfillmentAutoUpdateFooter(
-              message: '${Strings.autoUpdatingStatus.tr()} • ${Strings.updatedJustNow.tr()}',
-            )
-          : null,
+      footer:
+          fulfillmentStatus?.isTerminal == false
+              ? FulfillmentAutoUpdateFooter(
+                message:
+                    '${Strings.autoUpdatingStatus.tr()} • ${Strings.updatedJustNow.tr()}',
+              )
+              : null,
     );
   }
 
@@ -121,7 +124,8 @@ class DeliveryFulfillmentCard extends StatelessWidget {
       label = fulfillmentStatus!.statusLabel;
     } else if (fulfillmentDay?.statusLabel.isNotEmpty == true) {
       label = fulfillmentDay!.statusLabel;
-    } else if (fulfillmentDay?.fulfillmentSummary?.statusLabel.isNotEmpty == true) {
+    } else if (fulfillmentDay?.fulfillmentSummary?.statusLabel.isNotEmpty ==
+        true) {
       label = fulfillmentDay!.fulfillmentSummary!.statusLabel;
     } else if (overview.fulfillmentSummary?.statusLabel.isNotEmpty == true) {
       label = overview.fulfillmentSummary!.statusLabel;
@@ -138,7 +142,8 @@ class DeliveryFulfillmentCard extends StatelessWidget {
   }
 
   String _lockReason(BuildContext context) {
-    if (fulfillmentStatus?.fulfillmentSummary?.lockedMessage.isNotEmpty == true) {
+    if (fulfillmentStatus?.fulfillmentSummary?.lockedMessage.isNotEmpty ==
+        true) {
       return fulfillmentStatus!.fulfillmentSummary!.lockedMessage;
     }
     if (fulfillmentDay?.fulfillmentSummary?.lockedMessage.isNotEmpty == true) {

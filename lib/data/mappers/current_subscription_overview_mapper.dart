@@ -52,7 +52,8 @@ extension OverviewDeliverySlotResponseMapper on OverviewDeliverySlotResponse? {
   }
 }
 
-extension OverviewAddressSummaryResponseMapper on OverviewAddressSummaryResponse? {
+extension OverviewAddressSummaryResponseMapper
+    on OverviewAddressSummaryResponse? {
   AddressSummaryModel toDomain() {
     return AddressSummaryModel(
       label: this?.label.orEmpty() ?? Constants.empty,
@@ -74,9 +75,10 @@ extension OverviewPickupLocationSummaryResponseMapper
     on OverviewPickupLocationSummaryResponse? {
   PickupLocationSummaryModel toDomain() {
     return PickupLocationSummaryModel(
-      id: this?.id.orEmpty().isNotEmpty == true
-          ? this!.id!.orEmpty()
-          : this?.rawId.orEmpty() ?? Constants.empty,
+      id:
+          this?.id.orEmpty().isNotEmpty == true
+              ? this!.id!.orEmpty()
+              : this?.rawId.orEmpty() ?? Constants.empty,
       name: this?.name.orEmpty() ?? Constants.empty,
       address: this?.address.orEmpty() ?? Constants.empty,
       phone: this?.phone.orEmpty() ?? Constants.empty,
@@ -249,8 +251,7 @@ extension CurrentSubscriptionOverviewDataResponseMapper
               const Iterable.empty())
           .cast<AddonSubscriptionModel>()
           .toList(),
-      (this?.addonBalances?.map((e) => e.toDomain()) ??
-              const Iterable.empty())
+      (this?.addonBalances?.map((e) => e.toDomain()) ?? const Iterable.empty())
           .cast<AddonBalanceModel>()
           .toList(),
       (this?.addonSubscriptionAllowances.map((e) => e.toDomain()) ??

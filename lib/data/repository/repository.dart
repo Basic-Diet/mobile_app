@@ -830,9 +830,11 @@ class RepositoryImpl implements Repository {
   }
 
   @override
-  Future<Either<Failure, MealPlannerMenuModel>> getMealPlannerMenu() async {
+  Future<Either<Failure, MealPlannerMenuModel>> getMealPlannerMenu(
+    String languageCode,
+  ) async {
     try {
-      final response = await _remoteDataSource.getMealPlannerMenu();
+      final response = await _remoteDataSource.getMealPlannerMenu(languageCode);
       if (_isSuccessfulResponse(response)) {
         return Right(response.toDomain());
       } else {
@@ -937,7 +939,9 @@ class RepositoryImpl implements Repository {
         return Left(Failure(0, 'Failed to save day selection'));
       }
     } catch (error) {
-      final paymentRequiredDay = _readSavedDayFromPaymentRequiredResponse(error);
+      final paymentRequiredDay = _readSavedDayFromPaymentRequiredResponse(
+        error,
+      );
       if (paymentRequiredDay != null) {
         return Right(paymentRequiredDay.toDomain());
       }

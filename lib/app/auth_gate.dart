@@ -19,26 +19,29 @@ Future<bool> requireAuthenticated(BuildContext context) async {
     null,
   );
 
-  final isAllowed = await currentUserResult.fold((failure) async {
-    if (_shouldClearSession(failure.code)) {
-      await instance<AppPreferences>().clearSession();
-      if (context.mounted) {
-        context.go(LoginScreen.loginRoute);
+  final isAllowed = await currentUserResult.fold(
+    (failure) async {
+      if (_shouldClearSession(failure.code)) {
+        await instance<AppPreferences>().clearSession();
+        if (context.mounted) {
+          context.go(LoginScreen.loginRoute);
+        }
+        return false;
       }
-      return false;
-    }
 
-    return true;
-  }, (data) async {
-    if (data.user?.forcePasswordChange == true) {
-      if (context.mounted) {
-        context.go(ChangePasswordScreen.routeName);
+      return true;
+    },
+    (data) async {
+      if (data.user?.forcePasswordChange == true) {
+        if (context.mounted) {
+          context.go(ChangePasswordScreen.routeName);
+        }
+        return false;
       }
-      return false;
-    }
 
-    return true;
-  });
+      return true;
+    },
+  );
 
   return isAllowed;
 }
@@ -53,26 +56,29 @@ Future<bool> redirectIfPasswordChangeRequired(BuildContext context) async {
     null,
   );
 
-  return currentUserResult.fold((failure) async {
-    if (_shouldClearSession(failure.code)) {
-      await instance<AppPreferences>().clearSession();
-      if (context.mounted) {
-        context.go(LoginScreen.loginRoute);
+  return currentUserResult.fold(
+    (failure) async {
+      if (_shouldClearSession(failure.code)) {
+        await instance<AppPreferences>().clearSession();
+        if (context.mounted) {
+          context.go(LoginScreen.loginRoute);
+        }
+        return true;
       }
-      return true;
-    }
 
-    return false;
-  }, (data) async {
-    if (data.user?.forcePasswordChange == true) {
-      if (context.mounted) {
-        context.go(ChangePasswordScreen.routeName);
+      return false;
+    },
+    (data) async {
+      if (data.user?.forcePasswordChange == true) {
+        if (context.mounted) {
+          context.go(ChangePasswordScreen.routeName);
+        }
+        return true;
       }
-      return true;
-    }
 
-    return false;
-  });
+      return false;
+    },
+  );
 }
 
 bool _shouldClearSession(dynamic code) {

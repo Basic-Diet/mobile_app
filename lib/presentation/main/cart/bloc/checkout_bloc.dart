@@ -38,10 +38,7 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
         ),
       ),
       (quote) => emit(
-        CheckoutLoaded(
-          quoteStatus: OrderQuoteStatus.success,
-          quote: quote,
-        ),
+        CheckoutLoaded(quoteStatus: OrderQuoteStatus.success, quote: quote),
       ),
     );
   }

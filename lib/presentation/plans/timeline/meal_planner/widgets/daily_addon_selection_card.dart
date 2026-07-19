@@ -126,7 +126,9 @@ class _AddonSelectorField extends StatelessWidget {
   Widget build(BuildContext context) {
     final hasSelection = state.selectedAddOnModels.isNotEmpty;
     final actionLabel =
-        hasSelection ? Strings.addonChangeSelection.tr() : Strings.addonTapToChoose.tr();
+        hasSelection
+            ? Strings.addonChangeSelection.tr()
+            : Strings.addonTapToChoose.tr();
     final prompt =
         hasSelection
             ? Strings.addonSelectedCount.tr(
@@ -242,10 +244,7 @@ class _SelectorActionChip extends StatelessWidget {
   final String label;
   final bool hasSelection;
 
-  const _SelectorActionChip({
-    required this.label,
-    required this.hasSelection,
-  });
+  const _SelectorActionChip({required this.label, required this.hasSelection});
 
   @override
   Widget build(BuildContext context) {

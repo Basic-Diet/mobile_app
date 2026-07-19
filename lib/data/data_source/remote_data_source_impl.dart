@@ -162,15 +162,13 @@ class RemoteDataSourceImpl implements RemoteDataSource {
     String? deviceId,
     String? deviceName,
   ) {
-    return _appServiceClient.completePasswordChange(
-      'Bearer $passwordChangeToken',
-      {
-        'newPassword': newPassword,
-        'confirmPassword': confirmPassword,
-        if (deviceId != null) 'deviceId': deviceId,
-        if (deviceName != null) 'deviceName': deviceName,
-      },
-    );
+    return _appServiceClient
+        .completePasswordChange('Bearer $passwordChangeToken', {
+          'newPassword': newPassword,
+          'confirmPassword': confirmPassword,
+          if (deviceId != null) 'deviceId': deviceId,
+          if (deviceName != null) 'deviceName': deviceName,
+        });
   }
 
   @override
@@ -403,8 +401,8 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   }
 
   @override
-  Future<MealPlannerMenuResponse> getMealPlannerMenu() {
-    return _appServiceClient.getMealPlannerMenu();
+  Future<MealPlannerMenuResponse> getMealPlannerMenu(String languageCode) {
+    return _appServiceClient.getMealPlannerMenu('v3', languageCode);
   }
 
   @override

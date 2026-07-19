@@ -32,11 +32,7 @@ class OrderTimelineDataResponse {
   @JsonKey(name: 'timeline')
   final List<OrderTimelineItemResponse>? timeline;
 
-  OrderTimelineDataResponse({
-    this.orderId,
-    this.currentStatus,
-    this.timeline,
-  });
+  OrderTimelineDataResponse({this.orderId, this.currentStatus, this.timeline});
 
   factory OrderTimelineDataResponse.fromJson(Map<String, dynamic> json) =>
       _$OrderTimelineDataResponseFromJson(json);

@@ -106,19 +106,22 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<String?> _resolveSessionRedirectRoute() async {
     final currentUserResult = await _getCurrentUserUseCase.execute(null);
 
-    return currentUserResult.fold((failure) async {
-      if (failure.code == 'TOKEN_EXPIRED') {
-        return _refreshSession();
-      }
+    return currentUserResult.fold(
+      (failure) async {
+        if (failure.code == 'TOKEN_EXPIRED') {
+          return _refreshSession();
+        }
 
-      await _appPreferences.clearSession();
-      return null;
-    }, (data) async {
-      if (data.user?.forcePasswordChange == true) {
-        return ChangePasswordScreen.routeName;
-      }
-      return null;
-    });
+        await _appPreferences.clearSession();
+        return null;
+      },
+      (data) async {
+        if (data.user?.forcePasswordChange == true) {
+          return ChangePasswordScreen.routeName;
+        }
+        return null;
+      },
+    );
   }
 
   Future<String?> _refreshSession() async {

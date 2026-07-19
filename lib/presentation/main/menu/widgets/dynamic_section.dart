@@ -77,10 +77,7 @@ class DynamicSection extends StatelessWidget {
 class EmptyStateCard extends StatelessWidget {
   final String message;
 
-  const EmptyStateCard({
-    super.key,
-    required this.message,
-  });
+  const EmptyStateCard({super.key, required this.message});
 
   @override
   Widget build(BuildContext context) {

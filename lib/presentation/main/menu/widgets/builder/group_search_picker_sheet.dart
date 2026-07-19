@@ -37,8 +37,7 @@ class GroupSearchPickerSheet extends StatefulWidget {
   final void Function(OrderMenuOptionModel option) onIncreaseExtraWeight;
 
   @override
-  State<GroupSearchPickerSheet> createState() =>
-      _GroupSearchPickerSheetState();
+  State<GroupSearchPickerSheet> createState() => _GroupSearchPickerSheetState();
 }
 
 class _GroupSearchPickerSheetState extends State<GroupSearchPickerSheet> {

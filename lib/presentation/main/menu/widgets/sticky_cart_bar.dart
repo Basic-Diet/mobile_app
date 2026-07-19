@@ -15,10 +15,7 @@ import 'package:gap/gap.dart';
 class StickyCartBar extends StatelessWidget {
   final String currency;
 
-  const StickyCartBar({
-    super.key,
-    required this.currency,
-  });
+  const StickyCartBar({super.key, required this.currency});
 
   @override
   Widget build(BuildContext context) {

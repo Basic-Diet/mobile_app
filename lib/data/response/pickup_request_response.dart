@@ -507,11 +507,7 @@ class SelectedPickupItemResponse {
   @JsonKey(name: 'label')
   final String? label;
 
-  const SelectedPickupItemResponse({
-    this.itemId,
-    this.itemType,
-    this.label,
-  });
+  const SelectedPickupItemResponse({this.itemId, this.itemType, this.label});
 
   factory SelectedPickupItemResponse.fromJson(Map<String, dynamic> json) =>
       _$SelectedPickupItemResponseFromJson(json);

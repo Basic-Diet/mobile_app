@@ -6,7 +6,8 @@ class Constants {
   static const bool isDebug = bool.fromEnvironment('dart.vm.product') == false;
   static const int timeout = 60 * 1000;
   static const String merchantDisplayName = 'Basic Diet';
-  static const String debugBaseUrl = 'https://basicdiet145-production-51e9.up.railway.app';
+  static const String debugBaseUrl =
+      'https://basicdiet145-production-51e9.up.railway.app';
   static const String releaseBaseUrl =
       'https://basicdiet145-production-51e9.up.railway.app';
   static const String baseUrl =

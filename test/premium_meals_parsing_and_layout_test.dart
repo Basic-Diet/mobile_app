@@ -57,17 +57,19 @@ void main() {
 
   group('PremiumMealModel localization', () {
     test('resolves Arabic locale from preserved Arabic name', () {
-      final model = PremiumMealResponse.fromJson({
-        'name': {'ar': 'ستيك لحم', 'en': 'Beef Steak'},
-      }).toDomain();
+      final model =
+          PremiumMealResponse.fromJson({
+            'name': {'ar': 'ستيك لحم', 'en': 'Beef Steak'},
+          }).toDomain();
 
       expect(model.displayName('ar'), 'ستيك لحم');
     });
 
     test('resolves English locale from preserved English name', () {
-      final model = PremiumMealResponse.fromJson({
-        'name': {'ar': 'ستيك لحم', 'en': 'Beef Steak'},
-      }).toDomain();
+      final model =
+          PremiumMealResponse.fromJson({
+            'name': {'ar': 'ستيك لحم', 'en': 'Beef Steak'},
+          }).toDomain();
 
       expect(model.displayName('en'), 'Beef Steak');
     });

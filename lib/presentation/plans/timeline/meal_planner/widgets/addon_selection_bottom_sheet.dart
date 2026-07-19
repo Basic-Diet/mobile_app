@@ -49,7 +49,8 @@ class _AddonSelectionBottomSheetState extends State<AddonSelectionBottomSheet> {
       for (final entry in widget.selectedAddonIdsByCategory.entries)
         entry.key: List<String>.from(entry.value),
     };
-    _activeCategoryKey = _categories.isNotEmpty ? _categories.first.groupKey : 'juice';
+    _activeCategoryKey =
+        _categories.isNotEmpty ? _categories.first.groupKey : 'juice';
   }
 
   List<AddonChoiceModel> get _activeItems =>

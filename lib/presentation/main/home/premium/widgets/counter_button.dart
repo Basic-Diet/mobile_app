@@ -26,9 +26,10 @@ class CounterButton extends StatelessWidget {
         width: AppSize.s34.w,
         height: AppSize.s34.w,
         decoration: BoxDecoration(
-          color: _isEnabled
-              ? backgroundColor
-              : backgroundColor.withValues(alpha: 0.5),
+          color:
+              _isEnabled
+                  ? backgroundColor
+                  : backgroundColor.withValues(alpha: 0.5),
           borderRadius: BorderRadius.circular(AppSize.s10.r),
         ),
         child: Icon(

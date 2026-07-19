@@ -61,8 +61,8 @@ class _LoginScreenState extends State<LoginScreen> {
       child: BlocListener<LoginBloc, LoginState>(
         listenWhen:
             (previous, current) =>
-        current is LoginSuccessState ||
-            current is LoginPasswordChangeRequiredState,
+                current is LoginSuccessState ||
+                current is LoginPasswordChangeRequiredState,
         listener: (context, state) {
           if (state is LoginSuccessState) {
             _passwordController.clear();
@@ -90,7 +90,8 @@ class _LoginScreenState extends State<LoginScreen> {
             backgroundColor: ColorManager.backgroundSurface,
             body: SafeArea(
               child: SingleChildScrollView(
-                keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+                keyboardDismissBehavior:
+                    ScrollViewKeyboardDismissBehavior.onDrag,
                 padding: EdgeInsetsDirectional.symmetric(
                   horizontal: AppSize.s24.w,
                 ).copyWith(bottom: AppPadding.p20.h + bottomInset),
@@ -98,9 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Gap(AppSize.s20.h),
-                    const CustomBackButton(
-                      fallbackRoute: MainScreen.mainRoute,
-                    ),
+                    const CustomBackButton(fallbackRoute: MainScreen.mainRoute),
                     Gap(AppSize.s100.h),
                     _buildHeader(),
                     Gap(AppSize.s105.h),
@@ -186,7 +185,7 @@ class _LoginScreenState extends State<LoginScreen> {
         BlocBuilder<LoginBloc, LoginState>(
           buildWhen:
               (previous, current) =>
-          previous.passwordError != current.passwordError,
+                  previous.passwordError != current.passwordError,
           builder: (context, state) {
             return AppTextField.password(
               controller: _passwordController,
@@ -204,7 +203,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Strings.forgotPassword.tr(),
             ColorManager.stateSuccessEmphasis,
             FontSizeManager.s12,
-                () => context.push(ForgotPasswordScreen.routeName),
+            () => context.push(ForgotPasswordScreen.routeName),
           ),
         ),
         Gap(AppSize.s16.h),
@@ -213,28 +212,27 @@ class _LoginScreenState extends State<LoginScreen> {
             final isLoading = state is LoginLoadingState;
             final isEnabled =
                 state.phoneError == null &&
-                    state.phone.isNotEmpty &&
-                    state.passwordError == null &&
-                    state.isPasswordNotEmpty;
+                state.phone.isNotEmpty &&
+                state.passwordError == null &&
+                state.isPasswordNotEmpty;
 
             return ButtonWidget(
               text: Strings.login.tr(),
               textColor: ColorManager.backgroundSurface,
               color:
-              isEnabled
-                  ? ColorManager.stateSuccessEmphasis
-                  : ColorManager.stateSuccessEmphasis.withValues(
-                alpha: 0.5,
-              ),
+                  isEnabled
+                      ? ColorManager.stateSuccessEmphasis
+                      : ColorManager.stateSuccessEmphasis.withValues(
+                        alpha: 0.5,
+                      ),
               width: double.infinity,
               radius: AppSize.s12.r,
               onTap:
-              isEnabled
-                  ? () =>
-                  context.read<LoginBloc>().add(
-                    LoginSubmitted(_passwordController.text),
-                  )
-                  : null,
+                  isEnabled
+                      ? () => context.read<LoginBloc>().add(
+                        LoginSubmitted(_passwordController.text),
+                      )
+                      : null,
               isLoading: isLoading,
             );
           },
@@ -258,7 +256,7 @@ class _LoginScreenState extends State<LoginScreen> {
           Strings.signUp.tr(),
           ColorManager.stateSuccessEmphasis,
           FontSizeManager.s14,
-              () => context.push(RegisterScreen.registerRoute),
+          () => context.push(RegisterScreen.registerRoute),
         ),
       ],
     );

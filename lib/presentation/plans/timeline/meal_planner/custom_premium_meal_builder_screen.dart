@@ -833,7 +833,8 @@ class _SelectionLimitBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final text = maxSelect > 0 ? '$selectedCount / $maxSelect' : '$selectedCount';
+    final text =
+        maxSelect > 0 ? '$selectedCount / $maxSelect' : '$selectedCount';
 
     return Container(
       padding: EdgeInsets.symmetric(

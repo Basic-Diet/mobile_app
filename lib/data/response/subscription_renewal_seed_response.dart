@@ -13,9 +13,8 @@ class SubscriptionRenewalSeedResponse {
 
   SubscriptionRenewalSeedResponse({this.status, this.message, this.data});
 
-  factory SubscriptionRenewalSeedResponse.fromJson(
-    Map<String, dynamic> json,
-  ) => _$SubscriptionRenewalSeedResponseFromJson(json);
+  factory SubscriptionRenewalSeedResponse.fromJson(Map<String, dynamic> json) =>
+      _$SubscriptionRenewalSeedResponseFromJson(json);
 
   Map<String, dynamic> toJson() =>
       _$SubscriptionRenewalSeedResponseToJson(this);

@@ -74,7 +74,7 @@ class SubscriptionQuoteDeliveryRequest {
   final SubscriptionQuoteAddressRequest? address;
   @JsonKey(name: 'firstDayFulfillmentOverride')
   final SubscriptionQuoteFirstDayFulfillmentOverrideRequest?
-      firstDayFulfillmentOverride;
+  firstDayFulfillmentOverride;
 
   const SubscriptionQuoteDeliveryRequest({
     required this.type,

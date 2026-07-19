@@ -164,8 +164,8 @@ class AddonChoiceModel extends Equatable {
       payableTotalHalala > 0
           ? payableTotalHalala
           : unitPriceHalala > 0
-              ? unitPriceHalala
-              : priceHalala;
+          ? unitPriceHalala
+          : priceHalala;
 
   String displayName(String localeCode) {
     final normalizedLocale = localeCode.toLowerCase().replaceAll('_', '-');

@@ -24,21 +24,25 @@ class PremiumMealsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          instance<PremiumMealsBloc>()..add(const GetPremiumMealsEvent()),
+      create:
+          (context) =>
+              instance<PremiumMealsBloc>()..add(const GetPremiumMealsEvent()),
       child: Scaffold(
         backgroundColor: ColorManager.backgroundSurface,
         appBar: _buildAppBar(context),
         body: SafeArea(
           child: BlocBuilder<PremiumMealsBloc, PremiumMealsState>(
-            builder: (context, state) => switch (state) {
-              PremiumMealsLoading() => const PremiumMealsLoadingView(),
-              PremiumMealsError() => PremiumMealsErrorView(
-                message: state.message,
-              ),
-              PremiumMealsSuccess() => PremiumMealsSuccessView(state: state),
-              _ => const SizedBox.shrink(),
-            },
+            builder:
+                (context, state) => switch (state) {
+                  PremiumMealsLoading() => const PremiumMealsLoadingView(),
+                  PremiumMealsError() => PremiumMealsErrorView(
+                    message: state.message,
+                  ),
+                  PremiumMealsSuccess() => PremiumMealsSuccessView(
+                    state: state,
+                  ),
+                  _ => const SizedBox.shrink(),
+                },
           ),
         ),
       ),

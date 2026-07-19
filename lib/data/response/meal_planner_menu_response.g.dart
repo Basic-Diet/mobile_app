@@ -134,6 +134,7 @@ BuilderCatalogV2ProductResponse _$BuilderCatalogV2ProductResponseFromJson(
   Map<String, dynamic> json,
 ) => BuilderCatalogV2ProductResponse(
   id: json['id'] as String?,
+  productId: json['productId'] as String?,
   key: json['key'] as String?,
   type: json['type'] as String?,
   name: json['name'] as String?,
@@ -184,6 +185,7 @@ Map<String, dynamic> _$BuilderCatalogV2ProductResponseToJson(
   BuilderCatalogV2ProductResponse instance,
 ) => <String, dynamic>{
   'id': instance.id,
+  'productId': instance.productId,
   'key': instance.key,
   'type': instance.type,
   'name': instance.name,

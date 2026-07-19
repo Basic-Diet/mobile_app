@@ -23,12 +23,13 @@ class PremiumMealsSuccessView extends StatelessWidget {
   Widget build(BuildContext context) {
     final subscriptionBloc = context.read<SubscriptionBloc>();
     final subscriptionState = subscriptionBloc.state;
-    
+
     int maxPremiumMeals = 0;
     if (subscriptionState is SubscriptionSuccess &&
         subscriptionState.selectedPlan != null &&
         subscriptionState.selectedMealOption != null) {
-      maxPremiumMeals = subscriptionState.selectedPlan!.daysCount *
+      maxPremiumMeals =
+          subscriptionState.selectedPlan!.daysCount *
           subscriptionState.selectedMealOption!.mealsPerDay;
     }
 
@@ -52,11 +53,10 @@ class PremiumMealsSuccessView extends StatelessWidget {
                       meal: meal,
                       quantity: quantity,
                       onIncrement: () {
-                        final currentTotal = state.mealCounters.values.fold<int>(
-                          0,
-                          (sum, qty) => sum + qty,
-                        );
-                        if (currentTotal >= maxPremiumMeals && maxPremiumMeals > 0) {
+                        final currentTotal = state.mealCounters.values
+                            .fold<int>(0, (sum, qty) => sum + qty);
+                        if (currentTotal >= maxPremiumMeals &&
+                            maxPremiumMeals > 0) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text(Strings.premiumLimitExceeded.tr()),
@@ -69,9 +69,13 @@ class PremiumMealsSuccessView extends StatelessWidget {
                           UpdateMealCounterEvent(meal.premiumKey, quantity + 1),
                         );
                       },
-                      onDecrement: () => context.read<PremiumMealsBloc>().add(
-                        UpdateMealCounterEvent(meal.premiumKey, quantity - 1),
-                      ),
+                      onDecrement:
+                          () => context.read<PremiumMealsBloc>().add(
+                            UpdateMealCounterEvent(
+                              meal.premiumKey,
+                              quantity - 1,
+                            ),
+                          ),
                     ),
                   );
                 }),

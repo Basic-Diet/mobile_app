@@ -29,14 +29,15 @@ void main() {
       );
 
       final quoteJson = quoteRequest.toRequest().toJson();
-      final checkoutJson = quoteRequest
-          .toCheckoutRequest(
-            idempotencyKey: 'checkout-1',
-            successUrl: 'https://app.example.com/success',
-            backUrl: 'https://app.example.com/cancel',
-          )
-          .toRequest()
-          .toJson();
+      final checkoutJson =
+          quoteRequest
+              .toCheckoutRequest(
+                idempotencyKey: 'checkout-1',
+                successUrl: 'https://app.example.com/success',
+                backUrl: 'https://app.example.com/cancel',
+              )
+              .toRequest()
+              .toJson();
 
       expect(quoteJson['delivery']['type'], 'delivery');
       expect(quoteJson['delivery']['firstDayFulfillmentOverride'], {

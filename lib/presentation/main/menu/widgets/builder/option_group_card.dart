@@ -27,7 +27,7 @@ class OptionGroupCard extends StatelessWidget {
   final VoidCallback onOpenSearch;
   final ValueChanged<String> onToggle;
   final void Function(OrderMenuOptionModel option, int delta)
-      onExtraWeightChanged;
+  onExtraWeightChanged;
 
   const OptionGroupCard({
     super.key,
@@ -226,7 +226,7 @@ class OptionGroupOptionsView extends StatelessWidget {
   final VoidCallback onOpenSearch;
   final ValueChanged<String> onToggle;
   final void Function(OrderMenuOptionModel option, int delta)
-      onExtraWeightChanged;
+  onExtraWeightChanged;
 
   const OptionGroupOptionsView({
     super.key,
@@ -377,10 +377,13 @@ class OptionGroupOptionsView extends StatelessWidget {
       padding: EdgeInsetsDirectional.only(top: AppPadding.p8.h),
       child: InlineExtraWeightSelector(
         value:
-            extraWeightByOptionId[option.optionId] ?? option.extraWeightUnitGrams,
+            extraWeightByOptionId[option.optionId] ??
+            option.extraWeightUnitGrams,
         step: option.extraWeightUnitGrams,
-        onDecrease: () => onExtraWeightChanged(option, -option.extraWeightUnitGrams),
-        onIncrease: () => onExtraWeightChanged(option, option.extraWeightUnitGrams),
+        onDecrease:
+            () => onExtraWeightChanged(option, -option.extraWeightUnitGrams),
+        onIncrease:
+            () => onExtraWeightChanged(option, option.extraWeightUnitGrams),
       ),
     );
   }

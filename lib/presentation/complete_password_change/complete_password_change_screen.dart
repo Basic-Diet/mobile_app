@@ -36,10 +36,7 @@ class CompletePasswordChangeScreen extends StatefulWidget {
   static const String routeName = '/complete-password-change';
   final PasswordChangeChallengeArgs args;
 
-  const CompletePasswordChangeScreen({
-    super.key,
-    required this.args,
-  });
+  const CompletePasswordChangeScreen({super.key, required this.args});
 
   @override
   State<CompletePasswordChangeScreen> createState() =>
@@ -164,13 +161,9 @@ class _CompletePasswordChangeScreenState
   }
 
   Widget _buildForm() {
-    return BlocBuilder<
-      CompletePasswordChangeBloc,
-      CompletePasswordChangeState
-    >(
+    return BlocBuilder<CompletePasswordChangeBloc, CompletePasswordChangeState>(
       builder: (context, state) {
-        final isLoading =
-            state.status == CompletePasswordChangeStatus.loading;
+        final isLoading = state.status == CompletePasswordChangeStatus.loading;
         final isEnabled =
             state.newPasswordError == null &&
             state.confirmPasswordError == null &&

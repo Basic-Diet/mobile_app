@@ -83,9 +83,8 @@ class _NoShowCompletedCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final message = data.message.isNotEmpty
-        ? data.message
-        : Strings.noShowMessage.tr();
+    final message =
+        data.message.isNotEmpty ? data.message : Strings.noShowMessage.tr();
 
     return Container(
       width: double.infinity,

@@ -205,6 +205,9 @@ class BuilderCatalogV2ProductResponse {
   @JsonKey(name: 'id')
   final String? id;
 
+  @JsonKey(name: 'productId')
+  final String? productId;
+
   @JsonKey(name: 'key')
   final String? key;
 
@@ -267,6 +270,7 @@ class BuilderCatalogV2ProductResponse {
 
   const BuilderCatalogV2ProductResponse({
     this.id,
+    this.productId,
     this.key,
     this.type,
     this.name,
@@ -292,6 +296,7 @@ class BuilderCatalogV2ProductResponse {
   factory BuilderCatalogV2ProductResponse.fromJson(Map<String, dynamic> json) =>
       BuilderCatalogV2ProductResponse(
         id: json['id'] as String?,
+        productId: json['productId'] as String?,
         key: json['key'] as String?,
         type: json['type'] as String?,
         name: json['name'] as String?,
@@ -336,6 +341,7 @@ class BuilderCatalogV2ProductResponse {
 
   Map<String, dynamic> toJson() => <String, dynamic>{
     'id': id,
+    'productId': productId,
     'key': key,
     'type': type,
     'name': name,

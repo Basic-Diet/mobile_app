@@ -74,7 +74,11 @@ class ClientProfileCounterItemModel {
   final String labelEn;
   final int count;
 
-  const ClientProfileCounterItemModel({this.labelAr = '', this.labelEn = '', this.count = 0});
+  const ClientProfileCounterItemModel({
+    this.labelAr = '',
+    this.labelEn = '',
+    this.count = 0,
+  });
 }
 
 class ClientProfileLanguageItemModel {

@@ -31,12 +31,14 @@ class ButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isEnabled = onTap != null && !isLoading;
-    final backgroundColor = isEnabled
-        ? color
-        : (disabledColor ?? ColorManager.stateDisabledSurface);
-    final foregroundColor = isEnabled
-        ? textColor
-        : (disabledTextColor ?? ColorManager.stateDisabled);
+    final backgroundColor =
+        isEnabled
+            ? color
+            : (disabledColor ?? ColorManager.stateDisabledSurface);
+    final foregroundColor =
+        isEnabled
+            ? textColor
+            : (disabledTextColor ?? ColorManager.stateDisabled);
 
     return Material(
       color: ColorManager.transparent,
@@ -54,24 +56,25 @@ class ButtonWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(radius.r),
           ),
           child: Center(
-            child: isLoading
-                ? SizedBox(
-                    height: AppSize.s20.h,
-                    width: AppSize.s20.h,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        foregroundColor,
+            child:
+                isLoading
+                    ? SizedBox(
+                      height: AppSize.s20.h,
+                      width: AppSize.s20.h,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                          foregroundColor,
+                        ),
+                      ),
+                    )
+                    : Text(
+                      text,
+                      style: getBoldTextStyle(
+                        color: foregroundColor,
+                        fontSize: AppSize.s18.sp,
                       ),
                     ),
-                  )
-                : Text(
-                    text,
-                    style: getBoldTextStyle(
-                      color: foregroundColor,
-                      fontSize: AppSize.s18.sp,
-                    ),
-                  ),
           ),
         ),
       ),

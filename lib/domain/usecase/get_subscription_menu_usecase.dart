@@ -4,7 +4,8 @@ import 'package:basic_diet/domain/repository/repository.dart';
 import 'package:basic_diet/domain/usecase/base_usecase.dart';
 import 'package:dartz/dartz.dart';
 
-class GetSubscriptionMenuUseCase extends BaseUseCase<void, SubscriptionMenuModel> {
+class GetSubscriptionMenuUseCase
+    extends BaseUseCase<void, SubscriptionMenuModel> {
   final Repository _repository;
 
   GetSubscriptionMenuUseCase(this._repository);

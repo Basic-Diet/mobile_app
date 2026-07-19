@@ -262,7 +262,10 @@ abstract class AppServiceClient {
   );
 
   @GET("/api/subscriptions/meal-planner-menu")
-  Future<MealPlannerMenuResponse> getMealPlannerMenu();
+  Future<MealPlannerMenuResponse> getMealPlannerMenu(
+    @Query("contractVersion") String contractVersion,
+    @Query("lang") String languageCode,
+  );
 
   @POST("/api/subscriptions/{id}/days/{date}/payments")
   Future<PremiumPaymentResponse> createUnifiedDayPayment(

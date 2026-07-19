@@ -281,7 +281,8 @@ extension SubscriptionQuotePremiumItemResponseMapper
 extension SubscriptionQuoteAddonResponseMapper
     on SubscriptionQuoteAddonResponse? {
   SubscriptionQuoteAddonModel toDomain() {
-    final id = this?.id ?? this?.addonPlanId ?? this?.addonId ?? Constants.empty;
+    final id =
+        this?.id ?? this?.addonPlanId ?? this?.addonId ?? Constants.empty;
     final quantityPerDay = this?.quantityPerDay ?? this?.qty ?? Constants.zero;
     final totalHalala =
         this?.totalHalala ?? this?.priceHalala ?? Constants.zero;
@@ -302,8 +303,7 @@ extension SubscriptionQuoteAddonResponseMapper
       billingUnit: this?.billingUnit ?? Constants.empty,
       durationDays: this?.durationDays ?? this?.daysCount ?? Constants.zero,
       unitPriceHalala: unitPriceHalala,
-      unitPriceSar:
-          this?.unitPriceSar ?? unitPriceHalala / 100,
+      unitPriceSar: this?.unitPriceSar ?? unitPriceHalala / 100,
       unitPriceLabel: this?.unitPriceLabel ?? Constants.empty,
       formulaLabel: this?.formulaLabel ?? Constants.empty,
       totalHalala: totalHalala,

@@ -65,7 +65,8 @@ class PremiumMealCard extends StatelessWidget {
                     fontSize: FontSizeManager.s16.sp,
                   ).copyWith(height: 24 / 16),
                 ),
-                if ((subtitle.isNotEmpty ? subtitle : meal.ui.subtitle).isNotEmpty) ...[
+                if ((subtitle.isNotEmpty ? subtitle : meal.ui.subtitle)
+                    .isNotEmpty) ...[
                   Gap(AppSize.s8.h),
                   Text(
                     subtitle.isNotEmpty ? subtitle : meal.ui.subtitle,

@@ -10,10 +10,8 @@ extension PremiumPaymentResponseMapper on PremiumPaymentResponse? {
       paymentId: data?.paymentId ?? Constants.empty,
       paymentUrl: data?.paymentUrl ?? Constants.empty,
       invoiceId: data?.providerInvoiceId ?? data?.invoiceId ?? Constants.empty,
-      amountHalala:
-          data?.amountHalala ?? data?.totalHalala ?? Constants.zero,
-      totalHalala:
-          data?.totalHalala ?? data?.amountHalala ?? Constants.zero,
+      amountHalala: data?.amountHalala ?? data?.totalHalala ?? Constants.zero,
+      totalHalala: data?.totalHalala ?? data?.amountHalala ?? Constants.zero,
       premiumAmountHalala: data?.premiumAmountHalala ?? Constants.zero,
       addonsAmountHalala: data?.addonsAmountHalala ?? Constants.zero,
       currency: data?.currency ?? Constants.empty,

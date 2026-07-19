@@ -25,9 +25,6 @@ extension BaseResponseMapper on BaseResponse? {
   }
 
   BaseModel toDomain() {
-    return BaseModel(
-      status: _resolveStatus(),
-      message: this?.message ?? "",
-    );
+    return BaseModel(status: _resolveStatus(), message: this?.message ?? "");
   }
 }

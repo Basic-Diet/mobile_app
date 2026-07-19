@@ -70,10 +70,7 @@ class WeightSelector extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(weightLabel(choice.weightGrams)),
-                        if (price != null) ...[
-                          Gap(AppSize.s2.h),
-                          Text(price),
-                        ],
+                        if (price != null) ...[Gap(AppSize.s2.h), Text(price)],
                       ],
                     ),
                     labelStyle: getBoldTextStyle(

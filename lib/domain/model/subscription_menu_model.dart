@@ -14,14 +14,13 @@ class SubscriptionMenuModel extends Equatable {
     this.mealPlannerAddonsByType = const {},
   });
 
-  List<AddOnModel> get planAddons =>
-      addons.where((a) => a.isPlan).toList();
+  List<AddOnModel> get planAddons => addons.where((a) => a.isPlan).toList();
 
   @override
   List<Object?> get props => [
-        addons,
-        addonsByType,
-        mealPlannerAddons,
-        mealPlannerAddonsByType,
-      ];
+    addons,
+    addonsByType,
+    mealPlannerAddons,
+    mealPlannerAddonsByType,
+  ];
 }

@@ -62,26 +62,31 @@ class DeliveryOptionsBloc
           .cast<DeliverySlotModel?>()
           .firstWhere(
             (slot) => slot?.id == defaults.slotId,
-            orElse: () => defaultMethod.slots.isNotEmpty
-                ? defaultMethod.slots.first
-                : null,
+            orElse:
+                () =>
+                    defaultMethod.slots.isNotEmpty
+                        ? defaultMethod.slots.first
+                        : null,
           );
 
       final selectedPickupLocation = deliveryOptions.pickupLocations
           .cast<PickupLocationModel?>()
           .firstWhere(
             (loc) => loc?.id == defaults.pickupLocationId,
-            orElse: () => deliveryOptions.pickupLocations.isNotEmpty
-                ? deliveryOptions.pickupLocations.first
-                : null,
+            orElse:
+                () =>
+                    deliveryOptions.pickupLocations.isNotEmpty
+                        ? deliveryOptions.pickupLocations.first
+                        : null,
           );
 
       emit(
         DeliveryOptionsSuccess(
           deliveryOptionsModel: deliveryOptions,
-          selectedType: defaultMethod.type == 'pickup'
-              ? DeliveryType.pickup
-              : DeliveryType.home,
+          selectedType:
+              defaultMethod.type == 'pickup'
+                  ? DeliveryType.pickup
+                  : DeliveryType.home,
           selectedArea: selectedArea,
           selectedTime: selectedTime,
           selectedPickupLocation: selectedPickupLocation,

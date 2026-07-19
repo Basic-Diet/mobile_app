@@ -125,7 +125,9 @@ abstract class Repository {
   );
   Future<Either<Failure, TimelineModel>> getSubscriptionTimeline(String id);
   Future<Either<Failure, CategoriesWithMealsModel>> getCategoriesWithMeals();
-  Future<Either<Failure, MealPlannerMenuModel>> getMealPlannerMenu();
+  Future<Either<Failure, MealPlannerMenuModel>> getMealPlannerMenu(
+    String languageCode,
+  );
   Future<Either<Failure, CheckoutDraftModel>> getCheckoutDraft(String id);
   Future<Either<Failure, BulkSelectionsModel>> bulkSelections(
     String id,

@@ -48,7 +48,9 @@ class MenuHeader extends StatelessWidget {
             CircleActionButton(
               icon: Icons.home_outlined,
               onTap: () {
-                context.read<MainBloc>().add(const ChangeBottomNavIndexEvent(0));
+                context.read<MainBloc>().add(
+                  const ChangeBottomNavIndexEvent(0),
+                );
               },
             ),
             Gap(AppSize.s10.w),
@@ -89,58 +91,60 @@ class CircleActionButton extends StatelessWidget {
       width: AppSize.s42.w,
       height: AppSize.s42.w,
       child: Stack(
-      children: [
-        Align(
-          alignment: Alignment.center,
-          child: Material(
-            color: Colors.white.withValues(alpha: 0.9),
-            borderRadius: BorderRadius.circular(AppSize.s12.r),
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(AppSize.s12.r),
-                border: Border.all(color: Colors.white.withValues(alpha: 0.78)),
-              ),
-              child: InkWell(
-                onTap: onTap,
-                borderRadius: BorderRadius.circular(AppSize.s12.r),
-                child: SizedBox(
-                  width: AppSize.s36.w,
-                  height: AppSize.s36.w,
-                  child: Icon(
-                    icon,
-                    color: const Color(0xFF112B22),
-                    size: AppSize.s18.w,
+        children: [
+          Align(
+            alignment: Alignment.center,
+            child: Material(
+              color: Colors.white.withValues(alpha: 0.9),
+              borderRadius: BorderRadius.circular(AppSize.s12.r),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(AppSize.s12.r),
+                  border: Border.all(
+                    color: Colors.white.withValues(alpha: 0.78),
+                  ),
+                ),
+                child: InkWell(
+                  onTap: onTap,
+                  borderRadius: BorderRadius.circular(AppSize.s12.r),
+                  child: SizedBox(
+                    width: AppSize.s36.w,
+                    height: AppSize.s36.w,
+                    child: Icon(
+                      icon,
+                      color: const Color(0xFF112B22),
+                      size: AppSize.s18.w,
+                    ),
                   ),
                 ),
               ),
             ),
           ),
-        ),
-        if (badgeCount > 0)
-          PositionedDirectional(
-            top: 0,
-            end: 0,
-            child: Container(
-              constraints: BoxConstraints(minWidth: AppSize.s18.w),
-              height: AppSize.s18.w,
-              padding: EdgeInsetsDirectional.symmetric(
-                horizontal: AppPadding.p4.w,
-              ),
-              decoration: BoxDecoration(
-                color: ColorManager.brandPrimary,
-                borderRadius: BorderRadius.circular(AppSize.s99.r),
-              ),
-              alignment: Alignment.center,
-              child: Text(
-                badgeLabel,
-                style: getBoldTextStyle(
-                  fontSize: FontSizeManager.s9.sp,
-                  color: ColorManager.backgroundSurface,
+          if (badgeCount > 0)
+            PositionedDirectional(
+              top: 0,
+              end: 0,
+              child: Container(
+                constraints: BoxConstraints(minWidth: AppSize.s18.w),
+                height: AppSize.s18.w,
+                padding: EdgeInsetsDirectional.symmetric(
+                  horizontal: AppPadding.p4.w,
+                ),
+                decoration: BoxDecoration(
+                  color: ColorManager.brandPrimary,
+                  borderRadius: BorderRadius.circular(AppSize.s99.r),
+                ),
+                alignment: Alignment.center,
+                child: Text(
+                  badgeLabel,
+                  style: getBoldTextStyle(
+                    fontSize: FontSizeManager.s9.sp,
+                    color: ColorManager.backgroundSurface,
+                  ),
                 ),
               ),
             ),
-          ),
-      ],
+        ],
       ),
     );
   }

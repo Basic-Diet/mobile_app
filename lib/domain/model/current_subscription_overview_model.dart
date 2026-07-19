@@ -131,17 +131,18 @@ class AddressSummaryModel {
 
   String get summary {
     if (formatted.trim().isNotEmpty) return formatted;
-    final parts = <String>[
-      label,
-      line1,
-      line2,
-      district,
-      city,
-      zoneName,
-      street,
-      building,
-      apartment,
-    ].where((value) => value.trim().isNotEmpty).toList();
+    final parts =
+        <String>[
+          label,
+          line1,
+          line2,
+          district,
+          city,
+          zoneName,
+          street,
+          building,
+          apartment,
+        ].where((value) => value.trim().isNotEmpty).toList();
 
     return parts.join(' - ');
   }
@@ -173,9 +174,13 @@ class PickupLocationSummaryModel {
   });
 
   String get summary {
-    final parts = <String>[name, address, district, city]
-        .where((value) => value.trim().isNotEmpty)
-        .toList();
+    final parts =
+        <String>[
+          name,
+          address,
+          district,
+          city,
+        ].where((value) => value.trim().isNotEmpty).toList();
     return parts.join(' - ');
   }
 }

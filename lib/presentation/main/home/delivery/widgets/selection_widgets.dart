@@ -38,9 +38,10 @@ class DeliveryLocationSelector extends StatelessWidget {
               child: Text(
                 value ?? label,
                 style: getRegularTextStyle(
-                  color: value != null
-                      ? ColorManager.textPrimary
-                      : ColorManager.textSecondary,
+                  color:
+                      value != null
+                          ? ColorManager.textPrimary
+                          : ColorManager.textSecondary,
                   fontSize: FontSizeManager.s16.sp,
                 ),
               ),
@@ -78,14 +79,16 @@ class DeliveryTypeCard extends StatelessWidget {
       child: Container(
         padding: EdgeInsetsDirectional.all(AppPadding.p16.w),
         decoration: BoxDecoration(
-          color: isSelected
-              ? ColorManager.brandPrimary.withValues(alpha: 0.05)
-              : ColorManager.backgroundSurface,
+          color:
+              isSelected
+                  ? ColorManager.brandPrimary.withValues(alpha: 0.05)
+                  : ColorManager.backgroundSurface,
           borderRadius: BorderRadius.circular(AppSize.s16.r),
           border: Border.all(
-            color: isSelected
-                ? ColorManager.brandPrimary
-                : ColorManager.borderDefault,
+            color:
+                isSelected
+                    ? ColorManager.brandPrimary
+                    : ColorManager.borderDefault,
             width: 1.5,
           ),
         ),
@@ -94,16 +97,18 @@ class DeliveryTypeCard extends StatelessWidget {
             Container(
               padding: EdgeInsetsDirectional.all(AppPadding.p12.w),
               decoration: BoxDecoration(
-                color: isSelected
-                    ? ColorManager.brandPrimary
-                    : ColorManager.backgroundSubtle,
+                color:
+                    isSelected
+                        ? ColorManager.brandPrimary
+                        : ColorManager.backgroundSubtle,
                 borderRadius: BorderRadius.circular(AppSize.s12.r),
               ),
               child: Icon(
                 icon,
-                color: isSelected
-                    ? ColorManager.backgroundSurface
-                    : ColorManager.textSecondary,
+                color:
+                    isSelected
+                        ? ColorManager.backgroundSurface
+                        : ColorManager.textSecondary,
               ),
             ),
             Gap(AppSize.s16.w),
@@ -131,9 +136,10 @@ class DeliveryTypeCard extends StatelessWidget {
                         ? method.feeLabel
                         : method.helperText,
                     style: getRegularTextStyle(
-                      color: isSelected
-                          ? ColorManager.brandPrimary
-                          : ColorManager.textSecondary,
+                      color:
+                          isSelected
+                              ? ColorManager.brandPrimary
+                              : ColorManager.textSecondary,
                       fontSize: FontSizeManager.s12.sp,
                     ),
                   ),

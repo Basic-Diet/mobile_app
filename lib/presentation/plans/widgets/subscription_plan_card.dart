@@ -65,8 +65,6 @@ class SubscriptionPlanCard extends StatelessWidget {
           if (data.premiumSummary.isNotEmpty) _buildPremiumSection(),
 
           _buildDeliveryInfo(),
-
-
         ],
       ),
     );
@@ -119,15 +117,16 @@ class SubscriptionPlanCard extends StatelessWidget {
             await Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (_) => ManageSubscriptionScreen(
-                  subscriptionId: data.id,
-                  selectedMealsPerDay: data.selectedMealsPerDay,
-                  deliveryModeLabel: data.deliveryModeLabel,
-                  validityEndDate: data.validityEndDate,
-                  skipDaysUsed: data.skipDaysUsed,
-                  skipDaysLimit: data.skipDaysLimit,
-                  remainingSkipDays: data.remainingSkipDays,
-                ),
+                builder:
+                    (_) => ManageSubscriptionScreen(
+                      subscriptionId: data.id,
+                      selectedMealsPerDay: data.selectedMealsPerDay,
+                      deliveryModeLabel: data.deliveryModeLabel,
+                      validityEndDate: data.validityEndDate,
+                      skipDaysUsed: data.skipDaysUsed,
+                      skipDaysLimit: data.skipDaysLimit,
+                      remainingSkipDays: data.remainingSkipDays,
+                    ),
               ),
             );
             if (context.mounted) {
@@ -266,30 +265,32 @@ class SubscriptionPlanCard extends StatelessWidget {
       return Wrap(
         spacing: AppSize.s8.w,
         runSpacing: AppSize.s8.h,
-        children: data.addonBalances.map((addon) {
-          final label =
-              addon.name.isNotEmpty
-                  ? addon.name
-                  : addon.category.isNotEmpty
-                  ? addon.category
-                  : Strings.addOns.tr();
-          return _AddonBalanceChip(
-            label:
-                '$label: ${addon.remainingQty}/${addon.includedTotalQty} ${Strings.available.tr()}',
-          );
-        }).toList(),
+        children:
+            data.addonBalances.map((addon) {
+              final label =
+                  addon.name.isNotEmpty
+                      ? addon.name
+                      : addon.category.isNotEmpty
+                      ? addon.category
+                      : Strings.addOns.tr();
+              return _AddonBalanceChip(
+                label:
+                    '$label: ${addon.remainingQty}/${addon.includedTotalQty} ${Strings.available.tr()}',
+              );
+            }).toList(),
       );
     }
 
     return Wrap(
       spacing: AppSize.s8.w,
       runSpacing: AppSize.s8.h,
-      children: data.addonSubscriptions.map((addon) {
-        return _AddonBalanceChip(
-          label:
-              '${addon.includedCount} ${addon.category.isNotEmpty ? addon.category : Strings.addOns.tr()} ${Strings.includedPerDay.tr()}',
-        );
-      }).toList(),
+      children:
+          data.addonSubscriptions.map((addon) {
+            return _AddonBalanceChip(
+              label:
+                  '${addon.includedCount} ${addon.category.isNotEmpty ? addon.category : Strings.addOns.tr()} ${Strings.includedPerDay.tr()}',
+            );
+          }).toList(),
     );
   }
 
@@ -328,7 +329,6 @@ class SubscriptionPlanCard extends StatelessWidget {
       ],
     );
   }
-
 }
 
 class _AddonBalanceChip extends StatelessWidget {

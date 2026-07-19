@@ -5,13 +5,17 @@ import 'package:basic_diet/domain/usecase/base_usecase.dart';
 import 'package:dartz/dartz.dart';
 
 class GetMealPlannerMenuUseCase
-    implements BaseUseCase<void, MealPlannerMenuModel> {
+    implements BaseUseCase<String, MealPlannerMenuModel> {
   final Repository _repository;
 
   GetMealPlannerMenuUseCase(this._repository);
 
   @override
-  Future<Either<Failure, MealPlannerMenuModel>> execute(void input) async {
-    return _repository.getMealPlannerMenu();
+  Future<Either<Failure, MealPlannerMenuModel>> execute(
+    String languageCode,
+  ) async {
+    final normalizedLanguage =
+        languageCode.toLowerCase().startsWith('en') ? 'en' : 'ar';
+    return _repository.getMealPlannerMenu(normalizedLanguage);
   }
 }

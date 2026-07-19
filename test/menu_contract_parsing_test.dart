@@ -447,9 +447,18 @@ void main() {
         'moussaka_with_minced_meat',
         'lasagna_with_minced_meat',
       ]);
-      expect(directItems.every((item) => item.selectionType == 'full_meal_product'), isTrue);
-      expect(directItems.every((item) => item.action.type == 'direct_add'), isTrue);
-      expect(directItems.every((item) => item.action.requiresBuilder == false), isTrue);
+      expect(
+        directItems.every((item) => item.selectionType == 'full_meal_product'),
+        isTrue,
+      );
+      expect(
+        directItems.every((item) => item.action.type == 'direct_add'),
+        isTrue,
+      );
+      expect(
+        directItems.every((item) => item.action.requiresBuilder == false),
+        isTrue,
+      );
       expect(directItems.every((item) => item.action.treatAsFullMeal), isTrue);
       expect(directItems.every((item) => item.isDirectFullMeal), isTrue);
     });
@@ -539,16 +548,16 @@ void main() {
       expect(product.weightPricing?.strategy, 'base_plus_steps');
       expect(product.weightPricing?.stepPriceHalala, 500);
       expect(product.weightPricing?.initialChoice?.weightGrams, 100);
-      expect(product.weightPricing?.choices.map((choice) => choice.weightGrams), [
-        100,
-        150,
-        200,
-        250,
-        300,
-      ]);
+      expect(
+        product.weightPricing?.choices.map((choice) => choice.weightGrams),
+        [100, 150, 200, 250, 300],
+      );
       expect(product.weightPricing?.choiceForWeight(150)?.priceHalala, 3400);
       expect(product.weightPricing?.choiceForWeight(300)?.priceHalala, 4900);
-      expect(product.weightPricing?.choiceForWeight(150)?.priceHalala, isNot(4350));
+      expect(
+        product.weightPricing?.choiceForWeight(150)?.priceHalala,
+        isNot(4350),
+      );
     });
 
     test('supports public V2 pricing names without inventing local prices', () {
@@ -579,52 +588,54 @@ void main() {
       final product = response.toDomain();
 
       expect(product.weightPricing?.contractVersion, 'weight_pricing.v1');
-      expect(product.weightPricing?.choices.map((choice) => choice.priceHalala), [
-        1900,
-        2400,
-        2900,
-        3400,
-        3900,
-      ]);
+      expect(
+        product.weightPricing?.choices.map((choice) => choice.priceHalala),
+        [1900, 2400, 2900, 3400, 3900],
+      );
       expect(product.weightPricing?.choiceForWeight(150)?.priceHalala, 2400);
       expect(product.weightPricing?.choiceForWeight(200)?.priceHalala, 2900);
       expect(product.weightPricing?.choiceForWeight(300)?.priceHalala, 3900);
     });
 
-    test('falls back to first backend choice when default weight is unavailable', () {
-      final product = OrderMenuProductResponse.fromJson({
-        'id': 'product-3',
-        'key': 'custom_salad_100g',
-        'name': 'Custom Salad',
-        'pricingModel': 'per_100g',
-        'defaultWeightGrams': 175,
-        'weightPricing': {
-          'requiresWeightSelection': true,
-          'defaultWeightGrams': 175,
-          'choices': [
-            {'weightGrams': 100, 'priceHalala': 2900},
-            {'weightGrams': 150, 'priceHalala': 3400},
-          ],
-        },
-      }).toDomain();
+    test(
+      'falls back to first backend choice when default weight is unavailable',
+      () {
+        final product =
+            OrderMenuProductResponse.fromJson({
+              'id': 'product-3',
+              'key': 'custom_salad_100g',
+              'name': 'Custom Salad',
+              'pricingModel': 'per_100g',
+              'defaultWeightGrams': 175,
+              'weightPricing': {
+                'requiresWeightSelection': true,
+                'defaultWeightGrams': 175,
+                'choices': [
+                  {'weightGrams': 100, 'priceHalala': 2900},
+                  {'weightGrams': 150, 'priceHalala': 3400},
+                ],
+              },
+            }).toDomain();
 
-      expect(product.weightPricing?.initialChoice?.weightGrams, 100);
-      expect(product.weightPricing?.choiceForWeight(175), isNull);
-    });
+        expect(product.weightPricing?.initialChoice?.weightGrams, 100);
+        expect(product.weightPricing?.choiceForWeight(175), isNull);
+      },
+    );
 
     test('preserves legacy per-unit behavior when choices are absent', () {
-      final product = OrderMenuProductResponse.fromJson({
-        'id': 'product-4',
-        'key': 'legacy',
-        'name': 'Legacy',
-        'pricingModel': 'per_100g',
-        'priceHalala': 1000,
-        'baseUnitGrams': 100,
-        'defaultWeightGrams': 100,
-        'minWeightGrams': 100,
-        'maxWeightGrams': 300,
-        'weightStepGrams': 50,
-      }).toDomain();
+      final product =
+          OrderMenuProductResponse.fromJson({
+            'id': 'product-4',
+            'key': 'legacy',
+            'name': 'Legacy',
+            'pricingModel': 'per_100g',
+            'priceHalala': 1000,
+            'baseUnitGrams': 100,
+            'defaultWeightGrams': 100,
+            'minWeightGrams': 100,
+            'maxWeightGrams': 300,
+            'weightStepGrams': 50,
+          }).toDomain();
 
       expect(product.weightPricing, isNull);
       expect(product.requiresWeightSelection, isTrue);
@@ -632,24 +643,28 @@ void main() {
       expect(product.hasInvalidWeightPricingContract, isFalse);
     });
 
-    test('treats required weight pricing with empty choices as invalid contract', () {
-      final product = OrderMenuProductResponse.fromJson({
-        'id': 'product-5',
-        'key': 'invalid',
-        'name': 'Invalid',
-        'pricingModel': 'per_100g',
-        'weightPricing': {
-          'requiresWeightSelection': true,
-          'strategy': 'base_plus_steps',
-          'choices': [],
-        },
-      }).toDomain();
+    test(
+      'treats required weight pricing with empty choices as invalid contract',
+      () {
+        final product =
+            OrderMenuProductResponse.fromJson({
+              'id': 'product-5',
+              'key': 'invalid',
+              'name': 'Invalid',
+              'pricingModel': 'per_100g',
+              'weightPricing': {
+                'requiresWeightSelection': true,
+                'strategy': 'base_plus_steps',
+                'choices': [],
+              },
+            }).toDomain();
 
-      expect(product.requiresWeightSelection, isTrue);
-      expect(product.hasBackendWeightChoices, isFalse);
-      expect(product.hasInvalidWeightPricingContract, isTrue);
-      expect(product.resolvedRequiresBuilder, isTrue);
-    });
+        expect(product.requiresWeightSelection, isTrue);
+        expect(product.hasBackendWeightChoices, isFalse);
+        expect(product.hasInvalidWeightPricingContract, isTrue);
+        expect(product.resolvedRequiresBuilder, isTrue);
+      },
+    );
 
     test('uses backend description before generic fallback', () {
       const product = OrderMenuProductModel(

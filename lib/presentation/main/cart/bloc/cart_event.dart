@@ -67,12 +67,21 @@ class CartItem extends Equatable {
   }
 
   String get compositeKey {
-    final optionKey = selectedOptions.map((o) => '${o.groupId}:${o.optionId}:${o.extraWeightGrams ?? 0}').join('|');
+    final optionKey = selectedOptions
+        .map((o) => '${o.groupId}:${o.optionId}:${o.extraWeightGrams ?? 0}')
+        .join('|');
     return '${productId}_${weightGrams ?? 0}_$optionKey';
   }
 
   @override
-  List<Object?> get props => [productId, name, qty, weightGrams, selectedOptions, unitPriceHalala];
+  List<Object?> get props => [
+    productId,
+    name,
+    qty,
+    weightGrams,
+    selectedOptions,
+    unitPriceHalala,
+  ];
 }
 
 abstract class CartEvent extends Equatable {

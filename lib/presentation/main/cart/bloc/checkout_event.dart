@@ -42,7 +42,12 @@ class VerifyPaymentEvent extends CheckoutEvent {
   });
 
   @override
-  List<Object?> get props => [orderId, paymentId, providerPaymentId, providerInvoiceId];
+  List<Object?> get props => [
+    orderId,
+    paymentId,
+    providerPaymentId,
+    providerInvoiceId,
+  ];
 }
 
 class ResetCheckoutEvent extends CheckoutEvent {

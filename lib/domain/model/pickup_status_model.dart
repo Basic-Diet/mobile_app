@@ -47,8 +47,7 @@ class PickupStatusDataModel {
     this.consumptionState,
     this.fulfillmentMode, [
     this.pickupLocation,
-    ]
-  );
+  ]);
 }
 
 class RestaurantHoursModel {

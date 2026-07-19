@@ -26,8 +26,5 @@ class CreateOrderInput {
   final CreateOrderRequestModel request;
   final String idempotencyKey;
 
-  const CreateOrderInput({
-    required this.request,
-    required this.idempotencyKey,
-  });
+  const CreateOrderInput({required this.request, required this.idempotencyKey});
 }

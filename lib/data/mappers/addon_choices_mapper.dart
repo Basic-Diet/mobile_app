@@ -4,9 +4,11 @@ import 'package:basic_diet/domain/model/addon_choices_model.dart';
 
 extension AddonChoicesResponseMapper on AddonChoicesResponse? {
   AddonChoicesModel toDomain() {
-    final rawCategories = this?.data ?? const <String, AddonChoiceCategoryResponse>{};
+    final rawCategories =
+        this?.data ?? const <String, AddonChoiceCategoryResponse>{};
     final orderedCategories = <AddonChoiceCategoryModel>[];
-    final groupedResponses = this?.addonChoiceGroups ?? const <AddonChoiceCategoryResponse>[];
+    final groupedResponses =
+        this?.addonChoiceGroups ?? const <AddonChoiceCategoryResponse>[];
 
     if (groupedResponses.isNotEmpty) {
       for (final response in groupedResponses) {
@@ -57,18 +59,16 @@ extension AddonChoiceCategoryResponseMapper on AddonChoiceCategoryResponse? {
       category: resolvedDisplayCategory,
       sourceCategories: this?.sourceCategories ?? const [],
       choices:
-          this?.choices.map((choice) => choice.toDomain()).toList() ??
-          const [],
+          this?.choices.map((choice) => choice.toDomain()).toList() ?? const [],
     );
   }
 }
 
 extension AddonChoiceResponseMapper on AddonChoiceResponse? {
   AddonChoiceModel toDomain() {
-    final localeMap =
-        (this?.nameI18n ?? const <String, dynamic>{}).map(
-          (key, value) => MapEntry(key, value?.toString() ?? ''),
-        );
+    final localeMap = (this?.nameI18n ?? const <String, dynamic>{}).map(
+      (key, value) => MapEntry(key, value?.toString() ?? ''),
+    );
     final rawId = this?.id.orEmpty() ?? '';
     final productId = this?.productId.orEmpty() ?? '';
     final menuProductId = this?.menuProductId.orEmpty() ?? '';
@@ -76,8 +76,8 @@ extension AddonChoiceResponseMapper on AddonChoiceResponse? {
         productId.isNotEmpty
             ? productId
             : menuProductId.isNotEmpty
-                ? menuProductId
-                : rawId;
+            ? menuProductId
+            : rawId;
     return AddonChoiceModel(
       id: selectionId,
       rawId: rawId,

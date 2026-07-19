@@ -54,7 +54,9 @@ class PlansBloc extends Bloc<PlansEvent, PlansState> {
     if (days.isEmpty) return null;
 
     if (preferredDate.isNotEmpty) {
-      final exactMatch = days.where((day) => day.date.startsWith(preferredDate));
+      final exactMatch = days.where(
+        (day) => day.date.startsWith(preferredDate),
+      );
       if (exactMatch.isNotEmpty) {
         return exactMatch.first;
       }
@@ -163,9 +165,10 @@ class PlansBloc extends Bloc<PlansEvent, PlansState> {
     final timeline = result.getOrElse(() => throw Exception());
     final days = timeline.data.days;
     final availableStatuses = ['open', 'planned', 'extension'];
-    final today = event.preferredDate.isNotEmpty
-        ? event.preferredDate
-        : _resolveOperationalDayFromTimeline(timeline);
+    final today =
+        event.preferredDate.isNotEmpty
+            ? event.preferredDate
+            : _resolveOperationalDayFromTimeline(timeline);
     int index = -1;
 
     if (event.openCurrentDay) {
@@ -176,11 +179,12 @@ class PlansBloc extends Bloc<PlansEvent, PlansState> {
       );
     }
 
-    index = index == -1
-        ? days.indexWhere(
-            (day) => availableStatuses.contains(day.status.toLowerCase()),
-          )
-        : index;
+    index =
+        index == -1
+            ? days.indexWhere(
+              (day) => availableStatuses.contains(day.status.toLowerCase()),
+            )
+            : index;
 
     if (index != -1) {
       final freshOverview = await _getFreshOverviewData(event.subscriptionId);
@@ -188,8 +192,7 @@ class PlansBloc extends Bloc<PlansEvent, PlansState> {
           freshOverview == null
               ? currentData
               : CurrentSubscriptionOverviewModel(freshOverview);
-      final addonSubscriptions =
-          freshOverview?.displayAddonEntitlements;
+      final addonSubscriptions = freshOverview?.displayAddonEntitlements;
       emit(
         NavigateToMealPlannerState(
           timelineDays: days,
@@ -221,14 +224,11 @@ class PlansBloc extends Bloc<PlansEvent, PlansState> {
     String subscriptionId,
   ) async {
     final result = await _getCurrentSubscriptionOverviewUseCase.execute(null);
-    return result.fold(
-      (_) => null,
-      (overview) {
-        final data = overview.data;
-        if (data == null || data.id != subscriptionId) return null;
-        return data;
-      },
-    );
+    return result.fold((_) => null, (overview) {
+      final data = overview.data;
+      if (data == null || data.id != subscriptionId) return null;
+      return data;
+    });
   }
 
   void _onPreparePickup(

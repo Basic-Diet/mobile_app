@@ -28,6 +28,19 @@ class BuilderCatalogV2Model {
     required this.sections,
     required this.rules,
   });
+
+  List<BuilderCatalogV2ProductModel> get products => sections
+      .expand((section) => section.products)
+      .where((product) => product.resolvedProductId.isNotEmpty)
+      .toList(growable: false);
+
+  BuilderCatalogV2ProductModel? productById(String? productId) {
+    if (productId == null || productId.isEmpty) return null;
+    for (final product in products) {
+      if (product.resolvedProductId == productId) return product;
+    }
+    return null;
+  }
 }
 
 class BuilderCatalogV2SectionModel {
@@ -56,10 +69,17 @@ class BuilderCatalogV2SectionModel {
     required this.ui,
     required this.products,
   });
+
+  String localizedName(String languageCode) =>
+      _localizedValue(nameI18n, languageCode, name, key);
+
+  String localizedDescription(String languageCode) =>
+      _localizedValue(descriptionI18n, languageCode, description, '');
 }
 
 class BuilderCatalogV2ProductModel {
   final String id;
+  final String productId;
   final String key;
   final String type;
   final bool isVirtual;
@@ -83,6 +103,7 @@ class BuilderCatalogV2ProductModel {
 
   BuilderCatalogV2ProductModel({
     required this.id,
+    this.productId = '',
     required this.key,
     required this.type,
     required this.isVirtual,
@@ -104,6 +125,27 @@ class BuilderCatalogV2ProductModel {
     this.optionSections = const [],
     this.optionGroups = const [],
   });
+
+  String get resolvedProductId => productId.isNotEmpty ? productId : id;
+
+  bool get hasCanonicalIdentity => resolvedProductId.isNotEmpty;
+
+  bool get isDirectMeal {
+    if (!action.isDirectAdd) return false;
+    return action.treatAsFullMeal ||
+        selectionType == 'full_meal_product' ||
+        selectionType == 'sandwich';
+  }
+
+  bool get opensProductBuilder => action.opensBuilder;
+
+  bool get hasContradictoryAction => !isDirectMeal && !opensProductBuilder;
+
+  String localizedName(String languageCode) =>
+      _localizedValue(nameI18n, languageCode, name, key);
+
+  String localizedDescription(String languageCode) =>
+      _localizedValue(descriptionI18n, languageCode, description, '');
 }
 
 class BuilderItemActionModel {
@@ -119,7 +161,7 @@ class BuilderItemActionModel {
 
   bool get isDirectAdd => type == 'direct_add' && !requiresBuilder;
 
-  bool get opensBuilder => type == 'open_builder' && requiresBuilder;
+  bool get opensBuilder => type == 'open_builder' || requiresBuilder;
 }
 
 class BuilderCatalogV2OptionGroupModel {
@@ -154,6 +196,19 @@ class BuilderCatalogV2OptionGroupModel {
     this.optionSections = const [],
     this.options = const [],
   });
+
+  String get resolvedGroupId => groupId.isNotEmpty ? groupId : id;
+
+  String localizedName(String languageCode) =>
+      _localizedValue(nameI18n, languageCode, name, key);
+
+  int get effectiveMinSelections => minSelections ?? (isRequired ? 1 : 0);
+
+  int get effectiveMaxSelections {
+    final configured = maxSelections;
+    if (configured == null || configured <= 0) return options.length;
+    return configured;
+  }
 }
 
 class BuilderCatalogV2OptionSectionModel {
@@ -216,6 +271,14 @@ class BuilderCatalogV2OptionModel {
     this.calories,
     this.ui = const BuilderCatalogV2UiModel(),
   });
+
+  String get resolvedOptionId => optionId.isNotEmpty ? optionId : id;
+
+  String localizedName(String languageCode) =>
+      _localizedValue(nameI18n, languageCode, name, key);
+
+  String localizedDescription(String languageCode) =>
+      _localizedValue(descriptionI18n, languageCode, description, '');
 }
 
 class BuilderCatalogV2UiModel {
@@ -255,7 +318,10 @@ class BuilderCatalogModel {
     this.premiumLargeSalad,
   });
 
-  List<BuilderProteinModel> get allProteins => [...proteins, ...premiumProteins];
+  List<BuilderProteinModel> get allProteins => [
+    ...proteins,
+    ...premiumProteins,
+  ];
 
   List<BuilderProteinModel> get allSaladProteins => allProteins;
 
@@ -451,4 +517,21 @@ class PremiumLargeSaladIngredientModel {
     required this.name,
     required this.calories,
   });
+}
+
+String _localizedValue(
+  Map<String, String> localized,
+  String languageCode,
+  String fallback,
+  String safeFallback,
+) {
+  final normalizedLanguage =
+      languageCode.toLowerCase().startsWith('en') ? 'en' : 'ar';
+  final current = localized[normalizedLanguage]?.trim();
+  if (current != null && current.isNotEmpty) return current;
+  final base = fallback.trim();
+  if (base.isNotEmpty) return base;
+  final alternate = localized[normalizedLanguage == 'ar' ? 'en' : 'ar']?.trim();
+  if (alternate != null && alternate.isNotEmpty) return alternate;
+  return safeFallback;
 }

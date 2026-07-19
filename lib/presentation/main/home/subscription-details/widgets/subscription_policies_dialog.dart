@@ -159,9 +159,8 @@ class _SubscriptionPoliciesDialogState
             Gap(AppSize.s10.w),
             Expanded(
               child: ElevatedButton(
-                onPressed: _isAgreed
-                    ? () => Navigator.of(context).pop(true)
-                    : null,
+                onPressed:
+                    _isAgreed ? () => Navigator.of(context).pop(true) : null,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: ColorManager.brandPrimary,
                   disabledBackgroundColor: ColorManager.brandPrimary.withValues(

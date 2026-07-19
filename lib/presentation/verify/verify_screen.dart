@@ -226,10 +226,7 @@ class VerifyScreen extends StatelessWidget {
           onTap:
               isEnabled
                   ? () => context.read<VerifyBloc>().add(
-                    VerifySubmitted(
-                      phoneNumber?.trim() ?? "",
-                      password ?? "",
-                    ),
+                    VerifySubmitted(phoneNumber?.trim() ?? "", password ?? ""),
                   )
                   : null,
         );

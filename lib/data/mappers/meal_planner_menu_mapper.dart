@@ -355,8 +355,10 @@ extension BuilderCatalogV2SectionRawMapper on BuilderCatalogV2SectionResponse {
 
 extension BuilderCatalogV2ProductRawMapper on BuilderCatalogV2ProductResponse {
   BuilderCatalogV2ProductModel toRawDomain() {
+    final resolvedProductId = _firstNotEmpty([productId, id]);
     return BuilderCatalogV2ProductModel(
-      id: id.orEmpty(),
+      id: resolvedProductId,
+      productId: resolvedProductId,
       key: key.orEmpty(),
       type: type.orEmpty(),
       isVirtual: isVirtual.orFalse(),
@@ -402,8 +404,7 @@ extension BuilderItemActionResponseMapper on BuilderItemActionResponse? {
     return BuilderItemActionModel(
       type: this?.type.orEmpty() ?? Constants.empty,
       requiresBuilder: this?.requiresBuilder.orFalse() ?? Constants.falseValue,
-      treatAsFullMeal:
-          this?.treatAsFullMeal.orFalse() ?? Constants.falseValue,
+      treatAsFullMeal: this?.treatAsFullMeal.orFalse() ?? Constants.falseValue,
     );
   }
 }
@@ -411,9 +412,10 @@ extension BuilderItemActionResponseMapper on BuilderItemActionResponse? {
 extension BuilderCatalogV2OptionGroupRawMapper
     on BuilderCatalogV2OptionGroupResponse {
   BuilderCatalogV2OptionGroupModel toRawDomain() {
+    final resolvedGroupId = _firstNotEmpty([groupId, id]);
     return BuilderCatalogV2OptionGroupModel(
-      id: id.orEmpty(),
-      groupId: groupId.orEmpty(),
+      id: resolvedGroupId,
+      groupId: resolvedGroupId,
       key: key.orEmpty(),
       sourceKey: sourceKey.orEmpty(),
       name: name.orEmpty(),
@@ -462,9 +464,10 @@ extension BuilderCatalogV2OptionSectionRawMapper
 
 extension BuilderCatalogV2OptionRawMapper on BuilderCatalogV2OptionResponse {
   BuilderCatalogV2OptionModel toRawDomain() {
+    final resolvedOptionId = _firstNotEmpty([optionId, id]);
     return BuilderCatalogV2OptionModel(
-      id: id.orEmpty(),
-      optionId: optionId.orEmpty(),
+      id: resolvedOptionId,
+      optionId: resolvedOptionId,
       key: key.orEmpty(),
       name: name.orEmpty(),
       nameI18n: (nameI18n ?? const <String, dynamic>{}).map(
@@ -557,7 +560,7 @@ List<BuilderProteinModel> _proteinOptions(
       isPremium ? 'premium' : familyKey,
     );
     return BuilderProteinModel(
-      id: option.id.orEmpty(),
+      id: _firstNotEmpty([option.optionId, option.id]),
       key: _fallbackString(option.key, option.id.orEmpty()),
       displayCategoryId: displayCategoryKey,
       displayCategoryKey: displayCategoryKey,
@@ -589,7 +592,7 @@ List<BuilderProteinModel> _sectionProteins(
       _sectionOptions(section, const {'protein', 'proteins'}).map((option) {
         final isPremium = option.isPremium ?? isPremiumFallback;
         return BuilderProteinModel(
-          id: option.id.orEmpty(),
+          id: _firstNotEmpty([option.optionId, option.id]),
           key: _fallbackString(option.key, option.id.orEmpty()),
           displayCategoryId: sectionKey,
           displayCategoryKey: sectionKey,
@@ -658,7 +661,7 @@ List<BuilderCarbModel> _carbOptions(
   return options.map((option) {
     final key = _fallbackString(option.displayCategoryKey, 'carb');
     return BuilderCarbModel(
-      id: option.id.orEmpty(),
+      id: _firstNotEmpty([option.optionId, option.id]),
       displayCategoryId: key,
       displayCategoryKey: key,
       name: option.name.orEmpty(),
@@ -676,7 +679,7 @@ List<BuilderCarbModel> _sectionCarbs(BuilderCatalogV2SectionResponse? section) {
 
   return options.map((option) {
       return BuilderCarbModel(
-        id: option.id.orEmpty(),
+        id: _firstNotEmpty([option.optionId, option.id]),
         displayCategoryId: _fallbackString(section?.key, 'carbs'),
         displayCategoryKey: _fallbackString(section?.key, 'carbs'),
         name: option.name.orEmpty(),
@@ -738,7 +741,7 @@ List<BuilderSandwichModel> _directFullMealItems(
       if (!isDirectFullMeal) continue;
       items.add(
         BuilderSandwichModel(
-          id: product.id.orEmpty(),
+          id: _firstNotEmpty([product.productId, product.id]),
           key: product.key.orEmpty(),
           selectionType: selectionType,
           name: product.name.orEmpty(),
@@ -781,7 +784,7 @@ PremiumLargeSaladModel? _premiumLargeSalad(
         in group.options ?? const <BuilderCatalogV2OptionResponse>[]) {
       ingredients.add(
         PremiumLargeSaladIngredientModel(
-          id: option.id.orEmpty(),
+          id: _firstNotEmpty([option.optionId, option.id]),
           groupKey: group.key.orEmpty(),
           name: option.name.orEmpty(),
           calories: Constants.zero,
@@ -834,4 +837,12 @@ String _firstNotEmpty(List<String?> values) {
     if (resolved.isNotEmpty) return resolved;
   }
   return Constants.empty;
+}
+
+String _firstNotEmpty(List<String?> values) {
+  for (final value in values) {
+    final normalized = value?.trim() ?? '';
+    if (normalized.isNotEmpty) return normalized;
+  }
+  return '';
 }

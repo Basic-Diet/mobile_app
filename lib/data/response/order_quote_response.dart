@@ -149,10 +149,12 @@ class OrderQuoteSelectedOptionResponse {
     this.extraWeightGrams,
   });
 
-  factory OrderQuoteSelectedOptionResponse.fromJson(Map<String, dynamic> json) =>
-      _$OrderQuoteSelectedOptionResponseFromJson(json);
+  factory OrderQuoteSelectedOptionResponse.fromJson(
+    Map<String, dynamic> json,
+  ) => _$OrderQuoteSelectedOptionResponseFromJson(json);
 
-  Map<String, dynamic> toJson() => _$OrderQuoteSelectedOptionResponseToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$OrderQuoteSelectedOptionResponseToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)

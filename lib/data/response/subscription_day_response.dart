@@ -149,9 +149,7 @@ class SubscriptionDayData {
     this.addonBalance, [
     this.addonSubscriptionAllowances = const [],
     this.addonCategoryAllowances = const [],
-  ]
-  );
-
+  ]);
 
   factory SubscriptionDayData.fromJson(Map<String, dynamic> json) =>
       _$SubscriptionDayDataFromJson(json);
@@ -317,7 +315,9 @@ class MealSlotResponse {
   factory MealSlotResponse.fromJson(Map<String, dynamic> json) =>
       _$MealSlotResponseFromJson(_normalizeLegacyMealSlot(json));
 
-  static Map<String, dynamic> _normalizeLegacyMealSlot(Map<String, dynamic> json) {
+  static Map<String, dynamic> _normalizeLegacyMealSlot(
+    Map<String, dynamic> json,
+  ) {
     final out = Map<String, dynamic>.from(json);
     if (out['carbs'] == null && out['carbId'] != null) {
       out['carbs'] = [
@@ -331,7 +331,8 @@ class MealSlotResponse {
         'groups': {
           'leafy_greens': const <String>[],
           'vegetables': legacy['vegetables'] ?? const <String>[],
-          'protein': out['proteinId'] == null ? const <String>[] : [out['proteinId']],
+          'protein':
+              out['proteinId'] == null ? const <String>[] : [out['proteinId']],
           'cheese_nuts': legacy['addons'] ?? legacy['nuts'] ?? const <String>[],
           'fruits': legacy['fruits'] ?? const <String>[],
           'sauce': legacy['sauce'] ?? const <String>[],

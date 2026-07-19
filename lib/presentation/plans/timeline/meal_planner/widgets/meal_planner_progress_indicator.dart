@@ -31,9 +31,10 @@ class MealPlannerProgressIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isAllSelected = totalMeals > 0 && selectedMeals >= totalMeals;
-    final activeColor = isAllSelected
-        ? ColorManager.brandPrimary
-        : ColorManager.brandPrimaryHover;
+    final activeColor =
+        isAllSelected
+            ? ColorManager.brandPrimary
+            : ColorManager.brandPrimaryHover;
     final hasPendingPayment = premiumPending > 0;
 
     return Column(
@@ -69,42 +70,43 @@ class MealPlannerProgressIndicator extends StatelessWidget {
                         ),
                         Gap(8.h),
                         Row(
-                          children: List.generate(
-                            availableMeals ?? totalMeals,
-                            (index) {
-                              final isFilled = index < selectedMeals;
+                          children: List.generate(availableMeals ?? totalMeals, (
+                            index,
+                          ) {
+                            final isFilled = index < selectedMeals;
 
-                              // Only show dots up to a reasonable amount to avoid UI overflow
-                              if (index >= 10 && availableMeals != null && availableMeals! > 10) {
-                                if (index == 10) {
-                                  return Padding(
-                                    padding: EdgeInsets.only(right: 6.w),
-                                    child: Text(
-                                      "...",
-                                      style: getBoldTextStyle(
-                                        color: ColorManager.textSecondary,
-                                        fontSize: FontSizeManager.s12.sp,
-                                      ),
+                            // Only show dots up to a reasonable amount to avoid UI overflow
+                            if (index >= 10 &&
+                                availableMeals != null &&
+                                availableMeals! > 10) {
+                              if (index == 10) {
+                                return Padding(
+                                  padding: EdgeInsets.only(right: 6.w),
+                                  child: Text(
+                                    "...",
+                                    style: getBoldTextStyle(
+                                      color: ColorManager.textSecondary,
+                                      fontSize: FontSizeManager.s12.sp,
                                     ),
-                                  );
-                                }
-                                return const SizedBox.shrink();
+                                  ),
+                                );
                               }
+                              return const SizedBox.shrink();
+                            }
 
-                              return Container(
-                                width: 8.w,
-                                height: 4.h,
-                                margin: EdgeInsets.only(right: 6.w),
-                                decoration: BoxDecoration(
-                                  color:
-                                      isFilled
-                                          ? activeColor
-                                          : ColorManager.backgroundSubtle,
-                                  borderRadius: BorderRadius.circular(99.r),
-                                ),
-                              );
-                            },
-                          ),
+                            return Container(
+                              width: 8.w,
+                              height: 4.h,
+                              margin: EdgeInsets.only(right: 6.w),
+                              decoration: BoxDecoration(
+                                color:
+                                    isFilled
+                                        ? activeColor
+                                        : ColorManager.backgroundSubtle,
+                                borderRadius: BorderRadius.circular(99.r),
+                              ),
+                            );
+                          }),
                         ),
                       ],
                     ),

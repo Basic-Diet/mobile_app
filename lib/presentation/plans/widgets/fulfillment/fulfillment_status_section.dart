@@ -156,10 +156,7 @@ class FulfillmentStatusSection extends StatelessWidget {
     return data.businessDate;
   }
 
-  void _openPlanner(
-    BuildContext context, {
-    bool openCurrentDay = false,
-  }) {
+  void _openPlanner(BuildContext context, {bool openCurrentDay = false}) {
     context.read<PlansBloc>().add(
       FetchTimelineAndOpenPlannerEvent(
         data.id,

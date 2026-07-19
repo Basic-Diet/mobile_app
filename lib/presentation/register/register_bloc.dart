@@ -46,10 +46,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     final confirmPasswordError =
         event.confirmPassword.isEmpty
             ? state.confirmPasswordError
-            : _validateConfirmPassword(
-              event.confirmPassword,
-              event.password,
-            );
+            : _validateConfirmPassword(event.confirmPassword, event.password);
 
     emit(
       state.copyWith(

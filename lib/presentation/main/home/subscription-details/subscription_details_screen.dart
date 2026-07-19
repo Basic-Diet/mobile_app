@@ -324,9 +324,9 @@ class _SubscriptionDetailsState extends State<SubscriptionDetails> {
     if (!context.mounted) return;
 
     if (result == PaymentWebViewResult.cancelled) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(Strings.paymentCancelled.tr())),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(Strings.paymentCancelled.tr())));
     }
   }
 }
@@ -1905,8 +1905,7 @@ SubscriptionCheckoutRequestModel _buildCheckoutRequest(
       slotWindow: request.delivery.slotWindow,
       slotLabel: request.delivery.slotLabel,
       address: request.delivery.address,
-      firstDayFulfillmentOverride:
-          request.delivery.firstDayFulfillmentOverride,
+      firstDayFulfillmentOverride: request.delivery.firstDayFulfillmentOverride,
     ),
     successUrl: _paymentSuccessUrl,
     backUrl: _paymentCancelUrl,

@@ -11,6 +11,8 @@ DaySelectionRequest _$DaySelectionRequestFromJson(Map<String, dynamic> json) =>
       (json['mealSlots'] as List<dynamic>)
           .map((e) => MealSlotRequest.fromJson(e as Map<String, dynamic>))
           .toList(),
+      contractVersion:
+          json['contractVersion'] as String? ?? 'meal_planner_menu.v3',
       addonsOneTime:
           (json['addonsOneTime'] as List<dynamic>?)
               ?.map((e) => e as String)
@@ -21,6 +23,7 @@ DaySelectionRequest _$DaySelectionRequestFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$DaySelectionRequestToJson(
   DaySelectionRequest instance,
 ) => <String, dynamic>{
+  'contractVersion': instance.contractVersion,
   'mealSlots': instance.mealSlots.map((e) => e.toJson()).toList(),
   'addonsOneTime': instance.addonsOneTime,
 };
@@ -30,6 +33,15 @@ MealSlotRequest _$MealSlotRequestFromJson(Map<String, dynamic> json) =>
       slotIndex: (json['slotIndex'] as num).toInt(),
       slotKey: json['slotKey'] as String?,
       selectionType: json['selectionType'] as String?,
+      productId: json['productId'] as String?,
+      selectedOptions:
+          (json['selectedOptions'] as List<dynamic>?)
+              ?.map(
+                (e) => MealPlannerSelectedOptionRequest.fromJson(
+                  e as Map<String, dynamic>,
+                ),
+              )
+              .toList(),
       proteinId: json['proteinId'] as String?,
       proteinKey: json['proteinKey'] as String?,
       premiumKey: json['premiumKey'] as String?,
@@ -51,6 +63,10 @@ Map<String, dynamic> _$MealSlotRequestToJson(MealSlotRequest instance) =>
       'slotIndex': instance.slotIndex,
       if (instance.slotKey case final value?) 'slotKey': value,
       if (instance.selectionType case final value?) 'selectionType': value,
+      if (instance.productId case final value?) 'productId': value,
+      if (instance.selectedOptions?.map((e) => e.toJson()).toList()
+          case final value?)
+        'selectedOptions': value,
       if (instance.proteinId case final value?) 'proteinId': value,
       if (instance.proteinKey case final value?) 'proteinKey': value,
       if (instance.premiumKey case final value?) 'premiumKey': value,
@@ -59,6 +75,24 @@ Map<String, dynamic> _$MealSlotRequestToJson(MealSlotRequest instance) =>
       if (instance.sandwichId case final value?) 'sandwichId': value,
       if (instance.salad?.toJson() case final value?) 'salad': value,
     };
+
+MealPlannerSelectedOptionRequest _$MealPlannerSelectedOptionRequestFromJson(
+  Map<String, dynamic> json,
+) => MealPlannerSelectedOptionRequest(
+  groupId: json['groupId'] as String,
+  optionId: json['optionId'] as String,
+  quantity: (json['quantity'] as num?)?.toInt() ?? 1,
+  grams: (json['grams'] as num?)?.toInt(),
+);
+
+Map<String, dynamic> _$MealPlannerSelectedOptionRequestToJson(
+  MealPlannerSelectedOptionRequest instance,
+) => <String, dynamic>{
+  'groupId': instance.groupId,
+  'optionId': instance.optionId,
+  'quantity': instance.quantity,
+  if (instance.grams case final value?) 'grams': value,
+};
 
 MealSlotCarbRequest _$MealSlotCarbRequestFromJson(Map<String, dynamic> json) =>
     MealSlotCarbRequest(

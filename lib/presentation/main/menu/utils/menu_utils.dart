@@ -25,10 +25,7 @@ String initials(String value, BuildContext context) {
   return words.take(2).map((word) => word.characters.first).join();
 }
 
-String productDescription(
-  OrderMenuProductModel product,
-  BuildContext context,
-) {
+String productDescription(OrderMenuProductModel product, BuildContext context) {
   final localeCode = context.locale.toString();
   final backendDescription = product.displayDescription(
     localeCode,
@@ -50,7 +47,9 @@ String formatHalala(int halala, String currency) {
 
 String productPriceLabel(OrderMenuProductModel product, String currency) {
   final initialChoice =
-      product.requiresWeightSelection ? product.weightPricing?.initialChoice : null;
+      product.requiresWeightSelection
+          ? product.weightPricing?.initialChoice
+          : null;
   final price = formatHalala(
     initialChoice?.priceHalala ?? product.priceHalala,
     currency,
@@ -126,7 +125,8 @@ List<OptionSectionData> optionSections(
   if (group.optionSections.isEmpty) {
     return [const OptionSectionData(title: '', options: [])]
         .map(
-          (section) => OptionSectionData(title: section.title, options: options),
+          (section) =>
+              OptionSectionData(title: section.title, options: options),
         )
         .toList();
   }
@@ -174,11 +174,13 @@ List<OptionSectionData> optionSections(
   }
 
   final unsectioned =
-      options.where(
-        (option) =>
-            !usedIds.contains(option.optionId) &&
-            !usedIds.contains(option.id),
-      ).toList();
+      options
+          .where(
+            (option) =>
+                !usedIds.contains(option.optionId) &&
+                !usedIds.contains(option.id),
+          )
+          .toList();
   if (unsectioned.isNotEmpty) {
     sections.add(OptionSectionData(title: '', options: unsectioned));
   }

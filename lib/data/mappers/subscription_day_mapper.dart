@@ -19,7 +19,8 @@ extension SubscriptionDayResponseMapper on SubscriptionDayResponse {
               .toList() ??
           [],
       plannerMeta:
-          data?.plannerMeta?.toDomain() ?? data?.planning?.toPlannerMetaDomain(),
+          data?.plannerMeta?.toDomain() ??
+          data?.planning?.toPlannerMetaDomain(),
       paymentRequirement: data?.paymentRequirement?.toDomain(),
       premiumExtraPayment: data?.premiumExtraPayment?.toDomain(),
       rules: data?.rules?.toDomain(),
@@ -44,7 +45,6 @@ extension SubscriptionDayResponseMapper on SubscriptionDayResponse {
               .toList() ??
           const [],
     );
-
   }
 }
 
@@ -70,8 +70,7 @@ extension AddonSelectionResponseMapper on AddonSelectionResponse {
     final paidQty = this.paidQty ?? 0;
     final payableTotalHalala = this.payableTotalHalala ?? 0;
     final pricingMode = this.pricingMode ?? '';
-    final isIncluded =
-        coveredQty > 0 || pricingMode == 'allowance_covered';
+    final isIncluded = coveredQty > 0 || pricingMode == 'allowance_covered';
     final isPayable =
         paidQty > 0 ||
         payableTotalHalala > 0 ||
@@ -82,8 +81,8 @@ extension AddonSelectionResponseMapper on AddonSelectionResponse {
         isIncluded
             ? 'included'
             : isPayable || source == 'pending_payment'
-                ? 'pending_payment'
-                : status ?? source ?? '';
+            ? 'pending_payment'
+            : status ?? source ?? '';
     return AddonSelectionModel(
       addonId: addonId ?? '',
       category: category ?? '',
@@ -221,7 +220,9 @@ extension ValidationResponseMapper on ValidationResponse {
       paymentRequirement: data?.paymentRequirement?.toDomain(),
       slotErrors: data?.slotErrors?.map((e) => e.toDomain()).toList(),
       addonSelections:
-          data?.addonSelections?.map((selection) => selection.toDomain()).toList() ??
+          data?.addonSelections
+              ?.map((selection) => selection.toDomain())
+              .toList() ??
           const [],
       plannerRevisionHash: data?.plannerRevisionHash ?? '',
       premiumExtraPayment: data?.premiumExtraPayment?.toDomain(),

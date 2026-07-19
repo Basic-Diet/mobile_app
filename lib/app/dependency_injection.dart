@@ -152,10 +152,8 @@ void initRegisterModule() {
 
   if (!GetIt.I.isRegistered<RegisterBloc>()) {
     instance.registerFactory<RegisterBloc>(
-      () => RegisterBloc(
-        instance<RegisterUseCase>(),
-        instance<AppPreferences>(),
-      ),
+      () =>
+          RegisterBloc(instance<RegisterUseCase>(), instance<AppPreferences>()),
     );
   }
 }

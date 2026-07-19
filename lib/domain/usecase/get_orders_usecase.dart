@@ -4,16 +4,13 @@ import 'package:basic_diet/domain/repository/repository.dart';
 import 'package:basic_diet/domain/usecase/base_usecase.dart';
 import 'package:dartz/dartz.dart';
 
-class GetOrdersUseCase
-    implements BaseUseCase<GetOrdersInput, OrdersListModel> {
+class GetOrdersUseCase implements BaseUseCase<GetOrdersInput, OrdersListModel> {
   final Repository _repository;
 
   GetOrdersUseCase(this._repository);
 
   @override
-  Future<Either<Failure, OrdersListModel>> execute(
-    GetOrdersInput input,
-  ) async {
+  Future<Either<Failure, OrdersListModel>> execute(GetOrdersInput input) async {
     return await _repository.getOrders(input.page, input.limit);
   }
 }

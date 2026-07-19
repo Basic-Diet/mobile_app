@@ -27,6 +27,7 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
   static const int _carbGramStep = 50;
   static const String _dayPaymentRevisionMismatchCode =
       'DAY_PAYMENT_REVISION_MISMATCH';
+  String _languageCode = 'ar';
 
   final GetMealPlannerMenuUseCase _getMealPlannerMenuUseCase;
   final GetAddonChoicesUseCase _getAddonChoicesUseCase;
@@ -127,8 +128,9 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
     Emitter<MealPlannerState> emit,
   ) async {
     emit(MealPlannerLoading());
+    _languageCode = event.languageCode;
 
-    final menuResult = await _getMealPlannerMenuUseCase.execute(null);
+    final menuResult = await _getMealPlannerMenuUseCase.execute(_languageCode);
     final menuFailure = menuResult.fold((failure) => failure, (_) => null);
     if (menuFailure != null) {
       emit(MealPlannerError(_formatFailure(menuFailure)));
@@ -1788,7 +1790,7 @@ class MealPlannerBloc extends Bloc<MealPlannerEvent, MealPlannerState> {
     Emitter<MealPlannerState> emit,
     MealPlannerLoaded current,
   ) async {
-    final menuResult = await _getMealPlannerMenuUseCase.execute(null);
+    final menuResult = await _getMealPlannerMenuUseCase.execute(_languageCode);
     final addonChoicesResult = await _getAddonChoicesUseCase.execute(null);
     if (emit.isDone) return;
 

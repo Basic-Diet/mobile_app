@@ -161,7 +161,9 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
     }
 
     // Scroll the selected chip to center
-    final chipIndex = _currentChips.indexWhere((chip) => chip.key == _activeChip);
+    final chipIndex = _currentChips.indexWhere(
+      (chip) => chip.key == _activeChip,
+    );
     if (chipIndex != -1) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (_chipKeys[chipIndex].currentContext != null) {
@@ -197,7 +199,8 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
     _lastScrollOffset = offset;
 
     // If delta changes direction, reset accumulated delta
-    if ((delta > 0 && _accumulatedDelta < 0) || (delta < 0 && _accumulatedDelta > 0)) {
+    if ((delta > 0 && _accumulatedDelta < 0) ||
+        (delta < 0 && _accumulatedDelta > 0)) {
       _accumulatedDelta = 0.0;
     }
     _accumulatedDelta += delta;
@@ -217,7 +220,9 @@ class _MenuScreenContentState extends State<_MenuScreenContent> {
     }
 
     // Threshold to hide: only hide if we've accumulated enough downward scroll
-    if (_accumulatedDelta > AppSize.s10.h && _showMenuIntro && offset > _hideThreshold) {
+    if (_accumulatedDelta > AppSize.s10.h &&
+        _showMenuIntro &&
+        offset > _hideThreshold) {
       _setMenuIntroVisible(false);
       // When hiding, set a threshold to prevent accidental show on small bounces
       _hideThreshold = offset - AppSize.s8.h;

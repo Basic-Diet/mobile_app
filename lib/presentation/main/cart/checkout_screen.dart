@@ -180,9 +180,9 @@ class _CheckoutScreenContentState extends State<_CheckoutScreenContent> {
 
     if (!shouldVerifyPaymentAfterWebView(result)) {
       context.read<CheckoutBloc>().add(const CancelCheckoutPaymentEvent());
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(Strings.paymentCancelled.tr())),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(Strings.paymentCancelled.tr())));
       return;
     }
 

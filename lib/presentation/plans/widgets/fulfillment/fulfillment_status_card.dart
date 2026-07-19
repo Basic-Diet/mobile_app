@@ -125,91 +125,91 @@ class FulfillmentProgressSteps extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      children: List.generate(steps.length, (index) {
-        final step = steps[index];
-        final isHighlighted = step.isActive || step.isCompleted;
-        final backgroundColor =
-            step.isCompleted
-                ? ColorManager.brandPrimaryTint
-                : step.isActive
-                ? ColorManager.blueSurface
-                : ColorManager.backgroundSurface;
-        final borderColor =
-            step.isCompleted
-                ? ColorManager.brandPrimary
-                : step.isActive
-                ? ColorManager.blueBorder
-                : ColorManager.borderDefault;
-        final textColor =
-            step.isCompleted
-                ? ColorManager.stateSuccessEmphasis
-                : step.isActive
-                ? ColorManager.blueEmphasis
-                : ColorManager.textSecondary;
+      children:
+          List.generate(steps.length, (index) {
+              final step = steps[index];
+              final isHighlighted = step.isActive || step.isCompleted;
+              final backgroundColor =
+                  step.isCompleted
+                      ? ColorManager.brandPrimaryTint
+                      : step.isActive
+                      ? ColorManager.blueSurface
+                      : ColorManager.backgroundSurface;
+              final borderColor =
+                  step.isCompleted
+                      ? ColorManager.brandPrimary
+                      : step.isActive
+                      ? ColorManager.blueBorder
+                      : ColorManager.borderDefault;
+              final textColor =
+                  step.isCompleted
+                      ? ColorManager.stateSuccessEmphasis
+                      : step.isActive
+                      ? ColorManager.blueEmphasis
+                      : ColorManager.textSecondary;
 
-        final child = Expanded(
-          child: Container(
-            padding: EdgeInsets.symmetric(
-              vertical: AppPadding.p6.h,
-            ),
-            decoration: BoxDecoration(
-              color: backgroundColor,
-              borderRadius: BorderRadius.circular(AppSize.s12.r),
-              border: Border.all(color: borderColor),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                if (step.isCompleted)
-                  Icon(
-                    Icons.check_circle_rounded,
-                    size: AppSize.s14.sp,
-                    color: ColorManager.brandPrimary,
-                  )
-                else
-                  Container(
-                    width: AppSize.s12.w,
-                    height: AppSize.s12.w,
-                    decoration: BoxDecoration(
-                      color:
-                          isHighlighted
-                              ? borderColor
-                              : ColorManager.backgroundSubtle,
-                      shape: BoxShape.circle,
-                    ),
-                    alignment: Alignment.center,
-                    child: Text(
-                      '${index + 1}',
-                      style: getBoldTextStyle(
-                        color:
-                            step.isActive
-                                ? ColorManager.textInverse
-                                : ColorManager.textSecondary,
-                        fontSize: FontSizeManager.s10.sp,
-                      ),
-                    ),
+              final child = Expanded(
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: AppPadding.p6.h),
+                  decoration: BoxDecoration(
+                    color: backgroundColor,
+                    borderRadius: BorderRadius.circular(AppSize.s12.r),
+                    border: Border.all(color: borderColor),
                   ),
-                Gap(AppSize.s4.w),
-                Flexible(
-                  child: Text(
-                    step.label,
-                    overflow: TextOverflow.ellipsis,
-                    style: getBoldTextStyle(
-                      color: textColor,
-                      fontSize: FontSizeManager.s9.sp,
-                    ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      if (step.isCompleted)
+                        Icon(
+                          Icons.check_circle_rounded,
+                          size: AppSize.s14.sp,
+                          color: ColorManager.brandPrimary,
+                        )
+                      else
+                        Container(
+                          width: AppSize.s12.w,
+                          height: AppSize.s12.w,
+                          decoration: BoxDecoration(
+                            color:
+                                isHighlighted
+                                    ? borderColor
+                                    : ColorManager.backgroundSubtle,
+                            shape: BoxShape.circle,
+                          ),
+                          alignment: Alignment.center,
+                          child: Text(
+                            '${index + 1}',
+                            style: getBoldTextStyle(
+                              color:
+                                  step.isActive
+                                      ? ColorManager.textInverse
+                                      : ColorManager.textSecondary,
+                              fontSize: FontSizeManager.s10.sp,
+                            ),
+                          ),
+                        ),
+                      Gap(AppSize.s4.w),
+                      Flexible(
+                        child: Text(
+                          step.label,
+                          overflow: TextOverflow.ellipsis,
+                          style: getBoldTextStyle(
+                            color: textColor,
+                            fontSize: FontSizeManager.s9.sp,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
-          ),
-        );
+              );
 
-        if (index < steps.length - 1) {
-          return child;
-        }
-        return child;
-      }).expand((widget) => [widget, Gap(AppSize.s4.w)]).toList()..removeLast(),
+              if (index < steps.length - 1) {
+                return child;
+              }
+              return child;
+            }).expand((widget) => [widget, Gap(AppSize.s4.w)]).toList()
+            ..removeLast(),
     );
   }
 }
@@ -361,7 +361,10 @@ class FulfillmentNextActionPanel extends StatelessWidget {
               child: Text(
                 buttonLabel!,
                 style: getBoldTextStyle(
-                  color: onPressed != null ? ColorManager.textInverse : ColorManager.textSecondary,
+                  color:
+                      onPressed != null
+                          ? ColorManager.textInverse
+                          : ColorManager.textSecondary,
                   fontSize: FontSizeManager.s14.sp,
                 ),
               ),
@@ -395,7 +398,11 @@ class FulfillmentCodePanel extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Icon(Icons.qr_code_2_rounded, color: ColorManager.brandPrimary, size: AppSize.s32.sp),
+          Icon(
+            Icons.qr_code_2_rounded,
+            color: ColorManager.brandPrimary,
+            size: AppSize.s32.sp,
+          ),
           Gap(AppSize.s12.w),
           Expanded(
             child: Column(

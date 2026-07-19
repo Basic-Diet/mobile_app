@@ -6,8 +6,10 @@ import 'package:dartz/dartz.dart';
 
 class GetDayFulfillmentStatusUseCase
     implements
-        BaseUseCase<GetDayFulfillmentStatusUseCaseInput,
-            FulfillmentStatusModel> {
+        BaseUseCase<
+          GetDayFulfillmentStatusUseCaseInput,
+          FulfillmentStatusModel
+        > {
   final Repository _repository;
 
   GetDayFulfillmentStatusUseCase(this._repository);

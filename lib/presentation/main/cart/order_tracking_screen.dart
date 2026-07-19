@@ -70,13 +70,14 @@ class _OrderTrackingContentState extends State<_OrderTrackingContent> {
         child: BlocConsumer<OrderTrackingBloc, OrderTrackingState>(
           listener: (context, state) {
             if (state is OrderTrackingVerifyFailure) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(state.message)),
-              );
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text(state.message)));
             }
           },
           builder: (context, state) {
-            if (state is OrderTrackingLoading || state is OrderTrackingInitial) {
+            if (state is OrderTrackingLoading ||
+                state is OrderTrackingInitial) {
               return const Center(
                 child: CircularProgressIndicator(
                   color: ColorManager.brandPrimary,
@@ -196,9 +197,10 @@ class _OrderTrackingView extends StatelessWidget {
           ],
           _TrackingCard(
             title: Strings.orderStatusTitle.tr(),
-            child: timeline != null && timeline.timeline.isNotEmpty
-                ? _BackendTimeline(timeline: timeline)
-                : _FallbackTimeline(order: order),
+            child:
+                timeline != null && timeline.timeline.isNotEmpty
+                    ? _BackendTimeline(timeline: timeline)
+                    : _FallbackTimeline(order: order),
           ),
           SizedBox(height: AppSize.s12.h),
           _MutedNote(message: Strings.pickupOnlyTrackingNote.tr()),
@@ -274,19 +276,23 @@ class _TimelineStepTile extends StatelessWidget {
     final isCurrent = item.isActive;
     final isCancelled = item.isCancelled;
 
-    final dotColor = isDone || isCurrent || isCancelled
-        ? (isCancelled ? ColorManager.stateError : ColorManager.brandPrimary)
-        : ColorManager.backgroundSubtle;
-    final textColor = isCurrent
-        ? ColorManager.stateSuccessEmphasis
-        : ColorManager.textPrimary;
-    final lineColor = isDone
-        ? ColorManager.brandPrimary
-        : ColorManager.borderDefault;
+    final dotColor =
+        isDone || isCurrent || isCancelled
+            ? (isCancelled
+                ? ColorManager.stateError
+                : ColorManager.brandPrimary)
+            : ColorManager.backgroundSubtle;
+    final textColor =
+        isCurrent
+            ? ColorManager.stateSuccessEmphasis
+            : ColorManager.textPrimary;
+    final lineColor =
+        isDone ? ColorManager.brandPrimary : ColorManager.borderDefault;
 
-    final label = context.locale.languageCode.startsWith('ar')
-        ? item.labelAr
-        : item.labelEn;
+    final label =
+        context.locale.languageCode.startsWith('ar')
+            ? item.labelAr
+            : item.labelEn;
 
     return IntrinsicHeight(
       child: Row(
@@ -302,21 +308,23 @@ class _TimelineStepTile extends StatelessWidget {
                   shape: BoxShape.circle,
                 ),
                 alignment: Alignment.center,
-                child: isDone
-                    ? Icon(
-                        Icons.check_rounded,
-                        size: AppSize.s18.r,
-                        color: ColorManager.textInverse,
-                      )
-                    : Text(
-                        '$stepNumber',
-                        style: getBoldTextStyle(
-                          color: isCurrent || isCancelled
-                              ? ColorManager.textInverse
-                              : ColorManager.textSecondary,
-                          fontSize: FontSizeManager.s13.sp,
+                child:
+                    isDone
+                        ? Icon(
+                          Icons.check_rounded,
+                          size: AppSize.s18.r,
+                          color: ColorManager.textInverse,
+                        )
+                        : Text(
+                          '$stepNumber',
+                          style: getBoldTextStyle(
+                            color:
+                                isCurrent || isCancelled
+                                    ? ColorManager.textInverse
+                                    : ColorManager.textSecondary,
+                            fontSize: FontSizeManager.s13.sp,
+                          ),
                         ),
-                      ),
               ),
               if (!isLast)
                 Expanded(
@@ -514,14 +522,9 @@ class _PickupCodeCard extends StatelessWidget {
         gradient: const LinearGradient(
           begin: Alignment.topRight,
           end: Alignment.bottomLeft,
-          colors: [
-            Color(0xFFFFFFFF),
-            Color(0xFFF1F8F4),
-          ],
+          colors: [Color(0xFFFFFFFF), Color(0xFFF1F8F4)],
         ),
-        border: Border.all(
-          color: ColorManager.borderDefault,
-        ),
+        border: Border.all(color: ColorManager.borderDefault),
         boxShadow: [
           BoxShadow(
             color: ColorManager.textPrimary.withValues(alpha: 0.06),
@@ -576,10 +579,7 @@ class _TrackingCard extends StatelessWidget {
   final String title;
   final Widget child;
 
-  const _TrackingCard({
-    required this.title,
-    required this.child,
-  });
+  const _TrackingCard({required this.title, required this.child});
 
   @override
   Widget build(BuildContext context) {
@@ -634,16 +634,14 @@ class _TrackingStepData {
     final currentIndex = _statusIndex(status);
     final branchName = _branchDisplay(context, order);
     final pickupWindow = order.pickup?.pickupWindow.trim() ?? '';
-    final readyDescription = pickupWindow.isEmpty
-        ? Strings.readyForPickupTrackingDescription.tr(
-            namedArgs: {'branch': branchName},
-          )
-        : Strings.readyForPickupTrackingDescriptionWithWindow.tr(
-            namedArgs: {
-              'branch': branchName,
-              'window': pickupWindow,
-            },
-          );
+    final readyDescription =
+        pickupWindow.isEmpty
+            ? Strings.readyForPickupTrackingDescription.tr(
+              namedArgs: {'branch': branchName},
+            )
+            : Strings.readyForPickupTrackingDescriptionWithWindow.tr(
+              namedArgs: {'branch': branchName, 'window': pickupWindow},
+            );
 
     final steps = <_TrackingStepData>[
       _TrackingStepData(
@@ -688,12 +686,14 @@ class _TrackingStepData {
     if (status == OrderStatus.cancelled || status == OrderStatus.expired) {
       return [
         _TrackingStepData(
-          title: status == OrderStatus.cancelled
-              ? Strings.cancelled.tr()
-              : Strings.expired.tr(),
-          description: status == OrderStatus.cancelled
-              ? Strings.cancelledTrackingDescription.tr()
-              : Strings.expiredTrackingDescription.tr(),
+          title:
+              status == OrderStatus.cancelled
+                  ? Strings.cancelled.tr()
+                  : Strings.expired.tr(),
+          description:
+              status == OrderStatus.cancelled
+                  ? Strings.cancelledTrackingDescription.tr()
+                  : Strings.expiredTrackingDescription.tr(),
           visualState: _TrackingStepVisualState.current,
         ),
         ...steps.map(
@@ -769,15 +769,16 @@ class _StatusStepTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDone = step.visualState == _TrackingStepVisualState.done;
     final isCurrent = step.visualState == _TrackingStepVisualState.current;
-    final dotColor = isDone || isCurrent
-        ? ColorManager.brandPrimary
-        : ColorManager.backgroundSubtle;
-    final textColor = isCurrent
-        ? ColorManager.stateSuccessEmphasis
-        : ColorManager.textPrimary;
-    final lineColor = isDone
-        ? ColorManager.brandPrimary
-        : ColorManager.borderDefault;
+    final dotColor =
+        isDone || isCurrent
+            ? ColorManager.brandPrimary
+            : ColorManager.backgroundSubtle;
+    final textColor =
+        isCurrent
+            ? ColorManager.stateSuccessEmphasis
+            : ColorManager.textPrimary;
+    final lineColor =
+        isDone ? ColorManager.brandPrimary : ColorManager.borderDefault;
 
     return IntrinsicHeight(
       child: Row(
@@ -793,21 +794,23 @@ class _StatusStepTile extends StatelessWidget {
                   shape: BoxShape.circle,
                 ),
                 alignment: Alignment.center,
-                child: isDone
-                    ? Icon(
-                        Icons.check_rounded,
-                        size: AppSize.s18.r,
-                        color: ColorManager.textInverse,
-                      )
-                    : Text(
-                        '$stepNumber',
-                        style: getBoldTextStyle(
-                          color: isCurrent
-                              ? ColorManager.textInverse
-                              : ColorManager.textSecondary,
-                          fontSize: FontSizeManager.s13.sp,
+                child:
+                    isDone
+                        ? Icon(
+                          Icons.check_rounded,
+                          size: AppSize.s18.r,
+                          color: ColorManager.textInverse,
+                        )
+                        : Text(
+                          '$stepNumber',
+                          style: getBoldTextStyle(
+                            color:
+                                isCurrent
+                                    ? ColorManager.textInverse
+                                    : ColorManager.textSecondary,
+                            fontSize: FontSizeManager.s13.sp,
+                          ),
                         ),
-                      ),
               ),
               if (!isLast)
                 Expanded(
@@ -900,11 +903,7 @@ class _StickyActions extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           color: ColorManager.backgroundSurface.withValues(alpha: 0.95),
-          border: Border(
-            top: BorderSide(
-              color: ColorManager.borderDefault,
-            ),
-          ),
+          border: Border(top: BorderSide(color: ColorManager.borderDefault)),
           boxShadow: [
             BoxShadow(
               color: ColorManager.textPrimary.withValues(alpha: 0.08),
@@ -980,10 +979,7 @@ class _TrackingErrorView extends StatelessWidget {
   final String message;
   final String orderId;
 
-  const _TrackingErrorView({
-    required this.message,
-    required this.orderId,
-  });
+  const _TrackingErrorView({required this.message, required this.orderId});
 
   @override
   Widget build(BuildContext context) {
@@ -1036,10 +1032,7 @@ class _SquareIconButton extends StatelessWidget {
   final IconData icon;
   final VoidCallback onTap;
 
-  const _SquareIconButton({
-    required this.icon,
-    required this.onTap,
-  });
+  const _SquareIconButton({required this.icon, required this.onTap});
 
   @override
   Widget build(BuildContext context) {

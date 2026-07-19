@@ -72,8 +72,9 @@ class ChangePasswordBloc
     ChangePasswordSubmitted event,
     Emitter<ChangePasswordState> emit,
   ) async {
-    final currentPasswordError =
-        _validateCurrentPassword(event.currentPassword);
+    final currentPasswordError = _validateCurrentPassword(
+      event.currentPassword,
+    );
     final newPasswordError = _validateNewPassword(event.newPassword);
     final confirmPasswordError = _validateConfirmPassword(
       event.confirmPassword,

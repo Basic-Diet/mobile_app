@@ -4,7 +4,8 @@ import 'package:basic_diet/data/mappers/current_subscription_overview_mapper.dar
 import 'package:basic_diet/data/response/fulfillment_status_response.dart';
 import 'package:basic_diet/domain/model/fulfillment_status_model.dart';
 
-extension FulfillmentStatusDataResponseMapper on FulfillmentStatusDataResponse? {
+extension FulfillmentStatusDataResponseMapper
+    on FulfillmentStatusDataResponse? {
   FulfillmentStatusModel toDomain() {
     final statusVal = this?.status.orEmpty() ?? Constants.empty;
     final fallbackTerminal = [
@@ -14,7 +15,7 @@ extension FulfillmentStatusDataResponseMapper on FulfillmentStatusDataResponse? 
       'consumed_without_preparation',
       'skipped',
       'frozen',
-      'canceled_at_branch'
+      'canceled_at_branch',
     ].contains(statusVal);
 
     DateTime parsedDate;
@@ -40,7 +41,8 @@ extension FulfillmentStatusDataResponseMapper on FulfillmentStatusDataResponse? 
       status: statusVal,
       statusLabel: this?.statusLabel.orEmpty() ?? Constants.empty,
       commercialState: this?.commercialState.orEmpty() ?? Constants.empty,
-      commercialStateLabel: this?.commercialStateLabel.orEmpty() ?? Constants.empty,
+      commercialStateLabel:
+          this?.commercialStateLabel.orEmpty() ?? Constants.empty,
       consumptionState: this?.consumptionState.orEmpty() ?? Constants.empty,
       fulfillmentMode: this?.fulfillmentMode.orEmpty() ?? Constants.empty,
       fulfillmentSummary: this?.fulfillmentSummary?.toDomain(),
@@ -58,7 +60,9 @@ extension FulfillmentStatusDataResponseMapper on FulfillmentStatusDataResponse? 
           this?.fulfillmentSummary?.lockedMessage.orEmpty() ??
           Constants.empty,
       planningReady:
-          this?.planningReady ?? this?.fulfillmentSummary?.planningReady ?? false,
+          this?.planningReady ??
+          this?.fulfillmentSummary?.planningReady ??
+          false,
       fulfillmentReady:
           this?.fulfillmentReady ??
           this?.fulfillmentSummary?.fulfillmentReady ??

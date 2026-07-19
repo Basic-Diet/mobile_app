@@ -83,7 +83,7 @@ class SubscriptionCheckoutDeliveryRequest {
   final SubscriptionCheckoutAddressRequest? address;
   @JsonKey(name: 'firstDayFulfillmentOverride')
   final SubscriptionCheckoutFirstDayFulfillmentOverrideRequest?
-      firstDayFulfillmentOverride;
+  firstDayFulfillmentOverride;
 
   const SubscriptionCheckoutDeliveryRequest({
     required this.type,

@@ -31,7 +31,8 @@ extension OrderQuoteItemRequestModelMapper on OrderQuoteItemRequestModel {
   }
 }
 
-extension OrderQuoteSelectedOptionRequestModelMapper on OrderQuoteSelectedOptionRequestModel {
+extension OrderQuoteSelectedOptionRequestModelMapper
+    on OrderQuoteSelectedOptionRequestModel {
   OrderQuoteSelectedOptionRequest toRequest() {
     return OrderQuoteSelectedOptionRequest(
       groupId: groupId,

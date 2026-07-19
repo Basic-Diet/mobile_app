@@ -99,14 +99,15 @@ extension SubscriptionQuoteToCheckoutRequestMapper
       mealsPerDay: mealsPerDay,
       startDate: startDate,
       promoCode: promoCode,
-      premiumItems: premiumItems
-          .map(
-            (item) => SubscriptionCheckoutPremiumItemRequestModel(
-              premiumKey: item.premiumKey,
-              qty: item.qty,
-            ),
-          )
-          .toList(),
+      premiumItems:
+          premiumItems
+              .map(
+                (item) => SubscriptionCheckoutPremiumItemRequestModel(
+                  premiumKey: item.premiumKey,
+                  qty: item.qty,
+                ),
+              )
+              .toList(),
       addons: addons,
       delivery: SubscriptionCheckoutDeliveryRequestModel(
         type: delivery.type,

@@ -7,10 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class ProductBadge extends StatelessWidget {
   final String label;
 
-  const ProductBadge({
-    super.key,
-    required this.label,
-  });
+  const ProductBadge({super.key, required this.label});
 
   @override
   Widget build(BuildContext context) {

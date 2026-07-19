@@ -23,21 +23,20 @@ class TimelineBloc extends Bloc<TimelineEvent, TimelineState> {
   ) async {
     emit(TimelineLoading());
     final result = await _getTimelineUseCase.execute(event.subscriptionId);
-    await result.fold(
-      (failure) async => emit(TimelineError(failure.message)),
-      (timeline) async {
-        final addonSubscriptions = await _getFreshAddonSubscriptions(
-          event.subscriptionId,
-        );
-        emit(
-          TimelineLoaded(
-            timeline,
-            addonSubscriptions:
-                addonSubscriptions ?? timeline.data.addonSubscriptions,
-          ),
-        );
-      },
-    );
+    await result.fold((failure) async => emit(TimelineError(failure.message)), (
+      timeline,
+    ) async {
+      final addonSubscriptions = await _getFreshAddonSubscriptions(
+        event.subscriptionId,
+      );
+      emit(
+        TimelineLoaded(
+          timeline,
+          addonSubscriptions:
+              addonSubscriptions ?? timeline.data.addonSubscriptions,
+        ),
+      );
+    });
   }
 
   Future<List<AddonSubscriptionModel>?> _getFreshAddonSubscriptions(
@@ -47,13 +46,10 @@ class TimelineBloc extends Bloc<TimelineEvent, TimelineState> {
       null,
     );
 
-    return overviewResult.fold(
-      (_) => null,
-      (overview) {
-        final data = overview.data;
-        if (data == null || data.id != subscriptionId) return null;
-        return data.displayAddonEntitlements;
-      },
-    );
+    return overviewResult.fold((_) => null, (overview) {
+      final data = overview.data;
+      if (data == null || data.id != subscriptionId) return null;
+      return data.displayAddonEntitlements;
+    });
   }
 }

@@ -12,7 +12,8 @@ class ConfirmDaySelectionUseCaseInput {
 }
 
 class ConfirmDaySelectionUseCase
-    implements BaseUseCase<ConfirmDaySelectionUseCaseInput, SubscriptionDayModel> {
+    implements
+        BaseUseCase<ConfirmDaySelectionUseCaseInput, SubscriptionDayModel> {
   final Repository _repository;
 
   ConfirmDaySelectionUseCase(this._repository);

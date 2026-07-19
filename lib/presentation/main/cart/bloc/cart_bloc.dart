@@ -17,7 +17,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     if (state is! CartLoaded) return;
     final current = state as CartLoaded;
     final existingIndex = current.items.indexWhere(
-          (item) => item.compositeKey == event.item.compositeKey,
+      (item) => item.compositeKey == event.item.compositeKey,
     );
 
     List<CartItem> newItems;
@@ -37,7 +37,10 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   void _onRemoveItem(RemoveItemEvent event, Emitter<CartState> emit) {
     if (state is! CartLoaded) return;
     final current = state as CartLoaded;
-    final newItems = current.items.where((i) => i.compositeKey != event.compositeKey).toList();
+    final newItems =
+        current.items
+            .where((i) => i.compositeKey != event.compositeKey)
+            .toList();
     emit(current.copyWith(items: newItems));
   }
 
@@ -48,12 +51,13 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       add(RemoveItemEvent(event.compositeKey));
       return;
     }
-    final newItems = current.items.map((item) {
-      if (item.compositeKey == event.compositeKey) {
-        return item.copyWith(qty: event.qty);
-      }
-      return item;
-    }).toList();
+    final newItems =
+        current.items.map((item) {
+          if (item.compositeKey == event.compositeKey) {
+            return item.copyWith(qty: event.qty);
+          }
+          return item;
+        }).toList();
     emit(current.copyWith(items: newItems));
   }
 
@@ -75,10 +79,9 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   void _onClearCart(ClearCartEvent event, Emitter<CartState> emit) {
     if (state is CartLoaded) {
       final current = state as CartLoaded;
-      emit(CartLoaded(
-        items: const [],
-        restaurantHours: current.restaurantHours,
-      ));
+      emit(
+        CartLoaded(items: const [], restaurantHours: current.restaurantHours),
+      );
     } else {
       emit(const CartLoaded(items: []));
     }

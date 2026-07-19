@@ -6,9 +6,9 @@ extension OrderQuoteResponseMapper on OrderQuoteResponse? {
   OrderQuoteModel toDomain() {
     return OrderQuoteModel(
       currency: this?.data?.currency ?? Constants.empty,
-      items:
-          this?.data?.items?.map((e) => e.toDomain()).toList() ?? const [],
-      pricing: this?.data?.pricing.toDomain() ??
+      items: this?.data?.items?.map((e) => e.toDomain()).toList() ?? const [],
+      pricing:
+          this?.data?.pricing.toDomain() ??
           const OrderQuotePricingModel(
             subtotalHalala: 0,
             deliveryFeeHalala: 0,
@@ -35,14 +35,14 @@ extension OrderQuoteItemDataResponseMapper on OrderQuoteItemDataResponse? {
       lineTotalHalala: this?.lineTotalHalala,
       name: this?.name,
       productSnapshot: this?.productSnapshot,
-      selectedOptions:
-          this?.selectedOptions?.map((e) => e.toDomain()).toList(),
+      selectedOptions: this?.selectedOptions?.map((e) => e.toDomain()).toList(),
       pricingSnapshot: this?.pricingSnapshot,
     );
   }
 }
 
-extension OrderQuoteSelectedOptionResponseMapper on OrderQuoteSelectedOptionResponse? {
+extension OrderQuoteSelectedOptionResponseMapper
+    on OrderQuoteSelectedOptionResponse? {
   OrderQuoteSelectedOptionModel toDomain() {
     return OrderQuoteSelectedOptionModel(
       groupId: this?.groupId ?? Constants.empty,

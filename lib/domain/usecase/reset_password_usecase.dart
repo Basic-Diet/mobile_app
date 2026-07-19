@@ -16,7 +16,8 @@ class ResetPasswordInput {
   });
 }
 
-class ResetPasswordUseCase implements BaseUseCase<ResetPasswordInput, BaseModel> {
+class ResetPasswordUseCase
+    implements BaseUseCase<ResetPasswordInput, BaseModel> {
   final Repository _repository;
 
   ResetPasswordUseCase(this._repository);

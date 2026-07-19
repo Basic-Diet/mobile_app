@@ -76,179 +76,182 @@ class _SupportScreenState extends State<SupportScreen> {
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
-      body: _isSubmitted
-          ? const _SuccessView()
-          : SingleChildScrollView(
-              padding: EdgeInsetsDirectional.fromSTEB(
-                AppPadding.p20.w,
-                AppPadding.p24.h,
-                AppPadding.p20.w,
-                AppPadding.p20.h,
-              ),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(
-                      Strings.supportSubtitle.tr(),
-                      style: getRegularTextStyle(
-                        color: ColorManager.textSecondary,
-                        fontSize: FontSizeManager.s13.sp,
-                      ),
-                    ),
-                    Gap(AppSize.s24.h),
-                    Text(
-                      Strings.subject.tr(),
-                      style: getRegularTextStyle(
-                        color: ColorManager.textPrimary,
-                        fontSize: FontSizeManager.s13.sp,
-                      ),
-                    ),
-                    Gap(AppSize.s8.h),
-                    TextFormField(
-                      controller: _titleController,
-                      decoration: InputDecoration(
-                        hintText: Strings.subjectHint.tr(),
-                        hintStyle: getRegularTextStyle(
-                          color: ColorManager.textMuted,
+      body:
+          _isSubmitted
+              ? const _SuccessView()
+              : SingleChildScrollView(
+                padding: EdgeInsetsDirectional.fromSTEB(
+                  AppPadding.p20.w,
+                  AppPadding.p24.h,
+                  AppPadding.p20.w,
+                  AppPadding.p20.h,
+                ),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        Strings.supportSubtitle.tr(),
+                        style: getRegularTextStyle(
+                          color: ColorManager.textSecondary,
                           fontSize: FontSizeManager.s13.sp,
                         ),
-                        filled: true,
-                        fillColor: ColorManager.backgroundSurface,
-                        contentPadding: EdgeInsetsDirectional.fromSTEB(
-                          AppPadding.p16.w,
-                          AppPadding.p14.h,
-                          AppPadding.p16.w,
-                          AppPadding.p14.h,
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(AppSize.s12.r),
-                          borderSide: BorderSide(
-                            color: ColorManager.borderDefault,
-                          ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(AppSize.s12.r),
-                          borderSide: BorderSide(
-                            color: ColorManager.borderDefault,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(AppSize.s12.r),
-                          borderSide: BorderSide(
-                            color: ColorManager.brandPrimary,
-                            width: AppSize.s1_5.w,
-                          ),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(AppSize.s12.r),
-                          borderSide: BorderSide(
-                            color: ColorManager.stateError,
-                          ),
-                        ),
                       ),
-                      style: getRegularTextStyle(
-                        color: ColorManager.textPrimary,
-                        fontSize: FontSizeManager.s14.sp,
-                      ),
-                      validator: (value) {
-                        if (value == null || value.trim().isEmpty) {
-                          return '';
-                        }
-                        return null;
-                      },
-                    ),
-                    Gap(AppSize.s20.h),
-                    Text(
-                      Strings.message.tr(),
-                      style: getRegularTextStyle(
-                        color: ColorManager.textPrimary,
-                        fontSize: FontSizeManager.s13.sp,
-                      ),
-                    ),
-                    Gap(AppSize.s8.h),
-                    TextFormField(
-                      controller: _messageController,
-                      maxLines: 6,
-                      decoration: InputDecoration(
-                        hintText: Strings.messageHint.tr(),
-                        hintStyle: getRegularTextStyle(
-                          color: ColorManager.textMuted,
+                      Gap(AppSize.s24.h),
+                      Text(
+                        Strings.subject.tr(),
+                        style: getRegularTextStyle(
+                          color: ColorManager.textPrimary,
                           fontSize: FontSizeManager.s13.sp,
                         ),
-                        filled: true,
-                        fillColor: ColorManager.backgroundSurface,
-                        contentPadding: EdgeInsetsDirectional.fromSTEB(
-                          AppPadding.p16.w,
-                          AppPadding.p14.h,
-                          AppPadding.p16.w,
-                          AppPadding.p14.h,
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(AppSize.s12.r),
-                          borderSide: BorderSide(
-                            color: ColorManager.borderDefault,
-                          ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(AppSize.s12.r),
-                          borderSide: BorderSide(
-                            color: ColorManager.borderDefault,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(AppSize.s12.r),
-                          borderSide: BorderSide(
-                            color: ColorManager.brandPrimary,
-                            width: AppSize.s1_5.w,
-                          ),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(AppSize.s12.r),
-                          borderSide: BorderSide(
-                            color: ColorManager.stateError,
-                          ),
-                        ),
                       ),
-                      style: getRegularTextStyle(
-                        color: ColorManager.textPrimary,
-                        fontSize: FontSizeManager.s14.sp,
-                      ),
-                      validator: (value) {
-                        if (value == null || value.trim().isEmpty) {
-                          return '';
-                        }
-                        return null;
-                      },
-                    ),
-                    Gap(AppSize.s32.h),
-                    SizedBox(
-                      width: double.infinity,
-                      height: AppSize.s48.h,
-                      child: ElevatedButton(
-                        onPressed: _onSubmit,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: ColorManager.brandPrimary,
-                          foregroundColor: ColorManager.textInverse,
-                          shape: RoundedRectangleBorder(
+                      Gap(AppSize.s8.h),
+                      TextFormField(
+                        controller: _titleController,
+                        decoration: InputDecoration(
+                          hintText: Strings.subjectHint.tr(),
+                          hintStyle: getRegularTextStyle(
+                            color: ColorManager.textMuted,
+                            fontSize: FontSizeManager.s13.sp,
+                          ),
+                          filled: true,
+                          fillColor: ColorManager.backgroundSurface,
+                          contentPadding: EdgeInsetsDirectional.fromSTEB(
+                            AppPadding.p16.w,
+                            AppPadding.p14.h,
+                            AppPadding.p16.w,
+                            AppPadding.p14.h,
+                          ),
+                          border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(AppSize.s12.r),
+                            borderSide: BorderSide(
+                              color: ColorManager.borderDefault,
+                            ),
                           ),
-                          elevation: 0,
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(AppSize.s12.r),
+                            borderSide: BorderSide(
+                              color: ColorManager.borderDefault,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(AppSize.s12.r),
+                            borderSide: BorderSide(
+                              color: ColorManager.brandPrimary,
+                              width: AppSize.s1_5.w,
+                            ),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(AppSize.s12.r),
+                            borderSide: BorderSide(
+                              color: ColorManager.stateError,
+                            ),
+                          ),
                         ),
-                        child: Text(
-                          Strings.submit.tr(),
-                          style: getRegularTextStyle(
-                            color: ColorManager.textInverse,
-                            fontSize: FontSizeManager.s15.sp,
+                        style: getRegularTextStyle(
+                          color: ColorManager.textPrimary,
+                          fontSize: FontSizeManager.s14.sp,
+                        ),
+                        validator: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return '';
+                          }
+                          return null;
+                        },
+                      ),
+                      Gap(AppSize.s20.h),
+                      Text(
+                        Strings.message.tr(),
+                        style: getRegularTextStyle(
+                          color: ColorManager.textPrimary,
+                          fontSize: FontSizeManager.s13.sp,
+                        ),
+                      ),
+                      Gap(AppSize.s8.h),
+                      TextFormField(
+                        controller: _messageController,
+                        maxLines: 6,
+                        decoration: InputDecoration(
+                          hintText: Strings.messageHint.tr(),
+                          hintStyle: getRegularTextStyle(
+                            color: ColorManager.textMuted,
+                            fontSize: FontSizeManager.s13.sp,
+                          ),
+                          filled: true,
+                          fillColor: ColorManager.backgroundSurface,
+                          contentPadding: EdgeInsetsDirectional.fromSTEB(
+                            AppPadding.p16.w,
+                            AppPadding.p14.h,
+                            AppPadding.p16.w,
+                            AppPadding.p14.h,
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(AppSize.s12.r),
+                            borderSide: BorderSide(
+                              color: ColorManager.borderDefault,
+                            ),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(AppSize.s12.r),
+                            borderSide: BorderSide(
+                              color: ColorManager.borderDefault,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(AppSize.s12.r),
+                            borderSide: BorderSide(
+                              color: ColorManager.brandPrimary,
+                              width: AppSize.s1_5.w,
+                            ),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(AppSize.s12.r),
+                            borderSide: BorderSide(
+                              color: ColorManager.stateError,
+                            ),
+                          ),
+                        ),
+                        style: getRegularTextStyle(
+                          color: ColorManager.textPrimary,
+                          fontSize: FontSizeManager.s14.sp,
+                        ),
+                        validator: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return '';
+                          }
+                          return null;
+                        },
+                      ),
+                      Gap(AppSize.s32.h),
+                      SizedBox(
+                        width: double.infinity,
+                        height: AppSize.s48.h,
+                        child: ElevatedButton(
+                          onPressed: _onSubmit,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: ColorManager.brandPrimary,
+                            foregroundColor: ColorManager.textInverse,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                AppSize.s12.r,
+                              ),
+                            ),
+                            elevation: 0,
+                          ),
+                          child: Text(
+                            Strings.submit.tr(),
+                            style: getRegularTextStyle(
+                              color: ColorManager.textInverse,
+                              fontSize: FontSizeManager.s15.sp,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
     );
   }
 }

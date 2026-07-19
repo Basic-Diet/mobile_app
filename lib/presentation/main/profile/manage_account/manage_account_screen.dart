@@ -46,9 +46,7 @@ class ManageAccountScreen extends StatelessWidget {
             AppPadding.p16.w,
             AppPadding.p20.h,
           ),
-          children: const [
-            _AccountDeletionCard(),
-          ],
+          children: const [_AccountDeletionCard()],
         ),
       ),
     );
@@ -130,20 +128,21 @@ class _AccountDeletionCard extends StatelessWidget {
 Future<void> _showDeleteAccountDialog(BuildContext context) async {
   final shouldOpen = await showDialog<bool>(
     context: context,
-    builder: (dialogContext) => AlertDialog(
-      title: Text(Strings.deleteAccountWarningTitle.tr()),
-      content: Text(Strings.deleteAccountWarningBody.tr()),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.of(dialogContext).pop(false),
-          child: Text(Strings.cancel.tr()),
+    builder:
+        (dialogContext) => AlertDialog(
+          title: Text(Strings.deleteAccountWarningTitle.tr()),
+          content: Text(Strings.deleteAccountWarningBody.tr()),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(false),
+              child: Text(Strings.cancel.tr()),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(true),
+              child: Text(Strings.openDeletionPage.tr()),
+            ),
+          ],
         ),
-        TextButton(
-          onPressed: () => Navigator.of(dialogContext).pop(true),
-          child: Text(Strings.openDeletionPage.tr()),
-        ),
-      ],
-    ),
   );
 
   if (shouldOpen != true || !context.mounted) {

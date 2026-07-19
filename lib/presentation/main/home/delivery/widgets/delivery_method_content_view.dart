@@ -49,17 +49,19 @@ class DeliveryMethodContentView extends StatelessWidget {
                 padding: EdgeInsetsDirectional.only(bottom: AppSize.s16.h),
                 child: DeliveryTypeCard(
                   method: method,
-                  icon: method.type == 'pickup'
-                      ? Icons.location_on_outlined
-                      : Icons.local_shipping_outlined,
-                  isSelected: _isMethodSelected(method),
-                  onTap: () => bloc.add(
-                    ChangeDeliveryTypeEvent(
+                  icon:
                       method.type == 'pickup'
-                          ? DeliveryType.pickup
-                          : DeliveryType.home,
-                    ),
-                  ),
+                          ? Icons.location_on_outlined
+                          : Icons.local_shipping_outlined,
+                  isSelected: _isMethodSelected(method),
+                  onTap:
+                      () => bloc.add(
+                        ChangeDeliveryTypeEvent(
+                          method.type == 'pickup'
+                              ? DeliveryType.pickup
+                              : DeliveryType.home,
+                        ),
+                      ),
                 ),
               ),
             ),
@@ -75,8 +77,11 @@ class DeliveryMethodContentView extends StatelessWidget {
               DeliveryLocationSelector(
                 label: Strings.selectYourArea.tr(),
                 value: state.selectedArea?.label,
-                onTap: () =>
-                    _showAreaModal(context, state.deliveryOptionsModel.areas),
+                onTap:
+                    () => _showAreaModal(
+                      context,
+                      state.deliveryOptionsModel.areas,
+                    ),
               ),
               Gap(AppSize.s8.h),
               _HelperText(text: selectedMethod.helperText),
@@ -102,8 +107,8 @@ class DeliveryMethodContentView extends StatelessWidget {
               Strings.notesOptional.tr(),
               Strings.notesHint.tr(),
               bloc.notesController,
-              onChanged: (val) =>
-                  bloc.add(UpdateAddressFieldsEvent(notes: val)),
+              onChanged:
+                  (val) => bloc.add(UpdateAddressFieldsEvent(notes: val)),
             ),
             Gap(AppSize.s24.h),
             _buildSubmitButton(context),
@@ -140,8 +145,8 @@ class DeliveryMethodContentView extends StatelessWidget {
           Strings.apartmentOptional.tr(),
           Strings.apartmentHint.tr(),
           bloc.apartmentController,
-          onChanged: (val) =>
-              bloc.add(UpdateAddressFieldsEvent(apartment: val)),
+          onChanged:
+              (val) => bloc.add(UpdateAddressFieldsEvent(apartment: val)),
         ),
       ],
     );
@@ -150,21 +155,22 @@ class DeliveryMethodContentView extends StatelessWidget {
   Widget _buildSubmitButton(BuildContext context) {
     return BlocBuilder<SubscriptionBloc, SubscriptionState>(
       builder: (context, subscriptionState) {
-        final success = subscriptionState is SubscriptionSuccess
-            ? subscriptionState
-            : null;
+        final success =
+            subscriptionState is SubscriptionSuccess ? subscriptionState : null;
         final loading = success?.quoteStatus == SubscriptionQuoteStatus.loading;
         final enabled = state.isFormValid && success != null && !loading;
 
         return ButtonWidget(
           radius: AppSize.s12.r,
           text: loading ? Strings.loading.tr() : Strings.getYourPrice.tr(),
-          color: enabled || loading
-              ? ColorManager.brandPrimary
-              : ColorManager.backgroundSubtle,
-          textColor: enabled || loading
-              ? ColorManager.backgroundSurface
-              : ColorManager.textSecondary,
+          color:
+              enabled || loading
+                  ? ColorManager.brandPrimary
+                  : ColorManager.backgroundSubtle,
+          textColor:
+              enabled || loading
+                  ? ColorManager.backgroundSurface
+                  : ColorManager.textSecondary,
           onTap: enabled ? () => _submitQuote(context, success) : null,
         );
       },
@@ -180,21 +186,23 @@ class DeliveryMethodContentView extends StatelessWidget {
       isScrollControlled: true,
       useSafeArea: true,
       shape: _modalShape(),
-      builder: (context) => SafeArea(
-        child: SelectionModal<DeliveryAreaModel>(
-          title: Strings.selectYourArea.tr(),
-          items: areas,
-          initialSelection: state.selectedArea,
-          itemBuilder: (item, current, onSelected) => RadioSelectionTile(
-            label: item.label,
-            isSelected: current?.id == item.id,
-            isAvailable: item.isAvailable,
-            trailing: item.feeLabel,
-            onTap: () => onSelected(item),
+      builder:
+          (context) => SafeArea(
+            child: SelectionModal<DeliveryAreaModel>(
+              title: Strings.selectYourArea.tr(),
+              items: areas,
+              initialSelection: state.selectedArea,
+              itemBuilder:
+                  (item, current, onSelected) => RadioSelectionTile(
+                    label: item.label,
+                    isSelected: current?.id == item.id,
+                    isAvailable: item.isAvailable,
+                    trailing: item.feeLabel,
+                    onTap: () => onSelected(item),
+                  ),
+              onConfirm: (selected) => bloc.add(SelectAreaEvent(selected)),
+            ),
           ),
-          onConfirm: (selected) => bloc.add(SelectAreaEvent(selected)),
-        ),
-      ),
     );
   }
 
@@ -205,19 +213,21 @@ class DeliveryMethodContentView extends StatelessWidget {
       isScrollControlled: true,
       useSafeArea: true,
       shape: _modalShape(),
-      builder: (context) => SafeArea(
-        child: SelectionModal<DeliverySlotModel>(
-          title: Strings.chooseDeliveryTime.tr(),
-          items: slots,
-          initialSelection: state.selectedTime,
-          itemBuilder: (item, current, onSelected) => RadioSelectionTile(
-            label: item.window,
-            isSelected: current?.id == item.id,
-            onTap: () => onSelected(item),
+      builder:
+          (context) => SafeArea(
+            child: SelectionModal<DeliverySlotModel>(
+              title: Strings.chooseDeliveryTime.tr(),
+              items: slots,
+              initialSelection: state.selectedTime,
+              itemBuilder:
+                  (item, current, onSelected) => RadioSelectionTile(
+                    label: item.window,
+                    isSelected: current?.id == item.id,
+                    onTap: () => onSelected(item),
+                  ),
+              onConfirm: (selected) => bloc.add(SelectTimeEvent(selected)),
+            ),
           ),
-          onConfirm: (selected) => bloc.add(SelectTimeEvent(selected)),
-        ),
-      ),
     );
   }
 
@@ -228,14 +238,15 @@ class DeliveryMethodContentView extends StatelessWidget {
       initialDate: state.selectedStartDate ?? DateTime.now(),
       firstDate: DateTime.now(),
       lastDate: DateTime.now().add(const Duration(days: 365)),
-      builder: (context, child) => Theme(
-        data: Theme.of(context).copyWith(
-          colorScheme: const ColorScheme.light(
-            primary: ColorManager.brandPrimary,
+      builder:
+          (context, child) => Theme(
+            data: Theme.of(context).copyWith(
+              colorScheme: const ColorScheme.light(
+                primary: ColorManager.brandPrimary,
+              ),
+            ),
+            child: child!,
           ),
-        ),
-        child: child!,
-      ),
     );
     if (picked != null) bloc.add(SelectStartDateEvent(picked));
   }
@@ -247,9 +258,8 @@ class DeliveryMethodContentView extends StatelessWidget {
       (method.type == 'pickup' ? DeliveryType.pickup : DeliveryType.home);
 
   DeliveryMethodModel? _getSelectedMethod() {
-    final type = state.selectedType == DeliveryType.home
-        ? 'delivery'
-        : 'pickup';
+    final type =
+        state.selectedType == DeliveryType.home ? 'delivery' : 'pickup';
     return state.deliveryOptionsModel.methods
         .cast<DeliveryMethodModel?>()
         .firstWhere((m) => m?.type == type, orElse: () => null);
@@ -264,35 +274,37 @@ class DeliveryMethodContentView extends StatelessWidget {
       grams: subscriptionState.selectedGramOption!.grams,
       mealsPerDay: subscriptionState.selectedMealOption!.mealsPerDay,
       startDate: _formatRequestDate(state.selectedStartDate!),
-      premiumItems: subscriptionState.selectedPremiumMealCounters.entries
-          .map(
-            (e) => SubscriptionQuotePremiumItemRequestModel(
-              premiumKey: e.key,
-              qty: e.value,
-            ),
-          )
-          .toList(),
+      premiumItems:
+          subscriptionState.selectedPremiumMealCounters.entries
+              .map(
+                (e) => SubscriptionQuotePremiumItemRequestModel(
+                  premiumKey: e.key,
+                  qty: e.value,
+                ),
+              )
+              .toList(),
       addons: subscriptionState.selectedAddOns.map((a) => a.id).toList(),
-              delivery: state.selectedType == DeliveryType.home
-          ? SubscriptionQuoteDeliveryRequestModel(
-              type: 'delivery',
-              zoneId: state.selectedArea!.zoneId,
-              slotId: state.selectedTime!.id,
-              slotWindow: state.selectedTime!.window,
-              slotLabel: state.selectedTime!.label,
-              address: SubscriptionAddressModel(
-                street: state.street.trim(),
-                building: state.building.trim(),
-                apartment: state.apartment.trim(),
-                notes: state.notes.trim(),
-                district: state.selectedArea!.label,
-                city: 'Jeddah',
+      delivery:
+          state.selectedType == DeliveryType.home
+              ? SubscriptionQuoteDeliveryRequestModel(
+                type: 'delivery',
+                zoneId: state.selectedArea!.zoneId,
+                slotId: state.selectedTime!.id,
+                slotWindow: state.selectedTime!.window,
+                slotLabel: state.selectedTime!.label,
+                address: SubscriptionAddressModel(
+                  street: state.street.trim(),
+                  building: state.building.trim(),
+                  apartment: state.apartment.trim(),
+                  notes: state.notes.trim(),
+                  district: state.selectedArea!.label,
+                  city: 'Jeddah',
+                ),
+              )
+              : SubscriptionQuoteDeliveryRequestModel(
+                type: 'pickup',
+                pickupLocationId: state.selectedPickupLocation?.id,
               ),
-            )
-          : SubscriptionQuoteDeliveryRequestModel(
-              type: 'pickup',
-              pickupLocationId: state.selectedPickupLocation?.id,
-            ),
     );
     context.read<SubscriptionBloc>().add(GetSubscriptionQuoteEvent(request));
   }
@@ -307,9 +319,10 @@ class DeliveryMethodContentView extends StatelessWidget {
   Widget _buildStartDateSelector(BuildContext context) {
     return DeliveryLocationSelector(
       label: Strings.selectStartDate.tr(),
-      value: state.selectedStartDate != null
-          ? _formatRequestDate(state.selectedStartDate!)
-          : null,
+      value:
+          state.selectedStartDate != null
+              ? _formatRequestDate(state.selectedStartDate!)
+              : null,
       onTap: () => _showStartDatePicker(context),
     );
   }

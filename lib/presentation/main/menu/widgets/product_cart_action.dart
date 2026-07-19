@@ -58,10 +58,7 @@ class ProductCartAction extends StatelessWidget {
 class SquareAddButton extends StatelessWidget {
   final VoidCallback onTap;
 
-  const SquareAddButton({
-    super.key,
-    required this.onTap,
-  });
+  const SquareAddButton({super.key, required this.onTap});
 
   @override
   Widget build(BuildContext context) {

@@ -8,8 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'order_tracking_event.dart';
 import 'order_tracking_state.dart';
 
-class OrderTrackingBloc
-    extends Bloc<OrderTrackingEvent, OrderTrackingState> {
+class OrderTrackingBloc extends Bloc<OrderTrackingEvent, OrderTrackingState> {
   final GetOrderDetailUseCase _getOrderDetailUseCase;
   final VerifyOrderPaymentUseCase _verifyOrderPaymentUseCase;
   final GetOrderTimelineUseCase _getOrderTimelineUseCase;
@@ -130,16 +129,13 @@ class OrderTrackingBloc
   ) async {
     final result = await _getOrderTimelineUseCase.execute(event.orderId);
     result.fold(
-      (_) {/* ignore */},
+      (_) {
+        /* ignore */
+      },
       (timeline) {
         final currentOrder = state.orderOrNull;
         if (currentOrder != null && !isClosed) {
-          emit(
-            OrderTrackingSuccess(
-              order: currentOrder,
-              timeline: timeline,
-            ),
-          );
+          emit(OrderTrackingSuccess(order: currentOrder, timeline: timeline));
         }
       },
     );

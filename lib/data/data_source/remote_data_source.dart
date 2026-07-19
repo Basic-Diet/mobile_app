@@ -174,7 +174,7 @@ abstract class RemoteDataSource {
     String id,
     String date,
   );
-  Future<MealPlannerMenuResponse> getMealPlannerMenu();
+  Future<MealPlannerMenuResponse> getMealPlannerMenu(String languageCode);
   Future<PremiumPaymentResponse> createPremiumPayment(
     String subscriptionId,
     String date,

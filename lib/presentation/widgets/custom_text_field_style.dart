@@ -133,17 +133,17 @@ class _AppTextFieldState extends State<AppTextField> {
   Widget build(BuildContext context) {
     if (widget.prefixWidget != null) {
       // For phone fields with country code, use a Row with country code always on left
-      final borderColor = widget.errorText != null
-          ? ColorManager.stateError
-          : (_focusNode.hasFocus ? ColorManager.brandPrimary : ColorManager.borderDefault);
-      
+      final borderColor =
+          widget.errorText != null
+              ? ColorManager.stateError
+              : (_focusNode.hasFocus
+                  ? ColorManager.brandPrimary
+                  : ColorManager.borderDefault);
+
       return Container(
         decoration: BoxDecoration(
           color: ColorManager.backgroundSurface,
-          border: Border.all(
-            color: borderColor,
-            width: AppSize.s1.w,
-          ),
+          border: Border.all(color: borderColor, width: AppSize.s1.w),
           borderRadius: BorderRadius.circular(AppSize.s14.r),
         ),
         child: Directionality(
@@ -152,7 +152,10 @@ class _AppTextFieldState extends State<AppTextField> {
             children: [
               // Country code always on left
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: AppPadding.p12.w, vertical: AppPadding.p18.h),
+                padding: EdgeInsets.symmetric(
+                  horizontal: AppPadding.p12.w,
+                  vertical: AppPadding.p18.h,
+                ),
                 child: widget.prefixWidget!,
               ),
               // Vertical divider

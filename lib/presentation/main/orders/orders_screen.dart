@@ -70,12 +70,10 @@ class _OrdersScreenContentState extends State<_OrdersScreenContent> {
               return const SizedBox.shrink();
             }
 
-            final currentOrders = data.orders
-                .where((order) => !order.status.isFinal)
-                .toList();
-            final previousOrders = data.orders
-                .where((order) => order.status.isFinal)
-                .toList();
+            final currentOrders =
+                data.orders.where((order) => !order.status.isFinal).toList();
+            final previousOrders =
+                data.orders.where((order) => order.status.isFinal).toList();
 
             final visibleOrders =
                 _activeTab == _OrdersTab.current

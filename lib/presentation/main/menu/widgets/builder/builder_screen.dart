@@ -114,7 +114,8 @@ class _BuilderScreenState extends State<BuilderScreen> {
   int get _estimatedUnitPriceHalala {
     int unitPrice;
     if (widget.product.hasBackendWeightChoices) {
-      unitPrice = _selectedWeightChoice?.priceHalala ?? widget.product.priceHalala;
+      unitPrice =
+          _selectedWeightChoice?.priceHalala ?? widget.product.priceHalala;
     } else if (widget.product.pricingModel == 'per_100g') {
       unitPrice =
           ((widget.product.priceHalala * _weightGrams) /
@@ -254,7 +255,8 @@ class _BuilderScreenState extends State<BuilderScreen> {
   void _changeExtraWeight(OrderMenuOptionModel option, int delta) {
     setState(() {
       final current =
-          _extraWeightByOptionId[option.optionId] ?? option.extraWeightUnitGrams;
+          _extraWeightByOptionId[option.optionId] ??
+          option.extraWeightUnitGrams;
       final next = current + delta;
       if (next >= option.extraWeightUnitGrams) {
         _extraWeightByOptionId[option.optionId] = next;
@@ -326,9 +328,11 @@ class _BuilderScreenState extends State<BuilderScreen> {
                   option.extraWeightUnitGrams,
           onToggleOption: (optionId) => _toggleOption(group, optionId),
           onDecreaseExtraWeight:
-              (option) => _changeExtraWeight(option, -option.extraWeightUnitGrams),
+              (option) =>
+                  _changeExtraWeight(option, -option.extraWeightUnitGrams),
           onIncreaseExtraWeight:
-              (option) => _changeExtraWeight(option, option.extraWeightUnitGrams),
+              (option) =>
+                  _changeExtraWeight(option, option.extraWeightUnitGrams),
         );
       },
     );
@@ -398,9 +402,10 @@ class _BuilderScreenState extends State<BuilderScreen> {
                         borderRadius: BorderRadius.circular(AppSize.s18.r),
                       ),
                     ),
-                    onPressed: _isValid
-                        ? (_isReviewing ? _submit : _showDetails)
-                        : null,
+                    onPressed:
+                        _isValid
+                            ? (_isReviewing ? _submit : _showDetails)
+                            : null,
                     child: Text(
                       _isReviewing
                           ? Strings.addToCart.tr()
@@ -570,12 +575,17 @@ class _BuilderScreenState extends State<BuilderScreen> {
             min:
                 product.weightPricing?.minWeightGrams ?? product.minWeightGrams,
             max:
-                (product.weightPricing?.maxWeightGrams ?? product.maxWeightGrams) > 0
-                    ? product.weightPricing?.maxWeightGrams ?? product.maxWeightGrams
+                (product.weightPricing?.maxWeightGrams ??
+                            product.maxWeightGrams) >
+                        0
+                    ? product.weightPricing?.maxWeightGrams ??
+                        product.maxWeightGrams
                     : 600,
             step:
-                (product.weightPricing?.stepGrams ?? product.weightStepGrams) > 0
-                    ? product.weightPricing?.stepGrams ?? product.weightStepGrams
+                (product.weightPricing?.stepGrams ?? product.weightStepGrams) >
+                        0
+                    ? product.weightPricing?.stepGrams ??
+                        product.weightStepGrams
                     : 50,
             choices: product.weightPricing?.choices ?? const [],
             priceFormatter: (halala) => formatHalala(halala, widget.currency),
@@ -662,9 +672,7 @@ class _BuilderScreenState extends State<BuilderScreen> {
               Gap(AppSize.s8.h),
               ...missingRequirements.map(
                 (message) => Padding(
-                  padding: EdgeInsetsDirectional.only(
-                    bottom: AppPadding.p6.h,
-                  ),
+                  padding: EdgeInsetsDirectional.only(bottom: AppPadding.p6.h),
                   child: Text(
                     '• $message',
                     textAlign: TextAlign.right,
@@ -690,7 +698,8 @@ class _BuilderScreenState extends State<BuilderScreen> {
         productName: product.displayName(context.locale.toString()),
         quantity: _qty,
         total: formatHalala(_estimatedUnitPriceHalala * _qty, widget.currency),
-        weight: product.requiresWeightSelection ? weightLabel(_weightGrams) : null,
+        weight:
+            product.requiresWeightSelection ? weightLabel(_weightGrams) : null,
       ),
       Gap(AppSize.s12.h),
       BuilderCardContainer(
@@ -785,10 +794,11 @@ class _BuilderScreenState extends State<BuilderScreen> {
     return product.optionGroups
         .map((group) {
           final selectedIds = _selectedOptionIds[group.groupId] ?? <String>{};
-          final selectedOptions = _sortedOptions(group)
-              .where((option) => selectedIds.contains(option.optionId))
-              .map(_reviewOptionLabel)
-              .toList();
+          final selectedOptions =
+              _sortedOptions(group)
+                  .where((option) => selectedIds.contains(option.optionId))
+                  .map(_reviewOptionLabel)
+                  .toList();
           return _BuilderReviewGroupData(
             label: group.name,
             options: selectedOptions,
@@ -1072,10 +1082,7 @@ class _BuilderReviewGroupData {
   final String label;
   final List<String> options;
 
-  const _BuilderReviewGroupData({
-    required this.label,
-    required this.options,
-  });
+  const _BuilderReviewGroupData({required this.label, required this.options});
 }
 
 class _BuilderReviewOptionGroup extends StatelessWidget {

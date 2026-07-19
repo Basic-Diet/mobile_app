@@ -9,10 +9,8 @@ extension AuthenticationResponseMapper on AuthenticationResponse? {
       status: this?.status ?? Constants.empty,
       accessToken: this?.accessToken ?? Constants.empty,
       refreshToken: this?.refreshToken ?? Constants.empty,
-      mustChangePassword:
-          this?.mustChangePassword ?? Constants.falseValue,
-      passwordChangeToken:
-          this?.passwordChangeToken ?? Constants.empty,
+      mustChangePassword: this?.mustChangePassword ?? Constants.falseValue,
+      passwordChangeToken: this?.passwordChangeToken ?? Constants.empty,
       expiresIn: this?.expiresIn ?? Constants.zero,
       refreshExpiresIn: this?.refreshExpiresIn ?? Constants.zero,
       user: this?.user.toDomain(),
@@ -27,8 +25,7 @@ extension AuthUserResponseMapper on AuthUserResponse? {
       phoneE164: this?.phoneE164 ?? Constants.empty,
       fullName: this?.fullName ?? Constants.empty,
       phoneVerified: this?.phoneVerified ?? Constants.falseValue,
-      forcePasswordChange:
-          this?.forcePasswordChange ?? Constants.falseValue,
+      forcePasswordChange: this?.forcePasswordChange ?? Constants.falseValue,
     );
   }
 }

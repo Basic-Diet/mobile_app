@@ -1109,10 +1109,8 @@ Future<void> _openOrderProduct(
 
     final cartItem = await Navigator.of(context).push<CartItem>(
       MaterialPageRoute(
-        builder: (_) => BuilderScreen(
-          product: product,
-          currency: state.currency,
-        ),
+        builder:
+            (_) => BuilderScreen(product: product, currency: state.currency),
       ),
     );
 

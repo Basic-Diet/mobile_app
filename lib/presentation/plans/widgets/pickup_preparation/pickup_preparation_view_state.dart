@@ -62,12 +62,14 @@ class PickupPreparationViewState {
     final prep = overview.pickupPreparation!;
     final flowStatus = PickupFlowStatus.fromString(prep.flowStatus);
     final blockedReason = PickupBlockedReason.fromString(prep.reason);
-    final dayStatus = pickupStatus == null
-        ? null
-        : PickupDayStatus.fromString(pickupStatus.status);
-    final resolvedBusinessDate = prep.businessDate.isNotEmpty
-        ? prep.businessDate
-        : overview.businessDate;
+    final dayStatus =
+        pickupStatus == null
+            ? null
+            : PickupDayStatus.fromString(pickupStatus.status);
+    final resolvedBusinessDate =
+        prep.businessDate.isNotEmpty
+            ? prep.businessDate
+            : overview.businessDate;
 
     if (_shouldOpenPlanner(flowStatus, blockedReason, prep)) {
       return PickupPreparationViewState(
@@ -121,16 +123,18 @@ class PickupPreparationViewState {
         pickupStatus,
         prep,
       );
-      final title = isTerminal
-          ? completionCopy.$1
-          : (isReady
-                ? Strings.pickupReadyToCollectTitle.tr()
-                : Strings.pickupTrackingTitle.tr());
-      final fallbackSubtitle = isTerminal
-          ? completionCopy.$2
-          : (isReady
-                ? Strings.pickupReadyToCollectSubtitle.tr()
-                : Strings.pickupTrackingSubtitle.tr());
+      final title =
+          isTerminal
+              ? completionCopy.$1
+              : (isReady
+                  ? Strings.pickupReadyToCollectTitle.tr()
+                  : Strings.pickupTrackingTitle.tr());
+      final fallbackSubtitle =
+          isTerminal
+              ? completionCopy.$2
+              : (isReady
+                  ? Strings.pickupReadyToCollectSubtitle.tr()
+                  : Strings.pickupTrackingSubtitle.tr());
 
       return PickupPreparationViewState(
         title: title,
@@ -141,14 +145,14 @@ class PickupPreparationViewState {
         ).ifEmpty(fallbackSubtitle),
         primaryActionLabel: null,
         primaryAction: PickupJourneyAction.none,
-        visualState: isReady || isTerminal
-            ? PickupJourneyVisualState.completion
-            : PickupJourneyVisualState.progress,
+        visualState:
+            isReady || isTerminal
+                ? PickupJourneyVisualState.completion
+                : PickupJourneyVisualState.progress,
         steps: _steps(_stepStatesForProgress(dayStatus)),
         progressItems: _progressItems(progressStates),
         pickupCode: isReady ? pickupStatus?.pickupCode : null,
-        showPickupCode:
-            isReady && (pickupStatus?.pickupCode ?? '').isNotEmpty,
+        showPickupCode: isReady && (pickupStatus?.pickupCode ?? '').isNotEmpty,
         showProgressTimeline: true,
         businessDate: resolvedBusinessDate,
       );
@@ -194,9 +198,8 @@ class PickupPreparationViewState {
   }
 
   static String _plannerCta(PickupPreparationModel prep, bool isArabic) {
-    final backendLabel = isArabic
-        ? prep.mealPlannerCtaLabelAr
-        : prep.mealPlannerCtaLabelEn;
+    final backendLabel =
+        isArabic ? prep.mealPlannerCtaLabelAr : prep.mealPlannerCtaLabelEn;
     return backendLabel.isNotEmpty
         ? backendLabel
         : Strings.pickupChooseMealsAction.tr();

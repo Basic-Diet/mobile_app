@@ -163,8 +163,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           buildWhen:
               (previous, current) =>
                   previous.passwordError != current.passwordError ||
-                  previous.confirmPasswordError !=
-                      current.confirmPasswordError,
+                  previous.confirmPasswordError != current.confirmPasswordError,
           builder: (context, state) {
             return AppTextField.password(
               controller: _passwordController,
@@ -192,8 +191,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         BlocBuilder<RegisterBloc, RegisterState>(
           buildWhen:
               (previous, current) =>
-                  previous.confirmPasswordError !=
-                  current.confirmPasswordError,
+                  previous.confirmPasswordError != current.confirmPasswordError,
           builder: (context, state) {
             return AppTextField.password(
               controller: _confirmPasswordController,

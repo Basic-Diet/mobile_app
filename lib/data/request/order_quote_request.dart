@@ -91,5 +91,6 @@ class OrderQuoteSelectedOptionRequest {
   factory OrderQuoteSelectedOptionRequest.fromJson(Map<String, dynamic> json) =>
       _$OrderQuoteSelectedOptionRequestFromJson(json);
 
-  Map<String, dynamic> toJson() => _$OrderQuoteSelectedOptionRequestToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$OrderQuoteSelectedOptionRequestToJson(this);
 }

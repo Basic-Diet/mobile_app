@@ -5,7 +5,8 @@ import 'package:basic_diet/domain/usecase/base_usecase.dart';
 import 'package:dartz/dartz.dart';
 
 class CompletePasswordChangeUseCase
-    implements BaseUseCase<CompletePasswordChangeUseCaseInput, AuthenticationModel> {
+    implements
+        BaseUseCase<CompletePasswordChangeUseCaseInput, AuthenticationModel> {
   final Repository _repository;
 
   CompletePasswordChangeUseCase(this._repository);

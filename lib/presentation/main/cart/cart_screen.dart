@@ -21,9 +21,7 @@ class CartScreen extends StatelessWidget {
   void _handleCheckoutTap(BuildContext context, CartLoaded state) {
     if (!state.canCheckout) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(Strings.selectBranchAndPickupWindow.tr()),
-        ),
+        SnackBar(content: Text(Strings.selectBranchAndPickupWindow.tr())),
       );
       return;
     }
@@ -124,14 +122,13 @@ class CartScreen extends StatelessWidget {
                             gradient: const LinearGradient(
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
-                              colors: [
-                                Color(0xFFE4F6EE),
-                                Color(0xFFFFFFFF),
-                              ],
+                              colors: [Color(0xFFE4F6EE), Color(0xFFFFFFFF)],
                             ),
                             borderRadius: BorderRadius.circular(AppSize.s16.r),
                             border: Border.all(
-                              color: const Color(0xFF0E9F6E).withValues(alpha: 0.12),
+                              color: const Color(
+                                0xFF0E9F6E,
+                              ).withValues(alpha: 0.12),
                               width: 1,
                             ),
                           ),
@@ -156,10 +153,13 @@ class CartScreen extends StatelessWidget {
                                     ),
                                     Gap(AppSize.s2.h),
                                     Text(
-                                      Strings.deliveryNotAvailableForOrders.tr(),
+                                      Strings.deliveryNotAvailableForOrders
+                                          .tr(),
                                       style: getBoldTextStyle(
                                         fontSize: FontSizeManager.s12.sp,
-                                        color: const Color(0xFF12382C).withValues(alpha: 0.85),
+                                        color: const Color(
+                                          0xFF12382C,
+                                        ).withValues(alpha: 0.85),
                                       ),
                                     ),
                                   ],
@@ -180,14 +180,19 @@ class CartScreen extends StatelessWidget {
                             ),
                             boxShadow: [
                               BoxShadow(
-                                color: const Color(0xFF11382C).withValues(alpha: 0.06),
+                                color: const Color(
+                                  0xFF11382C,
+                                ).withValues(alpha: 0.06),
                                 blurRadius: 12,
                                 offset: const Offset(0, 4),
                               ),
                             ],
                           ),
                           child: Column(
-                            children: state.items.map((item) => _CartItemTile(item: item)).toList(),
+                            children:
+                                state.items
+                                    .map((item) => _CartItemTile(item: item))
+                                    .toList(),
                           ),
                         ),
                         Container(
@@ -202,7 +207,9 @@ class CartScreen extends StatelessWidget {
                             ),
                             boxShadow: [
                               BoxShadow(
-                                color: const Color(0xFF11382C).withValues(alpha: 0.06),
+                                color: const Color(
+                                  0xFF11382C,
+                                ).withValues(alpha: 0.06),
                                 blurRadius: 12,
                                 offset: const Offset(0, 4),
                               ),
@@ -219,12 +226,20 @@ class CartScreen extends StatelessWidget {
                                 ),
                               ),
                               Gap(AppSize.s12.h),
-                              _SummaryRow(label: Strings.subtotal.tr(), value: _formatPrice(subtotal)),
+                              _SummaryRow(
+                                label: Strings.subtotal.tr(),
+                                value: _formatPrice(subtotal),
+                              ),
                               Gap(AppSize.s8.h),
-                              _SummaryRow(label: Strings.tax.tr(), value: Strings.vatIncludedInPrice.tr()),
+                              _SummaryRow(
+                                label: Strings.tax.tr(),
+                                value: Strings.vatIncludedInPrice.tr(),
+                              ),
                               Gap(AppSize.s6.h),
                               Container(
-                                padding: EdgeInsetsDirectional.only(top: AppPadding.p12.h),
+                                padding: EdgeInsetsDirectional.only(
+                                  top: AppPadding.p12.h,
+                                ),
                                 decoration: BoxDecoration(
                                   border: Border(
                                     top: BorderSide(
@@ -234,7 +249,8 @@ class CartScreen extends StatelessWidget {
                                   ),
                                 ),
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       Strings.total.tr(),
@@ -246,7 +262,8 @@ class CartScreen extends StatelessWidget {
                                     Text(
                                       _formatPrice(subtotal),
                                       style: getBoldTextStyle(
-                                        color: ColorManager.stateSuccessEmphasis,
+                                        color:
+                                            ColorManager.stateSuccessEmphasis,
                                         fontSize: FontSizeManager.s18.sp,
                                       ),
                                     ),
@@ -287,9 +304,7 @@ class CartScreen extends StatelessWidget {
                     AppPadding.p16.w,
                     AppPadding.p20.h,
                   ),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFF7F3EB),
-                  ),
+                  decoration: BoxDecoration(color: const Color(0xFFF7F3EB)),
                   child: Material(
                     color: Colors.transparent,
                     child: InkWell(
@@ -302,19 +317,25 @@ class CartScreen extends StatelessWidget {
                           end: AppPadding.p6.w,
                         ),
                         decoration: BoxDecoration(
-                          color: state.canCheckout
-                              ? const Color(0xFFFF8500)
-                              : const Color(0xFFFF8500).withValues(alpha: 0.55),
+                          color:
+                              state.canCheckout
+                                  ? const Color(0xFFFF8500)
+                                  : const Color(
+                                    0xFFFF8500,
+                                  ).withValues(alpha: 0.55),
                           borderRadius: BorderRadius.circular(AppSize.s99.r),
-                          boxShadow: state.canCheckout
-                              ? [
-                                  BoxShadow(
-                                    color: const Color(0xFFFF8500).withValues(alpha: 0.3),
-                                    blurRadius: 12,
-                                    offset: const Offset(0, 4),
-                                  ),
-                                ]
-                              : null,
+                          boxShadow:
+                              state.canCheckout
+                                  ? [
+                                    BoxShadow(
+                                      color: const Color(
+                                        0xFFFF8500,
+                                      ).withValues(alpha: 0.3),
+                                      blurRadius: 12,
+                                      offset: const Offset(0, 4),
+                                    ),
+                                  ]
+                                  : null,
                         ),
                         child: Row(
                           children: [
@@ -345,7 +366,9 @@ class CartScreen extends StatelessWidget {
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsetsDirectional.only(end: AppPadding.p8.w),
+                              padding: EdgeInsetsDirectional.only(
+                                end: AppPadding.p8.w,
+                              ),
                               child: Text(
                                 _formatPrice(subtotal),
                                 style: getBoldTextStyle(
@@ -370,7 +393,8 @@ class CartScreen extends StatelessWidget {
 
   String _formatPrice(int halala) {
     final value = halala / 100;
-    final display = value % 1 == 0 ? value.toStringAsFixed(0) : value.toStringAsFixed(2);
+    final display =
+        value % 1 == 0 ? value.toStringAsFixed(0) : value.toStringAsFixed(2);
     return '$display ${Strings.sar.tr()}';
   }
 }
@@ -379,10 +403,7 @@ class _SummaryRow extends StatelessWidget {
   final String label;
   final String value;
 
-  const _SummaryRow({
-    required this.label,
-    required this.value,
-  });
+  const _SummaryRow({required this.label, required this.value});
 
   @override
   Widget build(BuildContext context) {
@@ -422,7 +443,10 @@ class _CartItemTile extends StatelessWidget {
     if (item.selectedOptions.isNotEmpty) {
       subtitle.addAll(
         item.selectedOptions.map(
-          (option) => option.optionName.isNotEmpty ? option.optionName : option.optionId,
+          (option) =>
+              option.optionName.isNotEmpty
+                  ? option.optionName
+                  : option.optionId,
         ),
       );
     }
@@ -431,10 +455,7 @@ class _CartItemTile extends StatelessWidget {
       padding: EdgeInsetsDirectional.symmetric(vertical: AppPadding.p14.h),
       decoration: BoxDecoration(
         border: Border(
-          bottom: BorderSide(
-            color: ColorManager.whiteColor,
-            width: 1,
-          ),
+          bottom: BorderSide(color: ColorManager.whiteColor, width: 1),
         ),
       ),
       child: Row(
@@ -550,7 +571,8 @@ class _CartItemTile extends StatelessWidget {
 
   String _formatPrice(int halala) {
     final value = halala / 100;
-    final display = value % 1 == 0 ? value.toStringAsFixed(0) : value.toStringAsFixed(2);
+    final display =
+        value % 1 == 0 ? value.toStringAsFixed(0) : value.toStringAsFixed(2);
     return '$display ${Strings.sar.tr()}';
   }
 }
@@ -559,10 +581,7 @@ class _QtyButton extends StatelessWidget {
   final IconData icon;
   final VoidCallback onPressed;
 
-  const _QtyButton({
-    required this.icon,
-    required this.onPressed,
-  });
+  const _QtyButton({required this.icon, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -574,10 +593,7 @@ class _QtyButton extends StatelessWidget {
         decoration: BoxDecoration(
           color: const Color(0xFFF7F3EB),
           shape: BoxShape.circle,
-          border: Border.all(
-            color: ColorManager.whiteColor,
-            width: 1,
-          ),
+          border: Border.all(color: ColorManager.whiteColor, width: 1),
         ),
         child: Icon(
           icon,

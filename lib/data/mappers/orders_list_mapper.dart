@@ -6,15 +6,10 @@ import 'package:basic_diet/domain/model/order_status.dart';
 extension OrdersListResponseMapper on OrdersListResponse? {
   OrdersListModel toDomain() {
     return OrdersListModel(
-      items:
-          this?.data?.items?.map((e) => e.toDomain()).toList() ?? const [],
-      pagination: this?.data?.pagination.toDomain() ??
-          const OrdersPaginationModel(
-            page: 1,
-            limit: 20,
-            total: 0,
-            pages: 0,
-          ),
+      items: this?.data?.items?.map((e) => e.toDomain()).toList() ?? const [],
+      pagination:
+          this?.data?.pagination.toDomain() ??
+          const OrdersPaginationModel(page: 1, limit: 20, total: 0, pages: 0),
     );
   }
 }
@@ -37,11 +32,8 @@ extension OrdersListItemResponseMapper on OrdersListItemResponse? {
       createdAt: this?.createdAt,
       expiresAt: null,
       allowedActions: _toStringList(this?.allowedActions),
-      cancelledBy: _normalizeCancelledBy(
-        this?.cancelledBy ?? this?.canceledBy,
-      ),
-      cancellationReason:
-          this?.cancellationReason ?? this?.cancellationNote,
+      cancelledBy: _normalizeCancelledBy(this?.cancelledBy ?? this?.canceledBy),
+      cancellationReason: this?.cancellationReason ?? this?.cancellationNote,
       cancellationSource: this?.cancellationNote,
       cancelledAt: this?.cancelledAt ?? this?.canceledAt,
     );
@@ -61,8 +53,7 @@ OrderPricingModel? _mapPricing(Map<String, dynamic>? pricing) {
   );
 }
 
-extension OrdersListPaginationResponseMapper
-    on OrdersListPaginationResponse? {
+extension OrdersListPaginationResponseMapper on OrdersListPaginationResponse? {
   OrdersPaginationModel toDomain() {
     return OrdersPaginationModel(
       page: this?.page ?? 1,

@@ -365,10 +365,12 @@ class _ProteinList extends StatelessWidget {
         currentSlot?.selectionType == 'premium_large_salad';
     final visibleDirectItems =
         directMealItems.where((item) {
-          final key =
-              item.sectionKey.isNotEmpty ? item.sectionKey : item.selectionType;
-          return key == activeTabKey;
-        }).toList()
+            final key =
+                item.sectionKey.isNotEmpty
+                    ? item.sectionKey
+                    : item.selectionType;
+            return key == activeTabKey;
+          }).toList()
           ..sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
     final showDirectItems = visibleDirectItems.isNotEmpty;
 
@@ -516,14 +518,12 @@ class _ProteinList extends StatelessWidget {
           clearSalad: true,
         );
 
-    final baselineSlotsPerDay =
-        Map<int, List<MealPlannerSlotSelection>>.from(
-          state.selectedSlotsPerDay,
-        )..[state.selectedDayIndex] = withoutCurrentSlot;
-    final customSlotsPerDay =
-        Map<int, List<MealPlannerSlotSelection>>.from(
-          state.selectedSlotsPerDay,
-        )..[state.selectedDayIndex] = withCustomPremiumMeal;
+    final baselineSlotsPerDay = Map<int, List<MealPlannerSlotSelection>>.from(
+      state.selectedSlotsPerDay,
+    )..[state.selectedDayIndex] = withoutCurrentSlot;
+    final customSlotsPerDay = Map<int, List<MealPlannerSlotSelection>>.from(
+      state.selectedSlotsPerDay,
+    )..[state.selectedDayIndex] = withCustomPremiumMeal;
 
     final baselinePendingAmount =
         state
@@ -537,15 +537,18 @@ class _ProteinList extends StatelessWidget {
     return customPendingAmount <= baselinePendingAmount;
   }
 
-  List<BuilderProteinModel> _customBuilderProteins(BuilderCatalogModel catalog) {
+  List<BuilderProteinModel> _customBuilderProteins(
+    BuilderCatalogModel catalog,
+  ) {
     final proteinsById = <String, BuilderProteinModel>{};
 
     for (final protein in catalog.proteins) {
       proteinsById[protein.id] = protein;
     }
 
-    final proteins = proteinsById.values.toList()
-      ..sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
+    final proteins =
+        proteinsById.values.toList()
+          ..sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
 
     return proteins;
   }

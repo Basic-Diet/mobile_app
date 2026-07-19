@@ -90,24 +90,27 @@ void main() {
       }
     });
 
-    test('cancel state clears created order and payment verification state', () async {
-      final repository = _CheckoutRepository();
-      final bloc = _checkoutBloc(repository);
+    test(
+      'cancel state clears created order and payment verification state',
+      () async {
+        final repository = _CheckoutRepository();
+        final bloc = _checkoutBloc(repository);
 
-      bloc.add(_createOrderEvent());
-      await _waitForCreateSuccess(bloc);
-      bloc.add(const CancelCheckoutPaymentEvent());
-      final cancelState = await _waitForCancelState(bloc);
-      await bloc.close();
+        bloc.add(_createOrderEvent());
+        await _waitForCreateSuccess(bloc);
+        bloc.add(const CancelCheckoutPaymentEvent());
+        final cancelState = await _waitForCancelState(bloc);
+        await bloc.close();
 
-      expect(cancelState.createStatus, OrderCreateStatus.initial);
-      expect(cancelState.order, isNull);
-      expect(cancelState.createErrorMessage, isNull);
-      expect(cancelState.createErrorCode, isNull);
-      expect(cancelState.verifyStatus, OrderVerifyStatus.initial);
-      expect(cancelState.verifyResult, isNull);
-      expect(cancelState.verifyErrorMessage, isNull);
-    });
+        expect(cancelState.createStatus, OrderCreateStatus.initial);
+        expect(cancelState.order, isNull);
+        expect(cancelState.createErrorMessage, isNull);
+        expect(cancelState.createErrorCode, isNull);
+        expect(cancelState.verifyStatus, OrderVerifyStatus.initial);
+        expect(cancelState.verifyResult, isNull);
+        expect(cancelState.verifyErrorMessage, isNull);
+      },
+    );
   });
 }
 

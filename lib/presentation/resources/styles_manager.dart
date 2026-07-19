@@ -21,10 +21,20 @@ TextStyle getRegularTextStyle({
   double fontSize = FontSizeManager.s12,
   required Color color,
   double? letterSpacing,
-}) => _getTextStyle(fontSize, FontWeightManager.regular, color, letterSpacing: letterSpacing);
+}) => _getTextStyle(
+  fontSize,
+  FontWeightManager.regular,
+  color,
+  letterSpacing: letterSpacing,
+);
 
 TextStyle getBoldTextStyle({
   double fontSize = FontSizeManager.s12,
   required Color color,
   double? letterSpacing,
-}) => _getTextStyle(fontSize, FontWeightManager.bold, color, letterSpacing: letterSpacing);
+}) => _getTextStyle(
+  fontSize,
+  FontWeightManager.bold,
+  color,
+  letterSpacing: letterSpacing,
+);

@@ -83,10 +83,7 @@ class GoRouterConfig {
               extra is Map<String, String> ? extra['password'] : null;
           return getCustomTransitionPage(
             state: state,
-            child: VerifyScreen(
-              phoneNumber: phoneNumber,
-              password: password,
-            ),
+            child: VerifyScreen(phoneNumber: phoneNumber, password: password),
           );
         },
       ),
@@ -116,10 +113,7 @@ class GoRouterConfig {
           final extra = state.extra;
           if (extra is! PasswordChangeChallengeArgs) {
             initLoginModule();
-            return getCustomTransitionPage(
-              state: state,
-              child: LoginScreen(),
-            );
+            return getCustomTransitionPage(state: state, child: LoginScreen());
           }
 
           initCompletePasswordChangeModule();
@@ -138,8 +132,7 @@ class GoRouterConfig {
           initProfileModule();
           final extra = state.extra;
           final initialIndex =
-              extra is Map<String, dynamic> &&
-                      extra['initialIndex'] is int
+              extra is Map<String, dynamic> && extra['initialIndex'] is int
                   ? extra['initialIndex'] as int
                   : extra is int
                   ? extra
@@ -322,8 +315,8 @@ class GoRouterConfig {
       child: child,
       transitionDuration: Duration.zero,
       reverseTransitionDuration: Duration.zero,
-      transitionsBuilder: (context, animation, secondaryAnimation, child) =>
-          child,
+      transitionsBuilder:
+          (context, animation, secondaryAnimation, child) => child,
     );
   }
 }

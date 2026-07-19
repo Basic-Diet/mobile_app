@@ -96,8 +96,10 @@ class CreateOrderSelectedOptionRequest {
     this.extraWeightGrams,
   });
 
-  factory CreateOrderSelectedOptionRequest.fromJson(Map<String, dynamic> json) =>
-      _$CreateOrderSelectedOptionRequestFromJson(json);
+  factory CreateOrderSelectedOptionRequest.fromJson(
+    Map<String, dynamic> json,
+  ) => _$CreateOrderSelectedOptionRequestFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CreateOrderSelectedOptionRequestToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$CreateOrderSelectedOptionRequestToJson(this);
 }

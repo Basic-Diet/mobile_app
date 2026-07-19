@@ -64,32 +64,38 @@ class CheckoutLoaded extends CheckoutState {
   }) {
     return CheckoutLoaded(
       quoteStatus: quoteStatus ?? this.quoteStatus,
-      quote: identical(quote, _noChange)
-          ? this.quote
-          : quote as OrderQuoteModel?,
-      quoteErrorMessage: identical(quoteErrorMessage, _noChange)
-          ? this.quoteErrorMessage
-          : quoteErrorMessage as String?,
-      quoteErrorCode: identical(quoteErrorCode, _noChange)
-          ? this.quoteErrorCode
-          : quoteErrorCode,
+      quote:
+          identical(quote, _noChange) ? this.quote : quote as OrderQuoteModel?,
+      quoteErrorMessage:
+          identical(quoteErrorMessage, _noChange)
+              ? this.quoteErrorMessage
+              : quoteErrorMessage as String?,
+      quoteErrorCode:
+          identical(quoteErrorCode, _noChange)
+              ? this.quoteErrorCode
+              : quoteErrorCode,
       createStatus: createStatus ?? this.createStatus,
-      order: identical(order, _noChange)
-          ? this.order
-          : order as OneTimeOrderModel?,
-      createErrorMessage: identical(createErrorMessage, _noChange)
-          ? this.createErrorMessage
-          : createErrorMessage as String?,
-      createErrorCode: identical(createErrorCode, _noChange)
-          ? this.createErrorCode
-          : createErrorCode,
+      order:
+          identical(order, _noChange)
+              ? this.order
+              : order as OneTimeOrderModel?,
+      createErrorMessage:
+          identical(createErrorMessage, _noChange)
+              ? this.createErrorMessage
+              : createErrorMessage as String?,
+      createErrorCode:
+          identical(createErrorCode, _noChange)
+              ? this.createErrorCode
+              : createErrorCode,
       verifyStatus: verifyStatus ?? this.verifyStatus,
-      verifyResult: identical(verifyResult, _noChange)
-          ? this.verifyResult
-          : verifyResult as VerifyPaymentModel?,
-      verifyErrorMessage: identical(verifyErrorMessage, _noChange)
-          ? this.verifyErrorMessage
-          : verifyErrorMessage as String?,
+      verifyResult:
+          identical(verifyResult, _noChange)
+              ? this.verifyResult
+              : verifyResult as VerifyPaymentModel?,
+      verifyErrorMessage:
+          identical(verifyErrorMessage, _noChange)
+              ? this.verifyErrorMessage
+              : verifyErrorMessage as String?,
     );
   }
 

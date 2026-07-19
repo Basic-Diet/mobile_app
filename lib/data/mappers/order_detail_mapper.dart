@@ -17,8 +17,7 @@ extension OrderDetailResponseMapper on OrderDetailResponse? {
       fulfillmentMethod: this?.data?.fulfillmentMethod ?? Constants.empty,
       pickup: this?.data?.pickup.toDomain(),
       pricing: this?.data?.pricing.toDomain(),
-      items:
-          this?.data?.items?.map((e) => e.toDomain()).toList() ?? const [],
+      items: this?.data?.items?.map((e) => e.toDomain()).toList() ?? const [],
       createdAt: this?.data?.createdAt,
       expiresAt: this?.data?.expiresAt,
       updatedAt: this?.data?.updatedAt,
@@ -71,13 +70,13 @@ extension OrderDetailItemResponseMapper on OrderDetailItemResponse? {
       name: this?.name,
       unitPriceHalala: this?.unitPriceHalala,
       totalPriceHalala: this?.totalPriceHalala,
-      selectedOptions:
-          this?.selectedOptions?.map((e) => e.toDomain()).toList(),
+      selectedOptions: this?.selectedOptions?.map((e) => e.toDomain()).toList(),
     );
   }
 }
 
-extension OrderDetailSelectedOptionResponseMapper on OrderDetailSelectedOptionResponse? {
+extension OrderDetailSelectedOptionResponseMapper
+    on OrderDetailSelectedOptionResponse? {
   OrderItemSelectedOptionModel toDomain() {
     return OrderItemSelectedOptionModel(
       groupId: this?.groupId ?? Constants.empty,

@@ -15,19 +15,23 @@ class ValidationResponse {
   factory ValidationResponse.fromJson(Map<String, dynamic> json) {
     final rawStatus = json['status'];
     final ok = json['ok'];
-    final parsedStatus = ok is bool
-        ? ok
-        : rawStatus is bool
-        ? rawStatus
-        : rawStatus is num
-        ? rawStatus >= 200 && rawStatus < 300
-        : false;
+    final parsedStatus =
+        ok is bool
+            ? ok
+            : rawStatus is bool
+            ? rawStatus
+            : rawStatus is num
+            ? rawStatus >= 200 && rawStatus < 300
+            : false;
 
     return ValidationResponse(
       status: parsedStatus,
-      data: json['data'] == null
-          ? null
-          : ValidationDataResponse.fromJson(json['data'] as Map<String, dynamic>),
+      data:
+          json['data'] == null
+              ? null
+              : ValidationDataResponse.fromJson(
+                json['data'] as Map<String, dynamic>,
+              ),
     );
   }
 

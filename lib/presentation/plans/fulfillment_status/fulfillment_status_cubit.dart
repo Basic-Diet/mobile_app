@@ -10,22 +10,23 @@ class FulfillmentStatusCubit extends Cubit<FulfillmentStatusState> {
   String? _date;
 
   FulfillmentStatusCubit(this._getDayFulfillmentStatusUseCase)
-      : super(const FulfillmentStatusState());
+    : super(const FulfillmentStatusState());
 
   void load(String subscriptionId, String date) async {
     _subscriptionId = subscriptionId;
     _date = date;
 
-    emit(state.copyWith(
-      status: FulfillmentStatusStateStatus.loading,
-      error: null,
-    ));
+    emit(
+      state.copyWith(status: FulfillmentStatusStateStatus.loading, error: null),
+    );
 
     await _fetchData();
   }
 
   void startPolling(String subscriptionId, String date) {
-    if (_subscriptionId == subscriptionId && _date == date && _pollingTimer != null) {
+    if (_subscriptionId == subscriptionId &&
+        _date == date &&
+        _pollingTimer != null) {
       // Already polling for this date setup.
       return;
     }
@@ -64,23 +65,27 @@ class FulfillmentStatusCubit extends Cubit<FulfillmentStatusState> {
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          status: FulfillmentStatusStateStatus.failure,
-          error: failure.message,
-          // Keep existing data to avoid UI shifts on transient network errors
-        ));
+        emit(
+          state.copyWith(
+            status: FulfillmentStatusStateStatus.failure,
+            error: failure.message,
+            // Keep existing data to avoid UI shifts on transient network errors
+          ),
+        );
         // Continue polling unless explicitly closed if previous state was polling?
         // But maybe we should back off. We'll simply let timer run.
         if (_pollingTimer == null && state.isPolling) {
-           _setUpTimer(60); // fallback interval
+          _setUpTimer(60); // fallback interval
         }
       },
       (data) {
-        emit(state.copyWith(
-          status: FulfillmentStatusStateStatus.success,
-          data: data,
-          error: null,
-        ));
+        emit(
+          state.copyWith(
+            status: FulfillmentStatusStateStatus.success,
+            data: data,
+            error: null,
+          ),
+        );
 
         if (data.isTerminal) {
           stopPolling();

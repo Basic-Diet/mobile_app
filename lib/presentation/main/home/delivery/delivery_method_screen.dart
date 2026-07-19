@@ -29,8 +29,10 @@ class DeliveryMethodScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) =>
-          instance<DeliveryOptionsBloc>()..add(const GetDeliveryOptionsEvent()),
+      create:
+          (_) =>
+              instance<DeliveryOptionsBloc>()
+                ..add(const GetDeliveryOptionsEvent()),
       child: const _DeliveryMethodListener(child: _DeliveryMethodScaffold()),
     );
   }
@@ -45,9 +47,10 @@ class _DeliveryMethodListener extends StatelessWidget {
     return MultiBlocListener(
       listeners: [
         BlocListener<SubscriptionBloc, SubscriptionState>(
-          listenWhen: (prev, curr) =>
-              (prev is SubscriptionSuccess ? prev.quoteStatus : null) !=
-              (curr is SubscriptionSuccess ? curr.quoteStatus : null),
+          listenWhen:
+              (prev, curr) =>
+                  (prev is SubscriptionSuccess ? prev.quoteStatus : null) !=
+                  (curr is SubscriptionSuccess ? curr.quoteStatus : null),
           listener: (context, state) {
             if (state is! SubscriptionSuccess) return;
 
@@ -89,16 +92,17 @@ class _DeliveryMethodScaffold extends StatelessWidget {
       backgroundColor: ColorManager.backgroundSurface,
       appBar: _buildAppBar(),
       body: BlocBuilder<DeliveryOptionsBloc, DeliveryOptionsState>(
-        builder: (context, state) => switch (state) {
-          DeliveryOptionsLoading() ||
-          DeliveryOptionsInitial() => const _LoadingView(),
-          DeliveryOptionsError() => _ErrorView(message: state.message),
-          DeliveryOptionsSuccess() => DeliveryMethodContentView(
-            state: state,
-            deliveryOptions: state.deliveryOptionsModel,
-          ),
-          _ => const SizedBox.shrink(),
-        },
+        builder:
+            (context, state) => switch (state) {
+              DeliveryOptionsLoading() ||
+              DeliveryOptionsInitial() => const _LoadingView(),
+              DeliveryOptionsError() => _ErrorView(message: state.message),
+              DeliveryOptionsSuccess() => DeliveryMethodContentView(
+                state: state,
+                deliveryOptions: state.deliveryOptionsModel,
+              ),
+              _ => const SizedBox.shrink(),
+            },
       ),
     );
   }
@@ -159,9 +163,10 @@ class _ErrorView extends StatelessWidget {
           Text(message),
           Gap(AppSize.s16.h),
           ElevatedButton(
-            onPressed: () => context.read<DeliveryOptionsBloc>().add(
-              const GetDeliveryOptionsEvent(),
-            ),
+            onPressed:
+                () => context.read<DeliveryOptionsBloc>().add(
+                  const GetDeliveryOptionsEvent(),
+                ),
             child: Text(Strings.tryAgain.tr()),
           ),
         ],

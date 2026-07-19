@@ -154,7 +154,12 @@ class OverviewDeliverySlotResponse {
   @JsonKey(name: "label")
   String? label;
 
-  OverviewDeliverySlotResponse(this.slotId, this.type, this.window, [this.label]);
+  OverviewDeliverySlotResponse(
+    this.slotId,
+    this.type,
+    this.window, [
+    this.label,
+  ]);
 
   factory OverviewDeliverySlotResponse.fromJson(Map<String, dynamic> json) =>
       _$OverviewDeliverySlotResponseFromJson(json);
@@ -497,8 +502,7 @@ class AddonCategoryAllowanceResponse {
   factory AddonCategoryAllowanceResponse.fromJson(Map<String, dynamic> json) =>
       _$AddonCategoryAllowanceResponseFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$AddonCategoryAllowanceResponseToJson(this);
+  Map<String, dynamic> toJson() => _$AddonCategoryAllowanceResponseToJson(this);
 }
 
 Object? readLocalizedName(Map json, String key) {
@@ -686,7 +690,6 @@ class CurrentSubscriptionOverviewDataResponse {
 
   Map<String, dynamic> toJson() =>
       _$CurrentSubscriptionOverviewDataResponseToJson(this);
-
 }
 
 @JsonSerializable()

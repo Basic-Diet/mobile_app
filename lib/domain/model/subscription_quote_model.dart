@@ -56,7 +56,7 @@ class SubscriptionQuoteDeliveryRequestModel extends Equatable {
   final String? slotLabel;
   final SubscriptionAddressModel? address;
   final SubscriptionFirstDayFulfillmentOverrideModel?
-      firstDayFulfillmentOverride;
+  firstDayFulfillmentOverride;
 
   const SubscriptionQuoteDeliveryRequestModel({
     required this.type,

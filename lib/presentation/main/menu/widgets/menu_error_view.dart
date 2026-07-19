@@ -14,10 +14,7 @@ import 'package:gap/gap.dart';
 class MenuErrorView extends StatelessWidget {
   final String message;
 
-  const MenuErrorView({
-    super.key,
-    required this.message,
-  });
+  const MenuErrorView({super.key, required this.message});
 
   @override
   Widget build(BuildContext context) {

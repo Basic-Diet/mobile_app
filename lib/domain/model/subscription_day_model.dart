@@ -47,7 +47,6 @@ class SubscriptionDayModel {
     this.addonSubscriptionAllowances = const [],
     this.addonCategoryAllowances = const [],
   });
-
 }
 
 class AddonSelectionModel {
@@ -123,7 +122,10 @@ class SaladSelectionModel {
   final String? presetKey;
   final SaladGroupsModel groups;
 
-  const SaladSelectionModel({this.presetKey, this.groups = const SaladGroupsModel()});
+  const SaladSelectionModel({
+    this.presetKey,
+    this.groups = const SaladGroupsModel(),
+  });
 }
 
 class MealSlotModel {

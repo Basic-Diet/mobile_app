@@ -35,9 +35,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     });
 
     on<ViewPlansRequestedEvent>((event, emit) async {
-      emit(
-        HomeNavigateToSubscriptionState(),
-      );
+      emit(HomeNavigateToSubscriptionState());
     });
 
     on<WarmOrderMenuRequestedEvent>((event, emit) async {
@@ -45,12 +43,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         return;
       }
 
-      (await _getOrderMenuUseCase.execute(null)).fold(
-        (_) {},
-        (menu) {
-          _orderMenu = menu;
-        },
-      );
+      (await _getOrderMenuUseCase.execute(null)).fold((_) {}, (menu) {
+        _orderMenu = menu;
+      });
     });
 
     on<OpenBuilderShortcutRequestedEvent>((event, emit) async {
@@ -96,10 +91,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
     if (!isClosed && product != null) {
       emit(
-        HomeOpenOrderProductState(
-          product: product,
-          currency: menu.currency,
-        ),
+        HomeOpenOrderProductState(product: product, currency: menu.currency),
       );
     }
   }

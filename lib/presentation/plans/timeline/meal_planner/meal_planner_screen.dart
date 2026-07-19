@@ -84,7 +84,9 @@ class MealPlannerScreen extends StatelessWidget {
             'mealBalance': mealBalance,
             'subscriptionId': subscriptionId,
           },
-        )..add(const GetMealPlannerDataEvent());
+        )..add(
+          GetMealPlannerDataEvent(languageCode: context.locale.languageCode),
+        );
       },
       child:
           readOnly

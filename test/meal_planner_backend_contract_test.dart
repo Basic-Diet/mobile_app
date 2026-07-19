@@ -50,10 +50,10 @@ void main() {
 
       expect(overview.addonSubscriptionAllowances, hasLength(2));
       expect(overview.addonCategoryAllowances.single.includedTotalQty, 14);
-      expect(
-        overview.displayAddonEntitlements.map((item) => item.category),
-        ['ice_cream', 'snack'],
-      );
+      expect(overview.displayAddonEntitlements.map((item) => item.category), [
+        'ice_cream',
+        'snack',
+      ]);
     });
 
     test('maps add-on choice selection id from product identity', () {

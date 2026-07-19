@@ -260,8 +260,7 @@ class OrderMenuProductResponse {
         minWeightGrams: (json['minWeightGrams'] as num?)?.toInt(),
         maxWeightGrams: (json['maxWeightGrams'] as num?)?.toInt(),
         weightStepGrams: (json['weightStepGrams'] as num?)?.toInt(),
-        weightStepPriceHalala:
-            (json['weightStepPriceHalala'] as num?)?.toInt(),
+        weightStepPriceHalala: (json['weightStepPriceHalala'] as num?)?.toInt(),
         weightPricing:
             json['weightPricing'] is Map<String, dynamic>
                 ? OrderMenuWeightPricingResponse.fromJson(
@@ -654,37 +653,35 @@ class OrderMenuOptionResponse {
     this.sortOrder,
   });
 
-  factory OrderMenuOptionResponse.fromJson(Map<String, dynamic> json) =>
-      OrderMenuOptionResponse(
-        id: json['id'] as String?,
-        optionId: json['optionId'] as String?,
-        groupId: json['groupId'] as String?,
-        key: json['key'] as String?,
-        name: json['name'] as String?,
-        nameI18n: _stringDynamicMap(json['nameI18n']),
-        description: json['description'] as String?,
-        descriptionI18n: _stringDynamicMap(json['descriptionI18n']),
-        imageUrl: json['imageUrl'] as String?,
-        extraPriceHalala: (json['extraPriceHalala'] as num?)?.toInt(),
-        extraFeeHalala: (json['extraFeeHalala'] as num?)?.toInt(),
-        displayCategoryKey: json['displayCategoryKey'] as String?,
-        proteinFamilyKey: json['proteinFamilyKey'] as String?,
-        proteinFamilyNameI18n: _stringDynamicMap(json['proteinFamilyNameI18n']),
-        premiumKey: json['premiumKey'] as String?,
-        selectionType: json['selectionType'] as String?,
-        isPremium: json['isPremium'] as bool?,
-        extraWeightUnitGrams: (json['extraWeightUnitGrams'] as num?)?.toInt(),
-        extraWeightPriceHalala:
-            (json['extraWeightPriceHalala'] as num?)?.toInt(),
-        calories: (json['calories'] as num?)?.toInt(),
-        ui:
-            json['ui'] is Map<String, dynamic>
-                ? OrderMenuUiResponse.fromJson(
-                  json['ui'] as Map<String, dynamic>,
-                )
-                : null,
-        sortOrder: (json['sortOrder'] as num?)?.toInt(),
-      );
+  factory OrderMenuOptionResponse.fromJson(
+    Map<String, dynamic> json,
+  ) => OrderMenuOptionResponse(
+    id: json['id'] as String?,
+    optionId: json['optionId'] as String?,
+    groupId: json['groupId'] as String?,
+    key: json['key'] as String?,
+    name: json['name'] as String?,
+    nameI18n: _stringDynamicMap(json['nameI18n']),
+    description: json['description'] as String?,
+    descriptionI18n: _stringDynamicMap(json['descriptionI18n']),
+    imageUrl: json['imageUrl'] as String?,
+    extraPriceHalala: (json['extraPriceHalala'] as num?)?.toInt(),
+    extraFeeHalala: (json['extraFeeHalala'] as num?)?.toInt(),
+    displayCategoryKey: json['displayCategoryKey'] as String?,
+    proteinFamilyKey: json['proteinFamilyKey'] as String?,
+    proteinFamilyNameI18n: _stringDynamicMap(json['proteinFamilyNameI18n']),
+    premiumKey: json['premiumKey'] as String?,
+    selectionType: json['selectionType'] as String?,
+    isPremium: json['isPremium'] as bool?,
+    extraWeightUnitGrams: (json['extraWeightUnitGrams'] as num?)?.toInt(),
+    extraWeightPriceHalala: (json['extraWeightPriceHalala'] as num?)?.toInt(),
+    calories: (json['calories'] as num?)?.toInt(),
+    ui:
+        json['ui'] is Map<String, dynamic>
+            ? OrderMenuUiResponse.fromJson(json['ui'] as Map<String, dynamic>)
+            : null,
+    sortOrder: (json['sortOrder'] as num?)?.toInt(),
+  );
 
   Map<String, dynamic> toJson() => <String, dynamic>{
     'id': id,
