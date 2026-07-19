@@ -25,4 +25,21 @@ jobs:
           fetch-depth: 0
 
       - name: Apply source changes
+        id: patch
+        continue-on-error: true
         run: python -u .github/scripts/apply_meal_planner_v3_foundation.py
+
+      - name: Commit diagnostic
+        if: steps.patch.outcome == 'failure'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "Basic Diet Automation"
+          git config user.email "actions@users.noreply.github.com"
+          git add .meal-planner-foundation-error.txt
+          git commit -m "chore(meal-planner): capture foundation patch error"
+          git push origin HEAD:feat/meal-planner-v3-canonical-products
+
+      - name: Fail after diagnostic
+        if: steps.patch.outcome == 'failure'
+        run: exit 1
