@@ -59,6 +59,7 @@ abstract class RemoteDataSource {
     String? deviceName,
   );
   Future<AuthenticationResponse> register(
+    String fullName,
     String phone,
     String password,
     String confirmPassword, {

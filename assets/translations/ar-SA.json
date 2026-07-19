@@ -47,6 +47,7 @@
     "passwordMismatch": "كلمتا المرور غير متطابقتين",
     "passwordChangedSuccess": "تم تغيير كلمة المرور بنجاح",
     "fullNameRequired": "الاسم الكامل مطلوب",
+    "fullNameTooLong": "يجب ألا يتجاوز الاسم الكامل 120 حرفًا",
     "phoneRequired": "رقم الهاتف مطلوب",
     "phoneTooShort": "رقم الهاتف قصير جدًا",
     "passwordRequired": "كلمة المرور مطلوبة",

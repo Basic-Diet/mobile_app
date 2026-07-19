@@ -15,6 +15,7 @@ class RegisterUseCase
     RegisterUseCaseInput input,
   ) async {
     return await _repository.register(
+      input.fullName,
       input.phone,
       input.password,
       input.confirmPassword,
@@ -24,12 +25,14 @@ class RegisterUseCase
 }
 
 class RegisterUseCaseInput {
+  final String fullName;
   final String phone;
   final String password;
   final String confirmPassword;
   final String email;
 
   const RegisterUseCaseInput({
+    required this.fullName,
     required this.phone,
     required this.password,
     required this.confirmPassword,

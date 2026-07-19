@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:basic_diet/data/request/day_selection_request.dart';
+import 'package:basic_diet/presentation/plans/timeline/meal_planner/premium_large_salad_group_key.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -46,6 +47,39 @@ void main() {
       expect(groups, isA<Map<String, dynamic>>());
       expect(groups, isNot(isA<String>()));
       expect(encoded, contains('premium_large_salad'));
+    });
+
+    test('serializes vegetables legumes selections under vegetables', () {
+      final vegetableIds = ['carrot_id', 'tomato_id', 'corn_id'];
+      final vegetables = selectedPremiumLargeSaladCanonicalGroup(
+        {'vegetables_legumes': vegetableIds},
+        'vegetables',
+      );
+      final request = DaySelectionRequest([
+        MealSlotRequest(
+          slotIndex: 1,
+          slotKey: 'slot_1',
+          selectionType: 'premium_large_salad',
+          proteinId: 'protein-chicken',
+          salad: SaladRequest(
+            presetKey: 'premium_large_salad',
+            groups: SaladGroupsRequest(
+              vegetables: vegetables,
+              protein: ['protein-chicken'],
+              sauce: ['lemon-dressing'],
+            ),
+          ),
+        ),
+      ]);
+
+      final json = request.toJson();
+      final salad =
+          (json['mealSlots'] as List<dynamic>).first['salad']
+              as Map<String, dynamic>;
+      final groups = salad['groups'] as Map<String, dynamic>;
+
+      expect(vegetables, vegetableIds);
+      expect(groups['vegetables'], vegetableIds);
     });
   });
 }

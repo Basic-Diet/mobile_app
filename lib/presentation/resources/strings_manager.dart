@@ -82,6 +82,7 @@ class Strings {
   static const String passwordMismatch = 'passwordMismatch';
   static const String passwordChangedSuccess = 'passwordChangedSuccess';
   static const String fullNameRequired = 'fullNameRequired';
+  static const String fullNameTooLong = 'fullNameTooLong';
   static const String phoneRequired = 'phoneRequired';
   static const String phoneTooShort = 'phoneTooShort';
   static const String passwordRequired = 'passwordRequired';

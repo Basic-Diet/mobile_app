@@ -18,6 +18,7 @@ class AppTextField extends StatefulWidget {
   final TextInputAction textInputAction;
   final ValueChanged<String>? onChanged;
   final Widget? prefixWidget;
+  final int? maxLength;
 
   const AppTextField._({
     required this.hintText,
@@ -29,6 +30,7 @@ class AppTextField extends StatefulWidget {
     this.errorText,
     this.onChanged,
     this.prefixWidget,
+    this.maxLength,
   });
 
   // 🔹 Default constructor
@@ -37,6 +39,7 @@ class AppTextField extends StatefulWidget {
     required TextEditingController controller,
     ValueChanged<String>? onChanged,
     String? errorText,
+    int? maxLength,
   }) {
     return AppTextField._(
       hintText: hintText,
@@ -47,6 +50,7 @@ class AppTextField extends StatefulWidget {
       textInputAction: TextInputAction.done,
       errorText: errorText,
       onChanged: onChanged,
+      maxLength: maxLength,
     );
   }
 
@@ -170,7 +174,9 @@ class _AppTextFieldState extends State<AppTextField> {
                   keyboardType: widget.keyboardType,
                   obscureText: _obscureText,
                   textInputAction: widget.textInputAction,
+                  maxLength: widget.maxLength,
                   decoration: InputDecoration(
+                    counterText: '',
                     errorText: widget.errorText,
                     contentPadding: EdgeInsets.symmetric(
                       vertical: AppPadding.p18.h,
@@ -205,7 +211,9 @@ class _AppTextFieldState extends State<AppTextField> {
         autocorrect: !widget.enablePasswordToggle,
         enableSuggestions: !widget.enablePasswordToggle,
         textInputAction: widget.textInputAction,
+        maxLength: widget.maxLength,
         decoration: InputDecoration(
+          counterText: '',
           errorText: widget.errorText,
           contentPadding: EdgeInsetsDirectional.symmetric(
             vertical: AppPadding.p18.h,

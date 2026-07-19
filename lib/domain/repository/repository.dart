@@ -53,6 +53,7 @@ abstract class Repository {
     String password,
   );
   Future<Either<Failure, AuthenticationModel>> register(
+    String fullName,
     String phone,
     String password,
     String confirmPassword, {

@@ -1,4 +1,5 @@
 import 'package:basic_diet/domain/model/meal_planner_menu_model.dart';
+import 'package:basic_diet/presentation/plans/timeline/meal_planner/premium_large_salad_group_key.dart';
 import 'package:basic_diet/presentation/resources/color_manager.dart';
 import 'package:basic_diet/presentation/resources/font_manager.dart';
 import 'package:basic_diet/presentation/resources/strings_manager.dart';
@@ -391,13 +392,7 @@ class _CustomPremiumMealBuilderScreenState
   }
 
   String _normalizedGroupKey(String input) {
-    final key = input.toLowerCase().replaceAll(' ', '').replaceAll('-', '_');
-    if (key == 'leafygreens') return 'leafy_greens';
-    if (key == 'cheesenuts' || key == 'nutscheese') return 'cheese_nuts';
-    if (key == 'vegetable') return 'vegetables';
-    if (key == 'fruit') return 'fruits';
-    if (key == 'sauces') return 'sauce';
-    return key;
+    return normalizePremiumLargeSaladGroupKey(input);
   }
 
   bool _isProteinGroup(String key) {
@@ -488,13 +483,7 @@ class _CustomPremiumMealBuilderScreenState
   }
 
   List<String> _selectedCanonicalGroup(String target) {
-    final out = <String>[];
-    for (final entry in _selectedByGroup.entries) {
-      if (_normalizedGroupKey(entry.key) == target) {
-        out.addAll(entry.value);
-      }
-    }
-    return out;
+    return selectedPremiumLargeSaladCanonicalGroup(_selectedByGroup, target);
   }
 }
 

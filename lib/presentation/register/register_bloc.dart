@@ -88,8 +88,10 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     RegisterSubmitted event,
     Emitter<RegisterState> emit,
   ) async {
+    final fullName = event.fullName.trim();
     final phone = event.phone.trim();
     final email = event.email.trim();
+    final fullNameError = _validateFullName(fullName);
     final phoneError = _validatePhone(phone);
     final passwordError = _validatePassword(event.password);
     final confirmPasswordError = _validateConfirmPassword(
@@ -98,12 +100,15 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     );
     final emailError = _validateEmail(email);
 
-    if (phoneError != null ||
+    if (fullNameError != null ||
+        phoneError != null ||
         passwordError != null ||
         confirmPasswordError != null ||
         emailError != null) {
       emit(
         state.copyWith(
+          fullName: fullName,
+          fullNameError: fullNameError,
           phone: phone,
           phoneError: phoneError,
           isPasswordNotEmpty: event.password.isNotEmpty,
@@ -119,7 +124,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
 
     emit(
       RegisterLoadingState(
-        fullName: state.fullName,
+        fullName: fullName,
         phone: phone,
         isPasswordNotEmpty: event.password.isNotEmpty,
         isConfirmPasswordNotEmpty: event.confirmPassword.isNotEmpty,
@@ -129,6 +134,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
 
     final result = await _registerUseCase.execute(
       RegisterUseCaseInput(
+        fullName: fullName,
         phone: _buildSaudiPhoneNumber(phone),
         password: event.password,
         confirmPassword: event.confirmPassword,
@@ -143,7 +149,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
           emit(
             RegisterErrorState(
               message,
-              fullName: state.fullName,
+              fullName: fullName,
               phone: phone,
               isPasswordNotEmpty: event.password.isNotEmpty,
               isConfirmPasswordNotEmpty: event.confirmPassword.isNotEmpty,
@@ -160,7 +166,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
             emit(
               RegisterErrorState(
                 message,
-                fullName: state.fullName,
+                fullName: fullName,
                 phone: phone,
                 isPasswordNotEmpty: event.password.isNotEmpty,
                 isConfirmPasswordNotEmpty: event.confirmPassword.isNotEmpty,
@@ -181,7 +187,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         if (!isClosed) {
           emit(
             RegisterCompletedState(
-              fullName: state.fullName,
+              fullName: fullName,
               phone: phone,
               email: email,
             ),
@@ -196,7 +202,9 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   }
 
   String? _validateFullName(String fullName) {
-    if (fullName.isEmpty) return Strings.fullNameRequired.tr();
+    final trimmedFullName = fullName.trim();
+    if (trimmedFullName.isEmpty) return Strings.fullNameRequired.tr();
+    if (trimmedFullName.length > 120) return Strings.fullNameTooLong.tr();
     return null;
   }
 

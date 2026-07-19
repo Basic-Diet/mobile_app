@@ -29,6 +29,7 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  late final TextEditingController _fullNameController;
   late final TextEditingController _phoneController;
   late final TextEditingController _passwordController;
   late final TextEditingController _confirmPasswordController;
@@ -36,6 +37,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   void initState() {
     super.initState();
+    _fullNameController = TextEditingController();
     _phoneController = TextEditingController();
     _passwordController = TextEditingController();
     _confirmPasswordController = TextEditingController();
@@ -45,6 +47,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   void dispose() {
     _passwordController.clear();
     _confirmPasswordController.clear();
+    _fullNameController.dispose();
     _phoneController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
@@ -60,6 +63,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       child: BlocListener<RegisterBloc, RegisterState>(
         listener: (context, state) {
           if (state is RegisterCompletedState) {
+            _fullNameController.clear();
             _passwordController.clear();
             _confirmPasswordController.clear();
             context.go(MainScreen.mainRoute);
@@ -121,6 +125,33 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Text(
+          Strings.fullName.tr(),
+          style: getRegularTextStyle(
+            color: ColorManager.textPrimary,
+            fontSize: FontSizeManager.s16.sp,
+          ),
+        ),
+        Gap(AppSize.s8.h),
+        BlocBuilder<RegisterBloc, RegisterState>(
+          buildWhen:
+              (previous, current) =>
+                  previous.fullNameError != current.fullNameError,
+          builder: (context, state) {
+            return AppTextField.normal(
+              controller: _fullNameController,
+              errorText: state.fullNameError,
+              hintText: Strings.fullNameHint.tr(),
+              maxLength: 120,
+              onChanged: (fullName) {
+                context.read<RegisterBloc>().add(
+                  RegisterFullNameChanged(fullName),
+                );
+              },
+            );
+          },
+        ),
+        Gap(AppSize.s24.h),
         Text(
           Strings.phone.tr(),
           style: getRegularTextStyle(
@@ -215,9 +246,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
           builder: (context, state) {
             final isLoading = state is RegisterLoadingState;
             final isEnabled =
+                state.fullNameError == null &&
                 state.phoneError == null &&
                 state.passwordError == null &&
                 state.confirmPasswordError == null &&
+                state.fullName.trim().isNotEmpty &&
                 state.phone.isNotEmpty &&
                 state.isPasswordNotEmpty &&
                 state.isConfirmPasswordNotEmpty;
@@ -237,6 +270,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   isEnabled
                       ? () => context.read<RegisterBloc>().add(
                         RegisterSubmitted(
+                          fullName: _fullNameController.text,
                           phone: _phoneController.text,
                           password: _passwordController.text,
                           confirmPassword: _confirmPasswordController.text,
@@ -252,8 +286,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Widget _buildFooter(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+    return Wrap(
+      alignment: WrapAlignment.center,
+      crossAxisAlignment: WrapCrossAlignment.center,
       children: [
         Text(
           Strings.alreadyHaveAccount.tr(),

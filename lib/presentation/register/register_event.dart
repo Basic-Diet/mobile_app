@@ -61,12 +61,14 @@ class RegisterEmailChanged extends RegisterEvent {
 }
 
 class RegisterSubmitted extends RegisterEvent {
+  final String fullName;
   final String phone;
   final String password;
   final String confirmPassword;
   final String email;
 
   const RegisterSubmitted({
+    required this.fullName,
     required this.phone,
     required this.password,
     required this.confirmPassword,
@@ -75,6 +77,7 @@ class RegisterSubmitted extends RegisterEvent {
 
   @override
   List<Object?> get props => [
+    fullName,
     phone,
     password.isNotEmpty,
     confirmPassword.isNotEmpty,

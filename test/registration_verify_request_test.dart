@@ -6,6 +6,29 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('registration verification request', () {
+    test('register sends fullName with the existing password payload', () async {
+      final appServiceClient = _CapturingAppServiceClient();
+      final dataSource = RemoteDataSourceImpl(appServiceClient);
+
+      await dataSource.register(
+        '  Ibrahim Mohamed  ',
+        '  +966500000001  ',
+        'Password123',
+        'Password123',
+      );
+
+      expect(appServiceClient.registerBody, {
+        'fullName': 'Ibrahim Mohamed',
+        'phone': '+966500000001',
+        'password': 'Password123',
+        'confirmPassword': 'Password123',
+      });
+      expect(appServiceClient.registerBody, isNot(contains('name')));
+      expect(appServiceClient.registerBody, isNot(contains('full_name')));
+      expect(appServiceClient.registerBody, isNot(contains('username')));
+      expect(appServiceClient.registerBody, isNot(contains('displayName')));
+    });
+
     test('requests registration OTP with phoneE164 only', () async {
       final appServiceClient = _CapturingAppServiceClient();
       final dataSource = RemoteDataSourceImpl(appServiceClient);
@@ -45,8 +68,15 @@ void main() {
 }
 
 class _CapturingAppServiceClient implements AppServiceClient {
+  late Map<String, dynamic> registerBody;
   late Map<String, dynamic> requestRegistrationOtpBody;
   late Map<String, dynamic> verifyRegistrationOtpBody;
+
+  @override
+  Future<AuthenticationResponse> register(Map<String, dynamic> body) async {
+    registerBody = body;
+    return const AuthenticationResponse(ok: true, status: 'registered');
+  }
 
   @override
   Future<BaseResponse> requestRegistrationOtp(Map<String, dynamic> body) async {

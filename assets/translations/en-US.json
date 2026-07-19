@@ -47,6 +47,7 @@
     "passwordMismatch": "Passwords do not match",
     "passwordChangedSuccess": "Password changed successfully",
     "fullNameRequired": "Full name is required",
+    "fullNameTooLong": "Full name must not exceed 120 characters",
     "phoneRequired": "Phone is required",
     "phoneTooShort": "Phone is too short",
     "passwordRequired": "Password is required",

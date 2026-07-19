@@ -314,6 +314,7 @@ class RepositoryImpl implements Repository {
 
   @override
   Future<Either<Failure, AuthenticationModel>> register(
+    String fullName,
     String phone,
     String password,
     String confirmPassword, {
@@ -321,6 +322,7 @@ class RepositoryImpl implements Repository {
   }) async {
     try {
       final response = await _remoteDataSource.register(
+        fullName,
         phone,
         password,
         confirmPassword,

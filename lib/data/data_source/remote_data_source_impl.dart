@@ -78,13 +78,15 @@ class RemoteDataSourceImpl implements RemoteDataSource {
 
   @override
   Future<AuthenticationResponse> register(
+    String fullName,
     String phone,
     String password,
     String confirmPassword, {
     String? email,
   }) async {
     return await _appServiceClient.register({
-      'phone': phone,
+      'fullName': fullName.trim(),
+      'phone': phone.trim(),
       'password': password,
       'confirmPassword': confirmPassword,
       if (email != null && email.isNotEmpty) 'email': email,
