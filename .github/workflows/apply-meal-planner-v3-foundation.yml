@@ -4,7 +4,7 @@ on:
   pull_request:
     branches:
       - main
-    types: [opened, reopened]
+    types: [reopened]
     paths:
       - .github/workflows/apply-meal-planner-v3-foundation.yml
       - .github/scripts/apply_meal_planner_v3_foundation.py
@@ -23,29 +23,5 @@ jobs:
           ref: feat/meal-planner-v3-canonical-products
           fetch-depth: 0
 
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: stable
-          cache: true
-
       - name: Apply source changes
-        run: python .github/scripts/apply_meal_planner_v3_foundation.py
-
-      - name: Install dependencies
-        run: flutter pub get
-
-      - name: Generate Retrofit and JSON code
-        run: dart run build_runner build --delete-conflicting-outputs
-
-      - name: Format changed Dart files
-        run: dart format lib test
-
-      - name: Commit generated foundation
-        shell: bash
-        run: |
-          set -euo pipefail
-          git config user.name "Basic Diet Automation"
-          git config user.email "actions@users.noreply.github.com"
-          git add lib test pubspec.lock
-          git commit -m "feat(meal-planner): establish canonical v3 contract foundation"
-          git push origin HEAD:feat/meal-planner-v3-canonical-products
+        run: python -u .github/scripts/apply_meal_planner_v3_foundation.py
