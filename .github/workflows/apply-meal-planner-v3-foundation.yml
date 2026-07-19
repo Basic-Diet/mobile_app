@@ -1,11 +1,14 @@
 name: Apply Meal Planner V3 Foundation
 
 on:
-  push:
+  pull_request:
     branches:
-      - feat/meal-planner-v3-canonical-products
+      - main
+    types: [opened, reopened]
     paths:
       - .github/workflows/apply-meal-planner-v3-foundation.yml
+      - .github/scripts/apply_meal_planner_v3_foundation.py
+  workflow_dispatch:
 
 permissions:
   contents: write
