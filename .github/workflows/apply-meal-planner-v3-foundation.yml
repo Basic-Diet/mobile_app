@@ -4,10 +4,11 @@ on:
   pull_request:
     branches:
       - main
-    types: [synchronize, reopened]
+    types: [opened]
     paths:
       - .github/workflows/apply-meal-planner-v3-foundation.yml
       - .github/scripts/apply_meal_planner_v3_foundation.py
+      - .github/scripts/apply_meal_planner_v3_foundation_v2.py
   workflow_dispatch:
 
 permissions:
@@ -16,7 +17,7 @@ permissions:
 jobs:
   apply:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
         with:
