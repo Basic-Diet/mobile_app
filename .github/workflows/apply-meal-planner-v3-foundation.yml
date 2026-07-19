@@ -4,7 +4,7 @@ on:
   pull_request:
     branches:
       - main
-    types: [reopened]
+    types: [synchronize, reopened]
     paths:
       - .github/workflows/apply-meal-planner-v3-foundation.yml
       - .github/scripts/apply_meal_planner_v3_foundation.py
